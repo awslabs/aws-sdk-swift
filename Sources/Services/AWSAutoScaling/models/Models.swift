@@ -33,7 +33,7 @@ extension AutoScalingClientTypes.AcceleratorCountRequest: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Specifies the minimum and maximum for the AcceleratorCount object when you specify [InstanceRequirements] for an Auto Scaling group.
-    public struct AcceleratorCountRequest: Swift.Equatable {
+    public struct AcceleratorCountRequest {
         /// The maximum value.
         public var max: Swift.Int?
         /// The minimum value.
@@ -165,7 +165,7 @@ extension AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest: Swift.Encodab
 
 extension AutoScalingClientTypes {
     /// Specifies the minimum and maximum for the AcceleratorTotalMemoryMiB object when you specify [InstanceRequirements] for an Auto Scaling group.
-    public struct AcceleratorTotalMemoryMiBRequest: Swift.Equatable {
+    public struct AcceleratorTotalMemoryMiBRequest {
         /// The memory maximum in MiB.
         public var max: Swift.Int?
         /// The memory minimum in MiB.
@@ -333,7 +333,7 @@ extension AutoScalingClientTypes.Activity: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes scaling activity, which is a long-running process that represents a change to your Auto Scaling group, such as changing its size or replacing an instance.
-    public struct Activity: Swift.Equatable {
+    public struct Activity {
         /// The ID of the activity.
         /// This member is required.
         public var activityId: Swift.String?
@@ -420,7 +420,7 @@ extension AutoScalingClientTypes.AdjustmentType: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a policy adjustment type.
-    public struct AdjustmentType: Swift.Equatable {
+    public struct AdjustmentType {
         /// The policy adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public var adjustmentType: Swift.String?
 
@@ -463,7 +463,7 @@ extension AutoScalingClientTypes.Alarm: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes an alarm.
-    public struct Alarm: Swift.Equatable {
+    public struct Alarm {
         /// The Amazon Resource Name (ARN) of the alarm.
         public var alarmARN: Swift.String?
         /// The name of the alarm.
@@ -514,7 +514,7 @@ extension AutoScalingClientTypes.AlarmSpecification: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Specifies the CloudWatch alarm specification to use in an instance refresh.
-    public struct AlarmSpecification: Swift.Equatable {
+    public struct AlarmSpecification {
         /// The names of one or more CloudWatch alarms to monitor for the instance refresh. You can specify up to 10 alarms.
         public var alarms: [Swift.String]?
 
@@ -600,7 +600,7 @@ extension AttachInstancesInput {
     }
 }
 
-public struct AttachInstancesInput: Swift.Equatable {
+public struct AttachInstancesInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -626,7 +626,7 @@ extension AttachInstancesOutput {
     }
 }
 
-public struct AttachInstancesOutput: Swift.Equatable {
+public struct AttachInstancesOutput {
 
     public init() { }
 }
@@ -684,7 +684,7 @@ extension AttachLoadBalancerTargetGroupsInput {
     }
 }
 
-public struct AttachLoadBalancerTargetGroupsInput: Swift.Equatable {
+public struct AttachLoadBalancerTargetGroupsInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -711,7 +711,7 @@ extension AttachLoadBalancerTargetGroupsOutput {
     }
 }
 
-public struct AttachLoadBalancerTargetGroupsOutput: Swift.Equatable {
+public struct AttachLoadBalancerTargetGroupsOutput {
 
     public init() { }
 }
@@ -769,7 +769,7 @@ extension AttachLoadBalancersInput {
     }
 }
 
-public struct AttachLoadBalancersInput: Swift.Equatable {
+public struct AttachLoadBalancersInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -796,7 +796,7 @@ extension AttachLoadBalancersOutput {
     }
 }
 
-public struct AttachLoadBalancersOutput: Swift.Equatable {
+public struct AttachLoadBalancersOutput {
 
     public init() { }
 }
@@ -854,7 +854,7 @@ extension AttachTrafficSourcesInput {
     }
 }
 
-public struct AttachTrafficSourcesInput: Swift.Equatable {
+public struct AttachTrafficSourcesInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -881,7 +881,7 @@ extension AttachTrafficSourcesOutput {
     }
 }
 
-public struct AttachTrafficSourcesOutput: Swift.Equatable {
+public struct AttachTrafficSourcesOutput {
 
     public init() { }
 }
@@ -1181,7 +1181,7 @@ extension AutoScalingClientTypes.AutoScalingGroup: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes an Auto Scaling group.
-    public struct AutoScalingGroup: Swift.Equatable {
+    public struct AutoScalingGroup {
         /// The Amazon Resource Name (ARN) of the Auto Scaling group.
         public var autoScalingGroupARN: Swift.String?
         /// The name of the Auto Scaling group.
@@ -1408,7 +1408,7 @@ extension AutoScalingClientTypes.AutoScalingInstanceDetails: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes an EC2 instance associated with an Auto Scaling group.
-    public struct AutoScalingInstanceDetails: Swift.Equatable {
+    public struct AutoScalingInstanceDetails {
         /// The name of the Auto Scaling group for the instance.
         /// This member is required.
         public var autoScalingGroupName: Swift.String?
@@ -1528,7 +1528,7 @@ extension AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest: Swift.Encodabl
 
 extension AutoScalingClientTypes {
     /// Specifies the minimum and maximum for the BaselineEbsBandwidthMbps object when you specify [InstanceRequirements] for an Auto Scaling group.
-    public struct BaselineEbsBandwidthMbpsRequest: Swift.Equatable {
+    public struct BaselineEbsBandwidthMbpsRequest {
         /// The maximum value in Mbps.
         public var max: Swift.Int?
         /// The minimum value in Mbps.
@@ -1581,7 +1581,7 @@ extension BatchDeleteScheduledActionInput {
     }
 }
 
-public struct BatchDeleteScheduledActionInput: Swift.Equatable {
+public struct BatchDeleteScheduledActionInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -1612,7 +1612,7 @@ extension BatchDeleteScheduledActionOutput {
     }
 }
 
-public struct BatchDeleteScheduledActionOutput: Swift.Equatable {
+public struct BatchDeleteScheduledActionOutput {
     /// The names of the scheduled actions that could not be deleted, including an error message.
     public var failedScheduledActions: [AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest]?
 
@@ -1676,7 +1676,7 @@ extension BatchPutScheduledUpdateGroupActionInput {
     }
 }
 
-public struct BatchPutScheduledUpdateGroupActionInput: Swift.Equatable {
+public struct BatchPutScheduledUpdateGroupActionInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -1707,7 +1707,7 @@ extension BatchPutScheduledUpdateGroupActionOutput {
     }
 }
 
-public struct BatchPutScheduledUpdateGroupActionOutput: Swift.Equatable {
+public struct BatchPutScheduledUpdateGroupActionOutput {
     /// The names of the scheduled actions that could not be created or updated, including an error message.
     public var failedScheduledUpdateGroupActions: [AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest]?
 
@@ -1777,7 +1777,7 @@ extension AutoScalingClientTypes.BlockDeviceMapping: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a block device mapping.
-    public struct BlockDeviceMapping: Swift.Equatable {
+    public struct BlockDeviceMapping {
         /// The device name assigned to the volume (for example, /dev/sdh or xvdh). For more information, see [Device naming on Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html) in the Amazon EC2 User Guide for Linux Instances. To define a block device mapping, set the device name and exactly one of the following properties: Ebs, NoDevice, or VirtualName.
         /// This member is required.
         public var deviceName: Swift.String?
@@ -1861,7 +1861,7 @@ extension CancelInstanceRefreshInput {
     }
 }
 
-public struct CancelInstanceRefreshInput: Swift.Equatable {
+public struct CancelInstanceRefreshInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -1887,7 +1887,7 @@ extension CancelInstanceRefreshOutput {
     }
 }
 
-public struct CancelInstanceRefreshOutput: Swift.Equatable {
+public struct CancelInstanceRefreshOutput {
     /// The instance refresh ID associated with the request. This is the unique ID assigned to the instance refresh when it was started.
     public var instanceRefreshId: Swift.String?
 
@@ -1965,7 +1965,7 @@ extension AutoScalingClientTypes.CapacityForecast: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// A GetPredictiveScalingForecast call returns the capacity forecast for a predictive scaling policy. This structure includes the data points for that capacity forecast, along with the timestamps of those data points.
-    public struct CapacityForecast: Swift.Equatable {
+    public struct CapacityForecast {
         /// The timestamps for the data points, in UTC format.
         /// This member is required.
         public var timestamps: [ClientRuntime.Date]?
@@ -2023,7 +2023,7 @@ extension CompleteLifecycleActionInput {
     }
 }
 
-public struct CompleteLifecycleActionInput: Swift.Equatable {
+public struct CompleteLifecycleActionInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -2063,7 +2063,7 @@ extension CompleteLifecycleActionOutput {
     }
 }
 
-public struct CompleteLifecycleActionOutput: Swift.Equatable {
+public struct CompleteLifecycleActionOutput {
 
     public init() { }
 }
@@ -2313,7 +2313,7 @@ extension CreateAutoScalingGroupInput {
     }
 }
 
-public struct CreateAutoScalingGroupInput: Swift.Equatable {
+public struct CreateAutoScalingGroupInput {
     /// The name of the Auto Scaling group. This name must be unique per Region per account. The name can contain any ASCII character 33 to 126 including most punctuation characters, digits, and upper and lowercased letters. You cannot use a colon (:) in the name.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -2445,7 +2445,7 @@ extension CreateAutoScalingGroupOutput {
     }
 }
 
-public struct CreateAutoScalingGroupOutput: Swift.Equatable {
+public struct CreateAutoScalingGroupOutput {
 
     public init() { }
 }
@@ -2591,7 +2591,7 @@ extension CreateLaunchConfigurationInput {
     }
 }
 
-public struct CreateLaunchConfigurationInput: Swift.Equatable {
+public struct CreateLaunchConfigurationInput {
     /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. If you specify true, each instance in the Auto Scaling group receives a unique public IPv4 address. For more information, see [Launching Auto Scaling instances in a VPC](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html) in the Amazon EC2 Auto Scaling User Guide. If you specify this property, you must specify at least one subnet for VPCZoneIdentifier when you create your group.
     public var associatePublicIpAddress: Swift.Bool?
     /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see [Block device mappings](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html) in the Amazon EC2 User Guide for Linux Instances.
@@ -2685,7 +2685,7 @@ extension CreateLaunchConfigurationOutput {
     }
 }
 
-public struct CreateLaunchConfigurationOutput: Swift.Equatable {
+public struct CreateLaunchConfigurationOutput {
 
     public init() { }
 }
@@ -2740,7 +2740,7 @@ extension CreateOrUpdateTagsInput {
     }
 }
 
-public struct CreateOrUpdateTagsInput: Swift.Equatable {
+public struct CreateOrUpdateTagsInput {
     /// One or more tags.
     /// This member is required.
     public var tags: [AutoScalingClientTypes.Tag]?
@@ -2762,7 +2762,7 @@ extension CreateOrUpdateTagsOutput {
     }
 }
 
-public struct CreateOrUpdateTagsOutput: Swift.Equatable {
+public struct CreateOrUpdateTagsOutput {
 
     public init() { }
 }
@@ -2861,7 +2861,7 @@ extension AutoScalingClientTypes {
     ///
     ///
     /// For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html). Each individual service provides information about the metrics, namespace, and dimensions they use. For more information, see [Amazon Web Services services that publish CloudWatch metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html) in the Amazon CloudWatch User Guide.
-    public struct CustomizedMetricSpecification: Swift.Equatable {
+    public struct CustomizedMetricSpecification {
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         public var dimensions: [AutoScalingClientTypes.MetricDimension]?
         /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that is returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
@@ -2921,7 +2921,7 @@ extension DeleteAutoScalingGroupInput {
     }
 }
 
-public struct DeleteAutoScalingGroupInput: Swift.Equatable {
+public struct DeleteAutoScalingGroupInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -2947,7 +2947,7 @@ extension DeleteAutoScalingGroupOutput {
     }
 }
 
-public struct DeleteAutoScalingGroupOutput: Swift.Equatable {
+public struct DeleteAutoScalingGroupOutput {
 
     public init() { }
 }
@@ -2993,7 +2993,7 @@ extension DeleteLaunchConfigurationInput {
     }
 }
 
-public struct DeleteLaunchConfigurationInput: Swift.Equatable {
+public struct DeleteLaunchConfigurationInput {
     /// The name of the launch configuration.
     /// This member is required.
     public var launchConfigurationName: Swift.String?
@@ -3015,7 +3015,7 @@ extension DeleteLaunchConfigurationOutput {
     }
 }
 
-public struct DeleteLaunchConfigurationOutput: Swift.Equatable {
+public struct DeleteLaunchConfigurationOutput {
 
     public init() { }
 }
@@ -3064,7 +3064,7 @@ extension DeleteLifecycleHookInput {
     }
 }
 
-public struct DeleteLifecycleHookInput: Swift.Equatable {
+public struct DeleteLifecycleHookInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -3091,7 +3091,7 @@ extension DeleteLifecycleHookOutput {
     }
 }
 
-public struct DeleteLifecycleHookOutput: Swift.Equatable {
+public struct DeleteLifecycleHookOutput {
 
     public init() { }
 }
@@ -3139,7 +3139,7 @@ extension DeleteNotificationConfigurationInput {
     }
 }
 
-public struct DeleteNotificationConfigurationInput: Swift.Equatable {
+public struct DeleteNotificationConfigurationInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -3166,7 +3166,7 @@ extension DeleteNotificationConfigurationOutput {
     }
 }
 
-public struct DeleteNotificationConfigurationOutput: Swift.Equatable {
+public struct DeleteNotificationConfigurationOutput {
 
     public init() { }
 }
@@ -3214,7 +3214,7 @@ extension DeletePolicyInput {
     }
 }
 
-public struct DeletePolicyInput: Swift.Equatable {
+public struct DeletePolicyInput {
     /// The name of the Auto Scaling group.
     public var autoScalingGroupName: Swift.String?
     /// The name or Amazon Resource Name (ARN) of the policy.
@@ -3240,7 +3240,7 @@ extension DeletePolicyOutput {
     }
 }
 
-public struct DeletePolicyOutput: Swift.Equatable {
+public struct DeletePolicyOutput {
 
     public init() { }
 }
@@ -3289,7 +3289,7 @@ extension DeleteScheduledActionInput {
     }
 }
 
-public struct DeleteScheduledActionInput: Swift.Equatable {
+public struct DeleteScheduledActionInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -3316,7 +3316,7 @@ extension DeleteScheduledActionOutput {
     }
 }
 
-public struct DeleteScheduledActionOutput: Swift.Equatable {
+public struct DeleteScheduledActionOutput {
 
     public init() { }
 }
@@ -3369,7 +3369,7 @@ extension DeleteTagsInput {
     }
 }
 
-public struct DeleteTagsInput: Swift.Equatable {
+public struct DeleteTagsInput {
     /// One or more tags.
     /// This member is required.
     public var tags: [AutoScalingClientTypes.Tag]?
@@ -3391,7 +3391,7 @@ extension DeleteTagsOutput {
     }
 }
 
-public struct DeleteTagsOutput: Swift.Equatable {
+public struct DeleteTagsOutput {
 
     public init() { }
 }
@@ -3440,7 +3440,7 @@ extension DeleteWarmPoolInput {
     }
 }
 
-public struct DeleteWarmPoolInput: Swift.Equatable {
+public struct DeleteWarmPoolInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -3466,7 +3466,7 @@ extension DeleteWarmPoolOutput {
     }
 }
 
-public struct DeleteWarmPoolOutput: Swift.Equatable {
+public struct DeleteWarmPoolOutput {
 
     public init() { }
 }
@@ -3507,7 +3507,7 @@ extension DescribeAccountLimitsInput {
     }
 }
 
-public struct DescribeAccountLimitsInput: Swift.Equatable {
+public struct DescribeAccountLimitsInput {
 
     public init() { }
 }
@@ -3528,7 +3528,7 @@ extension DescribeAccountLimitsOutput {
     }
 }
 
-public struct DescribeAccountLimitsOutput: Swift.Equatable {
+public struct DescribeAccountLimitsOutput {
     /// The maximum number of groups allowed for your account. The default is 200 groups per Region.
     public var maxNumberOfAutoScalingGroups: Swift.Int?
     /// The maximum number of launch configurations allowed for your account. The default is 200 launch configurations per Region.
@@ -3585,7 +3585,7 @@ extension DescribeAdjustmentTypesInput {
     }
 }
 
-public struct DescribeAdjustmentTypesInput: Swift.Equatable {
+public struct DescribeAdjustmentTypesInput {
 
     public init() { }
 }
@@ -3603,7 +3603,7 @@ extension DescribeAdjustmentTypesOutput {
     }
 }
 
-public struct DescribeAdjustmentTypesOutput: Swift.Equatable {
+public struct DescribeAdjustmentTypesOutput {
     /// The policy adjustment types.
     public var adjustmentTypes: [AutoScalingClientTypes.AdjustmentType]?
 
@@ -3684,7 +3684,7 @@ extension DescribeAutoScalingGroupsInput {
     }
 }
 
-public struct DescribeAutoScalingGroupsInput: Swift.Equatable {
+public struct DescribeAutoScalingGroupsInput {
     /// The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
     public var autoScalingGroupNames: [Swift.String]?
     /// One or more filters to limit the results based on specific tags.
@@ -3722,7 +3722,7 @@ extension DescribeAutoScalingGroupsOutput {
     }
 }
 
-public struct DescribeAutoScalingGroupsOutput: Swift.Equatable {
+public struct DescribeAutoScalingGroupsOutput {
     /// The groups.
     /// This member is required.
     public var autoScalingGroups: [AutoScalingClientTypes.AutoScalingGroup]?
@@ -3796,7 +3796,7 @@ extension DescribeAutoScalingInstancesInput {
     }
 }
 
-public struct DescribeAutoScalingInstancesInput: Swift.Equatable {
+public struct DescribeAutoScalingInstancesInput {
     /// The IDs of the instances. If you omit this property, all Auto Scaling instances are described. If you specify an ID that does not exist, it is ignored with no error. Array Members: Maximum number of 50 items.
     public var instanceIds: [Swift.String]?
     /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 50.
@@ -3830,7 +3830,7 @@ extension DescribeAutoScalingInstancesOutput {
     }
 }
 
-public struct DescribeAutoScalingInstancesOutput: Swift.Equatable {
+public struct DescribeAutoScalingInstancesOutput {
     /// The instances.
     public var autoScalingInstances: [AutoScalingClientTypes.AutoScalingInstanceDetails]?
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
@@ -3880,7 +3880,7 @@ extension DescribeAutoScalingNotificationTypesInput {
     }
 }
 
-public struct DescribeAutoScalingNotificationTypesInput: Swift.Equatable {
+public struct DescribeAutoScalingNotificationTypesInput {
 
     public init() { }
 }
@@ -3898,7 +3898,7 @@ extension DescribeAutoScalingNotificationTypesOutput {
     }
 }
 
-public struct DescribeAutoScalingNotificationTypesOutput: Swift.Equatable {
+public struct DescribeAutoScalingNotificationTypesOutput {
     /// The notification types.
     public var autoScalingNotificationTypes: [Swift.String]?
 
@@ -3970,7 +3970,7 @@ extension DescribeInstanceRefreshesInput {
     }
 }
 
-public struct DescribeInstanceRefreshesInput: Swift.Equatable {
+public struct DescribeInstanceRefreshesInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -4009,7 +4009,7 @@ extension DescribeInstanceRefreshesOutput {
     }
 }
 
-public struct DescribeInstanceRefreshesOutput: Swift.Equatable {
+public struct DescribeInstanceRefreshesOutput {
     /// The instance refreshes for the specified group, sorted by creation timestamp in descending order.
     public var instanceRefreshes: [AutoScalingClientTypes.InstanceRefresh]?
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
@@ -4082,7 +4082,7 @@ extension DescribeLaunchConfigurationsInput {
     }
 }
 
-public struct DescribeLaunchConfigurationsInput: Swift.Equatable {
+public struct DescribeLaunchConfigurationsInput {
     /// The launch configuration names. If you omit this property, all launch configurations are described. Array Members: Maximum number of 50 items.
     public var launchConfigurationNames: [Swift.String]?
     /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
@@ -4116,7 +4116,7 @@ extension DescribeLaunchConfigurationsOutput {
     }
 }
 
-public struct DescribeLaunchConfigurationsOutput: Swift.Equatable {
+public struct DescribeLaunchConfigurationsOutput {
     /// The launch configurations.
     /// This member is required.
     public var launchConfigurations: [AutoScalingClientTypes.LaunchConfiguration]?
@@ -4167,7 +4167,7 @@ extension DescribeLifecycleHookTypesInput {
     }
 }
 
-public struct DescribeLifecycleHookTypesInput: Swift.Equatable {
+public struct DescribeLifecycleHookTypesInput {
 
     public init() { }
 }
@@ -4185,7 +4185,7 @@ extension DescribeLifecycleHookTypesOutput {
     }
 }
 
-public struct DescribeLifecycleHookTypesOutput: Swift.Equatable {
+public struct DescribeLifecycleHookTypesOutput {
     /// The lifecycle hook types.
     public var lifecycleHookTypes: [Swift.String]?
 
@@ -4249,7 +4249,7 @@ extension DescribeLifecycleHooksInput {
     }
 }
 
-public struct DescribeLifecycleHooksInput: Swift.Equatable {
+public struct DescribeLifecycleHooksInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -4279,7 +4279,7 @@ extension DescribeLifecycleHooksOutput {
     }
 }
 
-public struct DescribeLifecycleHooksOutput: Swift.Equatable {
+public struct DescribeLifecycleHooksOutput {
     /// The lifecycle hooks for the specified group.
     public var lifecycleHooks: [AutoScalingClientTypes.LifecycleHook]?
 
@@ -4338,7 +4338,7 @@ extension DescribeLoadBalancerTargetGroupsInput {
     }
 }
 
-public struct DescribeLoadBalancerTargetGroupsInput: Swift.Equatable {
+public struct DescribeLoadBalancerTargetGroupsInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -4373,7 +4373,7 @@ extension DescribeLoadBalancerTargetGroupsOutput {
     }
 }
 
-public struct DescribeLoadBalancerTargetGroupsOutput: Swift.Equatable {
+public struct DescribeLoadBalancerTargetGroupsOutput {
     /// Information about the target groups.
     public var loadBalancerTargetGroups: [AutoScalingClientTypes.LoadBalancerTargetGroupState]?
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
@@ -4437,7 +4437,7 @@ extension DescribeLoadBalancersInput {
     }
 }
 
-public struct DescribeLoadBalancersInput: Swift.Equatable {
+public struct DescribeLoadBalancersInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -4472,7 +4472,7 @@ extension DescribeLoadBalancersOutput {
     }
 }
 
-public struct DescribeLoadBalancersOutput: Swift.Equatable {
+public struct DescribeLoadBalancersOutput {
     /// The load balancers.
     public var loadBalancers: [AutoScalingClientTypes.LoadBalancerState]?
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
@@ -4522,7 +4522,7 @@ extension DescribeMetricCollectionTypesInput {
     }
 }
 
-public struct DescribeMetricCollectionTypesInput: Swift.Equatable {
+public struct DescribeMetricCollectionTypesInput {
 
     public init() { }
 }
@@ -4541,7 +4541,7 @@ extension DescribeMetricCollectionTypesOutput {
     }
 }
 
-public struct DescribeMetricCollectionTypesOutput: Swift.Equatable {
+public struct DescribeMetricCollectionTypesOutput {
     /// The granularities for the metrics.
     public var granularities: [AutoScalingClientTypes.MetricGranularityType]?
     /// The metrics.
@@ -4613,7 +4613,7 @@ extension DescribeNotificationConfigurationsInput {
     }
 }
 
-public struct DescribeNotificationConfigurationsInput: Swift.Equatable {
+public struct DescribeNotificationConfigurationsInput {
     /// The name of the Auto Scaling group.
     public var autoScalingGroupNames: [Swift.String]?
     /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
@@ -4647,7 +4647,7 @@ extension DescribeNotificationConfigurationsOutput {
     }
 }
 
-public struct DescribeNotificationConfigurationsOutput: Swift.Equatable {
+public struct DescribeNotificationConfigurationsOutput {
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
     /// The notification configurations.
@@ -4738,7 +4738,7 @@ extension DescribePoliciesInput {
     }
 }
 
-public struct DescribePoliciesInput: Swift.Equatable {
+public struct DescribePoliciesInput {
     /// The name of the Auto Scaling group.
     public var autoScalingGroupName: Swift.String?
     /// The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
@@ -4780,7 +4780,7 @@ extension DescribePoliciesOutput {
     }
 }
 
-public struct DescribePoliciesOutput: Swift.Equatable {
+public struct DescribePoliciesOutput {
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
     /// The scaling policies.
@@ -4862,7 +4862,7 @@ extension DescribeScalingActivitiesInput {
     }
 }
 
-public struct DescribeScalingActivitiesInput: Swift.Equatable {
+public struct DescribeScalingActivitiesInput {
     /// The activity IDs of the desired scaling activities. If you omit this property, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group. Array Members: Maximum number of 50 IDs.
     public var activityIds: [Swift.String]?
     /// The name of the Auto Scaling group.
@@ -4904,7 +4904,7 @@ extension DescribeScalingActivitiesOutput {
     }
 }
 
-public struct DescribeScalingActivitiesOutput: Swift.Equatable {
+public struct DescribeScalingActivitiesOutput {
     /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
     /// This member is required.
     public var activities: [AutoScalingClientTypes.Activity]?
@@ -4955,7 +4955,7 @@ extension DescribeScalingProcessTypesInput {
     }
 }
 
-public struct DescribeScalingProcessTypesInput: Swift.Equatable {
+public struct DescribeScalingProcessTypesInput {
 
     public init() { }
 }
@@ -4973,7 +4973,7 @@ extension DescribeScalingProcessTypesOutput {
     }
 }
 
-public struct DescribeScalingProcessTypesOutput: Swift.Equatable {
+public struct DescribeScalingProcessTypesOutput {
     /// The names of the process types.
     public var processes: [AutoScalingClientTypes.ProcessType]?
 
@@ -5053,7 +5053,7 @@ extension DescribeScheduledActionsInput {
     }
 }
 
-public struct DescribeScheduledActionsInput: Swift.Equatable {
+public struct DescribeScheduledActionsInput {
     /// The name of the Auto Scaling group.
     public var autoScalingGroupName: Swift.String?
     /// The latest scheduled start time to return. If scheduled action names are provided, this property is ignored.
@@ -5099,7 +5099,7 @@ extension DescribeScheduledActionsOutput {
     }
 }
 
-public struct DescribeScheduledActionsOutput: Swift.Equatable {
+public struct DescribeScheduledActionsOutput {
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
     /// The scheduled actions.
@@ -5172,7 +5172,7 @@ extension DescribeTagsInput {
     }
 }
 
-public struct DescribeTagsInput: Swift.Equatable {
+public struct DescribeTagsInput {
     /// One or more filters to scope the tags to return. The maximum number of filters per filter type (for example, auto-scaling-group) is 1000.
     public var filters: [AutoScalingClientTypes.Filter]?
     /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
@@ -5206,7 +5206,7 @@ extension DescribeTagsOutput {
     }
 }
 
-public struct DescribeTagsOutput: Swift.Equatable {
+public struct DescribeTagsOutput {
     /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
     /// One or more tags.
@@ -5256,7 +5256,7 @@ extension DescribeTerminationPolicyTypesInput {
     }
 }
 
-public struct DescribeTerminationPolicyTypesInput: Swift.Equatable {
+public struct DescribeTerminationPolicyTypesInput {
 
     public init() { }
 }
@@ -5274,7 +5274,7 @@ extension DescribeTerminationPolicyTypesOutput {
     }
 }
 
-public struct DescribeTerminationPolicyTypesOutput: Swift.Equatable {
+public struct DescribeTerminationPolicyTypesOutput {
     /// The termination policies supported by Amazon EC2 Auto Scaling: OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, Default, OldestLaunchTemplate, and AllocationStrategy.
     public var terminationPolicyTypes: [Swift.String]?
 
@@ -5337,7 +5337,7 @@ extension DescribeTrafficSourcesInput {
     }
 }
 
-public struct DescribeTrafficSourcesInput: Swift.Equatable {
+public struct DescribeTrafficSourcesInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -5382,7 +5382,7 @@ extension DescribeTrafficSourcesOutput {
     }
 }
 
-public struct DescribeTrafficSourcesOutput: Swift.Equatable {
+public struct DescribeTrafficSourcesOutput {
     /// This string indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
     /// Information about the traffic sources.
@@ -5446,7 +5446,7 @@ extension DescribeWarmPoolInput {
     }
 }
 
-public struct DescribeWarmPoolInput: Swift.Equatable {
+public struct DescribeWarmPoolInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -5482,7 +5482,7 @@ extension DescribeWarmPoolOutput {
     }
 }
 
-public struct DescribeWarmPoolOutput: Swift.Equatable {
+public struct DescribeWarmPoolOutput {
     /// The instances that are currently in the warm pool.
     public var instances: [AutoScalingClientTypes.Instance]?
     /// This string indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
@@ -5550,7 +5550,7 @@ extension AutoScalingClientTypes.DesiredConfiguration: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes the desired configuration for an instance refresh. If you specify a desired configuration, you must specify either a LaunchTemplate or a MixedInstancesPolicy.
-    public struct DesiredConfiguration: Swift.Equatable {
+    public struct DesiredConfiguration {
         /// Describes the launch template and the version of the launch template that Amazon EC2 Auto Scaling uses to launch Amazon EC2 instances. For more information about launch templates, see [Launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchTemplates.html) in the Amazon EC2 Auto Scaling User Guide.
         public var launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification?
         /// Use this structure to launch multiple instance types and On-Demand Instances and Spot Instances within a single Auto Scaling group. A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch instances and help optimize your costs. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -5607,7 +5607,7 @@ extension DetachInstancesInput {
     }
 }
 
-public struct DetachInstancesInput: Swift.Equatable {
+public struct DetachInstancesInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -5642,7 +5642,7 @@ extension DetachInstancesOutput {
     }
 }
 
-public struct DetachInstancesOutput: Swift.Equatable {
+public struct DetachInstancesOutput {
     /// The activities related to detaching the instances from the Auto Scaling group.
     public var activities: [AutoScalingClientTypes.Activity]?
 
@@ -5706,7 +5706,7 @@ extension DetachLoadBalancerTargetGroupsInput {
     }
 }
 
-public struct DetachLoadBalancerTargetGroupsInput: Swift.Equatable {
+public struct DetachLoadBalancerTargetGroupsInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -5733,7 +5733,7 @@ extension DetachLoadBalancerTargetGroupsOutput {
     }
 }
 
-public struct DetachLoadBalancerTargetGroupsOutput: Swift.Equatable {
+public struct DetachLoadBalancerTargetGroupsOutput {
 
     public init() { }
 }
@@ -5790,7 +5790,7 @@ extension DetachLoadBalancersInput {
     }
 }
 
-public struct DetachLoadBalancersInput: Swift.Equatable {
+public struct DetachLoadBalancersInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -5817,7 +5817,7 @@ extension DetachLoadBalancersOutput {
     }
 }
 
-public struct DetachLoadBalancersOutput: Swift.Equatable {
+public struct DetachLoadBalancersOutput {
 
     public init() { }
 }
@@ -5874,7 +5874,7 @@ extension DetachTrafficSourcesInput {
     }
 }
 
-public struct DetachTrafficSourcesInput: Swift.Equatable {
+public struct DetachTrafficSourcesInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -5901,7 +5901,7 @@ extension DetachTrafficSourcesOutput {
     }
 }
 
-public struct DetachTrafficSourcesOutput: Swift.Equatable {
+public struct DetachTrafficSourcesOutput {
 
     public init() { }
 }
@@ -5958,7 +5958,7 @@ extension DisableMetricsCollectionInput {
     }
 }
 
-public struct DisableMetricsCollectionInput: Swift.Equatable {
+public struct DisableMetricsCollectionInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -6027,7 +6027,7 @@ extension DisableMetricsCollectionOutput {
     }
 }
 
-public struct DisableMetricsCollectionOutput: Swift.Equatable {
+public struct DisableMetricsCollectionOutput {
 
     public init() { }
 }
@@ -6103,7 +6103,7 @@ extension AutoScalingClientTypes.Ebs: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes information used to set up an Amazon EBS volume specified in a block device mapping.
-    public struct Ebs: Swift.Equatable {
+    public struct Ebs {
         /// Indicates whether the volume is deleted on instance termination. For Amazon EC2 Auto Scaling, the default value is true.
         public var deleteOnTermination: Swift.Bool?
         /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can only be attached to instances that support Amazon EBS encryption. For more information, see [Supported instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#EBSEncryption_supported_instances). If your AMI uses encrypted volumes, you can also only launch it on supported instance types. If you are creating a volume from a snapshot, you cannot create an unencrypted volume from an encrypted snapshot. Also, you cannot specify a KMS key ID when using a launch configuration. If you enable encryption by default, the EBS volumes that you create are always encrypted, either using the Amazon Web Services managed KMS key or a customer-managed KMS key, regardless of whether the snapshot was encrypted. For more information, see [Use Amazon Web Services KMS keys to encrypt Amazon EBS volumes](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-data-protection.html#encryption) in the Amazon EC2 Auto Scaling User Guide.
@@ -6198,7 +6198,7 @@ extension EnableMetricsCollectionInput {
     }
 }
 
-public struct EnableMetricsCollectionInput: Swift.Equatable {
+public struct EnableMetricsCollectionInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -6272,7 +6272,7 @@ extension EnableMetricsCollectionOutput {
     }
 }
 
-public struct EnableMetricsCollectionOutput: Swift.Equatable {
+public struct EnableMetricsCollectionOutput {
 
     public init() { }
 }
@@ -6323,7 +6323,7 @@ extension AutoScalingClientTypes.EnabledMetric: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes an enabled Auto Scaling group metric.
-    public struct EnabledMetric: Swift.Equatable {
+    public struct EnabledMetric {
         /// The granularity of the metric. The only valid value is 1Minute.
         public var granularity: Swift.String?
         /// One of the following metrics:
@@ -6423,7 +6423,7 @@ extension EnterStandbyInput {
     }
 }
 
-public struct EnterStandbyInput: Swift.Equatable {
+public struct EnterStandbyInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -6458,7 +6458,7 @@ extension EnterStandbyOutput {
     }
 }
 
-public struct EnterStandbyOutput: Swift.Equatable {
+public struct EnterStandbyOutput {
     /// The activities related to moving instances into Standby mode.
     public var activities: [AutoScalingClientTypes.Activity]?
 
@@ -6525,7 +6525,7 @@ extension ExecutePolicyInput {
     }
 }
 
-public struct ExecutePolicyInput: Swift.Equatable {
+public struct ExecutePolicyInput {
     /// The name of the Auto Scaling group.
     public var autoScalingGroupName: Swift.String?
     /// The breach threshold for the alarm. Required if the policy type is StepScaling and not supported otherwise.
@@ -6563,7 +6563,7 @@ extension ExecutePolicyOutput {
     }
 }
 
-public struct ExecutePolicyOutput: Swift.Equatable {
+public struct ExecutePolicyOutput {
 
     public init() { }
 }
@@ -6621,7 +6621,7 @@ extension ExitStandbyInput {
     }
 }
 
-public struct ExitStandbyInput: Swift.Equatable {
+public struct ExitStandbyInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -6651,7 +6651,7 @@ extension ExitStandbyOutput {
     }
 }
 
-public struct ExitStandbyOutput: Swift.Equatable {
+public struct ExitStandbyOutput {
     /// The activities related to moving instances out of Standby mode.
     public var activities: [AutoScalingClientTypes.Activity]?
 
@@ -6714,7 +6714,7 @@ extension AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest: Swift.
 
 extension AutoScalingClientTypes {
     /// Describes a scheduled action that could not be created, updated, or deleted.
-    public struct FailedScheduledUpdateGroupActionRequest: Swift.Equatable {
+    public struct FailedScheduledUpdateGroupActionRequest {
         /// The error code.
         public var errorCode: Swift.String?
         /// The error message accompanying the error code.
@@ -6775,7 +6775,7 @@ extension AutoScalingClientTypes.Filter: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a filter that is used to return a more specific list of results from a describe operation. If you specify multiple filters, the filters are automatically logically joined with an AND, and the request returns only the results that match all of the specified filters. For more information, see [Tag Auto Scaling groups and instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html) in the Amazon EC2 Auto Scaling User Guide.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The name of the filter. The valid values for Name depend on which API operation you're using with the filter ([DescribeAutoScalingGroups] or [DescribeTags]). DescribeAutoScalingGroups Valid values for Name include the following:
         ///
         /// * tag-key - Accepts tag keys. The results only include information about the Auto Scaling groups associated with these tag keys.
@@ -6844,7 +6844,7 @@ extension GetPredictiveScalingForecastInput {
     }
 }
 
-public struct GetPredictiveScalingForecastInput: Swift.Equatable {
+public struct GetPredictiveScalingForecastInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -6887,7 +6887,7 @@ extension GetPredictiveScalingForecastOutput {
     }
 }
 
-public struct GetPredictiveScalingForecastOutput: Swift.Equatable {
+public struct GetPredictiveScalingForecastOutput {
     /// The capacity forecast.
     /// This member is required.
     public var capacityForecast: AutoScalingClientTypes.CapacityForecast?
@@ -6991,7 +6991,7 @@ extension AutoScalingClientTypes.Instance: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes an EC2 instance.
-    public struct Instance: Swift.Equatable {
+    public struct Instance {
         /// The Availability Zone in which the instance is running.
         /// This member is required.
         public var availabilityZone: Swift.String?
@@ -7103,7 +7103,7 @@ extension AutoScalingClientTypes.InstanceMaintenancePolicy: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes an instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html) in the Amazon EC2 Auto Scaling User Guide.
-    public struct InstanceMaintenancePolicy: Swift.Equatable {
+    public struct InstanceMaintenancePolicy {
         /// Specifies the upper threshold as a percentage of the desired capacity of the Auto Scaling group. It represents the maximum percentage of the group that can be in service and healthy, or pending, to support your workload when replacing instances. Value range is 100 to 200. To clear a previously set value, specify a value of -1. Both MinHealthyPercentage and MaxHealthyPercentage must be specified, and the difference between them cannot be greater than 100. A large range increases the number of instances that can be replaced at the same time.
         public var maxHealthyPercentage: Swift.Int?
         /// Specifies the lower threshold as a percentage of the desired capacity of the Auto Scaling group. It represents the minimum percentage of the group to keep in service, healthy, and ready to use to support your workload when replacing instances. Value range is 0 to 100. To clear a previously set value, specify a value of -1.
@@ -7219,7 +7219,7 @@ extension AutoScalingClientTypes.InstanceMetadataOptions: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// The metadata options for the instances. For more information, see [Configuring the Instance Metadata Options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds) in the Amazon EC2 Auto Scaling User Guide.
-    public struct InstanceMetadataOptions: Swift.Equatable {
+    public struct InstanceMetadataOptions {
         /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled. If you specify a value of disabled, you will not be able to access your instance metadata.
         public var httpEndpoint: AutoScalingClientTypes.InstanceMetadataEndpointState?
         /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1
@@ -7265,7 +7265,7 @@ extension AutoScalingClientTypes.InstanceMonitoring: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes whether detailed monitoring is enabled for the Auto Scaling instances.
-    public struct InstanceMonitoring: Swift.Equatable {
+    public struct InstanceMonitoring {
         /// If true, detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public var enabled: Swift.Bool?
 
@@ -7358,7 +7358,7 @@ extension AutoScalingClientTypes.InstanceRefresh: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes an instance refresh for an Auto Scaling group.
-    public struct InstanceRefresh: Swift.Equatable {
+    public struct InstanceRefresh {
         /// The name of the Auto Scaling group.
         public var autoScalingGroupName: Swift.String?
         /// Describes the desired configuration for the instance refresh.
@@ -7499,7 +7499,7 @@ extension AutoScalingClientTypes.InstanceRefreshLivePoolProgress: Swift.Encodabl
 
 extension AutoScalingClientTypes {
     /// Reports progress on replacing instances that are in the Auto Scaling group.
-    public struct InstanceRefreshLivePoolProgress: Swift.Equatable {
+    public struct InstanceRefreshLivePoolProgress {
         /// The number of instances remaining to update.
         public var instancesToUpdate: Swift.Int?
         /// The percentage of instances in the Auto Scaling group that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete.
@@ -7546,7 +7546,7 @@ extension AutoScalingClientTypes.InstanceRefreshProgressDetails: Swift.Encodable
 
 extension AutoScalingClientTypes {
     /// Reports progress on replacing instances in an Auto Scaling group that has a warm pool. This includes separate details for instances in the warm pool and instances in the Auto Scaling group (the live pool).
-    public struct InstanceRefreshProgressDetails: Swift.Equatable {
+    public struct InstanceRefreshProgressDetails {
         /// Reports progress on replacing instances that are in the Auto Scaling group.
         public var livePoolProgress: AutoScalingClientTypes.InstanceRefreshLivePoolProgress?
         /// Reports progress on replacing instances that are in the warm pool.
@@ -7646,7 +7646,7 @@ extension AutoScalingClientTypes.InstanceRefreshWarmPoolProgress: Swift.Encodabl
 
 extension AutoScalingClientTypes {
     /// Reports progress on replacing instances that are in the warm pool.
-    public struct InstanceRefreshWarmPoolProgress: Swift.Equatable {
+    public struct InstanceRefreshWarmPoolProgress {
         /// The number of instances remaining to update.
         public var instancesToUpdate: Swift.Int?
         /// The percentage of instances in the warm pool that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete.
@@ -7882,7 +7882,7 @@ extension AutoScalingClientTypes {
     ///
     ///
     /// You must specify VCpuCount and MemoryMiB. All other attributes are optional. Any unspecified optional attribute is set to its default. For more information, see [Creating an Auto Scaling group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) in the Amazon EC2 Auto Scaling User Guide. For help determining which instance types match your attributes before you apply them to your Auto Scaling group, see [Preview instance types with specified attributes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html#ec2fleet-get-instance-types-from-instance-requirements) in the Amazon EC2 User Guide for Linux Instances.
-    public struct InstanceRequirements: Swift.Equatable {
+    public struct InstanceRequirements {
         /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) for an instance type. To exclude accelerator-enabled instance types, set Max to 0. Default: No minimum or maximum limits
         public var acceleratorCount: AutoScalingClientTypes.AcceleratorCountRequest?
         /// Indicates whether instance types must have accelerators by specific manufacturers.
@@ -8074,7 +8074,7 @@ extension AutoScalingClientTypes.InstanceReusePolicy: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes an instance reuse policy for a warm pool. For more information, see [Warm pools for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html) in the Amazon EC2 Auto Scaling User Guide.
-    public struct InstanceReusePolicy: Swift.Equatable {
+    public struct InstanceReusePolicy {
         /// Specifies whether instances in the Auto Scaling group can be returned to the warm pool on scale in.
         public var reuseOnScaleIn: Swift.Bool?
 
@@ -8137,7 +8137,7 @@ extension AutoScalingClientTypes.InstancesDistribution: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Use this structure to specify the distribution of On-Demand Instances and Spot Instances and the allocation strategies used to fulfill On-Demand and Spot capacities for a mixed instances policy.
-    public struct InstancesDistribution: Swift.Equatable {
+    public struct InstancesDistribution {
         /// The allocation strategy to apply to your On-Demand Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values: lowest-price Uses price to determine which instance types are the highest priority, launching the lowest priced instance types within an Availability Zone first. This is the default value for Auto Scaling groups that specify [InstanceRequirements]. prioritized You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling launches your highest priority instance types first. If all your On-Demand capacity cannot be fulfilled using your highest priority instance type, then Amazon EC2 Auto Scaling launches the remaining capacity using the second priority instance type, and so on. This is the default value for Auto Scaling groups that don't specify [InstanceRequirements] and cannot be used for groups that do.
         public var onDemandAllocationStrategy: Swift.String?
         /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances. This base portion is launched first as your group scales. This number has the same unit of measurement as the group's desired capacity. If you change the default unit of measurement (number of instances) by specifying weighted capacity values in your launch template overrides list, or by changing the default desired capacity type setting of the group, you must specify this number using the same unit of measurement. Default: 0
@@ -8390,7 +8390,7 @@ extension AutoScalingClientTypes.LaunchConfiguration: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a launch configuration.
-    public struct LaunchConfiguration: Swift.Equatable {
+    public struct LaunchConfiguration {
         /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. For more information, see [Launching Auto Scaling instances in a VPC](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html) in the Amazon EC2 Auto Scaling User Guide.
         public var associatePublicIpAddress: Swift.Bool?
         /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see [Block Device Mapping](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html) in the Amazon EC2 User Guide for Linux Instances.
@@ -8522,7 +8522,7 @@ extension AutoScalingClientTypes.LaunchTemplate: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Use this structure to specify the launch templates and instance types (overrides) for a mixed instances policy.
-    public struct LaunchTemplate: Swift.Equatable {
+    public struct LaunchTemplate {
         /// The launch template.
         public var launchTemplateSpecification: AutoScalingClientTypes.LaunchTemplateSpecification?
         /// Any properties that you specify override the same properties in the launch template.
@@ -8586,7 +8586,7 @@ extension AutoScalingClientTypes {
     ///
     ///
     /// Specify the instance types that you want, or define your instance requirements instead and let Amazon EC2 Auto Scaling provision the available instance types that meet your requirements. This can provide Amazon EC2 Auto Scaling with a larger selection of instance types to choose from when fulfilling Spot and On-Demand capacities. You can view which instance types are matched before you apply the instance requirements to your Auto Scaling group. After you define your instance requirements, you don't have to keep updating these settings to get new EC2 instance types automatically. Amazon EC2 Auto Scaling uses the instance requirements of the Auto Scaling group to determine whether a new EC2 instance type can be used.
-    public struct LaunchTemplateOverrides: Swift.Equatable {
+    public struct LaunchTemplateOverrides {
         /// The instance requirements. Amazon EC2 Auto Scaling uses your specified requirements to identify instance types. Then, it uses your On-Demand and Spot allocation strategies to launch instances from these instance types. You can specify up to four separate sets of instance requirements per Auto Scaling group. This is useful for provisioning instances from different Amazon Machine Images (AMIs) in the same Auto Scaling group. To do this, create the AMIs and create a new launch template for each AMI. Then, create a compatible set of instance requirements for each launch template. If you specify InstanceRequirements, you can't specify InstanceType.
         public var instanceRequirements: AutoScalingClientTypes.InstanceRequirements?
         /// The instance type, such as m3.xlarge. You must specify an instance type that is supported in your requested Region and Availability Zones. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon Elastic Compute Cloud User Guide. You can specify up to 40 instance types per Auto Scaling group.
@@ -8646,7 +8646,7 @@ extension AutoScalingClientTypes.LaunchTemplateSpecification: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes the launch template and the version of the launch template that Amazon EC2 Auto Scaling uses to launch Amazon EC2 instances. For more information about launch templates, see [Launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchTemplates.html) in the Amazon EC2 Auto Scaling User Guide.
-    public struct LaunchTemplateSpecification: Swift.Equatable {
+    public struct LaunchTemplateSpecification {
         /// The ID of the launch template. To get the template ID, use the Amazon EC2 [DescribeLaunchTemplates](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html) API operation. New launch templates can be created using the Amazon EC2 [CreateLaunchTemplate](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html) API. Conditional: You must specify either a LaunchTemplateId or a LaunchTemplateName.
         public var launchTemplateId: Swift.String?
         /// The name of the launch template. To get the template name, use the Amazon EC2 [DescribeLaunchTemplates](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html) API operation. New launch templates can be created using the Amazon EC2 [CreateLaunchTemplate](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html) API. Conditional: You must specify either a LaunchTemplateId or a LaunchTemplateName.
@@ -8732,7 +8732,7 @@ extension AutoScalingClientTypes.LifecycleHook: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a lifecycle hook. A lifecycle hook lets you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs.
-    public struct LifecycleHook: Swift.Equatable {
+    public struct LifecycleHook {
         /// The name of the Auto Scaling group for the lifecycle hook.
         public var autoScalingGroupName: Swift.String?
         /// The action the Auto Scaling group takes when the lifecycle hook timeout elapses or if an unexpected failure occurs. Valid values: CONTINUE | ABANDON
@@ -8832,7 +8832,7 @@ extension AutoScalingClientTypes.LifecycleHookSpecification: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes information used to specify a lifecycle hook for an Auto Scaling group. For more information, see [Amazon EC2 Auto Scaling lifecycle hooks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html) in the Amazon EC2 Auto Scaling User Guide.
-    public struct LifecycleHookSpecification: Swift.Equatable {
+    public struct LifecycleHookSpecification {
         /// The action the Auto Scaling group takes when the lifecycle hook timeout elapses or if an unexpected failure occurs. The default value is ABANDON. Valid values: CONTINUE | ABANDON
         public var defaultResult: Swift.String?
         /// The maximum time, in seconds, that can elapse before the lifecycle hook times out. The range is from 30 to 7200 seconds. The default value is 3600 seconds (1 hour).
@@ -9037,7 +9037,7 @@ extension AutoScalingClientTypes.LoadBalancerState: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes the state of a Classic Load Balancer.
-    public struct LoadBalancerState: Swift.Equatable {
+    public struct LoadBalancerState {
         /// The name of the load balancer.
         public var loadBalancerName: Swift.String?
         /// One of the following load balancer states:
@@ -9094,7 +9094,7 @@ extension AutoScalingClientTypes.LoadBalancerTargetGroupState: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes the state of a target group.
-    public struct LoadBalancerTargetGroupState: Swift.Equatable {
+    public struct LoadBalancerTargetGroupState {
         /// The Amazon Resource Name (ARN) of the target group.
         public var loadBalancerTargetGroupARN: Swift.String?
         /// The state of the target group.
@@ -9174,7 +9174,7 @@ extension AutoScalingClientTypes.LoadForecast: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// A GetPredictiveScalingForecast call returns the load forecast for a predictive scaling policy. This structure includes the data points for that load forecast, along with the timestamps of those data points and the metric specification.
-    public struct LoadForecast: Swift.Equatable {
+    public struct LoadForecast {
         /// The metric specification for the load forecast.
         /// This member is required.
         public var metricSpecification: AutoScalingClientTypes.PredictiveScalingMetricSpecification?
@@ -9295,7 +9295,7 @@ extension AutoScalingClientTypes.MemoryGiBPerVCpuRequest: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Specifies the minimum and maximum for the MemoryGiBPerVCpu object when you specify [InstanceRequirements] for an Auto Scaling group.
-    public struct MemoryGiBPerVCpuRequest: Swift.Equatable {
+    public struct MemoryGiBPerVCpuRequest {
         /// The memory maximum in GiB.
         public var max: Swift.Double?
         /// The memory minimum in GiB.
@@ -9342,7 +9342,7 @@ extension AutoScalingClientTypes.MemoryMiBRequest: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Specifies the minimum and maximum for the MemoryMiB object when you specify [InstanceRequirements] for an Auto Scaling group.
-    public struct MemoryMiBRequest: Swift.Equatable {
+    public struct MemoryMiBRequest {
         /// The memory maximum in MiB.
         public var max: Swift.Int?
         /// The memory minimum in MiB.
@@ -9404,7 +9404,7 @@ extension AutoScalingClientTypes.Metric: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Represents a specific metric.
-    public struct Metric: Swift.Equatable {
+    public struct Metric {
         /// The dimensions for the metric. For the list of available dimensions, see the Amazon Web Services documentation available from the table in [Amazon Web Services services that publish CloudWatch metrics ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html) in the Amazon CloudWatch User Guide. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         public var dimensions: [AutoScalingClientTypes.MetricDimension]?
         /// The name of the metric.
@@ -9452,7 +9452,7 @@ extension AutoScalingClientTypes.MetricCollectionType: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a metric.
-    public struct MetricCollectionType: Swift.Equatable {
+    public struct MetricCollectionType {
         /// One of the following metrics:
         ///
         /// * GroupMinSize
@@ -9550,7 +9550,7 @@ extension AutoScalingClientTypes.MetricDataQuery: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// The metric data to return. Also defines whether this call is returning data for one metric only, or whether it is performing a math expression on the values of returned metric statistics to create a new time series. A time series is a series of data points, each of which is associated with a timestamp. For more information and examples, see [Advanced predictive scaling policy configurations using custom metrics](https://docs.aws.amazon.com/autoscaling/ec2/userguide/predictive-scaling-customized-metric-specification.html) in the Amazon EC2 Auto Scaling User Guide.
-    public struct MetricDataQuery: Swift.Equatable {
+    public struct MetricDataQuery {
         /// The math expression to perform on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. Conditional: Within each MetricDataQuery object, you must specify either Expression or MetricStat, but not both.
         public var expression: Swift.String?
         /// A short name that identifies the object's results in the response. This name must be unique among all MetricDataQuery objects specified for a single scaling policy. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscores. The first character must be a lowercase letter.
@@ -9610,7 +9610,7 @@ extension AutoScalingClientTypes.MetricDimension: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes the dimension of a metric.
-    public struct MetricDimension: Swift.Equatable {
+    public struct MetricDimension {
         /// The name of the dimension.
         /// This member is required.
         public var name: Swift.String?
@@ -9654,7 +9654,7 @@ extension AutoScalingClientTypes.MetricGranularityType: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a granularity of a metric.
-    public struct MetricGranularityType: Swift.Equatable {
+    public struct MetricGranularityType {
         /// The granularity. The only valid value is 1Minute.
         public var granularity: Swift.String?
 
@@ -9702,7 +9702,7 @@ extension AutoScalingClientTypes.MetricStat: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// This structure defines the CloudWatch metric to return, along with the statistic and unit. For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
-    public struct MetricStat: Swift.Equatable {
+    public struct MetricStat {
         /// The CloudWatch metric to return, including the metric name, namespace, and dimensions. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that is returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
         /// This member is required.
         public var metric: AutoScalingClientTypes.Metric?
@@ -9834,7 +9834,7 @@ extension AutoScalingClientTypes.MixedInstancesPolicy: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Use this structure to launch multiple instance types and On-Demand Instances and Spot Instances within a single Auto Scaling group. A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch instances and help optimize your costs. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html) in the Amazon EC2 Auto Scaling User Guide.
-    public struct MixedInstancesPolicy: Swift.Equatable {
+    public struct MixedInstancesPolicy {
         /// The instances distribution.
         public var instancesDistribution: AutoScalingClientTypes.InstancesDistribution?
         /// One or more launch templates and the instance types (overrides) that are used to launch EC2 instances to fulfill On-Demand and Spot capacities.
@@ -9881,7 +9881,7 @@ extension AutoScalingClientTypes.NetworkBandwidthGbpsRequest: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Specifies the minimum and maximum for the NetworkBandwidthGbps object when you specify [InstanceRequirements] for an Auto Scaling group. Setting the minimum bandwidth does not guarantee that your instance will achieve the minimum bandwidth. Amazon EC2 will identify instance types that support the specified minimum bandwidth, but the actual bandwidth of your instance might go below the specified minimum at times. For more information, see [Available instance bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html#available-instance-bandwidth) in the Amazon EC2 User Guide for Linux Instances.
-    public struct NetworkBandwidthGbpsRequest: Swift.Equatable {
+    public struct NetworkBandwidthGbpsRequest {
         /// The maximum amount of network bandwidth, in gigabits per second (Gbps).
         public var max: Swift.Double?
         /// The minimum amount of network bandwidth, in gigabits per second (Gbps).
@@ -9928,7 +9928,7 @@ extension AutoScalingClientTypes.NetworkInterfaceCountRequest: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Specifies the minimum and maximum for the NetworkInterfaceCount object when you specify [InstanceRequirements] for an Auto Scaling group.
-    public struct NetworkInterfaceCountRequest: Swift.Equatable {
+    public struct NetworkInterfaceCountRequest {
         /// The maximum number of network interfaces.
         public var max: Swift.Int?
         /// The minimum number of network interfaces.
@@ -9980,7 +9980,7 @@ extension AutoScalingClientTypes.NotificationConfiguration: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a notification.
-    public struct NotificationConfiguration: Swift.Equatable {
+    public struct NotificationConfiguration {
         /// The name of the Auto Scaling group.
         public var autoScalingGroupName: Swift.String?
         /// One of the following event notification types:
@@ -10117,7 +10117,7 @@ extension AutoScalingClientTypes.PredefinedMetricSpecification: Swift.Encodable 
 
 extension AutoScalingClientTypes {
     /// Represents a predefined metric for a target tracking scaling policy to use with Amazon EC2 Auto Scaling.
-    public struct PredefinedMetricSpecification: Swift.Equatable {
+    public struct PredefinedMetricSpecification {
         /// The metric type. The following predefined metrics are available:
         ///
         /// * ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.
@@ -10242,7 +10242,7 @@ extension AutoScalingClientTypes.PredictiveScalingConfiguration: Swift.Encodable
 
 extension AutoScalingClientTypes {
     /// Represents a predictive scaling policy configuration to use with Amazon EC2 Auto Scaling.
-    public struct PredictiveScalingConfiguration: Swift.Equatable {
+    public struct PredictiveScalingConfiguration {
         /// Defines the behavior that should be applied if the forecast capacity approaches or exceeds the maximum capacity of the Auto Scaling group. Defaults to HonorMaxCapacity if not specified. The following are possible values:
         ///
         /// * HonorMaxCapacity - Amazon EC2 Auto Scaling cannot scale out capacity higher than the maximum capacity. The maximum capacity is enforced as a hard limit.
@@ -10310,7 +10310,7 @@ extension AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric: Swif
 
 extension AutoScalingClientTypes {
     /// Describes a customized capacity metric for a predictive scaling policy.
-    public struct PredictiveScalingCustomizedCapacityMetric: Swift.Equatable {
+    public struct PredictiveScalingCustomizedCapacityMetric {
         /// One or more metric data queries to provide the data points for a capacity metric. Use multiple metric data queries only if you are performing a math expression on returned data.
         /// This member is required.
         public var metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]?
@@ -10358,7 +10358,7 @@ extension AutoScalingClientTypes.PredictiveScalingCustomizedLoadMetric: Swift.En
 
 extension AutoScalingClientTypes {
     /// Describes a custom load metric for a predictive scaling policy.
-    public struct PredictiveScalingCustomizedLoadMetric: Swift.Equatable {
+    public struct PredictiveScalingCustomizedLoadMetric {
         /// One or more metric data queries to provide the data points for a load metric. Use multiple metric data queries only if you are performing a math expression on returned data.
         /// This member is required.
         public var metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]?
@@ -10406,7 +10406,7 @@ extension AutoScalingClientTypes.PredictiveScalingCustomizedScalingMetric: Swift
 
 extension AutoScalingClientTypes {
     /// Describes a custom scaling metric for a predictive scaling policy.
-    public struct PredictiveScalingCustomizedScalingMetric: Swift.Equatable {
+    public struct PredictiveScalingCustomizedScalingMetric {
         /// One or more metric data queries to provide the data points for a scaling metric. Use multiple metric data queries only if you are performing a math expression on returned data.
         /// This member is required.
         public var metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]?
@@ -10520,7 +10520,7 @@ extension AutoScalingClientTypes {
     ///
     ///
     /// For information about using custom metrics with predictive scaling, see [Advanced predictive scaling policy configurations using custom metrics](https://docs.aws.amazon.com/autoscaling/ec2/userguide/predictive-scaling-customized-metric-specification.html) in the Amazon EC2 Auto Scaling User Guide.
-    public struct PredictiveScalingMetricSpecification: Swift.Equatable {
+    public struct PredictiveScalingMetricSpecification {
         /// The customized capacity metric specification.
         public var customizedCapacityMetricSpecification: AutoScalingClientTypes.PredictiveScalingCustomizedCapacityMetric?
         /// The customized load metric specification.
@@ -10620,7 +10620,7 @@ extension AutoScalingClientTypes.PredictiveScalingPredefinedLoadMetric: Swift.En
 
 extension AutoScalingClientTypes {
     /// Describes a load metric for a predictive scaling policy. When returned in the output of DescribePolicies, it indicates that a predictive scaling policy uses individually specified load and scaling metrics instead of a metric pair.
-    public struct PredictiveScalingPredefinedLoadMetric: Swift.Equatable {
+    public struct PredictiveScalingPredefinedLoadMetric {
         /// The metric type.
         /// This member is required.
         public var predefinedMetricType: AutoScalingClientTypes.PredefinedLoadMetricType?
@@ -10675,7 +10675,7 @@ extension AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair: Swift.En
 
 extension AutoScalingClientTypes {
     /// Represents a metric pair for a predictive scaling policy.
-    public struct PredictiveScalingPredefinedMetricPair: Swift.Equatable {
+    public struct PredictiveScalingPredefinedMetricPair {
         /// Indicates which metrics to use. There are two different types of metrics for each metric type: one is a load metric and one is a scaling metric. For example, if the metric type is ASGCPUUtilization, the Auto Scaling group's total CPU metric is used as the load metric, and the average CPU metric is used for the scaling metric.
         /// This member is required.
         public var predefinedMetricType: AutoScalingClientTypes.PredefinedMetricPairType?
@@ -10730,7 +10730,7 @@ extension AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric: Swift
 
 extension AutoScalingClientTypes {
     /// Describes a scaling metric for a predictive scaling policy. When returned in the output of DescribePolicies, it indicates that a predictive scaling policy uses individually specified load and scaling metrics instead of a metric pair.
-    public struct PredictiveScalingPredefinedScalingMetric: Swift.Equatable {
+    public struct PredictiveScalingPredefinedScalingMetric {
         /// The metric type.
         /// This member is required.
         public var predefinedMetricType: AutoScalingClientTypes.PredefinedScalingMetricType?
@@ -10780,7 +10780,7 @@ extension AutoScalingClientTypes.ProcessType: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a process type. For more information, see [Scaling processes](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html#process-types) in the Amazon EC2 Auto Scaling User Guide.
-    public struct ProcessType: Swift.Equatable {
+    public struct ProcessType {
         /// One of the following processes:
         ///
         /// * Launch
@@ -10863,7 +10863,7 @@ extension PutLifecycleHookInput {
     }
 }
 
-public struct PutLifecycleHookInput: Swift.Equatable {
+public struct PutLifecycleHookInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -10921,7 +10921,7 @@ extension PutLifecycleHookOutput {
     }
 }
 
-public struct PutLifecycleHookOutput: Swift.Equatable {
+public struct PutLifecycleHookOutput {
 
     public init() { }
 }
@@ -10983,7 +10983,7 @@ extension PutNotificationConfigurationInput {
     }
 }
 
-public struct PutNotificationConfigurationInput: Swift.Equatable {
+public struct PutNotificationConfigurationInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -11015,7 +11015,7 @@ extension PutNotificationConfigurationOutput {
     }
 }
 
-public struct PutNotificationConfigurationOutput: Swift.Equatable {
+public struct PutNotificationConfigurationOutput {
 
     public init() { }
 }
@@ -11122,7 +11122,7 @@ extension PutScalingPolicyInput {
     }
 }
 
-public struct PutScalingPolicyInput: Swift.Equatable {
+public struct PutScalingPolicyInput {
     /// Specifies how the scaling adjustment is interpreted (for example, an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. Required if the policy type is StepScaling or SimpleScaling. For more information, see [Scaling adjustment types](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html#as-scaling-adjustment) in the Amazon EC2 Auto Scaling User Guide.
     public var adjustmentType: Swift.String?
     /// The name of the Auto Scaling group.
@@ -11223,7 +11223,7 @@ extension PutScalingPolicyOutput {
 }
 
 /// Contains the output of PutScalingPolicy.
-public struct PutScalingPolicyOutput: Swift.Equatable {
+public struct PutScalingPolicyOutput {
     /// The CloudWatch alarms created for the target tracking scaling policy.
     public var alarms: [AutoScalingClientTypes.Alarm]?
     /// The Amazon Resource Name (ARN) of the policy.
@@ -11316,7 +11316,7 @@ extension PutScheduledUpdateGroupActionInput {
     }
 }
 
-public struct PutScheduledUpdateGroupActionInput: Swift.Equatable {
+public struct PutScheduledUpdateGroupActionInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -11375,7 +11375,7 @@ extension PutScheduledUpdateGroupActionOutput {
     }
 }
 
-public struct PutScheduledUpdateGroupActionOutput: Swift.Equatable {
+public struct PutScheduledUpdateGroupActionOutput {
 
     public init() { }
 }
@@ -11437,7 +11437,7 @@ extension PutWarmPoolInput {
     }
 }
 
-public struct PutWarmPoolInput: Swift.Equatable {
+public struct PutWarmPoolInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -11475,7 +11475,7 @@ extension PutWarmPoolOutput {
     }
 }
 
-public struct PutWarmPoolOutput: Swift.Equatable {
+public struct PutWarmPoolOutput {
 
     public init() { }
 }
@@ -11532,7 +11532,7 @@ extension RecordLifecycleActionHeartbeatInput {
     }
 }
 
-public struct RecordLifecycleActionHeartbeatInput: Swift.Equatable {
+public struct RecordLifecycleActionHeartbeatInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -11567,7 +11567,7 @@ extension RecordLifecycleActionHeartbeatOutput {
     }
 }
 
-public struct RecordLifecycleActionHeartbeatOutput: Swift.Equatable {
+public struct RecordLifecycleActionHeartbeatOutput {
 
     public init() { }
 }
@@ -11667,7 +11667,7 @@ extension AutoScalingClientTypes.RefreshPreferences: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes the preferences for an instance refresh.
-    public struct RefreshPreferences: Swift.Equatable {
+    public struct RefreshPreferences {
         /// (Optional) The CloudWatch alarm specification. CloudWatch alarms can be used to identify any issues and fail the operation if an alarm threshold is met.
         public var alarmSpecification: AutoScalingClientTypes.AlarmSpecification?
         /// (Optional) Indicates whether to roll back the Auto Scaling group to its previous configuration if the instance refresh fails or a CloudWatch alarm threshold is met. The default is false. A rollback is not supported in the following situations:
@@ -11864,7 +11864,7 @@ extension ResumeProcessesInput {
     }
 }
 
-public struct ResumeProcessesInput: Swift.Equatable {
+public struct ResumeProcessesInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -11911,7 +11911,7 @@ extension ResumeProcessesOutput {
     }
 }
 
-public struct ResumeProcessesOutput: Swift.Equatable {
+public struct ResumeProcessesOutput {
 
     public init() { }
 }
@@ -11978,7 +11978,7 @@ extension AutoScalingClientTypes.RollbackDetails: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Details about an instance refresh rollback.
-    public struct RollbackDetails: Swift.Equatable {
+    public struct RollbackDetails {
         /// Indicates the value of InstancesToUpdate at the time the rollback started.
         public var instancesToUpdateOnRollback: Swift.Int?
         /// Indicates the value of PercentageComplete at the time the rollback started.
@@ -12030,7 +12030,7 @@ extension RollbackInstanceRefreshInput {
     }
 }
 
-public struct RollbackInstanceRefreshInput: Swift.Equatable {
+public struct RollbackInstanceRefreshInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -12056,7 +12056,7 @@ extension RollbackInstanceRefreshOutput {
     }
 }
 
-public struct RollbackInstanceRefreshOutput: Swift.Equatable {
+public struct RollbackInstanceRefreshOutput {
     /// The instance refresh ID associated with the request. This is the unique ID assigned to the instance refresh when it was started.
     public var instanceRefreshId: Swift.String?
 
@@ -12342,7 +12342,7 @@ extension AutoScalingClientTypes.ScalingPolicy: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a scaling policy.
-    public struct ScalingPolicy: Swift.Equatable {
+    public struct ScalingPolicy {
         /// Specifies how the scaling adjustment is interpreted (for example, an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public var adjustmentType: Swift.String?
         /// The CloudWatch alarms related to the policy.
@@ -12502,7 +12502,7 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupAction: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a scheduled scaling action.
-    public struct ScheduledUpdateGroupAction: Swift.Equatable {
+    public struct ScheduledUpdateGroupAction {
         /// The name of the Auto Scaling group.
         public var autoScalingGroupName: Swift.String?
         /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain.
@@ -12615,7 +12615,7 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupActionRequest: Swift.Encoda
 
 extension AutoScalingClientTypes {
     /// Describes information used for one or more scheduled scaling action updates in a [BatchPutScheduledUpdateGroupAction] operation.
-    public struct ScheduledUpdateGroupActionRequest: Swift.Equatable {
+    public struct ScheduledUpdateGroupActionRequest {
         /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain.
         public var desiredCapacity: Swift.Int?
         /// The date and time for the recurring schedule to end, in UTC.
@@ -12724,7 +12724,7 @@ extension SetDesiredCapacityInput {
     }
 }
 
-public struct SetDesiredCapacityInput: Swift.Equatable {
+public struct SetDesiredCapacityInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -12755,7 +12755,7 @@ extension SetDesiredCapacityOutput {
     }
 }
 
-public struct SetDesiredCapacityOutput: Swift.Equatable {
+public struct SetDesiredCapacityOutput {
 
     public init() { }
 }
@@ -12808,7 +12808,7 @@ extension SetInstanceHealthInput {
     }
 }
 
-public struct SetInstanceHealthInput: Swift.Equatable {
+public struct SetInstanceHealthInput {
     /// The health status of the instance. Set to Healthy to have the instance remain in service. Set to Unhealthy to have the instance be out of service. Amazon EC2 Auto Scaling terminates and replaces the unhealthy instance.
     /// This member is required.
     public var healthStatus: Swift.String?
@@ -12839,7 +12839,7 @@ extension SetInstanceHealthOutput {
     }
 }
 
-public struct SetInstanceHealthOutput: Swift.Equatable {
+public struct SetInstanceHealthOutput {
 
     public init() { }
 }
@@ -12900,7 +12900,7 @@ extension SetInstanceProtectionInput {
     }
 }
 
-public struct SetInstanceProtectionInput: Swift.Equatable {
+public struct SetInstanceProtectionInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -12932,7 +12932,7 @@ extension SetInstanceProtectionOutput {
     }
 }
 
-public struct SetInstanceProtectionOutput: Swift.Equatable {
+public struct SetInstanceProtectionOutput {
 
     public init() { }
 }
@@ -13024,7 +13024,7 @@ extension StartInstanceRefreshInput {
     }
 }
 
-public struct StartInstanceRefreshInput: Swift.Equatable {
+public struct StartInstanceRefreshInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -13070,7 +13070,7 @@ extension StartInstanceRefreshOutput {
     }
 }
 
-public struct StartInstanceRefreshOutput: Swift.Equatable {
+public struct StartInstanceRefreshOutput {
     /// A unique ID for tracking the progress of the instance refresh.
     public var instanceRefreshId: Swift.String?
 
@@ -13153,7 +13153,7 @@ extension AutoScalingClientTypes {
     ///
     ///
     /// For more information, see [Step adjustments](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html#as-scaling-steps) in the Amazon EC2 Auto Scaling User Guide.
-    public struct StepAdjustment: Swift.Equatable {
+    public struct StepAdjustment {
         /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it is exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
         public var metricIntervalLowerBound: Swift.Double?
         /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
@@ -13211,7 +13211,7 @@ extension SuspendProcessesInput {
     }
 }
 
-public struct SuspendProcessesInput: Swift.Equatable {
+public struct SuspendProcessesInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -13258,7 +13258,7 @@ extension SuspendProcessesOutput {
     }
 }
 
-public struct SuspendProcessesOutput: Swift.Equatable {
+public struct SuspendProcessesOutput {
 
     public init() { }
 }
@@ -13310,7 +13310,7 @@ extension AutoScalingClientTypes.SuspendedProcess: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes an auto scaling process that has been suspended. For more information, see [Scaling processes](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html#process-types) in the Amazon EC2 Auto Scaling User Guide.
-    public struct SuspendedProcess: Swift.Equatable {
+    public struct SuspendedProcess {
         /// The name of the suspended process.
         public var processName: Swift.String?
         /// The reason that the process was suspended.
@@ -13372,7 +13372,7 @@ extension AutoScalingClientTypes.Tag: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a tag for an Auto Scaling group.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag key.
         /// This member is required.
         public var key: Swift.String?
@@ -13447,7 +13447,7 @@ extension AutoScalingClientTypes.TagDescription: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a tag for an Auto Scaling group.
-    public struct TagDescription: Swift.Equatable {
+    public struct TagDescription {
         /// The tag key.
         public var key: Swift.String?
         /// Determines whether the tag is added to new instances as they are launched in the group.
@@ -13516,7 +13516,7 @@ extension AutoScalingClientTypes.TargetTrackingConfiguration: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Represents a target tracking scaling policy configuration to use with Amazon EC2 Auto Scaling.
-    public struct TargetTrackingConfiguration: Swift.Equatable {
+    public struct TargetTrackingConfiguration {
         /// A customized metric. You must specify either a predefined metric or a customized metric.
         public var customizedMetricSpecification: AutoScalingClientTypes.CustomizedMetricSpecification?
         /// Indicates whether scaling in by the target tracking scaling policy is disabled. If scaling in is disabled, the target tracking scaling policy doesn't remove instances from the Auto Scaling group. Otherwise, the target tracking scaling policy can remove instances from the Auto Scaling group. The default is false.
@@ -13587,7 +13587,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricDataQuery: Swift.Encodable 
 
 extension AutoScalingClientTypes {
     /// The metric data to return. Also defines whether this call is returning data for one metric only, or whether it is performing a math expression on the values of returned metric statistics to create a new time series. A time series is a series of data points, each of which is associated with a timestamp.
-    public struct TargetTrackingMetricDataQuery: Swift.Equatable {
+    public struct TargetTrackingMetricDataQuery {
         /// The math expression to perform on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. Conditional: Within each TargetTrackingMetricDataQuery object, you must specify either Expression or MetricStat, but not both.
         public var expression: Swift.String?
         /// A short name that identifies the object's results in the response. This name must be unique among all TargetTrackingMetricDataQuery objects specified for a single scaling policy. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscores. The first character must be a lowercase letter.
@@ -13652,7 +13652,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricStat: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// This structure defines the CloudWatch metric to return, along with the statistic and unit. For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
-    public struct TargetTrackingMetricStat: Swift.Equatable {
+    public struct TargetTrackingMetricStat {
         /// The metric to use.
         /// This member is required.
         public var metric: AutoScalingClientTypes.Metric?
@@ -13702,7 +13702,7 @@ extension TerminateInstanceInAutoScalingGroupInput {
     }
 }
 
-public struct TerminateInstanceInAutoScalingGroupInput: Swift.Equatable {
+public struct TerminateInstanceInAutoScalingGroupInput {
     /// The ID of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -13733,7 +13733,7 @@ extension TerminateInstanceInAutoScalingGroupOutput {
     }
 }
 
-public struct TerminateInstanceInAutoScalingGroupOutput: Swift.Equatable {
+public struct TerminateInstanceInAutoScalingGroupOutput {
     /// A scaling activity.
     public var activity: AutoScalingClientTypes.Activity?
 
@@ -13792,7 +13792,7 @@ extension AutoScalingClientTypes.TotalLocalStorageGBRequest: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Specifies the minimum and maximum for the TotalLocalStorageGB object when you specify [InstanceRequirements] for an Auto Scaling group.
-    public struct TotalLocalStorageGBRequest: Swift.Equatable {
+    public struct TotalLocalStorageGBRequest {
         /// The storage maximum in GB.
         public var max: Swift.Double?
         /// The storage minimum in GB.
@@ -13839,7 +13839,7 @@ extension AutoScalingClientTypes.TrafficSourceIdentifier: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Identifying information for a traffic source.
-    public struct TrafficSourceIdentifier: Swift.Equatable {
+    public struct TrafficSourceIdentifier {
         /// Identifies the traffic source. For Application Load Balancers, Gateway Load Balancers, Network Load Balancers, and VPC Lattice, this will be the Amazon Resource Name (ARN) for a target group in this account and Region. For Classic Load Balancers, this will be the name of the Classic Load Balancer in this account and Region. For example:
         ///
         /// * Application Load Balancer ARN: arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/1234567890123456
@@ -13915,7 +13915,7 @@ extension AutoScalingClientTypes.TrafficSourceState: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes the state of a traffic source.
-    public struct TrafficSourceState: Swift.Equatable {
+    public struct TrafficSourceState {
         /// The unique identifier of the traffic source.
         public var identifier: Swift.String?
         /// Describes the current state of a traffic source. The state values are as follows:
@@ -14085,7 +14085,7 @@ extension UpdateAutoScalingGroupInput {
     }
 }
 
-public struct UpdateAutoScalingGroupInput: Swift.Equatable {
+public struct UpdateAutoScalingGroupInput {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
@@ -14191,7 +14191,7 @@ extension UpdateAutoScalingGroupOutput {
     }
 }
 
-public struct UpdateAutoScalingGroupOutput: Swift.Equatable {
+public struct UpdateAutoScalingGroupOutput {
 
     public init() { }
 }
@@ -14244,7 +14244,7 @@ extension AutoScalingClientTypes.VCpuCountRequest: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Specifies the minimum and maximum for the VCpuCount object when you specify [InstanceRequirements] for an Auto Scaling group.
-    public struct VCpuCountRequest: Swift.Equatable {
+    public struct VCpuCountRequest {
         /// The maximum number of vCPUs.
         public var max: Swift.Int?
         /// The minimum number of vCPUs.
@@ -14307,7 +14307,7 @@ extension AutoScalingClientTypes.WarmPoolConfiguration: Swift.Encodable {
 
 extension AutoScalingClientTypes {
     /// Describes a warm pool configuration.
-    public struct WarmPoolConfiguration: Swift.Equatable {
+    public struct WarmPoolConfiguration {
         /// The instance reuse policy.
         public var instanceReusePolicy: AutoScalingClientTypes.InstanceReusePolicy?
         /// The maximum number of instances that are allowed to be in the warm pool or in any state except Terminated for the Auto Scaling group.

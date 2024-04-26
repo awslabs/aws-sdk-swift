@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -144,7 +144,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -220,7 +220,7 @@ extension CreateSpaceInput {
     }
 }
 
-public struct CreateSpaceInput: Swift.Equatable {
+public struct CreateSpaceInput {
     /// A description for the private re:Post. This is used only to help you identify this private re:Post.
     public var description: Swift.String?
     /// The name for the private re:Post. This must be unique in your account.
@@ -259,7 +259,7 @@ public struct CreateSpaceInput: Swift.Equatable {
     }
 }
 
-struct CreateSpaceInputBody: Swift.Equatable {
+struct CreateSpaceInputBody {
     let name: Swift.String?
     let subdomain: Swift.String?
     let tier: RepostspaceClientTypes.TierLevel?
@@ -320,7 +320,7 @@ extension CreateSpaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSpaceOutput: Swift.Equatable {
+public struct CreateSpaceOutput {
     /// The unique ID of the private re:Post.
     /// This member is required.
     public var spaceId: Swift.String?
@@ -333,7 +333,7 @@ public struct CreateSpaceOutput: Swift.Equatable {
     }
 }
 
-struct CreateSpaceOutputBody: Swift.Equatable {
+struct CreateSpaceOutputBody {
     let spaceId: Swift.String?
 }
 
@@ -376,7 +376,7 @@ extension DeleteSpaceInput {
     }
 }
 
-public struct DeleteSpaceInput: Swift.Equatable {
+public struct DeleteSpaceInput {
     /// The unique ID of the private re:Post.
     /// This member is required.
     public var spaceId: Swift.String?
@@ -389,7 +389,7 @@ public struct DeleteSpaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteSpaceInputBody: Swift.Equatable {
+struct DeleteSpaceInputBody {
 }
 
 extension DeleteSpaceInputBody: Swift.Decodable {
@@ -403,7 +403,7 @@ extension DeleteSpaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSpaceOutput: Swift.Equatable {
+public struct DeleteSpaceOutput {
 
     public init() { }
 }
@@ -436,7 +436,7 @@ extension DeregisterAdminInput {
     }
 }
 
-public struct DeregisterAdminInput: Swift.Equatable {
+public struct DeregisterAdminInput {
     /// The ID of the admin to remove.
     /// This member is required.
     public var adminId: Swift.String?
@@ -454,7 +454,7 @@ public struct DeregisterAdminInput: Swift.Equatable {
     }
 }
 
-struct DeregisterAdminInputBody: Swift.Equatable {
+struct DeregisterAdminInputBody {
 }
 
 extension DeregisterAdminInputBody: Swift.Decodable {
@@ -468,7 +468,7 @@ extension DeregisterAdminOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterAdminOutput: Swift.Equatable {
+public struct DeregisterAdminOutput {
 
     public init() { }
 }
@@ -498,7 +498,7 @@ extension GetSpaceInput {
     }
 }
 
-public struct GetSpaceInput: Swift.Equatable {
+public struct GetSpaceInput {
     /// The ID of the private re:Post.
     /// This member is required.
     public var spaceId: Swift.String?
@@ -511,7 +511,7 @@ public struct GetSpaceInput: Swift.Equatable {
     }
 }
 
-struct GetSpaceInputBody: Swift.Equatable {
+struct GetSpaceInputBody {
 }
 
 extension GetSpaceInputBody: Swift.Decodable {
@@ -575,7 +575,7 @@ extension GetSpaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSpaceOutput: Swift.Equatable {
+public struct GetSpaceOutput {
     /// The ARN of the private re:Post.
     /// This member is required.
     public var arn: Swift.String?
@@ -675,7 +675,7 @@ public struct GetSpaceOutput: Swift.Equatable {
     }
 }
 
-struct GetSpaceOutputBody: Swift.Equatable {
+struct GetSpaceOutputBody {
     let spaceId: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -849,7 +849,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -888,7 +888,7 @@ extension ListSpacesInput {
     }
 }
 
-public struct ListSpacesInput: Swift.Equatable {
+public struct ListSpacesInput {
     /// The maximum number of private re:Posts to include in the results.
     public var maxResults: Swift.Int?
     /// The token for the next set of private re:Posts to return. You receive this token from a previous ListSpaces operation.
@@ -904,7 +904,7 @@ public struct ListSpacesInput: Swift.Equatable {
     }
 }
 
-struct ListSpacesInputBody: Swift.Equatable {
+struct ListSpacesInputBody {
 }
 
 extension ListSpacesInputBody: Swift.Decodable {
@@ -927,7 +927,7 @@ extension ListSpacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSpacesOutput: Swift.Equatable {
+public struct ListSpacesOutput {
     /// The token that you use when you request the next set of private re:Posts.
     public var nextToken: Swift.String?
     /// An array of structures that contain some information about the private re:Posts in the account.
@@ -944,7 +944,7 @@ public struct ListSpacesOutput: Swift.Equatable {
     }
 }
 
-struct ListSpacesOutputBody: Swift.Equatable {
+struct ListSpacesOutputBody {
     let spaces: [RepostspaceClientTypes.SpaceData]?
     let nextToken: Swift.String?
 }
@@ -997,7 +997,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource that the tags are associated with.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1010,7 +1010,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -1036,7 +1036,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags that are associated with the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1048,7 +1048,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1101,7 +1101,7 @@ extension RegisterAdminInput {
     }
 }
 
-public struct RegisterAdminInput: Swift.Equatable {
+public struct RegisterAdminInput {
     /// The ID of the administrator.
     /// This member is required.
     public var adminId: Swift.String?
@@ -1119,7 +1119,7 @@ public struct RegisterAdminInput: Swift.Equatable {
     }
 }
 
-struct RegisterAdminInputBody: Swift.Equatable {
+struct RegisterAdminInputBody {
 }
 
 extension RegisterAdminInputBody: Swift.Decodable {
@@ -1133,7 +1133,7 @@ extension RegisterAdminOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterAdminOutput: Swift.Equatable {
+public struct RegisterAdminOutput {
 
     public init() { }
 }
@@ -1209,7 +1209,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -1272,7 +1272,7 @@ extension SendInvitesInput {
     }
 }
 
-public struct SendInvitesInput: Swift.Equatable {
+public struct SendInvitesInput {
     /// The array of identifiers for the users and groups.
     /// This member is required.
     public var accessorIds: [Swift.String]?
@@ -1300,7 +1300,7 @@ public struct SendInvitesInput: Swift.Equatable {
     }
 }
 
-struct SendInvitesInputBody: Swift.Equatable {
+struct SendInvitesInputBody {
     let accessorIds: [Swift.String]?
     let title: Swift.String?
     let body: Swift.String?
@@ -1338,7 +1338,7 @@ extension SendInvitesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendInvitesOutput: Swift.Equatable {
+public struct SendInvitesOutput {
 
     public init() { }
 }
@@ -1426,7 +1426,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -1574,7 +1574,7 @@ extension RepostspaceClientTypes.SpaceData: Swift.CustomDebugStringConvertible {
 
 extension RepostspaceClientTypes {
     /// A structure that contains some information about a private re:Post in the account.
-    public struct SpaceData: Swift.Equatable {
+    public struct SpaceData {
         /// The ARN of the private re:Post.
         /// This member is required.
         public var arn: Swift.String?
@@ -1690,7 +1690,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource that the tag is associated with.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1708,7 +1708,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1738,7 +1738,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -1819,7 +1819,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -1901,7 +1901,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1919,7 +1919,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -1933,7 +1933,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -1989,7 +1989,7 @@ extension UpdateSpaceInput {
     }
 }
 
-public struct UpdateSpaceInput: Swift.Equatable {
+public struct UpdateSpaceInput {
     /// A description for the private re:Post. This is used only to help you identify this private re:Post.
     public var description: Swift.String?
     /// The IAM role that grants permissions to the private re:Post to convert unanswered questions into AWS support tickets.
@@ -2014,7 +2014,7 @@ public struct UpdateSpaceInput: Swift.Equatable {
     }
 }
 
-struct UpdateSpaceInputBody: Swift.Equatable {
+struct UpdateSpaceInputBody {
     let description: Swift.String?
     let tier: RepostspaceClientTypes.TierLevel?
     let roleArn: Swift.String?
@@ -2043,7 +2043,7 @@ extension UpdateSpaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSpaceOutput: Swift.Equatable {
+public struct UpdateSpaceOutput {
 
     public init() { }
 }
@@ -2117,7 +2117,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: RepostspaceClientTypes.ValidationExceptionReason?
     let fieldList: [RepostspaceClientTypes.ValidationExceptionField]?
@@ -2177,7 +2177,7 @@ extension RepostspaceClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension RepostspaceClientTypes {
     /// Stores information about a field that’s passed inside a request that resulted in an exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The name of the field.
         /// This member is required.
         public var message: Swift.String?

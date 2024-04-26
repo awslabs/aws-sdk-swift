@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -110,7 +110,7 @@ extension AccountClientTypes.AlternateContact: Swift.CustomDebugStringConvertibl
 
 extension AccountClientTypes {
     /// A structure that contains the details of an alternate contact associated with an Amazon Web Services account
-    public struct AlternateContact: Swift.Equatable {
+    public struct AlternateContact {
         /// The type of alternate contact.
         public var alternateContactType: AccountClientTypes.AlternateContactType?
         /// The email address associated with this alternate contact.
@@ -215,7 +215,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -323,7 +323,7 @@ extension AccountClientTypes.ContactInformation: Swift.CustomDebugStringConverti
 
 extension AccountClientTypes {
     /// Contains the details of the primary contact information associated with an Amazon Web Services account.
-    public struct ContactInformation: Swift.Equatable {
+    public struct ContactInformation {
         /// The first line of the primary contact address.
         /// This member is required.
         public var addressLine1: Swift.String?
@@ -411,7 +411,7 @@ extension DeleteAlternateContactInput {
     }
 }
 
-public struct DeleteAlternateContactInput: Swift.Equatable {
+public struct DeleteAlternateContactInput {
     /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     public var accountId: Swift.String?
     /// Specifies which of the alternate contacts to delete.
@@ -428,7 +428,7 @@ public struct DeleteAlternateContactInput: Swift.Equatable {
     }
 }
 
-struct DeleteAlternateContactInputBody: Swift.Equatable {
+struct DeleteAlternateContactInputBody {
     let alternateContactType: AccountClientTypes.AlternateContactType?
     let accountId: Swift.String?
 }
@@ -453,7 +453,7 @@ extension DeleteAlternateContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAlternateContactOutput: Swift.Equatable {
+public struct DeleteAlternateContactOutput {
 
     public init() { }
 }
@@ -497,7 +497,7 @@ extension DisableRegionInput {
     }
 }
 
-public struct DisableRegionInput: Swift.Equatable {
+public struct DisableRegionInput {
     /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     public var accountId: Swift.String?
     /// Specifies the Region-code for a given Region name (for example, af-south-1). When you disable a Region, Amazon Web Services performs actions to deactivate that Region in your account, such as destroying IAM resources in the Region. This process takes a few minutes for most accounts, but this can take several hours. You cannot enable the Region until the disabling process is fully completed.
@@ -514,7 +514,7 @@ public struct DisableRegionInput: Swift.Equatable {
     }
 }
 
-struct DisableRegionInputBody: Swift.Equatable {
+struct DisableRegionInputBody {
     let accountId: Swift.String?
     let regionName: Swift.String?
 }
@@ -539,7 +539,7 @@ extension DisableRegionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableRegionOutput: Swift.Equatable {
+public struct DisableRegionOutput {
 
     public init() { }
 }
@@ -583,7 +583,7 @@ extension EnableRegionInput {
     }
 }
 
-public struct EnableRegionInput: Swift.Equatable {
+public struct EnableRegionInput {
     /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     public var accountId: Swift.String?
     /// Specifies the Region-code for a given Region name (for example, af-south-1). When you enable a Region, Amazon Web Services performs actions to prepare your account in that Region, such as distributing your IAM resources to the Region. This process takes a few minutes for most accounts, but it can take several hours. You cannot use the Region until this process is complete. Furthermore, you cannot disable the Region until the enabling process is fully completed.
@@ -600,7 +600,7 @@ public struct EnableRegionInput: Swift.Equatable {
     }
 }
 
-struct EnableRegionInputBody: Swift.Equatable {
+struct EnableRegionInputBody {
     let accountId: Swift.String?
     let regionName: Swift.String?
 }
@@ -625,7 +625,7 @@ extension EnableRegionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableRegionOutput: Swift.Equatable {
+public struct EnableRegionOutput {
 
     public init() { }
 }
@@ -669,7 +669,7 @@ extension GetAlternateContactInput {
     }
 }
 
-public struct GetAlternateContactInput: Swift.Equatable {
+public struct GetAlternateContactInput {
     /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     public var accountId: Swift.String?
     /// Specifies which alternate contact you want to retrieve.
@@ -686,7 +686,7 @@ public struct GetAlternateContactInput: Swift.Equatable {
     }
 }
 
-struct GetAlternateContactInputBody: Swift.Equatable {
+struct GetAlternateContactInputBody {
     let alternateContactType: AccountClientTypes.AlternateContactType?
     let accountId: Swift.String?
 }
@@ -718,7 +718,7 @@ extension GetAlternateContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAlternateContactOutput: Swift.Equatable {
+public struct GetAlternateContactOutput {
     /// A structure that contains the details for the specified alternate contact.
     public var alternateContact: AccountClientTypes.AlternateContact?
 
@@ -730,7 +730,7 @@ public struct GetAlternateContactOutput: Swift.Equatable {
     }
 }
 
-struct GetAlternateContactOutputBody: Swift.Equatable {
+struct GetAlternateContactOutputBody {
     let alternateContact: AccountClientTypes.AlternateContact?
 }
 
@@ -781,7 +781,7 @@ extension GetContactInformationInput {
     }
 }
 
-public struct GetContactInformationInput: Swift.Equatable {
+public struct GetContactInformationInput {
     /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     public var accountId: Swift.String?
 
@@ -793,7 +793,7 @@ public struct GetContactInformationInput: Swift.Equatable {
     }
 }
 
-struct GetContactInformationInputBody: Swift.Equatable {
+struct GetContactInformationInputBody {
     let accountId: Swift.String?
 }
 
@@ -821,7 +821,7 @@ extension GetContactInformationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContactInformationOutput: Swift.Equatable {
+public struct GetContactInformationOutput {
     /// Contains the details of the primary contact information associated with an Amazon Web Services account.
     public var contactInformation: AccountClientTypes.ContactInformation?
 
@@ -833,7 +833,7 @@ public struct GetContactInformationOutput: Swift.Equatable {
     }
 }
 
-struct GetContactInformationOutputBody: Swift.Equatable {
+struct GetContactInformationOutputBody {
     let contactInformation: AccountClientTypes.ContactInformation?
 }
 
@@ -888,7 +888,7 @@ extension GetRegionOptStatusInput {
     }
 }
 
-public struct GetRegionOptStatusInput: Swift.Equatable {
+public struct GetRegionOptStatusInput {
     /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     public var accountId: Swift.String?
     /// Specifies the Region-code for a given Region name (for example, af-south-1). This function will return the status of whatever Region you pass into this parameter.
@@ -905,7 +905,7 @@ public struct GetRegionOptStatusInput: Swift.Equatable {
     }
 }
 
-struct GetRegionOptStatusInputBody: Swift.Equatable {
+struct GetRegionOptStatusInputBody {
     let accountId: Swift.String?
     let regionName: Swift.String?
 }
@@ -939,7 +939,7 @@ extension GetRegionOptStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRegionOptStatusOutput: Swift.Equatable {
+public struct GetRegionOptStatusOutput {
     /// The Region code that was passed in.
     public var regionName: Swift.String?
     /// One of the potential statuses a Region can undergo (Enabled, Enabling, Disabled, Disabling, Enabled_By_Default).
@@ -955,7 +955,7 @@ public struct GetRegionOptStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetRegionOptStatusOutputBody: Swift.Equatable {
+struct GetRegionOptStatusOutputBody {
     let regionName: Swift.String?
     let regionOptStatus: AccountClientTypes.RegionOptStatus?
 }
@@ -1029,7 +1029,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1080,7 +1080,7 @@ extension ListRegionsInput {
     }
 }
 
-public struct ListRegionsInput: Swift.Equatable {
+public struct ListRegionsInput {
     /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     public var accountId: Swift.String?
     /// The total number of items to return in the command’s output. If the total number of items available is more than the value specified, a NextToken is provided in the command’s output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the Amazon Web Services CLI. For usage examples, see [Pagination](http://docs.aws.amazon.com/cli/latest/userguide/pagination.html) in the Amazon Web Services Command Line Interface User Guide.
@@ -1104,7 +1104,7 @@ public struct ListRegionsInput: Swift.Equatable {
     }
 }
 
-struct ListRegionsInputBody: Swift.Equatable {
+struct ListRegionsInputBody {
     let accountId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -1155,7 +1155,7 @@ extension ListRegionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRegionsOutput: Swift.Equatable {
+public struct ListRegionsOutput {
     /// If there is more data to be returned, this will be populated. It should be passed into the next-token request parameter of list-regions.
     public var nextToken: Swift.String?
     /// This is a list of Regions for a given account, or if the filtered parameter was used, a list of Regions that match the filter criteria set in the filter parameter.
@@ -1171,7 +1171,7 @@ public struct ListRegionsOutput: Swift.Equatable {
     }
 }
 
-struct ListRegionsOutputBody: Swift.Equatable {
+struct ListRegionsOutputBody {
     let nextToken: Swift.String?
     let regions: [AccountClientTypes.Region]?
 }
@@ -1259,7 +1259,7 @@ extension PutAlternateContactInput {
     }
 }
 
-public struct PutAlternateContactInput: Swift.Equatable {
+public struct PutAlternateContactInput {
     /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     public var accountId: Swift.String?
     /// Specifies which alternate contact you want to create or update.
@@ -1296,7 +1296,7 @@ public struct PutAlternateContactInput: Swift.Equatable {
     }
 }
 
-struct PutAlternateContactInputBody: Swift.Equatable {
+struct PutAlternateContactInputBody {
     let name: Swift.String?
     let title: Swift.String?
     let emailAddress: Swift.String?
@@ -1337,7 +1337,7 @@ extension PutAlternateContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAlternateContactOutput: Swift.Equatable {
+public struct PutAlternateContactOutput {
 
     public init() { }
 }
@@ -1380,7 +1380,7 @@ extension PutContactInformationInput {
     }
 }
 
-public struct PutContactInformationInput: Swift.Equatable {
+public struct PutContactInformationInput {
     /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     public var accountId: Swift.String?
     /// Contains the details of the primary contact information associated with an Amazon Web Services account.
@@ -1397,7 +1397,7 @@ public struct PutContactInformationInput: Swift.Equatable {
     }
 }
 
-struct PutContactInformationInputBody: Swift.Equatable {
+struct PutContactInformationInputBody {
     let contactInformation: AccountClientTypes.ContactInformation?
     let accountId: Swift.String?
 }
@@ -1422,7 +1422,7 @@ extension PutContactInformationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutContactInformationOutput: Swift.Equatable {
+public struct PutContactInformationOutput {
 
     public init() { }
 }
@@ -1468,7 +1468,7 @@ extension AccountClientTypes.Region: Swift.Codable {
 
 extension AccountClientTypes {
     /// This is a structure that expresses the Region for a given account, consisting of a name and opt-in status.
-    public struct Region: Swift.Equatable {
+    public struct Region {
         /// The Region code of a given Region (for example, us-east-1).
         public var regionName: Swift.String?
         /// One of potential statuses a Region can undergo (Enabled, Enabling, Disabled, Disabling, Enabled_By_Default).
@@ -1567,7 +1567,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1623,7 +1623,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -1697,7 +1697,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: AccountClientTypes.ValidationExceptionReason?
     let fieldList: [AccountClientTypes.ValidationExceptionField]?
@@ -1762,7 +1762,7 @@ extension AccountClientTypes.ValidationExceptionField: Swift.CustomDebugStringCo
 
 extension AccountClientTypes {
     /// The input failed to meet the constraints specified by the Amazon Web Services service in a specified field.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// A message about the validation exception.
         /// This member is required.
         public var message: Swift.String?

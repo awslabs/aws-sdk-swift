@@ -23,7 +23,7 @@ extension S3ControlClientTypes.AbortIncompleteMultipartUpload {
 
 extension S3ControlClientTypes {
     /// The container for abort incomplete multipart upload
-    public struct AbortIncompleteMultipartUpload: Swift.Equatable {
+    public struct AbortIncompleteMultipartUpload {
         /// Specifies the number of days after which Amazon S3 aborts an incomplete multipart upload to the Outposts bucket.
         public var daysAfterInitiation: Swift.Int
 
@@ -56,7 +56,7 @@ extension S3ControlClientTypes.AccessControlTranslation {
 
 extension S3ControlClientTypes {
     /// A container for information about access control for replicas. This is not supported by Amazon S3 on Outposts buckets.
-    public struct AccessControlTranslation: Swift.Equatable {
+    public struct AccessControlTranslation {
         /// Specifies the replica ownership.
         /// This member is required.
         public var owner: S3ControlClientTypes.OwnerOverride?
@@ -90,7 +90,7 @@ extension S3ControlClientTypes.AccessGrantsLocationConfiguration {
 
 extension S3ControlClientTypes {
     /// The configuration options of the S3 Access Grants location. It contains the S3SubPrefix field. The grant scope, the data to which you are granting access, is the result of appending the Subprefix field to the scope of the registered location.
-    public struct AccessGrantsLocationConfiguration: Swift.Equatable {
+    public struct AccessGrantsLocationConfiguration {
         /// The S3SubPrefix is appended to the location scope creating the grant scope. Use this field to narrow the scope of the grant to a subset of the location scope. This field is required if the location scope is the default location s3:// because you cannot create a grant for all of your S3 data in the Region and must narrow the scope. For example, if the location scope is the default location s3://, the S3SubPrefx can be a /*, so the full grant scope path would be s3:///*. Or the S3SubPrefx can be /*, so the full grant scope path would be or s3:///*. If the S3SubPrefix includes a prefix, append the wildcard character * after the prefix to indicate that you want to include all object key names in the bucket that start with that prefix.
         public var s3SubPrefix: Swift.String?
 
@@ -135,7 +135,7 @@ extension S3ControlClientTypes.AccessPoint {
 
 extension S3ControlClientTypes {
     /// An access point used to access a bucket.
-    public struct AccessPoint: Swift.Equatable {
+    public struct AccessPoint {
         /// The ARN for the access point.
         public var accessPointArn: Swift.String?
         /// The name or alias of the access point.
@@ -205,7 +205,7 @@ extension S3ControlClientTypes.AccountLevel {
 
 extension S3ControlClientTypes {
     /// A container element for the account-level Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
-    public struct AccountLevel: Swift.Equatable {
+    public struct AccountLevel {
         /// A container element for S3 Storage Lens activity metrics.
         public var activityMetrics: S3ControlClientTypes.ActivityMetrics?
         /// A container element for S3 Storage Lens advanced cost-optimization metrics.
@@ -259,7 +259,7 @@ extension S3ControlClientTypes.ActivityMetrics {
 
 extension S3ControlClientTypes {
     /// The container element for Amazon S3 Storage Lens activity metrics. Activity metrics show details about how your storage is requested, such as requests (for example, All requests, Get requests, Put requests), bytes uploaded or downloaded, and errors. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
-    public struct ActivityMetrics: Swift.Equatable {
+    public struct ActivityMetrics {
         /// A container that indicates whether activity metrics are enabled.
         public var isEnabled: Swift.Bool
 
@@ -292,7 +292,7 @@ extension S3ControlClientTypes.AdvancedCostOptimizationMetrics {
 
 extension S3ControlClientTypes {
     /// The container element for Amazon S3 Storage Lens advanced cost-optimization metrics. Advanced cost-optimization metrics provide insights that you can use to manage and optimize your storage costs, for example, lifecycle rule counts for transitions, expirations, and incomplete multipart uploads. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
-    public struct AdvancedCostOptimizationMetrics: Swift.Equatable {
+    public struct AdvancedCostOptimizationMetrics {
         /// A container that indicates whether advanced cost-optimization metrics are enabled.
         public var isEnabled: Swift.Bool
 
@@ -325,7 +325,7 @@ extension S3ControlClientTypes.AdvancedDataProtectionMetrics {
 
 extension S3ControlClientTypes {
     /// The container element for Amazon S3 Storage Lens advanced data-protection metrics. Advanced data-protection metrics provide insights that you can use to perform audits and protect your data, for example replication rule counts within and across Regions. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
-    public struct AdvancedDataProtectionMetrics: Swift.Equatable {
+    public struct AdvancedDataProtectionMetrics {
         /// A container that indicates whether advanced data-protection metrics are enabled.
         public var isEnabled: Swift.Bool
 
@@ -364,7 +364,7 @@ extension AssociateAccessGrantsIdentityCenterInput {
     }
 }
 
-public struct AssociateAccessGrantsIdentityCenterInput: Swift.Equatable {
+public struct AssociateAccessGrantsIdentityCenterInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -391,7 +391,7 @@ extension AssociateAccessGrantsIdentityCenterOutput {
     }
 }
 
-public struct AssociateAccessGrantsIdentityCenterOutput: Swift.Equatable {
+public struct AssociateAccessGrantsIdentityCenterOutput {
 
     public init() { }
 }
@@ -434,7 +434,7 @@ extension S3ControlClientTypes.AsyncErrorDetails {
 
 extension S3ControlClientTypes {
     /// Error details for the failed asynchronous operation.
-    public struct AsyncErrorDetails: Swift.Equatable {
+    public struct AsyncErrorDetails {
         /// A string that uniquely identifies the error condition.
         public var code: Swift.String?
         /// A generic description of the error condition in English.
@@ -489,7 +489,7 @@ extension S3ControlClientTypes.AsyncOperation {
 
 extension S3ControlClientTypes {
     /// A container for the information about an asynchronous operation.
-    public struct AsyncOperation: Swift.Equatable {
+    public struct AsyncOperation {
         /// The time that the request was sent to the service.
         public var creationTime: ClientRuntime.Date?
         /// The specific operation for the asynchronous request.
@@ -581,7 +581,7 @@ extension S3ControlClientTypes.AsyncRequestParameters {
 
 extension S3ControlClientTypes {
     /// A container for the request parameters associated with an asynchronous request.
-    public struct AsyncRequestParameters: Swift.Equatable {
+    public struct AsyncRequestParameters {
         /// A container of the parameters for a [CreateMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html) request.
         public var createMultiRegionAccessPointRequest: S3ControlClientTypes.CreateMultiRegionAccessPointInput?
         /// A container of the parameters for a [DeleteMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html) request.
@@ -624,7 +624,7 @@ extension S3ControlClientTypes.AsyncResponseDetails {
 
 extension S3ControlClientTypes {
     /// A container for the response details that are returned when querying about an asynchronous request.
-    public struct AsyncResponseDetails: Swift.Equatable {
+    public struct AsyncResponseDetails {
         /// Error details for an asynchronous request.
         public var errorDetails: S3ControlClientTypes.AsyncErrorDetails?
         /// The details for the Multi-Region Access Point.
@@ -663,7 +663,7 @@ extension S3ControlClientTypes.AwsLambdaTransformation {
 
 extension S3ControlClientTypes {
     /// Lambda function used to transform objects through an Object Lambda Access Point.
-    public struct AwsLambdaTransformation: Swift.Equatable {
+    public struct AwsLambdaTransformation {
         /// The Amazon Resource Name (ARN) of the Lambda function.
         /// This member is required.
         public var functionArn: Swift.String?
@@ -843,7 +843,7 @@ extension S3ControlClientTypes.BucketLevel {
 
 extension S3ControlClientTypes {
     /// A container for the bucket-level configuration for Amazon S3 Storage Lens. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide.
-    public struct BucketLevel: Swift.Equatable {
+    public struct BucketLevel {
         /// A container for the bucket-level activity metrics for S3 Storage Lens.
         public var activityMetrics: S3ControlClientTypes.ActivityMetrics?
         /// A container for bucket-level advanced cost-optimization metrics for S3 Storage Lens.
@@ -983,7 +983,7 @@ extension S3ControlClientTypes.CloudWatchMetrics {
 
 extension S3ControlClientTypes {
     /// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens metrics. For more information about publishing S3 Storage Lens metrics to CloudWatch, see [Monitor S3 Storage Lens metrics in CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_view_metrics_cloudwatch.html) in the Amazon S3 User Guide.
-    public struct CloudWatchMetrics: Swift.Equatable {
+    public struct CloudWatchMetrics {
         /// A container that indicates whether CloudWatch publishing for S3 Storage Lens metrics is enabled. A value of true indicates that CloudWatch publishing for S3 Storage Lens metrics is enabled.
         /// This member is required.
         public var isEnabled: Swift.Bool
@@ -1029,7 +1029,7 @@ extension CreateAccessGrantInput {
     }
 }
 
-public struct CreateAccessGrantInput: Swift.Equatable {
+public struct CreateAccessGrantInput {
     /// The configuration options of the grant location. The grant location is the S3 path to the data to which you are granting access. It contains the S3SubPrefix field. The grant scope is the result of appending the subprefix to the location scope of the registered location.
     public var accessGrantsLocationConfiguration: S3ControlClientTypes.AccessGrantsLocationConfiguration?
     /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register. If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
@@ -1100,7 +1100,7 @@ extension CreateAccessGrantOutput {
     }
 }
 
-public struct CreateAccessGrantOutput: Swift.Equatable {
+public struct CreateAccessGrantOutput {
     /// The Amazon Resource Name (ARN) of the access grant.
     public var accessGrantArn: Swift.String?
     /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
@@ -1189,7 +1189,7 @@ extension CreateAccessGrantsInstanceInput {
     }
 }
 
-public struct CreateAccessGrantsInstanceInput: Swift.Equatable {
+public struct CreateAccessGrantsInstanceInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1226,7 +1226,7 @@ extension CreateAccessGrantsInstanceOutput {
     }
 }
 
-public struct CreateAccessGrantsInstanceOutput: Swift.Equatable {
+public struct CreateAccessGrantsInstanceOutput {
     /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
     public var accessGrantsInstanceArn: Swift.String?
     /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
@@ -1290,7 +1290,7 @@ extension CreateAccessGrantsLocationInput {
     }
 }
 
-public struct CreateAccessGrantsLocationInput: Swift.Equatable {
+public struct CreateAccessGrantsLocationInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1334,7 +1334,7 @@ extension CreateAccessGrantsLocationOutput {
     }
 }
 
-public struct CreateAccessGrantsLocationOutput: Swift.Equatable {
+public struct CreateAccessGrantsLocationOutput {
     /// The Amazon Resource Name (ARN) of the location you are registering.
     public var accessGrantsLocationArn: Swift.String?
     /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
@@ -1403,7 +1403,7 @@ extension CreateAccessPointForObjectLambdaInput {
     }
 }
 
-public struct CreateAccessPointForObjectLambdaInput: Swift.Equatable {
+public struct CreateAccessPointForObjectLambdaInput {
     /// The Amazon Web Services account ID for owner of the specified Object Lambda Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1440,7 +1440,7 @@ extension CreateAccessPointForObjectLambdaOutput {
     }
 }
 
-public struct CreateAccessPointForObjectLambdaOutput: Swift.Equatable {
+public struct CreateAccessPointForObjectLambdaOutput {
     /// The alias of the Object Lambda Access Point.
     public var alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
     /// Specifies the ARN for the Object Lambda Access Point.
@@ -1500,7 +1500,7 @@ extension CreateAccessPointInput {
     }
 }
 
-public struct CreateAccessPointInput: Swift.Equatable {
+public struct CreateAccessPointInput {
     /// The Amazon Web Services account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1549,7 +1549,7 @@ extension CreateAccessPointOutput {
     }
 }
 
-public struct CreateAccessPointOutput: Swift.Equatable {
+public struct CreateAccessPointOutput {
     /// The ARN of the access point. This is only supported by Amazon S3 on Outposts.
     public var accessPointArn: Swift.String?
     /// The name or alias of the access point.
@@ -1597,7 +1597,7 @@ extension S3ControlClientTypes.CreateBucketConfiguration {
 
 extension S3ControlClientTypes {
     /// The container for the bucket configuration. This is not supported by Amazon S3 on Outposts buckets.
-    public struct CreateBucketConfiguration: Swift.Equatable {
+    public struct CreateBucketConfiguration {
         /// Specifies the Region where the bucket will be created. If you are creating a bucket on the US East (N. Virginia) Region (us-east-1), you do not need to specify the location. This is not supported by Amazon S3 on Outposts buckets.
         public var locationConstraint: S3ControlClientTypes.BucketLocationConstraint?
 
@@ -1660,7 +1660,7 @@ extension CreateBucketInput {
     }
 }
 
-public struct CreateBucketInput: Swift.Equatable {
+public struct CreateBucketInput {
     /// The canned ACL to apply to the bucket. This is not supported by Amazon S3 on Outposts buckets.
     public var acl: S3ControlClientTypes.BucketCannedACL?
     /// The name of the bucket.
@@ -1725,7 +1725,7 @@ extension CreateBucketOutput {
     }
 }
 
-public struct CreateBucketOutput: Swift.Equatable {
+public struct CreateBucketOutput {
     /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     public var bucketArn: Swift.String?
     /// The location of the bucket.
@@ -1791,7 +1791,7 @@ extension CreateJobInput {
     }
 }
 
-public struct CreateJobInput: Swift.Equatable {
+public struct CreateJobInput {
     /// The Amazon Web Services account ID that creates the job.
     /// This member is required.
     public var accountId: Swift.String?
@@ -1862,7 +1862,7 @@ extension CreateJobOutput {
     }
 }
 
-public struct CreateJobOutput: Swift.Equatable {
+public struct CreateJobOutput {
     /// The ID for this job. Amazon S3 generates this ID automatically and returns it after a successful Create Job request.
     public var jobId: Swift.String?
 
@@ -1941,7 +1941,7 @@ extension CreateMultiRegionAccessPointInput {
 
 extension S3ControlClientTypes {
     /// A container for the information associated with a [CreateMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html) request.
-    public struct CreateMultiRegionAccessPointInput: Swift.Equatable {
+    public struct CreateMultiRegionAccessPointInput {
         /// The name of the Multi-Region Access Point associated with this request.
         /// This member is required.
         public var name: Swift.String?
@@ -1965,7 +1965,7 @@ extension S3ControlClientTypes {
 
 }
 
-public struct CreateMultiRegionAccessPointInput: Swift.Equatable {
+public struct CreateMultiRegionAccessPointInput {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. The owner of the Multi-Region Access Point also must own the underlying buckets.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2001,7 +2001,7 @@ extension CreateMultiRegionAccessPointOutput {
     }
 }
 
-public struct CreateMultiRegionAccessPointOutput: Swift.Equatable {
+public struct CreateMultiRegionAccessPointOutput {
     /// The request token associated with the request. You can use this token with [DescribeMultiRegionAccessPointOperation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html) to determine the status of asynchronous requests.
     public var requestTokenARN: Swift.String?
 
@@ -2052,7 +2052,7 @@ extension CreateStorageLensGroupInput {
     }
 }
 
-public struct CreateStorageLensGroupInput: Swift.Equatable {
+public struct CreateStorageLensGroupInput {
     /// The Amazon Web Services account ID that the Storage Lens group is created from and associated with.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2083,7 +2083,7 @@ extension CreateStorageLensGroupOutput {
     }
 }
 
-public struct CreateStorageLensGroupOutput: Swift.Equatable {
+public struct CreateStorageLensGroupOutput {
 
     public init() { }
 }
@@ -2132,7 +2132,7 @@ extension S3ControlClientTypes.Credentials: Swift.CustomDebugStringConvertible {
 
 extension S3ControlClientTypes {
     /// The Amazon Web Services Security Token Service temporary credential that S3 Access Grants vends to grantees and client applications.
-    public struct Credentials: Swift.Equatable {
+    public struct Credentials {
         /// The unique access key ID of the Amazon Web Services STS temporary credential that S3 Access Grants vends to grantees and client applications.
         public var accessKeyId: Swift.String?
         /// The expiration date and time of the temporary credential that S3 Access Grants vends to grantees and client applications.
@@ -2179,7 +2179,7 @@ extension DeleteAccessGrantInput {
     }
 }
 
-public struct DeleteAccessGrantInput: Swift.Equatable {
+public struct DeleteAccessGrantInput {
     /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
     /// This member is required.
     public var accessGrantId: Swift.String?
@@ -2206,7 +2206,7 @@ extension DeleteAccessGrantOutput {
     }
 }
 
-public struct DeleteAccessGrantOutput: Swift.Equatable {
+public struct DeleteAccessGrantOutput {
 
     public init() { }
 }
@@ -2242,7 +2242,7 @@ extension DeleteAccessGrantsInstanceInput {
     }
 }
 
-public struct DeleteAccessGrantsInstanceInput: Swift.Equatable {
+public struct DeleteAccessGrantsInstanceInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2264,7 +2264,7 @@ extension DeleteAccessGrantsInstanceOutput {
     }
 }
 
-public struct DeleteAccessGrantsInstanceOutput: Swift.Equatable {
+public struct DeleteAccessGrantsInstanceOutput {
 
     public init() { }
 }
@@ -2300,7 +2300,7 @@ extension DeleteAccessGrantsInstanceResourcePolicyInput {
     }
 }
 
-public struct DeleteAccessGrantsInstanceResourcePolicyInput: Swift.Equatable {
+public struct DeleteAccessGrantsInstanceResourcePolicyInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2322,7 +2322,7 @@ extension DeleteAccessGrantsInstanceResourcePolicyOutput {
     }
 }
 
-public struct DeleteAccessGrantsInstanceResourcePolicyOutput: Swift.Equatable {
+public struct DeleteAccessGrantsInstanceResourcePolicyOutput {
 
     public init() { }
 }
@@ -2361,7 +2361,7 @@ extension DeleteAccessGrantsLocationInput {
     }
 }
 
-public struct DeleteAccessGrantsLocationInput: Swift.Equatable {
+public struct DeleteAccessGrantsLocationInput {
     /// The ID of the registered location that you are deregistering from your S3 Access Grants instance. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
     /// This member is required.
     public var accessGrantsLocationId: Swift.String?
@@ -2388,7 +2388,7 @@ extension DeleteAccessGrantsLocationOutput {
     }
 }
 
-public struct DeleteAccessGrantsLocationOutput: Swift.Equatable {
+public struct DeleteAccessGrantsLocationOutput {
 
     public init() { }
 }
@@ -2427,7 +2427,7 @@ extension DeleteAccessPointForObjectLambdaInput {
     }
 }
 
-public struct DeleteAccessPointForObjectLambdaInput: Swift.Equatable {
+public struct DeleteAccessPointForObjectLambdaInput {
     /// The account ID for the account that owns the specified Object Lambda Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2454,7 +2454,7 @@ extension DeleteAccessPointForObjectLambdaOutput {
     }
 }
 
-public struct DeleteAccessPointForObjectLambdaOutput: Swift.Equatable {
+public struct DeleteAccessPointForObjectLambdaOutput {
 
     public init() { }
 }
@@ -2493,7 +2493,7 @@ extension DeleteAccessPointInput {
     }
 }
 
-public struct DeleteAccessPointInput: Swift.Equatable {
+public struct DeleteAccessPointInput {
     /// The Amazon Web Services account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2520,7 +2520,7 @@ extension DeleteAccessPointOutput {
     }
 }
 
-public struct DeleteAccessPointOutput: Swift.Equatable {
+public struct DeleteAccessPointOutput {
 
     public init() { }
 }
@@ -2559,7 +2559,7 @@ extension DeleteAccessPointPolicyForObjectLambdaInput {
     }
 }
 
-public struct DeleteAccessPointPolicyForObjectLambdaInput: Swift.Equatable {
+public struct DeleteAccessPointPolicyForObjectLambdaInput {
     /// The account ID for the account that owns the specified Object Lambda Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2586,7 +2586,7 @@ extension DeleteAccessPointPolicyForObjectLambdaOutput {
     }
 }
 
-public struct DeleteAccessPointPolicyForObjectLambdaOutput: Swift.Equatable {
+public struct DeleteAccessPointPolicyForObjectLambdaOutput {
 
     public init() { }
 }
@@ -2625,7 +2625,7 @@ extension DeleteAccessPointPolicyInput {
     }
 }
 
-public struct DeleteAccessPointPolicyInput: Swift.Equatable {
+public struct DeleteAccessPointPolicyInput {
     /// The account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2652,7 +2652,7 @@ extension DeleteAccessPointPolicyOutput {
     }
 }
 
-public struct DeleteAccessPointPolicyOutput: Swift.Equatable {
+public struct DeleteAccessPointPolicyOutput {
 
     public init() { }
 }
@@ -2691,7 +2691,7 @@ extension DeleteBucketInput {
     }
 }
 
-public struct DeleteBucketInput: Swift.Equatable {
+public struct DeleteBucketInput {
     /// The account ID that owns the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2730,7 +2730,7 @@ extension DeleteBucketLifecycleConfigurationInput {
     }
 }
 
-public struct DeleteBucketLifecycleConfigurationInput: Swift.Equatable {
+public struct DeleteBucketLifecycleConfigurationInput {
     /// The account ID of the lifecycle configuration to delete.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2757,7 +2757,7 @@ extension DeleteBucketLifecycleConfigurationOutput {
     }
 }
 
-public struct DeleteBucketLifecycleConfigurationOutput: Swift.Equatable {
+public struct DeleteBucketLifecycleConfigurationOutput {
 
     public init() { }
 }
@@ -2784,7 +2784,7 @@ extension DeleteBucketOutput {
     }
 }
 
-public struct DeleteBucketOutput: Swift.Equatable {
+public struct DeleteBucketOutput {
 
     public init() { }
 }
@@ -2823,7 +2823,7 @@ extension DeleteBucketPolicyInput {
     }
 }
 
-public struct DeleteBucketPolicyInput: Swift.Equatable {
+public struct DeleteBucketPolicyInput {
     /// The account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2850,7 +2850,7 @@ extension DeleteBucketPolicyOutput {
     }
 }
 
-public struct DeleteBucketPolicyOutput: Swift.Equatable {
+public struct DeleteBucketPolicyOutput {
 
     public init() { }
 }
@@ -2889,7 +2889,7 @@ extension DeleteBucketReplicationInput {
     }
 }
 
-public struct DeleteBucketReplicationInput: Swift.Equatable {
+public struct DeleteBucketReplicationInput {
     /// The Amazon Web Services account ID of the Outposts bucket to delete the replication configuration for.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2916,7 +2916,7 @@ extension DeleteBucketReplicationOutput {
     }
 }
 
-public struct DeleteBucketReplicationOutput: Swift.Equatable {
+public struct DeleteBucketReplicationOutput {
 
     public init() { }
 }
@@ -2955,7 +2955,7 @@ extension DeleteBucketTaggingInput {
     }
 }
 
-public struct DeleteBucketTaggingInput: Swift.Equatable {
+public struct DeleteBucketTaggingInput {
     /// The Amazon Web Services account ID of the Outposts bucket tag set to be removed.
     /// This member is required.
     public var accountId: Swift.String?
@@ -2982,7 +2982,7 @@ extension DeleteBucketTaggingOutput {
     }
 }
 
-public struct DeleteBucketTaggingOutput: Swift.Equatable {
+public struct DeleteBucketTaggingOutput {
 
     public init() { }
 }
@@ -3021,7 +3021,7 @@ extension DeleteJobTaggingInput {
     }
 }
 
-public struct DeleteJobTaggingInput: Swift.Equatable {
+public struct DeleteJobTaggingInput {
     /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3048,7 +3048,7 @@ extension DeleteJobTaggingOutput {
     }
 }
 
-public struct DeleteJobTaggingOutput: Swift.Equatable {
+public struct DeleteJobTaggingOutput {
 
     public init() { }
 }
@@ -3089,7 +3089,7 @@ extension S3ControlClientTypes.DeleteMarkerReplication {
 
 extension S3ControlClientTypes {
     /// Specifies whether S3 on Outposts replicates delete markers. If you specify a Filter element in your replication configuration, you must also include a DeleteMarkerReplication element. If your Filter includes a Tag element, the DeleteMarkerReplication element's Status child element must be set to Disabled, because S3 on Outposts does not support replicating delete markers for tag-based rules. For more information about delete marker replication, see [How delete operations affect replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html#outposts-replication-what-is-replicated) in the Amazon S3 User Guide.
-    public struct DeleteMarkerReplication: Swift.Equatable {
+    public struct DeleteMarkerReplication {
         /// Indicates whether to replicate delete markers.
         /// This member is required.
         public var status: S3ControlClientTypes.DeleteMarkerReplicationStatus?
@@ -3181,7 +3181,7 @@ extension DeleteMultiRegionAccessPointInput {
 
 extension S3ControlClientTypes {
     /// A container for the information associated with a [DeleteMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html) request.
-    public struct DeleteMultiRegionAccessPointInput: Swift.Equatable {
+    public struct DeleteMultiRegionAccessPointInput {
         /// The name of the Multi-Region Access Point associated with this request.
         /// This member is required.
         public var name: Swift.String?
@@ -3196,7 +3196,7 @@ extension S3ControlClientTypes {
 
 }
 
-public struct DeleteMultiRegionAccessPointInput: Swift.Equatable {
+public struct DeleteMultiRegionAccessPointInput {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3232,7 +3232,7 @@ extension DeleteMultiRegionAccessPointOutput {
     }
 }
 
-public struct DeleteMultiRegionAccessPointOutput: Swift.Equatable {
+public struct DeleteMultiRegionAccessPointOutput {
     /// The request token associated with the request. You can use this token with [DescribeMultiRegionAccessPointOperation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html) to determine the status of asynchronous requests.
     public var requestTokenARN: Swift.String?
 
@@ -3275,7 +3275,7 @@ extension DeletePublicAccessBlockInput {
     }
 }
 
-public struct DeletePublicAccessBlockInput: Swift.Equatable {
+public struct DeletePublicAccessBlockInput {
     /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to remove.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3297,7 +3297,7 @@ extension DeletePublicAccessBlockOutput {
     }
 }
 
-public struct DeletePublicAccessBlockOutput: Swift.Equatable {
+public struct DeletePublicAccessBlockOutput {
 
     public init() { }
 }
@@ -3336,7 +3336,7 @@ extension DeleteStorageLensConfigurationInput {
     }
 }
 
-public struct DeleteStorageLensConfigurationInput: Swift.Equatable {
+public struct DeleteStorageLensConfigurationInput {
     /// The account ID of the requester.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3363,7 +3363,7 @@ extension DeleteStorageLensConfigurationOutput {
     }
 }
 
-public struct DeleteStorageLensConfigurationOutput: Swift.Equatable {
+public struct DeleteStorageLensConfigurationOutput {
 
     public init() { }
 }
@@ -3402,7 +3402,7 @@ extension DeleteStorageLensConfigurationTaggingInput {
     }
 }
 
-public struct DeleteStorageLensConfigurationTaggingInput: Swift.Equatable {
+public struct DeleteStorageLensConfigurationTaggingInput {
     /// The account ID of the requester.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3429,7 +3429,7 @@ extension DeleteStorageLensConfigurationTaggingOutput {
     }
 }
 
-public struct DeleteStorageLensConfigurationTaggingOutput: Swift.Equatable {
+public struct DeleteStorageLensConfigurationTaggingOutput {
 
     public init() { }
 }
@@ -3468,7 +3468,7 @@ extension DeleteStorageLensGroupInput {
     }
 }
 
-public struct DeleteStorageLensGroupInput: Swift.Equatable {
+public struct DeleteStorageLensGroupInput {
     /// The Amazon Web Services account ID used to create the Storage Lens group that you're trying to delete.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3495,7 +3495,7 @@ extension DeleteStorageLensGroupOutput {
     }
 }
 
-public struct DeleteStorageLensGroupOutput: Swift.Equatable {
+public struct DeleteStorageLensGroupOutput {
 
     public init() { }
 }
@@ -3534,7 +3534,7 @@ extension DescribeJobInput {
     }
 }
 
-public struct DescribeJobInput: Swift.Equatable {
+public struct DescribeJobInput {
     /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3565,7 +3565,7 @@ extension DescribeJobOutput {
     }
 }
 
-public struct DescribeJobOutput: Swift.Equatable {
+public struct DescribeJobOutput {
     /// Contains the configuration parameters and status for the job specified in the Describe Job request.
     public var job: S3ControlClientTypes.JobDescriptor?
 
@@ -3616,7 +3616,7 @@ extension DescribeMultiRegionAccessPointOperationInput {
     }
 }
 
-public struct DescribeMultiRegionAccessPointOperationInput: Swift.Equatable {
+public struct DescribeMultiRegionAccessPointOperationInput {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3647,7 +3647,7 @@ extension DescribeMultiRegionAccessPointOperationOutput {
     }
 }
 
-public struct DescribeMultiRegionAccessPointOperationOutput: Swift.Equatable {
+public struct DescribeMultiRegionAccessPointOperationOutput {
     /// A container element containing the details of the asynchronous operation.
     public var asyncOperation: S3ControlClientTypes.AsyncOperation?
 
@@ -3703,7 +3703,7 @@ extension S3ControlClientTypes.Destination {
 
 extension S3ControlClientTypes {
     /// Specifies information about the replication destination bucket and its settings for an S3 on Outposts replication configuration.
-    public struct Destination: Swift.Equatable {
+    public struct Destination {
         /// Specify this property only in a cross-account scenario (where the source and destination bucket owners are not the same), and you want to change replica ownership to the Amazon Web Services account that owns the destination bucket. If this property is not specified in the replication configuration, the replicas are owned by same Amazon Web Services account that owns the source object. This is not supported by Amazon S3 on Outposts buckets.
         public var accessControlTranslation: S3ControlClientTypes.AccessControlTranslation?
         /// The destination bucket owner's account ID.
@@ -3761,7 +3761,7 @@ extension S3ControlClientTypes.DetailedStatusCodesMetrics {
 
 extension S3ControlClientTypes {
     /// The container element for Amazon S3 Storage Lens detailed status code metrics. Detailed status code metrics generate metrics for HTTP status codes, such as 200 OK, 403 Forbidden, 503 Service Unavailable and others. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
-    public struct DetailedStatusCodesMetrics: Swift.Equatable {
+    public struct DetailedStatusCodesMetrics {
         /// A container that indicates whether detailed status code metrics are enabled.
         public var isEnabled: Swift.Bool
 
@@ -3793,7 +3793,7 @@ extension DissociateAccessGrantsIdentityCenterInput {
     }
 }
 
-public struct DissociateAccessGrantsIdentityCenterInput: Swift.Equatable {
+public struct DissociateAccessGrantsIdentityCenterInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -3815,7 +3815,7 @@ extension DissociateAccessGrantsIdentityCenterOutput {
     }
 }
 
-public struct DissociateAccessGrantsIdentityCenterOutput: Swift.Equatable {
+public struct DissociateAccessGrantsIdentityCenterOutput {
 
     public init() { }
 }
@@ -3852,7 +3852,7 @@ extension S3ControlClientTypes.EncryptionConfiguration {
 
 extension S3ControlClientTypes {
     /// Specifies encryption-related information for an Amazon S3 bucket that is a destination for replicated objects. This is not supported by Amazon S3 on Outposts buckets.
-    public struct EncryptionConfiguration: Swift.Equatable {
+    public struct EncryptionConfiguration {
         /// Specifies the ID of the customer managed KMS key that's stored in Key Management Service (KMS) for the destination bucket. This ID is either the Amazon Resource Name (ARN) for the KMS key or the alias ARN for the KMS key. Amazon S3 uses this KMS key to encrypt replica objects. Amazon S3 supports only symmetric encryption KMS keys. For more information, see [Symmetric encryption KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#symmetric-cmks) in the Amazon Web Services Key Management Service Developer Guide.
         public var replicaKmsKeyID: Swift.String?
 
@@ -3885,7 +3885,7 @@ extension S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy {
 
 extension S3ControlClientTypes {
     /// The last established access control policy for a Multi-Region Access Point. When you update the policy, the update is first listed as the proposed policy. After the update is finished and all Regions have been updated, the proposed policy is listed as the established policy. If both policies have the same version number, the proposed policy is the established policy.
-    public struct EstablishedMultiRegionAccessPointPolicy: Swift.Equatable {
+    public struct EstablishedMultiRegionAccessPointPolicy {
         /// The details of the last established policy.
         public var policy: Swift.String?
 
@@ -3920,7 +3920,7 @@ extension S3ControlClientTypes.Exclude {
 
 extension S3ControlClientTypes {
     /// A container for what Amazon S3 Storage Lens will exclude.
-    public struct Exclude: Swift.Equatable {
+    public struct Exclude {
         /// A container for the S3 Storage Lens bucket excludes.
         public var buckets: [Swift.String]?
         /// A container for the S3 Storage Lens Region excludes.
@@ -3957,7 +3957,7 @@ extension S3ControlClientTypes.ExistingObjectReplication {
 
 extension S3ControlClientTypes {
     /// An optional configuration to replicate existing source bucket objects. This is not supported by Amazon S3 on Outposts buckets.
-    public struct ExistingObjectReplication: Swift.Equatable {
+    public struct ExistingObjectReplication {
         /// Specifies whether Amazon S3 replicates existing source bucket objects.
         /// This member is required.
         public var status: S3ControlClientTypes.ExistingObjectReplicationStatus?
@@ -4089,7 +4089,7 @@ extension S3ControlClientTypes.GeneratedManifestEncryption {
 
 extension S3ControlClientTypes {
     /// The encryption configuration to use when storing the generated manifest.
-    public struct GeneratedManifestEncryption: Swift.Equatable {
+    public struct GeneratedManifestEncryption {
         /// Configuration details on how SSE-KMS is used to encrypt generated manifest objects.
         public var ssekms: S3ControlClientTypes.SSEKMSEncryption?
         /// Specifies the use of SSE-S3 to encrypt generated manifest objects.
@@ -4157,7 +4157,7 @@ extension GetAccessGrantInput {
     }
 }
 
-public struct GetAccessGrantInput: Swift.Equatable {
+public struct GetAccessGrantInput {
     /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
     /// This member is required.
     public var accessGrantId: Swift.String?
@@ -4196,7 +4196,7 @@ extension GetAccessGrantOutput {
     }
 }
 
-public struct GetAccessGrantOutput: Swift.Equatable {
+public struct GetAccessGrantOutput {
     /// The Amazon Resource Name (ARN) of the access grant.
     public var accessGrantArn: Swift.String?
     /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
@@ -4291,7 +4291,7 @@ extension GetAccessGrantsInstanceForPrefixInput {
     }
 }
 
-public struct GetAccessGrantsInstanceForPrefixInput: Swift.Equatable {
+public struct GetAccessGrantsInstanceForPrefixInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4323,7 +4323,7 @@ extension GetAccessGrantsInstanceForPrefixOutput {
     }
 }
 
-public struct GetAccessGrantsInstanceForPrefixOutput: Swift.Equatable {
+public struct GetAccessGrantsInstanceForPrefixOutput {
     /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
     public var accessGrantsInstanceArn: Swift.String?
     /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
@@ -4370,7 +4370,7 @@ extension GetAccessGrantsInstanceInput {
     }
 }
 
-public struct GetAccessGrantsInstanceInput: Swift.Equatable {
+public struct GetAccessGrantsInstanceInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4399,7 +4399,7 @@ extension GetAccessGrantsInstanceOutput {
     }
 }
 
-public struct GetAccessGrantsInstanceOutput: Swift.Equatable {
+public struct GetAccessGrantsInstanceOutput {
     /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
     public var accessGrantsInstanceArn: Swift.String?
     /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
@@ -4454,7 +4454,7 @@ extension GetAccessGrantsInstanceResourcePolicyInput {
     }
 }
 
-public struct GetAccessGrantsInstanceResourcePolicyInput: Swift.Equatable {
+public struct GetAccessGrantsInstanceResourcePolicyInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4482,7 +4482,7 @@ extension GetAccessGrantsInstanceResourcePolicyOutput {
     }
 }
 
-public struct GetAccessGrantsInstanceResourcePolicyOutput: Swift.Equatable {
+public struct GetAccessGrantsInstanceResourcePolicyOutput {
     /// The date and time when you created the S3 Access Grants instance resource policy.
     public var createdAt: ClientRuntime.Date?
     /// The Organization of the resource policy of the S3 Access Grants instance.
@@ -4536,7 +4536,7 @@ extension GetAccessGrantsLocationInput {
     }
 }
 
-public struct GetAccessGrantsLocationInput: Swift.Equatable {
+public struct GetAccessGrantsLocationInput {
     /// The ID of the registered location that you are retrieving. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
     /// This member is required.
     public var accessGrantsLocationId: Swift.String?
@@ -4571,7 +4571,7 @@ extension GetAccessGrantsLocationOutput {
     }
 }
 
-public struct GetAccessGrantsLocationOutput: Swift.Equatable {
+public struct GetAccessGrantsLocationOutput {
     /// The Amazon Resource Name (ARN) of the registered location.
     public var accessGrantsLocationArn: Swift.String?
     /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
@@ -4633,7 +4633,7 @@ extension GetAccessPointConfigurationForObjectLambdaInput {
     }
 }
 
-public struct GetAccessPointConfigurationForObjectLambdaInput: Swift.Equatable {
+public struct GetAccessPointConfigurationForObjectLambdaInput {
     /// The account ID for the account that owns the specified Object Lambda Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4664,7 +4664,7 @@ extension GetAccessPointConfigurationForObjectLambdaOutput {
     }
 }
 
-public struct GetAccessPointConfigurationForObjectLambdaOutput: Swift.Equatable {
+public struct GetAccessPointConfigurationForObjectLambdaOutput {
     /// Object Lambda Access Point configuration document.
     public var configuration: S3ControlClientTypes.ObjectLambdaConfiguration?
 
@@ -4710,7 +4710,7 @@ extension GetAccessPointForObjectLambdaInput {
     }
 }
 
-public struct GetAccessPointForObjectLambdaInput: Swift.Equatable {
+public struct GetAccessPointForObjectLambdaInput {
     /// The account ID for the account that owns the specified Object Lambda Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4744,7 +4744,7 @@ extension GetAccessPointForObjectLambdaOutput {
     }
 }
 
-public struct GetAccessPointForObjectLambdaOutput: Swift.Equatable {
+public struct GetAccessPointForObjectLambdaOutput {
     /// The alias of the Object Lambda Access Point.
     public var alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
     /// The date and time when the specified Object Lambda Access Point was created.
@@ -4802,7 +4802,7 @@ extension GetAccessPointInput {
     }
 }
 
-public struct GetAccessPointInput: Swift.Equatable {
+public struct GetAccessPointInput {
     /// The Amazon Web Services account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4842,7 +4842,7 @@ extension GetAccessPointOutput {
     }
 }
 
-public struct GetAccessPointOutput: Swift.Equatable {
+public struct GetAccessPointOutput {
     /// The ARN of the access point.
     public var accessPointArn: Swift.String?
     /// The name or alias of the access point.
@@ -4924,7 +4924,7 @@ extension GetAccessPointPolicyForObjectLambdaInput {
     }
 }
 
-public struct GetAccessPointPolicyForObjectLambdaInput: Swift.Equatable {
+public struct GetAccessPointPolicyForObjectLambdaInput {
     /// The account ID for the account that owns the specified Object Lambda Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4955,7 +4955,7 @@ extension GetAccessPointPolicyForObjectLambdaOutput {
     }
 }
 
-public struct GetAccessPointPolicyForObjectLambdaOutput: Swift.Equatable {
+public struct GetAccessPointPolicyForObjectLambdaOutput {
     /// Object Lambda Access Point resource policy document.
     public var policy: Swift.String?
 
@@ -5001,7 +5001,7 @@ extension GetAccessPointPolicyInput {
     }
 }
 
-public struct GetAccessPointPolicyInput: Swift.Equatable {
+public struct GetAccessPointPolicyInput {
     /// The account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5032,7 +5032,7 @@ extension GetAccessPointPolicyOutput {
     }
 }
 
-public struct GetAccessPointPolicyOutput: Swift.Equatable {
+public struct GetAccessPointPolicyOutput {
     /// The access point policy associated with the specified access point.
     public var policy: Swift.String?
 
@@ -5078,7 +5078,7 @@ extension GetAccessPointPolicyStatusForObjectLambdaInput {
     }
 }
 
-public struct GetAccessPointPolicyStatusForObjectLambdaInput: Swift.Equatable {
+public struct GetAccessPointPolicyStatusForObjectLambdaInput {
     /// The account ID for the account that owns the specified Object Lambda Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5109,7 +5109,7 @@ extension GetAccessPointPolicyStatusForObjectLambdaOutput {
     }
 }
 
-public struct GetAccessPointPolicyStatusForObjectLambdaOutput: Swift.Equatable {
+public struct GetAccessPointPolicyStatusForObjectLambdaOutput {
     /// Indicates whether this access point policy is public. For more information about how Amazon S3 evaluates policies to determine whether they are public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide.
     public var policyStatus: S3ControlClientTypes.PolicyStatus?
 
@@ -5155,7 +5155,7 @@ extension GetAccessPointPolicyStatusInput {
     }
 }
 
-public struct GetAccessPointPolicyStatusInput: Swift.Equatable {
+public struct GetAccessPointPolicyStatusInput {
     /// The account ID for the account that owns the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5186,7 +5186,7 @@ extension GetAccessPointPolicyStatusOutput {
     }
 }
 
-public struct GetAccessPointPolicyStatusOutput: Swift.Equatable {
+public struct GetAccessPointPolicyStatusOutput {
     /// Indicates the current policy status of the specified access point.
     public var policyStatus: S3ControlClientTypes.PolicyStatus?
 
@@ -5232,7 +5232,7 @@ extension GetBucketInput {
     }
 }
 
-public struct GetBucketInput: Swift.Equatable {
+public struct GetBucketInput {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5271,7 +5271,7 @@ extension GetBucketLifecycleConfigurationInput {
     }
 }
 
-public struct GetBucketLifecycleConfigurationInput: Swift.Equatable {
+public struct GetBucketLifecycleConfigurationInput {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5302,7 +5302,7 @@ extension GetBucketLifecycleConfigurationOutput {
     }
 }
 
-public struct GetBucketLifecycleConfigurationOutput: Swift.Equatable {
+public struct GetBucketLifecycleConfigurationOutput {
     /// Container for the lifecycle rule of the Outposts bucket.
     public var rules: [S3ControlClientTypes.LifecycleRule]?
 
@@ -5342,7 +5342,7 @@ extension GetBucketOutput {
     }
 }
 
-public struct GetBucketOutput: Swift.Equatable {
+public struct GetBucketOutput {
     /// The Outposts bucket requested.
     public var bucket: Swift.String?
     /// The creation date of the Outposts bucket.
@@ -5396,7 +5396,7 @@ extension GetBucketPolicyInput {
     }
 }
 
-public struct GetBucketPolicyInput: Swift.Equatable {
+public struct GetBucketPolicyInput {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5427,7 +5427,7 @@ extension GetBucketPolicyOutput {
     }
 }
 
-public struct GetBucketPolicyOutput: Swift.Equatable {
+public struct GetBucketPolicyOutput {
     /// The policy of the Outposts bucket.
     public var policy: Swift.String?
 
@@ -5473,7 +5473,7 @@ extension GetBucketReplicationInput {
     }
 }
 
-public struct GetBucketReplicationInput: Swift.Equatable {
+public struct GetBucketReplicationInput {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5504,7 +5504,7 @@ extension GetBucketReplicationOutput {
     }
 }
 
-public struct GetBucketReplicationOutput: Swift.Equatable {
+public struct GetBucketReplicationOutput {
     /// A container for one or more replication rules. A replication configuration must have at least one rule and you can add up to 100 rules. The maximum size of a replication configuration is 128 KB.
     public var replicationConfiguration: S3ControlClientTypes.ReplicationConfiguration?
 
@@ -5550,7 +5550,7 @@ extension GetBucketTaggingInput {
     }
 }
 
-public struct GetBucketTaggingInput: Swift.Equatable {
+public struct GetBucketTaggingInput {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5581,7 +5581,7 @@ extension GetBucketTaggingOutput {
     }
 }
 
-public struct GetBucketTaggingOutput: Swift.Equatable {
+public struct GetBucketTaggingOutput {
     /// The tags set of the Outposts bucket.
     /// This member is required.
     public var tagSet: [S3ControlClientTypes.S3Tag]?
@@ -5628,7 +5628,7 @@ extension GetBucketVersioningInput {
     }
 }
 
-public struct GetBucketVersioningInput: Swift.Equatable {
+public struct GetBucketVersioningInput {
     /// The Amazon Web Services account ID of the S3 on Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5660,7 +5660,7 @@ extension GetBucketVersioningOutput {
     }
 }
 
-public struct GetBucketVersioningOutput: Swift.Equatable {
+public struct GetBucketVersioningOutput {
     /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is returned only if the bucket has been configured with MFA delete. If MFA delete has never been configured for the bucket, this element is not returned.
     public var mfaDelete: S3ControlClientTypes.MFADeleteStatus?
     /// The versioning state of the S3 on Outposts bucket.
@@ -5739,7 +5739,7 @@ extension GetDataAccessInput {
     }
 }
 
-public struct GetDataAccessInput: Swift.Equatable {
+public struct GetDataAccessInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5803,7 +5803,7 @@ extension GetDataAccessOutput {
     }
 }
 
-public struct GetDataAccessOutput: Swift.Equatable {
+public struct GetDataAccessOutput {
     /// The temporary credential token that S3 Access Grants vends.
     public var credentials: S3ControlClientTypes.Credentials?
     /// The S3 URI path of the data to which you are being granted temporary access credentials.
@@ -5853,7 +5853,7 @@ extension GetJobTaggingInput {
     }
 }
 
-public struct GetJobTaggingInput: Swift.Equatable {
+public struct GetJobTaggingInput {
     /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5884,7 +5884,7 @@ extension GetJobTaggingOutput {
     }
 }
 
-public struct GetJobTaggingOutput: Swift.Equatable {
+public struct GetJobTaggingOutput {
     /// The set of tags associated with the S3 Batch Operations job.
     public var tags: [S3ControlClientTypes.S3Tag]?
 
@@ -5934,7 +5934,7 @@ extension GetMultiRegionAccessPointInput {
     }
 }
 
-public struct GetMultiRegionAccessPointInput: Swift.Equatable {
+public struct GetMultiRegionAccessPointInput {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -5965,7 +5965,7 @@ extension GetMultiRegionAccessPointOutput {
     }
 }
 
-public struct GetMultiRegionAccessPointOutput: Swift.Equatable {
+public struct GetMultiRegionAccessPointOutput {
     /// A container element containing the details of the requested Multi-Region Access Point.
     public var accessPoint: S3ControlClientTypes.MultiRegionAccessPointReport?
 
@@ -6011,7 +6011,7 @@ extension GetMultiRegionAccessPointPolicyInput {
     }
 }
 
-public struct GetMultiRegionAccessPointPolicyInput: Swift.Equatable {
+public struct GetMultiRegionAccessPointPolicyInput {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -6042,7 +6042,7 @@ extension GetMultiRegionAccessPointPolicyOutput {
     }
 }
 
-public struct GetMultiRegionAccessPointPolicyOutput: Swift.Equatable {
+public struct GetMultiRegionAccessPointPolicyOutput {
     /// The policy associated with the specified Multi-Region Access Point.
     public var policy: S3ControlClientTypes.MultiRegionAccessPointPolicyDocument?
 
@@ -6088,7 +6088,7 @@ extension GetMultiRegionAccessPointPolicyStatusInput {
     }
 }
 
-public struct GetMultiRegionAccessPointPolicyStatusInput: Swift.Equatable {
+public struct GetMultiRegionAccessPointPolicyStatusInput {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -6119,7 +6119,7 @@ extension GetMultiRegionAccessPointPolicyStatusOutput {
     }
 }
 
-public struct GetMultiRegionAccessPointPolicyStatusOutput: Swift.Equatable {
+public struct GetMultiRegionAccessPointPolicyStatusOutput {
     /// Indicates whether this access point policy is public. For more information about how Amazon S3 evaluates policies to determine whether they are public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide.
     public var established: S3ControlClientTypes.PolicyStatus?
 
@@ -6165,7 +6165,7 @@ extension GetMultiRegionAccessPointRoutesInput {
     }
 }
 
-public struct GetMultiRegionAccessPointRoutesInput: Swift.Equatable {
+public struct GetMultiRegionAccessPointRoutesInput {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -6197,7 +6197,7 @@ extension GetMultiRegionAccessPointRoutesOutput {
     }
 }
 
-public struct GetMultiRegionAccessPointRoutesOutput: Swift.Equatable {
+public struct GetMultiRegionAccessPointRoutesOutput {
     /// The Multi-Region Access Point ARN.
     public var mrap: Swift.String?
     /// The different routes that make up the route configuration. Active routes return a value of 100, and passive routes return a value of 0.
@@ -6244,7 +6244,7 @@ extension GetPublicAccessBlockInput {
     }
 }
 
-public struct GetPublicAccessBlockInput: Swift.Equatable {
+public struct GetPublicAccessBlockInput {
     /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to retrieve.
     /// This member is required.
     public var accountId: Swift.String?
@@ -6270,7 +6270,7 @@ extension GetPublicAccessBlockOutput {
     }
 }
 
-public struct GetPublicAccessBlockOutput: Swift.Equatable {
+public struct GetPublicAccessBlockOutput {
     /// The PublicAccessBlock configuration currently in effect for this Amazon Web Services account.
     public var publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
 
@@ -6318,7 +6318,7 @@ extension GetStorageLensConfigurationInput {
     }
 }
 
-public struct GetStorageLensConfigurationInput: Swift.Equatable {
+public struct GetStorageLensConfigurationInput {
     /// The account ID of the requester.
     /// This member is required.
     public var accountId: Swift.String?
@@ -6349,7 +6349,7 @@ extension GetStorageLensConfigurationOutput {
     }
 }
 
-public struct GetStorageLensConfigurationOutput: Swift.Equatable {
+public struct GetStorageLensConfigurationOutput {
     /// The S3 Storage Lens configuration requested.
     public var storageLensConfiguration: S3ControlClientTypes.StorageLensConfiguration?
 
@@ -6395,7 +6395,7 @@ extension GetStorageLensConfigurationTaggingInput {
     }
 }
 
-public struct GetStorageLensConfigurationTaggingInput: Swift.Equatable {
+public struct GetStorageLensConfigurationTaggingInput {
     /// The account ID of the requester.
     /// This member is required.
     public var accountId: Swift.String?
@@ -6426,7 +6426,7 @@ extension GetStorageLensConfigurationTaggingOutput {
     }
 }
 
-public struct GetStorageLensConfigurationTaggingOutput: Swift.Equatable {
+public struct GetStorageLensConfigurationTaggingOutput {
     /// The tags of S3 Storage Lens configuration requested.
     public var tags: [S3ControlClientTypes.StorageLensTag]?
 
@@ -6472,7 +6472,7 @@ extension GetStorageLensGroupInput {
     }
 }
 
-public struct GetStorageLensGroupInput: Swift.Equatable {
+public struct GetStorageLensGroupInput {
     /// The Amazon Web Services account ID associated with the Storage Lens group that you're trying to retrieve the details for.
     /// This member is required.
     public var accountId: Swift.String?
@@ -6503,7 +6503,7 @@ extension GetStorageLensGroupOutput {
     }
 }
 
-public struct GetStorageLensGroupOutput: Swift.Equatable {
+public struct GetStorageLensGroupOutput {
     /// The name of the Storage Lens group that you're trying to retrieve the configuration details for.
     public var storageLensGroup: S3ControlClientTypes.StorageLensGroup?
 
@@ -6549,7 +6549,7 @@ extension S3ControlClientTypes.Grantee {
 
 extension S3ControlClientTypes {
     /// The user, group, or role to which you are granting access. You can grant access to an IAM user or role. If you have added your corporate directory to Amazon Web Services IAM Identity Center and associated your Identity Center instance with your S3 Access Grants instance, the grantee can also be a corporate directory user or group.
-    public struct Grantee: Swift.Equatable {
+    public struct Grantee {
         /// The unique identifier of the Grantee. If the grantee type is IAM, the identifier is the IAM Amazon Resource Name (ARN) of the user or role. If the grantee type is a directory user or group, the identifier is 128-bit universally unique identifier (UUID) in the format a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. You can obtain this UUID from your Amazon Web Services IAM Identity Center instance.
         public var granteeIdentifier: Swift.String?
         /// The type of the grantee to which access has been granted. It can be one of the following values:
@@ -6677,7 +6677,7 @@ extension S3ControlClientTypes.Include {
 
 extension S3ControlClientTypes {
     /// A container for what Amazon S3 Storage Lens configuration includes.
-    public struct Include: Swift.Equatable {
+    public struct Include {
         /// A container for the S3 Storage Lens bucket includes.
         public var buckets: [Swift.String]?
         /// A container for the S3 Storage Lens Region includes.
@@ -6894,7 +6894,7 @@ extension S3ControlClientTypes.JobDescriptor {
 
 extension S3ControlClientTypes {
     /// A container element for the job configuration and status information returned by a Describe Job request.
-    public struct JobDescriptor: Swift.Equatable {
+    public struct JobDescriptor {
         /// Indicates whether confirmation is required before Amazon S3 begins running the specified job. Confirmation is required only for jobs created through the Amazon S3 console.
         public var confirmationRequired: Swift.Bool?
         /// A timestamp indicating when this job was created.
@@ -7001,7 +7001,7 @@ extension S3ControlClientTypes.JobFailure {
 
 extension S3ControlClientTypes {
     /// If this job failed, this element indicates why the job failed.
-    public struct JobFailure: Swift.Equatable {
+    public struct JobFailure {
         /// The failure code, if any, for the specified job.
         public var failureCode: Swift.String?
         /// The failure reason, if any, for the specified job.
@@ -7052,7 +7052,7 @@ extension S3ControlClientTypes.JobListDescriptor {
 
 extension S3ControlClientTypes {
     /// Contains the configuration and status information for a single job retrieved as part of a job list.
-    public struct JobListDescriptor: Swift.Equatable {
+    public struct JobListDescriptor {
         /// A timestamp indicating when the specified job was created.
         public var creationTime: ClientRuntime.Date?
         /// The user-specified description that was included in the specified job's Create Job request.
@@ -7115,7 +7115,7 @@ extension S3ControlClientTypes.JobManifest {
 
 extension S3ControlClientTypes {
     /// Contains the configuration information for a job's manifest.
-    public struct JobManifest: Swift.Equatable {
+    public struct JobManifest {
         /// Contains the information required to locate the specified job's manifest. Manifests can't be imported from directory buckets. For more information, see [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html).
         /// This member is required.
         public var location: S3ControlClientTypes.JobManifestLocation?
@@ -7233,7 +7233,7 @@ extension S3ControlClientTypes.JobManifestGenerator {
 
 extension S3ControlClientTypes {
     /// Configures the type of the job's ManifestGenerator.
-    public enum JobManifestGenerator: Swift.Equatable {
+    public enum JobManifestGenerator {
         /// The S3 job ManifestGenerator's configuration details.
         case s3jobmanifestgenerator(S3ControlClientTypes.S3JobManifestGenerator)
         case sdkUnknown(Swift.String)
@@ -7274,7 +7274,7 @@ extension S3ControlClientTypes.JobManifestGeneratorFilter {
 
 extension S3ControlClientTypes {
     /// The filter used to describe a set of objects for the job's manifest.
-    public struct JobManifestGeneratorFilter: Swift.Equatable {
+    public struct JobManifestGeneratorFilter {
         /// If provided, the generated manifest includes only source bucket objects that were created after this time.
         public var createdAfter: ClientRuntime.Date?
         /// If provided, the generated manifest includes only source bucket objects that were created before this time.
@@ -7339,7 +7339,7 @@ extension S3ControlClientTypes.JobManifestLocation {
 
 extension S3ControlClientTypes {
     /// Contains the information required to locate a manifest object. Manifests can't be imported from directory buckets. For more information, see [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html).
-    public struct JobManifestLocation: Swift.Equatable {
+    public struct JobManifestLocation {
         /// The ETag for the specified manifest object.
         /// This member is required.
         public var eTag: Swift.String?
@@ -7384,7 +7384,7 @@ extension S3ControlClientTypes.JobManifestSpec {
 
 extension S3ControlClientTypes {
     /// Describes the format of a manifest. If the manifest is in CSV format, also describes the columns contained within the manifest.
-    public struct JobManifestSpec: Swift.Equatable {
+    public struct JobManifestSpec {
         /// If the specified manifest object is in the S3BatchOperations_CSV_20180820 format, this element describes which columns contain the required data.
         public var fields: [S3ControlClientTypes.JobManifestFieldName]?
         /// Indicates which of the available formats the specified manifest uses.
@@ -7438,7 +7438,7 @@ extension S3ControlClientTypes.JobOperation {
 
 extension S3ControlClientTypes {
     /// The operation that you want this job to perform on every object listed in the manifest. For more information about the available operations, see [Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html) in the Amazon S3 User Guide.
-    public struct JobOperation: Swift.Equatable {
+    public struct JobOperation {
         /// Directs the specified job to invoke an Lambda function on every object in the manifest.
         public var lambdaInvoke: S3ControlClientTypes.LambdaInvokeOperation?
         /// Directs the specified job to execute a DELETE Object tagging call on every object in the manifest. This functionality is not supported by directory buckets.
@@ -7509,7 +7509,7 @@ extension S3ControlClientTypes.JobProgressSummary {
 
 extension S3ControlClientTypes {
     /// Describes the total number of tasks that the specified job has started, the number of tasks that succeeded, and the number of tasks that failed.
-    public struct JobProgressSummary: Swift.Equatable {
+    public struct JobProgressSummary {
         ///
         public var numberOfTasksFailed: Swift.Int?
         ///
@@ -7562,7 +7562,7 @@ extension S3ControlClientTypes.JobReport {
 
 extension S3ControlClientTypes {
     /// Contains the configuration parameters for a job-completion report.
-    public struct JobReport: Swift.Equatable {
+    public struct JobReport {
         /// The Amazon Resource Name (ARN) for the bucket where specified job-completion report will be stored. Directory buckets - Directory buckets aren't supported as a location for Batch Operations to store job completion reports.
         public var bucket: Swift.String?
         /// Indicates whether the specified job will generate a job-completion report.
@@ -7786,7 +7786,7 @@ extension S3ControlClientTypes.JobTimers {
 
 extension S3ControlClientTypes {
     /// Provides timing details for the job.
-    public struct JobTimers: Swift.Equatable {
+    public struct JobTimers {
         /// Indicates the elapsed time in seconds the job has been in the Active job state.
         public var elapsedTimeInActiveSeconds: Swift.Int?
 
@@ -7823,7 +7823,7 @@ extension S3ControlClientTypes.KeyNameConstraint {
 
 extension S3ControlClientTypes {
     /// If provided, the generated manifest includes only source bucket objects whose object keys match the string constraints specified for MatchAnyPrefix, MatchAnySuffix, and MatchAnySubstring.
-    public struct KeyNameConstraint: Swift.Equatable {
+    public struct KeyNameConstraint {
         /// If provided, the generated manifest includes objects where the specified string appears at the start of the object key string.
         public var matchAnyPrefix: [Swift.String]?
         /// If provided, the generated manifest includes objects where the specified string appears anywhere within the object key string.
@@ -7868,7 +7868,7 @@ extension S3ControlClientTypes.LambdaInvokeOperation {
 
 extension S3ControlClientTypes {
     /// Contains the configuration parameters for a Lambda Invoke operation.
-    public struct LambdaInvokeOperation: Swift.Equatable {
+    public struct LambdaInvokeOperation {
         /// The Amazon Resource Name (ARN) for the Lambda function that the specified job will invoke on every object in the manifest.
         public var functionArn: Swift.String?
         /// Specifies the schema version for the payload that Batch Operations sends when invoking an Lambda function. Version 1.0 is the default. Version 2.0 is required when you use Batch Operations to invoke Lambda functions that act on directory buckets, or if you need to specify UserArguments. For more information, see [Automate object processing in Amazon S3 directory buckets with S3 Batch Operations and Lambda](https://aws.amazon.com/blogs/storage/automate-object-processing-in-amazon-s3-directory-buckets-with-s3-batch-operations-and-aws-lambda/) in the Amazon Web Services Storage Blog. Ensure that your Lambda function code expects InvocationSchemaVersion 2.0 and uses bucket name rather than bucket ARN. If the InvocationSchemaVersion does not match what your Lambda function expects, your function might not work as expected. Directory buckets - To initiate Amazon Web Services Lambda function to perform custom actions on objects in directory buckets, you must specify 2.0.
@@ -7909,7 +7909,7 @@ extension S3ControlClientTypes.LifecycleConfiguration {
 
 extension S3ControlClientTypes {
     /// The container for the Outposts bucket lifecycle configuration.
-    public struct LifecycleConfiguration: Swift.Equatable {
+    public struct LifecycleConfiguration {
         /// A lifecycle rule for individual objects in an Outposts bucket.
         public var rules: [S3ControlClientTypes.LifecycleRule]?
 
@@ -7946,7 +7946,7 @@ extension S3ControlClientTypes.LifecycleExpiration {
 
 extension S3ControlClientTypes {
     /// The container of the Outposts bucket lifecycle expiration.
-    public struct LifecycleExpiration: Swift.Equatable {
+    public struct LifecycleExpiration {
         /// Indicates at what date the object is to be deleted. Should be in GMT ISO 8601 format.
         public var date: ClientRuntime.Date?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
@@ -8001,7 +8001,7 @@ extension S3ControlClientTypes.LifecycleRule {
 
 extension S3ControlClientTypes {
     /// The container for the Outposts bucket lifecycle rule.
-    public struct LifecycleRule: Swift.Equatable {
+    public struct LifecycleRule {
         /// Specifies the days since the initiation of an incomplete multipart upload that Amazon S3 waits before permanently removing all parts of the upload. For more information, see [ Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config) in the Amazon S3 User Guide.
         public var abortIncompleteMultipartUpload: S3ControlClientTypes.AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
@@ -8069,7 +8069,7 @@ extension S3ControlClientTypes.LifecycleRuleAndOperator {
 
 extension S3ControlClientTypes {
     /// The container for the Outposts bucket lifecycle rule and operator.
-    public struct LifecycleRuleAndOperator: Swift.Equatable {
+    public struct LifecycleRuleAndOperator {
         /// The non-inclusive minimum object size for the lifecycle rule. Setting this property to 7 means the rule applies to objects with a size that is greater than 7.
         public var objectSizeGreaterThan: Swift.Int?
         /// The non-inclusive maximum object size for the lifecycle rule. Setting this property to 77 means the rule applies to objects with a size that is less than 77.
@@ -8122,7 +8122,7 @@ extension S3ControlClientTypes.LifecycleRuleFilter {
 
 extension S3ControlClientTypes {
     /// The container for the filter of the lifecycle rule.
-    public struct LifecycleRuleFilter: Swift.Equatable {
+    public struct LifecycleRuleFilter {
         /// The container for the AND condition for the lifecycle rule.
         public var and: S3ControlClientTypes.LifecycleRuleAndOperator?
         /// Minimum object size to which the rule applies.
@@ -8187,7 +8187,7 @@ extension S3ControlClientTypes.ListAccessGrantEntry {
 
 extension S3ControlClientTypes {
     /// Information about the access grant.
-    public struct ListAccessGrantEntry: Swift.Equatable {
+    public struct ListAccessGrantEntry {
         /// The Amazon Resource Name (ARN) of the access grant.
         public var accessGrantArn: Swift.String?
         /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
@@ -8293,7 +8293,7 @@ extension ListAccessGrantsInput {
     }
 }
 
-public struct ListAccessGrantsInput: Swift.Equatable {
+public struct ListAccessGrantsInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -8371,7 +8371,7 @@ extension S3ControlClientTypes.ListAccessGrantsInstanceEntry {
 
 extension S3ControlClientTypes {
     /// Information about the S3 Access Grants instance.
-    public struct ListAccessGrantsInstanceEntry: Swift.Equatable {
+    public struct ListAccessGrantsInstanceEntry {
         /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
         public var accessGrantsInstanceArn: Swift.String?
         /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
@@ -8431,7 +8431,7 @@ extension ListAccessGrantsInstancesInput {
     }
 }
 
-public struct ListAccessGrantsInstancesInput: Swift.Equatable {
+public struct ListAccessGrantsInstancesInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -8466,7 +8466,7 @@ extension ListAccessGrantsInstancesOutput {
     }
 }
 
-public struct ListAccessGrantsInstancesOutput: Swift.Equatable {
+public struct ListAccessGrantsInstancesOutput {
     /// A container for a list of S3 Access Grants instances.
     public var accessGrantsInstancesList: [S3ControlClientTypes.ListAccessGrantsInstanceEntry]?
     /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Instances request in order to retrieve the next page of results.
@@ -8522,7 +8522,7 @@ extension S3ControlClientTypes.ListAccessGrantsLocationsEntry {
 
 extension S3ControlClientTypes {
     /// A container for information about the registered location.
-    public struct ListAccessGrantsLocationsEntry: Swift.Equatable {
+    public struct ListAccessGrantsLocationsEntry {
         /// The Amazon Resource Name (ARN) of the registered location.
         public var accessGrantsLocationArn: Swift.String?
         /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
@@ -8590,7 +8590,7 @@ extension ListAccessGrantsLocationsInput {
     }
 }
 
-public struct ListAccessGrantsLocationsInput: Swift.Equatable {
+public struct ListAccessGrantsLocationsInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -8629,7 +8629,7 @@ extension ListAccessGrantsLocationsOutput {
     }
 }
 
-public struct ListAccessGrantsLocationsOutput: Swift.Equatable {
+public struct ListAccessGrantsLocationsOutput {
     /// A container for a list of registered locations in an S3 Access Grants instance.
     public var accessGrantsLocationsList: [S3ControlClientTypes.ListAccessGrantsLocationsEntry]?
     /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants Locations request in order to retrieve the next page of results.
@@ -8672,7 +8672,7 @@ extension ListAccessGrantsOutput {
     }
 }
 
-public struct ListAccessGrantsOutput: Swift.Equatable {
+public struct ListAccessGrantsOutput {
     /// A container for a list of grants in an S3 Access Grants instance.
     public var accessGrantsList: [S3ControlClientTypes.ListAccessGrantEntry]?
     /// A pagination token to request the next page of results. Pass this value into a subsequent List Access Grants request in order to retrieve the next page of results.
@@ -8735,7 +8735,7 @@ extension ListAccessPointsForObjectLambdaInput {
     }
 }
 
-public struct ListAccessPointsForObjectLambdaInput: Swift.Equatable {
+public struct ListAccessPointsForObjectLambdaInput {
     /// The account ID for the account that owns the specified Object Lambda Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -8770,7 +8770,7 @@ extension ListAccessPointsForObjectLambdaOutput {
     }
 }
 
-public struct ListAccessPointsForObjectLambdaOutput: Swift.Equatable {
+public struct ListAccessPointsForObjectLambdaOutput {
     /// If the list has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
     public var nextToken: Swift.String?
     /// Returns list of Object Lambda Access Points.
@@ -8837,7 +8837,7 @@ extension ListAccessPointsInput {
     }
 }
 
-public struct ListAccessPointsInput: Swift.Equatable {
+public struct ListAccessPointsInput {
     /// The Amazon Web Services account ID for the account that owns the specified access points.
     /// This member is required.
     public var accountId: Swift.String?
@@ -8876,7 +8876,7 @@ extension ListAccessPointsOutput {
     }
 }
 
-public struct ListAccessPointsOutput: Swift.Equatable {
+public struct ListAccessPointsOutput {
     /// Contains identification and configuration information for one or more access points associated with the specified bucket.
     public var accessPointList: [S3ControlClientTypes.AccessPoint]?
     /// If the specified bucket has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
@@ -8945,7 +8945,7 @@ extension ListJobsInput {
     }
 }
 
-public struct ListJobsInput: Swift.Equatable {
+public struct ListJobsInput {
     /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
     /// This member is required.
     public var accountId: Swift.String?
@@ -8984,7 +8984,7 @@ extension ListJobsOutput {
     }
 }
 
-public struct ListJobsOutput: Swift.Equatable {
+public struct ListJobsOutput {
     /// The list of current jobs and jobs that have ended within the last 30 days.
     public var jobs: [S3ControlClientTypes.JobListDescriptor]?
     /// If the List Jobs request produced more than the maximum number of results, you can pass this value into a subsequent List Jobs request in order to retrieve the next page of results.
@@ -9051,7 +9051,7 @@ extension ListMultiRegionAccessPointsInput {
     }
 }
 
-public struct ListMultiRegionAccessPointsInput: Swift.Equatable {
+public struct ListMultiRegionAccessPointsInput {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -9086,7 +9086,7 @@ extension ListMultiRegionAccessPointsOutput {
     }
 }
 
-public struct ListMultiRegionAccessPointsOutput: Swift.Equatable {
+public struct ListMultiRegionAccessPointsOutput {
     /// The list of Multi-Region Access Points associated with the user.
     public var accessPoints: [S3ControlClientTypes.MultiRegionAccessPointReport]?
     /// If the specified bucket has more Multi-Region Access Points than can be returned in one call to this action, this field contains a continuation token. You can use this token tin subsequent calls to this action to retrieve additional Multi-Region Access Points.
@@ -9152,7 +9152,7 @@ extension ListRegionalBucketsInput {
     }
 }
 
-public struct ListRegionalBucketsInput: Swift.Equatable {
+public struct ListRegionalBucketsInput {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -9191,7 +9191,7 @@ extension ListRegionalBucketsOutput {
     }
 }
 
-public struct ListRegionalBucketsOutput: Swift.Equatable {
+public struct ListRegionalBucketsOutput {
     /// NextToken is sent when isTruncated is true, which means there are more buckets that can be listed. The next list requests to Amazon S3 can be continued with this NextToken. NextToken is obfuscated and is not a real key.
     public var nextToken: Swift.String?
     ///
@@ -9245,7 +9245,7 @@ extension S3ControlClientTypes.ListStorageLensConfigurationEntry {
 
 extension S3ControlClientTypes {
     /// Part of ListStorageLensConfigurationResult. Each entry includes the description of the S3 Storage Lens configuration, its home Region, whether it is enabled, its Amazon Resource Name (ARN), and config ID.
-    public struct ListStorageLensConfigurationEntry: Swift.Equatable {
+    public struct ListStorageLensConfigurationEntry {
         /// A container for the S3 Storage Lens home Region. Your metrics data is stored and retained in your designated S3 Storage Lens home Region.
         /// This member is required.
         public var homeRegion: Swift.String?
@@ -9304,7 +9304,7 @@ extension ListStorageLensConfigurationsInput {
     }
 }
 
-public struct ListStorageLensConfigurationsInput: Swift.Equatable {
+public struct ListStorageLensConfigurationsInput {
     /// The account ID of the requester.
     /// This member is required.
     public var accountId: Swift.String?
@@ -9335,7 +9335,7 @@ extension ListStorageLensConfigurationsOutput {
     }
 }
 
-public struct ListStorageLensConfigurationsOutput: Swift.Equatable {
+public struct ListStorageLensConfigurationsOutput {
     /// If the request produced more than the maximum number of S3 Storage Lens configuration results, you can pass this value into a subsequent request to retrieve the next page of results.
     public var nextToken: Swift.String?
     /// A list of S3 Storage Lens configurations.
@@ -9387,7 +9387,7 @@ extension S3ControlClientTypes.ListStorageLensGroupEntry {
 
 extension S3ControlClientTypes {
     /// Each entry contains a Storage Lens group that exists in the specified home Region.
-    public struct ListStorageLensGroupEntry: Swift.Equatable {
+    public struct ListStorageLensGroupEntry {
         /// Contains the Amazon Web Services Region where the Storage Lens group was created.
         /// This member is required.
         public var homeRegion: Swift.String?
@@ -9442,7 +9442,7 @@ extension ListStorageLensGroupsInput {
     }
 }
 
-public struct ListStorageLensGroupsInput: Swift.Equatable {
+public struct ListStorageLensGroupsInput {
     /// The Amazon Web Services account ID that owns the Storage Lens groups.
     /// This member is required.
     public var accountId: Swift.String?
@@ -9473,7 +9473,7 @@ extension ListStorageLensGroupsOutput {
     }
 }
 
-public struct ListStorageLensGroupsOutput: Swift.Equatable {
+public struct ListStorageLensGroupsOutput {
     /// If NextToken is returned, there are more Storage Lens groups results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
     public var nextToken: Swift.String?
     /// The list of Storage Lens groups that exist in the specified home Region.
@@ -9523,7 +9523,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Web Services account ID of the resource owner.
     /// This member is required.
     public var accountId: Swift.String?
@@ -9554,7 +9554,7 @@ extension ListTagsForResourceOutput {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The Amazon Web Services resource tags that are associated with the resource.
     public var tags: [S3ControlClientTypes.Tag]?
 
@@ -9664,7 +9664,7 @@ extension S3ControlClientTypes.MatchObjectAge {
 
 extension S3ControlClientTypes {
     /// A filter condition that specifies the object age range of included objects in days. Only integers are supported.
-    public struct MatchObjectAge: Swift.Equatable {
+    public struct MatchObjectAge {
         /// Specifies the maximum object age in days. Must be a positive whole number, greater than the minimum object age and less than or equal to 2,147,483,647.
         public var daysGreaterThan: Swift.Int
         /// Specifies the minimum object age in days. The value must be a positive whole number, greater than 0 and less than or equal to 2,147,483,647.
@@ -9703,7 +9703,7 @@ extension S3ControlClientTypes.MatchObjectSize {
 
 extension S3ControlClientTypes {
     /// A filter condition that specifies the object size range of included objects in bytes. Only integers are supported.
-    public struct MatchObjectSize: Swift.Equatable {
+    public struct MatchObjectSize {
         /// Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 5 TB.
         public var bytesGreaterThan: Swift.Int
         /// Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum object size and less than 5 TB.
@@ -9742,7 +9742,7 @@ extension S3ControlClientTypes.Metrics {
 
 extension S3ControlClientTypes {
     /// A container that specifies replication metrics-related settings.
-    public struct Metrics: Swift.Equatable {
+    public struct Metrics {
         /// A container that specifies the time threshold for emitting the s3:Replication:OperationMissedThreshold event. This is not supported by Amazon S3 on Outposts buckets.
         public var eventThreshold: S3ControlClientTypes.ReplicationTimeValue?
         /// Specifies whether replication metrics are enabled.
@@ -9814,7 +9814,7 @@ extension S3ControlClientTypes.MultiRegionAccessPointPolicyDocument {
 
 extension S3ControlClientTypes {
     /// The Multi-Region Access Point access control policy. When you update the policy, the update is first listed as the proposed policy. After the update is finished and all Regions have been updated, the proposed policy is listed as the established policy. If both policies have the same version number, the proposed policy is the established policy.
-    public struct MultiRegionAccessPointPolicyDocument: Swift.Equatable {
+    public struct MultiRegionAccessPointPolicyDocument {
         /// The last established policy for the Multi-Region Access Point.
         public var established: S3ControlClientTypes.EstablishedMultiRegionAccessPointPolicy?
         /// The proposed policy for the Multi-Region Access Point.
@@ -9853,7 +9853,7 @@ extension S3ControlClientTypes.MultiRegionAccessPointRegionalResponse {
 
 extension S3ControlClientTypes {
     /// Status information for a single Multi-Region Access Point Region.
-    public struct MultiRegionAccessPointRegionalResponse: Swift.Equatable {
+    public struct MultiRegionAccessPointRegionalResponse {
         /// The name of the Region in the Multi-Region Access Point.
         public var name: Swift.String?
         /// The current status of the Multi-Region Access Point in this Region.
@@ -9900,7 +9900,7 @@ extension S3ControlClientTypes.MultiRegionAccessPointReport {
 
 extension S3ControlClientTypes {
     /// A collection of statuses for a Multi-Region Access Point in the various Regions it supports.
-    public struct MultiRegionAccessPointReport: Swift.Equatable {
+    public struct MultiRegionAccessPointReport {
         /// The alias for the Multi-Region Access Point. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see [Rules for naming Amazon S3 Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming).
         public var alias: Swift.String?
         /// When the Multi-Region Access Point create request was received.
@@ -9957,7 +9957,7 @@ extension S3ControlClientTypes.MultiRegionAccessPointRoute {
 
 extension S3ControlClientTypes {
     /// A structure for a Multi-Region Access Point that indicates where Amazon S3 traffic can be routed. Routes can be either active or passive. Active routes can process Amazon S3 requests through the Multi-Region Access Point, but passive routes are not eligible to process Amazon S3 requests. Each route contains the Amazon S3 bucket name and the Amazon Web Services Region that the bucket is located in. The route also includes the TrafficDialPercentage value, which shows whether the bucket and Region are active (indicated by a value of 100) or passive (indicated by a value of 0).
-    public struct MultiRegionAccessPointRoute: Swift.Equatable {
+    public struct MultiRegionAccessPointRoute {
         /// The name of the Amazon S3 bucket for which you'll submit a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region.
         public var bucket: Swift.String?
         /// The Amazon Web Services Region to which you'll be submitting a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region.
@@ -10043,7 +10043,7 @@ extension S3ControlClientTypes.MultiRegionAccessPointsAsyncResponse {
 
 extension S3ControlClientTypes {
     /// The Multi-Region Access Point details that are returned when querying about an asynchronous request.
-    public struct MultiRegionAccessPointsAsyncResponse: Swift.Equatable {
+    public struct MultiRegionAccessPointsAsyncResponse {
         /// A collection of status information for the different Regions that a Multi-Region Access Point supports.
         public var regions: [S3ControlClientTypes.MultiRegionAccessPointRegionalResponse]?
 
@@ -10158,7 +10158,7 @@ extension S3ControlClientTypes.NoncurrentVersionExpiration {
 
 extension S3ControlClientTypes {
     /// The container of the noncurrent version expiration.
-    public struct NoncurrentVersionExpiration: Swift.Equatable {
+    public struct NoncurrentVersionExpiration {
         /// Specifies how many noncurrent versions S3 on Outposts will retain. If there are this many more recent noncurrent versions, S3 on Outposts will take the associated action. For more information about noncurrent versions, see [Lifecycle configuration elements](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html) in the Amazon S3 User Guide.
         public var newerNoncurrentVersions: Swift.Int?
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see [How Amazon S3 Calculates When an Object Became Noncurrent](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations) in the Amazon S3 User Guide.
@@ -10197,7 +10197,7 @@ extension S3ControlClientTypes.NoncurrentVersionTransition {
 
 extension S3ControlClientTypes {
     /// The container for the noncurrent version transition.
-    public struct NoncurrentVersionTransition: Swift.Equatable {
+    public struct NoncurrentVersionTransition {
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see [ How Amazon S3 Calculates How Long an Object Has Been Noncurrent](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations) in the Amazon S3 User Guide.
         public var noncurrentDays: Swift.Int
         /// The class of storage used to store the object.
@@ -10286,7 +10286,7 @@ extension S3ControlClientTypes.ObjectLambdaAccessPoint {
 
 extension S3ControlClientTypes {
     /// An access point with an attached Lambda function used to access transformed data from an Amazon S3 bucket.
-    public struct ObjectLambdaAccessPoint: Swift.Equatable {
+    public struct ObjectLambdaAccessPoint {
         /// The alias of the Object Lambda Access Point.
         public var alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
         /// The name of the Object Lambda Access Point.
@@ -10330,7 +10330,7 @@ extension S3ControlClientTypes.ObjectLambdaAccessPointAlias {
 
 extension S3ControlClientTypes {
     /// The alias of an Object Lambda Access Point. For more information, see [How to use a bucket-style alias for your S3 bucket Object Lambda Access Point](https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-use.html#ol-access-points-alias).
-    public struct ObjectLambdaAccessPointAlias: Swift.Equatable {
+    public struct ObjectLambdaAccessPointAlias {
         /// The status of the Object Lambda Access Point alias. If the status is PROVISIONING, the Object Lambda Access Point is provisioning the alias and the alias is not ready for use yet. If the status is READY, the Object Lambda Access Point alias is successfully provisioned and ready for use.
         public var status: S3ControlClientTypes.ObjectLambdaAccessPointAliasStatus?
         /// The alias value of the Object Lambda Access Point.
@@ -10443,7 +10443,7 @@ extension S3ControlClientTypes.ObjectLambdaConfiguration {
 
 extension S3ControlClientTypes {
     /// A configuration used when creating an Object Lambda Access Point.
-    public struct ObjectLambdaConfiguration: Swift.Equatable {
+    public struct ObjectLambdaConfiguration {
         /// A container for allowed features. Valid inputs are GetObject-Range, GetObject-PartNumber, HeadObject-Range, and HeadObject-PartNumber.
         public var allowedFeatures: [S3ControlClientTypes.ObjectLambdaAllowedFeature]?
         /// A container for whether the CloudWatch metrics configuration is enabled.
@@ -10499,7 +10499,7 @@ extension S3ControlClientTypes.ObjectLambdaContentTransformation {
 
 extension S3ControlClientTypes {
     /// A container for AwsLambdaTransformation.
-    public enum ObjectLambdaContentTransformation: Swift.Equatable {
+    public enum ObjectLambdaContentTransformation {
         /// A container for an Lambda function.
         case awslambda(S3ControlClientTypes.AwsLambdaTransformation)
         case sdkUnknown(Swift.String)
@@ -10528,7 +10528,7 @@ extension S3ControlClientTypes.ObjectLambdaTransformationConfiguration {
 
 extension S3ControlClientTypes {
     /// A configuration used when creating an Object Lambda Access Point transformation.
-    public struct ObjectLambdaTransformationConfiguration: Swift.Equatable {
+    public struct ObjectLambdaTransformationConfiguration {
         /// A container for the action of an Object Lambda Access Point configuration. Valid inputs are GetObject, ListObjects, HeadObject, and ListObjectsV2.
         /// This member is required.
         public var actions: [S3ControlClientTypes.ObjectLambdaTransformationConfigurationAction]?
@@ -10751,7 +10751,7 @@ extension S3ControlClientTypes.PolicyStatus {
 
 extension S3ControlClientTypes {
     /// Indicates whether this access point policy is public. For more information about how Amazon S3 evaluates policies to determine whether they are public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide.
-    public struct PolicyStatus: Swift.Equatable {
+    public struct PolicyStatus {
         ///
         public var isPublic: Swift.Bool
 
@@ -10784,7 +10784,7 @@ extension S3ControlClientTypes.PrefixLevel {
 
 extension S3ControlClientTypes {
     /// A container for the prefix-level configuration.
-    public struct PrefixLevel: Swift.Equatable {
+    public struct PrefixLevel {
         /// A container for the prefix-level storage metrics for S3 Storage Lens.
         /// This member is required.
         public var storageMetrics: S3ControlClientTypes.PrefixLevelStorageMetrics?
@@ -10820,7 +10820,7 @@ extension S3ControlClientTypes.PrefixLevelStorageMetrics {
 
 extension S3ControlClientTypes {
     /// A container for the prefix-level storage metrics for S3 Storage Lens.
-    public struct PrefixLevelStorageMetrics: Swift.Equatable {
+    public struct PrefixLevelStorageMetrics {
         /// A container for whether prefix-level storage metrics are enabled.
         public var isEnabled: Swift.Bool
         ///
@@ -10889,7 +10889,7 @@ extension S3ControlClientTypes.ProposedMultiRegionAccessPointPolicy {
 
 extension S3ControlClientTypes {
     /// The proposed access control policy for the Multi-Region Access Point. When you update the policy, the update is first listed as the proposed policy. After the update is finished and all Regions have been updated, the proposed policy is listed as the established policy. If both policies have the same version number, the proposed policy is the established policy.
-    public struct ProposedMultiRegionAccessPointPolicy: Swift.Equatable {
+    public struct ProposedMultiRegionAccessPointPolicy {
         /// The details of the proposed policy.
         public var policy: Swift.String?
 
@@ -10928,7 +10928,7 @@ extension S3ControlClientTypes.PublicAccessBlockConfiguration {
 
 extension S3ControlClientTypes {
     /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide. This data type is not supported for Amazon S3 on Outposts.
-    public struct PublicAccessBlockConfiguration: Swift.Equatable {
+    public struct PublicAccessBlockConfiguration {
         /// Specifies whether Amazon S3 should block public access control lists (ACLs) for buckets in this account. Setting this element to TRUE causes the following behavior:
         ///
         /// * PutBucketAcl and PutObjectAcl calls fail if the specified ACL is public.
@@ -10989,7 +10989,7 @@ extension PutAccessGrantsInstanceResourcePolicyInput {
     }
 }
 
-public struct PutAccessGrantsInstanceResourcePolicyInput: Swift.Equatable {
+public struct PutAccessGrantsInstanceResourcePolicyInput {
     /// The ID of the Amazon Web Services account that is making this request.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11026,7 +11026,7 @@ extension PutAccessGrantsInstanceResourcePolicyOutput {
     }
 }
 
-public struct PutAccessGrantsInstanceResourcePolicyOutput: Swift.Equatable {
+public struct PutAccessGrantsInstanceResourcePolicyOutput {
     /// The date and time when you created the S3 Access Grants instance resource policy.
     public var createdAt: ClientRuntime.Date?
     /// The Organization of the resource policy of the S3 Access Grants instance.
@@ -11087,7 +11087,7 @@ extension PutAccessPointConfigurationForObjectLambdaInput {
     }
 }
 
-public struct PutAccessPointConfigurationForObjectLambdaInput: Swift.Equatable {
+public struct PutAccessPointConfigurationForObjectLambdaInput {
     /// The account ID for the account that owns the specified Object Lambda Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11119,7 +11119,7 @@ extension PutAccessPointConfigurationForObjectLambdaOutput {
     }
 }
 
-public struct PutAccessPointConfigurationForObjectLambdaOutput: Swift.Equatable {
+public struct PutAccessPointConfigurationForObjectLambdaOutput {
 
     public init() { }
 }
@@ -11165,7 +11165,7 @@ extension PutAccessPointPolicyForObjectLambdaInput {
     }
 }
 
-public struct PutAccessPointPolicyForObjectLambdaInput: Swift.Equatable {
+public struct PutAccessPointPolicyForObjectLambdaInput {
     /// The account ID for the account that owns the specified Object Lambda Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11197,7 +11197,7 @@ extension PutAccessPointPolicyForObjectLambdaOutput {
     }
 }
 
-public struct PutAccessPointPolicyForObjectLambdaOutput: Swift.Equatable {
+public struct PutAccessPointPolicyForObjectLambdaOutput {
 
     public init() { }
 }
@@ -11243,7 +11243,7 @@ extension PutAccessPointPolicyInput {
     }
 }
 
-public struct PutAccessPointPolicyInput: Swift.Equatable {
+public struct PutAccessPointPolicyInput {
     /// The Amazon Web Services account ID for owner of the bucket associated with the specified access point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11275,7 +11275,7 @@ extension PutAccessPointPolicyOutput {
     }
 }
 
-public struct PutAccessPointPolicyOutput: Swift.Equatable {
+public struct PutAccessPointPolicyOutput {
 
     public init() { }
 }
@@ -11321,7 +11321,7 @@ extension PutBucketLifecycleConfigurationInput {
     }
 }
 
-public struct PutBucketLifecycleConfigurationInput: Swift.Equatable {
+public struct PutBucketLifecycleConfigurationInput {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11352,7 +11352,7 @@ extension PutBucketLifecycleConfigurationOutput {
     }
 }
 
-public struct PutBucketLifecycleConfigurationOutput: Swift.Equatable {
+public struct PutBucketLifecycleConfigurationOutput {
 
     public init() { }
 }
@@ -11401,7 +11401,7 @@ extension PutBucketPolicyInput {
     }
 }
 
-public struct PutBucketPolicyInput: Swift.Equatable {
+public struct PutBucketPolicyInput {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11437,7 +11437,7 @@ extension PutBucketPolicyOutput {
     }
 }
 
-public struct PutBucketPolicyOutput: Swift.Equatable {
+public struct PutBucketPolicyOutput {
 
     public init() { }
 }
@@ -11483,7 +11483,7 @@ extension PutBucketReplicationInput {
     }
 }
 
-public struct PutBucketReplicationInput: Swift.Equatable {
+public struct PutBucketReplicationInput {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11515,7 +11515,7 @@ extension PutBucketReplicationOutput {
     }
 }
 
-public struct PutBucketReplicationOutput: Swift.Equatable {
+public struct PutBucketReplicationOutput {
 
     public init() { }
 }
@@ -11561,7 +11561,7 @@ extension PutBucketTaggingInput {
     }
 }
 
-public struct PutBucketTaggingInput: Swift.Equatable {
+public struct PutBucketTaggingInput {
     /// The Amazon Web Services account ID of the Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11593,7 +11593,7 @@ extension PutBucketTaggingOutput {
     }
 }
 
-public struct PutBucketTaggingOutput: Swift.Equatable {
+public struct PutBucketTaggingOutput {
 
     public init() { }
 }
@@ -11642,7 +11642,7 @@ extension PutBucketVersioningInput {
     }
 }
 
-public struct PutBucketVersioningInput: Swift.Equatable {
+public struct PutBucketVersioningInput {
     /// The Amazon Web Services account ID of the S3 on Outposts bucket.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11678,7 +11678,7 @@ extension PutBucketVersioningOutput {
     }
 }
 
-public struct PutBucketVersioningOutput: Swift.Equatable {
+public struct PutBucketVersioningOutput {
 
     public init() { }
 }
@@ -11724,7 +11724,7 @@ extension PutJobTaggingInput {
     }
 }
 
-public struct PutJobTaggingInput: Swift.Equatable {
+public struct PutJobTaggingInput {
     /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11756,7 +11756,7 @@ extension PutJobTaggingOutput {
     }
 }
 
-public struct PutJobTaggingOutput: Swift.Equatable {
+public struct PutJobTaggingOutput {
 
     public init() { }
 }
@@ -11826,7 +11826,7 @@ extension PutMultiRegionAccessPointPolicyInput {
 
 extension S3ControlClientTypes {
     /// A container for the information associated with a [PutMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html) request.
-    public struct PutMultiRegionAccessPointPolicyInput: Swift.Equatable {
+    public struct PutMultiRegionAccessPointPolicyInput {
         /// The name of the Multi-Region Access Point associated with the request.
         /// This member is required.
         public var name: Swift.String?
@@ -11846,7 +11846,7 @@ extension S3ControlClientTypes {
 
 }
 
-public struct PutMultiRegionAccessPointPolicyInput: Swift.Equatable {
+public struct PutMultiRegionAccessPointPolicyInput {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11882,7 +11882,7 @@ extension PutMultiRegionAccessPointPolicyOutput {
     }
 }
 
-public struct PutMultiRegionAccessPointPolicyOutput: Swift.Equatable {
+public struct PutMultiRegionAccessPointPolicyOutput {
     /// The request token associated with the request. You can use this token with [DescribeMultiRegionAccessPointOperation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html) to determine the status of asynchronous requests.
     public var requestTokenARN: Swift.String?
 
@@ -11932,7 +11932,7 @@ extension PutPublicAccessBlockInput {
     }
 }
 
-public struct PutPublicAccessBlockInput: Swift.Equatable {
+public struct PutPublicAccessBlockInput {
     /// The account ID for the Amazon Web Services account whose PublicAccessBlock configuration you want to set.
     /// This member is required.
     public var accountId: Swift.String?
@@ -11959,7 +11959,7 @@ extension PutPublicAccessBlockOutput {
     }
 }
 
-public struct PutPublicAccessBlockOutput: Swift.Equatable {
+public struct PutPublicAccessBlockOutput {
 
     public init() { }
 }
@@ -12006,7 +12006,7 @@ extension PutStorageLensConfigurationInput {
     }
 }
 
-public struct PutStorageLensConfigurationInput: Swift.Equatable {
+public struct PutStorageLensConfigurationInput {
     /// The account ID of the requester.
     /// This member is required.
     public var accountId: Swift.String?
@@ -12042,7 +12042,7 @@ extension PutStorageLensConfigurationOutput {
     }
 }
 
-public struct PutStorageLensConfigurationOutput: Swift.Equatable {
+public struct PutStorageLensConfigurationOutput {
 
     public init() { }
 }
@@ -12088,7 +12088,7 @@ extension PutStorageLensConfigurationTaggingInput {
     }
 }
 
-public struct PutStorageLensConfigurationTaggingInput: Swift.Equatable {
+public struct PutStorageLensConfigurationTaggingInput {
     /// The account ID of the requester.
     /// This member is required.
     public var accountId: Swift.String?
@@ -12120,7 +12120,7 @@ extension PutStorageLensConfigurationTaggingOutput {
     }
 }
 
-public struct PutStorageLensConfigurationTaggingOutput: Swift.Equatable {
+public struct PutStorageLensConfigurationTaggingOutput {
 
     public init() { }
 }
@@ -12159,7 +12159,7 @@ extension S3ControlClientTypes.Region {
 
 extension S3ControlClientTypes {
     /// A Region that supports a Multi-Region Access Point as well as the associated bucket for the Region.
-    public struct Region: Swift.Equatable {
+    public struct Region {
         /// The name of the associated bucket for the Region.
         /// This member is required.
         public var bucket: Swift.String?
@@ -12201,7 +12201,7 @@ extension S3ControlClientTypes.RegionReport {
 
 extension S3ControlClientTypes {
     /// A combination of a bucket and Region that's part of a Multi-Region Access Point.
-    public struct RegionReport: Swift.Equatable {
+    public struct RegionReport {
         /// The name of the bucket.
         public var bucket: Swift.String?
         /// The Amazon Web Services account ID that owns the Amazon S3 bucket that's associated with this Multi-Region Access Point.
@@ -12250,7 +12250,7 @@ extension S3ControlClientTypes.RegionalBucket {
 
 extension S3ControlClientTypes {
     /// The container for the regional bucket.
-    public struct RegionalBucket: Swift.Equatable {
+    public struct RegionalBucket {
         ///
         /// This member is required.
         public var bucket: Swift.String?
@@ -12302,7 +12302,7 @@ extension S3ControlClientTypes.ReplicaModifications {
 
 extension S3ControlClientTypes {
     /// A filter that you can use to specify whether replica modification sync is enabled. S3 on Outposts replica modification sync can help you keep object metadata synchronized between replicas and source objects. By default, S3 on Outposts replicates metadata from the source objects to the replicas only. When replica modification sync is enabled, S3 on Outposts replicates metadata changes made to the replica copies back to the source object, making the replication bidirectional. To replicate object metadata modifications on replicas, you can specify this element and set the Status of this element to Enabled. You must enable replica modification sync on the source and destination buckets to replicate replica metadata changes between the source and the replicas.
-    public struct ReplicaModifications: Swift.Equatable {
+    public struct ReplicaModifications {
         /// Specifies whether S3 on Outposts replicates modifications to object metadata on replicas.
         /// This member is required.
         public var status: S3ControlClientTypes.ReplicaModificationsStatus?
@@ -12370,7 +12370,7 @@ extension S3ControlClientTypes.ReplicationConfiguration {
 
 extension S3ControlClientTypes {
     /// A container for one or more replication rules. A replication configuration must have at least one rule and you can add up to 100 rules. The maximum size of a replication configuration is 128 KB.
-    public struct ReplicationConfiguration: Swift.Equatable {
+    public struct ReplicationConfiguration {
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that S3 on Outposts assumes when replicating objects. For information about S3 replication on Outposts configuration, see [Setting up replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/outposts-replication-how-setup.html) in the Amazon S3 User Guide.
         /// This member is required.
         public var role: Swift.String?
@@ -12427,7 +12427,7 @@ extension S3ControlClientTypes.ReplicationRule {
 
 extension S3ControlClientTypes {
     /// Specifies which S3 on Outposts objects to replicate and where to store the replicas.
-    public struct ReplicationRule: Swift.Equatable {
+    public struct ReplicationRule {
         /// The Amazon Resource Name (ARN) of the access point for the source Outposts bucket that you want S3 on Outposts to replicate the objects from.
         /// This member is required.
         public var bucket: Swift.String?
@@ -12506,7 +12506,7 @@ extension S3ControlClientTypes {
     /// * If you specify both a Prefix and a Tag filter, wrap these filters in an And element.
     ///
     /// * If you specify a filter based on multiple tags, wrap the Tag elements in an And element.
-    public struct ReplicationRuleAndOperator: Swift.Equatable {
+    public struct ReplicationRuleAndOperator {
         /// An object key name prefix that identifies the subset of objects that the rule applies to.
         public var `prefix`: Swift.String?
         /// An array of tags that contain key and value pairs.
@@ -12547,7 +12547,7 @@ extension S3ControlClientTypes.ReplicationRuleFilter {
 
 extension S3ControlClientTypes {
     /// A filter that identifies the subset of objects to which the replication rule applies. A Filter element must specify exactly one Prefix, Tag, or And child element.
-    public struct ReplicationRuleFilter: Swift.Equatable {
+    public struct ReplicationRuleFilter {
         /// A container for specifying rule filters. The filters determine the subset of objects that the rule applies to. This element is required only if you specify more than one filter. For example:
         ///
         /// * If you specify both a Prefix and a Tag filter, wrap these filters in an And element.
@@ -12717,7 +12717,7 @@ extension S3ControlClientTypes.ReplicationTime {
 
 extension S3ControlClientTypes {
     /// A container that specifies S3 Replication Time Control (S3 RTC) related information, including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. This is not supported by Amazon S3 on Outposts buckets.
-    public struct ReplicationTime: Swift.Equatable {
+    public struct ReplicationTime {
         /// Specifies whether S3 Replication Time Control (S3 RTC) is enabled.
         /// This member is required.
         public var status: S3ControlClientTypes.ReplicationTimeStatus?
@@ -12788,7 +12788,7 @@ extension S3ControlClientTypes.ReplicationTimeValue {
 
 extension S3ControlClientTypes {
     /// A container that specifies the time value for S3 Replication Time Control (S3 RTC). This value is also used for the replication metrics EventThreshold element. This is not supported by Amazon S3 on Outposts buckets.
-    public struct ReplicationTimeValue: Swift.Equatable {
+    public struct ReplicationTimeValue {
         /// Contains an integer that specifies the time period in minutes. Valid value: 15
         public var minutes: Swift.Int?
 
@@ -12855,7 +12855,7 @@ extension S3ControlClientTypes.S3AccessControlList {
 
 extension S3ControlClientTypes {
     ///
-    public struct S3AccessControlList: Swift.Equatable {
+    public struct S3AccessControlList {
         ///
         public var grants: [S3ControlClientTypes.S3Grant]?
         ///
@@ -12895,7 +12895,7 @@ extension S3ControlClientTypes.S3AccessControlPolicy {
 
 extension S3ControlClientTypes {
     ///
-    public struct S3AccessControlPolicy: Swift.Equatable {
+    public struct S3AccessControlPolicy {
         ///
         public var accessControlList: S3ControlClientTypes.S3AccessControlList?
         ///
@@ -12942,7 +12942,7 @@ extension S3ControlClientTypes.S3BucketDestination {
 
 extension S3ControlClientTypes {
     /// A container for the bucket where the Amazon S3 Storage Lens metrics export files are located.
-    public struct S3BucketDestination: Swift.Equatable {
+    public struct S3BucketDestination {
         /// The account ID of the owner of the S3 Storage Lens metrics export bucket.
         /// This member is required.
         public var accountId: Swift.String?
@@ -13120,7 +13120,7 @@ extension S3ControlClientTypes.S3CopyObjectOperation {
 
 extension S3ControlClientTypes {
     /// Contains the configuration parameters for a PUT Copy object operation. S3 Batch Operations passes every object to the underlying CopyObject API operation. For more information about the parameters for this operation, see [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectCOPY.html).
-    public struct S3CopyObjectOperation: Swift.Equatable {
+    public struct S3CopyObjectOperation {
         /// This functionality is not supported by directory buckets.
         public var accessControlGrants: [S3ControlClientTypes.S3Grant]?
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Amazon Web Services KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key. This functionality is not supported by directory buckets.
@@ -13222,7 +13222,7 @@ extension S3ControlClientTypes.S3DeleteObjectTaggingOperation {
 
 extension S3ControlClientTypes {
     /// Contains no configuration parameters because the DELETE Object tagging (DeleteObjectTagging) API operation accepts only the bucket name and key name as parameters, which are defined in the job's manifest.
-    public struct S3DeleteObjectTaggingOperation: Swift.Equatable {
+    public struct S3DeleteObjectTaggingOperation {
 
         public init() { }
     }
@@ -13250,7 +13250,7 @@ extension S3ControlClientTypes.S3GeneratedManifestDescriptor {
 
 extension S3ControlClientTypes {
     /// Describes the specified job's generated manifest. Batch Operations jobs created with a ManifestGenerator populate details of this descriptor after execution of the ManifestGenerator.
-    public struct S3GeneratedManifestDescriptor: Swift.Equatable {
+    public struct S3GeneratedManifestDescriptor {
         /// The format of the generated manifest.
         public var format: S3ControlClientTypes.GeneratedManifestFormat?
         /// Contains the information required to locate a manifest object. Manifests can't be imported from directory buckets. For more information, see [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html).
@@ -13321,7 +13321,7 @@ extension S3ControlClientTypes.S3Grant {
 
 extension S3ControlClientTypes {
     ///
-    public struct S3Grant: Swift.Equatable {
+    public struct S3Grant {
         ///
         public var grantee: S3ControlClientTypes.S3Grantee?
         ///
@@ -13362,7 +13362,7 @@ extension S3ControlClientTypes.S3Grantee {
 
 extension S3ControlClientTypes {
     ///
-    public struct S3Grantee: Swift.Equatable {
+    public struct S3Grantee {
         ///
         public var displayName: Swift.String?
         ///
@@ -13440,7 +13440,7 @@ extension S3ControlClientTypes.S3InitiateRestoreObjectOperation {
 
 extension S3ControlClientTypes {
     /// Contains the configuration parameters for a POST Object restore job. S3 Batch Operations passes every object to the underlying RestoreObject API operation. For more information about the parameters for this operation, see [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request).
-    public struct S3InitiateRestoreObjectOperation: Swift.Equatable {
+    public struct S3InitiateRestoreObjectOperation {
         /// This argument specifies how long the S3 Glacier or S3 Glacier Deep Archive object remains available in Amazon S3. S3 Initiate Restore Object jobs that target S3 Glacier and S3 Glacier Deep Archive objects require ExpirationInDays set to 1 or greater. Conversely, do not set ExpirationInDays when creating S3 Initiate Restore Object jobs that target S3 Intelligent-Tiering Archive Access and Deep Archive Access tier objects. Objects in S3 Intelligent-Tiering archive access tiers are not subject to restore expiry, so specifying ExpirationInDays results in restore request failure. S3 Batch Operations jobs can operate either on S3 Glacier and S3 Glacier Deep Archive storage class objects or on S3 Intelligent-Tiering Archive Access and Deep Archive Access storage tier objects, but not both types in the same job. If you need to restore objects of both types you must create separate Batch Operations jobs.
         public var expirationInDays: Swift.Int?
         /// S3 Batch Operations supports STANDARD and BULK retrieval tiers, but not the EXPEDITED retrieval tier.
@@ -13485,7 +13485,7 @@ extension S3ControlClientTypes.S3JobManifestGenerator {
 
 extension S3ControlClientTypes {
     /// The container for the service that will create the S3 manifest.
-    public struct S3JobManifestGenerator: Swift.Equatable {
+    public struct S3JobManifestGenerator {
         /// Determines whether or not to write the job's generated manifest to a bucket.
         /// This member is required.
         public var enableManifestOutput: Swift.Bool
@@ -13544,7 +13544,7 @@ extension S3ControlClientTypes.S3ManifestOutputLocation {
 
 extension S3ControlClientTypes {
     /// Location details for where the generated manifest should be written.
-    public struct S3ManifestOutputLocation: Swift.Equatable {
+    public struct S3ManifestOutputLocation {
         /// The bucket ARN the generated manifest should be written to. Directory buckets - Directory buckets aren't supported as the buckets to store the generated manifest.
         /// This member is required.
         public var bucket: Swift.String?
@@ -13627,7 +13627,7 @@ extension S3ControlClientTypes.S3ObjectLockLegalHold {
 
 extension S3ControlClientTypes {
     /// Whether S3 Object Lock legal hold will be applied to objects in an S3 Batch Operations job.
-    public struct S3ObjectLockLegalHold: Swift.Equatable {
+    public struct S3ObjectLockLegalHold {
         /// The Object Lock legal hold status to be applied to all objects in the Batch Operations job.
         /// This member is required.
         public var status: S3ControlClientTypes.S3ObjectLockLegalHoldStatus?
@@ -13777,7 +13777,7 @@ extension S3ControlClientTypes.S3ObjectMetadata {
 
 extension S3ControlClientTypes {
     ///
-    public struct S3ObjectMetadata: Swift.Equatable {
+    public struct S3ObjectMetadata {
         ///
         public var cacheControl: Swift.String?
         ///
@@ -13852,7 +13852,7 @@ extension S3ControlClientTypes.S3ObjectOwner {
 
 extension S3ControlClientTypes {
     ///
-    public struct S3ObjectOwner: Swift.Equatable {
+    public struct S3ObjectOwner {
         ///
         public var displayName: Swift.String?
         ///
@@ -13956,7 +13956,7 @@ extension S3ControlClientTypes.S3ReplicateObjectOperation {
 
 extension S3ControlClientTypes {
     /// Directs the specified job to invoke ReplicateObject on every object in the job's manifest.
-    public struct S3ReplicateObjectOperation: Swift.Equatable {
+    public struct S3ReplicateObjectOperation {
 
         public init() { }
     }
@@ -13984,7 +13984,7 @@ extension S3ControlClientTypes.S3Retention {
 
 extension S3ControlClientTypes {
     /// Contains the S3 Object Lock retention mode to be applied to all objects in the S3 Batch Operations job. If you don't provide Mode and RetainUntilDate data types in your operation, you will remove the retention from your objects. For more information, see [Using S3 Object Lock retention with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html) in the Amazon S3 User Guide.
-    public struct S3Retention: Swift.Equatable {
+    public struct S3Retention {
         /// The Object Lock retention mode to be applied to all objects in the Batch Operations job.
         public var mode: S3ControlClientTypes.S3ObjectLockRetentionMode?
         /// The date when the applied Object Lock retention will expire on all objects set by the Batch Operations job.
@@ -14053,7 +14053,7 @@ extension S3ControlClientTypes.S3SetObjectAclOperation {
 
 extension S3ControlClientTypes {
     /// Contains the configuration parameters for a PUT Object ACL operation. S3 Batch Operations passes every object to the underlying PutObjectAcl API operation. For more information about the parameters for this operation, see [PutObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html).
-    public struct S3SetObjectAclOperation: Swift.Equatable {
+    public struct S3SetObjectAclOperation {
         ///
         public var accessControlPolicy: S3ControlClientTypes.S3AccessControlPolicy?
 
@@ -14086,7 +14086,7 @@ extension S3ControlClientTypes.S3SetObjectLegalHoldOperation {
 
 extension S3ControlClientTypes {
     /// Contains the configuration for an S3 Object Lock legal hold operation that an S3 Batch Operations job passes to every object to the underlying PutObjectLegalHold API operation. For more information, see [Using S3 Object Lock legal hold with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-legal-hold.html) in the Amazon S3 User Guide. This functionality is not supported by directory buckets.
-    public struct S3SetObjectLegalHoldOperation: Swift.Equatable {
+    public struct S3SetObjectLegalHoldOperation {
         /// Contains the Object Lock legal hold status to be applied to all objects in the Batch Operations job.
         /// This member is required.
         public var legalHold: S3ControlClientTypes.S3ObjectLockLegalHold?
@@ -14122,7 +14122,7 @@ extension S3ControlClientTypes.S3SetObjectRetentionOperation {
 
 extension S3ControlClientTypes {
     /// Contains the configuration parameters for the Object Lock retention action for an S3 Batch Operations job. Batch Operations passes every object to the underlying PutObjectRetention API operation. For more information, see [Using S3 Object Lock retention with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html) in the Amazon S3 User Guide. This functionality is not supported by directory buckets.
-    public struct S3SetObjectRetentionOperation: Swift.Equatable {
+    public struct S3SetObjectRetentionOperation {
         /// Indicates if the action should be applied to objects in the Batch Operations job even if they have Object Lock  GOVERNANCE type in place.
         public var bypassGovernanceRetention: Swift.Bool?
         /// Contains the Object Lock retention mode to be applied to all objects in the Batch Operations job. For more information, see [Using S3 Object Lock retention with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html) in the Amazon S3 User Guide.
@@ -14160,7 +14160,7 @@ extension S3ControlClientTypes.S3SetObjectTaggingOperation {
 
 extension S3ControlClientTypes {
     /// Contains the configuration parameters for a PUT Object Tagging operation. S3 Batch Operations passes every object to the underlying PutObjectTagging API operation. For more information about the parameters for this operation, see [PutObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTtagging.html).
-    public struct S3SetObjectTaggingOperation: Swift.Equatable {
+    public struct S3SetObjectTaggingOperation {
         ///
         public var tagSet: [S3ControlClientTypes.S3Tag]?
 
@@ -14242,7 +14242,7 @@ extension S3ControlClientTypes.S3Tag {
 
 extension S3ControlClientTypes {
     /// A container for a key-value name pair.
-    public struct S3Tag: Swift.Equatable {
+    public struct S3Tag {
         /// Key of the tag
         /// This member is required.
         public var key: Swift.String?
@@ -14281,7 +14281,7 @@ extension S3ControlClientTypes.SSEKMS {
 
 extension S3ControlClientTypes {
     ///
-    public struct SSEKMS: Swift.Equatable {
+    public struct SSEKMS {
         /// A container for the ARN of the SSE-KMS encryption. This property is read-only and follows the following format:  arn:aws:kms:us-east-1:example-account-id:key/example-9a73-4afc-8d29-8f5900cef44e
         /// This member is required.
         public var keyId: Swift.String?
@@ -14315,7 +14315,7 @@ extension S3ControlClientTypes.SSEKMSEncryption {
 
 extension S3ControlClientTypes {
     /// Configuration for the use of SSE-KMS to encrypt generated manifest objects.
-    public struct SSEKMSEncryption: Swift.Equatable {
+    public struct SSEKMSEncryption {
         /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key to use for encrypting generated manifest objects.
         /// This member is required.
         public var keyId: Swift.String?
@@ -14346,7 +14346,7 @@ extension S3ControlClientTypes.SSES3 {
 
 extension S3ControlClientTypes {
     ///
-    public struct SSES3: Swift.Equatable {
+    public struct SSES3 {
 
         public init() { }
     }
@@ -14369,7 +14369,7 @@ extension S3ControlClientTypes.SSES3Encryption {
 
 extension S3ControlClientTypes {
     /// Configuration for the use of SSE-S3 to encrypt generated manifest objects.
-    public struct SSES3Encryption: Swift.Equatable {
+    public struct SSES3Encryption {
 
         public init() { }
     }
@@ -14399,7 +14399,7 @@ extension S3ControlClientTypes.SelectionCriteria {
 
 extension S3ControlClientTypes {
     ///
-    public struct SelectionCriteria: Swift.Equatable {
+    public struct SelectionCriteria {
         /// A container for the delimiter of the selection criteria being used.
         public var delimiter: Swift.String?
         /// The max depth of the selection criteria
@@ -14442,7 +14442,7 @@ extension S3ControlClientTypes.SourceSelectionCriteria {
 
 extension S3ControlClientTypes {
     /// A container that describes additional filters for identifying the source objects that you want to replicate. You can choose to enable or disable the replication of these objects.
-    public struct SourceSelectionCriteria: Swift.Equatable {
+    public struct SourceSelectionCriteria {
         /// A filter that you can use to specify whether replica modification sync is enabled. S3 on Outposts replica modification sync can help you keep object metadata synchronized between replicas and source objects. By default, S3 on Outposts replicates metadata from the source objects to the replicas only. When replica modification sync is enabled, S3 on Outposts replicates metadata changes made to the replica copies back to the source object, making the replication bidirectional. To replicate object metadata modifications on replicas, you can specify this element and set the Status of this element to Enabled. You must enable replica modification sync on the source and destination buckets to replicate replica metadata changes between the source and the replicas.
         public var replicaModifications: S3ControlClientTypes.ReplicaModifications?
         /// A filter that you can use to select Amazon S3 objects that are encrypted with server-side encryption by using Key Management Service (KMS) keys. If you include SourceSelectionCriteria in the replication configuration, this element is required. This is not supported by Amazon S3 on Outposts buckets.
@@ -14479,7 +14479,7 @@ extension S3ControlClientTypes.SseKmsEncryptedObjects {
 
 extension S3ControlClientTypes {
     /// A container for filter information that you can use to select S3 objects that are encrypted with Key Management Service (KMS). This is not supported by Amazon S3 on Outposts buckets.
-    public struct SseKmsEncryptedObjects: Swift.Equatable {
+    public struct SseKmsEncryptedObjects {
         /// Specifies whether Amazon S3 replicates objects that are created with server-side encryption by using an KMS key stored in Key Management Service.
         /// This member is required.
         public var status: S3ControlClientTypes.SseKmsEncryptedObjectsStatus?
@@ -14545,7 +14545,7 @@ extension S3ControlClientTypes.StorageLensAwsOrg {
 
 extension S3ControlClientTypes {
     /// The Amazon Web Services organization for your S3 Storage Lens.
-    public struct StorageLensAwsOrg: Swift.Equatable {
+    public struct StorageLensAwsOrg {
         /// A container for the Amazon Resource Name (ARN) of the Amazon Web Services organization. This property is read-only and follows the following format:  arn:aws:organizations:us-east-1:example-account-id:organization/o-ex2l495dck
         /// This member is required.
         public var arn: Swift.String?
@@ -14593,7 +14593,7 @@ extension S3ControlClientTypes.StorageLensConfiguration {
 
 extension S3ControlClientTypes {
     /// A container for the Amazon S3 Storage Lens configuration.
-    public struct StorageLensConfiguration: Swift.Equatable {
+    public struct StorageLensConfiguration {
         /// A container for all the account-level configurations of your S3 Storage Lens configuration.
         /// This member is required.
         public var accountLevel: S3ControlClientTypes.AccountLevel?
@@ -14659,7 +14659,7 @@ extension S3ControlClientTypes.StorageLensDataExport {
 
 extension S3ControlClientTypes {
     /// A container to specify the properties of your S3 Storage Lens metrics export, including the destination, schema, and format.
-    public struct StorageLensDataExport: Swift.Equatable {
+    public struct StorageLensDataExport {
         /// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens metrics.
         public var cloudWatchMetrics: S3ControlClientTypes.CloudWatchMetrics?
         /// A container for the bucket where the S3 Storage Lens metrics export will be located. This bucket must be located in the same Region as the storage lens configuration.
@@ -14698,7 +14698,7 @@ extension S3ControlClientTypes.StorageLensDataExportEncryption {
 
 extension S3ControlClientTypes {
     /// A container for the encryption of the S3 Storage Lens metrics exports.
-    public struct StorageLensDataExportEncryption: Swift.Equatable {
+    public struct StorageLensDataExportEncryption {
         ///
         public var ssekms: S3ControlClientTypes.SSEKMS?
         ///
@@ -14739,7 +14739,7 @@ extension S3ControlClientTypes.StorageLensGroup {
 
 extension S3ControlClientTypes {
     /// A custom grouping of objects that include filters for prefixes, suffixes, object tags, object size, or object age. You can create an S3 Storage Lens group that includes a single filter or multiple filter conditions. To specify multiple filter conditions, you use AND or OR logical operators.
-    public struct StorageLensGroup: Swift.Equatable {
+    public struct StorageLensGroup {
         /// Sets the criteria for the Storage Lens group data that is displayed. For multiple filter conditions, the AND or OR logical operator is used.
         /// This member is required.
         public var filter: S3ControlClientTypes.StorageLensGroupFilter?
@@ -14790,7 +14790,7 @@ extension S3ControlClientTypes.StorageLensGroupAndOperator {
 
 extension S3ControlClientTypes {
     /// A logical operator that allows multiple filter conditions to be joined for more complex comparisons of Storage Lens group data.
-    public struct StorageLensGroupAndOperator: Swift.Equatable {
+    public struct StorageLensGroupAndOperator {
         /// Contains a list of prefixes. At least one prefix must be specified. Up to 10 prefixes are allowed.
         public var matchAnyPrefix: [Swift.String]?
         /// Contains a list of suffixes. At least one suffix must be specified. Up to 10 suffixes are allowed.
@@ -14851,7 +14851,7 @@ extension S3ControlClientTypes.StorageLensGroupFilter {
 
 extension S3ControlClientTypes {
     /// The filter element sets the criteria for the Storage Lens group data that is displayed. For multiple filter conditions, the AND or OR logical operator is used.
-    public struct StorageLensGroupFilter: Swift.Equatable {
+    public struct StorageLensGroupFilter {
         /// A logical operator that allows multiple filter conditions to be joined for more complex comparisons of Storage Lens group data. Objects must match all of the listed filter conditions that are joined by the And logical operator. Only one of each filter condition is allowed.
         public var and: S3ControlClientTypes.StorageLensGroupAndOperator?
         /// Contains a list of prefixes. At least one prefix must be specified. Up to 10 prefixes are allowed.
@@ -14908,7 +14908,7 @@ extension S3ControlClientTypes.StorageLensGroupLevel {
 
 extension S3ControlClientTypes {
     /// Specifies the Storage Lens groups to include in the Storage Lens group aggregation.
-    public struct StorageLensGroupLevel: Swift.Equatable {
+    public struct StorageLensGroupLevel {
         /// Indicates which Storage Lens group ARNs to include or exclude in the Storage Lens group aggregation. If this value is left null, then all Storage Lens groups are selected.
         public var selectionCriteria: S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria?
 
@@ -14943,7 +14943,7 @@ extension S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria {
 
 extension S3ControlClientTypes {
     /// Indicates which Storage Lens group ARNs to include or exclude in the Storage Lens group aggregation. You can only attach Storage Lens groups to your Storage Lens dashboard if they're included in your Storage Lens group aggregation. If this value is left null, then all Storage Lens groups are selected.
-    public struct StorageLensGroupLevelSelectionCriteria: Swift.Equatable {
+    public struct StorageLensGroupLevelSelectionCriteria {
         /// Indicates which Storage Lens group ARNs to exclude from the Storage Lens group aggregation.
         public var exclude: [Swift.String]?
         /// Indicates which Storage Lens group ARNs to include in the Storage Lens group aggregation.
@@ -14988,7 +14988,7 @@ extension S3ControlClientTypes.StorageLensGroupOrOperator {
 
 extension S3ControlClientTypes {
     /// A container element for specifying Or rule conditions. The rule conditions determine the subset of objects to which the Or rule applies. Objects can match any of the listed filter conditions, which are joined by the Or logical operator. Only one of each filter condition is allowed.
-    public struct StorageLensGroupOrOperator: Swift.Equatable {
+    public struct StorageLensGroupOrOperator {
         /// Filters objects that match any of the specified prefixes.
         public var matchAnyPrefix: [Swift.String]?
         /// Filters objects that match any of the specified suffixes.
@@ -15039,7 +15039,7 @@ extension S3ControlClientTypes.StorageLensTag {
 
 extension S3ControlClientTypes {
     ///
-    public struct StorageLensTag: Swift.Equatable {
+    public struct StorageLensTag {
         ///
         /// This member is required.
         public var key: Swift.String?
@@ -15087,7 +15087,7 @@ extension SubmitMultiRegionAccessPointRoutesInput {
     }
 }
 
-public struct SubmitMultiRegionAccessPointRoutesInput: Swift.Equatable {
+public struct SubmitMultiRegionAccessPointRoutesInput {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
@@ -15119,7 +15119,7 @@ extension SubmitMultiRegionAccessPointRoutesOutput {
     }
 }
 
-public struct SubmitMultiRegionAccessPointRoutesOutput: Swift.Equatable {
+public struct SubmitMultiRegionAccessPointRoutesOutput {
 
     public init() { }
 }
@@ -15158,7 +15158,7 @@ extension S3ControlClientTypes.Tag {
 
 extension S3ControlClientTypes {
     /// An Amazon Web Services resource tag that's associated with your S3 resource. You can add tags to new objects when you upload them, or you can add object tags to existing objects. This operation is only supported for [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html) and for [S3 Access Grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html). The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the key-value pair of a tag added to your Amazon Web Services resource. A tag key can be up to 128 Unicode characters in length and is case-sensitive. System created tags that begin with aws: aren’t supported.
         /// This member is required.
         public var key: Swift.String?
@@ -15206,7 +15206,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Web Services account ID that created the S3 resource that you're trying to add tags to or the requester's account ID.
     /// This member is required.
     public var accountId: Swift.String?
@@ -15238,7 +15238,7 @@ extension TagResourceOutput {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -15275,7 +15275,7 @@ extension S3ControlClientTypes.Tagging {
 
 extension S3ControlClientTypes {
     ///
-    public struct Tagging: Swift.Equatable {
+    public struct Tagging {
         /// A collection for a set of tags.
         /// This member is required.
         public var tagSet: [S3ControlClientTypes.S3Tag]?
@@ -15409,7 +15409,7 @@ extension S3ControlClientTypes.Transition {
 
 extension S3ControlClientTypes {
     /// Specifies when an object transitions to a specified storage class. For more information about Amazon S3 Lifecycle configuration rules, see [ Transitioning objects using Amazon S3 Lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html) in the Amazon S3 User Guide.
-    public struct Transition: Swift.Equatable {
+    public struct Transition {
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
         public var date: ClientRuntime.Date?
         /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer.
@@ -15509,7 +15509,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Web Services account ID that owns the resource that you're trying to remove the tags from.
     /// This member is required.
     public var accountId: Swift.String?
@@ -15541,7 +15541,7 @@ extension UntagResourceOutput {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -15587,7 +15587,7 @@ extension UpdateAccessGrantsLocationInput {
     }
 }
 
-public struct UpdateAccessGrantsLocationInput: Swift.Equatable {
+public struct UpdateAccessGrantsLocationInput {
     /// The ID of the registered location that you are updating. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register. The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register. If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
     /// This member is required.
     public var accessGrantsLocationId: Swift.String?
@@ -15627,7 +15627,7 @@ extension UpdateAccessGrantsLocationOutput {
     }
 }
 
-public struct UpdateAccessGrantsLocationOutput: Swift.Equatable {
+public struct UpdateAccessGrantsLocationOutput {
     /// The Amazon Resource Name (ARN) of the registered location that you are updating.
     public var accessGrantsLocationArn: Swift.String?
     /// The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
@@ -15703,7 +15703,7 @@ extension UpdateJobPriorityInput {
     }
 }
 
-public struct UpdateJobPriorityInput: Swift.Equatable {
+public struct UpdateJobPriorityInput {
     /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
     /// This member is required.
     public var accountId: Swift.String?
@@ -15740,7 +15740,7 @@ extension UpdateJobPriorityOutput {
     }
 }
 
-public struct UpdateJobPriorityOutput: Swift.Equatable {
+public struct UpdateJobPriorityOutput {
     /// The ID for the job whose priority Amazon S3 updated.
     /// This member is required.
     public var jobId: Swift.String?
@@ -15815,7 +15815,7 @@ extension UpdateJobStatusInput {
     }
 }
 
-public struct UpdateJobStatusInput: Swift.Equatable {
+public struct UpdateJobStatusInput {
     /// The Amazon Web Services account ID associated with the S3 Batch Operations job.
     /// This member is required.
     public var accountId: Swift.String?
@@ -15857,7 +15857,7 @@ extension UpdateJobStatusOutput {
     }
 }
 
-public struct UpdateJobStatusOutput: Swift.Equatable {
+public struct UpdateJobStatusOutput {
     /// The ID for the job whose status was updated.
     public var jobId: Swift.String?
     /// The current status for the specified job.
@@ -15924,7 +15924,7 @@ extension UpdateStorageLensGroupInput {
     }
 }
 
-public struct UpdateStorageLensGroupInput: Swift.Equatable {
+public struct UpdateStorageLensGroupInput {
     /// The Amazon Web Services account ID of the Storage Lens group owner.
     /// This member is required.
     public var accountId: Swift.String?
@@ -15956,7 +15956,7 @@ extension UpdateStorageLensGroupOutput {
     }
 }
 
-public struct UpdateStorageLensGroupOutput: Swift.Equatable {
+public struct UpdateStorageLensGroupOutput {
 
     public init() { }
 }
@@ -15995,7 +15995,7 @@ extension S3ControlClientTypes.VersioningConfiguration {
 
 extension S3ControlClientTypes {
     /// Describes the versioning state of an Amazon S3 on Outposts bucket. For more information, see [PutBucketVersioning](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketVersioning.html).
-    public struct VersioningConfiguration: Swift.Equatable {
+    public struct VersioningConfiguration {
         /// Specifies whether MFA delete is enabled or disabled in the bucket versioning configuration for the S3 on Outposts bucket.
         public var mfaDelete: S3ControlClientTypes.MFADelete?
         /// Sets the versioning state of the S3 on Outposts bucket.
@@ -16032,7 +16032,7 @@ extension S3ControlClientTypes.VpcConfiguration {
 
 extension S3ControlClientTypes {
     /// The virtual private cloud (VPC) configuration for an access point.
-    public struct VpcConfiguration: Swift.Equatable {
+    public struct VpcConfiguration {
         /// If this field is specified, this access point will only allow connections from the specified VPC ID.
         /// This member is required.
         public var vpcId: Swift.String?

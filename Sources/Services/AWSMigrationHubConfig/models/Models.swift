@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -85,7 +85,7 @@ extension CreateHomeRegionControlInput {
     }
 }
 
-public struct CreateHomeRegionControlInput: Swift.Equatable {
+public struct CreateHomeRegionControlInput {
     /// Optional Boolean flag to indicate whether any effect should take place. It tests whether the caller has permission to make the call.
     public var dryRun: Swift.Bool?
     /// The name of the home region of the calling account.
@@ -107,7 +107,7 @@ public struct CreateHomeRegionControlInput: Swift.Equatable {
     }
 }
 
-struct CreateHomeRegionControlInputBody: Swift.Equatable {
+struct CreateHomeRegionControlInputBody {
     let homeRegion: Swift.String?
     let target: MigrationHubConfigClientTypes.Target?
     let dryRun: Swift.Bool?
@@ -143,7 +143,7 @@ extension CreateHomeRegionControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateHomeRegionControlOutput: Swift.Equatable {
+public struct CreateHomeRegionControlOutput {
     /// This object is the HomeRegionControl object that's returned by a successful call to CreateHomeRegionControl.
     public var homeRegionControl: MigrationHubConfigClientTypes.HomeRegionControl?
 
@@ -155,7 +155,7 @@ public struct CreateHomeRegionControlOutput: Swift.Equatable {
     }
 }
 
-struct CreateHomeRegionControlOutputBody: Swift.Equatable {
+struct CreateHomeRegionControlOutputBody {
     let homeRegionControl: MigrationHubConfigClientTypes.HomeRegionControl?
 }
 
@@ -207,7 +207,7 @@ extension DeleteHomeRegionControlInput {
     }
 }
 
-public struct DeleteHomeRegionControlInput: Swift.Equatable {
+public struct DeleteHomeRegionControlInput {
     /// A unique identifier that's generated for each home region control. It's always a string that begins with "hrc-" followed by 12 lowercase letters and numbers.
     /// This member is required.
     public var controlId: Swift.String?
@@ -220,7 +220,7 @@ public struct DeleteHomeRegionControlInput: Swift.Equatable {
     }
 }
 
-struct DeleteHomeRegionControlInputBody: Swift.Equatable {
+struct DeleteHomeRegionControlInputBody {
     let controlId: Swift.String?
 }
 
@@ -241,7 +241,7 @@ extension DeleteHomeRegionControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteHomeRegionControlOutput: Swift.Equatable {
+public struct DeleteHomeRegionControlOutput {
 
     public init() { }
 }
@@ -297,7 +297,7 @@ extension DescribeHomeRegionControlsInput {
     }
 }
 
-public struct DescribeHomeRegionControlsInput: Swift.Equatable {
+public struct DescribeHomeRegionControlsInput {
     /// The ControlID is a unique identifier string of your HomeRegionControl object.
     public var controlId: Swift.String?
     /// The name of the home region you'd like to view.
@@ -325,7 +325,7 @@ public struct DescribeHomeRegionControlsInput: Swift.Equatable {
     }
 }
 
-struct DescribeHomeRegionControlsInputBody: Swift.Equatable {
+struct DescribeHomeRegionControlsInputBody {
     let controlId: Swift.String?
     let homeRegion: Swift.String?
     let target: MigrationHubConfigClientTypes.Target?
@@ -371,7 +371,7 @@ extension DescribeHomeRegionControlsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeHomeRegionControlsOutput: Swift.Equatable {
+public struct DescribeHomeRegionControlsOutput {
     /// An array that contains your HomeRegionControl objects.
     public var homeRegionControls: [MigrationHubConfigClientTypes.HomeRegionControl]?
     /// If a NextToken was returned by a previous call, more results are available. To retrieve the next page of results, make the call again using the returned token in NextToken.
@@ -387,7 +387,7 @@ public struct DescribeHomeRegionControlsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeHomeRegionControlsOutputBody: Swift.Equatable {
+struct DescribeHomeRegionControlsOutputBody {
     let homeRegionControls: [MigrationHubConfigClientTypes.HomeRegionControl]?
     let nextToken: Swift.String?
 }
@@ -470,7 +470,7 @@ public struct DryRunOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct DryRunOperationBody: Swift.Equatable {
+struct DryRunOperationBody {
     let message: Swift.String?
 }
 
@@ -501,12 +501,12 @@ extension GetHomeRegionInput {
     }
 }
 
-public struct GetHomeRegionInput: Swift.Equatable {
+public struct GetHomeRegionInput {
 
     public init() { }
 }
 
-struct GetHomeRegionInputBody: Swift.Equatable {
+struct GetHomeRegionInputBody {
 }
 
 extension GetHomeRegionInputBody: Swift.Decodable {
@@ -527,7 +527,7 @@ extension GetHomeRegionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetHomeRegionOutput: Swift.Equatable {
+public struct GetHomeRegionOutput {
     /// The name of the home region of the calling account.
     public var homeRegion: Swift.String?
 
@@ -539,7 +539,7 @@ public struct GetHomeRegionOutput: Swift.Equatable {
     }
 }
 
-struct GetHomeRegionOutputBody: Swift.Equatable {
+struct GetHomeRegionOutputBody {
     let homeRegion: Swift.String?
 }
 
@@ -609,7 +609,7 @@ extension MigrationHubConfigClientTypes.HomeRegionControl: Swift.Codable {
 
 extension MigrationHubConfigClientTypes {
     /// A home region control is an object that specifies the home region for an account, with some additional information. It contains a target (always of type ACCOUNT), an ID, and a time at which the home region was set.
-    public struct HomeRegionControl: Swift.Equatable {
+    public struct HomeRegionControl {
         /// A unique identifier that's generated for each home region control. It's always a string that begins with "hrc-" followed by 12 lowercase letters and numbers.
         public var controlId: Swift.String?
         /// The AWS Region that's been set as home region. For example, "us-west-2" or "eu-central-1" are valid home regions.
@@ -674,7 +674,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InternalServerErrorBody: Swift.Equatable {
+struct InternalServerErrorBody {
     let message: Swift.String?
 }
 
@@ -729,7 +729,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
 }
 
@@ -786,7 +786,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -829,7 +829,7 @@ extension MigrationHubConfigClientTypes.Target: Swift.Codable {
 
 extension MigrationHubConfigClientTypes {
     /// The target parameter specifies the identifier to which the home region is applied, which is always an ACCOUNT. It applies the home region to the current ACCOUNT.
-    public struct Target: Swift.Equatable {
+    public struct Target {
         /// The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current account.)
         public var id: Swift.String?
         /// The target type is always an ACCOUNT.
@@ -926,7 +926,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 

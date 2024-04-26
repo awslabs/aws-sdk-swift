@@ -123,7 +123,7 @@ extension SchedulerClientTypes.AwsVpcConfiguration: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// This structure specifies the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
-    public struct AwsVpcConfiguration: Swift.Equatable {
+    public struct AwsVpcConfiguration {
         /// Specifies whether the task's elastic network interface receives a public IP address. You can specify ENABLED only when LaunchType in EcsParameters is set to FARGATE.
         public var assignPublicIp: SchedulerClientTypes.AssignPublicIp?
         /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
@@ -179,7 +179,7 @@ extension SchedulerClientTypes.CapacityProviderStrategyItem: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The details of a capacity provider strategy.
-    public struct CapacityProviderStrategyItem: Swift.Equatable {
+    public struct CapacityProviderStrategyItem {
         /// The base value designates how many tasks, at a minimum, to run on the specified capacity provider. Only one capacity provider in a capacity provider strategy can have a base defined. If no value is specified, the default value of 0 is used.
         public var base: Swift.Int
         /// The short name of the capacity provider.
@@ -242,7 +242,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -288,7 +288,7 @@ extension CreateScheduleGroupInput {
     }
 }
 
-public struct CreateScheduleGroupInput: Swift.Equatable {
+public struct CreateScheduleGroupInput {
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The name of the schedule group that you are creating.
@@ -309,7 +309,7 @@ public struct CreateScheduleGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateScheduleGroupInputBody: Swift.Equatable {
+struct CreateScheduleGroupInputBody {
     let tags: [SchedulerClientTypes.Tag]?
     let clientToken: Swift.String?
 }
@@ -350,7 +350,7 @@ extension CreateScheduleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateScheduleGroupOutput: Swift.Equatable {
+public struct CreateScheduleGroupOutput {
     /// The Amazon Resource Name (ARN) of the schedule group.
     /// This member is required.
     public var scheduleGroupArn: Swift.String?
@@ -363,7 +363,7 @@ public struct CreateScheduleGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateScheduleGroupOutputBody: Swift.Equatable {
+struct CreateScheduleGroupOutputBody {
     let scheduleGroupArn: Swift.String?
 }
 
@@ -461,7 +461,7 @@ extension CreateScheduleInput {
     }
 }
 
-public struct CreateScheduleInput: Swift.Equatable {
+public struct CreateScheduleInput {
     /// Specifies the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
     public var actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion?
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
@@ -534,7 +534,7 @@ public struct CreateScheduleInput: Swift.Equatable {
     }
 }
 
-struct CreateScheduleInputBody: Swift.Equatable {
+struct CreateScheduleInputBody {
     let groupName: Swift.String?
     let scheduleExpression: Swift.String?
     let startDate: ClientRuntime.Date?
@@ -606,7 +606,7 @@ extension CreateScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateScheduleOutput: Swift.Equatable {
+public struct CreateScheduleOutput {
     /// The Amazon Resource Name (ARN) of the schedule.
     /// This member is required.
     public var scheduleArn: Swift.String?
@@ -619,7 +619,7 @@ public struct CreateScheduleOutput: Swift.Equatable {
     }
 }
 
-struct CreateScheduleOutputBody: Swift.Equatable {
+struct CreateScheduleOutputBody {
     let scheduleArn: Swift.String?
 }
 
@@ -672,7 +672,7 @@ extension SchedulerClientTypes.DeadLetterConfig: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// An object that contains information about an Amazon SQS queue that EventBridge Scheduler uses as a dead-letter queue for your schedule. If specified, EventBridge Scheduler delivers failed events that could not be successfully delivered to a target to the queue.
-    public struct DeadLetterConfig: Swift.Equatable {
+    public struct DeadLetterConfig {
         /// The Amazon Resource Name (ARN) of the SQS queue specified as the destination for the dead-letter queue.
         public var arn: Swift.String?
 
@@ -708,7 +708,7 @@ extension DeleteScheduleGroupInput {
     }
 }
 
-public struct DeleteScheduleGroupInput: Swift.Equatable {
+public struct DeleteScheduleGroupInput {
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The name of the schedule group to delete.
@@ -725,7 +725,7 @@ public struct DeleteScheduleGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteScheduleGroupInputBody: Swift.Equatable {
+struct DeleteScheduleGroupInputBody {
 }
 
 extension DeleteScheduleGroupInputBody: Swift.Decodable {
@@ -739,7 +739,7 @@ extension DeleteScheduleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteScheduleGroupOutput: Swift.Equatable {
+public struct DeleteScheduleGroupOutput {
 
     public init() { }
 }
@@ -785,7 +785,7 @@ extension DeleteScheduleInput {
     }
 }
 
-public struct DeleteScheduleInput: Swift.Equatable {
+public struct DeleteScheduleInput {
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The name of the schedule group associated with this schedule. If you omit this, the default schedule group is used.
@@ -806,7 +806,7 @@ public struct DeleteScheduleInput: Swift.Equatable {
     }
 }
 
-struct DeleteScheduleInputBody: Swift.Equatable {
+struct DeleteScheduleInputBody {
 }
 
 extension DeleteScheduleInputBody: Swift.Decodable {
@@ -820,7 +820,7 @@ extension DeleteScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteScheduleOutput: Swift.Equatable {
+public struct DeleteScheduleOutput {
 
     public init() { }
 }
@@ -999,7 +999,7 @@ extension SchedulerClientTypes.EcsParameters: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The templated target type for the Amazon ECS [RunTask](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_RunTask.html) API operation.
-    public struct EcsParameters: Swift.Equatable {
+    public struct EcsParameters {
         /// The capacity provider strategy to use for the task.
         public var capacityProviderStrategy: [SchedulerClientTypes.CapacityProviderStrategyItem]?
         /// Specifies whether to enable Amazon ECS managed tags for the task. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon ECS Developer Guide.
@@ -1093,7 +1093,7 @@ extension SchedulerClientTypes.EventBridgeParameters: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The templated target type for the EventBridge [PutEvents](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutEvents.html) API operation.
-    public struct EventBridgeParameters: Swift.Equatable {
+    public struct EventBridgeParameters {
         /// A free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
         /// This member is required.
         public var detailType: Swift.String?
@@ -1140,7 +1140,7 @@ extension SchedulerClientTypes.FlexibleTimeWindow: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// Allows you to configure a time window during which EventBridge Scheduler invokes the schedule.
-    public struct FlexibleTimeWindow: Swift.Equatable {
+    public struct FlexibleTimeWindow {
         /// The maximum time window during which a schedule can be invoked.
         public var maximumWindowInMinutes: Swift.Int?
         /// Determines whether the schedule is invoked within a flexible time window.
@@ -1201,7 +1201,7 @@ extension GetScheduleGroupInput {
     }
 }
 
-public struct GetScheduleGroupInput: Swift.Equatable {
+public struct GetScheduleGroupInput {
     /// The name of the schedule group to retrieve.
     /// This member is required.
     public var name: Swift.String?
@@ -1214,7 +1214,7 @@ public struct GetScheduleGroupInput: Swift.Equatable {
     }
 }
 
-struct GetScheduleGroupInputBody: Swift.Equatable {
+struct GetScheduleGroupInputBody {
 }
 
 extension GetScheduleGroupInputBody: Swift.Decodable {
@@ -1243,7 +1243,7 @@ extension GetScheduleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetScheduleGroupOutput: Swift.Equatable {
+public struct GetScheduleGroupOutput {
     /// The Amazon Resource Name (ARN) of the schedule group.
     public var arn: Swift.String?
     /// The time at which the schedule group was created.
@@ -1271,7 +1271,7 @@ public struct GetScheduleGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetScheduleGroupOutputBody: Swift.Equatable {
+struct GetScheduleGroupOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let state: SchedulerClientTypes.ScheduleGroupState?
@@ -1339,7 +1339,7 @@ extension GetScheduleInput {
     }
 }
 
-public struct GetScheduleInput: Swift.Equatable {
+public struct GetScheduleInput {
     /// The name of the schedule group associated with this schedule. If you omit this, EventBridge Scheduler assumes that the schedule is associated with the default group.
     public var groupName: Swift.String?
     /// The name of the schedule to retrieve.
@@ -1356,7 +1356,7 @@ public struct GetScheduleInput: Swift.Equatable {
     }
 }
 
-struct GetScheduleInputBody: Swift.Equatable {
+struct GetScheduleInputBody {
 }
 
 extension GetScheduleInputBody: Swift.Decodable {
@@ -1405,7 +1405,7 @@ extension GetScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetScheduleOutput: Swift.Equatable {
+public struct GetScheduleOutput {
     /// Indicates the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
     public var actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion?
     /// The Amazon Resource Name (ARN) of the schedule.
@@ -1482,7 +1482,7 @@ public struct GetScheduleOutput: Swift.Equatable {
     }
 }
 
-struct GetScheduleOutputBody: Swift.Equatable {
+struct GetScheduleOutputBody {
     let arn: Swift.String?
     let groupName: Swift.String?
     let name: Swift.String?
@@ -1608,7 +1608,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1645,7 +1645,7 @@ extension SchedulerClientTypes.KinesisParameters: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The templated target type for the Amazon Kinesis [PutRecord] API operation.
-    public struct KinesisParameters: Swift.Equatable {
+    public struct KinesisParameters {
         /// Specifies the shard to which EventBridge Scheduler sends the event. For more information, see [Amazon Kinesis Data Streams terminology and concepts](https://docs.aws.amazon.com/streams/latest/dev/key-concepts.html) in the Amazon Kinesis Streams Developer Guide.
         /// This member is required.
         public var partitionKey: Swift.String?
@@ -1722,7 +1722,7 @@ extension ListScheduleGroupsInput {
     }
 }
 
-public struct ListScheduleGroupsInput: Swift.Equatable {
+public struct ListScheduleGroupsInput {
     /// If specified, limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
     public var maxResults: Swift.Int?
     /// The name prefix that you can use to return a filtered list of your schedule groups.
@@ -1742,7 +1742,7 @@ public struct ListScheduleGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListScheduleGroupsInputBody: Swift.Equatable {
+struct ListScheduleGroupsInputBody {
 }
 
 extension ListScheduleGroupsInputBody: Swift.Decodable {
@@ -1765,7 +1765,7 @@ extension ListScheduleGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListScheduleGroupsOutput: Swift.Equatable {
+public struct ListScheduleGroupsOutput {
     /// Indicates whether there are additional results to retrieve. If the value is null, there are no more results.
     public var nextToken: Swift.String?
     /// The schedule groups that match the specified criteria.
@@ -1782,7 +1782,7 @@ public struct ListScheduleGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListScheduleGroupsOutputBody: Swift.Equatable {
+struct ListScheduleGroupsOutputBody {
     let nextToken: Swift.String?
     let scheduleGroups: [SchedulerClientTypes.ScheduleGroupSummary]?
 }
@@ -1859,7 +1859,7 @@ extension ListSchedulesInput {
     }
 }
 
-public struct ListSchedulesInput: Swift.Equatable {
+public struct ListSchedulesInput {
     /// If specified, only lists the schedules whose associated schedule group matches the given filter.
     public var groupName: Swift.String?
     /// If specified, limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
@@ -1887,7 +1887,7 @@ public struct ListSchedulesInput: Swift.Equatable {
     }
 }
 
-struct ListSchedulesInputBody: Swift.Equatable {
+struct ListSchedulesInputBody {
 }
 
 extension ListSchedulesInputBody: Swift.Decodable {
@@ -1910,7 +1910,7 @@ extension ListSchedulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchedulesOutput: Swift.Equatable {
+public struct ListSchedulesOutput {
     /// Indicates whether there are additional results to retrieve. If the value is null, there are no more results.
     public var nextToken: Swift.String?
     /// The schedules that match the specified criteria.
@@ -1927,7 +1927,7 @@ public struct ListSchedulesOutput: Swift.Equatable {
     }
 }
 
-struct ListSchedulesOutputBody: Swift.Equatable {
+struct ListSchedulesOutputBody {
     let nextToken: Swift.String?
     let schedules: [SchedulerClientTypes.ScheduleSummary]?
 }
@@ -1980,7 +1980,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the EventBridge Scheduler resource for which you want to view tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1993,7 +1993,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2014,7 +2014,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags associated with the specified resource.
     public var tags: [SchedulerClientTypes.Tag]?
 
@@ -2026,7 +2026,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [SchedulerClientTypes.Tag]?
 }
 
@@ -2086,7 +2086,7 @@ extension SchedulerClientTypes.NetworkConfiguration: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// Specifies the network configuration for an ECS task.
-    public struct NetworkConfiguration: Swift.Equatable {
+    public struct NetworkConfiguration {
         /// Specifies the Amazon VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public var awsvpcConfiguration: SchedulerClientTypes.AwsVpcConfiguration?
 
@@ -2127,7 +2127,7 @@ extension SchedulerClientTypes.PlacementConstraint: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// An object representing a constraint on task placement.
-    public struct PlacementConstraint: Swift.Equatable {
+    public struct PlacementConstraint {
         /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. For more information, see [Cluster query language](https://docs.aws.amazon.com/latest/developerguide/cluster-query-language.html) in the Amazon ECS Developer Guide.
         public var expression: Swift.String?
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
@@ -2204,7 +2204,7 @@ extension SchedulerClientTypes.PlacementStrategy: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The task placement strategy for a task or service.
-    public struct PlacementStrategy: Swift.Equatable {
+    public struct PlacementStrategy {
         /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or instanceId, which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this field is not used.
         public var field: Swift.String?
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
@@ -2326,7 +2326,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2369,7 +2369,7 @@ extension SchedulerClientTypes.RetryPolicy: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// A RetryPolicy object that includes information about the retry policy settings, including the maximum age of an event, and the maximum number of times EventBridge Scheduler will try to deliver the event to a target.
-    public struct RetryPolicy: Swift.Equatable {
+    public struct RetryPolicy {
         /// The maximum amount of time, in seconds, to continue to make retry attempts.
         public var maximumEventAgeInSeconds: Swift.Int?
         /// The maximum number of retry attempts to make before the request fails. Retry attempts with exponential backoff continue until either the maximum number of attempts is made or until the duration of the MaximumEventAgeInSeconds is reached.
@@ -2414,7 +2414,7 @@ extension SchedulerClientTypes.SageMakerPipelineParameter: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The name and value pair of a parameter to use to start execution of a SageMaker Model Building Pipeline.
-    public struct SageMakerPipelineParameter: Swift.Equatable {
+    public struct SageMakerPipelineParameter {
         /// Name of parameter to start execution of a SageMaker Model Building Pipeline.
         /// This member is required.
         public var name: Swift.String?
@@ -2467,7 +2467,7 @@ extension SchedulerClientTypes.SageMakerPipelineParameters: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The templated target type for the Amazon SageMaker [StartPipelineExecution](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_StartPipelineExecution.html) API operation.
-    public struct SageMakerPipelineParameters: Swift.Equatable {
+    public struct SageMakerPipelineParameters {
         /// List of parameter names and values to use when executing the SageMaker Model Building Pipeline.
         public var pipelineParameterList: [SchedulerClientTypes.SageMakerPipelineParameter]?
 
@@ -2558,7 +2558,7 @@ extension SchedulerClientTypes.ScheduleGroupSummary: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The details of a schedule group.
-    public struct ScheduleGroupSummary: Swift.Equatable {
+    public struct ScheduleGroupSummary {
         /// The Amazon Resource Name (ARN) of the schedule group.
         public var arn: Swift.String?
         /// The time at which the schedule group was created.
@@ -2677,7 +2677,7 @@ extension SchedulerClientTypes.ScheduleSummary: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The details of a schedule.
-    public struct ScheduleSummary: Swift.Equatable {
+    public struct ScheduleSummary {
         /// The Amazon Resource Name (ARN) of the schedule.
         public var arn: Swift.String?
         /// The time at which the schedule was created.
@@ -2757,7 +2757,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2794,7 +2794,7 @@ extension SchedulerClientTypes.SqsParameters: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The templated target type for the Amazon SQS [SendMessage](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessage.html) API operation. Contains the message group ID to use when the target is a FIFO queue. If you specify an Amazon SQS FIFO queue as a target, the queue must have content-based deduplication enabled. For more information, see [Using the Amazon SQS message deduplication ID](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html) in the Amazon SQS Developer Guide.
-    public struct SqsParameters: Swift.Equatable {
+    public struct SqsParameters {
         /// The FIFO message group ID to use as the target.
         public var messageGroupId: Swift.String?
 
@@ -2835,7 +2835,7 @@ extension SchedulerClientTypes.Tag: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// Tag to associate with a schedule group.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key for the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -2881,7 +2881,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the schedule group that you are adding tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2899,7 +2899,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [SchedulerClientTypes.Tag]?
 }
 
@@ -2929,7 +2929,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3024,7 +3024,7 @@ extension SchedulerClientTypes.Target: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The schedule's target. EventBridge Scheduler supports templated target that invoke common API operations, as well as universal targets that you can customize to invoke over 6,000 API operations across more than 270 services. You can only specify one templated or universal target for a schedule.
-    public struct Target: Swift.Equatable {
+    public struct Target {
         /// The Amazon Resource Name (ARN) of the target.
         /// This member is required.
         public var arn: Swift.String?
@@ -3097,7 +3097,7 @@ extension SchedulerClientTypes.TargetSummary: Swift.Codable {
 
 extension SchedulerClientTypes {
     /// The details of a target.
-    public struct TargetSummary: Swift.Equatable {
+    public struct TargetSummary {
         /// The Amazon Resource Name (ARN) of the target.
         /// This member is required.
         public var arn: Swift.String?
@@ -3152,7 +3152,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -3194,7 +3194,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the schedule group from which you are removing tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3212,7 +3212,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -3226,7 +3226,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3313,7 +3313,7 @@ extension UpdateScheduleInput {
     }
 }
 
-public struct UpdateScheduleInput: Swift.Equatable {
+public struct UpdateScheduleInput {
     /// Specifies the action that EventBridge Scheduler applies to the schedule after the schedule completes invoking the target.
     public var actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion?
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
@@ -3386,7 +3386,7 @@ public struct UpdateScheduleInput: Swift.Equatable {
     }
 }
 
-struct UpdateScheduleInputBody: Swift.Equatable {
+struct UpdateScheduleInputBody {
     let groupName: Swift.String?
     let scheduleExpression: Swift.String?
     let startDate: ClientRuntime.Date?
@@ -3458,7 +3458,7 @@ extension UpdateScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateScheduleOutput: Swift.Equatable {
+public struct UpdateScheduleOutput {
     /// The Amazon Resource Name (ARN) of the schedule that you updated.
     /// This member is required.
     public var scheduleArn: Swift.String?
@@ -3471,7 +3471,7 @@ public struct UpdateScheduleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateScheduleOutputBody: Swift.Equatable {
+struct UpdateScheduleOutputBody {
     let scheduleArn: Swift.String?
 }
 
@@ -3542,7 +3542,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

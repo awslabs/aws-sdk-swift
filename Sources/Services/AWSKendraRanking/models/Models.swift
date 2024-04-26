@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -78,7 +78,7 @@ extension KendraRankingClientTypes.CapacityUnitsConfiguration: Swift.Codable {
 
 extension KendraRankingClientTypes {
     /// Sets additional capacity units configured for your rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can add and remove capacity units to fit your usage requirements.
-    public struct CapacityUnitsConfiguration: Swift.Equatable {
+    public struct CapacityUnitsConfiguration {
         /// The amount of extra capacity for your rescore execution plan. A single extra capacity unit for a rescore execution plan provides 0.01 rescore requests per second. You can add up to 1000 extra capacity units.
         /// This member is required.
         public var rescoreCapacityUnits: Swift.Int?
@@ -132,7 +132,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -187,7 +187,7 @@ extension CreateRescoreExecutionPlanInput {
     }
 }
 
-public struct CreateRescoreExecutionPlanInput: Swift.Equatable {
+public struct CreateRescoreExecutionPlanInput {
     /// You can set additional capacity units to meet the needs of your rescore execution plan. You are given a single capacity unit by default. If you want to use the default capacity, you don't set additional capacity units. For more information on the default capacity and additional capacity units, see [Adjusting capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html).
     public var capacityUnits: KendraRankingClientTypes.CapacityUnitsConfiguration?
     /// A token that you provide to identify the request to create a rescore execution plan. Multiple calls to the CreateRescoreExecutionPlanRequest API with the same client token will create only one rescore execution plan.
@@ -216,7 +216,7 @@ public struct CreateRescoreExecutionPlanInput: Swift.Equatable {
     }
 }
 
-struct CreateRescoreExecutionPlanInputBody: Swift.Equatable {
+struct CreateRescoreExecutionPlanInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let capacityUnits: KendraRankingClientTypes.CapacityUnitsConfiguration?
@@ -271,7 +271,7 @@ extension CreateRescoreExecutionPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRescoreExecutionPlanOutput: Swift.Equatable {
+public struct CreateRescoreExecutionPlanOutput {
     /// The Amazon Resource Name (ARN) of the rescore execution plan.
     /// This member is required.
     public var arn: Swift.String?
@@ -289,7 +289,7 @@ public struct CreateRescoreExecutionPlanOutput: Swift.Equatable {
     }
 }
 
-struct CreateRescoreExecutionPlanOutputBody: Swift.Equatable {
+struct CreateRescoreExecutionPlanOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
 }
@@ -340,7 +340,7 @@ extension DeleteRescoreExecutionPlanInput {
     }
 }
 
-public struct DeleteRescoreExecutionPlanInput: Swift.Equatable {
+public struct DeleteRescoreExecutionPlanInput {
     /// The identifier of the rescore execution plan that you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -353,7 +353,7 @@ public struct DeleteRescoreExecutionPlanInput: Swift.Equatable {
     }
 }
 
-struct DeleteRescoreExecutionPlanInputBody: Swift.Equatable {
+struct DeleteRescoreExecutionPlanInputBody {
 }
 
 extension DeleteRescoreExecutionPlanInputBody: Swift.Decodable {
@@ -367,7 +367,7 @@ extension DeleteRescoreExecutionPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRescoreExecutionPlanOutput: Swift.Equatable {
+public struct DeleteRescoreExecutionPlanOutput {
 
     public init() { }
 }
@@ -403,7 +403,7 @@ extension DescribeRescoreExecutionPlanInput {
     }
 }
 
-public struct DescribeRescoreExecutionPlanInput: Swift.Equatable {
+public struct DescribeRescoreExecutionPlanInput {
     /// The identifier of the rescore execution plan that you want to get information on.
     /// This member is required.
     public var id: Swift.String?
@@ -416,7 +416,7 @@ public struct DescribeRescoreExecutionPlanInput: Swift.Equatable {
     }
 }
 
-struct DescribeRescoreExecutionPlanInputBody: Swift.Equatable {
+struct DescribeRescoreExecutionPlanInputBody {
 }
 
 extension DescribeRescoreExecutionPlanInputBody: Swift.Decodable {
@@ -453,7 +453,7 @@ extension DescribeRescoreExecutionPlanOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeRescoreExecutionPlanOutput: Swift.Equatable {
+public struct DescribeRescoreExecutionPlanOutput {
     /// The Amazon Resource Name (ARN) of the rescore execution plan.
     public var arn: Swift.String?
     /// The capacity units set for the rescore execution plan. A capacity of zero indicates that the rescore execution plan is using the default capacity. For more information on the default capacity and additional capacity units, see [Adjusting capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html).
@@ -497,7 +497,7 @@ public struct DescribeRescoreExecutionPlanOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRescoreExecutionPlanOutputBody: Swift.Equatable {
+struct DescribeRescoreExecutionPlanOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -641,7 +641,7 @@ extension KendraRankingClientTypes.Document: Swift.Codable {
 
 extension KendraRankingClientTypes {
     /// Information about a document from a search service such as OpenSearch (self managed). Amazon Kendra Intelligent Ranking uses this information to rank and score on.
-    public struct Document: Swift.Equatable {
+    public struct Document {
         /// The body text of the search service's document.
         public var body: Swift.String?
         /// The optional group identifier of the document from the search service. Documents with the same group identifier are grouped together and processed as one document within the service.
@@ -720,7 +720,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -760,7 +760,7 @@ extension ListRescoreExecutionPlansInput {
     }
 }
 
-public struct ListRescoreExecutionPlansInput: Swift.Equatable {
+public struct ListRescoreExecutionPlansInput {
     /// The maximum number of rescore execution plans to return.
     public var maxResults: Swift.Int?
     /// If the response is truncated, Amazon Kendra Intelligent Ranking returns a pagination token in the response. You can use this pagination token to retrieve the next set of rescore execution plans.
@@ -776,7 +776,7 @@ public struct ListRescoreExecutionPlansInput: Swift.Equatable {
     }
 }
 
-struct ListRescoreExecutionPlansInputBody: Swift.Equatable {
+struct ListRescoreExecutionPlansInputBody {
 }
 
 extension ListRescoreExecutionPlansInputBody: Swift.Decodable {
@@ -799,7 +799,7 @@ extension ListRescoreExecutionPlansOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRescoreExecutionPlansOutput: Swift.Equatable {
+public struct ListRescoreExecutionPlansOutput {
     /// If the response is truncated, Amazon Kendra Intelligent Ranking returns a pagination token in the response.
     public var nextToken: Swift.String?
     /// An array of summary information for one or more rescore execution plans.
@@ -815,7 +815,7 @@ public struct ListRescoreExecutionPlansOutput: Swift.Equatable {
     }
 }
 
-struct ListRescoreExecutionPlansOutputBody: Swift.Equatable {
+struct ListRescoreExecutionPlansOutputBody {
     let summaryItems: [KendraRankingClientTypes.RescoreExecutionPlanSummary]?
     let nextToken: Swift.String?
 }
@@ -879,7 +879,7 @@ extension ListTagsForResourceInput {
 }
 
 /// The request information for listing tags associated with a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the rescore execution plan to get a list of tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -892,7 +892,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -921,7 +921,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags associated with the rescore execution plan.
     public var tags: [KendraRankingClientTypes.Tag]?
 
@@ -933,7 +933,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [KendraRankingClientTypes.Tag]?
 }
 
@@ -1059,7 +1059,7 @@ extension KendraRankingClientTypes.RescoreExecutionPlanSummary: Swift.Codable {
 
 extension KendraRankingClientTypes {
     /// Summary information for a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
-    public struct RescoreExecutionPlanSummary: Swift.Equatable {
+    public struct RescoreExecutionPlanSummary {
         /// The Unix timestamp when the rescore execution plan was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier of the rescore execution plan.
@@ -1116,7 +1116,7 @@ extension RescoreInput {
     }
 }
 
-public struct RescoreInput: Swift.Equatable {
+public struct RescoreInput {
     /// The list of documents for Amazon Kendra Intelligent Ranking to rescore or rank on.
     /// This member is required.
     public var documents: [KendraRankingClientTypes.Document]?
@@ -1139,7 +1139,7 @@ public struct RescoreInput: Swift.Equatable {
     }
 }
 
-struct RescoreInputBody: Swift.Equatable {
+struct RescoreInputBody {
     let searchQuery: Swift.String?
     let documents: [KendraRankingClientTypes.Document]?
 }
@@ -1182,7 +1182,7 @@ extension RescoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RescoreOutput: Swift.Equatable {
+public struct RescoreOutput {
     /// The identifier associated with the scores that Amazon Kendra Intelligent Ranking gives to the results. Amazon Kendra Intelligent Ranking rescores or re-ranks the results for the search service.
     public var rescoreId: Swift.String?
     /// A list of result items for documents with new relevancy scores. The results are in descending order.
@@ -1198,7 +1198,7 @@ public struct RescoreOutput: Swift.Equatable {
     }
 }
 
-struct RescoreOutputBody: Swift.Equatable {
+struct RescoreOutputBody {
     let rescoreId: Swift.String?
     let resultItems: [KendraRankingClientTypes.RescoreResultItem]?
 }
@@ -1270,7 +1270,7 @@ extension KendraRankingClientTypes.RescoreResultItem: Swift.Codable {
 
 extension KendraRankingClientTypes {
     /// A result item for a document with a new relevancy score.
-    public struct RescoreResultItem: Swift.Equatable {
+    public struct RescoreResultItem {
         /// The identifier of the document from the search service.
         public var documentId: Swift.String?
         /// The relevancy score or rank that Amazon Kendra Intelligent Ranking gives to the result.
@@ -1327,7 +1327,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1382,7 +1382,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ResourceUnavailableExceptionBody: Swift.Equatable {
+struct ResourceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -1437,7 +1437,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1480,7 +1480,7 @@ extension KendraRankingClientTypes.Tag: Swift.Codable {
 
 extension KendraRankingClientTypes {
     /// A key-value pair that identifies or categorizes a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can also use a tag to help control access to a rescore execution plan. A tag key and value can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key for the tag. Keys are not case sensitive and must be unique.
         /// This member is required.
         public var key: Swift.String?
@@ -1528,7 +1528,7 @@ extension TagResourceInput {
 }
 
 /// The request information for tagging a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the rescore execution plan to tag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -1546,7 +1546,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [KendraRankingClientTypes.Tag]?
 }
@@ -1581,7 +1581,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -1640,7 +1640,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -1684,7 +1684,7 @@ extension UntagResourceInput {
 }
 
 /// The request information to remove a tag from a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the rescore execution plan to remove the tag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -1702,7 +1702,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -1737,7 +1737,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -1785,7 +1785,7 @@ extension UpdateRescoreExecutionPlanInput {
     }
 }
 
-public struct UpdateRescoreExecutionPlanInput: Swift.Equatable {
+public struct UpdateRescoreExecutionPlanInput {
     /// You can set additional capacity units to meet the needs of your rescore execution plan. You are given a single capacity unit by default. If you want to use the default capacity, you don't set additional capacity units. For more information on the default capacity and additional capacity units, see [Adjusting capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html).
     public var capacityUnits: KendraRankingClientTypes.CapacityUnitsConfiguration?
     /// A new description for the rescore execution plan.
@@ -1810,7 +1810,7 @@ public struct UpdateRescoreExecutionPlanInput: Swift.Equatable {
     }
 }
 
-struct UpdateRescoreExecutionPlanInputBody: Swift.Equatable {
+struct UpdateRescoreExecutionPlanInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let capacityUnits: KendraRankingClientTypes.CapacityUnitsConfiguration?
@@ -1839,7 +1839,7 @@ extension UpdateRescoreExecutionPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRescoreExecutionPlanOutput: Swift.Equatable {
+public struct UpdateRescoreExecutionPlanOutput {
 
     public init() { }
 }
@@ -1900,7 +1900,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

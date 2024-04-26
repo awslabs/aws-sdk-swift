@@ -29,7 +29,7 @@ extension SageMakerMetricsClientTypes.BatchPutMetricsError: Swift.Codable {
 
 extension SageMakerMetricsClientTypes {
     /// An error that occured when putting the metric data.
-    public struct BatchPutMetricsError: Swift.Equatable {
+    public struct BatchPutMetricsError {
         /// The error code of an error that occured when attempting to put metrics.
         ///
         /// * METRIC_LIMIT_EXCEEDED: The maximum amount of metrics per resource is exceeded.
@@ -82,7 +82,7 @@ extension BatchPutMetricsInput {
     }
 }
 
-public struct BatchPutMetricsInput: Swift.Equatable {
+public struct BatchPutMetricsInput {
     /// A list of raw metric values to put.
     /// This member is required.
     public var metricData: [SageMakerMetricsClientTypes.RawMetricData]?
@@ -100,7 +100,7 @@ public struct BatchPutMetricsInput: Swift.Equatable {
     }
 }
 
-struct BatchPutMetricsInputBody: Swift.Equatable {
+struct BatchPutMetricsInputBody {
     let trialComponentName: Swift.String?
     let metricData: [SageMakerMetricsClientTypes.RawMetricData]?
 }
@@ -141,7 +141,7 @@ extension BatchPutMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchPutMetricsOutput: Swift.Equatable {
+public struct BatchPutMetricsOutput {
     /// Lists any errors that occur when inserting metric data.
     public var errors: [SageMakerMetricsClientTypes.BatchPutMetricsError]?
 
@@ -153,7 +153,7 @@ public struct BatchPutMetricsOutput: Swift.Equatable {
     }
 }
 
-struct BatchPutMetricsOutputBody: Swift.Equatable {
+struct BatchPutMetricsOutputBody {
     let errors: [SageMakerMetricsClientTypes.BatchPutMetricsError]?
 }
 
@@ -265,7 +265,7 @@ extension SageMakerMetricsClientTypes.RawMetricData: Swift.Codable {
 
 extension SageMakerMetricsClientTypes {
     /// The raw metric data to associate with the resource.
-    public struct RawMetricData: Swift.Equatable {
+    public struct RawMetricData {
         /// The name of the metric.
         /// This member is required.
         public var metricName: Swift.String?

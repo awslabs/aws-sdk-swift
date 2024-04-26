@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -78,7 +78,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryIdentityProv
 
 extension LicenseManagerUserSubscriptionsClientTypes {
     /// Details about an Active Directory identity provider.
-    public struct ActiveDirectoryIdentityProvider: Swift.Equatable {
+    public struct ActiveDirectoryIdentityProvider {
         /// The directory ID for an Active Directory identity provider.
         public var directoryId: Swift.String?
 
@@ -124,7 +124,7 @@ extension AssociateUserInput {
     }
 }
 
-public struct AssociateUserInput: Swift.Equatable {
+public struct AssociateUserInput {
     /// The domain name of the user.
     public var domain: Swift.String?
     /// The identity provider of the user.
@@ -151,7 +151,7 @@ public struct AssociateUserInput: Swift.Equatable {
     }
 }
 
-struct AssociateUserInputBody: Swift.Equatable {
+struct AssociateUserInputBody {
     let username: Swift.String?
     let instanceId: Swift.String?
     let identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
@@ -191,7 +191,7 @@ extension AssociateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateUserOutput: Swift.Equatable {
+public struct AssociateUserOutput {
     /// Metadata that describes the associate user operation.
     /// This member is required.
     public var instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
@@ -204,7 +204,7 @@ public struct AssociateUserOutput: Swift.Equatable {
     }
 }
 
-struct AssociateUserOutputBody: Swift.Equatable {
+struct AssociateUserOutputBody {
     let instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
 }
 
@@ -276,7 +276,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -316,7 +316,7 @@ extension DeregisterIdentityProviderInput {
     }
 }
 
-public struct DeregisterIdentityProviderInput: Swift.Equatable {
+public struct DeregisterIdentityProviderInput {
     /// An object that specifies details for the identity provider.
     /// This member is required.
     public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
@@ -334,7 +334,7 @@ public struct DeregisterIdentityProviderInput: Swift.Equatable {
     }
 }
 
-struct DeregisterIdentityProviderInputBody: Swift.Equatable {
+struct DeregisterIdentityProviderInputBody {
     let identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
     let product: Swift.String?
 }
@@ -366,7 +366,7 @@ extension DeregisterIdentityProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterIdentityProviderOutput: Swift.Equatable {
+public struct DeregisterIdentityProviderOutput {
     /// Metadata that describes the results of an identity provider operation.
     /// This member is required.
     public var identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
@@ -379,7 +379,7 @@ public struct DeregisterIdentityProviderOutput: Swift.Equatable {
     }
 }
 
-struct DeregisterIdentityProviderOutputBody: Swift.Equatable {
+struct DeregisterIdentityProviderOutputBody {
     let identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
 }
 
@@ -444,7 +444,7 @@ extension DisassociateUserInput {
     }
 }
 
-public struct DisassociateUserInput: Swift.Equatable {
+public struct DisassociateUserInput {
     /// The domain name of the user.
     public var domain: Swift.String?
     /// An object that specifies details for the identity provider.
@@ -471,7 +471,7 @@ public struct DisassociateUserInput: Swift.Equatable {
     }
 }
 
-struct DisassociateUserInputBody: Swift.Equatable {
+struct DisassociateUserInputBody {
     let username: Swift.String?
     let instanceId: Swift.String?
     let identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
@@ -511,7 +511,7 @@ extension DisassociateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateUserOutput: Swift.Equatable {
+public struct DisassociateUserOutput {
     /// Metadata that describes the associate user operation.
     /// This member is required.
     public var instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
@@ -524,7 +524,7 @@ public struct DisassociateUserOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateUserOutputBody: Swift.Equatable {
+struct DisassociateUserOutputBody {
     let instanceUserSummary: LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary?
 }
 
@@ -590,7 +590,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.Filter: Swift.Codable {
 
 extension LicenseManagerUserSubscriptionsClientTypes {
     /// A filter name and value pair that is used to return more specific results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The name of an attribute to use as a filter.
         public var attribute: Swift.String?
         /// The type of search (For example, eq, geq, leq)
@@ -641,7 +641,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.IdentityProvider: Swift.Cod
 
 extension LicenseManagerUserSubscriptionsClientTypes {
     /// Details about an identity provider.
-    public enum IdentityProvider: Swift.Equatable {
+    public enum IdentityProvider {
         /// An object that details an Active Directory identity provider.
         case activedirectoryidentityprovider(LicenseManagerUserSubscriptionsClientTypes.ActiveDirectoryIdentityProvider)
         case sdkUnknown(Swift.String)
@@ -694,7 +694,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary: Sw
 
 extension LicenseManagerUserSubscriptionsClientTypes {
     /// Describes an identity provider.
-    public struct IdentityProviderSummary: Swift.Equatable {
+    public struct IdentityProviderSummary {
         /// The failure message associated with an identity provider.
         public var failureMessage: Swift.String?
         /// An object that specifies details for the identity provider.
@@ -785,7 +785,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.InstanceSummary: Swift.Coda
 
 extension LicenseManagerUserSubscriptionsClientTypes {
     /// Describes an EC2 instance providing user-based subscriptions.
-    public struct InstanceSummary: Swift.Equatable {
+    public struct InstanceSummary {
         /// The ID of the EC2 instance, which provides user-based subscriptions.
         /// This member is required.
         public var instanceId: Swift.String?
@@ -881,7 +881,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary: Swift.
 
 extension LicenseManagerUserSubscriptionsClientTypes {
     /// Describes users of an EC2 instance providing user-based subscriptions.
-    public struct InstanceUserSummary: Swift.Equatable {
+    public struct InstanceUserSummary {
         /// The date a user was associated with an EC2 instance.
         public var associationDate: Swift.String?
         /// The date a user was disassociated from an EC2 instance.
@@ -966,7 +966,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1008,7 +1008,7 @@ extension ListIdentityProvidersInput {
     }
 }
 
-public struct ListIdentityProvidersInput: Swift.Equatable {
+public struct ListIdentityProvidersInput {
     /// Maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// Token for the next set of results.
@@ -1024,7 +1024,7 @@ public struct ListIdentityProvidersInput: Swift.Equatable {
     }
 }
 
-struct ListIdentityProvidersInputBody: Swift.Equatable {
+struct ListIdentityProvidersInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -1058,7 +1058,7 @@ extension ListIdentityProvidersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIdentityProvidersOutput: Swift.Equatable {
+public struct ListIdentityProvidersOutput {
     /// Metadata that describes the list identity providers operation.
     /// This member is required.
     public var identityProviderSummaries: [LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary]?
@@ -1075,7 +1075,7 @@ public struct ListIdentityProvidersOutput: Swift.Equatable {
     }
 }
 
-struct ListIdentityProvidersOutputBody: Swift.Equatable {
+struct ListIdentityProvidersOutputBody {
     let identityProviderSummaries: [LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary]?
     let nextToken: Swift.String?
 }
@@ -1152,7 +1152,7 @@ extension ListInstancesInput {
     }
 }
 
-public struct ListInstancesInput: Swift.Equatable {
+public struct ListInstancesInput {
     /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
     public var filters: [LicenseManagerUserSubscriptionsClientTypes.Filter]?
     /// Maximum number of results to return in a single call.
@@ -1172,7 +1172,7 @@ public struct ListInstancesInput: Swift.Equatable {
     }
 }
 
-struct ListInstancesInputBody: Swift.Equatable {
+struct ListInstancesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [LicenseManagerUserSubscriptionsClientTypes.Filter]?
@@ -1219,7 +1219,7 @@ extension ListInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInstancesOutput: Swift.Equatable {
+public struct ListInstancesOutput {
     /// Metadata that describes the list instances operation.
     public var instanceSummaries: [LicenseManagerUserSubscriptionsClientTypes.InstanceSummary]?
     /// Token for the next set of results.
@@ -1235,7 +1235,7 @@ public struct ListInstancesOutput: Swift.Equatable {
     }
 }
 
-struct ListInstancesOutputBody: Swift.Equatable {
+struct ListInstancesOutputBody {
     let instanceSummaries: [LicenseManagerUserSubscriptionsClientTypes.InstanceSummary]?
     let nextToken: Swift.String?
 }
@@ -1320,7 +1320,7 @@ extension ListProductSubscriptionsInput {
     }
 }
 
-public struct ListProductSubscriptionsInput: Swift.Equatable {
+public struct ListProductSubscriptionsInput {
     /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
     public var filters: [LicenseManagerUserSubscriptionsClientTypes.Filter]?
     /// An object that specifies details for the identity provider.
@@ -1350,7 +1350,7 @@ public struct ListProductSubscriptionsInput: Swift.Equatable {
     }
 }
 
-struct ListProductSubscriptionsInputBody: Swift.Equatable {
+struct ListProductSubscriptionsInputBody {
     let product: Swift.String?
     let identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
     let maxResults: Swift.Int?
@@ -1405,7 +1405,7 @@ extension ListProductSubscriptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProductSubscriptionsOutput: Swift.Equatable {
+public struct ListProductSubscriptionsOutput {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
     /// Metadata that describes the list product subscriptions operation.
@@ -1421,7 +1421,7 @@ public struct ListProductSubscriptionsOutput: Swift.Equatable {
     }
 }
 
-struct ListProductSubscriptionsOutputBody: Swift.Equatable {
+struct ListProductSubscriptionsOutputBody {
     let productUserSummaries: [LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary]?
     let nextToken: Swift.String?
 }
@@ -1506,7 +1506,7 @@ extension ListUserAssociationsInput {
     }
 }
 
-public struct ListUserAssociationsInput: Swift.Equatable {
+public struct ListUserAssociationsInput {
     /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
     public var filters: [LicenseManagerUserSubscriptionsClientTypes.Filter]?
     /// An object that specifies details for the identity provider.
@@ -1536,7 +1536,7 @@ public struct ListUserAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListUserAssociationsInputBody: Swift.Equatable {
+struct ListUserAssociationsInputBody {
     let instanceId: Swift.String?
     let identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
     let maxResults: Swift.Int?
@@ -1591,7 +1591,7 @@ extension ListUserAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUserAssociationsOutput: Swift.Equatable {
+public struct ListUserAssociationsOutput {
     /// Metadata that describes the list user association operation.
     public var instanceUserSummaries: [LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary]?
     /// Token for the next set of results.
@@ -1607,7 +1607,7 @@ public struct ListUserAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListUserAssociationsOutputBody: Swift.Equatable {
+struct ListUserAssociationsOutputBody {
     let instanceUserSummaries: [LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary]?
     let nextToken: Swift.String?
 }
@@ -1716,7 +1716,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary: Swift.C
 
 extension LicenseManagerUserSubscriptionsClientTypes {
     /// The summary of the user-based subscription products for a user.
-    public struct ProductUserSummary: Swift.Equatable {
+    public struct ProductUserSummary {
         /// The domain name of the user.
         public var domain: Swift.String?
         /// An object that specifies details for the identity provider.
@@ -1790,7 +1790,7 @@ extension RegisterIdentityProviderInput {
     }
 }
 
-public struct RegisterIdentityProviderInput: Swift.Equatable {
+public struct RegisterIdentityProviderInput {
     /// An object that specifies details for the identity provider.
     /// This member is required.
     public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
@@ -1812,7 +1812,7 @@ public struct RegisterIdentityProviderInput: Swift.Equatable {
     }
 }
 
-struct RegisterIdentityProviderInputBody: Swift.Equatable {
+struct RegisterIdentityProviderInputBody {
     let identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
     let product: Swift.String?
     let settings: LicenseManagerUserSubscriptionsClientTypes.Settings?
@@ -1848,7 +1848,7 @@ extension RegisterIdentityProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterIdentityProviderOutput: Swift.Equatable {
+public struct RegisterIdentityProviderOutput {
     /// Metadata that describes the results of an identity provider operation.
     /// This member is required.
     public var identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
@@ -1861,7 +1861,7 @@ public struct RegisterIdentityProviderOutput: Swift.Equatable {
     }
 }
 
-struct RegisterIdentityProviderOutputBody: Swift.Equatable {
+struct RegisterIdentityProviderOutputBody {
     let identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
 }
 
@@ -1933,7 +1933,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1988,7 +1988,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2043,7 +2043,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.Settings: Swift.Codable {
 
 extension LicenseManagerUserSubscriptionsClientTypes {
     /// The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints, and the security group ID that is associated with the VPC endpoints. The security group should permit inbound TCP port 1688 communication from resources in the VPC.
-    public struct Settings: Swift.Equatable {
+    public struct Settings {
         /// A security group ID that allows inbound TCP port 1688 communication between resources in your VPC and the VPC endpoint for activation servers.
         /// This member is required.
         public var securityGroupId: Swift.String?
@@ -2095,7 +2095,7 @@ extension StartProductSubscriptionInput {
     }
 }
 
-public struct StartProductSubscriptionInput: Swift.Equatable {
+public struct StartProductSubscriptionInput {
     /// The domain name of the user.
     public var domain: Swift.String?
     /// An object that specifies details for the identity provider.
@@ -2122,7 +2122,7 @@ public struct StartProductSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct StartProductSubscriptionInputBody: Swift.Equatable {
+struct StartProductSubscriptionInputBody {
     let username: Swift.String?
     let identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
     let product: Swift.String?
@@ -2162,7 +2162,7 @@ extension StartProductSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartProductSubscriptionOutput: Swift.Equatable {
+public struct StartProductSubscriptionOutput {
     /// Metadata that describes the start product subscription operation.
     /// This member is required.
     public var productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
@@ -2175,7 +2175,7 @@ public struct StartProductSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct StartProductSubscriptionOutputBody: Swift.Equatable {
+struct StartProductSubscriptionOutputBody {
     let productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
 }
 
@@ -2240,7 +2240,7 @@ extension StopProductSubscriptionInput {
     }
 }
 
-public struct StopProductSubscriptionInput: Swift.Equatable {
+public struct StopProductSubscriptionInput {
     /// The domain name of the user.
     public var domain: Swift.String?
     /// An object that specifies details for the identity provider.
@@ -2267,7 +2267,7 @@ public struct StopProductSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct StopProductSubscriptionInputBody: Swift.Equatable {
+struct StopProductSubscriptionInputBody {
     let username: Swift.String?
     let identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
     let product: Swift.String?
@@ -2307,7 +2307,7 @@ extension StopProductSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopProductSubscriptionOutput: Swift.Equatable {
+public struct StopProductSubscriptionOutput {
     /// Metadata that describes the start product subscription operation.
     /// This member is required.
     public var productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
@@ -2320,7 +2320,7 @@ public struct StopProductSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct StopProductSubscriptionOutputBody: Swift.Equatable {
+struct StopProductSubscriptionOutputBody {
     let productUserSummary: LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary?
 }
 
@@ -2392,7 +2392,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -2436,7 +2436,7 @@ extension UpdateIdentityProviderSettingsInput {
     }
 }
 
-public struct UpdateIdentityProviderSettingsInput: Swift.Equatable {
+public struct UpdateIdentityProviderSettingsInput {
     /// Details about an identity provider.
     /// This member is required.
     public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
@@ -2465,7 +2465,7 @@ public struct UpdateIdentityProviderSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateIdentityProviderSettingsInputBody: Swift.Equatable {
+struct UpdateIdentityProviderSettingsInputBody {
     let identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
     let product: Swift.String?
     let updateSettings: LicenseManagerUserSubscriptionsClientTypes.UpdateSettings?
@@ -2501,7 +2501,7 @@ extension UpdateIdentityProviderSettingsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateIdentityProviderSettingsOutput: Swift.Equatable {
+public struct UpdateIdentityProviderSettingsOutput {
     /// Describes an identity provider.
     /// This member is required.
     public var identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
@@ -2514,7 +2514,7 @@ public struct UpdateIdentityProviderSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIdentityProviderSettingsOutputBody: Swift.Equatable {
+struct UpdateIdentityProviderSettingsOutputBody {
     let identityProviderSummary: LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary?
 }
 
@@ -2601,7 +2601,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.UpdateSettings: Swift.Codab
 
 extension LicenseManagerUserSubscriptionsClientTypes {
     /// Updates the registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
-    public struct UpdateSettings: Swift.Equatable {
+    public struct UpdateSettings {
         /// The ID of one or more subnets in which License Manager will create a VPC endpoint for products that require connectivity to activation servers.
         /// This member is required.
         public var addSubnets: [Swift.String]?
@@ -2664,7 +2664,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

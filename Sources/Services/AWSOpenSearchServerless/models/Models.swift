@@ -59,7 +59,7 @@ extension OpenSearchServerlessClientTypes.AccessPolicyDetail: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Details about an OpenSearch Serverless access policy.
-    public struct AccessPolicyDetail: Swift.Equatable {
+    public struct AccessPolicyDetail {
         /// The date the policy was created.
         public var createdDate: Swift.Int?
         /// The description of the policy.
@@ -118,7 +118,7 @@ extension OpenSearchServerlessClientTypes.AccessPolicyStats: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Statistics for an OpenSearch Serverless access policy.
-    public struct AccessPolicyStats: Swift.Equatable {
+    public struct AccessPolicyStats {
         /// The number of data access policies in the current account.
         public var dataPolicyCount: Swift.Int?
 
@@ -183,7 +183,7 @@ extension OpenSearchServerlessClientTypes.AccessPolicySummary: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// A summary of the data access policy.
-    public struct AccessPolicySummary: Swift.Equatable {
+    public struct AccessPolicySummary {
         /// The Epoch time when the access policy was created.
         public var createdDate: Swift.Int?
         /// The description of the access policy.
@@ -268,7 +268,7 @@ extension OpenSearchServerlessClientTypes.AccountSettingsDetail: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// OpenSearch Serverless-related information for the current account.
-    public struct AccountSettingsDetail: Swift.Equatable {
+    public struct AccountSettingsDetail {
         /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
         public var capacityLimits: OpenSearchServerlessClientTypes.CapacityLimits?
 
@@ -312,7 +312,7 @@ extension BatchGetCollectionInput {
     }
 }
 
-public struct BatchGetCollectionInput: Swift.Equatable {
+public struct BatchGetCollectionInput {
     /// A list of collection IDs. You can't provide names and IDs in the same request. The ID is part of the collection endpoint. You can also retrieve it using the [ListCollections](https://docs.aws.amazon.com/opensearch-service/latest/ServerlessAPIReference/API_ListCollections.html) API.
     public var ids: [Swift.String]?
     /// A list of collection names. You can't provide names and IDs in the same request.
@@ -328,7 +328,7 @@ public struct BatchGetCollectionInput: Swift.Equatable {
     }
 }
 
-struct BatchGetCollectionInputBody: Swift.Equatable {
+struct BatchGetCollectionInputBody {
     let ids: [Swift.String]?
     let names: [Swift.String]?
 }
@@ -380,7 +380,7 @@ extension BatchGetCollectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetCollectionOutput: Swift.Equatable {
+public struct BatchGetCollectionOutput {
     /// Details about each collection.
     public var collectionDetails: [OpenSearchServerlessClientTypes.CollectionDetail]?
     /// Error information for the request.
@@ -396,7 +396,7 @@ public struct BatchGetCollectionOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetCollectionOutputBody: Swift.Equatable {
+struct BatchGetCollectionOutputBody {
     let collectionDetails: [OpenSearchServerlessClientTypes.CollectionDetail]?
     let collectionErrorDetails: [OpenSearchServerlessClientTypes.CollectionErrorDetail]?
 }
@@ -469,7 +469,7 @@ extension BatchGetEffectiveLifecyclePolicyInput {
     }
 }
 
-public struct BatchGetEffectiveLifecyclePolicyInput: Swift.Equatable {
+public struct BatchGetEffectiveLifecyclePolicyInput {
     /// The unique identifiers of policy types and resource names.
     /// This member is required.
     public var resourceIdentifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier]?
@@ -482,7 +482,7 @@ public struct BatchGetEffectiveLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct BatchGetEffectiveLifecyclePolicyInputBody: Swift.Equatable {
+struct BatchGetEffectiveLifecyclePolicyInputBody {
     let resourceIdentifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier]?
 }
 
@@ -521,7 +521,7 @@ extension BatchGetEffectiveLifecyclePolicyOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct BatchGetEffectiveLifecyclePolicyOutput: Swift.Equatable {
+public struct BatchGetEffectiveLifecyclePolicyOutput {
     /// A list of lifecycle policies applied to the OpenSearch Serverless indexes.
     public var effectiveLifecyclePolicyDetails: [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail]?
     /// A list of resources for which retrieval failed.
@@ -537,7 +537,7 @@ public struct BatchGetEffectiveLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetEffectiveLifecyclePolicyOutputBody: Swift.Equatable {
+struct BatchGetEffectiveLifecyclePolicyOutputBody {
     let effectiveLifecyclePolicyDetails: [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail]?
     let effectiveLifecyclePolicyErrorDetails: [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail]?
 }
@@ -610,7 +610,7 @@ extension BatchGetLifecyclePolicyInput {
     }
 }
 
-public struct BatchGetLifecyclePolicyInput: Swift.Equatable {
+public struct BatchGetLifecyclePolicyInput {
     /// The unique identifiers of policy types and policy names.
     /// This member is required.
     public var identifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier]?
@@ -623,7 +623,7 @@ public struct BatchGetLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct BatchGetLifecyclePolicyInputBody: Swift.Equatable {
+struct BatchGetLifecyclePolicyInputBody {
     let identifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier]?
 }
 
@@ -662,7 +662,7 @@ extension BatchGetLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetLifecyclePolicyOutput: Swift.Equatable {
+public struct BatchGetLifecyclePolicyOutput {
     /// A list of lifecycle policies matched to the input policy name and policy type.
     public var lifecyclePolicyDetails: [OpenSearchServerlessClientTypes.LifecyclePolicyDetail]?
     /// A list of lifecycle policy names and policy types for which retrieval failed.
@@ -678,7 +678,7 @@ public struct BatchGetLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetLifecyclePolicyOutputBody: Swift.Equatable {
+struct BatchGetLifecyclePolicyOutputBody {
     let lifecyclePolicyDetails: [OpenSearchServerlessClientTypes.LifecyclePolicyDetail]?
     let lifecyclePolicyErrorDetails: [OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail]?
 }
@@ -751,7 +751,7 @@ extension BatchGetVpcEndpointInput {
     }
 }
 
-public struct BatchGetVpcEndpointInput: Swift.Equatable {
+public struct BatchGetVpcEndpointInput {
     /// A list of VPC endpoint identifiers.
     /// This member is required.
     public var ids: [Swift.String]?
@@ -764,7 +764,7 @@ public struct BatchGetVpcEndpointInput: Swift.Equatable {
     }
 }
 
-struct BatchGetVpcEndpointInputBody: Swift.Equatable {
+struct BatchGetVpcEndpointInputBody {
     let ids: [Swift.String]?
 }
 
@@ -803,7 +803,7 @@ extension BatchGetVpcEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetVpcEndpointOutput: Swift.Equatable {
+public struct BatchGetVpcEndpointOutput {
     /// Details about the specified VPC endpoint.
     public var vpcEndpointDetails: [OpenSearchServerlessClientTypes.VpcEndpointDetail]?
     /// Error information for a failed request.
@@ -819,7 +819,7 @@ public struct BatchGetVpcEndpointOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetVpcEndpointOutputBody: Swift.Equatable {
+struct BatchGetVpcEndpointOutputBody {
     let vpcEndpointDetails: [OpenSearchServerlessClientTypes.VpcEndpointDetail]?
     let vpcEndpointErrorDetails: [OpenSearchServerlessClientTypes.VpcEndpointErrorDetail]?
 }
@@ -896,7 +896,7 @@ extension OpenSearchServerlessClientTypes.CapacityLimits: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
-    public struct CapacityLimits: Swift.Equatable {
+    public struct CapacityLimits {
         /// The maximum indexing capacity for collections.
         public var maxIndexingCapacityInOCU: Swift.Int?
         /// The maximum search capacity for collections.
@@ -1001,7 +1001,7 @@ extension OpenSearchServerlessClientTypes.CollectionDetail: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Details about each OpenSearch Serverless collection, including the collection endpoint and the OpenSearch Dashboards endpoint.
-    public struct CollectionDetail: Swift.Equatable {
+    public struct CollectionDetail {
         /// The Amazon Resource Name (ARN) of the collection.
         public var arn: Swift.String?
         /// Collection-specific endpoint used to submit index, search, and data upload requests to an OpenSearch Serverless collection.
@@ -1098,7 +1098,7 @@ extension OpenSearchServerlessClientTypes.CollectionErrorDetail: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Error information for an OpenSearch Serverless request.
-    public struct CollectionErrorDetail: Swift.Equatable {
+    public struct CollectionErrorDetail {
         /// The error code for the request. For example, NOT_FOUND.
         public var errorCode: Swift.String?
         /// A description of the error. For example, The specified Collection is not found.
@@ -1151,7 +1151,7 @@ extension OpenSearchServerlessClientTypes.CollectionFilters: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// A list of filter keys that you can use for LIST, UPDATE, and DELETE requests to OpenSearch Serverless collections.
-    public struct CollectionFilters: Swift.Equatable {
+    public struct CollectionFilters {
         /// The name of the collection.
         public var name: Swift.String?
         /// The current status of the collection.
@@ -1250,7 +1250,7 @@ extension OpenSearchServerlessClientTypes.CollectionSummary: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Details about each OpenSearch Serverless collection.
-    public struct CollectionSummary: Swift.Equatable {
+    public struct CollectionSummary {
         /// The Amazon Resource Name (ARN) of the collection.
         public var arn: Swift.String?
         /// The unique identifier of the collection.
@@ -1353,7 +1353,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1405,7 +1405,7 @@ extension CreateAccessPolicyInput {
     }
 }
 
-public struct CreateAccessPolicyInput: Swift.Equatable {
+public struct CreateAccessPolicyInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// A description of the policy. Typically used to store information about the permissions defined in the policy.
@@ -1436,7 +1436,7 @@ public struct CreateAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct CreateAccessPolicyInputBody: Swift.Equatable {
+struct CreateAccessPolicyInputBody {
     let type: OpenSearchServerlessClientTypes.AccessPolicyType?
     let name: Swift.String?
     let description: Swift.String?
@@ -1480,7 +1480,7 @@ extension CreateAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAccessPolicyOutput: Swift.Equatable {
+public struct CreateAccessPolicyOutput {
     /// Details about the created access policy.
     public var accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail?
 
@@ -1492,7 +1492,7 @@ public struct CreateAccessPolicyOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccessPolicyOutputBody: Swift.Equatable {
+struct CreateAccessPolicyOutputBody {
     let accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail?
 }
 
@@ -1597,7 +1597,7 @@ extension OpenSearchServerlessClientTypes.CreateCollectionDetail: Swift.Codable 
 
 extension OpenSearchServerlessClientTypes {
     /// Details about the created OpenSearch Serverless collection.
-    public struct CreateCollectionDetail: Swift.Equatable {
+    public struct CreateCollectionDetail {
         /// The Amazon Resource Name (ARN) of the collection.
         public var arn: Swift.String?
         /// The Epoch time when the collection was created.
@@ -1690,7 +1690,7 @@ extension CreateCollectionInput {
     }
 }
 
-public struct CreateCollectionInput: Swift.Equatable {
+public struct CreateCollectionInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// Description of the collection.
@@ -1723,7 +1723,7 @@ public struct CreateCollectionInput: Swift.Equatable {
     }
 }
 
-struct CreateCollectionInputBody: Swift.Equatable {
+struct CreateCollectionInputBody {
     let name: Swift.String?
     let type: OpenSearchServerlessClientTypes.CollectionType?
     let description: Swift.String?
@@ -1780,7 +1780,7 @@ extension CreateCollectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCollectionOutput: Swift.Equatable {
+public struct CreateCollectionOutput {
     /// Details about the collection.
     public var createCollectionDetail: OpenSearchServerlessClientTypes.CreateCollectionDetail?
 
@@ -1792,7 +1792,7 @@ public struct CreateCollectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateCollectionOutputBody: Swift.Equatable {
+struct CreateCollectionOutputBody {
     let createCollectionDetail: OpenSearchServerlessClientTypes.CreateCollectionDetail?
 }
 
@@ -1859,7 +1859,7 @@ extension CreateLifecyclePolicyInput {
     }
 }
 
-public struct CreateLifecyclePolicyInput: Swift.Equatable {
+public struct CreateLifecyclePolicyInput {
     /// A unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// A description of the lifecycle policy.
@@ -1890,7 +1890,7 @@ public struct CreateLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct CreateLifecyclePolicyInputBody: Swift.Equatable {
+struct CreateLifecyclePolicyInputBody {
     let type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
     let name: Swift.String?
     let description: Swift.String?
@@ -1934,7 +1934,7 @@ extension CreateLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLifecyclePolicyOutput: Swift.Equatable {
+public struct CreateLifecyclePolicyOutput {
     /// Details about the created lifecycle policy.
     public var lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail?
 
@@ -1946,7 +1946,7 @@ public struct CreateLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct CreateLifecyclePolicyOutputBody: Swift.Equatable {
+struct CreateLifecyclePolicyOutputBody {
     let lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail?
 }
 
@@ -2012,7 +2012,7 @@ extension CreateSecurityConfigInput {
     }
 }
 
-public struct CreateSecurityConfigInput: Swift.Equatable {
+public struct CreateSecurityConfigInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// A description of the security configuration.
@@ -2042,7 +2042,7 @@ public struct CreateSecurityConfigInput: Swift.Equatable {
     }
 }
 
-struct CreateSecurityConfigInputBody: Swift.Equatable {
+struct CreateSecurityConfigInputBody {
     let type: OpenSearchServerlessClientTypes.SecurityConfigType?
     let name: Swift.String?
     let description: Swift.String?
@@ -2086,7 +2086,7 @@ extension CreateSecurityConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSecurityConfigOutput: Swift.Equatable {
+public struct CreateSecurityConfigOutput {
     /// Details about the created security configuration.
     public var securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail?
 
@@ -2098,7 +2098,7 @@ public struct CreateSecurityConfigOutput: Swift.Equatable {
     }
 }
 
-struct CreateSecurityConfigOutputBody: Swift.Equatable {
+struct CreateSecurityConfigOutputBody {
     let securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail?
 }
 
@@ -2164,7 +2164,7 @@ extension CreateSecurityPolicyInput {
     }
 }
 
-public struct CreateSecurityPolicyInput: Swift.Equatable {
+public struct CreateSecurityPolicyInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// A description of the policy. Typically used to store information about the permissions defined in the policy.
@@ -2195,7 +2195,7 @@ public struct CreateSecurityPolicyInput: Swift.Equatable {
     }
 }
 
-struct CreateSecurityPolicyInputBody: Swift.Equatable {
+struct CreateSecurityPolicyInputBody {
     let type: OpenSearchServerlessClientTypes.SecurityPolicyType?
     let name: Swift.String?
     let description: Swift.String?
@@ -2239,7 +2239,7 @@ extension CreateSecurityPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSecurityPolicyOutput: Swift.Equatable {
+public struct CreateSecurityPolicyOutput {
     /// Details about the created security policy.
     public var securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail?
 
@@ -2251,7 +2251,7 @@ public struct CreateSecurityPolicyOutput: Swift.Equatable {
     }
 }
 
-struct CreateSecurityPolicyOutputBody: Swift.Equatable {
+struct CreateSecurityPolicyOutputBody {
     let securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail?
 }
 
@@ -2314,7 +2314,7 @@ extension OpenSearchServerlessClientTypes.CreateVpcEndpointDetail: Swift.Codable
 
 extension OpenSearchServerlessClientTypes {
     /// Creation details for an OpenSearch Serverless-managed interface endpoint. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
-    public struct CreateVpcEndpointDetail: Swift.Equatable {
+    public struct CreateVpcEndpointDetail {
         /// The unique identifier of the endpoint.
         public var id: Swift.String?
         /// The name of the endpoint.
@@ -2378,7 +2378,7 @@ extension CreateVpcEndpointInput {
     }
 }
 
-public struct CreateVpcEndpointInput: Swift.Equatable {
+public struct CreateVpcEndpointInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// The name of the interface endpoint.
@@ -2409,7 +2409,7 @@ public struct CreateVpcEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreateVpcEndpointInputBody: Swift.Equatable {
+struct CreateVpcEndpointInputBody {
     let name: Swift.String?
     let vpcId: Swift.String?
     let subnetIds: [Swift.String]?
@@ -2471,7 +2471,7 @@ extension CreateVpcEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVpcEndpointOutput: Swift.Equatable {
+public struct CreateVpcEndpointOutput {
     /// Details about the created interface VPC endpoint.
     public var createVpcEndpointDetail: OpenSearchServerlessClientTypes.CreateVpcEndpointDetail?
 
@@ -2483,7 +2483,7 @@ public struct CreateVpcEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreateVpcEndpointOutputBody: Swift.Equatable {
+struct CreateVpcEndpointOutputBody {
     let createVpcEndpointDetail: OpenSearchServerlessClientTypes.CreateVpcEndpointDetail?
 }
 
@@ -2541,7 +2541,7 @@ extension DeleteAccessPolicyInput {
     }
 }
 
-public struct DeleteAccessPolicyInput: Swift.Equatable {
+public struct DeleteAccessPolicyInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// The name of the policy to delete.
@@ -2563,7 +2563,7 @@ public struct DeleteAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccessPolicyInputBody: Swift.Equatable {
+struct DeleteAccessPolicyInputBody {
     let type: OpenSearchServerlessClientTypes.AccessPolicyType?
     let name: Swift.String?
     let clientToken: Swift.String?
@@ -2592,7 +2592,7 @@ extension DeleteAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAccessPolicyOutput: Swift.Equatable {
+public struct DeleteAccessPolicyOutput {
 
     public init() { }
 }
@@ -2644,7 +2644,7 @@ extension OpenSearchServerlessClientTypes.DeleteCollectionDetail: Swift.Codable 
 
 extension OpenSearchServerlessClientTypes {
     /// Details about a deleted OpenSearch Serverless collection.
-    public struct DeleteCollectionDetail: Swift.Equatable {
+    public struct DeleteCollectionDetail {
         /// The unique identifier of the collection.
         public var id: Swift.String?
         /// The name of the collection.
@@ -2690,7 +2690,7 @@ extension DeleteCollectionInput {
     }
 }
 
-public struct DeleteCollectionInput: Swift.Equatable {
+public struct DeleteCollectionInput {
     /// A unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// The unique identifier of the collection. For example, 1iu5usc406kd. The ID is part of the collection endpoint. You can also retrieve it using the [ListCollections](https://docs.aws.amazon.com/opensearch-service/latest/ServerlessAPIReference/API_ListCollections.html) API.
@@ -2707,7 +2707,7 @@ public struct DeleteCollectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteCollectionInputBody: Swift.Equatable {
+struct DeleteCollectionInputBody {
     let id: Swift.String?
     let clientToken: Swift.String?
 }
@@ -2739,7 +2739,7 @@ extension DeleteCollectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCollectionOutput: Swift.Equatable {
+public struct DeleteCollectionOutput {
     /// Details of the deleted collection.
     public var deleteCollectionDetail: OpenSearchServerlessClientTypes.DeleteCollectionDetail?
 
@@ -2751,7 +2751,7 @@ public struct DeleteCollectionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCollectionOutputBody: Swift.Equatable {
+struct DeleteCollectionOutputBody {
     let deleteCollectionDetail: OpenSearchServerlessClientTypes.DeleteCollectionDetail?
 }
 
@@ -2809,7 +2809,7 @@ extension DeleteLifecyclePolicyInput {
     }
 }
 
-public struct DeleteLifecyclePolicyInput: Swift.Equatable {
+public struct DeleteLifecyclePolicyInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// The name of the policy to delete.
@@ -2831,7 +2831,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteLifecyclePolicyInputBody: Swift.Equatable {
+struct DeleteLifecyclePolicyInputBody {
     let type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
     let name: Swift.String?
     let clientToken: Swift.String?
@@ -2860,7 +2860,7 @@ extension DeleteLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLifecyclePolicyOutput: Swift.Equatable {
+public struct DeleteLifecyclePolicyOutput {
 
     public init() { }
 }
@@ -2903,7 +2903,7 @@ extension DeleteSecurityConfigInput {
     }
 }
 
-public struct DeleteSecurityConfigInput: Swift.Equatable {
+public struct DeleteSecurityConfigInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// The security configuration identifier. For SAML the ID will be saml/<accountId>/<idpProviderName>. For example, saml/123456789123/OKTADev.
@@ -2920,7 +2920,7 @@ public struct DeleteSecurityConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteSecurityConfigInputBody: Swift.Equatable {
+struct DeleteSecurityConfigInputBody {
     let id: Swift.String?
     let clientToken: Swift.String?
 }
@@ -2945,7 +2945,7 @@ extension DeleteSecurityConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSecurityConfigOutput: Swift.Equatable {
+public struct DeleteSecurityConfigOutput {
 
     public init() { }
 }
@@ -2992,7 +2992,7 @@ extension DeleteSecurityPolicyInput {
     }
 }
 
-public struct DeleteSecurityPolicyInput: Swift.Equatable {
+public struct DeleteSecurityPolicyInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// The name of the policy to delete.
@@ -3014,7 +3014,7 @@ public struct DeleteSecurityPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteSecurityPolicyInputBody: Swift.Equatable {
+struct DeleteSecurityPolicyInputBody {
     let type: OpenSearchServerlessClientTypes.SecurityPolicyType?
     let name: Swift.String?
     let clientToken: Swift.String?
@@ -3043,7 +3043,7 @@ extension DeleteSecurityPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSecurityPolicyOutput: Swift.Equatable {
+public struct DeleteSecurityPolicyOutput {
 
     public init() { }
 }
@@ -3095,7 +3095,7 @@ extension OpenSearchServerlessClientTypes.DeleteVpcEndpointDetail: Swift.Codable
 
 extension OpenSearchServerlessClientTypes {
     /// Deletion details for an OpenSearch Serverless-managed interface endpoint.
-    public struct DeleteVpcEndpointDetail: Swift.Equatable {
+    public struct DeleteVpcEndpointDetail {
         /// The unique identifier of the endpoint.
         public var id: Swift.String?
         /// The name of the endpoint.
@@ -3141,7 +3141,7 @@ extension DeleteVpcEndpointInput {
     }
 }
 
-public struct DeleteVpcEndpointInput: Swift.Equatable {
+public struct DeleteVpcEndpointInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// The VPC endpoint identifier.
@@ -3158,7 +3158,7 @@ public struct DeleteVpcEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteVpcEndpointInputBody: Swift.Equatable {
+struct DeleteVpcEndpointInputBody {
     let id: Swift.String?
     let clientToken: Swift.String?
 }
@@ -3190,7 +3190,7 @@ extension DeleteVpcEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVpcEndpointOutput: Swift.Equatable {
+public struct DeleteVpcEndpointOutput {
     /// Details about the deleted endpoint.
     public var deleteVpcEndpointDetail: OpenSearchServerlessClientTypes.DeleteVpcEndpointDetail?
 
@@ -3202,7 +3202,7 @@ public struct DeleteVpcEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVpcEndpointOutputBody: Swift.Equatable {
+struct DeleteVpcEndpointOutputBody {
     let deleteVpcEndpointDetail: OpenSearchServerlessClientTypes.DeleteVpcEndpointDetail?
 }
 
@@ -3283,7 +3283,7 @@ extension OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail: Swift.
 
 extension OpenSearchServerlessClientTypes {
     /// Error information for an OpenSearch Serverless request.
-    public struct EffectiveLifecyclePolicyDetail: Swift.Equatable {
+    public struct EffectiveLifecyclePolicyDetail {
         /// The minimum number of index retention days set. That is an optional param that will return as true if the minimum number of days or hours is not set to a index resource.
         public var noMinRetentionPeriod: Swift.Bool?
         /// The name of the lifecycle policy.
@@ -3356,7 +3356,7 @@ extension OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail: S
 
 extension OpenSearchServerlessClientTypes {
     /// Error information for an OpenSearch Serverless request.
-    public struct EffectiveLifecyclePolicyErrorDetail: Swift.Equatable {
+    public struct EffectiveLifecyclePolicyErrorDetail {
         /// The error code for the request.
         public var errorCode: Swift.String?
         /// A description of the error. For example, The specified Index resource is not found.
@@ -3406,7 +3406,7 @@ extension GetAccessPolicyInput {
     }
 }
 
-public struct GetAccessPolicyInput: Swift.Equatable {
+public struct GetAccessPolicyInput {
     /// The name of the access policy.
     /// This member is required.
     public var name: Swift.String?
@@ -3424,7 +3424,7 @@ public struct GetAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetAccessPolicyInputBody: Swift.Equatable {
+struct GetAccessPolicyInputBody {
     let type: OpenSearchServerlessClientTypes.AccessPolicyType?
     let name: Swift.String?
 }
@@ -3456,7 +3456,7 @@ extension GetAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccessPolicyOutput: Swift.Equatable {
+public struct GetAccessPolicyOutput {
     /// Details about the requested access policy.
     public var accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail?
 
@@ -3468,7 +3468,7 @@ public struct GetAccessPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetAccessPolicyOutputBody: Swift.Equatable {
+struct GetAccessPolicyOutputBody {
     let accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail?
 }
 
@@ -3512,12 +3512,12 @@ extension GetAccountSettingsInput {
     }
 }
 
-public struct GetAccountSettingsInput: Swift.Equatable {
+public struct GetAccountSettingsInput {
 
     public init() { }
 }
 
-struct GetAccountSettingsInputBody: Swift.Equatable {
+struct GetAccountSettingsInputBody {
 }
 
 extension GetAccountSettingsInputBody: Swift.Decodable {
@@ -3538,7 +3538,7 @@ extension GetAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccountSettingsOutput: Swift.Equatable {
+public struct GetAccountSettingsOutput {
     /// OpenSearch Serverless-related details for the current account.
     public var accountSettingsDetail: OpenSearchServerlessClientTypes.AccountSettingsDetail?
 
@@ -3550,7 +3550,7 @@ public struct GetAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountSettingsOutputBody: Swift.Equatable {
+struct GetAccountSettingsOutputBody {
     let accountSettingsDetail: OpenSearchServerlessClientTypes.AccountSettingsDetail?
 }
 
@@ -3593,12 +3593,12 @@ extension GetPoliciesStatsInput {
     }
 }
 
-public struct GetPoliciesStatsInput: Swift.Equatable {
+public struct GetPoliciesStatsInput {
 
     public init() { }
 }
 
-struct GetPoliciesStatsInputBody: Swift.Equatable {
+struct GetPoliciesStatsInputBody {
 }
 
 extension GetPoliciesStatsInputBody: Swift.Decodable {
@@ -3627,7 +3627,7 @@ extension GetPoliciesStatsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPoliciesStatsOutput: Swift.Equatable {
+public struct GetPoliciesStatsOutput {
     /// Information about the data access policies in your account.
     public var accessPolicyStats: OpenSearchServerlessClientTypes.AccessPolicyStats?
     /// Information about the lifecycle policies in your account.
@@ -3655,7 +3655,7 @@ public struct GetPoliciesStatsOutput: Swift.Equatable {
     }
 }
 
-struct GetPoliciesStatsOutputBody: Swift.Equatable {
+struct GetPoliciesStatsOutputBody {
     let accessPolicyStats: OpenSearchServerlessClientTypes.AccessPolicyStats?
     let securityPolicyStats: OpenSearchServerlessClientTypes.SecurityPolicyStats?
     let securityConfigStats: OpenSearchServerlessClientTypes.SecurityConfigStats?
@@ -3718,7 +3718,7 @@ extension GetSecurityConfigInput {
     }
 }
 
-public struct GetSecurityConfigInput: Swift.Equatable {
+public struct GetSecurityConfigInput {
     /// The unique identifier of the security configuration.
     /// This member is required.
     public var id: Swift.String?
@@ -3731,7 +3731,7 @@ public struct GetSecurityConfigInput: Swift.Equatable {
     }
 }
 
-struct GetSecurityConfigInputBody: Swift.Equatable {
+struct GetSecurityConfigInputBody {
     let id: Swift.String?
 }
 
@@ -3759,7 +3759,7 @@ extension GetSecurityConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSecurityConfigOutput: Swift.Equatable {
+public struct GetSecurityConfigOutput {
     /// Details of the requested security configuration.
     public var securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail?
 
@@ -3771,7 +3771,7 @@ public struct GetSecurityConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetSecurityConfigOutputBody: Swift.Equatable {
+struct GetSecurityConfigOutputBody {
     let securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail?
 }
 
@@ -3824,7 +3824,7 @@ extension GetSecurityPolicyInput {
     }
 }
 
-public struct GetSecurityPolicyInput: Swift.Equatable {
+public struct GetSecurityPolicyInput {
     /// The name of the security policy.
     /// This member is required.
     public var name: Swift.String?
@@ -3842,7 +3842,7 @@ public struct GetSecurityPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetSecurityPolicyInputBody: Swift.Equatable {
+struct GetSecurityPolicyInputBody {
     let type: OpenSearchServerlessClientTypes.SecurityPolicyType?
     let name: Swift.String?
 }
@@ -3874,7 +3874,7 @@ extension GetSecurityPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSecurityPolicyOutput: Swift.Equatable {
+public struct GetSecurityPolicyOutput {
     /// Details about the requested security policy.
     public var securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail?
 
@@ -3886,7 +3886,7 @@ public struct GetSecurityPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetSecurityPolicyOutputBody: Swift.Equatable {
+struct GetSecurityPolicyOutputBody {
     let securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail?
 }
 
@@ -3954,7 +3954,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4027,7 +4027,7 @@ extension OpenSearchServerlessClientTypes.LifecyclePolicyDetail: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Details about an OpenSearch Serverless lifecycle policy.
-    public struct LifecyclePolicyDetail: Swift.Equatable {
+    public struct LifecyclePolicyDetail {
         /// The date the lifecycle policy was created.
         public var createdDate: Swift.Int?
         /// The description of the lifecycle policy.
@@ -4104,7 +4104,7 @@ extension OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail: Swift.Coda
 
 extension OpenSearchServerlessClientTypes {
     /// Error information for an OpenSearch Serverless request.
-    public struct LifecyclePolicyErrorDetail: Swift.Equatable {
+    public struct LifecyclePolicyErrorDetail {
         /// The error code for the request. For example, NOT_FOUND.
         public var errorCode: Swift.String?
         /// A description of the error. For example, The specified Lifecycle Policy is not found.
@@ -4157,7 +4157,7 @@ extension OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier: Swift.Codab
 
 extension OpenSearchServerlessClientTypes {
     /// The unique identifiers of policy types and policy names.
-    public struct LifecyclePolicyIdentifier: Swift.Equatable {
+    public struct LifecyclePolicyIdentifier {
         /// The name of the lifecycle policy.
         /// This member is required.
         public var name: Swift.String?
@@ -4204,7 +4204,7 @@ extension OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier: Swi
 
 extension OpenSearchServerlessClientTypes {
     /// The unique identifiers of policy types and resource names.
-    public struct LifecyclePolicyResourceIdentifier: Swift.Equatable {
+    public struct LifecyclePolicyResourceIdentifier {
         /// The name of the OpenSearch Serverless ilndex resource.
         /// This member is required.
         public var resource: Swift.String?
@@ -4245,7 +4245,7 @@ extension OpenSearchServerlessClientTypes.LifecyclePolicyStats: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Statistics for an OpenSearch Serverless lifecycle policy.
-    public struct LifecyclePolicyStats: Swift.Equatable {
+    public struct LifecyclePolicyStats {
         /// The number of retention lifecycle policies in the current account.
         public var retentionPolicyCount: Swift.Int?
 
@@ -4310,7 +4310,7 @@ extension OpenSearchServerlessClientTypes.LifecyclePolicySummary: Swift.Codable 
 
 extension OpenSearchServerlessClientTypes {
     /// A summary of the lifecycle policy.
-    public struct LifecyclePolicySummary: Swift.Equatable {
+    public struct LifecyclePolicySummary {
         /// The Epoch time when the lifecycle policy was created.
         public var createdDate: Swift.Int?
         /// The description of the lifecycle policy.
@@ -4409,7 +4409,7 @@ extension ListAccessPoliciesInput {
     }
 }
 
-public struct ListAccessPoliciesInput: Swift.Equatable {
+public struct ListAccessPoliciesInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20.
     public var maxResults: Swift.Int?
     /// If your initial ListAccessPolicies operation returns a nextToken, you can include the returned nextToken in subsequent ListAccessPolicies operations, which returns results in the next page.
@@ -4434,7 +4434,7 @@ public struct ListAccessPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListAccessPoliciesInputBody: Swift.Equatable {
+struct ListAccessPoliciesInputBody {
     let type: OpenSearchServerlessClientTypes.AccessPolicyType?
     let resource: [Swift.String]?
     let nextToken: Swift.String?
@@ -4485,7 +4485,7 @@ extension ListAccessPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccessPoliciesOutput: Swift.Equatable {
+public struct ListAccessPoliciesOutput {
     /// Details about the requested access policies.
     public var accessPolicySummaries: [OpenSearchServerlessClientTypes.AccessPolicySummary]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
@@ -4501,7 +4501,7 @@ public struct ListAccessPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListAccessPoliciesOutputBody: Swift.Equatable {
+struct ListAccessPoliciesOutputBody {
     let accessPolicySummaries: [OpenSearchServerlessClientTypes.AccessPolicySummary]?
     let nextToken: Swift.String?
 }
@@ -4570,7 +4570,7 @@ extension ListCollectionsInput {
     }
 }
 
-public struct ListCollectionsInput: Swift.Equatable {
+public struct ListCollectionsInput {
     /// A list of filter names and values that you can use for requests.
     public var collectionFilters: OpenSearchServerlessClientTypes.CollectionFilters?
     /// The maximum number of results to return. Default is 20. You can use nextToken to get the next page of results.
@@ -4590,7 +4590,7 @@ public struct ListCollectionsInput: Swift.Equatable {
     }
 }
 
-struct ListCollectionsInputBody: Swift.Equatable {
+struct ListCollectionsInputBody {
     let collectionFilters: OpenSearchServerlessClientTypes.CollectionFilters?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4628,7 +4628,7 @@ extension ListCollectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCollectionsOutput: Swift.Equatable {
+public struct ListCollectionsOutput {
     /// Details about each collection.
     public var collectionSummaries: [OpenSearchServerlessClientTypes.CollectionSummary]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
@@ -4644,7 +4644,7 @@ public struct ListCollectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListCollectionsOutputBody: Swift.Equatable {
+struct ListCollectionsOutputBody {
     let collectionSummaries: [OpenSearchServerlessClientTypes.CollectionSummary]?
     let nextToken: Swift.String?
 }
@@ -4720,7 +4720,7 @@ extension ListLifecyclePoliciesInput {
     }
 }
 
-public struct ListLifecyclePoliciesInput: Swift.Equatable {
+public struct ListLifecyclePoliciesInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use use nextToken to get the next page of results. The default is 10.
     public var maxResults: Swift.Int?
     /// If your initial ListLifecyclePolicies operation returns a nextToken, you can include the returned nextToken in subsequent ListLifecyclePolicies operations, which returns results in the next page.
@@ -4745,7 +4745,7 @@ public struct ListLifecyclePoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListLifecyclePoliciesInputBody: Swift.Equatable {
+struct ListLifecyclePoliciesInputBody {
     let type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
     let resources: [Swift.String]?
     let nextToken: Swift.String?
@@ -4796,7 +4796,7 @@ extension ListLifecyclePoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLifecyclePoliciesOutput: Swift.Equatable {
+public struct ListLifecyclePoliciesOutput {
     /// Details about the requested lifecycle policies.
     public var lifecyclePolicySummaries: [OpenSearchServerlessClientTypes.LifecyclePolicySummary]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
@@ -4812,7 +4812,7 @@ public struct ListLifecyclePoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListLifecyclePoliciesOutputBody: Swift.Equatable {
+struct ListLifecyclePoliciesOutputBody {
     let lifecyclePolicySummaries: [OpenSearchServerlessClientTypes.LifecyclePolicySummary]?
     let nextToken: Swift.String?
 }
@@ -4881,7 +4881,7 @@ extension ListSecurityConfigsInput {
     }
 }
 
-public struct ListSecurityConfigsInput: Swift.Equatable {
+public struct ListSecurityConfigsInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20.
     public var maxResults: Swift.Int?
     /// If your initial ListSecurityConfigs operation returns a nextToken, you can include the returned nextToken in subsequent ListSecurityConfigs operations, which returns results in the next page.
@@ -4902,7 +4902,7 @@ public struct ListSecurityConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListSecurityConfigsInputBody: Swift.Equatable {
+struct ListSecurityConfigsInputBody {
     let type: OpenSearchServerlessClientTypes.SecurityConfigType?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4940,7 +4940,7 @@ extension ListSecurityConfigsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSecurityConfigsOutput: Swift.Equatable {
+public struct ListSecurityConfigsOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// Details about the security configurations in your account.
@@ -4956,7 +4956,7 @@ public struct ListSecurityConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListSecurityConfigsOutputBody: Swift.Equatable {
+struct ListSecurityConfigsOutputBody {
     let securityConfigSummaries: [OpenSearchServerlessClientTypes.SecurityConfigSummary]?
     let nextToken: Swift.String?
 }
@@ -5032,7 +5032,7 @@ extension ListSecurityPoliciesInput {
     }
 }
 
-public struct ListSecurityPoliciesInput: Swift.Equatable {
+public struct ListSecurityPoliciesInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20.
     public var maxResults: Swift.Int?
     /// If your initial ListSecurityPolicies operation returns a nextToken, you can include the returned nextToken in subsequent ListSecurityPolicies operations, which returns results in the next page.
@@ -5057,7 +5057,7 @@ public struct ListSecurityPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListSecurityPoliciesInputBody: Swift.Equatable {
+struct ListSecurityPoliciesInputBody {
     let type: OpenSearchServerlessClientTypes.SecurityPolicyType?
     let resource: [Swift.String]?
     let nextToken: Swift.String?
@@ -5108,7 +5108,7 @@ extension ListSecurityPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSecurityPoliciesOutput: Swift.Equatable {
+public struct ListSecurityPoliciesOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// Details about the security policies in your account.
@@ -5124,7 +5124,7 @@ public struct ListSecurityPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListSecurityPoliciesOutputBody: Swift.Equatable {
+struct ListSecurityPoliciesOutputBody {
     let securityPolicySummaries: [OpenSearchServerlessClientTypes.SecurityPolicySummary]?
     let nextToken: Swift.String?
 }
@@ -5185,7 +5185,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource. The resource must be active (not in the DELETING state), and must be owned by the account ID included in the request.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5198,7 +5198,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -5226,7 +5226,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags associated with the resource.
     public var tags: [OpenSearchServerlessClientTypes.Tag]?
 
@@ -5238,7 +5238,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [OpenSearchServerlessClientTypes.Tag]?
 }
 
@@ -5304,7 +5304,7 @@ extension ListVpcEndpointsInput {
     }
 }
 
-public struct ListVpcEndpointsInput: Swift.Equatable {
+public struct ListVpcEndpointsInput {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20.
     public var maxResults: Swift.Int?
     /// If your initial ListVpcEndpoints operation returns a nextToken, you can include the returned nextToken in subsequent ListVpcEndpoints operations, which returns results in the next page.
@@ -5324,7 +5324,7 @@ public struct ListVpcEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListVpcEndpointsInputBody: Swift.Equatable {
+struct ListVpcEndpointsInputBody {
     let vpcEndpointFilters: OpenSearchServerlessClientTypes.VpcEndpointFilters?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -5362,7 +5362,7 @@ extension ListVpcEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVpcEndpointsOutput: Swift.Equatable {
+public struct ListVpcEndpointsOutput {
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// Details about each VPC endpoint, including the name and current status.
@@ -5378,7 +5378,7 @@ public struct ListVpcEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListVpcEndpointsOutputBody: Swift.Equatable {
+struct ListVpcEndpointsOutputBody {
     let vpcEndpointSummaries: [OpenSearchServerlessClientTypes.VpcEndpointSummary]?
     let nextToken: Swift.String?
 }
@@ -5460,7 +5460,7 @@ public struct OcuLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct OcuLimitExceededExceptionBody: Swift.Equatable {
+struct OcuLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5517,7 +5517,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5602,7 +5602,7 @@ extension OpenSearchServerlessClientTypes.SamlConfigOptions: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Describes SAML options for an OpenSearch Serverless security configuration in the form of a key-value map.
-    public struct SamlConfigOptions: Swift.Equatable {
+    public struct SamlConfigOptions {
         /// The group attribute for this SAML integration.
         public var groupAttribute: Swift.String?
         /// The XML IdP metadata file generated from your identity provider.
@@ -5686,7 +5686,7 @@ extension OpenSearchServerlessClientTypes.SecurityConfigDetail: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Details about a security configuration for OpenSearch Serverless.
-    public struct SecurityConfigDetail: Swift.Equatable {
+    public struct SecurityConfigDetail {
         /// The version of the security configuration.
         public var configVersion: Swift.String?
         /// The date the configuration was created.
@@ -5745,7 +5745,7 @@ extension OpenSearchServerlessClientTypes.SecurityConfigStats: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Statistics for an OpenSearch Serverless security configuration.
-    public struct SecurityConfigStats: Swift.Equatable {
+    public struct SecurityConfigStats {
         /// The number of security configurations in the current account.
         public var samlConfigCount: Swift.Int?
 
@@ -5810,7 +5810,7 @@ extension OpenSearchServerlessClientTypes.SecurityConfigSummary: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// A summary of a security configuration for OpenSearch Serverless.
-    public struct SecurityConfigSummary: Swift.Equatable {
+    public struct SecurityConfigSummary {
         /// The version of the security configuration.
         public var configVersion: Swift.String?
         /// The Epoch time when the security configuration was created.
@@ -5931,7 +5931,7 @@ extension OpenSearchServerlessClientTypes.SecurityPolicyDetail: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Details about an OpenSearch Serverless security policy.
-    public struct SecurityPolicyDetail: Swift.Equatable {
+    public struct SecurityPolicyDetail {
         /// The date the policy was created.
         public var createdDate: Swift.Int?
         /// The description of the security policy.
@@ -5996,7 +5996,7 @@ extension OpenSearchServerlessClientTypes.SecurityPolicyStats: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Statistics for an OpenSearch Serverless security policy.
-    public struct SecurityPolicyStats: Swift.Equatable {
+    public struct SecurityPolicyStats {
         /// The number of encryption policies in the current account.
         public var encryptionPolicyCount: Swift.Int?
         /// The number of network policies in the current account.
@@ -6065,7 +6065,7 @@ extension OpenSearchServerlessClientTypes.SecurityPolicySummary: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// A summary of a security policy for OpenSearch Serverless.
-    public struct SecurityPolicySummary: Swift.Equatable {
+    public struct SecurityPolicySummary {
         /// The date the policy was created.
         public var createdDate: Swift.Int?
         /// The description of the security policy.
@@ -6199,7 +6199,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -6292,7 +6292,7 @@ extension OpenSearchServerlessClientTypes.Tag: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// A map of key-value pairs associated to an OpenSearch Serverless resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key to use in the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -6339,7 +6339,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource. The resource must be active (not in the DELETING state), and must be owned by the account ID included in the request.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6357,7 +6357,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [OpenSearchServerlessClientTypes.Tag]?
 }
@@ -6391,7 +6391,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -6438,7 +6438,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to remove tags from. The resource must be active (not in the DELETING state), and must be owned by the account ID included in the request.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6456,7 +6456,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -6490,7 +6490,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -6549,7 +6549,7 @@ extension UpdateAccessPolicyInput {
     }
 }
 
-public struct UpdateAccessPolicyInput: Swift.Equatable {
+public struct UpdateAccessPolicyInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// A description of the policy. Typically used to store information about the permissions defined in the policy.
@@ -6584,7 +6584,7 @@ public struct UpdateAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccessPolicyInputBody: Swift.Equatable {
+struct UpdateAccessPolicyInputBody {
     let type: OpenSearchServerlessClientTypes.AccessPolicyType?
     let name: Swift.String?
     let policyVersion: Swift.String?
@@ -6632,7 +6632,7 @@ extension UpdateAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAccessPolicyOutput: Swift.Equatable {
+public struct UpdateAccessPolicyOutput {
     /// Details about the updated access policy.
     public var accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail?
 
@@ -6644,7 +6644,7 @@ public struct UpdateAccessPolicyOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccessPolicyOutputBody: Swift.Equatable {
+struct UpdateAccessPolicyOutputBody {
     let accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail?
 }
 
@@ -6694,7 +6694,7 @@ extension UpdateAccountSettingsInput {
     }
 }
 
-public struct UpdateAccountSettingsInput: Swift.Equatable {
+public struct UpdateAccountSettingsInput {
     /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
     public var capacityLimits: OpenSearchServerlessClientTypes.CapacityLimits?
 
@@ -6706,7 +6706,7 @@ public struct UpdateAccountSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountSettingsInputBody: Swift.Equatable {
+struct UpdateAccountSettingsInputBody {
     let capacityLimits: OpenSearchServerlessClientTypes.CapacityLimits?
 }
 
@@ -6734,7 +6734,7 @@ extension UpdateAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAccountSettingsOutput: Swift.Equatable {
+public struct UpdateAccountSettingsOutput {
     /// OpenSearch Serverless-related settings for the current Amazon Web Services account.
     public var accountSettingsDetail: OpenSearchServerlessClientTypes.AccountSettingsDetail?
 
@@ -6746,7 +6746,7 @@ public struct UpdateAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountSettingsOutputBody: Swift.Equatable {
+struct UpdateAccountSettingsOutputBody {
     let accountSettingsDetail: OpenSearchServerlessClientTypes.AccountSettingsDetail?
 }
 
@@ -6837,7 +6837,7 @@ extension OpenSearchServerlessClientTypes.UpdateCollectionDetail: Swift.Codable 
 
 extension OpenSearchServerlessClientTypes {
     /// Details about an updated OpenSearch Serverless collection.
-    public struct UpdateCollectionDetail: Swift.Equatable {
+    public struct UpdateCollectionDetail {
         /// The Amazon Resource Name (ARN) of the collection.
         public var arn: Swift.String?
         /// The date and time when the collection was created.
@@ -6907,7 +6907,7 @@ extension UpdateCollectionInput {
     }
 }
 
-public struct UpdateCollectionInput: Swift.Equatable {
+public struct UpdateCollectionInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// A description of the collection.
@@ -6928,7 +6928,7 @@ public struct UpdateCollectionInput: Swift.Equatable {
     }
 }
 
-struct UpdateCollectionInputBody: Swift.Equatable {
+struct UpdateCollectionInputBody {
     let id: Swift.String?
     let description: Swift.String?
     let clientToken: Swift.String?
@@ -6964,7 +6964,7 @@ extension UpdateCollectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCollectionOutput: Swift.Equatable {
+public struct UpdateCollectionOutput {
     /// Details about the updated collection.
     public var updateCollectionDetail: OpenSearchServerlessClientTypes.UpdateCollectionDetail?
 
@@ -6976,7 +6976,7 @@ public struct UpdateCollectionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCollectionOutputBody: Swift.Equatable {
+struct UpdateCollectionOutputBody {
     let updateCollectionDetail: OpenSearchServerlessClientTypes.UpdateCollectionDetail?
 }
 
@@ -7045,7 +7045,7 @@ extension UpdateLifecyclePolicyInput {
     }
 }
 
-public struct UpdateLifecyclePolicyInput: Swift.Equatable {
+public struct UpdateLifecyclePolicyInput {
     /// A unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// A description of the lifecycle policy.
@@ -7080,7 +7080,7 @@ public struct UpdateLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct UpdateLifecyclePolicyInputBody: Swift.Equatable {
+struct UpdateLifecyclePolicyInputBody {
     let type: OpenSearchServerlessClientTypes.LifecyclePolicyType?
     let name: Swift.String?
     let policyVersion: Swift.String?
@@ -7128,7 +7128,7 @@ extension UpdateLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLifecyclePolicyOutput: Swift.Equatable {
+public struct UpdateLifecyclePolicyOutput {
     /// Details about the updated lifecycle policy.
     public var lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail?
 
@@ -7140,7 +7140,7 @@ public struct UpdateLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLifecyclePolicyOutputBody: Swift.Equatable {
+struct UpdateLifecyclePolicyOutputBody {
     let lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail?
 }
 
@@ -7207,7 +7207,7 @@ extension UpdateSecurityConfigInput {
     }
 }
 
-public struct UpdateSecurityConfigInput: Swift.Equatable {
+public struct UpdateSecurityConfigInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// The version of the security configuration to be updated. You can find the most recent version of a security configuration using the GetSecurityPolicy command.
@@ -7237,7 +7237,7 @@ public struct UpdateSecurityConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateSecurityConfigInputBody: Swift.Equatable {
+struct UpdateSecurityConfigInputBody {
     let id: Swift.String?
     let configVersion: Swift.String?
     let description: Swift.String?
@@ -7281,7 +7281,7 @@ extension UpdateSecurityConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSecurityConfigOutput: Swift.Equatable {
+public struct UpdateSecurityConfigOutput {
     /// Details about the updated security configuration.
     public var securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail?
 
@@ -7293,7 +7293,7 @@ public struct UpdateSecurityConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSecurityConfigOutputBody: Swift.Equatable {
+struct UpdateSecurityConfigOutputBody {
     let securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail?
 }
 
@@ -7363,7 +7363,7 @@ extension UpdateSecurityPolicyInput {
     }
 }
 
-public struct UpdateSecurityPolicyInput: Swift.Equatable {
+public struct UpdateSecurityPolicyInput {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// A description of the policy. Typically used to store information about the permissions defined in the policy.
@@ -7398,7 +7398,7 @@ public struct UpdateSecurityPolicyInput: Swift.Equatable {
     }
 }
 
-struct UpdateSecurityPolicyInputBody: Swift.Equatable {
+struct UpdateSecurityPolicyInputBody {
     let type: OpenSearchServerlessClientTypes.SecurityPolicyType?
     let name: Swift.String?
     let policyVersion: Swift.String?
@@ -7446,7 +7446,7 @@ extension UpdateSecurityPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSecurityPolicyOutput: Swift.Equatable {
+public struct UpdateSecurityPolicyOutput {
     /// Details about the updated security policy.
     public var securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail?
 
@@ -7458,7 +7458,7 @@ public struct UpdateSecurityPolicyOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSecurityPolicyOutputBody: Swift.Equatable {
+struct UpdateSecurityPolicyOutputBody {
     let securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail?
 }
 
@@ -7564,7 +7564,7 @@ extension OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail: Swift.Codable
 
 extension OpenSearchServerlessClientTypes {
     /// Update details for an OpenSearch Serverless-managed interface endpoint.
-    public struct UpdateVpcEndpointDetail: Swift.Equatable {
+    public struct UpdateVpcEndpointDetail {
         /// The unique identifier of the endpoint.
         public var id: Swift.String?
         /// The timestamp of when the endpoint was last modified.
@@ -7650,7 +7650,7 @@ extension UpdateVpcEndpointInput {
     }
 }
 
-public struct UpdateVpcEndpointInput: Swift.Equatable {
+public struct UpdateVpcEndpointInput {
     /// The unique identifiers of the security groups to add to the endpoint. Security groups define the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint.
     public var addSecurityGroupIds: [Swift.String]?
     /// The ID of one or more subnets to add to the endpoint.
@@ -7683,7 +7683,7 @@ public struct UpdateVpcEndpointInput: Swift.Equatable {
     }
 }
 
-struct UpdateVpcEndpointInputBody: Swift.Equatable {
+struct UpdateVpcEndpointInputBody {
     let id: Swift.String?
     let addSubnetIds: [Swift.String]?
     let removeSubnetIds: [Swift.String]?
@@ -7767,7 +7767,7 @@ extension UpdateVpcEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVpcEndpointOutput: Swift.Equatable {
+public struct UpdateVpcEndpointOutput {
     /// Details about the updated VPC endpoint.
     public var updateVpcEndpointDetail: OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail?
 
@@ -7779,7 +7779,7 @@ public struct UpdateVpcEndpointOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVpcEndpointOutputBody: Swift.Equatable {
+struct UpdateVpcEndpointOutputBody {
     let updateVpcEndpointDetail: OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail?
 }
 
@@ -7847,7 +7847,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -7944,7 +7944,7 @@ extension OpenSearchServerlessClientTypes.VpcEndpointDetail: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Details about an OpenSearch Serverless-managed interface endpoint.
-    public struct VpcEndpointDetail: Swift.Equatable {
+    public struct VpcEndpointDetail {
         /// The date the endpoint was created.
         public var createdDate: Swift.Int?
         /// The unique identifier of the endpoint.
@@ -8015,7 +8015,7 @@ extension OpenSearchServerlessClientTypes.VpcEndpointErrorDetail: Swift.Codable 
 
 extension OpenSearchServerlessClientTypes {
     /// Error information for a failed BatchGetVpcEndpoint request.
-    public struct VpcEndpointErrorDetail: Swift.Equatable {
+    public struct VpcEndpointErrorDetail {
         /// The error code for the failed request.
         public var errorCode: Swift.String?
         /// An error message describing the reason for the failure.
@@ -8058,7 +8058,7 @@ extension OpenSearchServerlessClientTypes.VpcEndpointFilters: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// Filter the results of a ListVpcEndpoints request.
-    public struct VpcEndpointFilters: Swift.Equatable {
+    public struct VpcEndpointFilters {
         /// The current status of the endpoint.
         public var status: OpenSearchServerlessClientTypes.VpcEndpointStatus?
 
@@ -8147,7 +8147,7 @@ extension OpenSearchServerlessClientTypes.VpcEndpointSummary: Swift.Codable {
 
 extension OpenSearchServerlessClientTypes {
     /// The VPC endpoint object.
-    public struct VpcEndpointSummary: Swift.Equatable {
+    public struct VpcEndpointSummary {
         /// The unique identifier of the endpoint.
         public var id: Swift.String?
         /// The name of the endpoint.

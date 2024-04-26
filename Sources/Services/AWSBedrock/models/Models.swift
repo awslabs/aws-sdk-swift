@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -92,7 +92,7 @@ extension BedrockClientTypes.CloudWatchConfig: Swift.Codable {
 
 extension BedrockClientTypes {
     /// CloudWatch logging configuration.
-    public struct CloudWatchConfig: Swift.Equatable {
+    public struct CloudWatchConfig {
         /// S3 configuration for delivering a large amount of data.
         public var largeDataDeliveryS3Config: BedrockClientTypes.S3Config?
         /// The log group name.
@@ -187,7 +187,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -284,7 +284,7 @@ extension CreateModelCustomizationJobInput {
     }
 }
 
-public struct CreateModelCustomizationJobInput: Swift.Equatable {
+public struct CreateModelCustomizationJobInput {
     /// Name of the base model.
     /// This member is required.
     public var baseModelIdentifier: Swift.String?
@@ -355,7 +355,7 @@ public struct CreateModelCustomizationJobInput: Swift.Equatable {
     }
 }
 
-struct CreateModelCustomizationJobInputBody: Swift.Equatable {
+struct CreateModelCustomizationJobInputBody {
     let jobName: Swift.String?
     let customModelName: Swift.String?
     let roleArn: Swift.String?
@@ -462,7 +462,7 @@ extension CreateModelCustomizationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateModelCustomizationJobOutput: Swift.Equatable {
+public struct CreateModelCustomizationJobOutput {
     /// ARN of the fine tuning job
     /// This member is required.
     public var jobArn: Swift.String?
@@ -475,7 +475,7 @@ public struct CreateModelCustomizationJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateModelCustomizationJobOutputBody: Swift.Equatable {
+struct CreateModelCustomizationJobOutputBody {
     let jobArn: Swift.String?
 }
 
@@ -552,7 +552,7 @@ extension CreateProvisionedModelThroughputInput {
     }
 }
 
-public struct CreateProvisionedModelThroughputInput: Swift.Equatable {
+public struct CreateProvisionedModelThroughputInput {
     /// Unique token value that you can provide. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
     public var clientRequestToken: Swift.String?
     /// Commitment duration requested for the provisioned throughput.
@@ -587,7 +587,7 @@ public struct CreateProvisionedModelThroughputInput: Swift.Equatable {
     }
 }
 
-struct CreateProvisionedModelThroughputInputBody: Swift.Equatable {
+struct CreateProvisionedModelThroughputInputBody {
     let clientRequestToken: Swift.String?
     let modelUnits: Swift.Int?
     let provisionedModelName: Swift.String?
@@ -644,7 +644,7 @@ extension CreateProvisionedModelThroughputOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateProvisionedModelThroughputOutput: Swift.Equatable {
+public struct CreateProvisionedModelThroughputOutput {
     /// The ARN for this provisioned throughput.
     /// This member is required.
     public var provisionedModelArn: Swift.String?
@@ -657,7 +657,7 @@ public struct CreateProvisionedModelThroughputOutput: Swift.Equatable {
     }
 }
 
-struct CreateProvisionedModelThroughputOutputBody: Swift.Equatable {
+struct CreateProvisionedModelThroughputOutputBody {
     let provisionedModelArn: Swift.String?
 }
 
@@ -741,7 +741,7 @@ extension BedrockClientTypes.CustomModelSummary: Swift.Codable {
 
 extension BedrockClientTypes {
     /// Summary information for a custom model.
-    public struct CustomModelSummary: Swift.Equatable {
+    public struct CustomModelSummary {
         /// The base model ARN.
         /// This member is required.
         public var baseModelArn: Swift.String?
@@ -822,7 +822,7 @@ extension DeleteCustomModelInput {
     }
 }
 
-public struct DeleteCustomModelInput: Swift.Equatable {
+public struct DeleteCustomModelInput {
     /// Name of the model to delete.
     /// This member is required.
     public var modelIdentifier: Swift.String?
@@ -835,7 +835,7 @@ public struct DeleteCustomModelInput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomModelInputBody: Swift.Equatable {
+struct DeleteCustomModelInputBody {
 }
 
 extension DeleteCustomModelInputBody: Swift.Decodable {
@@ -849,7 +849,7 @@ extension DeleteCustomModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCustomModelOutput: Swift.Equatable {
+public struct DeleteCustomModelOutput {
 
     public init() { }
 }
@@ -877,12 +877,12 @@ extension DeleteModelInvocationLoggingConfigurationInput {
     }
 }
 
-public struct DeleteModelInvocationLoggingConfigurationInput: Swift.Equatable {
+public struct DeleteModelInvocationLoggingConfigurationInput {
 
     public init() { }
 }
 
-struct DeleteModelInvocationLoggingConfigurationInputBody: Swift.Equatable {
+struct DeleteModelInvocationLoggingConfigurationInputBody {
 }
 
 extension DeleteModelInvocationLoggingConfigurationInputBody: Swift.Decodable {
@@ -896,7 +896,7 @@ extension DeleteModelInvocationLoggingConfigurationOutput: ClientRuntime.HttpRes
     }
 }
 
-public struct DeleteModelInvocationLoggingConfigurationOutput: Swift.Equatable {
+public struct DeleteModelInvocationLoggingConfigurationOutput {
 
     public init() { }
 }
@@ -924,7 +924,7 @@ extension DeleteProvisionedModelThroughputInput {
     }
 }
 
-public struct DeleteProvisionedModelThroughputInput: Swift.Equatable {
+public struct DeleteProvisionedModelThroughputInput {
     /// The ARN or name of the provisioned throughput.
     /// This member is required.
     public var provisionedModelId: Swift.String?
@@ -937,7 +937,7 @@ public struct DeleteProvisionedModelThroughputInput: Swift.Equatable {
     }
 }
 
-struct DeleteProvisionedModelThroughputInputBody: Swift.Equatable {
+struct DeleteProvisionedModelThroughputInputBody {
 }
 
 extension DeleteProvisionedModelThroughputInputBody: Swift.Decodable {
@@ -951,7 +951,7 @@ extension DeleteProvisionedModelThroughputOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteProvisionedModelThroughputOutput: Swift.Equatable {
+public struct DeleteProvisionedModelThroughputOutput {
 
     public init() { }
 }
@@ -1136,7 +1136,7 @@ extension BedrockClientTypes.FoundationModelDetails: Swift.Codable {
 
 extension BedrockClientTypes {
     /// Information about a foundation model.
-    public struct FoundationModelDetails: Swift.Equatable {
+    public struct FoundationModelDetails {
         /// The customization that the model supports.
         public var customizationsSupported: [BedrockClientTypes.ModelCustomization]?
         /// The inference types that the model supports.
@@ -1209,7 +1209,7 @@ extension BedrockClientTypes.FoundationModelLifecycle: Swift.Codable {
 
 extension BedrockClientTypes {
     /// Details about whether a model version is available or deprecated.
-    public struct FoundationModelLifecycle: Swift.Equatable {
+    public struct FoundationModelLifecycle {
         /// Specifies whether a model version is available (ACTIVE) or deprecated (LEGACY.
         /// This member is required.
         public var status: BedrockClientTypes.FoundationModelLifecycleStatus?
@@ -1379,7 +1379,7 @@ extension BedrockClientTypes.FoundationModelSummary: Swift.Codable {
 
 extension BedrockClientTypes {
     /// Summary information for a foundation model.
-    public struct FoundationModelSummary: Swift.Equatable {
+    public struct FoundationModelSummary {
         /// Whether the model supports fine-tuning or continual pre-training.
         public var customizationsSupported: [BedrockClientTypes.ModelCustomization]?
         /// The inference types that the model supports.
@@ -1441,7 +1441,7 @@ extension GetCustomModelInput {
     }
 }
 
-public struct GetCustomModelInput: Swift.Equatable {
+public struct GetCustomModelInput {
     /// Name or ARN of the custom model.
     /// This member is required.
     public var modelIdentifier: Swift.String?
@@ -1454,7 +1454,7 @@ public struct GetCustomModelInput: Swift.Equatable {
     }
 }
 
-struct GetCustomModelInputBody: Swift.Equatable {
+struct GetCustomModelInputBody {
 }
 
 extension GetCustomModelInputBody: Swift.Decodable {
@@ -1501,7 +1501,7 @@ extension GetCustomModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCustomModelOutput: Swift.Equatable {
+public struct GetCustomModelOutput {
     /// ARN of the base model.
     /// This member is required.
     public var baseModelArn: Swift.String?
@@ -1572,7 +1572,7 @@ public struct GetCustomModelOutput: Swift.Equatable {
     }
 }
 
-struct GetCustomModelOutputBody: Swift.Equatable {
+struct GetCustomModelOutputBody {
     let modelArn: Swift.String?
     let modelName: Swift.String?
     let jobName: Swift.String?
@@ -1683,7 +1683,7 @@ extension GetFoundationModelInput {
     }
 }
 
-public struct GetFoundationModelInput: Swift.Equatable {
+public struct GetFoundationModelInput {
     /// The model identifier.
     /// This member is required.
     public var modelIdentifier: Swift.String?
@@ -1696,7 +1696,7 @@ public struct GetFoundationModelInput: Swift.Equatable {
     }
 }
 
-struct GetFoundationModelInputBody: Swift.Equatable {
+struct GetFoundationModelInputBody {
 }
 
 extension GetFoundationModelInputBody: Swift.Decodable {
@@ -1717,7 +1717,7 @@ extension GetFoundationModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFoundationModelOutput: Swift.Equatable {
+public struct GetFoundationModelOutput {
     /// Information about the foundation model.
     public var modelDetails: BedrockClientTypes.FoundationModelDetails?
 
@@ -1729,7 +1729,7 @@ public struct GetFoundationModelOutput: Swift.Equatable {
     }
 }
 
-struct GetFoundationModelOutputBody: Swift.Equatable {
+struct GetFoundationModelOutputBody {
     let modelDetails: BedrockClientTypes.FoundationModelDetails?
 }
 
@@ -1770,7 +1770,7 @@ extension GetModelCustomizationJobInput {
     }
 }
 
-public struct GetModelCustomizationJobInput: Swift.Equatable {
+public struct GetModelCustomizationJobInput {
     /// Identifier for the customization job.
     /// This member is required.
     public var jobIdentifier: Swift.String?
@@ -1783,7 +1783,7 @@ public struct GetModelCustomizationJobInput: Swift.Equatable {
     }
 }
 
-struct GetModelCustomizationJobInputBody: Swift.Equatable {
+struct GetModelCustomizationJobInputBody {
 }
 
 extension GetModelCustomizationJobInputBody: Swift.Decodable {
@@ -1844,7 +1844,7 @@ extension GetModelCustomizationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetModelCustomizationJobOutput: Swift.Equatable {
+public struct GetModelCustomizationJobOutput {
     /// ARN of the base model.
     /// This member is required.
     public var baseModelArn: Swift.String?
@@ -1946,7 +1946,7 @@ public struct GetModelCustomizationJobOutput: Swift.Equatable {
     }
 }
 
-struct GetModelCustomizationJobOutputBody: Swift.Equatable {
+struct GetModelCustomizationJobOutputBody {
     let jobArn: Swift.String?
     let jobName: Swift.String?
     let outputModelName: Swift.String?
@@ -2082,12 +2082,12 @@ extension GetModelInvocationLoggingConfigurationInput {
     }
 }
 
-public struct GetModelInvocationLoggingConfigurationInput: Swift.Equatable {
+public struct GetModelInvocationLoggingConfigurationInput {
 
     public init() { }
 }
 
-struct GetModelInvocationLoggingConfigurationInputBody: Swift.Equatable {
+struct GetModelInvocationLoggingConfigurationInputBody {
 }
 
 extension GetModelInvocationLoggingConfigurationInputBody: Swift.Decodable {
@@ -2108,7 +2108,7 @@ extension GetModelInvocationLoggingConfigurationOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct GetModelInvocationLoggingConfigurationOutput: Swift.Equatable {
+public struct GetModelInvocationLoggingConfigurationOutput {
     /// The current configuration values.
     public var loggingConfig: BedrockClientTypes.LoggingConfig?
 
@@ -2120,7 +2120,7 @@ public struct GetModelInvocationLoggingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetModelInvocationLoggingConfigurationOutputBody: Swift.Equatable {
+struct GetModelInvocationLoggingConfigurationOutputBody {
     let loggingConfig: BedrockClientTypes.LoggingConfig?
 }
 
@@ -2159,7 +2159,7 @@ extension GetProvisionedModelThroughputInput {
     }
 }
 
-public struct GetProvisionedModelThroughputInput: Swift.Equatable {
+public struct GetProvisionedModelThroughputInput {
     /// The ARN or name of the provisioned throughput.
     /// This member is required.
     public var provisionedModelId: Swift.String?
@@ -2172,7 +2172,7 @@ public struct GetProvisionedModelThroughputInput: Swift.Equatable {
     }
 }
 
-struct GetProvisionedModelThroughputInputBody: Swift.Equatable {
+struct GetProvisionedModelThroughputInputBody {
 }
 
 extension GetProvisionedModelThroughputInputBody: Swift.Decodable {
@@ -2217,7 +2217,7 @@ extension GetProvisionedModelThroughputOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetProvisionedModelThroughputOutput: Swift.Equatable {
+public struct GetProvisionedModelThroughputOutput {
     /// Commitment duration of the provisioned throughput.
     public var commitmentDuration: BedrockClientTypes.CommitmentDuration?
     /// Commitment expiration time for the provisioned throughput.
@@ -2287,7 +2287,7 @@ public struct GetProvisionedModelThroughputOutput: Swift.Equatable {
     }
 }
 
-struct GetProvisionedModelThroughputOutputBody: Swift.Equatable {
+struct GetProvisionedModelThroughputOutputBody {
     let modelUnits: Swift.Int?
     let desiredModelUnits: Swift.Int?
     let provisionedModelName: Swift.String?
@@ -2437,7 +2437,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2504,7 +2504,7 @@ extension ListCustomModelsInput {
     }
 }
 
-public struct ListCustomModelsInput: Swift.Equatable {
+public struct ListCustomModelsInput {
     /// Return custom models only if the base model ARN matches this parameter.
     public var baseModelArnEquals: Swift.String?
     /// Return custom models created after the specified time.
@@ -2548,7 +2548,7 @@ public struct ListCustomModelsInput: Swift.Equatable {
     }
 }
 
-struct ListCustomModelsInputBody: Swift.Equatable {
+struct ListCustomModelsInputBody {
 }
 
 extension ListCustomModelsInputBody: Swift.Decodable {
@@ -2571,7 +2571,7 @@ extension ListCustomModelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCustomModelsOutput: Swift.Equatable {
+public struct ListCustomModelsOutput {
     /// Model summaries.
     public var modelSummaries: [BedrockClientTypes.CustomModelSummary]?
     /// Continuation token for the next request to list the next set of results.
@@ -2587,7 +2587,7 @@ public struct ListCustomModelsOutput: Swift.Equatable {
     }
 }
 
-struct ListCustomModelsOutputBody: Swift.Equatable {
+struct ListCustomModelsOutputBody {
     let nextToken: Swift.String?
     let modelSummaries: [BedrockClientTypes.CustomModelSummary]?
 }
@@ -2661,7 +2661,7 @@ extension ListFoundationModelsInput {
     }
 }
 
-public struct ListFoundationModelsInput: Swift.Equatable {
+public struct ListFoundationModelsInput {
     /// List by customization type.
     public var byCustomizationType: BedrockClientTypes.ModelCustomization?
     /// List by inference type.
@@ -2685,7 +2685,7 @@ public struct ListFoundationModelsInput: Swift.Equatable {
     }
 }
 
-struct ListFoundationModelsInputBody: Swift.Equatable {
+struct ListFoundationModelsInputBody {
 }
 
 extension ListFoundationModelsInputBody: Swift.Decodable {
@@ -2706,7 +2706,7 @@ extension ListFoundationModelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFoundationModelsOutput: Swift.Equatable {
+public struct ListFoundationModelsOutput {
     /// A list of Amazon Bedrock foundation models.
     public var modelSummaries: [BedrockClientTypes.FoundationModelSummary]?
 
@@ -2718,7 +2718,7 @@ public struct ListFoundationModelsOutput: Swift.Equatable {
     }
 }
 
-struct ListFoundationModelsOutputBody: Swift.Equatable {
+struct ListFoundationModelsOutputBody {
     let modelSummaries: [BedrockClientTypes.FoundationModelSummary]?
 }
 
@@ -2804,7 +2804,7 @@ extension ListModelCustomizationJobsInput {
     }
 }
 
-public struct ListModelCustomizationJobsInput: Swift.Equatable {
+public struct ListModelCustomizationJobsInput {
     /// Return customization jobs created after the specified time.
     public var creationTimeAfter: ClientRuntime.Date?
     /// Return customization jobs created before the specified time.
@@ -2844,7 +2844,7 @@ public struct ListModelCustomizationJobsInput: Swift.Equatable {
     }
 }
 
-struct ListModelCustomizationJobsInputBody: Swift.Equatable {
+struct ListModelCustomizationJobsInputBody {
 }
 
 extension ListModelCustomizationJobsInputBody: Swift.Decodable {
@@ -2867,7 +2867,7 @@ extension ListModelCustomizationJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListModelCustomizationJobsOutput: Swift.Equatable {
+public struct ListModelCustomizationJobsOutput {
     /// Job summaries.
     public var modelCustomizationJobSummaries: [BedrockClientTypes.ModelCustomizationJobSummary]?
     /// Page continuation token to use in the next request.
@@ -2883,7 +2883,7 @@ public struct ListModelCustomizationJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListModelCustomizationJobsOutputBody: Swift.Equatable {
+struct ListModelCustomizationJobsOutputBody {
     let nextToken: Swift.String?
     let modelCustomizationJobSummaries: [BedrockClientTypes.ModelCustomizationJobSummary]?
 }
@@ -2977,7 +2977,7 @@ extension ListProvisionedModelThroughputsInput {
     }
 }
 
-public struct ListProvisionedModelThroughputsInput: Swift.Equatable {
+public struct ListProvisionedModelThroughputsInput {
     /// Return provisioned capacities created after the specified time.
     public var creationTimeAfter: ClientRuntime.Date?
     /// Return provisioned capacities created before the specified time.
@@ -3021,7 +3021,7 @@ public struct ListProvisionedModelThroughputsInput: Swift.Equatable {
     }
 }
 
-struct ListProvisionedModelThroughputsInputBody: Swift.Equatable {
+struct ListProvisionedModelThroughputsInputBody {
 }
 
 extension ListProvisionedModelThroughputsInputBody: Swift.Decodable {
@@ -3044,7 +3044,7 @@ extension ListProvisionedModelThroughputsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListProvisionedModelThroughputsOutput: Swift.Equatable {
+public struct ListProvisionedModelThroughputsOutput {
     /// Continuation token for the next request to list the next set of results.
     public var nextToken: Swift.String?
     /// List of summaries, one for each provisioned throughput in the response.
@@ -3060,7 +3060,7 @@ public struct ListProvisionedModelThroughputsOutput: Swift.Equatable {
     }
 }
 
-struct ListProvisionedModelThroughputsOutputBody: Swift.Equatable {
+struct ListProvisionedModelThroughputsOutputBody {
     let nextToken: Swift.String?
     let provisionedModelSummaries: [BedrockClientTypes.ProvisionedModelSummary]?
 }
@@ -3123,7 +3123,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -3136,7 +3136,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -3164,7 +3164,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// An array of the tags associated with this resource.
     public var tags: [BedrockClientTypes.Tag]?
 
@@ -3176,7 +3176,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [BedrockClientTypes.Tag]?
 }
 
@@ -3261,7 +3261,7 @@ extension BedrockClientTypes.LoggingConfig: Swift.Codable {
 
 extension BedrockClientTypes {
     /// Configuration fields for invokation logging.
-    public struct LoggingConfig: Swift.Equatable {
+    public struct LoggingConfig {
         /// CloudWatch logging configuration.
         public var cloudWatchConfig: BedrockClientTypes.CloudWatchConfig?
         /// Set to include embeddings data in the log delivery.
@@ -3439,7 +3439,7 @@ extension BedrockClientTypes.ModelCustomizationJobSummary: Swift.Codable {
 
 extension BedrockClientTypes {
     /// Information about one customization job
-    public struct ModelCustomizationJobSummary: Swift.Equatable {
+    public struct ModelCustomizationJobSummary {
         /// ARN of the base model.
         /// This member is required.
         public var baseModelArn: Swift.String?
@@ -3550,7 +3550,7 @@ extension BedrockClientTypes.OutputDataConfig: Swift.Codable {
 
 extension BedrockClientTypes {
     /// S3 Location of the output data.
-    public struct OutputDataConfig: Swift.Equatable {
+    public struct OutputDataConfig {
         /// The S3 URI where the output data is stored.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -3690,7 +3690,7 @@ extension BedrockClientTypes.ProvisionedModelSummary: Swift.Codable {
 
 extension BedrockClientTypes {
     /// Set of fields associated with a provisioned throughput.
-    public struct ProvisionedModelSummary: Swift.Equatable {
+    public struct ProvisionedModelSummary {
         /// Commitment duration for the provisioned throughput.
         public var commitmentDuration: BedrockClientTypes.CommitmentDuration?
         /// Commitment expiration time for the provisioned throughput.
@@ -3778,7 +3778,7 @@ extension PutModelInvocationLoggingConfigurationInput {
     }
 }
 
-public struct PutModelInvocationLoggingConfigurationInput: Swift.Equatable {
+public struct PutModelInvocationLoggingConfigurationInput {
     /// The logging configuration values to set.
     /// This member is required.
     public var loggingConfig: BedrockClientTypes.LoggingConfig?
@@ -3791,7 +3791,7 @@ public struct PutModelInvocationLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutModelInvocationLoggingConfigurationInputBody: Swift.Equatable {
+struct PutModelInvocationLoggingConfigurationInputBody {
     let loggingConfig: BedrockClientTypes.LoggingConfig?
 }
 
@@ -3812,7 +3812,7 @@ extension PutModelInvocationLoggingConfigurationOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct PutModelInvocationLoggingConfigurationOutput: Swift.Equatable {
+public struct PutModelInvocationLoggingConfigurationOutput {
 
     public init() { }
 }
@@ -3870,7 +3870,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3913,7 +3913,7 @@ extension BedrockClientTypes.S3Config: Swift.Codable {
 
 extension BedrockClientTypes {
     /// S3 configuration for storing log data.
-    public struct S3Config: Swift.Equatable {
+    public struct S3Config {
         /// S3 bucket name.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -3971,7 +3971,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4116,7 +4116,7 @@ extension StopModelCustomizationJobInput {
     }
 }
 
-public struct StopModelCustomizationJobInput: Swift.Equatable {
+public struct StopModelCustomizationJobInput {
     /// Job identifier of the job to stop.
     /// This member is required.
     public var jobIdentifier: Swift.String?
@@ -4129,7 +4129,7 @@ public struct StopModelCustomizationJobInput: Swift.Equatable {
     }
 }
 
-struct StopModelCustomizationJobInputBody: Swift.Equatable {
+struct StopModelCustomizationJobInputBody {
 }
 
 extension StopModelCustomizationJobInputBody: Swift.Decodable {
@@ -4143,7 +4143,7 @@ extension StopModelCustomizationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopModelCustomizationJobOutput: Swift.Equatable {
+public struct StopModelCustomizationJobOutput {
 
     public init() { }
 }
@@ -4191,7 +4191,7 @@ extension BedrockClientTypes.Tag: Swift.Codable {
 
 extension BedrockClientTypes {
     /// Definition of the key/value pair for a tag.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Key for the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -4238,7 +4238,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource to tag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -4256,7 +4256,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [BedrockClientTypes.Tag]?
 }
@@ -4290,7 +4290,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4350,7 +4350,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4411,7 +4411,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -4452,7 +4452,7 @@ extension BedrockClientTypes.TrainingDataConfig: Swift.Codable {
 
 extension BedrockClientTypes {
     /// S3 Location of the training data.
-    public struct TrainingDataConfig: Swift.Equatable {
+    public struct TrainingDataConfig {
         /// The S3 URI where the training data is stored.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -4488,7 +4488,7 @@ extension BedrockClientTypes.TrainingMetrics: Swift.Codable {
 
 extension BedrockClientTypes {
     /// Metrics associated with the custom job.
-    public struct TrainingMetrics: Swift.Equatable {
+    public struct TrainingMetrics {
         /// Loss metric associated with the custom job.
         public var trainingLoss: Swift.Float?
 
@@ -4529,7 +4529,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource to untag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -4547,7 +4547,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -4581,7 +4581,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4628,7 +4628,7 @@ extension UpdateProvisionedModelThroughputInput {
     }
 }
 
-public struct UpdateProvisionedModelThroughputInput: Swift.Equatable {
+public struct UpdateProvisionedModelThroughputInput {
     /// The ARN of the new model to associate with this provisioned throughput.
     public var desiredModelId: Swift.String?
     /// The new name for this provisioned throughput.
@@ -4649,7 +4649,7 @@ public struct UpdateProvisionedModelThroughputInput: Swift.Equatable {
     }
 }
 
-struct UpdateProvisionedModelThroughputInputBody: Swift.Equatable {
+struct UpdateProvisionedModelThroughputInputBody {
     let desiredProvisionedModelName: Swift.String?
     let desiredModelId: Swift.String?
 }
@@ -4674,7 +4674,7 @@ extension UpdateProvisionedModelThroughputOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateProvisionedModelThroughputOutput: Swift.Equatable {
+public struct UpdateProvisionedModelThroughputOutput {
 
     public init() { }
 }
@@ -4727,7 +4727,7 @@ extension BedrockClientTypes.ValidationDataConfig: Swift.Codable {
 
 extension BedrockClientTypes {
     /// Array of up to 10 validators.
-    public struct ValidationDataConfig: Swift.Equatable {
+    public struct ValidationDataConfig {
         /// Information about the validators.
         /// This member is required.
         public var validators: [BedrockClientTypes.Validator]?
@@ -4781,7 +4781,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -4818,7 +4818,7 @@ extension BedrockClientTypes.Validator: Swift.Codable {
 
 extension BedrockClientTypes {
     /// Information about a validator.
-    public struct Validator: Swift.Equatable {
+    public struct Validator {
         /// The S3 URI where the validation data is stored.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -4854,7 +4854,7 @@ extension BedrockClientTypes.ValidatorMetric: Swift.Codable {
 
 extension BedrockClientTypes {
     /// The metric for the validator.
-    public struct ValidatorMetric: Swift.Equatable {
+    public struct ValidatorMetric {
         /// The validation loss associated with this validator.
         public var validationLoss: Swift.Float?
 
@@ -4919,7 +4919,7 @@ extension BedrockClientTypes.VpcConfig: Swift.Codable {
 
 extension BedrockClientTypes {
     /// VPC configuration.
-    public struct VpcConfig: Swift.Equatable {
+    public struct VpcConfig {
         /// VPC configuration security group Ids.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?

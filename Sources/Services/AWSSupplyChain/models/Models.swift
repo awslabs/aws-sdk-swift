@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -102,7 +102,7 @@ extension SupplyChainClientTypes.BillOfMaterialsImportJob: Swift.Codable {
 
 extension SupplyChainClientTypes {
     /// The BillOfMaterialsImportJob details.
-    public struct BillOfMaterialsImportJob: Swift.Equatable {
+    public struct BillOfMaterialsImportJob {
         /// The BillOfMaterialsImportJob instanceId.
         /// This member is required.
         public var instanceId: Swift.String?
@@ -217,7 +217,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -261,7 +261,7 @@ extension CreateBillOfMaterialsImportJobInput {
 }
 
 /// The request parameters for CreateBillOfMaterialsImportJob.
-public struct CreateBillOfMaterialsImportJobInput: Swift.Equatable {
+public struct CreateBillOfMaterialsImportJobInput {
     /// An idempotency token.
     public var clientToken: Swift.String?
     /// The AWS Supply Chain instance identifier.
@@ -283,7 +283,7 @@ public struct CreateBillOfMaterialsImportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateBillOfMaterialsImportJobInputBody: Swift.Equatable {
+struct CreateBillOfMaterialsImportJobInputBody {
     let s3uri: Swift.String?
     let clientToken: Swift.String?
 }
@@ -316,7 +316,7 @@ extension CreateBillOfMaterialsImportJobOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// The response parameters of CreateBillOfMaterialsImportJob.
-public struct CreateBillOfMaterialsImportJobOutput: Swift.Equatable {
+public struct CreateBillOfMaterialsImportJobOutput {
     /// The new BillOfMaterialsImportJob identifier.
     /// This member is required.
     public var jobId: Swift.String?
@@ -329,7 +329,7 @@ public struct CreateBillOfMaterialsImportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateBillOfMaterialsImportJobOutputBody: Swift.Equatable {
+struct CreateBillOfMaterialsImportJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -463,7 +463,7 @@ extension GetBillOfMaterialsImportJobInput {
 }
 
 /// The request parameters for GetBillOfMaterialsImportJob.
-public struct GetBillOfMaterialsImportJobInput: Swift.Equatable {
+public struct GetBillOfMaterialsImportJobInput {
     /// The AWS Supply Chain instance identifier.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -481,7 +481,7 @@ public struct GetBillOfMaterialsImportJobInput: Swift.Equatable {
     }
 }
 
-struct GetBillOfMaterialsImportJobInputBody: Swift.Equatable {
+struct GetBillOfMaterialsImportJobInputBody {
 }
 
 extension GetBillOfMaterialsImportJobInputBody: Swift.Decodable {
@@ -503,7 +503,7 @@ extension GetBillOfMaterialsImportJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response parameters for GetBillOfMaterialsImportJob.
-public struct GetBillOfMaterialsImportJobOutput: Swift.Equatable {
+public struct GetBillOfMaterialsImportJobOutput {
     /// The BillOfMaterialsImportJob.
     /// This member is required.
     public var job: SupplyChainClientTypes.BillOfMaterialsImportJob?
@@ -516,7 +516,7 @@ public struct GetBillOfMaterialsImportJobOutput: Swift.Equatable {
     }
 }
 
-struct GetBillOfMaterialsImportJobOutputBody: Swift.Equatable {
+struct GetBillOfMaterialsImportJobOutputBody {
     let job: SupplyChainClientTypes.BillOfMaterialsImportJob?
 }
 
@@ -588,7 +588,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -643,7 +643,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -704,7 +704,7 @@ extension SendDataIntegrationEventInput {
 }
 
 /// The request parameters for SendDataIntegrationEvent.
-public struct SendDataIntegrationEventInput: Swift.Equatable {
+public struct SendDataIntegrationEventInput {
     /// The idempotent client token.
     public var clientToken: Swift.String?
     /// The data payload of the event.
@@ -740,7 +740,7 @@ public struct SendDataIntegrationEventInput: Swift.Equatable {
     }
 }
 
-struct SendDataIntegrationEventInputBody: Swift.Equatable {
+struct SendDataIntegrationEventInputBody {
     let eventType: SupplyChainClientTypes.DataIntegrationEventType?
     let data: Swift.String?
     let eventGroupId: Swift.String?
@@ -785,7 +785,7 @@ extension SendDataIntegrationEventOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response parameters for SendDataIntegrationEvent.
-public struct SendDataIntegrationEventOutput: Swift.Equatable {
+public struct SendDataIntegrationEventOutput {
     /// The unique event identifier.
     /// This member is required.
     public var eventId: Swift.String?
@@ -798,7 +798,7 @@ public struct SendDataIntegrationEventOutput: Swift.Equatable {
     }
 }
 
-struct SendDataIntegrationEventOutputBody: Swift.Equatable {
+struct SendDataIntegrationEventOutputBody {
     let eventId: Swift.String?
 }
 
@@ -872,7 +872,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -929,7 +929,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -984,7 +984,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

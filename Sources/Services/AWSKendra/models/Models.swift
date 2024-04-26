@@ -23,7 +23,7 @@ extension KendraClientTypes.AccessControlConfigurationSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// Summary information on an access control configuration that you created for your documents in an index.
-    public struct AccessControlConfigurationSummary: Swift.Equatable {
+    public struct AccessControlConfigurationSummary {
         /// The identifier of the access control configuration.
         /// This member is required.
         public var id: Swift.String?
@@ -59,7 +59,7 @@ extension KendraClientTypes.AccessControlListConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Access Control List files for the documents in a data source. For the format of the file, see [Access control for S3 data sources](https://docs.aws.amazon.com/kendra/latest/dg/s3-acl.html).
-    public struct AccessControlListConfiguration: Swift.Equatable {
+    public struct AccessControlListConfiguration {
         /// Path to the Amazon S3 bucket that contains the ACL files.
         public var keyPath: Swift.String?
 
@@ -112,7 +112,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -149,7 +149,7 @@ extension KendraClientTypes.AclConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides information about the column that should be used for filtering the query response by groups.
-    public struct AclConfiguration: Swift.Equatable {
+    public struct AclConfiguration {
         /// A list of groups, separated by semi-colons, that filters a query response based on user context. The document is only returned to users that are in one of the groups specified in the UserContext field of the Query API.
         /// This member is required.
         public var allowedGroupsColumnName: Swift.String?
@@ -197,7 +197,7 @@ extension KendraClientTypes.AdditionalResultAttribute: Swift.Codable {
 
 extension KendraClientTypes {
     /// An attribute returned from an index query.
-    public struct AdditionalResultAttribute: Swift.Equatable {
+    public struct AdditionalResultAttribute {
         /// The key that identifies the attribute.
         /// This member is required.
         public var key: Swift.String?
@@ -243,7 +243,7 @@ extension KendraClientTypes.AdditionalResultAttributeValue: Swift.Codable {
 
 extension KendraClientTypes {
     /// An attribute returned with a document from a search.
-    public struct AdditionalResultAttributeValue: Swift.Equatable {
+    public struct AdditionalResultAttributeValue {
         /// The text associated with the attribute and information about the highlight to apply to the text.
         public var textWithHighlightsValue: KendraClientTypes.TextWithHighlights?
 
@@ -451,7 +451,7 @@ extension KendraClientTypes.AlfrescoConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Alfresco as your data source. Support for AlfrescoConfiguration ended May 2023. We recommend migrating to or using the Alfresco data source template schema / [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) API.
-    public struct AlfrescoConfiguration: Swift.Equatable {
+    public struct AlfrescoConfiguration {
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Alfresco blogs to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Alfresco fields. For more information, see [ Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Alfresco data source field names must exist in your Alfresco custom metadata.
         public var blogFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
         /// TRUE to index comments of blogs and other content.
@@ -587,7 +587,7 @@ extension AssociateEntitiesToExperienceInput {
     }
 }
 
-public struct AssociateEntitiesToExperienceInput: Swift.Equatable {
+public struct AssociateEntitiesToExperienceInput {
     /// Lists users or groups in your IAM Identity Center identity source.
     /// This member is required.
     public var entityList: [KendraClientTypes.EntityConfiguration]?
@@ -610,7 +610,7 @@ public struct AssociateEntitiesToExperienceInput: Swift.Equatable {
     }
 }
 
-struct AssociateEntitiesToExperienceInputBody: Swift.Equatable {
+struct AssociateEntitiesToExperienceInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
     let entityList: [KendraClientTypes.EntityConfiguration]?
@@ -655,7 +655,7 @@ extension AssociateEntitiesToExperienceOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct AssociateEntitiesToExperienceOutput: Swift.Equatable {
+public struct AssociateEntitiesToExperienceOutput {
     /// Lists the users or groups in your IAM Identity Center identity source that failed to properly configure with your Amazon Kendra experience.
     public var failedEntityList: [KendraClientTypes.FailedEntity]?
 
@@ -667,7 +667,7 @@ public struct AssociateEntitiesToExperienceOutput: Swift.Equatable {
     }
 }
 
-struct AssociateEntitiesToExperienceOutputBody: Swift.Equatable {
+struct AssociateEntitiesToExperienceOutputBody {
     let failedEntityList: [KendraClientTypes.FailedEntity]?
 }
 
@@ -739,7 +739,7 @@ extension AssociatePersonasToEntitiesInput {
     }
 }
 
-public struct AssociatePersonasToEntitiesInput: Swift.Equatable {
+public struct AssociatePersonasToEntitiesInput {
     /// The identifier of your Amazon Kendra experience.
     /// This member is required.
     public var id: Swift.String?
@@ -762,7 +762,7 @@ public struct AssociatePersonasToEntitiesInput: Swift.Equatable {
     }
 }
 
-struct AssociatePersonasToEntitiesInputBody: Swift.Equatable {
+struct AssociatePersonasToEntitiesInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
     let personas: [KendraClientTypes.EntityPersonaConfiguration]?
@@ -807,7 +807,7 @@ extension AssociatePersonasToEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociatePersonasToEntitiesOutput: Swift.Equatable {
+public struct AssociatePersonasToEntitiesOutput {
     /// Lists the users or groups in your IAM Identity Center identity source that failed to properly configure with your Amazon Kendra experience.
     public var failedEntityList: [KendraClientTypes.FailedEntity]?
 
@@ -819,7 +819,7 @@ public struct AssociatePersonasToEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct AssociatePersonasToEntitiesOutputBody: Swift.Equatable {
+struct AssociatePersonasToEntitiesOutputBody {
     let failedEntityList: [KendraClientTypes.FailedEntity]?
 }
 
@@ -971,7 +971,7 @@ extension KendraClientTypes {
     ///
     ///
     /// This example filters results or documents that belong to the HR department and belong to projects that contain "new hires" or "new hiring" in the project name (must use ContainAny with StringListValue). This example is filtering with a depth of 2. You cannot filter more than a depth of 2, otherwise you receive a ValidationException exception with the message "AttributeFilter cannot have a depth of more than 2." Also, if you use more than 10 attribute filters in a given list for AndAllFilters or OrAllFilters, you receive a ValidationException with the message "AttributeFilter cannot have a length of more than 10". For examples of using AttributeFilter, see [Using document attributes to filter search results](https://docs.aws.amazon.com/kendra/latest/dg/filtering.html#search-filtering).
-    public struct AttributeFilter: Swift.Equatable {
+    public struct AttributeFilter {
         /// Performs a logical AND operation on all filters that you specify.
         public var andAllFilters: [KendraClientTypes.AttributeFilter]?
         /// Returns true when a document contains all of the specified document attributes/fields. This filter is only applicable to [StringListValue](https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html).
@@ -1060,7 +1060,7 @@ extension KendraClientTypes.AttributeSuggestionsDescribeConfig: Swift.Codable {
 
 extension KendraClientTypes {
     /// Gets information on the configuration of document fields/attributes that you want to base query suggestions on. To change your configuration, use [AttributeSuggestionsUpdateConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_AttributeSuggestionsUpdateConfig.html) and then call [UpdateQuerySuggestionsConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html).
-    public struct AttributeSuggestionsDescribeConfig: Swift.Equatable {
+    public struct AttributeSuggestionsDescribeConfig {
         /// The mode is set to either ACTIVE or INACTIVE. If the Mode for query history is set to ENABLED when calling [UpdateQuerySuggestionsConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html) and AttributeSuggestionsMode to use fields/attributes is set to ACTIVE, and you haven't set your SuggestionTypes preference to DOCUMENT_ATTRIBUTES, then Amazon Kendra uses the query history.
         public var attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode?
         /// The list of fields/attributes that you want to set as suggestible for query suggestions.
@@ -1141,7 +1141,7 @@ extension KendraClientTypes.AttributeSuggestionsGetConfig: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for the document fields/attributes that you want to base query suggestions on.
-    public struct AttributeSuggestionsGetConfig: Swift.Equatable {
+    public struct AttributeSuggestionsGetConfig {
         /// The list of additional document field/attribute keys or field names to include in the response. You can use additional fields to provide extra information in the response. Additional fields are not used to based suggestions on.
         public var additionalResponseAttributes: [Swift.String]?
         /// Filters the search results based on document fields/attributes.
@@ -1238,7 +1238,7 @@ extension KendraClientTypes.AttributeSuggestionsUpdateConfig: Swift.Codable {
 
 extension KendraClientTypes {
     /// Updates the configuration information for the document fields/attributes that you want to base query suggestions on. To deactivate using documents fields for query suggestions, set the mode to INACTIVE. You must also set SuggestionTypes as either QUERY or DOCUMENT_ATTRIBUTES and then call [GetQuerySuggestions](https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html). If you set to QUERY, then Amazon Kendra uses the query history to base suggestions on. If you set to DOCUMENT_ATTRIBUTES, then Amazon Kendra uses the contents of document fields to base suggestions on.
-    public struct AttributeSuggestionsUpdateConfig: Swift.Equatable {
+    public struct AttributeSuggestionsUpdateConfig {
         /// You can set the mode to ACTIVE or INACTIVE. You must also set SuggestionTypes as either QUERY or DOCUMENT_ATTRIBUTES and then call [GetQuerySuggestions](https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html). If Mode to use query history is set to ENABLED when calling [UpdateQuerySuggestionsConfig](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html) and AttributeSuggestionsMode to use fields/attributes is set to ACTIVE, and you haven't set your SuggestionTypes preference to DOCUMENT_ATTRIBUTES, then Amazon Kendra uses the query history.
         public var attributeSuggestionsMode: KendraClientTypes.AttributeSuggestionsMode?
         /// The list of fields/attributes that you want to set as suggestible for query suggestions.
@@ -1289,7 +1289,7 @@ extension KendraClientTypes.AuthenticationConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to websites that require user authentication.
-    public struct AuthenticationConfiguration: Swift.Equatable {
+    public struct AuthenticationConfiguration {
         /// The list of configuration information that's required to connect to and crawl a website host using basic authentication credentials. The list includes the name and port number of the website host.
         public var basicAuthentication: [KendraClientTypes.BasicAuthenticationConfiguration]?
 
@@ -1336,7 +1336,7 @@ extension KendraClientTypes.BasicAuthenticationConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to websites that require basic user authentication.
-    public struct BasicAuthenticationConfiguration: Swift.Equatable {
+    public struct BasicAuthenticationConfiguration {
         /// Your secret ARN, which you can create in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) You use a secret if basic authentication credentials are required to connect to a website. The secret stores your credentials of user name and password.
         /// This member is required.
         public var credentials: Swift.String?
@@ -1392,7 +1392,7 @@ extension BatchDeleteDocumentInput {
     }
 }
 
-public struct BatchDeleteDocumentInput: Swift.Equatable {
+public struct BatchDeleteDocumentInput {
     /// Maps a particular data source sync job to a particular data source.
     public var dataSourceSyncJobMetricTarget: KendraClientTypes.DataSourceSyncJobMetricTarget?
     /// One or more identifiers for documents to delete from the index.
@@ -1414,7 +1414,7 @@ public struct BatchDeleteDocumentInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteDocumentInputBody: Swift.Equatable {
+struct BatchDeleteDocumentInputBody {
     let indexId: Swift.String?
     let documentIdList: [Swift.String]?
     let dataSourceSyncJobMetricTarget: KendraClientTypes.DataSourceSyncJobMetricTarget?
@@ -1459,7 +1459,7 @@ extension BatchDeleteDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteDocumentOutput: Swift.Equatable {
+public struct BatchDeleteDocumentOutput {
     /// A list of documents that could not be removed from the index. Each entry contains an error message that indicates why the document couldn't be removed from the index.
     public var failedDocuments: [KendraClientTypes.BatchDeleteDocumentResponseFailedDocument]?
 
@@ -1471,7 +1471,7 @@ public struct BatchDeleteDocumentOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteDocumentOutputBody: Swift.Equatable {
+struct BatchDeleteDocumentOutputBody {
     let failedDocuments: [KendraClientTypes.BatchDeleteDocumentResponseFailedDocument]?
 }
 
@@ -1545,7 +1545,7 @@ extension KendraClientTypes.BatchDeleteDocumentResponseFailedDocument: Swift.Cod
 
 extension KendraClientTypes {
     /// Provides information about documents that could not be removed from an index by the BatchDeleteDocument API.
-    public struct BatchDeleteDocumentResponseFailedDocument: Swift.Equatable {
+    public struct BatchDeleteDocumentResponseFailedDocument {
         /// The error code for why the document couldn't be removed from the index.
         public var errorCode: KendraClientTypes.ErrorCode?
         /// An explanation for why the document couldn't be removed from the index.
@@ -1600,7 +1600,7 @@ extension KendraClientTypes.BatchDeleteFeaturedResultsSetError: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides information about a set of featured results that couldn't be removed from an index by the [BatchDeleteFeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchDeleteFeaturedResultsSet.html) API.
-    public struct BatchDeleteFeaturedResultsSetError: Swift.Equatable {
+    public struct BatchDeleteFeaturedResultsSetError {
         /// The error code for why the set of featured results couldn't be removed from the index.
         /// This member is required.
         public var errorCode: KendraClientTypes.ErrorCode?
@@ -1652,7 +1652,7 @@ extension BatchDeleteFeaturedResultsSetInput {
     }
 }
 
-public struct BatchDeleteFeaturedResultsSetInput: Swift.Equatable {
+public struct BatchDeleteFeaturedResultsSetInput {
     /// The identifiers of the featured results sets that you want to delete.
     /// This member is required.
     public var featuredResultsSetIds: [Swift.String]?
@@ -1670,7 +1670,7 @@ public struct BatchDeleteFeaturedResultsSetInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteFeaturedResultsSetInputBody: Swift.Equatable {
+struct BatchDeleteFeaturedResultsSetInputBody {
     let indexId: Swift.String?
     let featuredResultsSetIds: [Swift.String]?
 }
@@ -1711,7 +1711,7 @@ extension BatchDeleteFeaturedResultsSetOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct BatchDeleteFeaturedResultsSetOutput: Swift.Equatable {
+public struct BatchDeleteFeaturedResultsSetOutput {
     /// The list of errors for the featured results set IDs, explaining why they couldn't be removed from the index.
     /// This member is required.
     public var errors: [KendraClientTypes.BatchDeleteFeaturedResultsSetError]?
@@ -1724,7 +1724,7 @@ public struct BatchDeleteFeaturedResultsSetOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteFeaturedResultsSetOutputBody: Swift.Equatable {
+struct BatchDeleteFeaturedResultsSetOutputBody {
     let errors: [KendraClientTypes.BatchDeleteFeaturedResultsSetError]?
 }
 
@@ -1791,7 +1791,7 @@ extension BatchGetDocumentStatusInput {
     }
 }
 
-public struct BatchGetDocumentStatusInput: Swift.Equatable {
+public struct BatchGetDocumentStatusInput {
     /// A list of DocumentInfo objects that identify the documents for which to get the status. You identify the documents by their document ID and optional attributes.
     /// This member is required.
     public var documentInfoList: [KendraClientTypes.DocumentInfo]?
@@ -1809,7 +1809,7 @@ public struct BatchGetDocumentStatusInput: Swift.Equatable {
     }
 }
 
-struct BatchGetDocumentStatusInputBody: Swift.Equatable {
+struct BatchGetDocumentStatusInputBody {
     let indexId: Swift.String?
     let documentInfoList: [KendraClientTypes.DocumentInfo]?
 }
@@ -1852,7 +1852,7 @@ extension BatchGetDocumentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetDocumentStatusOutput: Swift.Equatable {
+public struct BatchGetDocumentStatusOutput {
     /// The status of documents. The status indicates if the document is waiting to be indexed, is in the process of indexing, has completed indexing, or failed indexing. If a document failed indexing, the status provides the reason why.
     public var documentStatusList: [KendraClientTypes.Status]?
     /// A list of documents that Amazon Kendra couldn't get the status for. The list includes the ID of the document and the reason that the status couldn't be found.
@@ -1868,7 +1868,7 @@ public struct BatchGetDocumentStatusOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetDocumentStatusOutputBody: Swift.Equatable {
+struct BatchGetDocumentStatusOutputBody {
     let errors: [KendraClientTypes.BatchGetDocumentStatusResponseError]?
     let documentStatusList: [KendraClientTypes.Status]?
 }
@@ -1955,7 +1955,7 @@ extension KendraClientTypes.BatchGetDocumentStatusResponseError: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides a response when the status of a document could not be retrieved.
-    public struct BatchGetDocumentStatusResponseError: Swift.Equatable {
+    public struct BatchGetDocumentStatusResponseError {
         /// The identifier of the document whose status could not be retrieved.
         public var documentId: Swift.String?
         /// Indicates the source of the error.
@@ -2012,7 +2012,7 @@ extension BatchPutDocumentInput {
     }
 }
 
-public struct BatchPutDocumentInput: Swift.Equatable {
+public struct BatchPutDocumentInput {
     /// Configuration information for altering your document metadata and content during the document ingestion process when you use the BatchPutDocument API. For more information on how to create, modify and delete document metadata, or make other content alterations when you ingest documents into Amazon Kendra, see [Customizing document metadata during the ingestion process](https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html).
     public var customDocumentEnrichmentConfiguration: KendraClientTypes.CustomDocumentEnrichmentConfiguration?
     /// One or more documents to add to the index. Documents have the following file size limits.
@@ -2045,7 +2045,7 @@ public struct BatchPutDocumentInput: Swift.Equatable {
     }
 }
 
-struct BatchPutDocumentInputBody: Swift.Equatable {
+struct BatchPutDocumentInputBody {
     let indexId: Swift.String?
     let roleArn: Swift.String?
     let documents: [KendraClientTypes.Document]?
@@ -2094,7 +2094,7 @@ extension BatchPutDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchPutDocumentOutput: Swift.Equatable {
+public struct BatchPutDocumentOutput {
     /// A list of documents that were not added to the index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index. If there was an error adding a document to an index the error is reported in your Amazon Web Services CloudWatch log. For more information, see [Monitoring Amazon Kendra with Amazon CloudWatch logs](https://docs.aws.amazon.com/kendra/latest/dg/cloudwatch-logs.html).
     public var failedDocuments: [KendraClientTypes.BatchPutDocumentResponseFailedDocument]?
 
@@ -2106,7 +2106,7 @@ public struct BatchPutDocumentOutput: Swift.Equatable {
     }
 }
 
-struct BatchPutDocumentOutputBody: Swift.Equatable {
+struct BatchPutDocumentOutputBody {
     let failedDocuments: [KendraClientTypes.BatchPutDocumentResponseFailedDocument]?
 }
 
@@ -2181,7 +2181,7 @@ extension KendraClientTypes.BatchPutDocumentResponseFailedDocument: Swift.Codabl
 
 extension KendraClientTypes {
     /// Provides information about a document that could not be indexed.
-    public struct BatchPutDocumentResponseFailedDocument: Swift.Equatable {
+    public struct BatchPutDocumentResponseFailedDocument {
         /// The type of error that caused the document to fail to be indexed.
         public var errorCode: KendraClientTypes.ErrorCode?
         /// A description of the reason why the document could not be indexed.
@@ -2368,7 +2368,7 @@ extension KendraClientTypes.BoxConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Box as your data source.
-    public struct BoxConfiguration: Swift.Equatable {
+    public struct BoxConfiguration {
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Box comments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Box fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Box field names must exist in your Box custom metadata.
         public var commentFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
         /// TRUE to index comments.
@@ -2472,7 +2472,7 @@ extension KendraClientTypes.CapacityUnitsConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Specifies additional capacity units configured for your Enterprise Edition index. You can add and remove capacity units to fit your usage requirements.
-    public struct CapacityUnitsConfiguration: Swift.Equatable {
+    public struct CapacityUnitsConfiguration {
         /// The amount of extra query capacity for an index and [GetQuerySuggestions](https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html) capacity. A single extra capacity unit for an index provides 0.1 queries per second or approximately 8,000 queries per day. You can add up to 100 extra capacity units. GetQuerySuggestions capacity is five times the provisioned query capacity for an index, or the base capacity of 2.5 calls per second, whichever is higher. For example, the base capacity for an index is 0.1 queries per second, and GetQuerySuggestions capacity has a base of 2.5 calls per second. If you add another 0.1 queries per second to total 0.2 queries per second for an index, the GetQuerySuggestions capacity is 2.5 calls per second (higher than five times 0.2 queries per second).
         /// This member is required.
         public var queryCapacityUnits: Swift.Int?
@@ -2512,7 +2512,7 @@ extension ClearQuerySuggestionsInput {
     }
 }
 
-public struct ClearQuerySuggestionsInput: Swift.Equatable {
+public struct ClearQuerySuggestionsInput {
     /// The identifier of the index you want to clear query suggestions from.
     /// This member is required.
     public var indexId: Swift.String?
@@ -2525,7 +2525,7 @@ public struct ClearQuerySuggestionsInput: Swift.Equatable {
     }
 }
 
-struct ClearQuerySuggestionsInputBody: Swift.Equatable {
+struct ClearQuerySuggestionsInputBody {
     let indexId: Swift.String?
 }
 
@@ -2546,7 +2546,7 @@ extension ClearQuerySuggestionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ClearQuerySuggestionsOutput: Swift.Equatable {
+public struct ClearQuerySuggestionsOutput {
 
     public init() { }
 }
@@ -2594,7 +2594,7 @@ extension KendraClientTypes.ClickFeedback: Swift.Codable {
 
 extension KendraClientTypes {
     /// Gathers information about when a particular result was clicked by a user. Your application uses the SubmitFeedback API to provide click information.
-    public struct ClickFeedback: Swift.Equatable {
+    public struct ClickFeedback {
         /// The Unix timestamp when the result was clicked.
         /// This member is required.
         public var clickTime: ClientRuntime.Date?
@@ -2671,7 +2671,7 @@ extension KendraClientTypes.CollapseConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Specifies how to group results by document attribute value, and how to display them collapsed/expanded under a designated primary document for each group.
-    public struct CollapseConfiguration: Swift.Equatable {
+    public struct CollapseConfiguration {
         /// The document attribute used to group search results. You can use any attribute that has the Sortable flag set to true. You can also sort by any of the following built-in attributes:"_category","_created_at", "_last_updated_at", "_version", "_view_count".
         /// This member is required.
         public var documentAttributeKey: Swift.String?
@@ -2747,7 +2747,7 @@ extension KendraClientTypes.CollapsedResultDetail: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides details about a collapsed group of search results.
-    public struct CollapsedResultDetail: Swift.Equatable {
+    public struct CollapsedResultDetail {
         /// The value of the document attribute that results are collapsed on.
         /// This member is required.
         public var documentAttribute: KendraClientTypes.DocumentAttribute?
@@ -2835,7 +2835,7 @@ extension KendraClientTypes.ColumnConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides information about how Amazon Kendra should use the columns of a database in an index.
-    public struct ColumnConfiguration: Swift.Equatable {
+    public struct ColumnConfiguration {
         /// One to five columns that indicate when a document in the database has changed.
         /// This member is required.
         public var changeDetectingColumns: [Swift.String]?
@@ -2966,7 +2966,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -3015,7 +3015,7 @@ extension KendraClientTypes.ConflictingItem: Swift.Codable {
 
 extension KendraClientTypes {
     /// Information about a conflicting query used across different sets of featured results. When you create a featured results set, you must check that the queries are unique per featured results set for each index.
-    public struct ConflictingItem: Swift.Equatable {
+    public struct ConflictingItem {
         /// The text of the conflicting query.
         public var queryText: Swift.String?
         /// The identifier of the set of featured results that the conflicting query belongs to.
@@ -3076,7 +3076,7 @@ extension KendraClientTypes.ConfluenceAttachmentConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Configuration of attachment settings for the Confluence data source. Attachment settings are optional, if you don't specify settings attachments, Amazon Kendra won't index them.
-    public struct ConfluenceAttachmentConfiguration: Swift.Equatable {
+    public struct ConfluenceAttachmentConfiguration {
         /// Maps attributes or field names of Confluence attachments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata. If you specify the AttachentFieldMappings parameter, you must specify at least one field mapping.
         public var attachmentFieldMappings: [KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping]?
         /// TRUE to index attachments of pages and blogs in Confluence.
@@ -3186,7 +3186,7 @@ extension KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping: Swift.Codab
 
 extension KendraClientTypes {
     /// Maps attributes or field names of Confluence attachments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confuence data source field names must exist in your Confluence custom metadata.
-    public struct ConfluenceAttachmentToIndexFieldMapping: Swift.Equatable {
+    public struct ConfluenceAttachmentToIndexFieldMapping {
         /// The name of the field in the data source. You must first create the index field using the UpdateIndex API.
         public var dataSourceFieldName: KendraClientTypes.ConfluenceAttachmentFieldName?
         /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
@@ -3273,7 +3273,7 @@ extension KendraClientTypes.ConfluenceBlogConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Configuration of blog settings for the Confluence data source. Blogs are always indexed unless filtered from the index by the ExclusionPatterns or InclusionPatterns fields in the ConfluenceConfiguration object.
-    public struct ConfluenceBlogConfiguration: Swift.Equatable {
+    public struct ConfluenceBlogConfiguration {
         /// Maps attributes or field names of Confluence blogs to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata. If you specify the BlogFieldMappings parameter, you must specify at least one field mapping.
         public var blogFieldMappings: [KendraClientTypes.ConfluenceBlogToIndexFieldMapping]?
 
@@ -3373,7 +3373,7 @@ extension KendraClientTypes.ConfluenceBlogToIndexFieldMapping: Swift.Codable {
 
 extension KendraClientTypes {
     /// Maps attributes or field names of Confluence blog to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata.
-    public struct ConfluenceBlogToIndexFieldMapping: Swift.Equatable {
+    public struct ConfluenceBlogToIndexFieldMapping {
         /// The name of the field in the data source.
         public var dataSourceFieldName: KendraClientTypes.ConfluenceBlogFieldName?
         /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
@@ -3506,7 +3506,7 @@ extension KendraClientTypes.ConfluenceConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Confluence as your data source.
-    public struct ConfluenceConfiguration: Swift.Equatable {
+    public struct ConfluenceConfiguration {
         /// Configuration information for indexing attachments to Confluence blogs and pages.
         public var attachmentConfiguration: KendraClientTypes.ConfluenceAttachmentConfiguration?
         /// Whether you want to connect to Confluence using basic authentication of user name and password, or a personal access token. You can use a personal access token for Confluence Server.
@@ -3600,7 +3600,7 @@ extension KendraClientTypes.ConfluencePageConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Configuration of the page settings for the Confluence data source.
-    public struct ConfluencePageConfiguration: Swift.Equatable {
+    public struct ConfluencePageConfiguration {
         /// Maps attributes or field names of Confluence pages to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata. If you specify the PageFieldMappings parameter, you must specify at least one field mapping.
         public var pageFieldMappings: [KendraClientTypes.ConfluencePageToIndexFieldMapping]?
 
@@ -3709,7 +3709,7 @@ extension KendraClientTypes.ConfluencePageToIndexFieldMapping: Swift.Codable {
 
 extension KendraClientTypes {
     /// Maps attributes or field names of Confluence pages to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata.
-    public struct ConfluencePageToIndexFieldMapping: Swift.Equatable {
+    public struct ConfluencePageToIndexFieldMapping {
         /// The name of the field in the data source.
         public var dataSourceFieldName: KendraClientTypes.ConfluencePageFieldName?
         /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
@@ -3812,7 +3812,7 @@ extension KendraClientTypes.ConfluenceSpaceConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Configuration information for indexing Confluence spaces.
-    public struct ConfluenceSpaceConfiguration: Swift.Equatable {
+    public struct ConfluenceSpaceConfiguration {
         /// TRUE to index archived spaces.
         public var crawlArchivedSpaces: Swift.Bool
         /// TRUE to index personal spaces. You can add restrictions to items in personal spaces. If personal spaces are indexed, queries without user context information may return restricted items from a personal space in their results. For more information, see [Filtering on user context](https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html).
@@ -3913,7 +3913,7 @@ extension KendraClientTypes.ConfluenceSpaceToIndexFieldMapping: Swift.Codable {
 
 extension KendraClientTypes {
     /// Maps attributes or field names of Confluence spaces to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata.
-    public struct ConfluenceSpaceToIndexFieldMapping: Swift.Equatable {
+    public struct ConfluenceSpaceToIndexFieldMapping {
         /// The name of the field in the data source.
         public var dataSourceFieldName: KendraClientTypes.ConfluenceSpaceFieldName?
         /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
@@ -4012,7 +4012,7 @@ extension KendraClientTypes.ConnectionConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information that's required to connect to a database.
-    public struct ConnectionConfiguration: Swift.Equatable {
+    public struct ConnectionConfiguration {
         /// The name of the host for the database. Can be either a string (host.subdomain.domain.tld) or an IPv4 or IPv6 address.
         /// This member is required.
         public var databaseHost: Swift.String?
@@ -4104,7 +4104,7 @@ extension KendraClientTypes.ContentSourceConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for your content sources, such as data sources, FAQs, and content indexed directly via [BatchPutDocument](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchPutDocument.html).
-    public struct ContentSourceConfiguration: Swift.Equatable {
+    public struct ContentSourceConfiguration {
         /// The identifier of the data sources you want to use for your Amazon Kendra experience.
         public var dataSourceIds: [Swift.String]?
         /// TRUE to use documents you indexed directly using the BatchPutDocument API.
@@ -4227,7 +4227,7 @@ extension KendraClientTypes.Correction: Swift.Codable {
 
 extension KendraClientTypes {
     /// A corrected misspelled word in a query.
-    public struct Correction: Swift.Equatable {
+    public struct Correction {
         /// The zero-based location in the response string or text where the corrected word starts.
         public var beginOffset: Swift.Int?
         /// The string or text of a corrected misspelled word in a query.
@@ -4299,7 +4299,7 @@ extension CreateAccessControlConfigurationInput {
     }
 }
 
-public struct CreateAccessControlConfigurationInput: Swift.Equatable {
+public struct CreateAccessControlConfigurationInput {
     /// Information on principals (users and/or groups) and which documents they should have access to. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     public var accessControlList: [KendraClientTypes.Principal]?
     /// A token that you provide to identify the request to create an access control configuration. Multiple calls to the CreateAccessControlConfiguration API with the same client token will create only one access control configuration.
@@ -4333,7 +4333,7 @@ public struct CreateAccessControlConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateAccessControlConfigurationInputBody: Swift.Equatable {
+struct CreateAccessControlConfigurationInputBody {
     let indexId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -4399,7 +4399,7 @@ extension CreateAccessControlConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateAccessControlConfigurationOutput: Swift.Equatable {
+public struct CreateAccessControlConfigurationOutput {
     /// The identifier of the access control configuration for your documents in an index.
     /// This member is required.
     public var id: Swift.String?
@@ -4412,7 +4412,7 @@ public struct CreateAccessControlConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccessControlConfigurationOutputBody: Swift.Equatable {
+struct CreateAccessControlConfigurationOutputBody {
     let id: Swift.String?
 }
 
@@ -4512,7 +4512,7 @@ extension CreateDataSourceInput {
     }
 }
 
-public struct CreateDataSourceInput: Swift.Equatable {
+public struct CreateDataSourceInput {
     /// A token that you provide to identify the request to create a data source connector. Multiple calls to the CreateDataSource API with the same client token will create only one data source connector.
     public var clientToken: Swift.String?
     /// Configuration information to connect to your data source repository. You can't specify the Configuration parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The Configuration parameter is required for all other data sources.
@@ -4571,7 +4571,7 @@ public struct CreateDataSourceInput: Swift.Equatable {
     }
 }
 
-struct CreateDataSourceInputBody: Swift.Equatable {
+struct CreateDataSourceInputBody {
     let name: Swift.String?
     let indexId: Swift.String?
     let type: KendraClientTypes.DataSourceType?
@@ -4652,7 +4652,7 @@ extension CreateDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataSourceOutput: Swift.Equatable {
+public struct CreateDataSourceOutput {
     /// The identifier of the data source connector.
     /// This member is required.
     public var id: Swift.String?
@@ -4665,7 +4665,7 @@ public struct CreateDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataSourceOutputBody: Swift.Equatable {
+struct CreateDataSourceOutputBody {
     let id: Swift.String?
 }
 
@@ -4739,7 +4739,7 @@ extension CreateExperienceInput {
     }
 }
 
-public struct CreateExperienceInput: Swift.Equatable {
+public struct CreateExperienceInput {
     /// A token that you provide to identify the request to create your Amazon Kendra experience. Multiple calls to the CreateExperience API with the same client token creates only one Amazon Kendra experience.
     public var clientToken: Swift.String?
     /// Configuration information for your Amazon Kendra experience. This includes ContentSourceConfiguration, which specifies the data source IDs and/or FAQ IDs, and UserIdentityConfiguration, which specifies the user or group information to grant access to your Amazon Kendra experience.
@@ -4773,7 +4773,7 @@ public struct CreateExperienceInput: Swift.Equatable {
     }
 }
 
-struct CreateExperienceInputBody: Swift.Equatable {
+struct CreateExperienceInputBody {
     let name: Swift.String?
     let indexId: Swift.String?
     let roleArn: Swift.String?
@@ -4821,7 +4821,7 @@ extension CreateExperienceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateExperienceOutput: Swift.Equatable {
+public struct CreateExperienceOutput {
     /// The identifier of your Amazon Kendra experience.
     /// This member is required.
     public var id: Swift.String?
@@ -4834,7 +4834,7 @@ public struct CreateExperienceOutput: Swift.Equatable {
     }
 }
 
-struct CreateExperienceOutputBody: Swift.Equatable {
+struct CreateExperienceOutputBody {
     let id: Swift.String?
 }
 
@@ -4922,7 +4922,7 @@ extension CreateFaqInput {
     }
 }
 
-public struct CreateFaqInput: Swift.Equatable {
+public struct CreateFaqInput {
     /// A token that you provide to identify the request to create a FAQ. Multiple calls to the CreateFaqRequest API with the same client token will create only one FAQ.
     public var clientToken: Swift.String?
     /// A description for the FAQ.
@@ -4970,7 +4970,7 @@ public struct CreateFaqInput: Swift.Equatable {
     }
 }
 
-struct CreateFaqInputBody: Swift.Equatable {
+struct CreateFaqInputBody {
     let indexId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -5039,7 +5039,7 @@ extension CreateFaqOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFaqOutput: Swift.Equatable {
+public struct CreateFaqOutput {
     /// The identifier of the FAQ.
     public var id: Swift.String?
 
@@ -5051,7 +5051,7 @@ public struct CreateFaqOutput: Swift.Equatable {
     }
 }
 
-struct CreateFaqOutputBody: Swift.Equatable {
+struct CreateFaqOutputBody {
     let id: Swift.String?
 }
 
@@ -5141,7 +5141,7 @@ extension CreateFeaturedResultsSetInput {
     }
 }
 
-public struct CreateFeaturedResultsSetInput: Swift.Equatable {
+public struct CreateFeaturedResultsSetInput {
     /// A token that you provide to identify the request to create a set of featured results. Multiple calls to the CreateFeaturedResultsSet API with the same client token will create only one featured results set.
     public var clientToken: Swift.String?
     /// A description for the set of featured results.
@@ -5183,7 +5183,7 @@ public struct CreateFeaturedResultsSetInput: Swift.Equatable {
     }
 }
 
-struct CreateFeaturedResultsSetInputBody: Swift.Equatable {
+struct CreateFeaturedResultsSetInputBody {
     let indexId: Swift.String?
     let featuredResultsSetName: Swift.String?
     let description: Swift.String?
@@ -5266,7 +5266,7 @@ extension CreateFeaturedResultsSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFeaturedResultsSetOutput: Swift.Equatable {
+public struct CreateFeaturedResultsSetOutput {
     /// Information on the set of featured results. This includes the identifier of the featured results set, whether the featured results set is active or inactive, when the featured results set was created, and more.
     public var featuredResultsSet: KendraClientTypes.FeaturedResultsSet?
 
@@ -5278,7 +5278,7 @@ public struct CreateFeaturedResultsSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateFeaturedResultsSetOutputBody: Swift.Equatable {
+struct CreateFeaturedResultsSetOutputBody {
     let featuredResultsSet: KendraClientTypes.FeaturedResultsSet?
 }
 
@@ -5373,7 +5373,7 @@ extension CreateIndexInput {
     }
 }
 
-public struct CreateIndexInput: Swift.Equatable {
+public struct CreateIndexInput {
     /// A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex API with the same client token will create only one index.
     public var clientToken: Swift.String?
     /// A description for the index.
@@ -5423,7 +5423,7 @@ public struct CreateIndexInput: Swift.Equatable {
     }
 }
 
-struct CreateIndexInputBody: Swift.Equatable {
+struct CreateIndexInputBody {
     let name: Swift.String?
     let edition: KendraClientTypes.IndexEdition?
     let roleArn: Swift.String?
@@ -5505,7 +5505,7 @@ extension CreateIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIndexOutput: Swift.Equatable {
+public struct CreateIndexOutput {
     /// The identifier of the index. Use this identifier when you query an index, set up a data source, or index a document.
     public var id: Swift.String?
 
@@ -5517,7 +5517,7 @@ public struct CreateIndexOutput: Swift.Equatable {
     }
 }
 
-struct CreateIndexOutputBody: Swift.Equatable {
+struct CreateIndexOutputBody {
     let id: Swift.String?
 }
 
@@ -5597,7 +5597,7 @@ extension CreateQuerySuggestionsBlockListInput {
     }
 }
 
-public struct CreateQuerySuggestionsBlockListInput: Swift.Equatable {
+public struct CreateQuerySuggestionsBlockListInput {
     /// A token that you provide to identify the request to create a query suggestions block list.
     public var clientToken: Swift.String?
     /// A description for the block list. For example, the description "List of all offensive words that can appear in user queries and need to be blocked from suggestions."
@@ -5637,7 +5637,7 @@ public struct CreateQuerySuggestionsBlockListInput: Swift.Equatable {
     }
 }
 
-struct CreateQuerySuggestionsBlockListInputBody: Swift.Equatable {
+struct CreateQuerySuggestionsBlockListInputBody {
     let indexId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -5698,7 +5698,7 @@ extension CreateQuerySuggestionsBlockListOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateQuerySuggestionsBlockListOutput: Swift.Equatable {
+public struct CreateQuerySuggestionsBlockListOutput {
     /// The identifier of the block list.
     public var id: Swift.String?
 
@@ -5710,7 +5710,7 @@ public struct CreateQuerySuggestionsBlockListOutput: Swift.Equatable {
     }
 }
 
-struct CreateQuerySuggestionsBlockListOutputBody: Swift.Equatable {
+struct CreateQuerySuggestionsBlockListOutputBody {
     let id: Swift.String?
 }
 
@@ -5790,7 +5790,7 @@ extension CreateThesaurusInput {
     }
 }
 
-public struct CreateThesaurusInput: Swift.Equatable {
+public struct CreateThesaurusInput {
     /// A token that you provide to identify the request to create a thesaurus. Multiple calls to the CreateThesaurus API with the same client token will create only one thesaurus.
     public var clientToken: Swift.String?
     /// A description for the thesaurus.
@@ -5830,7 +5830,7 @@ public struct CreateThesaurusInput: Swift.Equatable {
     }
 }
 
-struct CreateThesaurusInputBody: Swift.Equatable {
+struct CreateThesaurusInputBody {
     let indexId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -5891,7 +5891,7 @@ extension CreateThesaurusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateThesaurusOutput: Swift.Equatable {
+public struct CreateThesaurusOutput {
     /// The identifier of the thesaurus.
     public var id: Swift.String?
 
@@ -5903,7 +5903,7 @@ public struct CreateThesaurusOutput: Swift.Equatable {
     }
 }
 
-struct CreateThesaurusOutputBody: Swift.Equatable {
+struct CreateThesaurusOutputBody {
     let id: Swift.String?
 }
 
@@ -5987,7 +5987,7 @@ extension KendraClientTypes.CustomDocumentEnrichmentConfiguration: Swift.Codable
 
 extension KendraClientTypes {
     /// Provides the configuration information for altering document metadata and content during the document ingestion process. For more information, see [Customizing document metadata during the ingestion process](https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html).
-    public struct CustomDocumentEnrichmentConfiguration: Swift.Equatable {
+    public struct CustomDocumentEnrichmentConfiguration {
         /// Configuration information to alter document attributes or metadata fields and content when ingesting documents into Amazon Kendra.
         public var inlineConfigurations: [KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration]?
         /// Configuration information for invoking a Lambda function in Lambda on the structured documents with their metadata and text extracted. You can use a Lambda function to apply advanced logic for creating, modifying, or deleting document metadata and content. For more information, see [Advanced data manipulation](https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html#advanced-data-manipulation).
@@ -6136,7 +6136,7 @@ extension KendraClientTypes.DataSourceConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for an Amazon Kendra data source.
-    public struct DataSourceConfiguration: Swift.Equatable {
+    public struct DataSourceConfiguration {
         /// Provides the configuration information to connect to Alfresco as your data source. Support for AlfrescoConfiguration ended May 2023. We recommend migrating to or using the Alfresco data source template schema / [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) API.
         @available(*, deprecated, message: "Deprecated AlfrescoConfiguration in favor of TemplateConfiguration")
         public var alfrescoConfiguration: KendraClientTypes.AlfrescoConfiguration?
@@ -6246,7 +6246,7 @@ extension KendraClientTypes.DataSourceGroup: Swift.Codable {
 
 extension KendraClientTypes {
     /// Data source information for user context filtering.
-    public struct DataSourceGroup: Swift.Equatable {
+    public struct DataSourceGroup {
         /// The identifier of the data source group you want to add to your list of data source groups. This is for filtering search results based on the groups' access to documents in that data source.
         /// This member is required.
         public var dataSourceId: Swift.String?
@@ -6364,7 +6364,7 @@ extension KendraClientTypes.DataSourceSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// Summary information for a Amazon Kendra data source.
-    public struct DataSourceSummary: Swift.Equatable {
+    public struct DataSourceSummary {
         /// The Unix timestamp when the data source connector was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier for the data source.
@@ -6465,7 +6465,7 @@ extension KendraClientTypes.DataSourceSyncJob: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides information about a data source synchronization job.
-    public struct DataSourceSyncJob: Swift.Equatable {
+    public struct DataSourceSyncJob {
         /// If the reason that the synchronization failed is due to an error with the underlying data source, this field contains a code that identifies the error.
         public var dataSourceErrorCode: Swift.String?
         /// The Unix timestamp when the synchronization job completed.
@@ -6534,7 +6534,7 @@ extension KendraClientTypes.DataSourceSyncJobMetricTarget: Swift.Codable {
 
 extension KendraClientTypes {
     /// Maps a particular data source sync job to a particular data source.
-    public struct DataSourceSyncJobMetricTarget: Swift.Equatable {
+    public struct DataSourceSyncJobMetricTarget {
         /// The ID of the data source that is running the sync job.
         /// This member is required.
         public var dataSourceId: Swift.String?
@@ -6598,7 +6598,7 @@ extension KendraClientTypes.DataSourceSyncJobMetrics: Swift.Codable {
 
 extension KendraClientTypes {
     /// Maps a batch delete document request to a specific data source sync job. This is optional and should only be supplied when documents are deleted by a data source connector.
-    public struct DataSourceSyncJobMetrics: Swift.Equatable {
+    public struct DataSourceSyncJobMetrics {
         /// The number of documents added from the data source up to now in the data source sync.
         public var documentsAdded: Swift.String?
         /// The number of documents deleted from the data source up to now in the data source sync run.
@@ -6708,7 +6708,7 @@ extension KendraClientTypes.DataSourceToIndexFieldMapping: Swift.Codable {
 
 extension KendraClientTypes {
     /// Maps attributes or field names of the documents synced from the data source to Amazon Kendra index field names. You can set up field mappings for each data source when calling [CreateDataSource](https://docs.aws.amazon.com/kendra/latest/APIReference/API_CreateDataSource.html) or [UpdateDataSource](https://docs.aws.amazon.com/kendra/latest/APIReference/API_UpdateDataSource.html) API. To create custom fields, use the UpdateIndex API to first create an index field and then map to the data source field. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html).
-    public struct DataSourceToIndexFieldMapping: Swift.Equatable {
+    public struct DataSourceToIndexFieldMapping {
         /// The name of the field in the data source. You must first create the index field using the UpdateIndex API.
         /// This member is required.
         public var dataSourceFieldName: Swift.String?
@@ -6866,7 +6866,7 @@ extension KendraClientTypes.DataSourceVpcConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to an Amazon VPC.
-    public struct DataSourceVpcConfiguration: Swift.Equatable {
+    public struct DataSourceVpcConfiguration {
         /// A list of identifiers of security groups within your Amazon VPC. The security groups should enable Amazon Kendra to connect to the data source.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
@@ -6937,7 +6937,7 @@ extension KendraClientTypes.DatabaseConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to an [Amazon Kendra supported database](https://docs.aws.amazon.com/kendra/latest/dg/data-source-database.html).
-    public struct DatabaseConfiguration: Swift.Equatable {
+    public struct DatabaseConfiguration {
         /// Information about the database column that provides information for user context filtering.
         public var aclConfiguration: KendraClientTypes.AclConfiguration?
         /// Information about where the index should get the document information from the database.
@@ -7036,7 +7036,7 @@ extension DeleteAccessControlConfigurationInput {
     }
 }
 
-public struct DeleteAccessControlConfigurationInput: Swift.Equatable {
+public struct DeleteAccessControlConfigurationInput {
     /// The identifier of the access control configuration you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -7054,7 +7054,7 @@ public struct DeleteAccessControlConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccessControlConfigurationInputBody: Swift.Equatable {
+struct DeleteAccessControlConfigurationInputBody {
     let indexId: Swift.String?
     let id: Swift.String?
 }
@@ -7079,7 +7079,7 @@ extension DeleteAccessControlConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteAccessControlConfigurationOutput: Swift.Equatable {
+public struct DeleteAccessControlConfigurationOutput {
 
     public init() { }
 }
@@ -7124,7 +7124,7 @@ extension DeleteDataSourceInput {
     }
 }
 
-public struct DeleteDataSourceInput: Swift.Equatable {
+public struct DeleteDataSourceInput {
     /// The identifier of the data source connector you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -7142,7 +7142,7 @@ public struct DeleteDataSourceInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSourceInputBody: Swift.Equatable {
+struct DeleteDataSourceInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
 }
@@ -7167,7 +7167,7 @@ extension DeleteDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDataSourceOutput: Swift.Equatable {
+public struct DeleteDataSourceOutput {
 
     public init() { }
 }
@@ -7212,7 +7212,7 @@ extension DeleteExperienceInput {
     }
 }
 
-public struct DeleteExperienceInput: Swift.Equatable {
+public struct DeleteExperienceInput {
     /// The identifier of your Amazon Kendra experience you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -7230,7 +7230,7 @@ public struct DeleteExperienceInput: Swift.Equatable {
     }
 }
 
-struct DeleteExperienceInputBody: Swift.Equatable {
+struct DeleteExperienceInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
 }
@@ -7255,7 +7255,7 @@ extension DeleteExperienceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteExperienceOutput: Swift.Equatable {
+public struct DeleteExperienceOutput {
 
     public init() { }
 }
@@ -7300,7 +7300,7 @@ extension DeleteFaqInput {
     }
 }
 
-public struct DeleteFaqInput: Swift.Equatable {
+public struct DeleteFaqInput {
     /// The identifier of the FAQ you want to remove.
     /// This member is required.
     public var id: Swift.String?
@@ -7318,7 +7318,7 @@ public struct DeleteFaqInput: Swift.Equatable {
     }
 }
 
-struct DeleteFaqInputBody: Swift.Equatable {
+struct DeleteFaqInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
 }
@@ -7343,7 +7343,7 @@ extension DeleteFaqOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFaqOutput: Swift.Equatable {
+public struct DeleteFaqOutput {
 
     public init() { }
 }
@@ -7384,7 +7384,7 @@ extension DeleteIndexInput {
     }
 }
 
-public struct DeleteIndexInput: Swift.Equatable {
+public struct DeleteIndexInput {
     /// The identifier of the index you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -7397,7 +7397,7 @@ public struct DeleteIndexInput: Swift.Equatable {
     }
 }
 
-struct DeleteIndexInputBody: Swift.Equatable {
+struct DeleteIndexInputBody {
     let id: Swift.String?
 }
 
@@ -7418,7 +7418,7 @@ extension DeleteIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIndexOutput: Swift.Equatable {
+public struct DeleteIndexOutput {
 
     public init() { }
 }
@@ -7471,7 +7471,7 @@ extension DeletePrincipalMappingInput {
     }
 }
 
-public struct DeletePrincipalMappingInput: Swift.Equatable {
+public struct DeletePrincipalMappingInput {
     /// The identifier of the data source you want to delete a group from. A group can be tied to multiple data sources. You can delete a group from accessing documents in a certain data source. For example, the groups "Research", "Engineering", and "Sales and Marketing" are all tied to the company's documents stored in the data sources Confluence and Salesforce. You want to delete "Research" and "Engineering" groups from Salesforce, so that these groups cannot access customer-related documents stored in Salesforce. Only "Sales and Marketing" should access documents in the Salesforce data source.
     public var dataSourceId: Swift.String?
     /// The identifier of the group you want to delete.
@@ -7497,7 +7497,7 @@ public struct DeletePrincipalMappingInput: Swift.Equatable {
     }
 }
 
-struct DeletePrincipalMappingInputBody: Swift.Equatable {
+struct DeletePrincipalMappingInputBody {
     let indexId: Swift.String?
     let dataSourceId: Swift.String?
     let groupId: Swift.String?
@@ -7530,7 +7530,7 @@ extension DeletePrincipalMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePrincipalMappingOutput: Swift.Equatable {
+public struct DeletePrincipalMappingOutput {
 
     public init() { }
 }
@@ -7575,7 +7575,7 @@ extension DeleteQuerySuggestionsBlockListInput {
     }
 }
 
-public struct DeleteQuerySuggestionsBlockListInput: Swift.Equatable {
+public struct DeleteQuerySuggestionsBlockListInput {
     /// The identifier of the block list you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -7593,7 +7593,7 @@ public struct DeleteQuerySuggestionsBlockListInput: Swift.Equatable {
     }
 }
 
-struct DeleteQuerySuggestionsBlockListInputBody: Swift.Equatable {
+struct DeleteQuerySuggestionsBlockListInputBody {
     let indexId: Swift.String?
     let id: Swift.String?
 }
@@ -7618,7 +7618,7 @@ extension DeleteQuerySuggestionsBlockListOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteQuerySuggestionsBlockListOutput: Swift.Equatable {
+public struct DeleteQuerySuggestionsBlockListOutput {
 
     public init() { }
 }
@@ -7663,7 +7663,7 @@ extension DeleteThesaurusInput {
     }
 }
 
-public struct DeleteThesaurusInput: Swift.Equatable {
+public struct DeleteThesaurusInput {
     /// The identifier of the thesaurus you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -7681,7 +7681,7 @@ public struct DeleteThesaurusInput: Swift.Equatable {
     }
 }
 
-struct DeleteThesaurusInputBody: Swift.Equatable {
+struct DeleteThesaurusInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
 }
@@ -7706,7 +7706,7 @@ extension DeleteThesaurusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteThesaurusOutput: Swift.Equatable {
+public struct DeleteThesaurusOutput {
 
     public init() { }
 }
@@ -7751,7 +7751,7 @@ extension DescribeAccessControlConfigurationInput {
     }
 }
 
-public struct DescribeAccessControlConfigurationInput: Swift.Equatable {
+public struct DescribeAccessControlConfigurationInput {
     /// The identifier of the access control configuration you want to get information on.
     /// This member is required.
     public var id: Swift.String?
@@ -7769,7 +7769,7 @@ public struct DescribeAccessControlConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccessControlConfigurationInputBody: Swift.Equatable {
+struct DescribeAccessControlConfigurationInputBody {
     let indexId: Swift.String?
     let id: Swift.String?
 }
@@ -7809,7 +7809,7 @@ extension DescribeAccessControlConfigurationOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeAccessControlConfigurationOutput: Swift.Equatable {
+public struct DescribeAccessControlConfigurationOutput {
     /// Information on principals (users and/or groups) and which documents they should have access to. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     public var accessControlList: [KendraClientTypes.Principal]?
     /// The description for the access control configuration.
@@ -7838,7 +7838,7 @@ public struct DescribeAccessControlConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccessControlConfigurationOutputBody: Swift.Equatable {
+struct DescribeAccessControlConfigurationOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let errorMessage: Swift.String?
@@ -7927,7 +7927,7 @@ extension DescribeDataSourceInput {
     }
 }
 
-public struct DescribeDataSourceInput: Swift.Equatable {
+public struct DescribeDataSourceInput {
     /// The identifier of the data source connector.
     /// This member is required.
     public var id: Swift.String?
@@ -7945,7 +7945,7 @@ public struct DescribeDataSourceInput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSourceInputBody: Swift.Equatable {
+struct DescribeDataSourceInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
 }
@@ -8005,7 +8005,7 @@ extension DescribeDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDataSourceOutput: Swift.Equatable {
+public struct DescribeDataSourceOutput {
     /// Configuration details for the data source connector. This shows how the data source is configured. The configuration options for a data source depend on the data source provider.
     public var configuration: KendraClientTypes.DataSourceConfiguration?
     /// The Unix timestamp when the data source connector was created.
@@ -8073,7 +8073,7 @@ public struct DescribeDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSourceOutputBody: Swift.Equatable {
+struct DescribeDataSourceOutputBody {
     let id: Swift.String?
     let indexId: Swift.String?
     let name: Swift.String?
@@ -8184,7 +8184,7 @@ extension DescribeExperienceInput {
     }
 }
 
-public struct DescribeExperienceInput: Swift.Equatable {
+public struct DescribeExperienceInput {
     /// The identifier of your Amazon Kendra experience you want to get information on.
     /// This member is required.
     public var id: Swift.String?
@@ -8202,7 +8202,7 @@ public struct DescribeExperienceInput: Swift.Equatable {
     }
 }
 
-struct DescribeExperienceInputBody: Swift.Equatable {
+struct DescribeExperienceInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
 }
@@ -8254,7 +8254,7 @@ extension DescribeExperienceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeExperienceOutput: Swift.Equatable {
+public struct DescribeExperienceOutput {
     /// Shows the configuration information for your Amazon Kendra experience. This includes ContentSourceConfiguration, which specifies the data source IDs and/or FAQ IDs, and UserIdentityConfiguration, which specifies the user or group information to grant access to your Amazon Kendra experience.
     public var configuration: KendraClientTypes.ExperienceConfiguration?
     /// The Unix timestamp when your Amazon Kendra experience was created.
@@ -8306,7 +8306,7 @@ public struct DescribeExperienceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeExperienceOutputBody: Swift.Equatable {
+struct DescribeExperienceOutputBody {
     let id: Swift.String?
     let indexId: Swift.String?
     let name: Swift.String?
@@ -8410,7 +8410,7 @@ extension DescribeFaqInput {
     }
 }
 
-public struct DescribeFaqInput: Swift.Equatable {
+public struct DescribeFaqInput {
     /// The identifier of the FAQ you want to get information on.
     /// This member is required.
     public var id: Swift.String?
@@ -8428,7 +8428,7 @@ public struct DescribeFaqInput: Swift.Equatable {
     }
 }
 
-struct DescribeFaqInputBody: Swift.Equatable {
+struct DescribeFaqInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
 }
@@ -8482,7 +8482,7 @@ extension DescribeFaqOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFaqOutput: Swift.Equatable {
+public struct DescribeFaqOutput {
     /// The Unix timestamp when the FAQ was created.
     public var createdAt: ClientRuntime.Date?
     /// The description of the FAQ that you provided when it was created.
@@ -8538,7 +8538,7 @@ public struct DescribeFaqOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFaqOutputBody: Swift.Equatable {
+struct DescribeFaqOutputBody {
     let id: Swift.String?
     let indexId: Swift.String?
     let name: Swift.String?
@@ -8637,7 +8637,7 @@ extension DescribeFeaturedResultsSetInput {
     }
 }
 
-public struct DescribeFeaturedResultsSetInput: Swift.Equatable {
+public struct DescribeFeaturedResultsSetInput {
     /// The identifier of the set of featured results that you want to get information on.
     /// This member is required.
     public var featuredResultsSetId: Swift.String?
@@ -8655,7 +8655,7 @@ public struct DescribeFeaturedResultsSetInput: Swift.Equatable {
     }
 }
 
-struct DescribeFeaturedResultsSetInputBody: Swift.Equatable {
+struct DescribeFeaturedResultsSetInputBody {
     let indexId: Swift.String?
     let featuredResultsSetId: Swift.String?
 }
@@ -8703,7 +8703,7 @@ extension DescribeFeaturedResultsSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFeaturedResultsSetOutput: Swift.Equatable {
+public struct DescribeFeaturedResultsSetOutput {
     /// The Unix timestamp when the set of the featured results was created.
     public var creationTimestamp: Swift.Int?
     /// The description for the set of featured results.
@@ -8747,7 +8747,7 @@ public struct DescribeFeaturedResultsSetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFeaturedResultsSetOutputBody: Swift.Equatable {
+struct DescribeFeaturedResultsSetOutputBody {
     let featuredResultsSetId: Swift.String?
     let featuredResultsSetName: Swift.String?
     let description: Swift.String?
@@ -8857,7 +8857,7 @@ extension DescribeIndexInput {
     }
 }
 
-public struct DescribeIndexInput: Swift.Equatable {
+public struct DescribeIndexInput {
     /// The identifier of the index you want to get information on.
     /// This member is required.
     public var id: Swift.String?
@@ -8870,7 +8870,7 @@ public struct DescribeIndexInput: Swift.Equatable {
     }
 }
 
-struct DescribeIndexInputBody: Swift.Equatable {
+struct DescribeIndexInputBody {
     let id: Swift.String?
 }
 
@@ -8928,7 +8928,7 @@ extension DescribeIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeIndexOutput: Swift.Equatable {
+public struct DescribeIndexOutput {
     /// For Enterprise Edition indexes, you can choose to use additional capacity to meet the needs of your application. This contains the capacity units used for the index. A query or document storage capacity of zero indicates that the index is using the default capacity. For more information on the default capacity for an index and adjusting this, see [Adjusting capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html).
     public var capacityUnits: KendraClientTypes.CapacityUnitsConfiguration?
     /// The Unix timestamp when the index was created.
@@ -9000,7 +9000,7 @@ public struct DescribeIndexOutput: Swift.Equatable {
     }
 }
 
-struct DescribeIndexOutputBody: Swift.Equatable {
+struct DescribeIndexOutputBody {
     let name: Swift.String?
     let id: Swift.String?
     let edition: KendraClientTypes.IndexEdition?
@@ -9137,7 +9137,7 @@ extension DescribePrincipalMappingInput {
     }
 }
 
-public struct DescribePrincipalMappingInput: Swift.Equatable {
+public struct DescribePrincipalMappingInput {
     /// The identifier of the data source to check the processing of PUT and DELETE actions for mapping users to their groups.
     public var dataSourceId: Swift.String?
     /// The identifier of the group required to check the processing of PUT and DELETE actions for mapping users to their groups.
@@ -9159,7 +9159,7 @@ public struct DescribePrincipalMappingInput: Swift.Equatable {
     }
 }
 
-struct DescribePrincipalMappingInputBody: Swift.Equatable {
+struct DescribePrincipalMappingInputBody {
     let indexId: Swift.String?
     let dataSourceId: Swift.String?
     let groupId: Swift.String?
@@ -9201,7 +9201,7 @@ extension DescribePrincipalMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePrincipalMappingOutput: Swift.Equatable {
+public struct DescribePrincipalMappingOutput {
     /// Shows the identifier of the data source to see information on the processing of PUT and DELETE actions for mapping users to their groups.
     public var dataSourceId: Swift.String?
     /// Shows the identifier of the group to see information on the processing of PUT and DELETE actions for mapping users to their groups.
@@ -9235,7 +9235,7 @@ public struct DescribePrincipalMappingOutput: Swift.Equatable {
     }
 }
 
-struct DescribePrincipalMappingOutputBody: Swift.Equatable {
+struct DescribePrincipalMappingOutputBody {
     let indexId: Swift.String?
     let dataSourceId: Swift.String?
     let groupId: Swift.String?
@@ -9311,7 +9311,7 @@ extension DescribeQuerySuggestionsBlockListInput {
     }
 }
 
-public struct DescribeQuerySuggestionsBlockListInput: Swift.Equatable {
+public struct DescribeQuerySuggestionsBlockListInput {
     /// The identifier of the block list you want to get information on.
     /// This member is required.
     public var id: Swift.String?
@@ -9329,7 +9329,7 @@ public struct DescribeQuerySuggestionsBlockListInput: Swift.Equatable {
     }
 }
 
-struct DescribeQuerySuggestionsBlockListInputBody: Swift.Equatable {
+struct DescribeQuerySuggestionsBlockListInputBody {
     let indexId: Swift.String?
     let id: Swift.String?
 }
@@ -9383,7 +9383,7 @@ extension DescribeQuerySuggestionsBlockListOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeQuerySuggestionsBlockListOutput: Swift.Equatable {
+public struct DescribeQuerySuggestionsBlockListOutput {
     /// The Unix timestamp when a block list for query suggestions was created.
     public var createdAt: ClientRuntime.Date?
     /// The description for the block list.
@@ -9439,7 +9439,7 @@ public struct DescribeQuerySuggestionsBlockListOutput: Swift.Equatable {
     }
 }
 
-struct DescribeQuerySuggestionsBlockListOutputBody: Swift.Equatable {
+struct DescribeQuerySuggestionsBlockListOutputBody {
     let indexId: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -9534,7 +9534,7 @@ extension DescribeQuerySuggestionsConfigInput {
     }
 }
 
-public struct DescribeQuerySuggestionsConfigInput: Swift.Equatable {
+public struct DescribeQuerySuggestionsConfigInput {
     /// The identifier of the index with query suggestions that you want to get information on.
     /// This member is required.
     public var indexId: Swift.String?
@@ -9547,7 +9547,7 @@ public struct DescribeQuerySuggestionsConfigInput: Swift.Equatable {
     }
 }
 
-struct DescribeQuerySuggestionsConfigInputBody: Swift.Equatable {
+struct DescribeQuerySuggestionsConfigInputBody {
     let indexId: Swift.String?
 }
 
@@ -9593,7 +9593,7 @@ extension DescribeQuerySuggestionsConfigOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeQuerySuggestionsConfigOutput: Swift.Equatable {
+public struct DescribeQuerySuggestionsConfigOutput {
     /// Configuration information for the document fields/attributes that you want to base query suggestions on.
     public var attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsDescribeConfig?
     /// TRUE to use all queries, otherwise use only queries that include user information to generate the query suggestions.
@@ -9641,7 +9641,7 @@ public struct DescribeQuerySuggestionsConfigOutput: Swift.Equatable {
     }
 }
 
-struct DescribeQuerySuggestionsConfigOutputBody: Swift.Equatable {
+struct DescribeQuerySuggestionsConfigOutputBody {
     let mode: KendraClientTypes.Mode?
     let status: KendraClientTypes.QuerySuggestionsStatus?
     let queryLogLookBackWindowInDays: Swift.Int?
@@ -9732,7 +9732,7 @@ extension DescribeThesaurusInput {
     }
 }
 
-public struct DescribeThesaurusInput: Swift.Equatable {
+public struct DescribeThesaurusInput {
     /// The identifier of the thesaurus you want to get information on.
     /// This member is required.
     public var id: Swift.String?
@@ -9750,7 +9750,7 @@ public struct DescribeThesaurusInput: Swift.Equatable {
     }
 }
 
-struct DescribeThesaurusInputBody: Swift.Equatable {
+struct DescribeThesaurusInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
 }
@@ -9806,7 +9806,7 @@ extension DescribeThesaurusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeThesaurusOutput: Swift.Equatable {
+public struct DescribeThesaurusOutput {
     /// The Unix timestamp when the thesaurus was created.
     public var createdAt: ClientRuntime.Date?
     /// The thesaurus description.
@@ -9866,7 +9866,7 @@ public struct DescribeThesaurusOutput: Swift.Equatable {
     }
 }
 
-struct DescribeThesaurusOutputBody: Swift.Equatable {
+struct DescribeThesaurusOutputBody {
     let id: Swift.String?
     let indexId: Swift.String?
     let name: Swift.String?
@@ -9976,7 +9976,7 @@ extension DisassociateEntitiesFromExperienceInput {
     }
 }
 
-public struct DisassociateEntitiesFromExperienceInput: Swift.Equatable {
+public struct DisassociateEntitiesFromExperienceInput {
     /// Lists users or groups in your IAM Identity Center identity source.
     /// This member is required.
     public var entityList: [KendraClientTypes.EntityConfiguration]?
@@ -9999,7 +9999,7 @@ public struct DisassociateEntitiesFromExperienceInput: Swift.Equatable {
     }
 }
 
-struct DisassociateEntitiesFromExperienceInputBody: Swift.Equatable {
+struct DisassociateEntitiesFromExperienceInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
     let entityList: [KendraClientTypes.EntityConfiguration]?
@@ -10044,7 +10044,7 @@ extension DisassociateEntitiesFromExperienceOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DisassociateEntitiesFromExperienceOutput: Swift.Equatable {
+public struct DisassociateEntitiesFromExperienceOutput {
     /// Lists the users or groups in your IAM Identity Center identity source that failed to properly remove access to your Amazon Kendra experience.
     public var failedEntityList: [KendraClientTypes.FailedEntity]?
 
@@ -10056,7 +10056,7 @@ public struct DisassociateEntitiesFromExperienceOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateEntitiesFromExperienceOutputBody: Swift.Equatable {
+struct DisassociateEntitiesFromExperienceOutputBody {
     let failedEntityList: [KendraClientTypes.FailedEntity]?
 }
 
@@ -10127,7 +10127,7 @@ extension DisassociatePersonasFromEntitiesInput {
     }
 }
 
-public struct DisassociatePersonasFromEntitiesInput: Swift.Equatable {
+public struct DisassociatePersonasFromEntitiesInput {
     /// The identifiers of users or groups in your IAM Identity Center identity source. For example, user IDs could be user emails.
     /// This member is required.
     public var entityIds: [Swift.String]?
@@ -10150,7 +10150,7 @@ public struct DisassociatePersonasFromEntitiesInput: Swift.Equatable {
     }
 }
 
-struct DisassociatePersonasFromEntitiesInputBody: Swift.Equatable {
+struct DisassociatePersonasFromEntitiesInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
     let entityIds: [Swift.String]?
@@ -10195,7 +10195,7 @@ extension DisassociatePersonasFromEntitiesOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DisassociatePersonasFromEntitiesOutput: Swift.Equatable {
+public struct DisassociatePersonasFromEntitiesOutput {
     /// Lists the users or groups in your IAM Identity Center identity source that failed to properly remove access to your Amazon Kendra experience.
     public var failedEntityList: [KendraClientTypes.FailedEntity]?
 
@@ -10207,7 +10207,7 @@ public struct DisassociatePersonasFromEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct DisassociatePersonasFromEntitiesOutputBody: Swift.Equatable {
+struct DisassociatePersonasFromEntitiesOutputBody {
     let failedEntityList: [KendraClientTypes.FailedEntity]?
 }
 
@@ -10352,7 +10352,7 @@ extension KendraClientTypes.Document: Swift.Codable {
 
 extension KendraClientTypes {
     /// A document in an index.
-    public struct Document: Swift.Equatable {
+    public struct Document {
         /// The identifier of the access control configuration that you want to apply to the document.
         public var accessControlConfigurationId: Swift.String?
         /// Information on principals (users and/or groups) and which documents they should have access to. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
@@ -10426,7 +10426,7 @@ extension KendraClientTypes.DocumentAttribute: Swift.Codable {
 
 extension KendraClientTypes {
     /// A document attribute or metadata field. To create custom document attributes, see [Custom attributes](https://docs.aws.amazon.com/kendra/latest/dg/custom-attributes.html).
-    public struct DocumentAttribute: Swift.Equatable {
+    public struct DocumentAttribute {
         /// The identifier for the attribute.
         /// This member is required.
         public var key: Swift.String?
@@ -10479,7 +10479,7 @@ extension KendraClientTypes.DocumentAttributeCondition: Swift.Codable {
 
 extension KendraClientTypes {
     /// The condition used for the target document attribute or metadata field when ingesting documents into Amazon Kendra. You use this with [DocumentAttributeTarget to apply the condition](https://docs.aws.amazon.com/kendra/latest/dg/API_DocumentAttributeTarget.html). For example, you can create the 'Department' target field and have it prefill department names associated with the documents based on information in the 'Source_URI' field. Set the condition that if the 'Source_URI' field contains 'financial' in its URI value, then prefill the target field 'Department' with the target value 'Finance' for the document. Amazon Kendra cannot create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using DocumentAttributeTarget. Amazon Kendra then will map your newly created metadata field to your index field.
-    public struct DocumentAttributeCondition: Swift.Equatable {
+    public struct DocumentAttributeCondition {
         /// The identifier of the document attribute used for the condition. For example, 'Source_URI' could be an identifier for the attribute or metadata field that contains source URIs associated with the documents. Amazon Kendra currently does not support _document_body as an attribute key used for the condition.
         /// This member is required.
         public var conditionDocumentAttributeKey: Swift.String?
@@ -10536,7 +10536,7 @@ extension KendraClientTypes.DocumentAttributeTarget: Swift.Codable {
 
 extension KendraClientTypes {
     /// The target document attribute or metadata field you want to alter when ingesting documents into Amazon Kendra. For example, you can delete customer identification numbers associated with the documents, stored in the document metadata field called 'Customer_ID'. You set the target key as 'Customer_ID' and the deletion flag to TRUE. This removes all customer ID values in the field 'Customer_ID'. This would scrub personally identifiable information from each document's metadata. Amazon Kendra cannot create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using DocumentAttributeTarget. Amazon Kendra then will map your newly created metadata field to your index field. You can also use this with [DocumentAttributeCondition](https://docs.aws.amazon.com/kendra/latest/dg/API_DocumentAttributeCondition.html).
-    public struct DocumentAttributeTarget: Swift.Equatable {
+    public struct DocumentAttributeTarget {
         /// The identifier of the target document attribute or metadata field. For example, 'Department' could be an identifier for the target attribute or metadata field that includes the department names associated with the documents.
         public var targetDocumentAttributeKey: Swift.String?
         /// The target value you want to create for the target attribute. For example, 'Finance' could be the target value for the target attribute key 'Department'.
@@ -10609,7 +10609,7 @@ extension KendraClientTypes.DocumentAttributeValue: Swift.Codable {
 
 extension KendraClientTypes {
     /// The value of a document attribute. You can only provide one value for a document attribute.
-    public struct DocumentAttributeValue: Swift.Equatable {
+    public struct DocumentAttributeValue {
         /// A date expressed as an ISO 8601 string. It is important for the time zone to be included in the ISO 8601 date-time format. For example, 2012-03-25T12:30:10+01:00 is the ISO 8601 date-time format for March 25th 2012 at 12:30PM (plus 10 seconds) in Central European Time.
         public var dateValue: ClientRuntime.Date?
         /// A long integer value.
@@ -10680,7 +10680,7 @@ extension KendraClientTypes.DocumentAttributeValueCountPair: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the count of documents that match a particular document attribute or field when doing a faceted search.
-    public struct DocumentAttributeValueCountPair: Swift.Equatable {
+    public struct DocumentAttributeValueCountPair {
         /// The number of documents in the response that have the attribute/field value for the key.
         public var count: Swift.Int?
         /// The value of the attribute/field. For example, "HR".
@@ -10779,7 +10779,7 @@ extension KendraClientTypes.DocumentInfo: Swift.Codable {
 
 extension KendraClientTypes {
     /// Identifies a document for which to retrieve status information
-    public struct DocumentInfo: Swift.Equatable {
+    public struct DocumentInfo {
         /// Attributes that identify a specific version of a document to check. The only valid attributes are:
         ///
         /// * version
@@ -10852,7 +10852,7 @@ extension KendraClientTypes.DocumentMetadataConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Specifies the properties, such as relevance tuning and searchability, of an index field.
-    public struct DocumentMetadataConfiguration: Swift.Equatable {
+    public struct DocumentMetadataConfiguration {
         /// The name of the index field.
         /// This member is required.
         public var name: Swift.String?
@@ -10907,7 +10907,7 @@ extension KendraClientTypes.DocumentRelevanceConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Overrides the document relevance properties of a custom index field.
-    public struct DocumentRelevanceConfiguration: Swift.Equatable {
+    public struct DocumentRelevanceConfiguration {
         /// The name of the index field.
         /// This member is required.
         public var name: Swift.String?
@@ -10992,7 +10992,7 @@ extension KendraClientTypes.DocumentsMetadataConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Document metadata files that contain information such as the document access control information, source URI, document author, and custom attributes. Each metadata file contains metadata about a single document.
-    public struct DocumentsMetadataConfiguration: Swift.Equatable {
+    public struct DocumentsMetadataConfiguration {
         /// A prefix used to filter metadata configuration files in the Amazon Web Services S3 bucket. The S3 bucket might contain multiple metadata files. Use S3Prefix to include only the desired metadata files.
         public var s3Prefix: Swift.String?
 
@@ -11062,7 +11062,7 @@ extension KendraClientTypes.EntityConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for users or groups in your IAM Identity Center identity source to grant access your Amazon Kendra experience.
-    public struct EntityConfiguration: Swift.Equatable {
+    public struct EntityConfiguration {
         /// The identifier of a user or group in your IAM Identity Center identity source. For example, a user ID could be an email.
         /// This member is required.
         public var entityId: Swift.String?
@@ -11132,7 +11132,7 @@ extension KendraClientTypes.EntityDisplayData: Swift.CustomDebugStringConvertibl
 
 extension KendraClientTypes {
     /// Information about the user entity.
-    public struct EntityDisplayData: Swift.Equatable {
+    public struct EntityDisplayData {
         /// The first name of the user.
         public var firstName: Swift.String?
         /// The name of the group.
@@ -11189,7 +11189,7 @@ extension KendraClientTypes.EntityPersonaConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for users or groups in your IAM Identity Center identity source for access to your Amazon Kendra experience. Specific permissions are defined for each user or group once they are granted access to your Amazon Kendra experience.
-    public struct EntityPersonaConfiguration: Swift.Equatable {
+    public struct EntityPersonaConfiguration {
         /// The identifier of a user or group in your IAM Identity Center identity source. For example, a user ID could be an email.
         /// This member is required.
         public var entityId: Swift.String?
@@ -11300,7 +11300,7 @@ extension KendraClientTypes.ExpandConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Specifies the configuration information needed to customize how collapsed search result groups expand.
-    public struct ExpandConfiguration: Swift.Equatable {
+    public struct ExpandConfiguration {
         /// The number of expanded results to show per collapsed primary document. For instance, if you set this value to 3, then at most 3 results per collapsed group will be displayed.
         public var maxExpandedResultsPerItem: Swift.Int?
         /// The number of collapsed search result groups to expand. If you set this value to 10, for example, only the first 10 out of 100 result groups will have expand functionality.
@@ -11381,7 +11381,7 @@ extension KendraClientTypes.ExpandedResultItem: Swift.Codable {
 
 extension KendraClientTypes {
     /// A single expanded result in a collapsed group of search results. An expanded result item contains information about an expanded result document within a collapsed group of search results. This includes the original location of the document, a list of attributes assigned to the document, and relevant text from the document that satisfies the query.
-    public struct ExpandedResultItem: Swift.Equatable {
+    public struct ExpandedResultItem {
         /// An array of document attributes assigned to a document in the search results. For example, the document author ("_author") or the source URI ("_source_uri") of the document.
         public var documentAttributes: [KendraClientTypes.DocumentAttribute]?
         /// Provides text and information about where to highlight the text.
@@ -11442,7 +11442,7 @@ extension KendraClientTypes.ExperienceConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for your Amazon Kendra experience. This includes the data source IDs and/or FAQ IDs, and user or group information to grant access to your Amazon Kendra experience.
-    public struct ExperienceConfiguration: Swift.Equatable {
+    public struct ExperienceConfiguration {
         /// The identifiers of your data sources and FAQs. Or, you can specify that you want to use documents indexed via the BatchPutDocument API. This is the content you want to use for your Amazon Kendra experience.
         public var contentSourceConfiguration: KendraClientTypes.ContentSourceConfiguration?
         /// The IAM Identity Center field name that contains the identifiers of your users, such as their emails.
@@ -11487,7 +11487,7 @@ extension KendraClientTypes.ExperienceEndpoint: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for the endpoint for your Amazon Kendra experience.
-    public struct ExperienceEndpoint: Swift.Equatable {
+    public struct ExperienceEndpoint {
         /// The endpoint of your Amazon Kendra experience.
         public var endpoint: Swift.String?
         /// The type of endpoint for your Amazon Kendra experience. The type currently available is HOME, which is a unique and fully hosted URL to the home page of your Amazon Kendra experience.
@@ -11538,7 +11538,7 @@ extension KendraClientTypes.ExperienceEntitiesSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// Summary information for users or groups in your IAM Identity Center identity source with granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
-    public struct ExperienceEntitiesSummary: Swift.Equatable {
+    public struct ExperienceEntitiesSummary {
         /// Information about the user entity.
         public var displayData: KendraClientTypes.EntityDisplayData?
         /// The identifier of a user or group in your IAM Identity Center identity source. For example, a user ID could be an email.
@@ -11655,7 +11655,7 @@ extension KendraClientTypes.ExperiencesSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// Summary information for your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
-    public struct ExperiencesSummary: Swift.Equatable {
+    public struct ExperiencesSummary {
         /// The Unix timestamp when your Amazon Kendra experience was created.
         public var createdAt: ClientRuntime.Date?
         /// The endpoint URLs for your Amazon Kendra experiences. The URLs are unique and fully hosted by Amazon Web Services.
@@ -11730,7 +11730,7 @@ extension KendraClientTypes.Facet: Swift.Codable {
 
 extension KendraClientTypes {
     /// Information about a document attribute or field. You can use document attributes as facets. For example, the document attribute or facet "Department" includes the values "HR", "Engineering", and "Accounting". You can display these values in the search results so that documents can be searched by department. You can display up to 10 facet values per facet for a query. If you want to increase this limit, contact [Support](http://aws.amazon.com/contact-us/).
-    public struct Facet: Swift.Equatable {
+    public struct Facet {
         /// The unique key for the document attribute.
         public var documentAttributeKey: Swift.String?
         /// An array of document attributes that are nested facets within a facet. For example, the document attribute or facet "Department" includes a value called "Engineering". In addition, the document attribute or facet "SubDepartment" includes the values "Frontend" and "Backend" for documents assigned to "Engineering". You can display nested facets in the search results so that documents can be searched not only by department but also by a sub department within a department. This helps your users further narrow their search. You can only have one nested facet within a facet. If you want to increase this limit, contact [Support](http://aws.amazon.com/contact-us/).
@@ -11797,7 +11797,7 @@ extension KendraClientTypes.FacetResult: Swift.Codable {
 
 extension KendraClientTypes {
     /// The facet values for the documents in the response.
-    public struct FacetResult: Swift.Equatable {
+    public struct FacetResult {
         /// The key for the facet values. This is the same as the DocumentAttributeKey provided in the query.
         public var documentAttributeKey: Swift.String?
         /// An array of key/value pairs, where the key is the value of the attribute and the count is the number of documents that share the key value.
@@ -11846,7 +11846,7 @@ extension KendraClientTypes.FailedEntity: Swift.Codable {
 
 extension KendraClientTypes {
     /// Information on the users or groups in your IAM Identity Center identity source that failed to properly configure with your Amazon Kendra experience.
-    public struct FailedEntity: Swift.Equatable {
+    public struct FailedEntity {
         /// The identifier of the user or group in your IAM Identity Center identity source. For example, a user ID could be an email.
         public var entityId: Swift.String?
         /// The reason the user or group in your IAM Identity Center identity source failed to properly configure with your Amazon Kendra experience.
@@ -11920,7 +11920,7 @@ extension KendraClientTypes.FaqStatistics: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides statistical information about the FAQ questions and answers contained in an index.
-    public struct FaqStatistics: Swift.Equatable {
+    public struct FaqStatistics {
         /// The total number of FAQ questions and answers contained in the index.
         /// This member is required.
         public var indexedQuestionAnswersCount: Swift.Int
@@ -12033,7 +12033,7 @@ extension KendraClientTypes.FaqSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// Summary information for frequently asked questions and answers included in an index.
-    public struct FaqSummary: Swift.Equatable {
+    public struct FaqSummary {
         /// The Unix timestamp when the FAQ was created.
         public var createdAt: ClientRuntime.Date?
         /// The file type used to create the FAQ.
@@ -12092,7 +12092,7 @@ extension KendraClientTypes.FeaturedDocument: Swift.Codable {
 
 extension KendraClientTypes {
     /// A featured document. This document is displayed at the top of the search results page, placed above all other results for certain queries. If there's an exact match of a query, then the document is featured in the search results.
-    public struct FeaturedDocument: Swift.Equatable {
+    public struct FeaturedDocument {
         /// The identifier of the document to feature in the search results. You can use the [Query](https://docs.aws.amazon.com/kendra/latest/dg/API_Query.html) API to search for specific documents with their document IDs included in the result items, or you can use the console.
         public var id: Swift.String?
 
@@ -12127,7 +12127,7 @@ extension KendraClientTypes.FeaturedDocumentMissing: Swift.Codable {
 
 extension KendraClientTypes {
     /// A document ID doesn't exist but you have specified as a featured document. Amazon Kendra cannot feature the document if it doesn't exist in the index. You can check the status of a document and its ID or check for documents with status errors using the [BatchGetDocumentStatus](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchGetDocumentStatus.html) API.
-    public struct FeaturedDocumentMissing: Swift.Equatable {
+    public struct FeaturedDocumentMissing {
         /// The identifier of the document that doesn't exist but you have specified as a featured document.
         public var id: Swift.String?
 
@@ -12174,7 +12174,7 @@ extension KendraClientTypes.FeaturedDocumentWithMetadata: Swift.Codable {
 
 extension KendraClientTypes {
     /// A featured document with its metadata information. This document is displayed at the top of the search results page, placed above all other results for certain queries. If there's an exact match of a query, then the document is featured in the search results.
-    public struct FeaturedDocumentWithMetadata: Swift.Equatable {
+    public struct FeaturedDocumentWithMetadata {
         /// The identifier of the featured document with its metadata. You can use the [Query](https://docs.aws.amazon.com/kendra/latest/dg/API_Query.html) API to search for specific documents with their document IDs included in the result items, or you can use the console.
         public var id: Swift.String?
         /// The main title of the featured document.
@@ -12242,7 +12242,7 @@ public struct FeaturedResultsConflictException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct FeaturedResultsConflictExceptionBody: Swift.Equatable {
+struct FeaturedResultsConflictExceptionBody {
     let message: Swift.String?
     let conflictingItems: [KendraClientTypes.ConflictingItem]?
 }
@@ -12364,7 +12364,7 @@ extension KendraClientTypes.FeaturedResultsItem: Swift.Codable {
 
 extension KendraClientTypes {
     /// A single featured result item. A featured result is displayed at the top of the search results page, placed above all other results for certain queries. If there's an exact match of a query, then certain documents are featured in the search results.
-    public struct FeaturedResultsItem: Swift.Equatable {
+    public struct FeaturedResultsItem {
         /// One or more additional attributes associated with the featured result.
         public var additionalAttributes: [KendraClientTypes.AdditionalResultAttribute]?
         /// An array of document attributes assigned to a featured document in the search results. For example, the document author (_author) or the source URI (_source_uri) of the document.
@@ -12497,7 +12497,7 @@ extension KendraClientTypes.FeaturedResultsSet: Swift.Codable {
 
 extension KendraClientTypes {
     /// A set of featured results that are displayed at the top of your search results. Featured results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
-    public struct FeaturedResultsSet: Swift.Equatable {
+    public struct FeaturedResultsSet {
         /// The Unix timestamp when the set of featured results was created.
         public var creationTimestamp: Swift.Int?
         /// The description for the set of featured results.
@@ -12616,7 +12616,7 @@ extension KendraClientTypes.FeaturedResultsSetSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// Summary information for a set of featured results. Featured results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
-    public struct FeaturedResultsSetSummary: Swift.Equatable {
+    public struct FeaturedResultsSetSummary {
         /// The Unix timestamp when the set of featured results was created.
         public var creationTimestamp: Swift.Int?
         /// The identifier of the set of featured results.
@@ -12739,7 +12739,7 @@ extension KendraClientTypes.FsxConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Amazon FSx as your data source. Amazon Kendra now supports an upgraded Amazon FSx Windows connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the FsxConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won't be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
-    public struct FsxConfiguration: Swift.Equatable {
+    public struct FsxConfiguration {
         /// A list of regular expression patterns to exclude certain files in your Amazon FSx file system. Files that match the patterns are excluded from the index. Files that don't match the patterns are included in the index. If a file matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the file isn't included in the index.
         public var exclusionPatterns: [Swift.String]?
         /// A list of DataSourceToIndexFieldMapping objects that map Amazon FSx data source attributes or field names to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Amazon FSx fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Amazon FSx data source field names must exist in your Amazon FSx custom metadata.
@@ -12852,7 +12852,7 @@ extension GetQuerySuggestionsInput {
     }
 }
 
-public struct GetQuerySuggestionsInput: Swift.Equatable {
+public struct GetQuerySuggestionsInput {
     /// Configuration information for the document fields/attributes that you want to base query suggestions on.
     public var attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsGetConfig?
     /// The identifier of the index you want to get query suggestions from.
@@ -12882,7 +12882,7 @@ public struct GetQuerySuggestionsInput: Swift.Equatable {
     }
 }
 
-struct GetQuerySuggestionsInputBody: Swift.Equatable {
+struct GetQuerySuggestionsInputBody {
     let indexId: Swift.String?
     let queryText: Swift.String?
     let maxSuggestionsCount: Swift.Int?
@@ -12937,7 +12937,7 @@ extension GetQuerySuggestionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQuerySuggestionsOutput: Swift.Equatable {
+public struct GetQuerySuggestionsOutput {
     /// The identifier for a list of query suggestions for an index.
     public var querySuggestionsId: Swift.String?
     /// A list of query suggestions for an index.
@@ -12953,7 +12953,7 @@ public struct GetQuerySuggestionsOutput: Swift.Equatable {
     }
 }
 
-struct GetQuerySuggestionsOutputBody: Swift.Equatable {
+struct GetQuerySuggestionsOutputBody {
     let querySuggestionsId: Swift.String?
     let suggestions: [KendraClientTypes.Suggestion]?
 }
@@ -13035,7 +13035,7 @@ extension GetSnapshotsInput {
     }
 }
 
-public struct GetSnapshotsInput: Swift.Equatable {
+public struct GetSnapshotsInput {
     /// The identifier of the index to get search metrics data.
     /// This member is required.
     public var indexId: Swift.String?
@@ -13078,7 +13078,7 @@ public struct GetSnapshotsInput: Swift.Equatable {
     }
 }
 
-struct GetSnapshotsInputBody: Swift.Equatable {
+struct GetSnapshotsInputBody {
     let indexId: Swift.String?
     let interval: KendraClientTypes.Interval?
     let metricType: KendraClientTypes.MetricType?
@@ -13128,7 +13128,7 @@ extension GetSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSnapshotsOutput: Swift.Equatable {
+public struct GetSnapshotsOutput {
     /// If the response is truncated, Amazon Kendra returns this token, which you can use in a later request to retrieve the next set of search metrics data.
     public var nextToken: Swift.String?
     /// The Unix timestamp for the beginning and end of the time window for the search metrics data.
@@ -13152,7 +13152,7 @@ public struct GetSnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct GetSnapshotsOutputBody: Swift.Equatable {
+struct GetSnapshotsOutputBody {
     let snapShotTimeFilter: KendraClientTypes.TimeRange?
     let snapshotsDataHeader: [Swift.String]?
     let snapshotsData: [[Swift.String]]?
@@ -13548,7 +13548,7 @@ extension KendraClientTypes.GitHubConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to GitHub as your data source. Amazon Kendra now supports an upgraded GitHub connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the GitHubConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won’t be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
-    public struct GitHubConfiguration: Swift.Equatable {
+    public struct GitHubConfiguration {
         /// A list of regular expression patterns to exclude certain file names in your GitHub repository or repositories. File names that match the patterns are excluded from the index. File names that don't match the patterns are included in the index. If a file matches both an exclusion and inclusion pattern, the exclusion pattern takes precedence and the file isn't included in the index.
         public var exclusionFileNamePatterns: [Swift.String]?
         /// A list of regular expression patterns to exclude certain file types in your GitHub repository or repositories. File types that match the patterns are excluded from the index. File types that don't match the patterns are included in the index. If a file matches both an exclusion and inclusion pattern, the exclusion pattern takes precedence and the file isn't included in the index.
@@ -13706,7 +13706,7 @@ extension KendraClientTypes.GitHubDocumentCrawlProperties: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to include certain types of GitHub content. You can configure to index repository files only, or also include issues and pull requests, comments, and comment attachments.
-    public struct GitHubDocumentCrawlProperties: Swift.Equatable {
+    public struct GitHubDocumentCrawlProperties {
         /// TRUE to index all issues within a repository.
         public var crawlIssue: Swift.Bool
         /// TRUE to index all comments on issues.
@@ -13873,7 +13873,7 @@ extension KendraClientTypes.GoogleDriveConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Google Drive as your data source.
-    public struct GoogleDriveConfiguration: Swift.Equatable {
+    public struct GoogleDriveConfiguration {
         /// A list of MIME types to exclude from the index. All documents matching the specified MIME type are excluded. For a list of MIME types, see [Using a Google Workspace Drive data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-google-drive.html).
         public var excludeMimeTypes: [Swift.String]?
         /// A list of identifiers or shared drives to exclude from the index. All files and folders stored on the shared drive are excluded.
@@ -13969,7 +13969,7 @@ extension KendraClientTypes.GroupMembers: Swift.Codable {
 
 extension KendraClientTypes {
     /// A list of users or sub groups that belong to a group. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
-    public struct GroupMembers: Swift.Equatable {
+    public struct GroupMembers {
         /// A list of sub groups that belong to a group. For example, the sub groups "Research", "Engineering", and "Sales and Marketing" all belong to the group "Company".
         public var memberGroups: [KendraClientTypes.MemberGroup]?
         /// A list of users that belong to a group. For example, a list of interns all belong to the "Interns" group.
@@ -14036,7 +14036,7 @@ extension KendraClientTypes.GroupOrderingIdSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// Summary information on the processing of PUT and DELETE actions for mapping users to their groups.
-    public struct GroupOrderingIdSummary: Swift.Equatable {
+    public struct GroupOrderingIdSummary {
         /// The reason an action could not be processed. An action can be a PUT or DELETE action for mapping users to their groups.
         public var failureReason: Swift.String?
         /// The Unix timestamp when an action was last updated. An action can be a PUT or DELETE action for mapping users to their groups.
@@ -14093,7 +14093,7 @@ extension KendraClientTypes.GroupSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// Summary information for groups.
-    public struct GroupSummary: Swift.Equatable {
+    public struct GroupSummary {
         /// The identifier of the group you want group summary information on.
         public var groupId: Swift.String?
         /// The timestamp identifier used for the latest PUT or DELETE action.
@@ -14144,7 +14144,7 @@ extension KendraClientTypes.HierarchicalPrincipal: Swift.Codable {
 
 extension KendraClientTypes {
     /// Information to define the hierarchy for which documents users should have access to.
-    public struct HierarchicalPrincipal: Swift.Equatable {
+    public struct HierarchicalPrincipal {
         /// A list of [principal](https://docs.aws.amazon.com/kendra/latest/dg/API_Principal.html) lists that define the hierarchy for which documents users should have access to. Each hierarchical list specifies which user or group has allow or deny access for each document.
         /// This member is required.
         public var principalList: [KendraClientTypes.Principal]?
@@ -14198,7 +14198,7 @@ extension KendraClientTypes.Highlight: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides information that you can use to highlight a search result so that your users can quickly identify terms in the response.
-    public struct Highlight: Swift.Equatable {
+    public struct Highlight {
         /// The zero-based location in the response string where the highlight starts.
         /// This member is required.
         public var beginOffset: Swift.Int?
@@ -14291,7 +14291,7 @@ extension KendraClientTypes.HookConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Kendra. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_CustomDocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Kendra structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_CustomDocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Customizing document metadata during the ingestion process](https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html).
-    public struct HookConfiguration: Swift.Equatable {
+    public struct HookConfiguration {
         /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Kendra should invoke a function that inserts the current date-time.
         public var invocationCondition: KendraClientTypes.DocumentAttributeCondition?
         /// The Amazon Resource Name (ARN) of a role with permission to run a Lambda function during ingestion. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
@@ -14366,7 +14366,7 @@ extension KendraClientTypes.IndexConfigurationSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// Summary information on the configuration of an index.
-    public struct IndexConfigurationSummary: Swift.Equatable {
+    public struct IndexConfigurationSummary {
         /// The Unix timestamp when the index was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -14462,7 +14462,7 @@ extension KendraClientTypes.IndexStatistics: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides information about the number of documents and the number of questions and answers in an index.
-    public struct IndexStatistics: Swift.Equatable {
+    public struct IndexStatistics {
         /// The number of question and answer topics in the index.
         /// This member is required.
         public var faqStatistics: KendraClientTypes.FaqStatistics?
@@ -14559,7 +14559,7 @@ extension KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration: Swift.C
 
 extension KendraClientTypes {
     /// Provides the configuration information for applying basic logic to alter document metadata and content when ingesting documents into Amazon Kendra. To apply advanced logic, to go beyond what you can do with basic logic, see [HookConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_HookConfiguration.html). For more information, see [Customizing document metadata during the ingestion process](https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html).
-    public struct InlineCustomDocumentEnrichmentConfiguration: Swift.Equatable {
+    public struct InlineCustomDocumentEnrichmentConfiguration {
         /// Configuration of the condition used for the target document attribute or metadata field when ingesting documents into Amazon Kendra.
         public var condition: KendraClientTypes.DocumentAttributeCondition?
         /// TRUE to delete content if the condition used for the target attribute is met.
@@ -14620,7 +14620,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -14719,7 +14719,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -15007,7 +15007,7 @@ extension KendraClientTypes.JiraConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Jira as your data source.
-    public struct JiraConfiguration: Swift.Equatable {
+    public struct JiraConfiguration {
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Jira attachments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Jira fields. For more information, see [ Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Jira data source field names must exist in your Jira custom metadata.
         public var attachmentFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Jira comments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Jira fields. For more information, see [ Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Jira data source field names must exist in your Jira custom metadata.
@@ -15110,7 +15110,7 @@ extension KendraClientTypes.JsonTokenTypeConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for the JSON token type.
-    public struct JsonTokenTypeConfiguration: Swift.Equatable {
+    public struct JsonTokenTypeConfiguration {
         /// The group attribute field.
         /// This member is required.
         public var groupAttributeField: Swift.String?
@@ -15187,7 +15187,7 @@ extension KendraClientTypes.JwtTokenTypeConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for the JWT token type.
-    public struct JwtTokenTypeConfiguration: Swift.Equatable {
+    public struct JwtTokenTypeConfiguration {
         /// The regular expression that identifies the claim.
         public var claimRegex: Swift.String?
         /// The group attribute field.
@@ -15288,7 +15288,7 @@ extension ListAccessControlConfigurationsInput {
     }
 }
 
-public struct ListAccessControlConfigurationsInput: Swift.Equatable {
+public struct ListAccessControlConfigurationsInput {
     /// The identifier of the index for the access control configuration.
     /// This member is required.
     public var indexId: Swift.String?
@@ -15309,7 +15309,7 @@ public struct ListAccessControlConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListAccessControlConfigurationsInputBody: Swift.Equatable {
+struct ListAccessControlConfigurationsInputBody {
     let indexId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -15347,7 +15347,7 @@ extension ListAccessControlConfigurationsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListAccessControlConfigurationsOutput: Swift.Equatable {
+public struct ListAccessControlConfigurationsOutput {
     /// The details of your access control configurations.
     /// This member is required.
     public var accessControlConfigurations: [KendraClientTypes.AccessControlConfigurationSummary]?
@@ -15364,7 +15364,7 @@ public struct ListAccessControlConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListAccessControlConfigurationsOutputBody: Swift.Equatable {
+struct ListAccessControlConfigurationsOutputBody {
     let nextToken: Swift.String?
     let accessControlConfigurations: [KendraClientTypes.AccessControlConfigurationSummary]?
 }
@@ -15448,7 +15448,7 @@ extension ListDataSourceSyncJobsInput {
     }
 }
 
-public struct ListDataSourceSyncJobsInput: Swift.Equatable {
+public struct ListDataSourceSyncJobsInput {
     /// The identifier of the data source connector.
     /// This member is required.
     public var id: Swift.String?
@@ -15482,7 +15482,7 @@ public struct ListDataSourceSyncJobsInput: Swift.Equatable {
     }
 }
 
-struct ListDataSourceSyncJobsInputBody: Swift.Equatable {
+struct ListDataSourceSyncJobsInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
     let nextToken: Swift.String?
@@ -15532,7 +15532,7 @@ extension ListDataSourceSyncJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataSourceSyncJobsOutput: Swift.Equatable {
+public struct ListDataSourceSyncJobsOutput {
     /// A history of synchronization jobs for the data source connector.
     public var history: [KendraClientTypes.DataSourceSyncJob]?
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of jobs.
@@ -15548,7 +15548,7 @@ public struct ListDataSourceSyncJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSourceSyncJobsOutputBody: Swift.Equatable {
+struct ListDataSourceSyncJobsOutputBody {
     let history: [KendraClientTypes.DataSourceSyncJob]?
     let nextToken: Swift.String?
 }
@@ -15621,7 +15621,7 @@ extension ListDataSourcesInput {
     }
 }
 
-public struct ListDataSourcesInput: Swift.Equatable {
+public struct ListDataSourcesInput {
     /// The identifier of the index used with one or more data source connectors.
     /// This member is required.
     public var indexId: Swift.String?
@@ -15642,7 +15642,7 @@ public struct ListDataSourcesInput: Swift.Equatable {
     }
 }
 
-struct ListDataSourcesInputBody: Swift.Equatable {
+struct ListDataSourcesInputBody {
     let indexId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -15680,7 +15680,7 @@ extension ListDataSourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataSourcesOutput: Swift.Equatable {
+public struct ListDataSourcesOutput {
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of data source connectors.
     public var nextToken: Swift.String?
     /// An array of summary information for one or more data source connector.
@@ -15696,7 +15696,7 @@ public struct ListDataSourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSourcesOutputBody: Swift.Equatable {
+struct ListDataSourcesOutputBody {
     let summaryItems: [KendraClientTypes.DataSourceSummary]?
     let nextToken: Swift.String?
 }
@@ -15772,7 +15772,7 @@ extension ListEntityPersonasInput {
     }
 }
 
-public struct ListEntityPersonasInput: Swift.Equatable {
+public struct ListEntityPersonasInput {
     /// The identifier of your Amazon Kendra experience.
     /// This member is required.
     public var id: Swift.String?
@@ -15798,7 +15798,7 @@ public struct ListEntityPersonasInput: Swift.Equatable {
     }
 }
 
-struct ListEntityPersonasInputBody: Swift.Equatable {
+struct ListEntityPersonasInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
     let nextToken: Swift.String?
@@ -15840,7 +15840,7 @@ extension ListEntityPersonasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEntityPersonasOutput: Swift.Equatable {
+public struct ListEntityPersonasOutput {
     /// If the response is truncated, Amazon Kendra returns this token, which you can use in a later request to retrieve the next set of users or groups.
     public var nextToken: Swift.String?
     /// An array of summary information for one or more users or groups.
@@ -15856,7 +15856,7 @@ public struct ListEntityPersonasOutput: Swift.Equatable {
     }
 }
 
-struct ListEntityPersonasOutputBody: Swift.Equatable {
+struct ListEntityPersonasOutputBody {
     let summaryItems: [KendraClientTypes.PersonasSummary]?
     let nextToken: Swift.String?
 }
@@ -15928,7 +15928,7 @@ extension ListExperienceEntitiesInput {
     }
 }
 
-public struct ListExperienceEntitiesInput: Swift.Equatable {
+public struct ListExperienceEntitiesInput {
     /// The identifier of your Amazon Kendra experience.
     /// This member is required.
     public var id: Swift.String?
@@ -15950,7 +15950,7 @@ public struct ListExperienceEntitiesInput: Swift.Equatable {
     }
 }
 
-struct ListExperienceEntitiesInputBody: Swift.Equatable {
+struct ListExperienceEntitiesInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
     let nextToken: Swift.String?
@@ -15988,7 +15988,7 @@ extension ListExperienceEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExperienceEntitiesOutput: Swift.Equatable {
+public struct ListExperienceEntitiesOutput {
     /// If the response is truncated, Amazon Kendra returns this token, which you can use in a later request to retrieve the next set of users or groups.
     public var nextToken: Swift.String?
     /// An array of summary information for one or more users or groups.
@@ -16004,7 +16004,7 @@ public struct ListExperienceEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct ListExperienceEntitiesOutputBody: Swift.Equatable {
+struct ListExperienceEntitiesOutputBody {
     let summaryItems: [KendraClientTypes.ExperienceEntitiesSummary]?
     let nextToken: Swift.String?
 }
@@ -16076,7 +16076,7 @@ extension ListExperiencesInput {
     }
 }
 
-public struct ListExperiencesInput: Swift.Equatable {
+public struct ListExperiencesInput {
     /// The identifier of the index for your Amazon Kendra experience.
     /// This member is required.
     public var indexId: Swift.String?
@@ -16097,7 +16097,7 @@ public struct ListExperiencesInput: Swift.Equatable {
     }
 }
 
-struct ListExperiencesInputBody: Swift.Equatable {
+struct ListExperiencesInputBody {
     let indexId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -16135,7 +16135,7 @@ extension ListExperiencesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExperiencesOutput: Swift.Equatable {
+public struct ListExperiencesOutput {
     /// If the response is truncated, Amazon Kendra returns this token, which you can use in a later request to retrieve the next set of Amazon Kendra experiences.
     public var nextToken: Swift.String?
     /// An array of summary information for one or more Amazon Kendra experiences.
@@ -16151,7 +16151,7 @@ public struct ListExperiencesOutput: Swift.Equatable {
     }
 }
 
-struct ListExperiencesOutputBody: Swift.Equatable {
+struct ListExperiencesOutputBody {
     let summaryItems: [KendraClientTypes.ExperiencesSummary]?
     let nextToken: Swift.String?
 }
@@ -16223,7 +16223,7 @@ extension ListFaqsInput {
     }
 }
 
-public struct ListFaqsInput: Swift.Equatable {
+public struct ListFaqsInput {
     /// The index that contains the FAQ lists.
     /// This member is required.
     public var indexId: Swift.String?
@@ -16244,7 +16244,7 @@ public struct ListFaqsInput: Swift.Equatable {
     }
 }
 
-struct ListFaqsInputBody: Swift.Equatable {
+struct ListFaqsInputBody {
     let indexId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -16282,7 +16282,7 @@ extension ListFaqsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFaqsOutput: Swift.Equatable {
+public struct ListFaqsOutput {
     /// information about the FAQs associated with the specified index.
     public var faqSummaryItems: [KendraClientTypes.FaqSummary]?
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of FAQs.
@@ -16298,7 +16298,7 @@ public struct ListFaqsOutput: Swift.Equatable {
     }
 }
 
-struct ListFaqsOutputBody: Swift.Equatable {
+struct ListFaqsOutputBody {
     let nextToken: Swift.String?
     let faqSummaryItems: [KendraClientTypes.FaqSummary]?
 }
@@ -16370,7 +16370,7 @@ extension ListFeaturedResultsSetsInput {
     }
 }
 
-public struct ListFeaturedResultsSetsInput: Swift.Equatable {
+public struct ListFeaturedResultsSetsInput {
     /// The identifier of the index used for featuring results.
     /// This member is required.
     public var indexId: Swift.String?
@@ -16391,7 +16391,7 @@ public struct ListFeaturedResultsSetsInput: Swift.Equatable {
     }
 }
 
-struct ListFeaturedResultsSetsInputBody: Swift.Equatable {
+struct ListFeaturedResultsSetsInputBody {
     let indexId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -16429,7 +16429,7 @@ extension ListFeaturedResultsSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFeaturedResultsSetsOutput: Swift.Equatable {
+public struct ListFeaturedResultsSetsOutput {
     /// An array of summary information for one or more featured results sets.
     public var featuredResultsSetSummaryItems: [KendraClientTypes.FeaturedResultsSetSummary]?
     /// If the response is truncated, Amazon Kendra returns a pagination token in the response.
@@ -16445,7 +16445,7 @@ public struct ListFeaturedResultsSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListFeaturedResultsSetsOutputBody: Swift.Equatable {
+struct ListFeaturedResultsSetsOutputBody {
     let featuredResultsSetSummaryItems: [KendraClientTypes.FeaturedResultsSetSummary]?
     let nextToken: Swift.String?
 }
@@ -16525,7 +16525,7 @@ extension ListGroupsOlderThanOrderingIdInput {
     }
 }
 
-public struct ListGroupsOlderThanOrderingIdInput: Swift.Equatable {
+public struct ListGroupsOlderThanOrderingIdInput {
     /// The identifier of the data source for getting a list of groups mapped to users before a given ordering timestamp identifier.
     public var dataSourceId: Swift.String?
     /// The identifier of the index for getting a list of groups mapped to users before a given ordering or timestamp identifier.
@@ -16555,7 +16555,7 @@ public struct ListGroupsOlderThanOrderingIdInput: Swift.Equatable {
     }
 }
 
-struct ListGroupsOlderThanOrderingIdInputBody: Swift.Equatable {
+struct ListGroupsOlderThanOrderingIdInputBody {
     let indexId: Swift.String?
     let dataSourceId: Swift.String?
     let orderingId: Swift.Int?
@@ -16601,7 +16601,7 @@ extension ListGroupsOlderThanOrderingIdOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListGroupsOlderThanOrderingIdOutput: Swift.Equatable {
+public struct ListGroupsOlderThanOrderingIdOutput {
     /// Summary information for list of groups that are mapped to users before a given ordering or timestamp identifier.
     public var groupsSummaries: [KendraClientTypes.GroupSummary]?
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of groups that are mapped to users before a given ordering or timestamp identifier.
@@ -16617,7 +16617,7 @@ public struct ListGroupsOlderThanOrderingIdOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupsOlderThanOrderingIdOutputBody: Swift.Equatable {
+struct ListGroupsOlderThanOrderingIdOutputBody {
     let groupsSummaries: [KendraClientTypes.GroupSummary]?
     let nextToken: Swift.String?
 }
@@ -16686,7 +16686,7 @@ extension ListIndicesInput {
     }
 }
 
-public struct ListIndicesInput: Swift.Equatable {
+public struct ListIndicesInput {
     /// The maximum number of indices to return.
     public var maxResults: Swift.Int?
     /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of indexes.
@@ -16702,7 +16702,7 @@ public struct ListIndicesInput: Swift.Equatable {
     }
 }
 
-struct ListIndicesInputBody: Swift.Equatable {
+struct ListIndicesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -16736,7 +16736,7 @@ extension ListIndicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIndicesOutput: Swift.Equatable {
+public struct ListIndicesOutput {
     /// An array of summary information on the configuration of one or more indexes.
     public var indexConfigurationSummaryItems: [KendraClientTypes.IndexConfigurationSummary]?
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of indexes.
@@ -16752,7 +16752,7 @@ public struct ListIndicesOutput: Swift.Equatable {
     }
 }
 
-struct ListIndicesOutputBody: Swift.Equatable {
+struct ListIndicesOutputBody {
     let indexConfigurationSummaryItems: [KendraClientTypes.IndexConfigurationSummary]?
     let nextToken: Swift.String?
 }
@@ -16823,7 +16823,7 @@ extension ListQuerySuggestionsBlockListsInput {
     }
 }
 
-public struct ListQuerySuggestionsBlockListsInput: Swift.Equatable {
+public struct ListQuerySuggestionsBlockListsInput {
     /// The identifier of the index for a list of all block lists that exist for that index. For information on the current quota limits for block lists, see [Quotas for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
     /// This member is required.
     public var indexId: Swift.String?
@@ -16844,7 +16844,7 @@ public struct ListQuerySuggestionsBlockListsInput: Swift.Equatable {
     }
 }
 
-struct ListQuerySuggestionsBlockListsInputBody: Swift.Equatable {
+struct ListQuerySuggestionsBlockListsInputBody {
     let indexId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -16882,7 +16882,7 @@ extension ListQuerySuggestionsBlockListsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListQuerySuggestionsBlockListsOutput: Swift.Equatable {
+public struct ListQuerySuggestionsBlockListsOutput {
     /// Summary items for a block list. This includes summary items on the block list ID, block list name, when the block list was created, when the block list was last updated, and the count of block words/phrases in the block list. For information on the current quota limits for block lists, see [Quotas for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
     public var blockListSummaryItems: [KendraClientTypes.QuerySuggestionsBlockListSummary]?
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of block lists.
@@ -16898,7 +16898,7 @@ public struct ListQuerySuggestionsBlockListsOutput: Swift.Equatable {
     }
 }
 
-struct ListQuerySuggestionsBlockListsOutputBody: Swift.Equatable {
+struct ListQuerySuggestionsBlockListsOutputBody {
     let blockListSummaryItems: [KendraClientTypes.QuerySuggestionsBlockListSummary]?
     let nextToken: Swift.String?
 }
@@ -16962,7 +16962,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to get a list of tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -16975,7 +16975,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -17003,7 +17003,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags associated with the index, FAQ, or data source.
     public var tags: [KendraClientTypes.Tag]?
 
@@ -17015,7 +17015,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [KendraClientTypes.Tag]?
 }
 
@@ -17083,7 +17083,7 @@ extension ListThesauriInput {
     }
 }
 
-public struct ListThesauriInput: Swift.Equatable {
+public struct ListThesauriInput {
     /// The identifier of the index with one or more thesauri.
     /// This member is required.
     public var indexId: Swift.String?
@@ -17104,7 +17104,7 @@ public struct ListThesauriInput: Swift.Equatable {
     }
 }
 
-struct ListThesauriInputBody: Swift.Equatable {
+struct ListThesauriInputBody {
     let indexId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -17142,7 +17142,7 @@ extension ListThesauriOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThesauriOutput: Swift.Equatable {
+public struct ListThesauriOutput {
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of thesauri.
     public var nextToken: Swift.String?
     /// An array of summary information for a thesaurus or multiple thesauri.
@@ -17158,7 +17158,7 @@ public struct ListThesauriOutput: Swift.Equatable {
     }
 }
 
-struct ListThesauriOutputBody: Swift.Equatable {
+struct ListThesauriOutputBody {
     let nextToken: Swift.String?
     let thesaurusSummaryItems: [KendraClientTypes.ThesaurusSummary]?
 }
@@ -17229,7 +17229,7 @@ extension KendraClientTypes.MemberGroup: Swift.Codable {
 
 extension KendraClientTypes {
     /// The sub groups that belong to a group.
-    public struct MemberGroup: Swift.Equatable {
+    public struct MemberGroup {
         /// The identifier of the data source for the sub group you want to map to a group.
         public var dataSourceId: Swift.String?
         /// The identifier of the sub group you want to map to a group.
@@ -17269,7 +17269,7 @@ extension KendraClientTypes.MemberUser: Swift.Codable {
 
 extension KendraClientTypes {
     /// The users that belong to a group.
-    public struct MemberUser: Swift.Equatable {
+    public struct MemberUser {
         /// The identifier of the user you want to map to a group.
         /// This member is required.
         public var userId: Swift.String?
@@ -17428,7 +17428,7 @@ extension KendraClientTypes.OnPremiseConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to GitHub Enterprise Server (on premises).
-    public struct OnPremiseConfiguration: Swift.Equatable {
+    public struct OnPremiseConfiguration {
         /// The GitHub host URL or API endpoint URL. For example, https://on-prem-host-url/api/v3/
         /// This member is required.
         public var hostUrl: Swift.String?
@@ -17546,7 +17546,7 @@ extension KendraClientTypes.OneDriveConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to OneDrive as your data source.
-    public struct OneDriveConfiguration: Swift.Equatable {
+    public struct OneDriveConfiguration {
         /// TRUE to disable local groups information.
         public var disableLocalGroups: Swift.Bool
         /// A list of regular expression patterns to exclude certain documents in your OneDrive. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the document isn't included in the index. The pattern is applied to the file name.
@@ -17626,7 +17626,7 @@ extension KendraClientTypes.OneDriveUsers: Swift.Codable {
 
 extension KendraClientTypes {
     /// User accounts whose documents should be indexed.
-    public struct OneDriveUsers: Swift.Equatable {
+    public struct OneDriveUsers {
         /// A list of users whose documents should be indexed. Specify the user names in email format, for example, username@tenantdomain. If you need to index the documents of more than 100 users, use the OneDriveUserS3Path field to specify the location of a file containing a list of users.
         public var oneDriveUserList: [Swift.String]?
         /// The S3 bucket location of a file containing a list of users whose documents should be indexed.
@@ -17747,7 +17747,7 @@ extension KendraClientTypes.PersonasSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// Summary information for users or groups in your IAM Identity Center identity source. This applies to users and groups with specific permissions that define their level of access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
-    public struct PersonasSummary: Swift.Equatable {
+    public struct PersonasSummary {
         /// The Unix timestamp when the summary information was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier of a user or group in your IAM Identity Center identity source. For example, a user ID could be an email.
@@ -17812,7 +17812,7 @@ extension KendraClientTypes.Principal: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides user and group information for [user context filtering](https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html).
-    public struct Principal: Swift.Equatable {
+    public struct Principal {
         /// Whether to allow or deny document access to the principal.
         /// This member is required.
         public var access: KendraClientTypes.ReadAccessType?
@@ -17947,7 +17947,7 @@ extension KendraClientTypes.ProxyConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for a web proxy to connect to website hosts.
-    public struct ProxyConfiguration: Swift.Equatable {
+    public struct ProxyConfiguration {
         /// Your secret ARN, which you can create in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) The credentials are optional. You use a secret if web proxy credentials are required to connect to a website host. Amazon Kendra currently support basic authentication to connect to a web proxy server. The secret stores your credentials.
         public var credentials: Swift.String?
         /// The name of the website host you want to connect to via a web proxy server. For example, the host name of https://a.example.com/page1.html is "a.example.com".
@@ -18011,7 +18011,7 @@ extension PutPrincipalMappingInput {
     }
 }
 
-public struct PutPrincipalMappingInput: Swift.Equatable {
+public struct PutPrincipalMappingInput {
     /// The identifier of the data source you want to map users to their groups. This is useful if a group is tied to multiple data sources, but you only want the group to access documents of a certain data source. For example, the groups "Research", "Engineering", and "Sales and Marketing" are all tied to the company's documents stored in the data sources Confluence and Salesforce. However, "Sales and Marketing" team only needs access to customer-related documents stored in Salesforce.
     public var dataSourceId: Swift.String?
     /// The identifier of the group you want to map its users to.
@@ -18046,7 +18046,7 @@ public struct PutPrincipalMappingInput: Swift.Equatable {
     }
 }
 
-struct PutPrincipalMappingInputBody: Swift.Equatable {
+struct PutPrincipalMappingInputBody {
     let indexId: Swift.String?
     let dataSourceId: Swift.String?
     let groupId: Swift.String?
@@ -18087,7 +18087,7 @@ extension PutPrincipalMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutPrincipalMappingOutput: Swift.Equatable {
+public struct PutPrincipalMappingOutput {
 
     public init() { }
 }
@@ -18229,7 +18229,7 @@ extension QueryInput {
     }
 }
 
-public struct QueryInput: Swift.Equatable {
+public struct QueryInput {
     /// Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results.
     public var attributeFilter: KendraClientTypes.AttributeFilter?
     /// Provides configuration to determine how to group results by document attribute value, and how to display them (collapsed or expanded) under a designated primary document for each group.
@@ -18298,7 +18298,7 @@ public struct QueryInput: Swift.Equatable {
     }
 }
 
-struct QueryInputBody: Swift.Equatable {
+struct QueryInputBody {
     let indexId: Swift.String?
     let queryText: Swift.String?
     let attributeFilter: KendraClientTypes.AttributeFilter?
@@ -18430,7 +18430,7 @@ extension QueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct QueryOutput: Swift.Equatable {
+public struct QueryOutput {
     /// Contains the facet results. A FacetResult contains the counts for each field/attribute key that was specified in the Facets input parameter.
     public var facetResults: [KendraClientTypes.FacetResult]?
     /// The list of featured result items. Featured results are displayed at the top of the search results page, placed above all other results for certain queries. If there's an exact match of a query, then certain documents are featured in the search results.
@@ -18466,7 +18466,7 @@ public struct QueryOutput: Swift.Equatable {
     }
 }
 
-struct QueryOutputBody: Swift.Equatable {
+struct QueryOutputBody {
     let queryId: Swift.String?
     let resultItems: [KendraClientTypes.QueryResultItem]?
     let facetResults: [KendraClientTypes.FacetResult]?
@@ -18717,7 +18717,7 @@ extension KendraClientTypes.QueryResultItem: Swift.Codable {
 
 extension KendraClientTypes {
     /// A single query result. A query result contains information about a document returned by the query. This includes the original location of the document, a list of attributes assigned to the document, and relevant text from the document that satisfies the query.
-    public struct QueryResultItem: Swift.Equatable {
+    public struct QueryResultItem {
         /// One or more additional fields/attributes associated with the query result.
         public var additionalAttributes: [KendraClientTypes.AdditionalResultAttribute]?
         /// Provides details about a collapsed group of search results.
@@ -18909,7 +18909,7 @@ extension KendraClientTypes.QuerySuggestionsBlockListSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// Summary information on a query suggestions block list. This includes information on the block list ID, block list name, when the block list was created, when the block list was last updated, and the count of block words/phrases in the block list. For information on the current quota limits for block lists, see [Quotas for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
-    public struct QuerySuggestionsBlockListSummary: Swift.Equatable {
+    public struct QuerySuggestionsBlockListSummary {
         /// The Unix timestamp when the block list was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier of a block list.
@@ -19134,7 +19134,7 @@ extension KendraClientTypes.QuipConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Quip as your data source.
-    public struct QuipConfiguration: Swift.Equatable {
+    public struct QuipConfiguration {
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Quip attachments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Quip fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Quip field names must exist in your Quip custom metadata.
         public var attachmentFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
         /// TRUE to index attachments.
@@ -19285,7 +19285,7 @@ extension KendraClientTypes.Relevance: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides information for tuning the relevance of a field in a search. When a query includes terms that match the field, the results are given a boost in the response based on these tuning parameters.
-    public struct Relevance: Swift.Equatable {
+    public struct Relevance {
         /// Specifies the time period that the boost applies to. For example, to make the boost apply to documents with the field value within the last month, you would use "2628000s". Once the field value is beyond the specified range, the effect of the boost drops off. The higher the importance, the faster the effect drops off. If you don't specify a value, the default is 3 months. The value of the field is a numeric string followed by the character "s", for example "86400s" for one day, or "604800s" for one week. Only applies to DATE fields.
         public var duration: Swift.String?
         /// Indicates that this field determines how "fresh" a document is. For example, if document 1 was created on November 5, and document 2 was created on October 31, document 1 is "fresher" than document 2. Only applies to DATE fields.
@@ -19342,7 +19342,7 @@ extension KendraClientTypes.RelevanceFeedback: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides feedback on how relevant a document is to a search. Your application uses the SubmitFeedback API to provide relevance information.
-    public struct RelevanceFeedback: Swift.Equatable {
+    public struct RelevanceFeedback {
         /// Whether the document was relevant or not relevant to the search.
         /// This member is required.
         public var relevanceValue: KendraClientTypes.RelevanceType?
@@ -19433,7 +19433,7 @@ public struct ResourceAlreadyExistException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ResourceAlreadyExistExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistExceptionBody {
     let message: Swift.String?
 }
 
@@ -19488,7 +19488,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -19543,7 +19543,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -19598,7 +19598,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ResourceUnavailableExceptionBody: Swift.Equatable {
+struct ResourceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -19668,7 +19668,7 @@ extension RetrieveInput {
     }
 }
 
-public struct RetrieveInput: Swift.Equatable {
+public struct RetrieveInput {
     /// Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results.
     public var attributeFilter: KendraClientTypes.AttributeFilter?
     /// Overrides relevance tuning configurations of fields/attributes set at the index level. If you use this API to override the relevance tuning configured at the index level, but there is no relevance tuning configured at the index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured for fields at the index level, and you use this API to override only some of these fields, then for the fields you did not override, the importance is set to 1.
@@ -19710,7 +19710,7 @@ public struct RetrieveInput: Swift.Equatable {
     }
 }
 
-struct RetrieveInputBody: Swift.Equatable {
+struct RetrieveInputBody {
     let indexId: Swift.String?
     let queryText: Swift.String?
     let attributeFilter: KendraClientTypes.AttributeFilter?
@@ -19786,7 +19786,7 @@ extension RetrieveOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RetrieveOutput: Swift.Equatable {
+public struct RetrieveOutput {
     /// The identifier of query used for the search. You also use QueryId to identify the search when using the [Submitfeedback](https://docs.aws.amazon.com/kendra/latest/APIReference/API_SubmitFeedback.html) API.
     public var queryId: Swift.String?
     /// The results of the retrieved relevant passages for the search.
@@ -19802,7 +19802,7 @@ public struct RetrieveOutput: Swift.Equatable {
     }
 }
 
-struct RetrieveOutputBody: Swift.Equatable {
+struct RetrieveOutputBody {
     let queryId: Swift.String?
     let resultItems: [KendraClientTypes.RetrieveResultItem]?
 }
@@ -19917,7 +19917,7 @@ extension KendraClientTypes.RetrieveResultItem: Swift.Codable {
 
 extension KendraClientTypes {
     /// A single retrieved relevant passage result.
-    public struct RetrieveResultItem: Swift.Equatable {
+    public struct RetrieveResultItem {
         /// The contents of the relevant passage.
         public var content: Swift.String?
         /// An array of document fields/attributes assigned to a document in the search results. For example, the document author (_author) or the source URI (_source_uri) of the document.
@@ -20042,7 +20042,7 @@ extension KendraClientTypes.S3DataSourceConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to an Amazon S3 bucket. Amazon Kendra now supports an upgraded Amazon S3 connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the S3DataSourceConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won't be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
-    public struct S3DataSourceConfiguration: Swift.Equatable {
+    public struct S3DataSourceConfiguration {
         /// Provides the path to the S3 bucket that contains the user context filtering files for the data source. For the format of the file, see [Access control for S3 data sources](https://docs.aws.amazon.com/kendra/latest/dg/s3-acl.html).
         public var accessControlListConfiguration: KendraClientTypes.AccessControlListConfiguration?
         /// The name of the bucket that contains the documents.
@@ -20142,7 +20142,7 @@ extension KendraClientTypes.S3Path: Swift.Codable {
 
 extension KendraClientTypes {
     /// Information required to find a specific file in an Amazon S3 bucket.
-    public struct S3Path: Swift.Equatable {
+    public struct S3Path {
         /// The name of the S3 bucket that contains the file.
         /// This member is required.
         public var bucket: Swift.String?
@@ -20189,7 +20189,7 @@ extension KendraClientTypes.SaaSConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to GitHub Enterprise Cloud (SaaS).
-    public struct SaaSConfiguration: Swift.Equatable {
+    public struct SaaSConfiguration {
         /// The GitHub host URL or API endpoint URL. For example, https://api.github.com.
         /// This member is required.
         public var hostUrl: Swift.String?
@@ -20272,7 +20272,7 @@ extension KendraClientTypes.SalesforceChatterFeedConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// The configuration information for syncing a Salesforce chatter feed. The contents of the object comes from the Salesforce FeedItem table.
-    public struct SalesforceChatterFeedConfiguration: Swift.Equatable {
+    public struct SalesforceChatterFeedConfiguration {
         /// The name of the column in the Salesforce FeedItem table that contains the content to index. Typically this is the Body column.
         /// This member is required.
         public var documentDataFieldName: Swift.String?
@@ -20436,7 +20436,7 @@ extension KendraClientTypes.SalesforceConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Salesforce as your data source.
-    public struct SalesforceConfiguration: Swift.Equatable {
+    public struct SalesforceConfiguration {
         /// Configuration information for Salesforce chatter feeds.
         public var chatterFeedConfiguration: KendraClientTypes.SalesforceChatterFeedConfiguration?
         /// Indicates whether Amazon Kendra should index attachments to Salesforce objects.
@@ -20547,7 +20547,7 @@ extension KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration: S
 
 extension KendraClientTypes {
     /// Provides the configuration information for indexing Salesforce custom articles.
-    public struct SalesforceCustomKnowledgeArticleTypeConfiguration: Swift.Equatable {
+    public struct SalesforceCustomKnowledgeArticleTypeConfiguration {
         /// The name of the field in the custom knowledge article that contains the document data to index.
         /// This member is required.
         public var documentDataFieldName: Swift.String?
@@ -20632,7 +20632,7 @@ extension KendraClientTypes.SalesforceKnowledgeArticleConfiguration: Swift.Codab
 
 extension KendraClientTypes {
     /// Provides the configuration information for the knowledge article types that Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and the standard fields of knowledge articles, or the custom fields of custom knowledge articles, but not both
-    public struct SalesforceKnowledgeArticleConfiguration: Swift.Equatable {
+    public struct SalesforceKnowledgeArticleConfiguration {
         /// Configuration information for custom Salesforce knowledge articles.
         public var customKnowledgeArticleTypeConfigurations: [KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration]?
         /// Specifies the document states that should be included when Amazon Kendra indexes knowledge articles. You must specify at least one state.
@@ -20735,7 +20735,7 @@ extension KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration:
 
 extension KendraClientTypes {
     /// Provides the configuration information for standard Salesforce knowledge articles.
-    public struct SalesforceStandardKnowledgeArticleTypeConfiguration: Swift.Equatable {
+    public struct SalesforceStandardKnowledgeArticleTypeConfiguration {
         /// The name of the field that contains the document data to index.
         /// This member is required.
         public var documentDataFieldName: Swift.String?
@@ -20797,7 +20797,7 @@ extension KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration: Swi
 
 extension KendraClientTypes {
     /// Provides the configuration information for processing attachments to Salesforce standard objects.
-    public struct SalesforceStandardObjectAttachmentConfiguration: Swift.Equatable {
+    public struct SalesforceStandardObjectAttachmentConfiguration {
         /// The name of the field used for the document title.
         public var documentTitleFieldName: Swift.String?
         /// One or more objects that map fields in attachments to Amazon Kendra index fields.
@@ -20866,7 +20866,7 @@ extension KendraClientTypes.SalesforceStandardObjectConfiguration: Swift.Codable
 
 extension KendraClientTypes {
     /// Provides the configuration information for indexing a single standard object.
-    public struct SalesforceStandardObjectConfiguration: Swift.Equatable {
+    public struct SalesforceStandardObjectConfiguration {
         /// The name of the field in the standard object table that contains the document contents.
         /// This member is required.
         public var documentDataFieldName: Swift.String?
@@ -20992,7 +20992,7 @@ extension KendraClientTypes.ScoreAttributes: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides a relative ranking that indicates how confident Amazon Kendra is that the response is relevant to the query.
-    public struct ScoreAttributes: Swift.Equatable {
+    public struct ScoreAttributes {
         /// A relative ranking for how relevant the response is to the query.
         public var scoreConfidence: KendraClientTypes.ScoreConfidence?
 
@@ -21087,7 +21087,7 @@ extension KendraClientTypes.Search: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides information about how a custom index field is used during a search.
-    public struct Search: Swift.Equatable {
+    public struct Search {
         /// Determines whether the field is returned in the query response. The default is true.
         public var displayable: Swift.Bool
         /// Indicates that the field can be used to create search facets, a count of results for each value in the field. The default is false .
@@ -21152,7 +21152,7 @@ extension KendraClientTypes.SeedUrlConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for the seed or starting point URLs to crawl. When selecting websites to index, you must adhere to the [Amazon Acceptable Use Policy](https://aws.amazon.com/aup/) and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own web pages, or web pages that you have authorization to index.
-    public struct SeedUrlConfiguration: Swift.Equatable {
+    public struct SeedUrlConfiguration {
         /// The list of seed or starting point URLs of the websites you want to crawl. The list can include a maximum of 100 seed URLs.
         /// This member is required.
         public var seedUrls: [Swift.String]?
@@ -21206,7 +21206,7 @@ extension KendraClientTypes.ServerSideEncryptionConfiguration: Swift.CustomDebug
 
 extension KendraClientTypes {
     /// Provides the identifier of the KMS key used to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric keys.
-    public struct ServerSideEncryptionConfiguration: Swift.Equatable {
+    public struct ServerSideEncryptionConfiguration {
         /// The identifier of the KMS key. Amazon Kendra doesn't support asymmetric keys.
         public var kmsKeyId: Swift.String?
 
@@ -21335,7 +21335,7 @@ extension KendraClientTypes.ServiceNowConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to ServiceNow as your data source.
-    public struct ServiceNowConfiguration: Swift.Equatable {
+    public struct ServiceNowConfiguration {
         /// The type of authentication used to connect to the ServiceNow instance. If you choose HTTP_BASIC, Amazon Kendra is authenticated using the user name and password provided in the Secrets Manager secret in the SecretArn field. If you choose OAUTH2, Amazon Kendra is authenticated using the credentials of client ID, client secret, user name and password. When you use OAUTH2 authentication, you must generate a token and a client secret using the ServiceNow console. For more information, see [Using a ServiceNow data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-servicenow.html).
         public var authenticationType: KendraClientTypes.ServiceNowAuthenticationType?
         /// The ServiceNow instance that the data source connects to. The host endpoint should look like the following: {instance}.service-now.com.
@@ -21465,7 +21465,7 @@ extension KendraClientTypes.ServiceNowKnowledgeArticleConfiguration: Swift.Codab
 
 extension KendraClientTypes {
     /// Provides the configuration information for crawling knowledge articles in the ServiceNow site.
-    public struct ServiceNowKnowledgeArticleConfiguration: Swift.Equatable {
+    public struct ServiceNowKnowledgeArticleConfiguration {
         /// TRUE to index attachments to knowledge articles.
         public var crawlAttachments: Swift.Bool
         /// The name of the ServiceNow field that is mapped to the index document contents field in the Amazon Kendra index.
@@ -21591,7 +21591,7 @@ extension KendraClientTypes.ServiceNowServiceCatalogConfiguration: Swift.Codable
 
 extension KendraClientTypes {
     /// Provides the configuration information for crawling service catalog items in the ServiceNow site
-    public struct ServiceNowServiceCatalogConfiguration: Swift.Equatable {
+    public struct ServiceNowServiceCatalogConfiguration {
         /// TRUE to index attachments to service catalog items.
         public var crawlAttachments: Swift.Bool
         /// The name of the ServiceNow field that is mapped to the index document contents field in the Amazon Kendra index.
@@ -21665,7 +21665,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -21828,7 +21828,7 @@ extension KendraClientTypes.SharePointConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Microsoft SharePoint as your data source.
-    public struct SharePointConfiguration: Swift.Equatable {
+    public struct SharePointConfiguration {
         /// Whether you want to connect to SharePoint Online using basic authentication of user name and password, or OAuth authentication of user name, password, client ID, and client secret, or AD App-only authentication of client secret.
         public var authenticationType: KendraClientTypes.SharePointOnlineAuthenticationType?
         /// TRUE to index document attachments.
@@ -22000,7 +22000,7 @@ extension KendraClientTypes.SiteMapsConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for the sitemap URLs to crawl. When selecting websites to index, you must adhere to the [Amazon Acceptable Use Policy](https://aws.amazon.com/aup/) and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own web pages, or web pages that you have authorization to index.
-    public struct SiteMapsConfiguration: Swift.Equatable {
+    public struct SiteMapsConfiguration {
         /// The list of sitemap URLs of the websites you want to crawl. The list can include a maximum of three sitemap URLs.
         /// This member is required.
         public var siteMaps: [Swift.String]?
@@ -22186,7 +22186,7 @@ extension KendraClientTypes.SlackConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Slack as your data source. Amazon Kendra now supports an upgraded Slack connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the SlackConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won’t be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
-    public struct SlackConfiguration: Swift.Equatable {
+    public struct SlackConfiguration {
         /// TRUE to index bot messages from your Slack workspace team.
         public var crawlBotMessage: Swift.Bool
         /// TRUE to exclude archived messages to index from your Slack workspace team.
@@ -22366,7 +22366,7 @@ extension KendraClientTypes {
     /// You can't sort attributes of the following type.
     ///
     /// * String list value
-    public struct SortingConfiguration: Swift.Equatable {
+    public struct SortingConfiguration {
         /// The name of the document attribute used to sort the response. You can use any field that has the Sortable flag set to true. You can also sort by any of the following built-in attributes:
         ///
         /// * _category
@@ -22453,7 +22453,7 @@ extension KendraClientTypes.SourceDocument: Swift.Codable {
 
 extension KendraClientTypes {
     /// The document ID and its fields/attributes that are used for a query suggestion, if document fields set to use for query suggestions.
-    public struct SourceDocument: Swift.Equatable {
+    public struct SourceDocument {
         /// The additional fields/attributes to include in the response. You can use additional fields to provide extra information in the response. Additional fields are not used to based suggestions on.
         public var additionalAttributes: [KendraClientTypes.DocumentAttribute]?
         /// The identifier of the document used for a query suggestion.
@@ -22514,7 +22514,7 @@ extension KendraClientTypes.SpellCorrectedQuery: Swift.Codable {
 
 extension KendraClientTypes {
     /// A query with suggested spell corrections.
-    public struct SpellCorrectedQuery: Swift.Equatable {
+    public struct SpellCorrectedQuery {
         /// The corrected misspelled word or words in a query.
         public var corrections: [KendraClientTypes.Correction]?
         /// The query with the suggested spell corrections.
@@ -22553,7 +22553,7 @@ extension KendraClientTypes.SpellCorrectionConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for suggested query spell corrections. Suggested spell corrections are based on words that appear in your indexed documents and how closely a corrected word matches a misspelled word. This feature is designed with certain defaults or limits. For information on the current limits and how to request more support for some limits, see the [Spell Checker documentation](https://docs.aws.amazon.com/kendra/latest/dg/query-spell-check.html).
-    public struct SpellCorrectionConfiguration: Swift.Equatable {
+    public struct SpellCorrectionConfiguration {
         /// TRUE to suggest spell corrections for queries.
         /// This member is required.
         public var includeQuerySpellCheckSuggestions: Swift.Bool
@@ -22589,7 +22589,7 @@ extension KendraClientTypes.SqlConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to use a SQL database.
-    public struct SqlConfiguration: Swift.Equatable {
+    public struct SqlConfiguration {
         /// Determines whether Amazon Kendra encloses SQL identifiers for tables and column names in double quotes (") when making a database query. By default, Amazon Kendra passes SQL identifiers the way that they are entered into the data source configuration. It does not change the case of identifiers or enclose them in quotes. PostgreSQL internally converts uppercase characters to lower case characters in identifiers unless they are quoted. Choosing this option encloses identifiers in quotes so that PostgreSQL does not convert the character's case. For MySQL databases, you must enable the ansi_quotes option when you set this field to DOUBLE_QUOTES.
         public var queryIdentifiersEnclosingOption: KendraClientTypes.QueryIdentifiersEnclosingOption?
 
@@ -22627,7 +22627,7 @@ extension StartDataSourceSyncJobInput {
     }
 }
 
-public struct StartDataSourceSyncJobInput: Swift.Equatable {
+public struct StartDataSourceSyncJobInput {
     /// The identifier of the data source connector to synchronize.
     /// This member is required.
     public var id: Swift.String?
@@ -22645,7 +22645,7 @@ public struct StartDataSourceSyncJobInput: Swift.Equatable {
     }
 }
 
-struct StartDataSourceSyncJobInputBody: Swift.Equatable {
+struct StartDataSourceSyncJobInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
 }
@@ -22677,7 +22677,7 @@ extension StartDataSourceSyncJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDataSourceSyncJobOutput: Swift.Equatable {
+public struct StartDataSourceSyncJobOutput {
     /// Identifies a particular synchronization job.
     public var executionId: Swift.String?
 
@@ -22689,7 +22689,7 @@ public struct StartDataSourceSyncJobOutput: Swift.Equatable {
     }
 }
 
-struct StartDataSourceSyncJobOutputBody: Swift.Equatable {
+struct StartDataSourceSyncJobOutputBody {
     let executionId: Swift.String?
 }
 
@@ -22761,7 +22761,7 @@ extension KendraClientTypes.Status: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides information about the status of documents submitted for indexing.
-    public struct Status: Swift.Equatable {
+    public struct Status {
         /// The identifier of the document.
         public var documentId: Swift.String?
         /// The current status of a document. If the document was submitted for deletion, the status is NOT_FOUND after the document is deleted.
@@ -22811,7 +22811,7 @@ extension StopDataSourceSyncJobInput {
     }
 }
 
-public struct StopDataSourceSyncJobInput: Swift.Equatable {
+public struct StopDataSourceSyncJobInput {
     /// The identifier of the data source connector for which to stop the synchronization jobs.
     /// This member is required.
     public var id: Swift.String?
@@ -22829,7 +22829,7 @@ public struct StopDataSourceSyncJobInput: Swift.Equatable {
     }
 }
 
-struct StopDataSourceSyncJobInputBody: Swift.Equatable {
+struct StopDataSourceSyncJobInputBody {
     let id: Swift.String?
     let indexId: Swift.String?
 }
@@ -22854,7 +22854,7 @@ extension StopDataSourceSyncJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopDataSourceSyncJobOutput: Swift.Equatable {
+public struct StopDataSourceSyncJobOutput {
 
     public init() { }
 }
@@ -22912,7 +22912,7 @@ extension SubmitFeedbackInput {
     }
 }
 
-public struct SubmitFeedbackInput: Swift.Equatable {
+public struct SubmitFeedbackInput {
     /// Tells Amazon Kendra that a particular search result link was chosen by the user.
     public var clickFeedbackItems: [KendraClientTypes.ClickFeedback]?
     /// The identifier of the index that was queried.
@@ -22938,7 +22938,7 @@ public struct SubmitFeedbackInput: Swift.Equatable {
     }
 }
 
-struct SubmitFeedbackInputBody: Swift.Equatable {
+struct SubmitFeedbackInputBody {
     let indexId: Swift.String?
     let queryId: Swift.String?
     let clickFeedbackItems: [KendraClientTypes.ClickFeedback]?
@@ -22989,7 +22989,7 @@ extension SubmitFeedbackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SubmitFeedbackOutput: Swift.Equatable {
+public struct SubmitFeedbackOutput {
 
     public init() { }
 }
@@ -23037,7 +23037,7 @@ extension KendraClientTypes.SuggestableConfig: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for a document field/attribute that you want to base query suggestions on.
-    public struct SuggestableConfig: Swift.Equatable {
+    public struct SuggestableConfig {
         /// The name of the document field/attribute.
         public var attributeName: Swift.String?
         /// TRUE means the document field/attribute is suggestible, so the contents within the field can be used for query suggestions.
@@ -23100,7 +23100,7 @@ extension KendraClientTypes.Suggestion: Swift.Codable {
 
 extension KendraClientTypes {
     /// A single query suggestion.
-    public struct Suggestion: Swift.Equatable {
+    public struct Suggestion {
         /// The UUID (universally unique identifier) of a single query suggestion.
         public var id: Swift.String?
         /// The list of document IDs and their fields/attributes that are used for a single query suggestion, if document fields set to use for query suggestions.
@@ -23149,7 +23149,7 @@ extension KendraClientTypes.SuggestionHighlight: Swift.Codable {
 
 extension KendraClientTypes {
     /// The text highlights for a single query suggestion.
-    public struct SuggestionHighlight: Swift.Equatable {
+    public struct SuggestionHighlight {
         /// The zero-based location in the response string where the highlight starts.
         public var beginOffset: Swift.Int?
         /// The zero-based location in the response string where the highlight ends.
@@ -23206,7 +23206,7 @@ extension KendraClientTypes.SuggestionTextWithHighlights: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides text and information about where to highlight the query suggestion text.
-    public struct SuggestionTextWithHighlights: Swift.Equatable {
+    public struct SuggestionTextWithHighlights {
         /// The beginning and end of the query suggestion text that should be highlighted.
         public var highlights: [KendraClientTypes.SuggestionHighlight]?
         /// The query suggestion text to display to the user.
@@ -23277,7 +23277,7 @@ extension KendraClientTypes.SuggestionValue: Swift.Codable {
 
 extension KendraClientTypes {
     /// The SuggestionTextWithHighlights structure information.
-    public struct SuggestionValue: Swift.Equatable {
+    public struct SuggestionValue {
         /// The SuggestionTextWithHighlights structure that contains the query suggestion text and highlights.
         public var text: KendraClientTypes.SuggestionTextWithHighlights?
 
@@ -23330,7 +23330,7 @@ extension KendraClientTypes.TableCell: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides information about a table cell in a table excerpt.
-    public struct TableCell: Swift.Equatable {
+    public struct TableCell {
         /// TRUE means that the table cell should be treated as a header.
         public var header: Swift.Bool
         /// TRUE means that the table cell has a high enough confidence and is relevant to the query, so the value or content should be highlighted.
@@ -23395,7 +23395,7 @@ extension KendraClientTypes.TableExcerpt: Swift.Codable {
 
 extension KendraClientTypes {
     /// An excerpt from a table within a document. The table excerpt displays up to five columns and three rows, depending on how many table cells are relevant to the query and how many columns are available in the original table. The top most relevant cell is displayed in the table excerpt, along with the next most relevant cells.
-    public struct TableExcerpt: Swift.Equatable {
+    public struct TableExcerpt {
         /// A list of rows in the table excerpt.
         public var rows: [KendraClientTypes.TableRow]?
         /// A count of the number of rows in the original table within the document.
@@ -23446,7 +23446,7 @@ extension KendraClientTypes.TableRow: Swift.Codable {
 
 extension KendraClientTypes {
     /// Information about a row in a table excerpt.
-    public struct TableRow: Swift.Equatable {
+    public struct TableRow {
         /// A list of table cells in a row.
         public var cells: [KendraClientTypes.TableCell]?
 
@@ -23487,7 +23487,7 @@ extension KendraClientTypes.Tag: Swift.Codable {
 
 extension KendraClientTypes {
     /// A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key for the tag. Keys are not case sensitive and must be unique for the index, FAQ, or data source.
         /// This member is required.
         public var key: Swift.String?
@@ -23534,7 +23534,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to tag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -23552,7 +23552,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [KendraClientTypes.Tag]?
 }
@@ -23586,7 +23586,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -23627,7 +23627,7 @@ extension KendraClientTypes.TemplateConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides a template for the configuration information to connect to your data source.
-    public struct TemplateConfiguration: Swift.Equatable {
+    public struct TemplateConfiguration {
         /// The template schema used for the data source, where templates schemas are supported. See [Data source template schemas](https://docs.aws.amazon.com/kendra/latest/dg/ds-schemas.html).
         public var template: ClientRuntime.Document?
 
@@ -23668,7 +23668,7 @@ extension KendraClientTypes.TextDocumentStatistics: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides information about text documents indexed in an index.
-    public struct TextDocumentStatistics: Swift.Equatable {
+    public struct TextDocumentStatistics {
         /// The total size, in bytes, of the indexed documents.
         /// This member is required.
         public var indexedTextBytes: Swift.Int
@@ -23727,7 +23727,7 @@ extension KendraClientTypes.TextWithHighlights: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides text and information about where to highlight the text.
-    public struct TextWithHighlights: Swift.Equatable {
+    public struct TextWithHighlights {
         /// The beginning and end of the text that should be highlighted.
         public var highlights: [KendraClientTypes.Highlight]?
         /// The text to display to the user.
@@ -23834,7 +23834,7 @@ extension KendraClientTypes.ThesaurusSummary: Swift.Codable {
 
 extension KendraClientTypes {
     /// An array of summary information for a thesaurus or multiple thesauri.
-    public struct ThesaurusSummary: Swift.Equatable {
+    public struct ThesaurusSummary {
         /// The Unix timestamp when the thesaurus was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier of the thesaurus.
@@ -23903,7 +23903,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -23946,7 +23946,7 @@ extension KendraClientTypes.TimeRange: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides a range of time.
-    public struct TimeRange: Swift.Equatable {
+    public struct TimeRange {
         /// The Unix timestamp for the end of the time range.
         public var endTime: ClientRuntime.Date?
         /// The Unix timestamp for the beginning of the time range.
@@ -24023,7 +24023,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to remove the tag from.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -24041,7 +24041,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -24075,7 +24075,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -24141,7 +24141,7 @@ extension UpdateAccessControlConfigurationInput {
     }
 }
 
-public struct UpdateAccessControlConfigurationInput: Swift.Equatable {
+public struct UpdateAccessControlConfigurationInput {
     /// Information you want to update on principals (users and/or groups) and which documents they should have access to. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     public var accessControlList: [KendraClientTypes.Principal]?
     /// A new description for the access control configuration.
@@ -24175,7 +24175,7 @@ public struct UpdateAccessControlConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccessControlConfigurationInputBody: Swift.Equatable {
+struct UpdateAccessControlConfigurationInputBody {
     let indexId: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -24234,7 +24234,7 @@ extension UpdateAccessControlConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateAccessControlConfigurationOutput: Swift.Equatable {
+public struct UpdateAccessControlConfigurationOutput {
 
     public init() { }
 }
@@ -24312,7 +24312,7 @@ extension UpdateDataSourceInput {
     }
 }
 
-public struct UpdateDataSourceInput: Swift.Equatable {
+public struct UpdateDataSourceInput {
     /// Configuration information you want to update for the data source connector.
     public var configuration: KendraClientTypes.DataSourceConfiguration?
     /// Configuration information you want to update for altering document metadata and content during the document ingestion process. For more information on how to create, modify and delete document metadata, or make other content alterations when you ingest documents into Amazon Kendra, see [Customizing document metadata during the ingestion process](https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html).
@@ -24362,7 +24362,7 @@ public struct UpdateDataSourceInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSourceInputBody: Swift.Equatable {
+struct UpdateDataSourceInputBody {
     let id: Swift.String?
     let name: Swift.String?
     let indexId: Swift.String?
@@ -24419,7 +24419,7 @@ extension UpdateDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataSourceOutput: Swift.Equatable {
+public struct UpdateDataSourceOutput {
 
     public init() { }
 }
@@ -24480,7 +24480,7 @@ extension UpdateExperienceInput {
     }
 }
 
-public struct UpdateExperienceInput: Swift.Equatable {
+public struct UpdateExperienceInput {
     /// Configuration information you want to update for your Amazon Kendra experience.
     public var configuration: KendraClientTypes.ExperienceConfiguration?
     /// A new description for your Amazon Kendra experience.
@@ -24514,7 +24514,7 @@ public struct UpdateExperienceInput: Swift.Equatable {
     }
 }
 
-struct UpdateExperienceInputBody: Swift.Equatable {
+struct UpdateExperienceInputBody {
     let id: Swift.String?
     let name: Swift.String?
     let indexId: Swift.String?
@@ -24555,7 +24555,7 @@ extension UpdateExperienceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateExperienceOutput: Swift.Equatable {
+public struct UpdateExperienceOutput {
 
     public init() { }
 }
@@ -24626,7 +24626,7 @@ extension UpdateFeaturedResultsSetInput {
     }
 }
 
-public struct UpdateFeaturedResultsSetInput: Swift.Equatable {
+public struct UpdateFeaturedResultsSetInput {
     /// A new description for the set of featured results.
     public var description: Swift.String?
     /// A list of document IDs for the documents you want to feature at the top of the search results page. For more information on the list of featured documents, see [FeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html).
@@ -24664,7 +24664,7 @@ public struct UpdateFeaturedResultsSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateFeaturedResultsSetInputBody: Swift.Equatable {
+struct UpdateFeaturedResultsSetInputBody {
     let indexId: Swift.String?
     let featuredResultsSetId: Swift.String?
     let featuredResultsSetName: Swift.String?
@@ -24734,7 +24734,7 @@ extension UpdateFeaturedResultsSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFeaturedResultsSetOutput: Swift.Equatable {
+public struct UpdateFeaturedResultsSetOutput {
     /// Information on the set of featured results. This includes the identifier of the featured results set, whether the featured results set is active or inactive, when the featured results set was last updated, and more.
     public var featuredResultsSet: KendraClientTypes.FeaturedResultsSet?
 
@@ -24746,7 +24746,7 @@ public struct UpdateFeaturedResultsSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFeaturedResultsSetOutputBody: Swift.Equatable {
+struct UpdateFeaturedResultsSetOutputBody {
     let featuredResultsSet: KendraClientTypes.FeaturedResultsSet?
 }
 
@@ -24836,7 +24836,7 @@ extension UpdateIndexInput {
     }
 }
 
-public struct UpdateIndexInput: Swift.Equatable {
+public struct UpdateIndexInput {
     /// Sets the number of additional document storage and query capacity units that should be used by the index. You can change the capacity of the index up to 5 times per day, or make 5 API calls. If you are using extra storage units, you can't reduce the storage capacity below what is required to meet the storage needs for your index.
     public var capacityUnits: KendraClientTypes.CapacityUnitsConfiguration?
     /// A new description for the index.
@@ -24881,7 +24881,7 @@ public struct UpdateIndexInput: Swift.Equatable {
     }
 }
 
-struct UpdateIndexInputBody: Swift.Equatable {
+struct UpdateIndexInputBody {
     let id: Swift.String?
     let name: Swift.String?
     let roleArn: Swift.String?
@@ -24952,7 +24952,7 @@ extension UpdateIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIndexOutput: Swift.Equatable {
+public struct UpdateIndexOutput {
 
     public init() { }
 }
@@ -25014,7 +25014,7 @@ extension UpdateQuerySuggestionsBlockListInput {
     }
 }
 
-public struct UpdateQuerySuggestionsBlockListInput: Swift.Equatable {
+public struct UpdateQuerySuggestionsBlockListInput {
     /// A new description for the block list.
     public var description: Swift.String?
     /// The identifier of the block list you want to update.
@@ -25048,7 +25048,7 @@ public struct UpdateQuerySuggestionsBlockListInput: Swift.Equatable {
     }
 }
 
-struct UpdateQuerySuggestionsBlockListInputBody: Swift.Equatable {
+struct UpdateQuerySuggestionsBlockListInputBody {
     let indexId: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -25089,7 +25089,7 @@ extension UpdateQuerySuggestionsBlockListOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateQuerySuggestionsBlockListOutput: Swift.Equatable {
+public struct UpdateQuerySuggestionsBlockListOutput {
 
     public init() { }
 }
@@ -25154,7 +25154,7 @@ extension UpdateQuerySuggestionsConfigInput {
     }
 }
 
-public struct UpdateQuerySuggestionsConfigInput: Swift.Equatable {
+public struct UpdateQuerySuggestionsConfigInput {
     /// Configuration information for the document fields/attributes that you want to base query suggestions on.
     public var attributeSuggestionsConfig: KendraClientTypes.AttributeSuggestionsUpdateConfig?
     /// TRUE to include queries without user information (i.e. all queries, irrespective of the user), otherwise FALSE to only include queries with user information. If you pass user information to Amazon Kendra along with the queries, you can set this flag to FALSE and instruct Amazon Kendra to only consider queries with user information. If you set to FALSE, Amazon Kendra only considers queries searched at least MinimumQueryCount times across MinimumNumberOfQueryingUsers unique users for suggestions. If you set to TRUE, Amazon Kendra ignores all user information and learns from all queries.
@@ -25191,7 +25191,7 @@ public struct UpdateQuerySuggestionsConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateQuerySuggestionsConfigInputBody: Swift.Equatable {
+struct UpdateQuerySuggestionsConfigInputBody {
     let indexId: Swift.String?
     let mode: KendraClientTypes.Mode?
     let queryLogLookBackWindowInDays: Swift.Int?
@@ -25236,7 +25236,7 @@ extension UpdateQuerySuggestionsConfigOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateQuerySuggestionsConfigOutput: Swift.Equatable {
+public struct UpdateQuerySuggestionsConfigOutput {
 
     public init() { }
 }
@@ -25297,7 +25297,7 @@ extension UpdateThesaurusInput {
     }
 }
 
-public struct UpdateThesaurusInput: Swift.Equatable {
+public struct UpdateThesaurusInput {
     /// A new description for the thesaurus.
     public var description: Swift.String?
     /// The identifier of the thesaurus you want to update.
@@ -25331,7 +25331,7 @@ public struct UpdateThesaurusInput: Swift.Equatable {
     }
 }
 
-struct UpdateThesaurusInputBody: Swift.Equatable {
+struct UpdateThesaurusInputBody {
     let id: Swift.String?
     let name: Swift.String?
     let indexId: Swift.String?
@@ -25372,7 +25372,7 @@ extension UpdateThesaurusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateThesaurusOutput: Swift.Equatable {
+public struct UpdateThesaurusOutput {
 
     public init() { }
 }
@@ -25420,7 +25420,7 @@ extension KendraClientTypes.Urls: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information of the URLs to crawl. You can only crawl websites that use the secure communication protocol, Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when crawling a website, it could be that the website is blocked from crawling. When selecting websites to index, you must adhere to the [Amazon Acceptable Use Policy](https://aws.amazon.com/aup/) and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own web pages, or web pages that you have authorization to index.
-    public struct Urls: Swift.Equatable {
+    public struct Urls {
         /// Configuration of the seed or starting point URLs of the websites you want to crawl. You can choose to crawl only the website host names, or the website host names with subdomains, or the website host names with subdomains and other domains that the web pages link to. You can list up to 100 seed URLs.
         public var seedUrlConfiguration: KendraClientTypes.SeedUrlConfiguration?
         /// Configuration of the sitemap URLs of the websites you want to crawl. Only URLs belonging to the same website host names are crawled. You can list up to three sitemap URLs.
@@ -25508,7 +25508,7 @@ extension KendraClientTypes {
     ///
     ///
     /// If you provide both, an exception is thrown.
-    public struct UserContext: Swift.Equatable {
+    public struct UserContext {
         /// The list of data source groups you want to filter search results based on groups' access to documents in that data source.
         public var dataSourceGroups: [KendraClientTypes.DataSourceGroup]?
         /// The list of groups you want to filter search results based on the groups' access to documents.
@@ -25587,7 +25587,7 @@ extension KendraClientTypes.UserGroupResolutionConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to get users and groups from an IAM Identity Center identity source. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can also use the [PutPrincipalMapping](https://docs.aws.amazon.com/kendra/latest/dg/API_PutPrincipalMapping.html) API to map users to their groups so that you only need to provide the user ID when you issue the query. To set up an IAM Identity Center identity source in the console to use with Amazon Kendra, see [Getting started with an IAM Identity Center identity source](https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html). You must also grant the required permissions to use IAM Identity Center with Amazon Kendra. For more information, see [IAM roles for IAM Identity Center](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-aws-sso). Amazon Kendra currently does not support using UserGroupResolutionConfiguration with an Amazon Web Services organization member account for your IAM Identity Center identify source. You must create your index in the management account for the organization in order to use UserGroupResolutionConfiguration.
-    public struct UserGroupResolutionConfiguration: Swift.Equatable {
+    public struct UserGroupResolutionConfiguration {
         /// The identity store provider (mode) you want to use to get users and groups. IAM Identity Center is currently the only available mode. Your users and groups must exist in an IAM Identity Center identity source in order to use this mode.
         /// This member is required.
         public var userGroupResolutionMode: KendraClientTypes.UserGroupResolutionMode?
@@ -25655,7 +25655,7 @@ extension KendraClientTypes.UserIdentityConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for the identifiers of your users.
-    public struct UserIdentityConfiguration: Swift.Equatable {
+    public struct UserIdentityConfiguration {
         /// The IAM Identity Center field name that contains the identifiers of your users, such as their emails. This is used for [user context filtering](https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html) and for granting access to your Amazon Kendra experience. You must set up IAM Identity Center with Amazon Kendra. You must include your users and groups in your Access Control List when you ingest documents into your index. For more information, see [Getting started with an IAM Identity Center identity source](https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html).
         public var identityAttributeName: Swift.String?
 
@@ -25696,7 +25696,7 @@ extension KendraClientTypes.UserTokenConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information for a token.
-    public struct UserTokenConfiguration: Swift.Equatable {
+    public struct UserTokenConfiguration {
         /// Information about the JSON token type configuration.
         public var jsonTokenTypeConfiguration: KendraClientTypes.JsonTokenTypeConfiguration?
         /// Information about the JWT token type configuration.
@@ -25753,7 +25753,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -25796,7 +25796,7 @@ extension KendraClientTypes.Warning: Swift.Codable {
 
 extension KendraClientTypes {
     /// The warning code and message that explains a problem with a query.
-    public struct Warning: Swift.Equatable {
+    public struct Warning {
         /// The code used to show the type of warning for the query.
         public var code: KendraClientTypes.WarningCode?
         /// The message that explains the problem with the query.
@@ -25936,7 +25936,7 @@ extension KendraClientTypes.WebCrawlerConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information required for Amazon Kendra Web Crawler.
-    public struct WebCrawlerConfiguration: Swift.Equatable {
+    public struct WebCrawlerConfiguration {
         /// Configuration information required to connect to websites using authentication. You can connect to websites using basic authentication of user name and password. You use a secret in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) to store your authentication credentials. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS.
         public var authenticationConfiguration: KendraClientTypes.AuthenticationConfiguration?
         /// The 'depth' or number of levels from the seed level to crawl. For example, the seed URL page is depth 1 and any hyperlinks on this page that are also crawled are depth 2.
@@ -26105,7 +26105,7 @@ extension KendraClientTypes.WorkDocsConfiguration: Swift.Codable {
 
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Amazon WorkDocs as your data source. Amazon WorkDocs connector is available in Oregon, North Virginia, Sydney, Singapore and Ireland regions.
-    public struct WorkDocsConfiguration: Swift.Equatable {
+    public struct WorkDocsConfiguration {
         /// TRUE to include comments on documents in your index. Including comments in your index means each comment is a document that can be searched on. The default is set to FALSE.
         public var crawlComments: Swift.Bool
         /// A list of regular expression patterns to exclude certain files in your Amazon WorkDocs site repository. Files that match the patterns are excluded from the index. Files that don’t match the patterns are included in the index. If a file matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the file isn't included in the index.

@@ -41,7 +41,7 @@ extension GetActionRecommendationsInput {
     }
 }
 
-public struct GetActionRecommendationsInput: Swift.Equatable {
+public struct GetActionRecommendationsInput {
     /// The Amazon Resource Name (ARN) of the campaign to use for getting action recommendations. This campaign must deploy a solution version trained with a PERSONALIZED_ACTIONS recipe.
     public var campaignArn: Swift.String?
     /// The ARN of the filter to apply to the returned recommendations. For more information, see [Filtering Recommendations](https://docs.aws.amazon.com/personalize/latest/dg/filter.html). When using this parameter, be sure the filter resource is ACTIVE.
@@ -69,7 +69,7 @@ public struct GetActionRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetActionRecommendationsInputBody: Swift.Equatable {
+struct GetActionRecommendationsInputBody {
     let campaignArn: Swift.String?
     let userId: Swift.String?
     let numResults: Swift.Int?
@@ -124,7 +124,7 @@ extension GetActionRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetActionRecommendationsOutput: Swift.Equatable {
+public struct GetActionRecommendationsOutput {
     /// A list of action recommendations sorted in descending order by prediction score. There can be a maximum of 100 actions in the list. For information about action scores, see [How action recommendation scoring works](https://docs.aws.amazon.com/personalize/latest/dg/how-action-recommendation-scoring-works.html).
     public var actionList: [PersonalizeRuntimeClientTypes.PredictedAction]?
     /// The ID of the recommendation.
@@ -140,7 +140,7 @@ public struct GetActionRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetActionRecommendationsOutputBody: Swift.Equatable {
+struct GetActionRecommendationsOutputBody {
     let actionList: [PersonalizeRuntimeClientTypes.PredictedAction]?
     let recommendationId: Swift.String?
 }
@@ -240,7 +240,7 @@ extension GetPersonalizedRankingInput {
     }
 }
 
-public struct GetPersonalizedRankingInput: Swift.Equatable {
+public struct GetPersonalizedRankingInput {
     /// The Amazon Resource Name (ARN) of the campaign to use for generating the personalized ranking.
     /// This member is required.
     public var campaignArn: Swift.String?
@@ -279,7 +279,7 @@ public struct GetPersonalizedRankingInput: Swift.Equatable {
     }
 }
 
-struct GetPersonalizedRankingInputBody: Swift.Equatable {
+struct GetPersonalizedRankingInputBody {
     let campaignArn: Swift.String?
     let inputList: [Swift.String]?
     let userId: Swift.String?
@@ -376,7 +376,7 @@ extension GetPersonalizedRankingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPersonalizedRankingOutput: Swift.Equatable {
+public struct GetPersonalizedRankingOutput {
     /// A list of items in order of most likely interest to the user. The maximum is 500.
     public var personalizedRanking: [PersonalizeRuntimeClientTypes.PredictedItem]?
     /// The ID of the recommendation.
@@ -392,7 +392,7 @@ public struct GetPersonalizedRankingOutput: Swift.Equatable {
     }
 }
 
-struct GetPersonalizedRankingOutputBody: Swift.Equatable {
+struct GetPersonalizedRankingOutputBody {
     let personalizedRanking: [PersonalizeRuntimeClientTypes.PredictedItem]?
     let recommendationId: Swift.String?
 }
@@ -504,7 +504,7 @@ extension GetRecommendationsInput {
     }
 }
 
-public struct GetRecommendationsInput: Swift.Equatable {
+public struct GetRecommendationsInput {
     /// The Amazon Resource Name (ARN) of the campaign to use for getting recommendations.
     public var campaignArn: Swift.String?
     /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type.
@@ -552,7 +552,7 @@ public struct GetRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationsInputBody: Swift.Equatable {
+struct GetRecommendationsInputBody {
     let campaignArn: Swift.String?
     let itemId: Swift.String?
     let userId: Swift.String?
@@ -661,7 +661,7 @@ extension GetRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRecommendationsOutput: Swift.Equatable {
+public struct GetRecommendationsOutput {
     /// A list of recommendations sorted in descending order by prediction score. There can be a maximum of 500 items in the list.
     public var itemList: [PersonalizeRuntimeClientTypes.PredictedItem]?
     /// The ID of the recommendation.
@@ -677,7 +677,7 @@ public struct GetRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationsOutputBody: Swift.Equatable {
+struct GetRecommendationsOutputBody {
     let itemList: [PersonalizeRuntimeClientTypes.PredictedItem]?
     let recommendationId: Swift.String?
 }
@@ -757,7 +757,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
 }
 
@@ -802,7 +802,7 @@ extension PersonalizeRuntimeClientTypes.PredictedAction: Swift.Codable {
 
 extension PersonalizeRuntimeClientTypes {
     /// An object that identifies an action. The API returns a list of PredictedActions.
-    public struct PredictedAction: Swift.Equatable {
+    public struct PredictedAction {
         /// The ID of the recommended action.
         public var actionId: Swift.String?
         /// The score of the recommended action. For information about action scores, see [How action recommendation scoring works](https://docs.aws.amazon.com/personalize/latest/dg/how-action-recommendation-scoring-works.html).
@@ -871,7 +871,7 @@ extension PersonalizeRuntimeClientTypes.PredictedItem: Swift.Codable {
 
 extension PersonalizeRuntimeClientTypes {
     /// An object that identifies an item. The and APIs return a list of PredictedItems.
-    public struct PredictedItem: Swift.Equatable {
+    public struct PredictedItem {
         /// The recommended item ID.
         public var itemId: Swift.String?
         /// Metadata about the item from your Items dataset.
@@ -948,7 +948,7 @@ extension PersonalizeRuntimeClientTypes.Promotion: Swift.Codable {
 
 extension PersonalizeRuntimeClientTypes {
     /// Contains information on a promotion. A promotion defines additional business rules that apply to a configurable subset of recommended items.
-    public struct Promotion: Swift.Equatable {
+    public struct Promotion {
         /// The Amazon Resource Name (ARN) of the filter used by the promotion. This filter defines the criteria for promoted items. For more information, see [Promotion filters](https://docs.aws.amazon.com/personalize/latest/dg/promoting-items.html#promotion-filters).
         public var filterArn: Swift.String?
         /// The values to use when promoting items. For each placeholder parameter in your promotion's filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values. In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information on creating filters, see [Filtering recommendations and user segments](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
@@ -1013,7 +1013,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 

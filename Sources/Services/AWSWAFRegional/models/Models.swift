@@ -65,7 +65,7 @@ extension WAFRegionalClientTypes.ActivatedRule: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The ActivatedRule object in an [UpdateWebACL] request specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL, and the action that you want AWS WAF to take when a web request matches the Rule (ALLOW, BLOCK, or COUNT). To specify whether to insert or delete a Rule, use the Action parameter in the [WebACLUpdate] data type.
-    public struct ActivatedRule: Swift.Equatable {
+    public struct ActivatedRule {
         /// Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the Rule. Valid values for Action include the following:
         ///
         /// * ALLOW: CloudFront responds with the requested object.
@@ -142,7 +142,7 @@ extension AssociateWebACLInput {
     }
 }
 
-public struct AssociateWebACLInput: Swift.Equatable {
+public struct AssociateWebACLInput {
     /// The ARN (Amazon Resource Name) of the resource to be protected, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats:
     ///
     /// * For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
@@ -164,7 +164,7 @@ public struct AssociateWebACLInput: Swift.Equatable {
     }
 }
 
-struct AssociateWebACLInputBody: Swift.Equatable {
+struct AssociateWebACLInputBody {
     let webACLId: Swift.String?
     let resourceArn: Swift.String?
 }
@@ -189,7 +189,7 @@ extension AssociateWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateWebACLOutput: Swift.Equatable {
+public struct AssociateWebACLOutput {
 
     public init() { }
 }
@@ -254,7 +254,7 @@ extension WAFRegionalClientTypes.ByteMatchSet: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. In a [GetByteMatchSet] request, ByteMatchSet is a complex type that contains the ByteMatchSetId and Name of a ByteMatchSet, and the values that you specified when you updated the ByteMatchSet. A complex type that contains ByteMatchTuple objects, which specify the parts of web requests that you want AWS WAF to inspect and the values that you want AWS WAF to search for. If a ByteMatchSet contains more than one ByteMatchTuple object, a request needs to match the settings in only one ByteMatchTuple to be considered a match.
-    public struct ByteMatchSet: Swift.Equatable {
+    public struct ByteMatchSet {
         /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet (see [GetByteMatchSet]), update a ByteMatchSet (see [UpdateByteMatchSet]), insert a ByteMatchSet into a Rule or delete one from a Rule (see [UpdateRule]), and delete a ByteMatchSet from AWS WAF (see [DeleteByteMatchSet]). ByteMatchSetId is returned by [CreateByteMatchSet] and by [ListByteMatchSets].
         /// This member is required.
         public var byteMatchSetId: Swift.String?
@@ -305,7 +305,7 @@ extension WAFRegionalClientTypes.ByteMatchSetSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returned by [ListByteMatchSets]. Each ByteMatchSetSummary object includes the Name and ByteMatchSetId for one [ByteMatchSet].
-    public struct ByteMatchSetSummary: Swift.Equatable {
+    public struct ByteMatchSetSummary {
         /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet, update a ByteMatchSet, remove a ByteMatchSet from a Rule, and delete a ByteMatchSet from AWS WAF. ByteMatchSetId is returned by [CreateByteMatchSet] and by [ListByteMatchSets].
         /// This member is required.
         public var byteMatchSetId: Swift.String?
@@ -352,7 +352,7 @@ extension WAFRegionalClientTypes.ByteMatchSetUpdate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. In an [UpdateByteMatchSet] request, ByteMatchSetUpdate specifies whether to insert or delete a [ByteMatchTuple] and includes the settings for the ByteMatchTuple.
-    public struct ByteMatchSetUpdate: Swift.Equatable {
+    public struct ByteMatchSetUpdate {
         /// Specifies whether to insert or delete a [ByteMatchTuple].
         /// This member is required.
         public var action: WAFRegionalClientTypes.ChangeAction?
@@ -411,7 +411,7 @@ extension WAFRegionalClientTypes.ByteMatchTuple: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The bytes (typically a string that corresponds with ASCII characters) that you want AWS WAF to search for in web requests, the location in requests that you want AWS WAF to search, and other settings.
-    public struct ByteMatchTuple: Swift.Equatable {
+    public struct ByteMatchTuple {
         /// The part of a web request that you want AWS WAF to search, such as a specified header or a query string. For more information, see [FieldToMatch].
         /// This member is required.
         public var fieldToMatch: WAFRegionalClientTypes.FieldToMatch?
@@ -647,7 +647,7 @@ extension CreateByteMatchSetInput {
     }
 }
 
-public struct CreateByteMatchSetInput: Swift.Equatable {
+public struct CreateByteMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -665,7 +665,7 @@ public struct CreateByteMatchSetInput: Swift.Equatable {
     }
 }
 
-struct CreateByteMatchSetInputBody: Swift.Equatable {
+struct CreateByteMatchSetInputBody {
     let name: Swift.String?
     let changeToken: Swift.String?
 }
@@ -699,7 +699,7 @@ extension CreateByteMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateByteMatchSetOutput: Swift.Equatable {
+public struct CreateByteMatchSetOutput {
     /// A [ByteMatchSet] that contains no ByteMatchTuple objects.
     public var byteMatchSet: WAFRegionalClientTypes.ByteMatchSet?
     /// The ChangeToken that you used to submit the CreateByteMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
@@ -715,7 +715,7 @@ public struct CreateByteMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateByteMatchSetOutputBody: Swift.Equatable {
+struct CreateByteMatchSetOutputBody {
     let byteMatchSet: WAFRegionalClientTypes.ByteMatchSet?
     let changeToken: Swift.String?
 }
@@ -775,7 +775,7 @@ extension CreateGeoMatchSetInput {
     }
 }
 
-public struct CreateGeoMatchSetInput: Swift.Equatable {
+public struct CreateGeoMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -793,7 +793,7 @@ public struct CreateGeoMatchSetInput: Swift.Equatable {
     }
 }
 
-struct CreateGeoMatchSetInputBody: Swift.Equatable {
+struct CreateGeoMatchSetInputBody {
     let name: Swift.String?
     let changeToken: Swift.String?
 }
@@ -827,7 +827,7 @@ extension CreateGeoMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGeoMatchSetOutput: Swift.Equatable {
+public struct CreateGeoMatchSetOutput {
     /// The ChangeToken that you used to submit the CreateGeoMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// The [GeoMatchSet] returned in the CreateGeoMatchSet response. The GeoMatchSet contains no GeoMatchConstraints.
@@ -843,7 +843,7 @@ public struct CreateGeoMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateGeoMatchSetOutputBody: Swift.Equatable {
+struct CreateGeoMatchSetOutputBody {
     let geoMatchSet: WAFRegionalClientTypes.GeoMatchSet?
     let changeToken: Swift.String?
 }
@@ -903,7 +903,7 @@ extension CreateIPSetInput {
     }
 }
 
-public struct CreateIPSetInput: Swift.Equatable {
+public struct CreateIPSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -921,7 +921,7 @@ public struct CreateIPSetInput: Swift.Equatable {
     }
 }
 
-struct CreateIPSetInputBody: Swift.Equatable {
+struct CreateIPSetInputBody {
     let name: Swift.String?
     let changeToken: Swift.String?
 }
@@ -955,7 +955,7 @@ extension CreateIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIPSetOutput: Swift.Equatable {
+public struct CreateIPSetOutput {
     /// The ChangeToken that you used to submit the CreateIPSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// The [IPSet] returned in the CreateIPSet response.
@@ -971,7 +971,7 @@ public struct CreateIPSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateIPSetOutputBody: Swift.Equatable {
+struct CreateIPSetOutputBody {
     let ipSet: WAFRegionalClientTypes.IPSet?
     let changeToken: Swift.String?
 }
@@ -1050,7 +1050,7 @@ extension CreateRateBasedRuleInput {
     }
 }
 
-public struct CreateRateBasedRuleInput: Swift.Equatable {
+public struct CreateRateBasedRuleInput {
     /// The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -1087,7 +1087,7 @@ public struct CreateRateBasedRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateRateBasedRuleInputBody: Swift.Equatable {
+struct CreateRateBasedRuleInputBody {
     let name: Swift.String?
     let metricName: Swift.String?
     let rateKey: WAFRegionalClientTypes.RateKey?
@@ -1146,7 +1146,7 @@ extension CreateRateBasedRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRateBasedRuleOutput: Swift.Equatable {
+public struct CreateRateBasedRuleOutput {
     /// The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// The [RateBasedRule] that is returned in the CreateRateBasedRule response.
@@ -1162,7 +1162,7 @@ public struct CreateRateBasedRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateRateBasedRuleOutputBody: Swift.Equatable {
+struct CreateRateBasedRuleOutputBody {
     let rule: WAFRegionalClientTypes.RateBasedRule?
     let changeToken: Swift.String?
 }
@@ -1224,7 +1224,7 @@ extension CreateRegexMatchSetInput {
     }
 }
 
-public struct CreateRegexMatchSetInput: Swift.Equatable {
+public struct CreateRegexMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -1242,7 +1242,7 @@ public struct CreateRegexMatchSetInput: Swift.Equatable {
     }
 }
 
-struct CreateRegexMatchSetInputBody: Swift.Equatable {
+struct CreateRegexMatchSetInputBody {
     let name: Swift.String?
     let changeToken: Swift.String?
 }
@@ -1276,7 +1276,7 @@ extension CreateRegexMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRegexMatchSetOutput: Swift.Equatable {
+public struct CreateRegexMatchSetOutput {
     /// The ChangeToken that you used to submit the CreateRegexMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// A [RegexMatchSet] that contains no RegexMatchTuple objects.
@@ -1292,7 +1292,7 @@ public struct CreateRegexMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateRegexMatchSetOutputBody: Swift.Equatable {
+struct CreateRegexMatchSetOutputBody {
     let regexMatchSet: WAFRegionalClientTypes.RegexMatchSet?
     let changeToken: Swift.String?
 }
@@ -1350,7 +1350,7 @@ extension CreateRegexPatternSetInput {
     }
 }
 
-public struct CreateRegexPatternSetInput: Swift.Equatable {
+public struct CreateRegexPatternSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -1368,7 +1368,7 @@ public struct CreateRegexPatternSetInput: Swift.Equatable {
     }
 }
 
-struct CreateRegexPatternSetInputBody: Swift.Equatable {
+struct CreateRegexPatternSetInputBody {
     let name: Swift.String?
     let changeToken: Swift.String?
 }
@@ -1402,7 +1402,7 @@ extension CreateRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRegexPatternSetOutput: Swift.Equatable {
+public struct CreateRegexPatternSetOutput {
     /// The ChangeToken that you used to submit the CreateRegexPatternSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// A [RegexPatternSet] that contains no objects.
@@ -1418,7 +1418,7 @@ public struct CreateRegexPatternSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateRegexPatternSetOutputBody: Swift.Equatable {
+struct CreateRegexPatternSetOutputBody {
     let regexPatternSet: WAFRegionalClientTypes.RegexPatternSet?
     let changeToken: Swift.String?
 }
@@ -1487,7 +1487,7 @@ extension CreateRuleGroupInput {
     }
 }
 
-public struct CreateRuleGroupInput: Swift.Equatable {
+public struct CreateRuleGroupInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -1514,7 +1514,7 @@ public struct CreateRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateRuleGroupInputBody: Swift.Equatable {
+struct CreateRuleGroupInputBody {
     let name: Swift.String?
     let metricName: Swift.String?
     let changeToken: Swift.String?
@@ -1565,7 +1565,7 @@ extension CreateRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRuleGroupOutput: Swift.Equatable {
+public struct CreateRuleGroupOutput {
     /// The ChangeToken that you used to submit the CreateRuleGroup request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// An empty [RuleGroup].
@@ -1581,7 +1581,7 @@ public struct CreateRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateRuleGroupOutputBody: Swift.Equatable {
+struct CreateRuleGroupOutputBody {
     let ruleGroup: WAFRegionalClientTypes.RuleGroup?
     let changeToken: Swift.String?
 }
@@ -1653,7 +1653,7 @@ extension CreateRuleInput {
     }
 }
 
-public struct CreateRuleInput: Swift.Equatable {
+public struct CreateRuleInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -1680,7 +1680,7 @@ public struct CreateRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateRuleInputBody: Swift.Equatable {
+struct CreateRuleInputBody {
     let name: Swift.String?
     let metricName: Swift.String?
     let changeToken: Swift.String?
@@ -1731,7 +1731,7 @@ extension CreateRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRuleOutput: Swift.Equatable {
+public struct CreateRuleOutput {
     /// The ChangeToken that you used to submit the CreateRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// The [Rule] returned in the CreateRule response.
@@ -1747,7 +1747,7 @@ public struct CreateRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateRuleOutputBody: Swift.Equatable {
+struct CreateRuleOutputBody {
     let rule: WAFRegionalClientTypes.Rule?
     let changeToken: Swift.String?
 }
@@ -1809,7 +1809,7 @@ extension CreateSizeConstraintSetInput {
     }
 }
 
-public struct CreateSizeConstraintSetInput: Swift.Equatable {
+public struct CreateSizeConstraintSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -1827,7 +1827,7 @@ public struct CreateSizeConstraintSetInput: Swift.Equatable {
     }
 }
 
-struct CreateSizeConstraintSetInputBody: Swift.Equatable {
+struct CreateSizeConstraintSetInputBody {
     let name: Swift.String?
     let changeToken: Swift.String?
 }
@@ -1861,7 +1861,7 @@ extension CreateSizeConstraintSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSizeConstraintSetOutput: Swift.Equatable {
+public struct CreateSizeConstraintSetOutput {
     /// The ChangeToken that you used to submit the CreateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// A [SizeConstraintSet] that contains no SizeConstraint objects.
@@ -1877,7 +1877,7 @@ public struct CreateSizeConstraintSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateSizeConstraintSetOutputBody: Swift.Equatable {
+struct CreateSizeConstraintSetOutputBody {
     let sizeConstraintSet: WAFRegionalClientTypes.SizeConstraintSet?
     let changeToken: Swift.String?
 }
@@ -1938,7 +1938,7 @@ extension CreateSqlInjectionMatchSetInput {
 }
 
 /// A request to create a [SqlInjectionMatchSet].
-public struct CreateSqlInjectionMatchSetInput: Swift.Equatable {
+public struct CreateSqlInjectionMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -1956,7 +1956,7 @@ public struct CreateSqlInjectionMatchSetInput: Swift.Equatable {
     }
 }
 
-struct CreateSqlInjectionMatchSetInputBody: Swift.Equatable {
+struct CreateSqlInjectionMatchSetInputBody {
     let name: Swift.String?
     let changeToken: Swift.String?
 }
@@ -1991,7 +1991,7 @@ extension CreateSqlInjectionMatchSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a CreateSqlInjectionMatchSet request.
-public struct CreateSqlInjectionMatchSetOutput: Swift.Equatable {
+public struct CreateSqlInjectionMatchSetOutput {
     /// The ChangeToken that you used to submit the CreateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// A [SqlInjectionMatchSet].
@@ -2007,7 +2007,7 @@ public struct CreateSqlInjectionMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateSqlInjectionMatchSetOutputBody: Swift.Equatable {
+struct CreateSqlInjectionMatchSetOutputBody {
     let sqlInjectionMatchSet: WAFRegionalClientTypes.SqlInjectionMatchSet?
     let changeToken: Swift.String?
 }
@@ -2082,7 +2082,7 @@ extension CreateWebACLInput {
     }
 }
 
-public struct CreateWebACLInput: Swift.Equatable {
+public struct CreateWebACLInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -2114,7 +2114,7 @@ public struct CreateWebACLInput: Swift.Equatable {
     }
 }
 
-struct CreateWebACLInputBody: Swift.Equatable {
+struct CreateWebACLInputBody {
     let name: Swift.String?
     let metricName: Swift.String?
     let defaultAction: WAFRegionalClientTypes.WafAction?
@@ -2183,7 +2183,7 @@ extension CreateWebACLMigrationStackInput {
     }
 }
 
-public struct CreateWebACLMigrationStackInput: Swift.Equatable {
+public struct CreateWebACLMigrationStackInput {
     /// Indicates whether to exclude entities that can't be migrated or to stop the migration. Set this to true to ignore unsupported entities in the web ACL during the migration. Otherwise, if AWS WAF encounters unsupported entities, it stops the process and throws an exception.
     /// This member is required.
     public var ignoreUnsupportedType: Swift.Bool?
@@ -2212,7 +2212,7 @@ public struct CreateWebACLMigrationStackInput: Swift.Equatable {
     }
 }
 
-struct CreateWebACLMigrationStackInputBody: Swift.Equatable {
+struct CreateWebACLMigrationStackInputBody {
     let webACLId: Swift.String?
     let s3BucketName: Swift.String?
     let ignoreUnsupportedType: Swift.Bool?
@@ -2248,7 +2248,7 @@ extension CreateWebACLMigrationStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWebACLMigrationStackOutput: Swift.Equatable {
+public struct CreateWebACLMigrationStackOutput {
     /// The URL of the template created in Amazon S3.
     /// This member is required.
     public var s3ObjectUrl: Swift.String?
@@ -2261,7 +2261,7 @@ public struct CreateWebACLMigrationStackOutput: Swift.Equatable {
     }
 }
 
-struct CreateWebACLMigrationStackOutputBody: Swift.Equatable {
+struct CreateWebACLMigrationStackOutputBody {
     let s3ObjectUrl: Swift.String?
 }
 
@@ -2306,7 +2306,7 @@ extension CreateWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWebACLOutput: Swift.Equatable {
+public struct CreateWebACLOutput {
     /// The ChangeToken that you used to submit the CreateWebACL request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// The [WebACL] returned in the CreateWebACL response.
@@ -2322,7 +2322,7 @@ public struct CreateWebACLOutput: Swift.Equatable {
     }
 }
 
-struct CreateWebACLOutputBody: Swift.Equatable {
+struct CreateWebACLOutputBody {
     let webACL: WAFRegionalClientTypes.WebACL?
     let changeToken: Swift.String?
 }
@@ -2386,7 +2386,7 @@ extension CreateXssMatchSetInput {
 }
 
 /// A request to create an [XssMatchSet].
-public struct CreateXssMatchSetInput: Swift.Equatable {
+public struct CreateXssMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -2404,7 +2404,7 @@ public struct CreateXssMatchSetInput: Swift.Equatable {
     }
 }
 
-struct CreateXssMatchSetInputBody: Swift.Equatable {
+struct CreateXssMatchSetInputBody {
     let name: Swift.String?
     let changeToken: Swift.String?
 }
@@ -2439,7 +2439,7 @@ extension CreateXssMatchSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a CreateXssMatchSet request.
-public struct CreateXssMatchSetOutput: Swift.Equatable {
+public struct CreateXssMatchSetOutput {
     /// The ChangeToken that you used to submit the CreateXssMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
     /// An [XssMatchSet].
@@ -2455,7 +2455,7 @@ public struct CreateXssMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateXssMatchSetOutputBody: Swift.Equatable {
+struct CreateXssMatchSetOutputBody {
     let xssMatchSet: WAFRegionalClientTypes.XssMatchSet?
     let changeToken: Swift.String?
 }
@@ -2515,7 +2515,7 @@ extension DeleteByteMatchSetInput {
     }
 }
 
-public struct DeleteByteMatchSetInput: Swift.Equatable {
+public struct DeleteByteMatchSetInput {
     /// The ByteMatchSetId of the [ByteMatchSet] that you want to delete. ByteMatchSetId is returned by [CreateByteMatchSet] and by [ListByteMatchSets].
     /// This member is required.
     public var byteMatchSetId: Swift.String?
@@ -2533,7 +2533,7 @@ public struct DeleteByteMatchSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteByteMatchSetInputBody: Swift.Equatable {
+struct DeleteByteMatchSetInputBody {
     let byteMatchSetId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -2565,7 +2565,7 @@ extension DeleteByteMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteByteMatchSetOutput: Swift.Equatable {
+public struct DeleteByteMatchSetOutput {
     /// The ChangeToken that you used to submit the DeleteByteMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -2577,7 +2577,7 @@ public struct DeleteByteMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteByteMatchSetOutputBody: Swift.Equatable {
+struct DeleteByteMatchSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -2633,7 +2633,7 @@ extension DeleteGeoMatchSetInput {
     }
 }
 
-public struct DeleteGeoMatchSetInput: Swift.Equatable {
+public struct DeleteGeoMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -2651,7 +2651,7 @@ public struct DeleteGeoMatchSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteGeoMatchSetInputBody: Swift.Equatable {
+struct DeleteGeoMatchSetInputBody {
     let geoMatchSetId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -2683,7 +2683,7 @@ extension DeleteGeoMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGeoMatchSetOutput: Swift.Equatable {
+public struct DeleteGeoMatchSetOutput {
     /// The ChangeToken that you used to submit the DeleteGeoMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -2695,7 +2695,7 @@ public struct DeleteGeoMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteGeoMatchSetOutputBody: Swift.Equatable {
+struct DeleteGeoMatchSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -2751,7 +2751,7 @@ extension DeleteIPSetInput {
     }
 }
 
-public struct DeleteIPSetInput: Swift.Equatable {
+public struct DeleteIPSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -2769,7 +2769,7 @@ public struct DeleteIPSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteIPSetInputBody: Swift.Equatable {
+struct DeleteIPSetInputBody {
     let ipSetId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -2801,7 +2801,7 @@ extension DeleteIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIPSetOutput: Swift.Equatable {
+public struct DeleteIPSetOutput {
     /// The ChangeToken that you used to submit the DeleteIPSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -2813,7 +2813,7 @@ public struct DeleteIPSetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteIPSetOutputBody: Swift.Equatable {
+struct DeleteIPSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -2865,7 +2865,7 @@ extension DeleteLoggingConfigurationInput {
     }
 }
 
-public struct DeleteLoggingConfigurationInput: Swift.Equatable {
+public struct DeleteLoggingConfigurationInput {
     /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the [LoggingConfiguration].
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2878,7 +2878,7 @@ public struct DeleteLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteLoggingConfigurationInputBody: Swift.Equatable {
+struct DeleteLoggingConfigurationInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -2899,7 +2899,7 @@ extension DeleteLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLoggingConfigurationOutput: Swift.Equatable {
+public struct DeleteLoggingConfigurationOutput {
 
     public init() { }
 }
@@ -2937,7 +2937,7 @@ extension DeletePermissionPolicyInput {
     }
 }
 
-public struct DeletePermissionPolicyInput: Swift.Equatable {
+public struct DeletePermissionPolicyInput {
     /// The Amazon Resource Name (ARN) of the RuleGroup from which you want to delete the policy. The user making the request must be the owner of the RuleGroup.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2950,7 +2950,7 @@ public struct DeletePermissionPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeletePermissionPolicyInputBody: Swift.Equatable {
+struct DeletePermissionPolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -2971,7 +2971,7 @@ extension DeletePermissionPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePermissionPolicyOutput: Swift.Equatable {
+public struct DeletePermissionPolicyOutput {
 
     public init() { }
 }
@@ -3013,7 +3013,7 @@ extension DeleteRateBasedRuleInput {
     }
 }
 
-public struct DeleteRateBasedRuleInput: Swift.Equatable {
+public struct DeleteRateBasedRuleInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -3031,7 +3031,7 @@ public struct DeleteRateBasedRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteRateBasedRuleInputBody: Swift.Equatable {
+struct DeleteRateBasedRuleInputBody {
     let ruleId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -3063,7 +3063,7 @@ extension DeleteRateBasedRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRateBasedRuleOutput: Swift.Equatable {
+public struct DeleteRateBasedRuleOutput {
     /// The ChangeToken that you used to submit the DeleteRateBasedRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -3075,7 +3075,7 @@ public struct DeleteRateBasedRuleOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRateBasedRuleOutputBody: Swift.Equatable {
+struct DeleteRateBasedRuleOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -3133,7 +3133,7 @@ extension DeleteRegexMatchSetInput {
     }
 }
 
-public struct DeleteRegexMatchSetInput: Swift.Equatable {
+public struct DeleteRegexMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -3151,7 +3151,7 @@ public struct DeleteRegexMatchSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteRegexMatchSetInputBody: Swift.Equatable {
+struct DeleteRegexMatchSetInputBody {
     let regexMatchSetId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -3183,7 +3183,7 @@ extension DeleteRegexMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRegexMatchSetOutput: Swift.Equatable {
+public struct DeleteRegexMatchSetOutput {
     /// The ChangeToken that you used to submit the DeleteRegexMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -3195,7 +3195,7 @@ public struct DeleteRegexMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRegexMatchSetOutputBody: Swift.Equatable {
+struct DeleteRegexMatchSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -3251,7 +3251,7 @@ extension DeleteRegexPatternSetInput {
     }
 }
 
-public struct DeleteRegexPatternSetInput: Swift.Equatable {
+public struct DeleteRegexPatternSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -3269,7 +3269,7 @@ public struct DeleteRegexPatternSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteRegexPatternSetInputBody: Swift.Equatable {
+struct DeleteRegexPatternSetInputBody {
     let regexPatternSetId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -3301,7 +3301,7 @@ extension DeleteRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRegexPatternSetOutput: Swift.Equatable {
+public struct DeleteRegexPatternSetOutput {
     /// The ChangeToken that you used to submit the DeleteRegexPatternSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -3313,7 +3313,7 @@ public struct DeleteRegexPatternSetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRegexPatternSetOutputBody: Swift.Equatable {
+struct DeleteRegexPatternSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -3369,7 +3369,7 @@ extension DeleteRuleGroupInput {
     }
 }
 
-public struct DeleteRuleGroupInput: Swift.Equatable {
+public struct DeleteRuleGroupInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -3387,7 +3387,7 @@ public struct DeleteRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteRuleGroupInputBody: Swift.Equatable {
+struct DeleteRuleGroupInputBody {
     let ruleGroupId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -3419,7 +3419,7 @@ extension DeleteRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRuleGroupOutput: Swift.Equatable {
+public struct DeleteRuleGroupOutput {
     /// The ChangeToken that you used to submit the DeleteRuleGroup request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -3431,7 +3431,7 @@ public struct DeleteRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRuleGroupOutputBody: Swift.Equatable {
+struct DeleteRuleGroupOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -3489,7 +3489,7 @@ extension DeleteRuleInput {
     }
 }
 
-public struct DeleteRuleInput: Swift.Equatable {
+public struct DeleteRuleInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -3507,7 +3507,7 @@ public struct DeleteRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteRuleInputBody: Swift.Equatable {
+struct DeleteRuleInputBody {
     let ruleId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -3539,7 +3539,7 @@ extension DeleteRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRuleOutput: Swift.Equatable {
+public struct DeleteRuleOutput {
     /// The ChangeToken that you used to submit the DeleteRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -3551,7 +3551,7 @@ public struct DeleteRuleOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRuleOutputBody: Swift.Equatable {
+struct DeleteRuleOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -3609,7 +3609,7 @@ extension DeleteSizeConstraintSetInput {
     }
 }
 
-public struct DeleteSizeConstraintSetInput: Swift.Equatable {
+public struct DeleteSizeConstraintSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -3627,7 +3627,7 @@ public struct DeleteSizeConstraintSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteSizeConstraintSetInputBody: Swift.Equatable {
+struct DeleteSizeConstraintSetInputBody {
     let sizeConstraintSetId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -3659,7 +3659,7 @@ extension DeleteSizeConstraintSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSizeConstraintSetOutput: Swift.Equatable {
+public struct DeleteSizeConstraintSetOutput {
     /// The ChangeToken that you used to submit the DeleteSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -3671,7 +3671,7 @@ public struct DeleteSizeConstraintSetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSizeConstraintSetOutputBody: Swift.Equatable {
+struct DeleteSizeConstraintSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -3728,7 +3728,7 @@ extension DeleteSqlInjectionMatchSetInput {
 }
 
 /// A request to delete a [SqlInjectionMatchSet] from AWS WAF.
-public struct DeleteSqlInjectionMatchSetInput: Swift.Equatable {
+public struct DeleteSqlInjectionMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -3746,7 +3746,7 @@ public struct DeleteSqlInjectionMatchSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteSqlInjectionMatchSetInputBody: Swift.Equatable {
+struct DeleteSqlInjectionMatchSetInputBody {
     let sqlInjectionMatchSetId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -3779,7 +3779,7 @@ extension DeleteSqlInjectionMatchSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a request to delete a [SqlInjectionMatchSet] from AWS WAF.
-public struct DeleteSqlInjectionMatchSetOutput: Swift.Equatable {
+public struct DeleteSqlInjectionMatchSetOutput {
     /// The ChangeToken that you used to submit the DeleteSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -3791,7 +3791,7 @@ public struct DeleteSqlInjectionMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSqlInjectionMatchSetOutputBody: Swift.Equatable {
+struct DeleteSqlInjectionMatchSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -3847,7 +3847,7 @@ extension DeleteWebACLInput {
     }
 }
 
-public struct DeleteWebACLInput: Swift.Equatable {
+public struct DeleteWebACLInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -3865,7 +3865,7 @@ public struct DeleteWebACLInput: Swift.Equatable {
     }
 }
 
-struct DeleteWebACLInputBody: Swift.Equatable {
+struct DeleteWebACLInputBody {
     let webACLId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -3897,7 +3897,7 @@ extension DeleteWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWebACLOutput: Swift.Equatable {
+public struct DeleteWebACLOutput {
     /// The ChangeToken that you used to submit the DeleteWebACL request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -3909,7 +3909,7 @@ public struct DeleteWebACLOutput: Swift.Equatable {
     }
 }
 
-struct DeleteWebACLOutputBody: Swift.Equatable {
+struct DeleteWebACLOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -3968,7 +3968,7 @@ extension DeleteXssMatchSetInput {
 }
 
 /// A request to delete an [XssMatchSet] from AWS WAF.
-public struct DeleteXssMatchSetInput: Swift.Equatable {
+public struct DeleteXssMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -3986,7 +3986,7 @@ public struct DeleteXssMatchSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteXssMatchSetInputBody: Swift.Equatable {
+struct DeleteXssMatchSetInputBody {
     let xssMatchSetId: Swift.String?
     let changeToken: Swift.String?
 }
@@ -4019,7 +4019,7 @@ extension DeleteXssMatchSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a request to delete an [XssMatchSet] from AWS WAF.
-public struct DeleteXssMatchSetOutput: Swift.Equatable {
+public struct DeleteXssMatchSetOutput {
     /// The ChangeToken that you used to submit the DeleteXssMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -4031,7 +4031,7 @@ public struct DeleteXssMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteXssMatchSetOutputBody: Swift.Equatable {
+struct DeleteXssMatchSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -4083,7 +4083,7 @@ extension DisassociateWebACLInput {
     }
 }
 
-public struct DisassociateWebACLInput: Swift.Equatable {
+public struct DisassociateWebACLInput {
     /// The ARN (Amazon Resource Name) of the resource from which the web ACL is being removed, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats:
     ///
     /// * For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
@@ -4100,7 +4100,7 @@ public struct DisassociateWebACLInput: Swift.Equatable {
     }
 }
 
-struct DisassociateWebACLInputBody: Swift.Equatable {
+struct DisassociateWebACLInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -4121,7 +4121,7 @@ extension DisassociateWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateWebACLOutput: Swift.Equatable {
+public struct DisassociateWebACLOutput {
 
     public init() { }
 }
@@ -4161,7 +4161,7 @@ extension WAFRegionalClientTypes.ExcludedRule: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The rule to exclude from a rule group. This is applicable only when the ActivatedRule refers to a RuleGroup. The rule must belong to the RuleGroup that is specified by the ActivatedRule.
-    public struct ExcludedRule: Swift.Equatable {
+    public struct ExcludedRule {
         /// The unique identifier for the rule to exclude from the rule group.
         /// This member is required.
         public var ruleId: Swift.String?
@@ -4203,7 +4203,7 @@ extension WAFRegionalClientTypes.FieldToMatch: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies where in a web request to look for TargetString.
-    public struct FieldToMatch: Swift.Equatable {
+    public struct FieldToMatch {
         /// When the value of Type is HEADER, enter the name of the header that you want AWS WAF to search, for example, User-Agent or Referer. The name of the header is not case sensitive. When the value of Type is SINGLE_QUERY_ARG, enter the name of the parameter that you want AWS WAF to search, for example, UserName or SalesRegion. The parameter name is not case sensitive. If the value of Type is any other value, omit Data.
         public var data: Swift.String?
         /// The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:
@@ -4263,7 +4263,7 @@ extension WAFRegionalClientTypes.GeoMatchConstraint: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The country from which web requests originate that you want AWS WAF to search for.
-    public struct GeoMatchConstraint: Swift.Equatable {
+    public struct GeoMatchConstraint {
         /// The type of geographical area you want AWS WAF to search for. Currently Country is the only valid value.
         /// This member is required.
         public var type: WAFRegionalClientTypes.GeoMatchConstraintType?
@@ -5130,7 +5130,7 @@ extension WAFRegionalClientTypes.GeoMatchSet: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Contains one or more countries that AWS WAF will search for.
-    public struct GeoMatchSet: Swift.Equatable {
+    public struct GeoMatchSet {
         /// An array of [GeoMatchConstraint] objects, which contain the country that you want AWS WAF to search for.
         /// This member is required.
         public var geoMatchConstraints: [WAFRegionalClientTypes.GeoMatchConstraint]?
@@ -5181,7 +5181,7 @@ extension WAFRegionalClientTypes.GeoMatchSetSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Contains the identifier and the name of the GeoMatchSet.
-    public struct GeoMatchSetSummary: Swift.Equatable {
+    public struct GeoMatchSetSummary {
         /// The GeoMatchSetId for an [GeoMatchSet]. You can use GeoMatchSetId in a [GetGeoMatchSet] request to get detailed information about an [GeoMatchSet].
         /// This member is required.
         public var geoMatchSetId: Swift.String?
@@ -5228,7 +5228,7 @@ extension WAFRegionalClientTypes.GeoMatchSetUpdate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies the type of update to perform to an [GeoMatchSet] with [UpdateGeoMatchSet].
-    public struct GeoMatchSetUpdate: Swift.Equatable {
+    public struct GeoMatchSetUpdate {
         /// Specifies whether to insert or delete a country with [UpdateGeoMatchSet].
         /// This member is required.
         public var action: WAFRegionalClientTypes.ChangeAction?
@@ -5268,7 +5268,7 @@ extension GetByteMatchSetInput {
     }
 }
 
-public struct GetByteMatchSetInput: Swift.Equatable {
+public struct GetByteMatchSetInput {
     /// The ByteMatchSetId of the [ByteMatchSet] that you want to get. ByteMatchSetId is returned by [CreateByteMatchSet] and by [ListByteMatchSets].
     /// This member is required.
     public var byteMatchSetId: Swift.String?
@@ -5281,7 +5281,7 @@ public struct GetByteMatchSetInput: Swift.Equatable {
     }
 }
 
-struct GetByteMatchSetInputBody: Swift.Equatable {
+struct GetByteMatchSetInputBody {
     let byteMatchSetId: Swift.String?
 }
 
@@ -5309,7 +5309,7 @@ extension GetByteMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetByteMatchSetOutput: Swift.Equatable {
+public struct GetByteMatchSetOutput {
     /// Information about the [ByteMatchSet] that you specified in the GetByteMatchSet request. For more information, see the following topics:
     ///
     /// * [ByteMatchSet]: Contains ByteMatchSetId, ByteMatchTuples, and Name
@@ -5327,7 +5327,7 @@ public struct GetByteMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct GetByteMatchSetOutputBody: Swift.Equatable {
+struct GetByteMatchSetOutputBody {
     let byteMatchSet: WAFRegionalClientTypes.ByteMatchSet?
 }
 
@@ -5371,12 +5371,12 @@ extension GetChangeTokenInput {
     }
 }
 
-public struct GetChangeTokenInput: Swift.Equatable {
+public struct GetChangeTokenInput {
 
     public init() { }
 }
 
-struct GetChangeTokenInputBody: Swift.Equatable {
+struct GetChangeTokenInputBody {
 }
 
 extension GetChangeTokenInputBody: Swift.Decodable {
@@ -5397,7 +5397,7 @@ extension GetChangeTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChangeTokenOutput: Swift.Equatable {
+public struct GetChangeTokenOutput {
     /// The ChangeToken that you used in the request. Use this value in a GetChangeTokenStatus request to get the current status of the request.
     public var changeToken: Swift.String?
 
@@ -5409,7 +5409,7 @@ public struct GetChangeTokenOutput: Swift.Equatable {
     }
 }
 
-struct GetChangeTokenOutputBody: Swift.Equatable {
+struct GetChangeTokenOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -5456,7 +5456,7 @@ extension GetChangeTokenStatusInput {
     }
 }
 
-public struct GetChangeTokenStatusInput: Swift.Equatable {
+public struct GetChangeTokenStatusInput {
     /// The change token for which you want to get the status. This change token was previously returned in the GetChangeToken response.
     /// This member is required.
     public var changeToken: Swift.String?
@@ -5469,7 +5469,7 @@ public struct GetChangeTokenStatusInput: Swift.Equatable {
     }
 }
 
-struct GetChangeTokenStatusInputBody: Swift.Equatable {
+struct GetChangeTokenStatusInputBody {
     let changeToken: Swift.String?
 }
 
@@ -5497,7 +5497,7 @@ extension GetChangeTokenStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChangeTokenStatusOutput: Swift.Equatable {
+public struct GetChangeTokenStatusOutput {
     /// The status of the change token.
     public var changeTokenStatus: WAFRegionalClientTypes.ChangeTokenStatus?
 
@@ -5509,7 +5509,7 @@ public struct GetChangeTokenStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetChangeTokenStatusOutputBody: Swift.Equatable {
+struct GetChangeTokenStatusOutputBody {
     let changeTokenStatus: WAFRegionalClientTypes.ChangeTokenStatus?
 }
 
@@ -5557,7 +5557,7 @@ extension GetGeoMatchSetInput {
     }
 }
 
-public struct GetGeoMatchSetInput: Swift.Equatable {
+public struct GetGeoMatchSetInput {
     /// The GeoMatchSetId of the [GeoMatchSet] that you want to get. GeoMatchSetId is returned by [CreateGeoMatchSet] and by [ListGeoMatchSets].
     /// This member is required.
     public var geoMatchSetId: Swift.String?
@@ -5570,7 +5570,7 @@ public struct GetGeoMatchSetInput: Swift.Equatable {
     }
 }
 
-struct GetGeoMatchSetInputBody: Swift.Equatable {
+struct GetGeoMatchSetInputBody {
     let geoMatchSetId: Swift.String?
 }
 
@@ -5598,7 +5598,7 @@ extension GetGeoMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGeoMatchSetOutput: Swift.Equatable {
+public struct GetGeoMatchSetOutput {
     /// Information about the [GeoMatchSet] that you specified in the GetGeoMatchSet request. This includes the Type, which for a GeoMatchContraint is always Country, as well as the Value, which is the identifier for a specific country.
     public var geoMatchSet: WAFRegionalClientTypes.GeoMatchSet?
 
@@ -5610,7 +5610,7 @@ public struct GetGeoMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct GetGeoMatchSetOutputBody: Swift.Equatable {
+struct GetGeoMatchSetOutputBody {
     let geoMatchSet: WAFRegionalClientTypes.GeoMatchSet?
 }
 
@@ -5659,7 +5659,7 @@ extension GetIPSetInput {
     }
 }
 
-public struct GetIPSetInput: Swift.Equatable {
+public struct GetIPSetInput {
     /// The IPSetId of the [IPSet] that you want to get. IPSetId is returned by [CreateIPSet] and by [ListIPSets].
     /// This member is required.
     public var ipSetId: Swift.String?
@@ -5672,7 +5672,7 @@ public struct GetIPSetInput: Swift.Equatable {
     }
 }
 
-struct GetIPSetInputBody: Swift.Equatable {
+struct GetIPSetInputBody {
     let ipSetId: Swift.String?
 }
 
@@ -5700,7 +5700,7 @@ extension GetIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIPSetOutput: Swift.Equatable {
+public struct GetIPSetOutput {
     /// Information about the [IPSet] that you specified in the GetIPSet request. For more information, see the following topics:
     ///
     /// * [IPSet]: Contains IPSetDescriptors, IPSetId, and Name
@@ -5716,7 +5716,7 @@ public struct GetIPSetOutput: Swift.Equatable {
     }
 }
 
-struct GetIPSetOutputBody: Swift.Equatable {
+struct GetIPSetOutputBody {
     let ipSet: WAFRegionalClientTypes.IPSet?
 }
 
@@ -5765,7 +5765,7 @@ extension GetLoggingConfigurationInput {
     }
 }
 
-public struct GetLoggingConfigurationInput: Swift.Equatable {
+public struct GetLoggingConfigurationInput {
     /// The Amazon Resource Name (ARN) of the web ACL for which you want to get the [LoggingConfiguration].
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5778,7 +5778,7 @@ public struct GetLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetLoggingConfigurationInputBody: Swift.Equatable {
+struct GetLoggingConfigurationInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -5806,7 +5806,7 @@ extension GetLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLoggingConfigurationOutput: Swift.Equatable {
+public struct GetLoggingConfigurationOutput {
     /// The [LoggingConfiguration] for the specified web ACL.
     public var loggingConfiguration: WAFRegionalClientTypes.LoggingConfiguration?
 
@@ -5818,7 +5818,7 @@ public struct GetLoggingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetLoggingConfigurationOutputBody: Swift.Equatable {
+struct GetLoggingConfigurationOutputBody {
     let loggingConfiguration: WAFRegionalClientTypes.LoggingConfiguration?
 }
 
@@ -5866,7 +5866,7 @@ extension GetPermissionPolicyInput {
     }
 }
 
-public struct GetPermissionPolicyInput: Swift.Equatable {
+public struct GetPermissionPolicyInput {
     /// The Amazon Resource Name (ARN) of the RuleGroup for which you want to get the policy.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5879,7 +5879,7 @@ public struct GetPermissionPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetPermissionPolicyInputBody: Swift.Equatable {
+struct GetPermissionPolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -5907,7 +5907,7 @@ extension GetPermissionPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPermissionPolicyOutput: Swift.Equatable {
+public struct GetPermissionPolicyOutput {
     /// The IAM policy attached to the specified RuleGroup.
     public var policy: Swift.String?
 
@@ -5919,7 +5919,7 @@ public struct GetPermissionPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetPermissionPolicyOutputBody: Swift.Equatable {
+struct GetPermissionPolicyOutputBody {
     let policy: Swift.String?
 }
 
@@ -5967,7 +5967,7 @@ extension GetRateBasedRuleInput {
     }
 }
 
-public struct GetRateBasedRuleInput: Swift.Equatable {
+public struct GetRateBasedRuleInput {
     /// The RuleId of the [RateBasedRule] that you want to get. RuleId is returned by [CreateRateBasedRule] and by [ListRateBasedRules].
     /// This member is required.
     public var ruleId: Swift.String?
@@ -5980,7 +5980,7 @@ public struct GetRateBasedRuleInput: Swift.Equatable {
     }
 }
 
-struct GetRateBasedRuleInputBody: Swift.Equatable {
+struct GetRateBasedRuleInputBody {
     let ruleId: Swift.String?
 }
 
@@ -6020,7 +6020,7 @@ extension GetRateBasedRuleManagedKeysInput {
     }
 }
 
-public struct GetRateBasedRuleManagedKeysInput: Swift.Equatable {
+public struct GetRateBasedRuleManagedKeysInput {
     /// A null value and not currently used. Do not include this in your request.
     public var nextMarker: Swift.String?
     /// The RuleId of the [RateBasedRule] for which you want to get a list of ManagedKeys. RuleId is returned by [CreateRateBasedRule] and by [ListRateBasedRules].
@@ -6037,7 +6037,7 @@ public struct GetRateBasedRuleManagedKeysInput: Swift.Equatable {
     }
 }
 
-struct GetRateBasedRuleManagedKeysInputBody: Swift.Equatable {
+struct GetRateBasedRuleManagedKeysInputBody {
     let ruleId: Swift.String?
     let nextMarker: Swift.String?
 }
@@ -6071,7 +6071,7 @@ extension GetRateBasedRuleManagedKeysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRateBasedRuleManagedKeysOutput: Swift.Equatable {
+public struct GetRateBasedRuleManagedKeysOutput {
     /// An array of IP addresses that currently are blocked by the specified [RateBasedRule].
     public var managedKeys: [Swift.String]?
     /// A null value and not currently used.
@@ -6087,7 +6087,7 @@ public struct GetRateBasedRuleManagedKeysOutput: Swift.Equatable {
     }
 }
 
-struct GetRateBasedRuleManagedKeysOutputBody: Swift.Equatable {
+struct GetRateBasedRuleManagedKeysOutputBody {
     let managedKeys: [Swift.String]?
     let nextMarker: Swift.String?
 }
@@ -6142,7 +6142,7 @@ extension GetRateBasedRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRateBasedRuleOutput: Swift.Equatable {
+public struct GetRateBasedRuleOutput {
     /// Information about the [RateBasedRule] that you specified in the GetRateBasedRule request.
     public var rule: WAFRegionalClientTypes.RateBasedRule?
 
@@ -6154,7 +6154,7 @@ public struct GetRateBasedRuleOutput: Swift.Equatable {
     }
 }
 
-struct GetRateBasedRuleOutputBody: Swift.Equatable {
+struct GetRateBasedRuleOutputBody {
     let rule: WAFRegionalClientTypes.RateBasedRule?
 }
 
@@ -6203,7 +6203,7 @@ extension GetRegexMatchSetInput {
     }
 }
 
-public struct GetRegexMatchSetInput: Swift.Equatable {
+public struct GetRegexMatchSetInput {
     /// The RegexMatchSetId of the [RegexMatchSet] that you want to get. RegexMatchSetId is returned by [CreateRegexMatchSet] and by [ListRegexMatchSets].
     /// This member is required.
     public var regexMatchSetId: Swift.String?
@@ -6216,7 +6216,7 @@ public struct GetRegexMatchSetInput: Swift.Equatable {
     }
 }
 
-struct GetRegexMatchSetInputBody: Swift.Equatable {
+struct GetRegexMatchSetInputBody {
     let regexMatchSetId: Swift.String?
 }
 
@@ -6244,7 +6244,7 @@ extension GetRegexMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRegexMatchSetOutput: Swift.Equatable {
+public struct GetRegexMatchSetOutput {
     /// Information about the [RegexMatchSet] that you specified in the GetRegexMatchSet request. For more information, see [RegexMatchTuple].
     public var regexMatchSet: WAFRegionalClientTypes.RegexMatchSet?
 
@@ -6256,7 +6256,7 @@ public struct GetRegexMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct GetRegexMatchSetOutputBody: Swift.Equatable {
+struct GetRegexMatchSetOutputBody {
     let regexMatchSet: WAFRegionalClientTypes.RegexMatchSet?
 }
 
@@ -6305,7 +6305,7 @@ extension GetRegexPatternSetInput {
     }
 }
 
-public struct GetRegexPatternSetInput: Swift.Equatable {
+public struct GetRegexPatternSetInput {
     /// The RegexPatternSetId of the [RegexPatternSet] that you want to get. RegexPatternSetId is returned by [CreateRegexPatternSet] and by [ListRegexPatternSets].
     /// This member is required.
     public var regexPatternSetId: Swift.String?
@@ -6318,7 +6318,7 @@ public struct GetRegexPatternSetInput: Swift.Equatable {
     }
 }
 
-struct GetRegexPatternSetInputBody: Swift.Equatable {
+struct GetRegexPatternSetInputBody {
     let regexPatternSetId: Swift.String?
 }
 
@@ -6346,7 +6346,7 @@ extension GetRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRegexPatternSetOutput: Swift.Equatable {
+public struct GetRegexPatternSetOutput {
     /// Information about the [RegexPatternSet] that you specified in the GetRegexPatternSet request, including the identifier of the pattern set and the regular expression patterns you want AWS WAF to search for.
     public var regexPatternSet: WAFRegionalClientTypes.RegexPatternSet?
 
@@ -6358,7 +6358,7 @@ public struct GetRegexPatternSetOutput: Swift.Equatable {
     }
 }
 
-struct GetRegexPatternSetOutputBody: Swift.Equatable {
+struct GetRegexPatternSetOutputBody {
     let regexPatternSet: WAFRegionalClientTypes.RegexPatternSet?
 }
 
@@ -6407,7 +6407,7 @@ extension GetRuleGroupInput {
     }
 }
 
-public struct GetRuleGroupInput: Swift.Equatable {
+public struct GetRuleGroupInput {
     /// The RuleGroupId of the [RuleGroup] that you want to get. RuleGroupId is returned by [CreateRuleGroup] and by [ListRuleGroups].
     /// This member is required.
     public var ruleGroupId: Swift.String?
@@ -6420,7 +6420,7 @@ public struct GetRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct GetRuleGroupInputBody: Swift.Equatable {
+struct GetRuleGroupInputBody {
     let ruleGroupId: Swift.String?
 }
 
@@ -6448,7 +6448,7 @@ extension GetRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRuleGroupOutput: Swift.Equatable {
+public struct GetRuleGroupOutput {
     /// Information about the [RuleGroup] that you specified in the GetRuleGroup request.
     public var ruleGroup: WAFRegionalClientTypes.RuleGroup?
 
@@ -6460,7 +6460,7 @@ public struct GetRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetRuleGroupOutputBody: Swift.Equatable {
+struct GetRuleGroupOutputBody {
     let ruleGroup: WAFRegionalClientTypes.RuleGroup?
 }
 
@@ -6508,7 +6508,7 @@ extension GetRuleInput {
     }
 }
 
-public struct GetRuleInput: Swift.Equatable {
+public struct GetRuleInput {
     /// The RuleId of the [Rule] that you want to get. RuleId is returned by [CreateRule] and by [ListRules].
     /// This member is required.
     public var ruleId: Swift.String?
@@ -6521,7 +6521,7 @@ public struct GetRuleInput: Swift.Equatable {
     }
 }
 
-struct GetRuleInputBody: Swift.Equatable {
+struct GetRuleInputBody {
     let ruleId: Swift.String?
 }
 
@@ -6549,7 +6549,7 @@ extension GetRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRuleOutput: Swift.Equatable {
+public struct GetRuleOutput {
     /// Information about the [Rule] that you specified in the GetRule request. For more information, see the following topics:
     ///
     /// * [Rule]: Contains MetricName, Name, an array of Predicate objects, and RuleId
@@ -6565,7 +6565,7 @@ public struct GetRuleOutput: Swift.Equatable {
     }
 }
 
-struct GetRuleOutputBody: Swift.Equatable {
+struct GetRuleOutputBody {
     let rule: WAFRegionalClientTypes.Rule?
 }
 
@@ -6626,7 +6626,7 @@ extension GetSampledRequestsInput {
     }
 }
 
-public struct GetSampledRequestsInput: Swift.Equatable {
+public struct GetSampledRequestsInput {
     /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them.
     /// This member is required.
     public var maxItems: Swift.Int?
@@ -6658,7 +6658,7 @@ public struct GetSampledRequestsInput: Swift.Equatable {
     }
 }
 
-struct GetSampledRequestsInputBody: Swift.Equatable {
+struct GetSampledRequestsInputBody {
     let webAclId: Swift.String?
     let ruleId: Swift.String?
     let timeWindow: WAFRegionalClientTypes.TimeWindow?
@@ -6702,7 +6702,7 @@ extension GetSampledRequestsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSampledRequestsOutput: Swift.Equatable {
+public struct GetSampledRequestsOutput {
     /// The total number of requests from which GetSampledRequests got a sample of MaxItems requests. If PopulationSize is less than MaxItems, the sample includes every request that your AWS resource received during the specified time range.
     public var populationSize: Swift.Int
     /// A complex type that contains detailed information about each of the requests in the sample.
@@ -6722,7 +6722,7 @@ public struct GetSampledRequestsOutput: Swift.Equatable {
     }
 }
 
-struct GetSampledRequestsOutputBody: Swift.Equatable {
+struct GetSampledRequestsOutputBody {
     let sampledRequests: [WAFRegionalClientTypes.SampledHTTPRequest]?
     let populationSize: Swift.Int
     let timeWindow: WAFRegionalClientTypes.TimeWindow?
@@ -6787,7 +6787,7 @@ extension GetSizeConstraintSetInput {
     }
 }
 
-public struct GetSizeConstraintSetInput: Swift.Equatable {
+public struct GetSizeConstraintSetInput {
     /// The SizeConstraintSetId of the [SizeConstraintSet] that you want to get. SizeConstraintSetId is returned by [CreateSizeConstraintSet] and by [ListSizeConstraintSets].
     /// This member is required.
     public var sizeConstraintSetId: Swift.String?
@@ -6800,7 +6800,7 @@ public struct GetSizeConstraintSetInput: Swift.Equatable {
     }
 }
 
-struct GetSizeConstraintSetInputBody: Swift.Equatable {
+struct GetSizeConstraintSetInputBody {
     let sizeConstraintSetId: Swift.String?
 }
 
@@ -6828,7 +6828,7 @@ extension GetSizeConstraintSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSizeConstraintSetOutput: Swift.Equatable {
+public struct GetSizeConstraintSetOutput {
     /// Information about the [SizeConstraintSet] that you specified in the GetSizeConstraintSet request. For more information, see the following topics:
     ///
     /// * [SizeConstraintSet]: Contains SizeConstraintSetId, SizeConstraints, and Name
@@ -6846,7 +6846,7 @@ public struct GetSizeConstraintSetOutput: Swift.Equatable {
     }
 }
 
-struct GetSizeConstraintSetOutputBody: Swift.Equatable {
+struct GetSizeConstraintSetOutputBody {
     let sizeConstraintSet: WAFRegionalClientTypes.SizeConstraintSet?
 }
 
@@ -6896,7 +6896,7 @@ extension GetSqlInjectionMatchSetInput {
 }
 
 /// A request to get a [SqlInjectionMatchSet].
-public struct GetSqlInjectionMatchSetInput: Swift.Equatable {
+public struct GetSqlInjectionMatchSetInput {
     /// The SqlInjectionMatchSetId of the [SqlInjectionMatchSet] that you want to get. SqlInjectionMatchSetId is returned by [CreateSqlInjectionMatchSet] and by [ListSqlInjectionMatchSets].
     /// This member is required.
     public var sqlInjectionMatchSetId: Swift.String?
@@ -6909,7 +6909,7 @@ public struct GetSqlInjectionMatchSetInput: Swift.Equatable {
     }
 }
 
-struct GetSqlInjectionMatchSetInputBody: Swift.Equatable {
+struct GetSqlInjectionMatchSetInputBody {
     let sqlInjectionMatchSetId: Swift.String?
 }
 
@@ -6938,7 +6938,7 @@ extension GetSqlInjectionMatchSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a [GetSqlInjectionMatchSet] request.
-public struct GetSqlInjectionMatchSetOutput: Swift.Equatable {
+public struct GetSqlInjectionMatchSetOutput {
     /// Information about the [SqlInjectionMatchSet] that you specified in the GetSqlInjectionMatchSet request. For more information, see the following topics:
     ///
     /// * [SqlInjectionMatchSet]: Contains Name, SqlInjectionMatchSetId, and an array of SqlInjectionMatchTuple objects
@@ -6956,7 +6956,7 @@ public struct GetSqlInjectionMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct GetSqlInjectionMatchSetOutputBody: Swift.Equatable {
+struct GetSqlInjectionMatchSetOutputBody {
     let sqlInjectionMatchSet: WAFRegionalClientTypes.SqlInjectionMatchSet?
 }
 
@@ -7005,7 +7005,7 @@ extension GetWebACLForResourceInput {
     }
 }
 
-public struct GetWebACLForResourceInput: Swift.Equatable {
+public struct GetWebACLForResourceInput {
     /// The ARN (Amazon Resource Name) of the resource for which to get the web ACL, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats:
     ///
     /// * For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
@@ -7022,7 +7022,7 @@ public struct GetWebACLForResourceInput: Swift.Equatable {
     }
 }
 
-struct GetWebACLForResourceInputBody: Swift.Equatable {
+struct GetWebACLForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -7050,7 +7050,7 @@ extension GetWebACLForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWebACLForResourceOutput: Swift.Equatable {
+public struct GetWebACLForResourceOutput {
     /// Information about the web ACL that you specified in the GetWebACLForResource request. If there is no associated resource, a null WebACLSummary is returned.
     public var webACLSummary: WAFRegionalClientTypes.WebACLSummary?
 
@@ -7062,7 +7062,7 @@ public struct GetWebACLForResourceOutput: Swift.Equatable {
     }
 }
 
-struct GetWebACLForResourceOutputBody: Swift.Equatable {
+struct GetWebACLForResourceOutputBody {
     let webACLSummary: WAFRegionalClientTypes.WebACLSummary?
 }
 
@@ -7113,7 +7113,7 @@ extension GetWebACLInput {
     }
 }
 
-public struct GetWebACLInput: Swift.Equatable {
+public struct GetWebACLInput {
     /// The WebACLId of the [WebACL] that you want to get. WebACLId is returned by [CreateWebACL] and by [ListWebACLs].
     /// This member is required.
     public var webACLId: Swift.String?
@@ -7126,7 +7126,7 @@ public struct GetWebACLInput: Swift.Equatable {
     }
 }
 
-struct GetWebACLInputBody: Swift.Equatable {
+struct GetWebACLInputBody {
     let webACLId: Swift.String?
 }
 
@@ -7154,7 +7154,7 @@ extension GetWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWebACLOutput: Swift.Equatable {
+public struct GetWebACLOutput {
     /// Information about the [WebACL] that you specified in the GetWebACL request. For more information, see the following topics:
     ///
     /// * [WebACL]: Contains DefaultAction, MetricName, Name, an array of Rule objects, and WebACLId
@@ -7174,7 +7174,7 @@ public struct GetWebACLOutput: Swift.Equatable {
     }
 }
 
-struct GetWebACLOutputBody: Swift.Equatable {
+struct GetWebACLOutputBody {
     let webACL: WAFRegionalClientTypes.WebACL?
 }
 
@@ -7224,7 +7224,7 @@ extension GetXssMatchSetInput {
 }
 
 /// A request to get an [XssMatchSet].
-public struct GetXssMatchSetInput: Swift.Equatable {
+public struct GetXssMatchSetInput {
     /// The XssMatchSetId of the [XssMatchSet] that you want to get. XssMatchSetId is returned by [CreateXssMatchSet] and by [ListXssMatchSets].
     /// This member is required.
     public var xssMatchSetId: Swift.String?
@@ -7237,7 +7237,7 @@ public struct GetXssMatchSetInput: Swift.Equatable {
     }
 }
 
-struct GetXssMatchSetInputBody: Swift.Equatable {
+struct GetXssMatchSetInputBody {
     let xssMatchSetId: Swift.String?
 }
 
@@ -7266,7 +7266,7 @@ extension GetXssMatchSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a [GetXssMatchSet] request.
-public struct GetXssMatchSetOutput: Swift.Equatable {
+public struct GetXssMatchSetOutput {
     /// Information about the [XssMatchSet] that you specified in the GetXssMatchSet request. For more information, see the following topics:
     ///
     /// * [XssMatchSet]: Contains Name, XssMatchSetId, and an array of XssMatchTuple objects
@@ -7284,7 +7284,7 @@ public struct GetXssMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct GetXssMatchSetOutputBody: Swift.Equatable {
+struct GetXssMatchSetOutputBody {
     let xssMatchSet: WAFRegionalClientTypes.XssMatchSet?
 }
 
@@ -7340,7 +7340,7 @@ extension WAFRegionalClientTypes.HTTPHeader: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The response from a [GetSampledRequests] request includes an HTTPHeader complex type that appears as Headers in the response syntax. HTTPHeader contains the names and values of all of the headers that appear in one of the web requests that were returned by GetSampledRequests.
-    public struct HTTPHeader: Swift.Equatable {
+    public struct HTTPHeader {
         /// The name of one of the headers in the sampled web request.
         public var name: Swift.String?
         /// The value of one of the headers in the sampled web request.
@@ -7421,7 +7421,7 @@ extension WAFRegionalClientTypes.HTTPRequest: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The response from a [GetSampledRequests] request includes an HTTPRequest complex type that appears as Request in the response syntax. HTTPRequest contains information about one of the web requests that were returned by GetSampledRequests.
-    public struct HTTPRequest: Swift.Equatable {
+    public struct HTTPRequest {
         /// The IP address that the request originated from. If the WebACL is associated with a CloudFront distribution, this is the value of one of the following fields in CloudFront access logs:
         ///
         /// * c-ip, if the viewer did not use an HTTP proxy or a load balancer to send the request
@@ -7504,7 +7504,7 @@ extension WAFRegionalClientTypes.IPSet: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Contains one or more IP addresses or blocks of IP addresses specified in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports IPv4 address ranges: /8 and any range between /16 through /32. AWS WAF supports IPv6 address ranges: /24, /32, /48, /56, /64, and /128. To specify an individual IP address, you specify the four-part IP address followed by a /32, for example, 192.0.2.0/32. To block a range of IP addresses, you can specify /8 or any range between /16 through /32 (for IPv4) or /24, /32, /48, /56, /64, or /128 (for IPv6). For more information about CIDR notation, see the Wikipedia entry [Classless Inter-Domain Routing](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
-    public struct IPSet: Swift.Equatable {
+    public struct IPSet {
         /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from. If the WebACL is associated with a CloudFront distribution and the viewer did not use an HTTP proxy or a load balancer to send the request, this is the value of the c-ip field in the CloudFront access logs.
         /// This member is required.
         public var ipSetDescriptors: [WAFRegionalClientTypes.IPSetDescriptor]?
@@ -7555,7 +7555,7 @@ extension WAFRegionalClientTypes.IPSetDescriptor: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies the IP address type (IPV4 or IPV6) and the IP address range (in CIDR format) that web requests originate from.
-    public struct IPSetDescriptor: Swift.Equatable {
+    public struct IPSetDescriptor {
         /// Specify IPV4 or IPV6.
         /// This member is required.
         public var type: WAFRegionalClientTypes.IPSetDescriptorType?
@@ -7645,7 +7645,7 @@ extension WAFRegionalClientTypes.IPSetSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Contains the identifier and the name of the IPSet.
-    public struct IPSetSummary: Swift.Equatable {
+    public struct IPSetSummary {
         /// The IPSetId for an [IPSet]. You can use IPSetId in a [GetIPSet] request to get detailed information about an [IPSet].
         /// This member is required.
         public var ipSetId: Swift.String?
@@ -7692,7 +7692,7 @@ extension WAFRegionalClientTypes.IPSetUpdate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies the type of update to perform to an [IPSet] with [UpdateIPSet].
-    public struct IPSetUpdate: Swift.Equatable {
+    public struct IPSetUpdate {
         /// Specifies whether to insert or delete an IP address with [UpdateIPSet].
         /// This member is required.
         public var action: WAFRegionalClientTypes.ChangeAction?
@@ -7740,7 +7740,7 @@ extension ListActivatedRulesInRuleGroupInput {
     }
 }
 
-public struct ListActivatedRulesInRuleGroupInput: Swift.Equatable {
+public struct ListActivatedRulesInRuleGroupInput {
     /// Specifies the number of ActivatedRules that you want AWS WAF to return for this request. If you have more ActivatedRules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ActivatedRules.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more ActivatedRules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ActivatedRules. For the second and subsequent ListActivatedRulesInRuleGroup requests, specify the value of NextMarker from the previous response to get information about another batch of ActivatedRules.
@@ -7760,7 +7760,7 @@ public struct ListActivatedRulesInRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct ListActivatedRulesInRuleGroupInputBody: Swift.Equatable {
+struct ListActivatedRulesInRuleGroupInputBody {
     let ruleGroupId: Swift.String?
     let nextMarker: Swift.String?
     let limit: Swift.Int?
@@ -7798,7 +7798,7 @@ extension ListActivatedRulesInRuleGroupOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListActivatedRulesInRuleGroupOutput: Swift.Equatable {
+public struct ListActivatedRulesInRuleGroupOutput {
     /// An array of ActivatedRules objects.
     public var activatedRules: [WAFRegionalClientTypes.ActivatedRule]?
     /// If you have more ActivatedRules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ActivatedRules, submit another ListActivatedRulesInRuleGroup request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -7814,7 +7814,7 @@ public struct ListActivatedRulesInRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct ListActivatedRulesInRuleGroupOutputBody: Swift.Equatable {
+struct ListActivatedRulesInRuleGroupOutputBody {
     let nextMarker: Swift.String?
     let activatedRules: [WAFRegionalClientTypes.ActivatedRule]?
 }
@@ -7880,7 +7880,7 @@ extension ListByteMatchSetsInput {
     }
 }
 
-public struct ListByteMatchSetsInput: Swift.Equatable {
+public struct ListByteMatchSetsInput {
     /// Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more ByteMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListByteMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets.
@@ -7896,7 +7896,7 @@ public struct ListByteMatchSetsInput: Swift.Equatable {
     }
 }
 
-struct ListByteMatchSetsInputBody: Swift.Equatable {
+struct ListByteMatchSetsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -7930,7 +7930,7 @@ extension ListByteMatchSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListByteMatchSetsOutput: Swift.Equatable {
+public struct ListByteMatchSetsOutput {
     /// An array of [ByteMatchSetSummary] objects.
     public var byteMatchSets: [WAFRegionalClientTypes.ByteMatchSetSummary]?
     /// If you have more ByteMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ByteMatchSet objects, submit another ListByteMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -7946,7 +7946,7 @@ public struct ListByteMatchSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListByteMatchSetsOutputBody: Swift.Equatable {
+struct ListByteMatchSetsOutputBody {
     let nextMarker: Swift.String?
     let byteMatchSets: [WAFRegionalClientTypes.ByteMatchSetSummary]?
 }
@@ -8011,7 +8011,7 @@ extension ListGeoMatchSetsInput {
     }
 }
 
-public struct ListGeoMatchSetsInput: Swift.Equatable {
+public struct ListGeoMatchSetsInput {
     /// Specifies the number of GeoMatchSet objects that you want AWS WAF to return for this request. If you have more GeoMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of GeoMatchSet objects.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more GeoMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of GeoMatchSet objects. For the second and subsequent ListGeoMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of GeoMatchSet objects.
@@ -8027,7 +8027,7 @@ public struct ListGeoMatchSetsInput: Swift.Equatable {
     }
 }
 
-struct ListGeoMatchSetsInputBody: Swift.Equatable {
+struct ListGeoMatchSetsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -8061,7 +8061,7 @@ extension ListGeoMatchSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGeoMatchSetsOutput: Swift.Equatable {
+public struct ListGeoMatchSetsOutput {
     /// An array of [GeoMatchSetSummary] objects.
     public var geoMatchSets: [WAFRegionalClientTypes.GeoMatchSetSummary]?
     /// If you have more GeoMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more GeoMatchSet objects, submit another ListGeoMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -8077,7 +8077,7 @@ public struct ListGeoMatchSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListGeoMatchSetsOutputBody: Swift.Equatable {
+struct ListGeoMatchSetsOutputBody {
     let nextMarker: Swift.String?
     let geoMatchSets: [WAFRegionalClientTypes.GeoMatchSetSummary]?
 }
@@ -8142,7 +8142,7 @@ extension ListIPSetsInput {
     }
 }
 
-public struct ListIPSetsInput: Swift.Equatable {
+public struct ListIPSetsInput {
     /// Specifies the number of IPSet objects that you want AWS WAF to return for this request. If you have more IPSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of IPSet objects.
     public var limit: Swift.Int?
     /// AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets. For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of IPSets.
@@ -8158,7 +8158,7 @@ public struct ListIPSetsInput: Swift.Equatable {
     }
 }
 
-struct ListIPSetsInputBody: Swift.Equatable {
+struct ListIPSetsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -8192,7 +8192,7 @@ extension ListIPSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIPSetsOutput: Swift.Equatable {
+public struct ListIPSetsOutput {
     /// An array of [IPSetSummary] objects.
     public var ipSets: [WAFRegionalClientTypes.IPSetSummary]?
     /// To list more IPSet objects, submit another ListIPSets request, and in the next request use the NextMarker response value as the NextMarker value.
@@ -8208,7 +8208,7 @@ public struct ListIPSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListIPSetsOutputBody: Swift.Equatable {
+struct ListIPSetsOutputBody {
     let nextMarker: Swift.String?
     let ipSets: [WAFRegionalClientTypes.IPSetSummary]?
 }
@@ -8273,7 +8273,7 @@ extension ListLoggingConfigurationsInput {
     }
 }
 
-public struct ListLoggingConfigurationsInput: Swift.Equatable {
+public struct ListLoggingConfigurationsInput {
     /// Specifies the number of LoggingConfigurations that you want AWS WAF to return for this request. If you have more LoggingConfigurations than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of LoggingConfigurations.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more LoggingConfigurations than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of LoggingConfigurations. For the second and subsequent ListLoggingConfigurations requests, specify the value of NextMarker from the previous response to get information about another batch of ListLoggingConfigurations.
@@ -8289,7 +8289,7 @@ public struct ListLoggingConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListLoggingConfigurationsInputBody: Swift.Equatable {
+struct ListLoggingConfigurationsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -8323,7 +8323,7 @@ extension ListLoggingConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLoggingConfigurationsOutput: Swift.Equatable {
+public struct ListLoggingConfigurationsOutput {
     /// An array of [LoggingConfiguration] objects.
     public var loggingConfigurations: [WAFRegionalClientTypes.LoggingConfiguration]?
     /// If you have more LoggingConfigurations than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more LoggingConfigurations, submit another ListLoggingConfigurations request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -8339,7 +8339,7 @@ public struct ListLoggingConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListLoggingConfigurationsOutputBody: Swift.Equatable {
+struct ListLoggingConfigurationsOutputBody {
     let loggingConfigurations: [WAFRegionalClientTypes.LoggingConfiguration]?
     let nextMarker: Swift.String?
 }
@@ -8405,7 +8405,7 @@ extension ListRateBasedRulesInput {
     }
 }
 
-public struct ListRateBasedRulesInput: Swift.Equatable {
+public struct ListRateBasedRulesInput {
     /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRateBasedRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
@@ -8421,7 +8421,7 @@ public struct ListRateBasedRulesInput: Swift.Equatable {
     }
 }
 
-struct ListRateBasedRulesInputBody: Swift.Equatable {
+struct ListRateBasedRulesInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -8455,7 +8455,7 @@ extension ListRateBasedRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRateBasedRulesOutput: Swift.Equatable {
+public struct ListRateBasedRulesOutput {
     /// If you have more Rules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more Rules, submit another ListRateBasedRules request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RuleSummary] objects.
@@ -8471,7 +8471,7 @@ public struct ListRateBasedRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListRateBasedRulesOutputBody: Swift.Equatable {
+struct ListRateBasedRulesOutputBody {
     let nextMarker: Swift.String?
     let rules: [WAFRegionalClientTypes.RuleSummary]?
 }
@@ -8536,7 +8536,7 @@ extension ListRegexMatchSetsInput {
     }
 }
 
-public struct ListRegexMatchSetsInput: Swift.Equatable {
+public struct ListRegexMatchSetsInput {
     /// Specifies the number of RegexMatchSet objects that you want AWS WAF to return for this request. If you have more RegexMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexMatchSet objects.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more RegexMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListRegexMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexMatchSet objects.
@@ -8552,7 +8552,7 @@ public struct ListRegexMatchSetsInput: Swift.Equatable {
     }
 }
 
-struct ListRegexMatchSetsInputBody: Swift.Equatable {
+struct ListRegexMatchSetsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -8586,7 +8586,7 @@ extension ListRegexMatchSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRegexMatchSetsOutput: Swift.Equatable {
+public struct ListRegexMatchSetsOutput {
     /// If you have more RegexMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RegexMatchSet objects, submit another ListRegexMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RegexMatchSetSummary] objects.
@@ -8602,7 +8602,7 @@ public struct ListRegexMatchSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListRegexMatchSetsOutputBody: Swift.Equatable {
+struct ListRegexMatchSetsOutputBody {
     let nextMarker: Swift.String?
     let regexMatchSets: [WAFRegionalClientTypes.RegexMatchSetSummary]?
 }
@@ -8667,7 +8667,7 @@ extension ListRegexPatternSetsInput {
     }
 }
 
-public struct ListRegexPatternSetsInput: Swift.Equatable {
+public struct ListRegexPatternSetsInput {
     /// Specifies the number of RegexPatternSet objects that you want AWS WAF to return for this request. If you have more RegexPatternSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexPatternSet objects.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more RegexPatternSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RegexPatternSet objects. For the second and subsequent ListRegexPatternSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexPatternSet objects.
@@ -8683,7 +8683,7 @@ public struct ListRegexPatternSetsInput: Swift.Equatable {
     }
 }
 
-struct ListRegexPatternSetsInputBody: Swift.Equatable {
+struct ListRegexPatternSetsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -8717,7 +8717,7 @@ extension ListRegexPatternSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRegexPatternSetsOutput: Swift.Equatable {
+public struct ListRegexPatternSetsOutput {
     /// If you have more RegexPatternSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RegexPatternSet objects, submit another ListRegexPatternSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RegexPatternSetSummary] objects.
@@ -8733,7 +8733,7 @@ public struct ListRegexPatternSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListRegexPatternSetsOutputBody: Swift.Equatable {
+struct ListRegexPatternSetsOutputBody {
     let nextMarker: Swift.String?
     let regexPatternSets: [WAFRegionalClientTypes.RegexPatternSetSummary]?
 }
@@ -8798,7 +8798,7 @@ extension ListResourcesForWebACLInput {
     }
 }
 
-public struct ListResourcesForWebACLInput: Swift.Equatable {
+public struct ListResourcesForWebACLInput {
     /// The type of resource to list, either an application load balancer or Amazon API Gateway.
     public var resourceType: WAFRegionalClientTypes.ResourceType?
     /// The unique identifier (ID) of the web ACL for which to list the associated resources.
@@ -8815,7 +8815,7 @@ public struct ListResourcesForWebACLInput: Swift.Equatable {
     }
 }
 
-struct ListResourcesForWebACLInputBody: Swift.Equatable {
+struct ListResourcesForWebACLInputBody {
     let webACLId: Swift.String?
     let resourceType: WAFRegionalClientTypes.ResourceType?
 }
@@ -8847,7 +8847,7 @@ extension ListResourcesForWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourcesForWebACLOutput: Swift.Equatable {
+public struct ListResourcesForWebACLOutput {
     /// An array of ARNs (Amazon Resource Names) of the resources associated with the specified web ACL. An array with zero elements is returned if there are no resources associated with the web ACL.
     public var resourceArns: [Swift.String]?
 
@@ -8859,7 +8859,7 @@ public struct ListResourcesForWebACLOutput: Swift.Equatable {
     }
 }
 
-struct ListResourcesForWebACLOutputBody: Swift.Equatable {
+struct ListResourcesForWebACLOutputBody {
     let resourceArns: [Swift.String]?
 }
 
@@ -8922,7 +8922,7 @@ extension ListRuleGroupsInput {
     }
 }
 
-public struct ListRuleGroupsInput: Swift.Equatable {
+public struct ListRuleGroupsInput {
     /// Specifies the number of RuleGroups that you want AWS WAF to return for this request. If you have more RuleGroups than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RuleGroups.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more RuleGroups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RuleGroups. For the second and subsequent ListRuleGroups requests, specify the value of NextMarker from the previous response to get information about another batch of RuleGroups.
@@ -8938,7 +8938,7 @@ public struct ListRuleGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListRuleGroupsInputBody: Swift.Equatable {
+struct ListRuleGroupsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -8972,7 +8972,7 @@ extension ListRuleGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRuleGroupsOutput: Swift.Equatable {
+public struct ListRuleGroupsOutput {
     /// If you have more RuleGroups than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RuleGroups, submit another ListRuleGroups request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RuleGroup] objects.
@@ -8988,7 +8988,7 @@ public struct ListRuleGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListRuleGroupsOutputBody: Swift.Equatable {
+struct ListRuleGroupsOutputBody {
     let nextMarker: Swift.String?
     let ruleGroups: [WAFRegionalClientTypes.RuleGroupSummary]?
 }
@@ -9052,7 +9052,7 @@ extension ListRulesInput {
     }
 }
 
-public struct ListRulesInput: Swift.Equatable {
+public struct ListRulesInput {
     /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
@@ -9068,7 +9068,7 @@ public struct ListRulesInput: Swift.Equatable {
     }
 }
 
-struct ListRulesInputBody: Swift.Equatable {
+struct ListRulesInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -9102,7 +9102,7 @@ extension ListRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRulesOutput: Swift.Equatable {
+public struct ListRulesOutput {
     /// If you have more Rules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more Rules, submit another ListRules request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RuleSummary] objects.
@@ -9118,7 +9118,7 @@ public struct ListRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListRulesOutputBody: Swift.Equatable {
+struct ListRulesOutputBody {
     let nextMarker: Swift.String?
     let rules: [WAFRegionalClientTypes.RuleSummary]?
 }
@@ -9183,7 +9183,7 @@ extension ListSizeConstraintSetsInput {
     }
 }
 
-public struct ListSizeConstraintSetsInput: Swift.Equatable {
+public struct ListSizeConstraintSetsInput {
     /// Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets. For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets.
@@ -9199,7 +9199,7 @@ public struct ListSizeConstraintSetsInput: Swift.Equatable {
     }
 }
 
-struct ListSizeConstraintSetsInputBody: Swift.Equatable {
+struct ListSizeConstraintSetsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -9233,7 +9233,7 @@ extension ListSizeConstraintSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSizeConstraintSetsOutput: Swift.Equatable {
+public struct ListSizeConstraintSetsOutput {
     /// If you have more SizeConstraintSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SizeConstraintSet objects, submit another ListSizeConstraintSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [SizeConstraintSetSummary] objects.
@@ -9249,7 +9249,7 @@ public struct ListSizeConstraintSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListSizeConstraintSetsOutputBody: Swift.Equatable {
+struct ListSizeConstraintSetsOutputBody {
     let nextMarker: Swift.String?
     let sizeConstraintSets: [WAFRegionalClientTypes.SizeConstraintSetSummary]?
 }
@@ -9315,7 +9315,7 @@ extension ListSqlInjectionMatchSetsInput {
 }
 
 /// A request to list the [SqlInjectionMatchSet] objects created by the current AWS account.
-public struct ListSqlInjectionMatchSetsInput: Swift.Equatable {
+public struct ListSqlInjectionMatchSetsInput {
     /// Specifies the number of [SqlInjectionMatchSet] objects that you want AWS WAF to return for this request. If you have more SqlInjectionMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more [SqlInjectionMatchSet] objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SqlInjectionMatchSets. For the second and subsequent ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of SqlInjectionMatchSets.
@@ -9331,7 +9331,7 @@ public struct ListSqlInjectionMatchSetsInput: Swift.Equatable {
     }
 }
 
-struct ListSqlInjectionMatchSetsInputBody: Swift.Equatable {
+struct ListSqlInjectionMatchSetsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -9366,7 +9366,7 @@ extension ListSqlInjectionMatchSetsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a [ListSqlInjectionMatchSets] request.
-public struct ListSqlInjectionMatchSetsOutput: Swift.Equatable {
+public struct ListSqlInjectionMatchSetsOutput {
     /// If you have more [SqlInjectionMatchSet] objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SqlInjectionMatchSet objects, submit another ListSqlInjectionMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [SqlInjectionMatchSetSummary] objects.
@@ -9382,7 +9382,7 @@ public struct ListSqlInjectionMatchSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListSqlInjectionMatchSetsOutputBody: Swift.Equatable {
+struct ListSqlInjectionMatchSetsOutputBody {
     let nextMarker: Swift.String?
     let sqlInjectionMatchSets: [WAFRegionalClientTypes.SqlInjectionMatchSetSummary]?
 }
@@ -9447,7 +9447,7 @@ extension ListSubscribedRuleGroupsInput {
     }
 }
 
-public struct ListSubscribedRuleGroupsInput: Swift.Equatable {
+public struct ListSubscribedRuleGroupsInput {
     /// Specifies the number of subscribed rule groups that you want AWS WAF to return for this request. If you have more objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of objects.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more ByteMatchSetssubscribed rule groups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of subscribed rule groups. For the second and subsequent ListSubscribedRuleGroupsRequest requests, specify the value of NextMarker from the previous response to get information about another batch of subscribed rule groups.
@@ -9463,7 +9463,7 @@ public struct ListSubscribedRuleGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListSubscribedRuleGroupsInputBody: Swift.Equatable {
+struct ListSubscribedRuleGroupsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -9497,7 +9497,7 @@ extension ListSubscribedRuleGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSubscribedRuleGroupsOutput: Swift.Equatable {
+public struct ListSubscribedRuleGroupsOutput {
     /// If you have more objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more objects, submit another ListSubscribedRuleGroups request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [RuleGroup] objects.
@@ -9513,7 +9513,7 @@ public struct ListSubscribedRuleGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListSubscribedRuleGroupsOutputBody: Swift.Equatable {
+struct ListSubscribedRuleGroupsOutputBody {
     let nextMarker: Swift.String?
     let ruleGroups: [WAFRegionalClientTypes.SubscribedRuleGroupSummary]?
 }
@@ -9582,7 +9582,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     ///
     public var limit: Swift.Int?
     ///
@@ -9603,7 +9603,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
     let resourceARN: Swift.String?
@@ -9641,7 +9641,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     ///
     public var nextMarker: Swift.String?
     ///
@@ -9657,7 +9657,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let nextMarker: Swift.String?
     let tagInfoForResource: WAFRegionalClientTypes.TagInfoForResource?
 }
@@ -9717,7 +9717,7 @@ extension ListWebACLsInput {
     }
 }
 
-public struct ListWebACLsInput: Swift.Equatable {
+public struct ListWebACLsInput {
     /// Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of WebACL objects.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects.
@@ -9733,7 +9733,7 @@ public struct ListWebACLsInput: Swift.Equatable {
     }
 }
 
-struct ListWebACLsInputBody: Swift.Equatable {
+struct ListWebACLsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -9767,7 +9767,7 @@ extension ListWebACLsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWebACLsOutput: Swift.Equatable {
+public struct ListWebACLsOutput {
     /// If you have more WebACL objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more WebACL objects, submit another ListWebACLs request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [WebACLSummary] objects.
@@ -9783,7 +9783,7 @@ public struct ListWebACLsOutput: Swift.Equatable {
     }
 }
 
-struct ListWebACLsOutputBody: Swift.Equatable {
+struct ListWebACLsOutputBody {
     let nextMarker: Swift.String?
     let webACLs: [WAFRegionalClientTypes.WebACLSummary]?
 }
@@ -9849,7 +9849,7 @@ extension ListXssMatchSetsInput {
 }
 
 /// A request to list the [XssMatchSet] objects created by the current AWS account.
-public struct ListXssMatchSetsInput: Swift.Equatable {
+public struct ListXssMatchSetsInput {
     /// Specifies the number of [XssMatchSet] objects that you want AWS WAF to return for this request. If you have more XssMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
     public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more [XssMatchSet] objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of XssMatchSets. For the second and subsequent ListXssMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of XssMatchSets.
@@ -9865,7 +9865,7 @@ public struct ListXssMatchSetsInput: Swift.Equatable {
     }
 }
 
-struct ListXssMatchSetsInputBody: Swift.Equatable {
+struct ListXssMatchSetsInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
 }
@@ -9900,7 +9900,7 @@ extension ListXssMatchSetsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a [ListXssMatchSets] request.
-public struct ListXssMatchSetsOutput: Swift.Equatable {
+public struct ListXssMatchSetsOutput {
     /// If you have more [XssMatchSet] objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more XssMatchSet objects, submit another ListXssMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
     public var nextMarker: Swift.String?
     /// An array of [XssMatchSetSummary] objects.
@@ -9916,7 +9916,7 @@ public struct ListXssMatchSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListXssMatchSetsOutputBody: Swift.Equatable {
+struct ListXssMatchSetsOutputBody {
     let nextMarker: Swift.String?
     let xssMatchSets: [WAFRegionalClientTypes.XssMatchSetSummary]?
 }
@@ -10014,7 +10014,7 @@ extension WAFRegionalClientTypes.LoggingConfiguration: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The Amazon Kinesis Data Firehose, RedactedFields information, and the web ACL Amazon Resource Name (ARN).
-    public struct LoggingConfiguration: Swift.Equatable {
+    public struct LoggingConfiguration {
         /// An array of Amazon Kinesis Data Firehose ARNs.
         /// This member is required.
         public var logDestinationConfigs: [Swift.String]?
@@ -10324,7 +10324,7 @@ extension WAFRegionalClientTypes.Predicate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies the [ByteMatchSet], [IPSet], [SqlInjectionMatchSet], [XssMatchSet], [RegexMatchSet], [GeoMatchSet], and [SizeConstraintSet] objects that you want to add to a Rule and, for each object, indicates whether you want to negate the settings, for example, requests that do NOT originate from the IP address 192.0.2.44.
-    public struct Predicate: Swift.Equatable {
+    public struct Predicate {
         /// A unique identifier for a predicate in a Rule, such as ByteMatchSetId or IPSetId. The ID is returned by the corresponding Create or List command.
         /// This member is required.
         public var dataId: Swift.String?
@@ -10416,7 +10416,7 @@ extension PutLoggingConfigurationInput {
     }
 }
 
-public struct PutLoggingConfigurationInput: Swift.Equatable {
+public struct PutLoggingConfigurationInput {
     /// The Amazon Kinesis Data Firehose that contains the inspected traffic information, the redacted fields details, and the Amazon Resource Name (ARN) of the web ACL to monitor. When specifying Type in RedactedFields, you must use one of the following values: URI, QUERY_STRING, HEADER, or METHOD.
     /// This member is required.
     public var loggingConfiguration: WAFRegionalClientTypes.LoggingConfiguration?
@@ -10429,7 +10429,7 @@ public struct PutLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutLoggingConfigurationInputBody: Swift.Equatable {
+struct PutLoggingConfigurationInputBody {
     let loggingConfiguration: WAFRegionalClientTypes.LoggingConfiguration?
 }
 
@@ -10457,7 +10457,7 @@ extension PutLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutLoggingConfigurationOutput: Swift.Equatable {
+public struct PutLoggingConfigurationOutput {
     /// The [LoggingConfiguration] that you submitted in the request.
     public var loggingConfiguration: WAFRegionalClientTypes.LoggingConfiguration?
 
@@ -10469,7 +10469,7 @@ public struct PutLoggingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct PutLoggingConfigurationOutputBody: Swift.Equatable {
+struct PutLoggingConfigurationOutputBody {
     let loggingConfiguration: WAFRegionalClientTypes.LoggingConfiguration?
 }
 
@@ -10523,7 +10523,7 @@ extension PutPermissionPolicyInput {
     }
 }
 
-public struct PutPermissionPolicyInput: Swift.Equatable {
+public struct PutPermissionPolicyInput {
     /// The policy to attach to the specified RuleGroup.
     /// This member is required.
     public var policy: Swift.String?
@@ -10541,7 +10541,7 @@ public struct PutPermissionPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutPermissionPolicyInputBody: Swift.Equatable {
+struct PutPermissionPolicyInputBody {
     let resourceArn: Swift.String?
     let policy: Swift.String?
 }
@@ -10566,7 +10566,7 @@ extension PutPermissionPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutPermissionPolicyOutput: Swift.Equatable {
+public struct PutPermissionPolicyOutput {
 
     public init() { }
 }
@@ -10655,7 +10655,7 @@ extension WAFRegionalClientTypes {
     ///
     ///
     /// In the rule, you also define the rate limit as 1,000. Requests that meet both of these conditions and exceed 1,000 requests every five minutes trigger the rule's action (block or count), which is defined in the web ACL.
-    public struct RateBasedRule: Swift.Equatable {
+    public struct RateBasedRule {
         /// The Predicates object contains one Predicate element for each [ByteMatchSet], [IPSet], or [SqlInjectionMatchSet] object that you want to include in a RateBasedRule.
         /// This member is required.
         public var matchPredicates: [WAFRegionalClientTypes.Predicate]?
@@ -10767,7 +10767,7 @@ extension WAFRegionalClientTypes.RegexMatchSet: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. In a [GetRegexMatchSet] request, RegexMatchSet is a complex type that contains the RegexMatchSetId and Name of a RegexMatchSet, and the values that you specified when you updated the RegexMatchSet. The values are contained in a RegexMatchTuple object, which specify the parts of web requests that you want AWS WAF to inspect and the values that you want AWS WAF to search for. If a RegexMatchSet contains more than one RegexMatchTuple object, a request needs to match the settings in only one ByteMatchTuple to be considered a match.
-    public struct RegexMatchSet: Swift.Equatable {
+    public struct RegexMatchSet {
         /// A friendly name or description of the [RegexMatchSet]. You can't change Name after you create a RegexMatchSet.
         public var name: Swift.String?
         /// The RegexMatchSetId for a RegexMatchSet. You use RegexMatchSetId to get information about a RegexMatchSet (see [GetRegexMatchSet]), update a RegexMatchSet (see [UpdateRegexMatchSet]), insert a RegexMatchSet into a Rule or delete one from a Rule (see [UpdateRule]), and delete a RegexMatchSet from AWS WAF (see [DeleteRegexMatchSet]). RegexMatchSetId is returned by [CreateRegexMatchSet] and by [ListRegexMatchSets].
@@ -10822,7 +10822,7 @@ extension WAFRegionalClientTypes.RegexMatchSetSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returned by [ListRegexMatchSets]. Each RegexMatchSetSummary object includes the Name and RegexMatchSetId for one [RegexMatchSet].
-    public struct RegexMatchSetSummary: Swift.Equatable {
+    public struct RegexMatchSetSummary {
         /// A friendly name or description of the [RegexMatchSet]. You can't change Name after you create a RegexMatchSet.
         /// This member is required.
         public var name: Swift.String?
@@ -10869,7 +10869,7 @@ extension WAFRegionalClientTypes.RegexMatchSetUpdate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. In an [UpdateRegexMatchSet] request, RegexMatchSetUpdate specifies whether to insert or delete a [RegexMatchTuple] and includes the settings for the RegexMatchTuple.
-    public struct RegexMatchSetUpdate: Swift.Equatable {
+    public struct RegexMatchSetUpdate {
         /// Specifies whether to insert or delete a [RegexMatchTuple].
         /// This member is required.
         public var action: WAFRegionalClientTypes.ChangeAction?
@@ -10928,7 +10928,7 @@ extension WAFRegionalClientTypes {
     /// * The identifier of the pattern (a regular expression) that you want AWS WAF to look for. For more information, see [RegexPatternSet].
     ///
     /// * Whether to perform any conversions on the request, such as converting it to lowercase, before inspecting it for the specified string.
-    public struct RegexMatchTuple: Swift.Equatable {
+    public struct RegexMatchTuple {
         /// Specifies where in a web request to look for the RegexPatternSet.
         /// This member is required.
         public var fieldToMatch: WAFRegionalClientTypes.FieldToMatch?
@@ -11041,7 +11041,7 @@ extension WAFRegionalClientTypes.RegexPatternSet: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The RegexPatternSet specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t. You can then configure AWS WAF to reject those requests.
-    public struct RegexPatternSet: Swift.Equatable {
+    public struct RegexPatternSet {
         /// A friendly name or description of the [RegexPatternSet]. You can't change Name after you create a RegexPatternSet.
         public var name: Swift.String?
         /// The identifier for the RegexPatternSet. You use RegexPatternSetId to get information about a RegexPatternSet, update a RegexPatternSet, remove a RegexPatternSet from a RegexMatchSet, and delete a RegexPatternSet from AWS WAF. RegexMatchSetId is returned by [CreateRegexPatternSet] and by [ListRegexPatternSets].
@@ -11092,7 +11092,7 @@ extension WAFRegionalClientTypes.RegexPatternSetSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returned by [ListRegexPatternSets]. Each RegexPatternSetSummary object includes the Name and RegexPatternSetId for one [RegexPatternSet].
-    public struct RegexPatternSetSummary: Swift.Equatable {
+    public struct RegexPatternSetSummary {
         /// A friendly name or description of the [RegexPatternSet]. You can't change Name after you create a RegexPatternSet.
         /// This member is required.
         public var name: Swift.String?
@@ -11139,7 +11139,7 @@ extension WAFRegionalClientTypes.RegexPatternSetUpdate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. In an [UpdateRegexPatternSet] request, RegexPatternSetUpdate specifies whether to insert or delete a RegexPatternString and includes the settings for the RegexPatternString.
-    public struct RegexPatternSetUpdate: Swift.Equatable {
+    public struct RegexPatternSetUpdate {
         /// Specifies whether to insert or delete a RegexPatternString.
         /// This member is required.
         public var action: WAFRegionalClientTypes.ChangeAction?
@@ -11249,7 +11249,7 @@ extension WAFRegionalClientTypes {
     ///
     ///
     /// To match the settings in this Rule, a request must originate from 192.0.2.44 AND include a User-Agent header for which the value is BadBot.
-    public struct Rule: Swift.Equatable {
+    public struct Rule {
         /// A friendly name or description for the metrics for this Rule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change MetricName after you create the Rule.
         public var metricName: Swift.String?
         /// The friendly name or description for the Rule. You can't change the name of a Rule after you create it.
@@ -11316,7 +11316,7 @@ extension WAFRegionalClientTypes {
     /// * One rule group per web ACL.
     ///
     /// * Ten rules per rule group.
-    public struct RuleGroup: Swift.Equatable {
+    public struct RuleGroup {
         /// A friendly name or description for the metrics for this RuleGroup. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RuleGroup.
         public var metricName: Swift.String?
         /// The friendly name or description for the RuleGroup. You can't change the name of a RuleGroup after you create it.
@@ -11366,7 +11366,7 @@ extension WAFRegionalClientTypes.RuleGroupSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Contains the identifier and the friendly name or description of the RuleGroup.
-    public struct RuleGroupSummary: Swift.Equatable {
+    public struct RuleGroupSummary {
         /// A friendly name or description of the [RuleGroup]. You can't change the name of a RuleGroup after you create it.
         /// This member is required.
         public var name: Swift.String?
@@ -11413,7 +11413,7 @@ extension WAFRegionalClientTypes.RuleGroupUpdate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies an ActivatedRule and indicates whether you want to add it to a RuleGroup or delete it from a RuleGroup.
-    public struct RuleGroupUpdate: Swift.Equatable {
+    public struct RuleGroupUpdate {
         /// Specify INSERT to add an ActivatedRule to a RuleGroup. Use DELETE to remove an ActivatedRule from a RuleGroup.
         /// This member is required.
         public var action: WAFRegionalClientTypes.ChangeAction?
@@ -11460,7 +11460,7 @@ extension WAFRegionalClientTypes.RuleSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Contains the identifier and the friendly name or description of the Rule.
-    public struct RuleSummary: Swift.Equatable {
+    public struct RuleSummary {
         /// A friendly name or description of the [Rule]. You can't change the name of a Rule after you create it.
         /// This member is required.
         public var name: Swift.String?
@@ -11507,7 +11507,7 @@ extension WAFRegionalClientTypes.RuleUpdate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies a Predicate (such as an IPSet) and indicates whether you want to add it to a Rule or delete it from a Rule.
-    public struct RuleUpdate: Swift.Equatable {
+    public struct RuleUpdate {
         /// Specify INSERT to add a Predicate to a Rule. Use DELETE to remove a Predicate from a Rule.
         /// This member is required.
         public var action: WAFRegionalClientTypes.ChangeAction?
@@ -11572,7 +11572,7 @@ extension WAFRegionalClientTypes.SampledHTTPRequest: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The response from a [GetSampledRequests] request includes a SampledHTTPRequests complex type that appears as SampledRequests in the response syntax. SampledHTTPRequests contains one SampledHTTPRequest object for each web request that is returned by GetSampledRequests.
-    public struct SampledHTTPRequest: Swift.Equatable {
+    public struct SampledHTTPRequest {
         /// The action for the Rule that the request matched: ALLOW, BLOCK, or COUNT.
         public var action: Swift.String?
         /// A complex type that contains detailed information about the request.
@@ -11643,7 +11643,7 @@ extension WAFRegionalClientTypes.SizeConstraint: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies a constraint on the size of a part of the web request. AWS WAF uses the Size, ComparisonOperator, and FieldToMatch to build an expression in the form of "SizeComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match.
-    public struct SizeConstraint: Swift.Equatable {
+    public struct SizeConstraint {
         /// The type of comparison you want AWS WAF to perform. AWS WAF uses this in combination with the provided Size and FieldToMatch to build an expression in the form of "SizeComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match. EQ: Used to test if the Size is equal to the size of the FieldToMatch NE: Used to test if the Size is not equal to the size of the FieldToMatch LE: Used to test if the Size is less than or equal to the size of the FieldToMatch LT: Used to test if the Size is strictly less than the size of the FieldToMatch GE: Used to test if the Size is greater than or equal to the size of the FieldToMatch GT: Used to test if the Size is strictly greater than the size of the FieldToMatch
         /// This member is required.
         public var comparisonOperator: WAFRegionalClientTypes.ComparisonOperator?
@@ -11761,7 +11761,7 @@ extension WAFRegionalClientTypes.SizeConstraintSet: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. A complex type that contains SizeConstraint objects, which specify the parts of web requests that you want AWS WAF to inspect the size of. If a SizeConstraintSet contains more than one SizeConstraint object, a request only needs to match one constraint to be considered a match.
-    public struct SizeConstraintSet: Swift.Equatable {
+    public struct SizeConstraintSet {
         /// The name, if any, of the SizeConstraintSet.
         public var name: Swift.String?
         /// A unique identifier for a SizeConstraintSet. You use SizeConstraintSetId to get information about a SizeConstraintSet (see [GetSizeConstraintSet]), update a SizeConstraintSet (see [UpdateSizeConstraintSet]), insert a SizeConstraintSet into a Rule or delete one from a Rule (see [UpdateRule]), and delete a SizeConstraintSet from AWS WAF (see [DeleteSizeConstraintSet]). SizeConstraintSetId is returned by [CreateSizeConstraintSet] and by [ListSizeConstraintSets].
@@ -11812,7 +11812,7 @@ extension WAFRegionalClientTypes.SizeConstraintSetSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The Id and Name of a SizeConstraintSet.
-    public struct SizeConstraintSetSummary: Swift.Equatable {
+    public struct SizeConstraintSetSummary {
         /// The name of the SizeConstraintSet, if any.
         /// This member is required.
         public var name: Swift.String?
@@ -11859,7 +11859,7 @@ extension WAFRegionalClientTypes.SizeConstraintSetUpdate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies the part of a web request that you want to inspect the size of and indicates whether you want to add the specification to a [SizeConstraintSet] or delete it from a SizeConstraintSet.
-    public struct SizeConstraintSetUpdate: Swift.Equatable {
+    public struct SizeConstraintSetUpdate {
         /// Specify INSERT to add a [SizeConstraintSetUpdate] to a [SizeConstraintSet]. Use DELETE to remove a SizeConstraintSetUpdate from a SizeConstraintSet.
         /// This member is required.
         public var action: WAFRegionalClientTypes.ChangeAction?
@@ -11924,7 +11924,7 @@ extension WAFRegionalClientTypes.SqlInjectionMatchSet: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. A complex type that contains SqlInjectionMatchTuple objects, which specify the parts of web requests that you want AWS WAF to inspect for snippets of malicious SQL code and, if you want AWS WAF to inspect a header, the name of the header. If a SqlInjectionMatchSet contains more than one SqlInjectionMatchTuple object, a request needs to include snippets of SQL code in only one of the specified parts of the request to be considered a match.
-    public struct SqlInjectionMatchSet: Swift.Equatable {
+    public struct SqlInjectionMatchSet {
         /// The name, if any, of the SqlInjectionMatchSet.
         public var name: Swift.String?
         /// A unique identifier for a SqlInjectionMatchSet. You use SqlInjectionMatchSetId to get information about a SqlInjectionMatchSet (see [GetSqlInjectionMatchSet]), update a SqlInjectionMatchSet (see [UpdateSqlInjectionMatchSet]), insert a SqlInjectionMatchSet into a Rule or delete one from a Rule (see [UpdateRule]), and delete a SqlInjectionMatchSet from AWS WAF (see [DeleteSqlInjectionMatchSet]). SqlInjectionMatchSetId is returned by [CreateSqlInjectionMatchSet] and by [ListSqlInjectionMatchSets].
@@ -11975,7 +11975,7 @@ extension WAFRegionalClientTypes.SqlInjectionMatchSetSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The Id and Name of a SqlInjectionMatchSet.
-    public struct SqlInjectionMatchSetSummary: Swift.Equatable {
+    public struct SqlInjectionMatchSetSummary {
         /// The name of the SqlInjectionMatchSet, if any, specified by Id.
         /// This member is required.
         public var name: Swift.String?
@@ -12022,7 +12022,7 @@ extension WAFRegionalClientTypes.SqlInjectionMatchSetUpdate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies the part of a web request that you want to inspect for snippets of malicious SQL code and indicates whether you want to add the specification to a [SqlInjectionMatchSet] or delete it from a SqlInjectionMatchSet.
-    public struct SqlInjectionMatchSetUpdate: Swift.Equatable {
+    public struct SqlInjectionMatchSetUpdate {
         /// Specify INSERT to add a [SqlInjectionMatchSetUpdate] to a [SqlInjectionMatchSet]. Use DELETE to remove a SqlInjectionMatchSetUpdate from a SqlInjectionMatchSet.
         /// This member is required.
         public var action: WAFRegionalClientTypes.ChangeAction?
@@ -12069,7 +12069,7 @@ extension WAFRegionalClientTypes.SqlInjectionMatchTuple: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies the part of a web request that you want AWS WAF to inspect for snippets of malicious SQL code and, if you want AWS WAF to inspect a header, the name of the header.
-    public struct SqlInjectionMatchTuple: Swift.Equatable {
+    public struct SqlInjectionMatchTuple {
         /// Specifies where in a web request to look for snippets of malicious SQL code.
         /// This member is required.
         public var fieldToMatch: WAFRegionalClientTypes.FieldToMatch?
@@ -12165,7 +12165,7 @@ extension WAFRegionalClientTypes.SubscribedRuleGroupSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. A summary of the rule groups you are subscribed to.
-    public struct SubscribedRuleGroupSummary: Swift.Equatable {
+    public struct SubscribedRuleGroupSummary {
         /// A friendly name or description for the metrics for this RuleGroup. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RuleGroup.
         /// This member is required.
         public var metricName: Swift.String?
@@ -12217,7 +12217,7 @@ extension WAFRegionalClientTypes.Tag: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. A tag associated with an AWS resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         ///
         /// This member is required.
         public var key: Swift.String?
@@ -12276,7 +12276,7 @@ extension WAFRegionalClientTypes.TagInfoForResource: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Information for a tag associated with an AWS resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
-    public struct TagInfoForResource: Swift.Equatable {
+    public struct TagInfoForResource {
         ///
         public var resourceARN: Swift.String?
         ///
@@ -12321,7 +12321,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     ///
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -12339,7 +12339,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [WAFRegionalClientTypes.Tag]?
 }
@@ -12373,7 +12373,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -12466,7 +12466,7 @@ extension WAFRegionalClientTypes.TimeWindow: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. In a [GetSampledRequests] request, the StartTime and EndTime objects specify the time range for which you want AWS WAF to return a sample of web requests. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". In a [GetSampledRequests] response, the StartTime and EndTime objects specify the time range for which AWS WAF actually returned a sample of web requests. AWS WAF gets the specified number of requests from among the first 5,000 requests that your AWS resource receives during the specified time period. If your resource receives more than 5,000 requests during that period, AWS WAF stops sampling after the 5,000th request. In that case, EndTime is the time that AWS WAF received the 5,000th request.
-    public struct TimeWindow: Swift.Equatable {
+    public struct TimeWindow {
         /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the date and time in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         /// This member is required.
         public var endTime: ClientRuntime.Date?
@@ -12513,7 +12513,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     ///
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -12531,7 +12531,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -12565,7 +12565,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -12617,7 +12617,7 @@ extension UpdateByteMatchSetInput {
     }
 }
 
-public struct UpdateByteMatchSetInput: Swift.Equatable {
+public struct UpdateByteMatchSetInput {
     /// The ByteMatchSetId of the [ByteMatchSet] that you want to update. ByteMatchSetId is returned by [CreateByteMatchSet] and by [ListByteMatchSets].
     /// This member is required.
     public var byteMatchSetId: Swift.String?
@@ -12646,7 +12646,7 @@ public struct UpdateByteMatchSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateByteMatchSetInputBody: Swift.Equatable {
+struct UpdateByteMatchSetInputBody {
     let byteMatchSetId: Swift.String?
     let changeToken: Swift.String?
     let updates: [WAFRegionalClientTypes.ByteMatchSetUpdate]?
@@ -12691,7 +12691,7 @@ extension UpdateByteMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateByteMatchSetOutput: Swift.Equatable {
+public struct UpdateByteMatchSetOutput {
     /// The ChangeToken that you used to submit the UpdateByteMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -12703,7 +12703,7 @@ public struct UpdateByteMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateByteMatchSetOutputBody: Swift.Equatable {
+struct UpdateByteMatchSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -12768,7 +12768,7 @@ extension UpdateGeoMatchSetInput {
     }
 }
 
-public struct UpdateGeoMatchSetInput: Swift.Equatable {
+public struct UpdateGeoMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -12795,7 +12795,7 @@ public struct UpdateGeoMatchSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateGeoMatchSetInputBody: Swift.Equatable {
+struct UpdateGeoMatchSetInputBody {
     let geoMatchSetId: Swift.String?
     let changeToken: Swift.String?
     let updates: [WAFRegionalClientTypes.GeoMatchSetUpdate]?
@@ -12840,7 +12840,7 @@ extension UpdateGeoMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGeoMatchSetOutput: Swift.Equatable {
+public struct UpdateGeoMatchSetOutput {
     /// The ChangeToken that you used to submit the UpdateGeoMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -12852,7 +12852,7 @@ public struct UpdateGeoMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGeoMatchSetOutputBody: Swift.Equatable {
+struct UpdateGeoMatchSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -12918,7 +12918,7 @@ extension UpdateIPSetInput {
     }
 }
 
-public struct UpdateIPSetInput: Swift.Equatable {
+public struct UpdateIPSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -12948,7 +12948,7 @@ public struct UpdateIPSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateIPSetInputBody: Swift.Equatable {
+struct UpdateIPSetInputBody {
     let ipSetId: Swift.String?
     let changeToken: Swift.String?
     let updates: [WAFRegionalClientTypes.IPSetUpdate]?
@@ -12993,7 +12993,7 @@ extension UpdateIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIPSetOutput: Swift.Equatable {
+public struct UpdateIPSetOutput {
     /// The ChangeToken that you used to submit the UpdateIPSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -13005,7 +13005,7 @@ public struct UpdateIPSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIPSetOutputBody: Swift.Equatable {
+struct UpdateIPSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -13075,7 +13075,7 @@ extension UpdateRateBasedRuleInput {
     }
 }
 
-public struct UpdateRateBasedRuleInput: Swift.Equatable {
+public struct UpdateRateBasedRuleInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -13103,7 +13103,7 @@ public struct UpdateRateBasedRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdateRateBasedRuleInputBody: Swift.Equatable {
+struct UpdateRateBasedRuleInputBody {
     let ruleId: Swift.String?
     let changeToken: Swift.String?
     let updates: [WAFRegionalClientTypes.RuleUpdate]?
@@ -13152,7 +13152,7 @@ extension UpdateRateBasedRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRateBasedRuleOutput: Swift.Equatable {
+public struct UpdateRateBasedRuleOutput {
     /// The ChangeToken that you used to submit the UpdateRateBasedRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -13164,7 +13164,7 @@ public struct UpdateRateBasedRuleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRateBasedRuleOutputBody: Swift.Equatable {
+struct UpdateRateBasedRuleOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -13230,7 +13230,7 @@ extension UpdateRegexMatchSetInput {
     }
 }
 
-public struct UpdateRegexMatchSetInput: Swift.Equatable {
+public struct UpdateRegexMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -13253,7 +13253,7 @@ public struct UpdateRegexMatchSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateRegexMatchSetInputBody: Swift.Equatable {
+struct UpdateRegexMatchSetInputBody {
     let regexMatchSetId: Swift.String?
     let updates: [WAFRegionalClientTypes.RegexMatchSetUpdate]?
     let changeToken: Swift.String?
@@ -13298,7 +13298,7 @@ extension UpdateRegexMatchSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRegexMatchSetOutput: Swift.Equatable {
+public struct UpdateRegexMatchSetOutput {
     /// The ChangeToken that you used to submit the UpdateRegexMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -13310,7 +13310,7 @@ public struct UpdateRegexMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRegexMatchSetOutputBody: Swift.Equatable {
+struct UpdateRegexMatchSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -13375,7 +13375,7 @@ extension UpdateRegexPatternSetInput {
     }
 }
 
-public struct UpdateRegexPatternSetInput: Swift.Equatable {
+public struct UpdateRegexPatternSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -13398,7 +13398,7 @@ public struct UpdateRegexPatternSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateRegexPatternSetInputBody: Swift.Equatable {
+struct UpdateRegexPatternSetInputBody {
     let regexPatternSetId: Swift.String?
     let updates: [WAFRegionalClientTypes.RegexPatternSetUpdate]?
     let changeToken: Swift.String?
@@ -13443,7 +13443,7 @@ extension UpdateRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRegexPatternSetOutput: Swift.Equatable {
+public struct UpdateRegexPatternSetOutput {
     /// The ChangeToken that you used to submit the UpdateRegexPatternSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -13455,7 +13455,7 @@ public struct UpdateRegexPatternSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRegexPatternSetOutputBody: Swift.Equatable {
+struct UpdateRegexPatternSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -13520,7 +13520,7 @@ extension UpdateRuleGroupInput {
     }
 }
 
-public struct UpdateRuleGroupInput: Swift.Equatable {
+public struct UpdateRuleGroupInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -13543,7 +13543,7 @@ public struct UpdateRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleGroupInputBody: Swift.Equatable {
+struct UpdateRuleGroupInputBody {
     let ruleGroupId: Swift.String?
     let updates: [WAFRegionalClientTypes.RuleGroupUpdate]?
     let changeToken: Swift.String?
@@ -13588,7 +13588,7 @@ extension UpdateRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRuleGroupOutput: Swift.Equatable {
+public struct UpdateRuleGroupOutput {
     /// The ChangeToken that you used to submit the UpdateRuleGroup request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -13600,7 +13600,7 @@ public struct UpdateRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleGroupOutputBody: Swift.Equatable {
+struct UpdateRuleGroupOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -13664,7 +13664,7 @@ extension UpdateRuleInput {
     }
 }
 
-public struct UpdateRuleInput: Swift.Equatable {
+public struct UpdateRuleInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -13693,7 +13693,7 @@ public struct UpdateRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleInputBody: Swift.Equatable {
+struct UpdateRuleInputBody {
     let ruleId: Swift.String?
     let changeToken: Swift.String?
     let updates: [WAFRegionalClientTypes.RuleUpdate]?
@@ -13738,7 +13738,7 @@ extension UpdateRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRuleOutput: Swift.Equatable {
+public struct UpdateRuleOutput {
     /// The ChangeToken that you used to submit the UpdateRule request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -13750,7 +13750,7 @@ public struct UpdateRuleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleOutputBody: Swift.Equatable {
+struct UpdateRuleOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -13816,7 +13816,7 @@ extension UpdateSizeConstraintSetInput {
     }
 }
 
-public struct UpdateSizeConstraintSetInput: Swift.Equatable {
+public struct UpdateSizeConstraintSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -13845,7 +13845,7 @@ public struct UpdateSizeConstraintSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateSizeConstraintSetInputBody: Swift.Equatable {
+struct UpdateSizeConstraintSetInputBody {
     let sizeConstraintSetId: Swift.String?
     let changeToken: Swift.String?
     let updates: [WAFRegionalClientTypes.SizeConstraintSetUpdate]?
@@ -13890,7 +13890,7 @@ extension UpdateSizeConstraintSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSizeConstraintSetOutput: Swift.Equatable {
+public struct UpdateSizeConstraintSetOutput {
     /// The ChangeToken that you used to submit the UpdateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -13902,7 +13902,7 @@ public struct UpdateSizeConstraintSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSizeConstraintSetOutputBody: Swift.Equatable {
+struct UpdateSizeConstraintSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -13969,7 +13969,7 @@ extension UpdateSqlInjectionMatchSetInput {
 }
 
 /// A request to update a [SqlInjectionMatchSet].
-public struct UpdateSqlInjectionMatchSetInput: Swift.Equatable {
+public struct UpdateSqlInjectionMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -13998,7 +13998,7 @@ public struct UpdateSqlInjectionMatchSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateSqlInjectionMatchSetInputBody: Swift.Equatable {
+struct UpdateSqlInjectionMatchSetInputBody {
     let sqlInjectionMatchSetId: Swift.String?
     let changeToken: Swift.String?
     let updates: [WAFRegionalClientTypes.SqlInjectionMatchSetUpdate]?
@@ -14044,7 +14044,7 @@ extension UpdateSqlInjectionMatchSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to an [UpdateSqlInjectionMatchSets] request.
-public struct UpdateSqlInjectionMatchSetOutput: Swift.Equatable {
+public struct UpdateSqlInjectionMatchSetOutput {
     /// The ChangeToken that you used to submit the UpdateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -14056,7 +14056,7 @@ public struct UpdateSqlInjectionMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSqlInjectionMatchSetOutputBody: Swift.Equatable {
+struct UpdateSqlInjectionMatchSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -14125,7 +14125,7 @@ extension UpdateWebACLInput {
     }
 }
 
-public struct UpdateWebACLInput: Swift.Equatable {
+public struct UpdateWebACLInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -14157,7 +14157,7 @@ public struct UpdateWebACLInput: Swift.Equatable {
     }
 }
 
-struct UpdateWebACLInputBody: Swift.Equatable {
+struct UpdateWebACLInputBody {
     let webACLId: Swift.String?
     let changeToken: Swift.String?
     let updates: [WAFRegionalClientTypes.WebACLUpdate]?
@@ -14206,7 +14206,7 @@ extension UpdateWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWebACLOutput: Swift.Equatable {
+public struct UpdateWebACLOutput {
     /// The ChangeToken that you used to submit the UpdateWebACL request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -14218,7 +14218,7 @@ public struct UpdateWebACLOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWebACLOutputBody: Swift.Equatable {
+struct UpdateWebACLOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -14286,7 +14286,7 @@ extension UpdateXssMatchSetInput {
 }
 
 /// A request to update an [XssMatchSet].
-public struct UpdateXssMatchSetInput: Swift.Equatable {
+public struct UpdateXssMatchSetInput {
     /// The value returned by the most recent call to [GetChangeToken].
     /// This member is required.
     public var changeToken: Swift.String?
@@ -14315,7 +14315,7 @@ public struct UpdateXssMatchSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateXssMatchSetInputBody: Swift.Equatable {
+struct UpdateXssMatchSetInputBody {
     let xssMatchSetId: Swift.String?
     let changeToken: Swift.String?
     let updates: [WAFRegionalClientTypes.XssMatchSetUpdate]?
@@ -14361,7 +14361,7 @@ extension UpdateXssMatchSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to an [UpdateXssMatchSets] request.
-public struct UpdateXssMatchSetOutput: Swift.Equatable {
+public struct UpdateXssMatchSetOutput {
     /// The ChangeToken that you used to submit the UpdateXssMatchSet request. You can also use this value to query the status of the request. For more information, see [GetChangeTokenStatus].
     public var changeToken: Swift.String?
 
@@ -14373,7 +14373,7 @@ public struct UpdateXssMatchSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateXssMatchSetOutputBody: Swift.Equatable {
+struct UpdateXssMatchSetOutputBody {
     let changeToken: Swift.String?
 }
 
@@ -14446,7 +14446,7 @@ public struct WAFBadRequestException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct WAFBadRequestExceptionBody: Swift.Equatable {
+struct WAFBadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -14501,7 +14501,7 @@ public struct WAFDisallowedNameException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct WAFDisallowedNameExceptionBody: Swift.Equatable {
+struct WAFDisallowedNameExceptionBody {
     let message: Swift.String?
 }
 
@@ -14580,7 +14580,7 @@ public struct WAFEntityMigrationException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct WAFEntityMigrationExceptionBody: Swift.Equatable {
+struct WAFEntityMigrationExceptionBody {
     let message: Swift.String?
     let migrationErrorType: WAFRegionalClientTypes.MigrationErrorType?
     let migrationErrorReason: Swift.String?
@@ -14643,7 +14643,7 @@ public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct WAFInternalErrorExceptionBody: Swift.Equatable {
+struct WAFInternalErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -14729,7 +14729,7 @@ public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct WAFInvalidOperationExceptionBody: Swift.Equatable {
+struct WAFInvalidOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -14812,7 +14812,7 @@ public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct WAFInvalidParameterExceptionBody: Swift.Equatable {
+struct WAFInvalidParameterExceptionBody {
     let field: WAFRegionalClientTypes.ParameterExceptionField?
     let parameter: Swift.String?
     let reason: WAFRegionalClientTypes.ParameterExceptionReason?
@@ -14891,7 +14891,7 @@ public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, A
     }
 }
 
-struct WAFInvalidPermissionPolicyExceptionBody: Swift.Equatable {
+struct WAFInvalidPermissionPolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -14946,7 +14946,7 @@ public struct WAFInvalidRegexPatternException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct WAFInvalidRegexPatternExceptionBody: Swift.Equatable {
+struct WAFInvalidRegexPatternExceptionBody {
     let message: Swift.String?
 }
 
@@ -15001,7 +15001,7 @@ public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct WAFLimitsExceededExceptionBody: Swift.Equatable {
+struct WAFLimitsExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -15064,7 +15064,7 @@ public struct WAFNonEmptyEntityException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct WAFNonEmptyEntityExceptionBody: Swift.Equatable {
+struct WAFNonEmptyEntityExceptionBody {
     let message: Swift.String?
 }
 
@@ -15127,7 +15127,7 @@ public struct WAFNonexistentContainerException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct WAFNonexistentContainerExceptionBody: Swift.Equatable {
+struct WAFNonexistentContainerExceptionBody {
     let message: Swift.String?
 }
 
@@ -15182,7 +15182,7 @@ public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct WAFNonexistentItemExceptionBody: Swift.Equatable {
+struct WAFNonexistentItemExceptionBody {
     let message: Swift.String?
 }
 
@@ -15241,7 +15241,7 @@ public struct WAFReferencedItemException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct WAFReferencedItemExceptionBody: Swift.Equatable {
+struct WAFReferencedItemExceptionBody {
     let message: Swift.String?
 }
 
@@ -15298,7 +15298,7 @@ public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct WAFServiceLinkedRoleErrorExceptionBody: Swift.Equatable {
+struct WAFServiceLinkedRoleErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -15353,7 +15353,7 @@ public struct WAFStaleDataException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct WAFStaleDataExceptionBody: Swift.Equatable {
+struct WAFStaleDataExceptionBody {
     let message: Swift.String?
 }
 
@@ -15408,7 +15408,7 @@ public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct WAFSubscriptionNotFoundExceptionBody: Swift.Equatable {
+struct WAFSubscriptionNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -15463,7 +15463,7 @@ public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct WAFTagOperationExceptionBody: Swift.Equatable {
+struct WAFTagOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -15518,7 +15518,7 @@ public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError,
     }
 }
 
-struct WAFTagOperationInternalErrorExceptionBody: Swift.Equatable {
+struct WAFTagOperationInternalErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -15573,7 +15573,7 @@ public struct WAFUnavailableEntityException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct WAFUnavailableEntityExceptionBody: Swift.Equatable {
+struct WAFUnavailableEntityExceptionBody {
     let message: Swift.String?
 }
 
@@ -15610,7 +15610,7 @@ extension WAFRegionalClientTypes.WafAction: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. For the action that is associated with a rule in a WebACL, specifies the action that you want AWS WAF to perform when a web request matches all of the conditions in a rule. For the default action in a WebACL, specifies the action that you want AWS WAF to take when a web request doesn't match all of the conditions in any of the rules in a WebACL.
-    public struct WafAction: Swift.Equatable {
+    public struct WafAction {
         /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:
         ///
         /// * ALLOW: AWS WAF allows requests
@@ -15687,7 +15687,7 @@ extension WAFRegionalClientTypes.WafOverrideAction: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The action to take if any rule within the RuleGroup matches a request.
-    public struct WafOverrideAction: Swift.Equatable {
+    public struct WafOverrideAction {
         /// COUNT overrides the action specified by the individual rule within a RuleGroup . If set to NONE, the rule's action will take place.
         /// This member is required.
         public var type: WAFRegionalClientTypes.WafOverrideActionType?
@@ -15832,7 +15832,7 @@ extension WAFRegionalClientTypes.WebACL: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Contains the Rules that identify the requests that you want to allow, block, or count. In a WebACL, you also specify a default action (ALLOW or BLOCK), and the action for each Rule that you add to a WebACL, for example, block requests from specified IP addresses or block requests from specified referrers. You also associate the WebACL with a CloudFront distribution to identify the requests that you want AWS WAF to filter. If you add more than one Rule to a WebACL, a request needs to match only one of the specifications to be allowed, blocked, or counted. For more information, see [UpdateWebACL].
-    public struct WebACL: Swift.Equatable {
+    public struct WebACL {
         /// The action to perform if none of the Rules contained in the WebACL match. The action is specified by the [WafAction] object.
         /// This member is required.
         public var defaultAction: WAFRegionalClientTypes.WafAction?
@@ -15896,7 +15896,7 @@ extension WAFRegionalClientTypes.WebACLSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Contains the identifier and the name or description of the [WebACL].
-    public struct WebACLSummary: Swift.Equatable {
+    public struct WebACLSummary {
         /// A friendly name or description of the [WebACL]. You can't change the name of a WebACL after you create it.
         /// This member is required.
         public var name: Swift.String?
@@ -15943,7 +15943,7 @@ extension WAFRegionalClientTypes.WebACLUpdate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies whether to insert a Rule into or delete a Rule from a WebACL.
-    public struct WebACLUpdate: Swift.Equatable {
+    public struct WebACLUpdate {
         /// Specifies whether to insert a Rule into or delete a Rule from a WebACL.
         /// This member is required.
         public var action: WAFRegionalClientTypes.ChangeAction?
@@ -16008,7 +16008,7 @@ extension WAFRegionalClientTypes.XssMatchSet: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. A complex type that contains XssMatchTuple objects, which specify the parts of web requests that you want AWS WAF to inspect for cross-site scripting attacks and, if you want AWS WAF to inspect a header, the name of the header. If a XssMatchSet contains more than one XssMatchTuple object, a request needs to include cross-site scripting attacks in only one of the specified parts of the request to be considered a match.
-    public struct XssMatchSet: Swift.Equatable {
+    public struct XssMatchSet {
         /// The name, if any, of the XssMatchSet.
         public var name: Swift.String?
         /// A unique identifier for an XssMatchSet. You use XssMatchSetId to get information about an XssMatchSet (see [GetXssMatchSet]), update an XssMatchSet (see [UpdateXssMatchSet]), insert an XssMatchSet into a Rule or delete one from a Rule (see [UpdateRule]), and delete an XssMatchSet from AWS WAF (see [DeleteXssMatchSet]). XssMatchSetId is returned by [CreateXssMatchSet] and by [ListXssMatchSets].
@@ -16059,7 +16059,7 @@ extension WAFRegionalClientTypes.XssMatchSetSummary: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. The Id and Name of an XssMatchSet.
-    public struct XssMatchSetSummary: Swift.Equatable {
+    public struct XssMatchSetSummary {
         /// The name of the XssMatchSet, if any, specified by Id.
         /// This member is required.
         public var name: Swift.String?
@@ -16106,7 +16106,7 @@ extension WAFRegionalClientTypes.XssMatchSetUpdate: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies the part of a web request that you want to inspect for cross-site scripting attacks and indicates whether you want to add the specification to an [XssMatchSet] or delete it from an XssMatchSet.
-    public struct XssMatchSetUpdate: Swift.Equatable {
+    public struct XssMatchSetUpdate {
         /// Specify INSERT to add an [XssMatchSetUpdate] to an [XssMatchSet]. Use DELETE to remove an XssMatchSetUpdate from an XssMatchSet.
         /// This member is required.
         public var action: WAFRegionalClientTypes.ChangeAction?
@@ -16153,7 +16153,7 @@ extension WAFRegionalClientTypes.XssMatchTuple: Swift.Codable {
 
 extension WAFRegionalClientTypes {
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Specifies the part of a web request that you want AWS WAF to inspect for cross-site scripting attacks and, if you want AWS WAF to inspect a header, the name of the header.
-    public struct XssMatchTuple: Swift.Equatable {
+    public struct XssMatchTuple {
         /// Specifies where in a web request to look for cross-site scripting attacks.
         /// This member is required.
         public var fieldToMatch: WAFRegionalClientTypes.FieldToMatch?

@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -151,7 +151,7 @@ extension IoTFleetWiseClientTypes.Actuator: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// A signal that represents a vehicle device such as the engine, heater, and door locks. Data from an actuator reports the state of a certain vehicle device. Updating actuator data can change the state of a device. For example, you can turn on or off the heater by updating its actuator data.
-    public struct Actuator: Swift.Equatable {
+    public struct Actuator {
         /// A list of possible values an actuator can take.
         public var allowedValues: [Swift.String]?
         /// A specified value for the actuator.
@@ -228,7 +228,7 @@ extension AssociateVehicleFleetInput {
     }
 }
 
-public struct AssociateVehicleFleetInput: Swift.Equatable {
+public struct AssociateVehicleFleetInput {
     /// The ID of a fleet.
     /// This member is required.
     public var fleetId: Swift.String?
@@ -246,7 +246,7 @@ public struct AssociateVehicleFleetInput: Swift.Equatable {
     }
 }
 
-struct AssociateVehicleFleetInputBody: Swift.Equatable {
+struct AssociateVehicleFleetInputBody {
     let fleetId: Swift.String?
 }
 
@@ -267,7 +267,7 @@ extension AssociateVehicleFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateVehicleFleetOutput: Swift.Equatable {
+public struct AssociateVehicleFleetOutput {
 
     public init() { }
 }
@@ -383,7 +383,7 @@ extension IoTFleetWiseClientTypes.Attribute: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// A signal that represents static information about the vehicle, such as engine type or manufacturing date.
-    public struct Attribute: Swift.Equatable {
+    public struct Attribute {
         /// A list of possible values an attribute can be assigned.
         public var allowedValues: [Swift.String]?
         /// A specified value for the attribute.
@@ -463,7 +463,7 @@ extension BatchCreateVehicleInput {
     }
 }
 
-public struct BatchCreateVehicleInput: Swift.Equatable {
+public struct BatchCreateVehicleInput {
     /// A list of information about each vehicle to create. For more information, see the API data type.
     /// This member is required.
     public var vehicles: [IoTFleetWiseClientTypes.CreateVehicleRequestItem]?
@@ -476,7 +476,7 @@ public struct BatchCreateVehicleInput: Swift.Equatable {
     }
 }
 
-struct BatchCreateVehicleInputBody: Swift.Equatable {
+struct BatchCreateVehicleInputBody {
     let vehicles: [IoTFleetWiseClientTypes.CreateVehicleRequestItem]?
 }
 
@@ -515,7 +515,7 @@ extension BatchCreateVehicleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchCreateVehicleOutput: Swift.Equatable {
+public struct BatchCreateVehicleOutput {
     /// A list of information about creation errors, or an empty list if there aren't any errors.
     public var errors: [IoTFleetWiseClientTypes.CreateVehicleError]?
     /// A list of information about a batch of created vehicles. For more information, see the API data type.
@@ -531,7 +531,7 @@ public struct BatchCreateVehicleOutput: Swift.Equatable {
     }
 }
 
-struct BatchCreateVehicleOutputBody: Swift.Equatable {
+struct BatchCreateVehicleOutputBody {
     let vehicles: [IoTFleetWiseClientTypes.CreateVehicleResponseItem]?
     let errors: [IoTFleetWiseClientTypes.CreateVehicleError]?
 }
@@ -609,7 +609,7 @@ extension BatchUpdateVehicleInput {
     }
 }
 
-public struct BatchUpdateVehicleInput: Swift.Equatable {
+public struct BatchUpdateVehicleInput {
     /// A list of information about the vehicles to update. For more information, see the API data type.
     /// This member is required.
     public var vehicles: [IoTFleetWiseClientTypes.UpdateVehicleRequestItem]?
@@ -622,7 +622,7 @@ public struct BatchUpdateVehicleInput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateVehicleInputBody: Swift.Equatable {
+struct BatchUpdateVehicleInputBody {
     let vehicles: [IoTFleetWiseClientTypes.UpdateVehicleRequestItem]?
 }
 
@@ -661,7 +661,7 @@ extension BatchUpdateVehicleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchUpdateVehicleOutput: Swift.Equatable {
+public struct BatchUpdateVehicleOutput {
     /// A list of information about errors returned while updating a batch of vehicles, or, if there aren't any errors, an empty list.
     public var errors: [IoTFleetWiseClientTypes.UpdateVehicleError]?
     /// A list of information about the batch of updated vehicles. This list contains only unique IDs for the vehicles that were updated.
@@ -677,7 +677,7 @@ public struct BatchUpdateVehicleOutput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateVehicleOutputBody: Swift.Equatable {
+struct BatchUpdateVehicleOutputBody {
     let vehicles: [IoTFleetWiseClientTypes.UpdateVehicleResponseItem]?
     let errors: [IoTFleetWiseClientTypes.UpdateVehicleError]?
 }
@@ -770,7 +770,7 @@ extension IoTFleetWiseClientTypes.Branch: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// A group of signals that are defined in a hierarchical structure.
-    public struct Branch: Swift.Equatable {
+    public struct Branch {
         /// A comment in addition to the description.
         public var comment: Swift.String?
         /// The deprecation message for the node or the branch that was moved or deleted.
@@ -898,7 +898,7 @@ extension IoTFleetWiseClientTypes.CampaignSummary: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about a campaign. You can use the API operation to return this information about multiple created campaigns.
-    public struct CampaignSummary: Swift.Equatable {
+    public struct CampaignSummary {
         /// The Amazon Resource Name (ARN) of a campaign.
         public var arn: Swift.String?
         /// The time the campaign was created.
@@ -1007,7 +1007,7 @@ extension IoTFleetWiseClientTypes.CanDbcDefinition: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Configurations used to create a decoder manifest.
-    public struct CanDbcDefinition: Swift.Equatable {
+    public struct CanDbcDefinition {
         /// A list of DBC files. You can upload only one DBC file for each network interface and specify up to five (inclusive) files in the list. The DBC file can be a maximum size of 200 MB.
         /// This member is required.
         public var canDbcFiles: [ClientRuntime.Data]?
@@ -1064,7 +1064,7 @@ extension IoTFleetWiseClientTypes.CanInterface: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// A single controller area network (CAN) device interface.
-    public struct CanInterface: Swift.Equatable {
+    public struct CanInterface {
         /// The unique name of the interface.
         /// This member is required.
         public var name: Swift.String?
@@ -1150,7 +1150,7 @@ extension IoTFleetWiseClientTypes.CanSignal: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about a single controller area network (CAN) signal and the messages it receives and transmits.
-    public struct CanSignal: Swift.Equatable {
+    public struct CanSignal {
         /// A multiplier used to decode the CAN message.
         /// This member is required.
         public var factor: Swift.Double?
@@ -1226,7 +1226,7 @@ extension IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// The log delivery option to send data to Amazon CloudWatch Logs.
-    public struct CloudWatchLogDeliveryOptions: Swift.Equatable {
+    public struct CloudWatchLogDeliveryOptions {
         /// The Amazon CloudWatch Logs group the operation sends data to.
         public var logGroupName: Swift.String?
         /// The type of log to send data to Amazon CloudWatch Logs.
@@ -1282,7 +1282,7 @@ extension IoTFleetWiseClientTypes.CollectionScheme: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Specifies what data to collect and how often or when to collect it.
-    public enum CollectionScheme: Swift.Equatable {
+    public enum CollectionScheme {
         /// Information about a collection scheme that uses a time period to decide how often to collect data.
         case timebasedcollectionscheme(IoTFleetWiseClientTypes.TimeBasedCollectionScheme)
         /// Information about a collection scheme that uses a simple logical expression to recognize what data to collect.
@@ -1363,7 +1363,7 @@ extension IoTFleetWiseClientTypes.ConditionBasedCollectionScheme: Swift.Codable 
 
 extension IoTFleetWiseClientTypes {
     /// Information about a collection scheme that uses a simple logical expression to recognize what data to collect.
-    public struct ConditionBasedCollectionScheme: Swift.Equatable {
+    public struct ConditionBasedCollectionScheme {
         /// Specifies the version of the conditional expression language.
         public var conditionLanguageVersion: Swift.Int?
         /// The logical expression used to recognize what data to collect. For example, $variable.`Vehicle.OutsideAirTemperature` >= 105.0.
@@ -1444,7 +1444,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resource: Swift.String?
     let resourceType: Swift.String?
@@ -1556,7 +1556,7 @@ extension CreateCampaignInput {
     }
 }
 
-public struct CreateCampaignInput: Swift.Equatable {
+public struct CreateCampaignInput {
     /// The data collection scheme associated with the campaign. You can specify a scheme that collects data based on time or an event.
     /// This member is required.
     public var collectionScheme: IoTFleetWiseClientTypes.CollectionScheme?
@@ -1632,7 +1632,7 @@ public struct CreateCampaignInput: Swift.Equatable {
     }
 }
 
-struct CreateCampaignInputBody: Swift.Equatable {
+struct CreateCampaignInputBody {
     let description: Swift.String?
     let signalCatalogArn: Swift.String?
     let targetArn: Swift.String?
@@ -1754,7 +1754,7 @@ extension CreateCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCampaignOutput: Swift.Equatable {
+public struct CreateCampaignOutput {
     /// The ARN of the created campaign.
     public var arn: Swift.String?
     /// The name of the created campaign.
@@ -1770,7 +1770,7 @@ public struct CreateCampaignOutput: Swift.Equatable {
     }
 }
 
-struct CreateCampaignOutputBody: Swift.Equatable {
+struct CreateCampaignOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -1853,7 +1853,7 @@ extension CreateDecoderManifestInput {
     }
 }
 
-public struct CreateDecoderManifestInput: Swift.Equatable {
+public struct CreateDecoderManifestInput {
     /// A brief description of the decoder manifest.
     public var description: Swift.String?
     /// The Amazon Resource Name (ARN) of the vehicle model (model manifest).
@@ -1887,7 +1887,7 @@ public struct CreateDecoderManifestInput: Swift.Equatable {
     }
 }
 
-struct CreateDecoderManifestInputBody: Swift.Equatable {
+struct CreateDecoderManifestInputBody {
     let description: Swift.String?
     let modelManifestArn: Swift.String?
     let signalDecoders: [IoTFleetWiseClientTypes.SignalDecoder]?
@@ -1960,7 +1960,7 @@ extension CreateDecoderManifestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDecoderManifestOutput: Swift.Equatable {
+public struct CreateDecoderManifestOutput {
     /// The ARN of the created decoder manifest.
     /// This member is required.
     public var arn: Swift.String?
@@ -1978,7 +1978,7 @@ public struct CreateDecoderManifestOutput: Swift.Equatable {
     }
 }
 
-struct CreateDecoderManifestOutputBody: Swift.Equatable {
+struct CreateDecoderManifestOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -2048,7 +2048,7 @@ extension CreateFleetInput {
     }
 }
 
-public struct CreateFleetInput: Swift.Equatable {
+public struct CreateFleetInput {
     /// A brief description of the fleet to create.
     public var description: Swift.String?
     /// The unique ID of the fleet to create.
@@ -2074,7 +2074,7 @@ public struct CreateFleetInput: Swift.Equatable {
     }
 }
 
-struct CreateFleetInputBody: Swift.Equatable {
+struct CreateFleetInputBody {
     let description: Swift.String?
     let signalCatalogArn: Swift.String?
     let tags: [IoTFleetWiseClientTypes.Tag]?
@@ -2121,7 +2121,7 @@ extension CreateFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFleetOutput: Swift.Equatable {
+public struct CreateFleetOutput {
     /// The ARN of the created fleet.
     /// This member is required.
     public var arn: Swift.String?
@@ -2139,7 +2139,7 @@ public struct CreateFleetOutput: Swift.Equatable {
     }
 }
 
-struct CreateFleetOutputBody: Swift.Equatable {
+struct CreateFleetOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
 }
@@ -2216,7 +2216,7 @@ extension CreateModelManifestInput {
     }
 }
 
-public struct CreateModelManifestInput: Swift.Equatable {
+public struct CreateModelManifestInput {
     /// A brief description of the vehicle model.
     public var description: Swift.String?
     /// The name of the vehicle model to create.
@@ -2247,7 +2247,7 @@ public struct CreateModelManifestInput: Swift.Equatable {
     }
 }
 
-struct CreateModelManifestInputBody: Swift.Equatable {
+struct CreateModelManifestInputBody {
     let description: Swift.String?
     let nodes: [Swift.String]?
     let signalCatalogArn: Swift.String?
@@ -2307,7 +2307,7 @@ extension CreateModelManifestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateModelManifestOutput: Swift.Equatable {
+public struct CreateModelManifestOutput {
     /// The ARN of the created vehicle model.
     /// This member is required.
     public var arn: Swift.String?
@@ -2325,7 +2325,7 @@ public struct CreateModelManifestOutput: Swift.Equatable {
     }
 }
 
-struct CreateModelManifestOutputBody: Swift.Equatable {
+struct CreateModelManifestOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -2398,7 +2398,7 @@ extension CreateSignalCatalogInput {
     }
 }
 
-public struct CreateSignalCatalogInput: Swift.Equatable {
+public struct CreateSignalCatalogInput {
     /// A brief description of the signal catalog.
     public var description: Swift.String?
     /// The name of the signal catalog to create.
@@ -2423,7 +2423,7 @@ public struct CreateSignalCatalogInput: Swift.Equatable {
     }
 }
 
-struct CreateSignalCatalogInputBody: Swift.Equatable {
+struct CreateSignalCatalogInputBody {
     let description: Swift.String?
     let nodes: [IoTFleetWiseClientTypes.Node]?
     let tags: [IoTFleetWiseClientTypes.Tag]?
@@ -2479,7 +2479,7 @@ extension CreateSignalCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSignalCatalogOutput: Swift.Equatable {
+public struct CreateSignalCatalogOutput {
     /// The ARN of the created signal catalog.
     /// This member is required.
     public var arn: Swift.String?
@@ -2497,7 +2497,7 @@ public struct CreateSignalCatalogOutput: Swift.Equatable {
     }
 }
 
-struct CreateSignalCatalogOutputBody: Swift.Equatable {
+struct CreateSignalCatalogOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -2569,7 +2569,7 @@ extension IoTFleetWiseClientTypes.CreateVehicleError: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// An HTTP error resulting from creating a vehicle.
-    public struct CreateVehicleError: Swift.Equatable {
+    public struct CreateVehicleError {
         /// An HTTP error code.
         public var code: Swift.String?
         /// A description of the HTTP error.
@@ -2633,7 +2633,7 @@ extension CreateVehicleInput {
     }
 }
 
-public struct CreateVehicleInput: Swift.Equatable {
+public struct CreateVehicleInput {
     /// An option to create a new Amazon Web Services IoT thing when creating a vehicle, or to validate an existing Amazon Web Services IoT thing as a vehicle. Default:
     public var associationBehavior: IoTFleetWiseClientTypes.VehicleAssociationBehavior?
     /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2" A campaign must include the keys (attribute names) in dataExtraDimensions for them to display in Amazon Timestream.
@@ -2668,7 +2668,7 @@ public struct CreateVehicleInput: Swift.Equatable {
     }
 }
 
-struct CreateVehicleInputBody: Swift.Equatable {
+struct CreateVehicleInputBody {
     let modelManifestArn: Swift.String?
     let decoderManifestArn: Swift.String?
     let attributes: [Swift.String:Swift.String]?
@@ -2734,7 +2734,7 @@ extension CreateVehicleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVehicleOutput: Swift.Equatable {
+public struct CreateVehicleOutput {
     /// The ARN of the created vehicle.
     public var arn: Swift.String?
     /// The ARN of a created or validated Amazon Web Services IoT thing.
@@ -2754,7 +2754,7 @@ public struct CreateVehicleOutput: Swift.Equatable {
     }
 }
 
-struct CreateVehicleOutputBody: Swift.Equatable {
+struct CreateVehicleOutputBody {
     let vehicleName: Swift.String?
     let arn: Swift.String?
     let thingArn: Swift.String?
@@ -2872,7 +2872,7 @@ extension IoTFleetWiseClientTypes.CreateVehicleRequestItem: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about the vehicle to create.
-    public struct CreateVehicleRequestItem: Swift.Equatable {
+    public struct CreateVehicleRequestItem {
         /// An option to create a new Amazon Web Services IoT thing when creating a vehicle, or to validate an existing thing as a vehicle.
         public var associationBehavior: IoTFleetWiseClientTypes.VehicleAssociationBehavior?
         /// Static information about a vehicle in a key-value pair. For example: "engine Type" : "v6"
@@ -2942,7 +2942,7 @@ extension IoTFleetWiseClientTypes.CreateVehicleResponseItem: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about a created vehicle.
-    public struct CreateVehicleResponseItem: Swift.Equatable {
+    public struct CreateVehicleResponseItem {
         /// The ARN of the created vehicle.
         public var arn: Swift.String?
         /// The ARN of a created or validated Amazon Web Services IoT thing.
@@ -3021,7 +3021,7 @@ extension IoTFleetWiseClientTypes.CustomProperty: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Represents a member of the complex data structure. The data type of the property can be either primitive or another struct.
-    public struct CustomProperty: Swift.Equatable {
+    public struct CustomProperty {
         /// A comment in addition to the description.
         public var comment: Swift.String?
         /// Indicates whether the property is binary data.
@@ -3100,7 +3100,7 @@ extension IoTFleetWiseClientTypes.CustomStruct: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// The custom structure represents a complex or higher-order data structure.
-    public struct CustomStruct: Swift.Equatable {
+    public struct CustomStruct {
         /// A comment in addition to the description.
         public var comment: Swift.String?
         /// The deprecation message for the node or the branch that was moved or deleted.
@@ -3164,7 +3164,7 @@ extension IoTFleetWiseClientTypes.DataDestinationConfig: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// The destination where the Amazon Web Services IoT FleetWise campaign sends data. You can send data to be stored in Amazon S3 or Amazon Timestream.
-    public enum DataDestinationConfig: Swift.Equatable {
+    public enum DataDestinationConfig {
         /// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign sends data.
         case s3config(IoTFleetWiseClientTypes.S3Config)
         /// The Amazon Timestream table where the campaign sends data.
@@ -3269,7 +3269,7 @@ extension IoTFleetWiseClientTypes.DecoderManifestSummary: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about a created decoder manifest. You can use the API operation to return this information about multiple decoder manifests.
-    public struct DecoderManifestSummary: Swift.Equatable {
+    public struct DecoderManifestSummary {
         /// The ARN of a vehicle model (model manifest) associated with the decoder manifest.
         public var arn: Swift.String?
         /// The time the decoder manifest was created in seconds since epoch (January 1, 1970 at midnight UTC time).
@@ -3364,7 +3364,7 @@ public struct DecoderManifestValidationException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct DecoderManifestValidationExceptionBody: Swift.Equatable {
+struct DecoderManifestValidationExceptionBody {
     let invalidSignals: [IoTFleetWiseClientTypes.InvalidSignalDecoder]?
     let invalidNetworkInterfaces: [IoTFleetWiseClientTypes.InvalidNetworkInterface]?
     let message: Swift.String?
@@ -3421,7 +3421,7 @@ extension DeleteCampaignInput {
     }
 }
 
-public struct DeleteCampaignInput: Swift.Equatable {
+public struct DeleteCampaignInput {
     /// The name of the campaign to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3434,7 +3434,7 @@ public struct DeleteCampaignInput: Swift.Equatable {
     }
 }
 
-struct DeleteCampaignInputBody: Swift.Equatable {
+struct DeleteCampaignInputBody {
 }
 
 extension DeleteCampaignInputBody: Swift.Decodable {
@@ -3457,7 +3457,7 @@ extension DeleteCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCampaignOutput: Swift.Equatable {
+public struct DeleteCampaignOutput {
     /// The Amazon Resource Name (ARN) of the deleted campaign. The ARN isn’t returned if a campaign doesn’t exist.
     public var arn: Swift.String?
     /// The name of the deleted campaign.
@@ -3473,7 +3473,7 @@ public struct DeleteCampaignOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCampaignOutputBody: Swift.Equatable {
+struct DeleteCampaignOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -3524,7 +3524,7 @@ extension DeleteDecoderManifestInput {
     }
 }
 
-public struct DeleteDecoderManifestInput: Swift.Equatable {
+public struct DeleteDecoderManifestInput {
     /// The name of the decoder manifest to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3537,7 +3537,7 @@ public struct DeleteDecoderManifestInput: Swift.Equatable {
     }
 }
 
-struct DeleteDecoderManifestInputBody: Swift.Equatable {
+struct DeleteDecoderManifestInputBody {
 }
 
 extension DeleteDecoderManifestInputBody: Swift.Decodable {
@@ -3560,7 +3560,7 @@ extension DeleteDecoderManifestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDecoderManifestOutput: Swift.Equatable {
+public struct DeleteDecoderManifestOutput {
     /// The Amazon Resource Name (ARN) of the deleted decoder manifest.
     /// This member is required.
     public var arn: Swift.String?
@@ -3578,7 +3578,7 @@ public struct DeleteDecoderManifestOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDecoderManifestOutputBody: Swift.Equatable {
+struct DeleteDecoderManifestOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -3630,7 +3630,7 @@ extension DeleteFleetInput {
     }
 }
 
-public struct DeleteFleetInput: Swift.Equatable {
+public struct DeleteFleetInput {
     /// The ID of the fleet to delete.
     /// This member is required.
     public var fleetId: Swift.String?
@@ -3643,7 +3643,7 @@ public struct DeleteFleetInput: Swift.Equatable {
     }
 }
 
-struct DeleteFleetInputBody: Swift.Equatable {
+struct DeleteFleetInputBody {
 }
 
 extension DeleteFleetInputBody: Swift.Decodable {
@@ -3666,7 +3666,7 @@ extension DeleteFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFleetOutput: Swift.Equatable {
+public struct DeleteFleetOutput {
     /// The Amazon Resource Name (ARN) of the deleted fleet.
     public var arn: Swift.String?
     /// The ID of the deleted fleet.
@@ -3682,7 +3682,7 @@ public struct DeleteFleetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFleetOutputBody: Swift.Equatable {
+struct DeleteFleetOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
 }
@@ -3733,7 +3733,7 @@ extension DeleteModelManifestInput {
     }
 }
 
-public struct DeleteModelManifestInput: Swift.Equatable {
+public struct DeleteModelManifestInput {
     /// The name of the model manifest to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3746,7 +3746,7 @@ public struct DeleteModelManifestInput: Swift.Equatable {
     }
 }
 
-struct DeleteModelManifestInputBody: Swift.Equatable {
+struct DeleteModelManifestInputBody {
 }
 
 extension DeleteModelManifestInputBody: Swift.Decodable {
@@ -3769,7 +3769,7 @@ extension DeleteModelManifestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteModelManifestOutput: Swift.Equatable {
+public struct DeleteModelManifestOutput {
     /// The Amazon Resource Name (ARN) of the deleted model manifest.
     /// This member is required.
     public var arn: Swift.String?
@@ -3787,7 +3787,7 @@ public struct DeleteModelManifestOutput: Swift.Equatable {
     }
 }
 
-struct DeleteModelManifestOutputBody: Swift.Equatable {
+struct DeleteModelManifestOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -3839,7 +3839,7 @@ extension DeleteSignalCatalogInput {
     }
 }
 
-public struct DeleteSignalCatalogInput: Swift.Equatable {
+public struct DeleteSignalCatalogInput {
     /// The name of the signal catalog to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3852,7 +3852,7 @@ public struct DeleteSignalCatalogInput: Swift.Equatable {
     }
 }
 
-struct DeleteSignalCatalogInputBody: Swift.Equatable {
+struct DeleteSignalCatalogInputBody {
 }
 
 extension DeleteSignalCatalogInputBody: Swift.Decodable {
@@ -3875,7 +3875,7 @@ extension DeleteSignalCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSignalCatalogOutput: Swift.Equatable {
+public struct DeleteSignalCatalogOutput {
     /// The Amazon Resource Name (ARN) of the deleted signal catalog.
     /// This member is required.
     public var arn: Swift.String?
@@ -3893,7 +3893,7 @@ public struct DeleteSignalCatalogOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSignalCatalogOutputBody: Swift.Equatable {
+struct DeleteSignalCatalogOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -3945,7 +3945,7 @@ extension DeleteVehicleInput {
     }
 }
 
-public struct DeleteVehicleInput: Swift.Equatable {
+public struct DeleteVehicleInput {
     /// The ID of the vehicle to delete.
     /// This member is required.
     public var vehicleName: Swift.String?
@@ -3958,7 +3958,7 @@ public struct DeleteVehicleInput: Swift.Equatable {
     }
 }
 
-struct DeleteVehicleInputBody: Swift.Equatable {
+struct DeleteVehicleInputBody {
 }
 
 extension DeleteVehicleInputBody: Swift.Decodable {
@@ -3981,7 +3981,7 @@ extension DeleteVehicleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVehicleOutput: Swift.Equatable {
+public struct DeleteVehicleOutput {
     /// The Amazon Resource Name (ARN) of the deleted vehicle.
     /// This member is required.
     public var arn: Swift.String?
@@ -3999,7 +3999,7 @@ public struct DeleteVehicleOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVehicleOutputBody: Swift.Equatable {
+struct DeleteVehicleOutputBody {
     let vehicleName: Swift.String?
     let arn: Swift.String?
 }
@@ -4087,7 +4087,7 @@ extension DisassociateVehicleFleetInput {
     }
 }
 
-public struct DisassociateVehicleFleetInput: Swift.Equatable {
+public struct DisassociateVehicleFleetInput {
     /// The unique ID of a fleet.
     /// This member is required.
     public var fleetId: Swift.String?
@@ -4105,7 +4105,7 @@ public struct DisassociateVehicleFleetInput: Swift.Equatable {
     }
 }
 
-struct DisassociateVehicleFleetInputBody: Swift.Equatable {
+struct DisassociateVehicleFleetInputBody {
     let fleetId: Swift.String?
 }
 
@@ -4126,7 +4126,7 @@ extension DisassociateVehicleFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateVehicleFleetOutput: Swift.Equatable {
+public struct DisassociateVehicleFleetOutput {
 
     public init() { }
 }
@@ -4266,7 +4266,7 @@ extension IoTFleetWiseClientTypes.FleetSummary: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about a fleet. You can use the API operation to return this information about multiple fleets.
-    public struct FleetSummary: Swift.Equatable {
+    public struct FleetSummary {
         /// The Amazon Resource Name (ARN) of the fleet.
         /// This member is required.
         public var arn: Swift.String?
@@ -4333,7 +4333,7 @@ extension IoTFleetWiseClientTypes.FormattedVss: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// [Vehicle Signal Specification (VSS)](https://www.w3.org/auto/wg/wiki/Vehicle_Signal_Specification_(VSS)/Vehicle_Data_Spec) is a precise language used to describe and model signals in vehicle networks. The JSON file collects signal specificiations in a VSS format.
-    public enum FormattedVss: Swift.Equatable {
+    public enum FormattedVss {
         /// Provides the VSS in JSON format.
         case vssjson(Swift.String)
         case sdkUnknown(Swift.String)
@@ -4356,7 +4356,7 @@ extension GetCampaignInput {
     }
 }
 
-public struct GetCampaignInput: Swift.Equatable {
+public struct GetCampaignInput {
     /// The name of the campaign to retrieve information about.
     /// This member is required.
     public var name: Swift.String?
@@ -4369,7 +4369,7 @@ public struct GetCampaignInput: Swift.Equatable {
     }
 }
 
-struct GetCampaignInputBody: Swift.Equatable {
+struct GetCampaignInputBody {
 }
 
 extension GetCampaignInputBody: Swift.Decodable {
@@ -4426,7 +4426,7 @@ extension GetCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCampaignOutput: Swift.Equatable {
+public struct GetCampaignOutput {
     /// The Amazon Resource Name (ARN) of the campaign.
     public var arn: Swift.String?
     /// Information about the data collection scheme associated with the campaign.
@@ -4510,7 +4510,7 @@ public struct GetCampaignOutput: Swift.Equatable {
     }
 }
 
-struct GetCampaignOutputBody: Swift.Equatable {
+struct GetCampaignOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let description: Swift.String?
@@ -4656,7 +4656,7 @@ extension GetDecoderManifestInput {
     }
 }
 
-public struct GetDecoderManifestInput: Swift.Equatable {
+public struct GetDecoderManifestInput {
     /// The name of the decoder manifest to retrieve information about.
     /// This member is required.
     public var name: Swift.String?
@@ -4669,7 +4669,7 @@ public struct GetDecoderManifestInput: Swift.Equatable {
     }
 }
 
-struct GetDecoderManifestInputBody: Swift.Equatable {
+struct GetDecoderManifestInputBody {
 }
 
 extension GetDecoderManifestInputBody: Swift.Decodable {
@@ -4704,7 +4704,7 @@ extension GetDecoderManifestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDecoderManifestOutput: Swift.Equatable {
+public struct GetDecoderManifestOutput {
     /// The Amazon Resource Name (ARN) of the decoder manifest.
     /// This member is required.
     public var arn: Swift.String?
@@ -4748,7 +4748,7 @@ public struct GetDecoderManifestOutput: Swift.Equatable {
     }
 }
 
-struct GetDecoderManifestOutputBody: Swift.Equatable {
+struct GetDecoderManifestOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let description: Swift.String?
@@ -4823,12 +4823,12 @@ extension GetEncryptionConfigurationInput {
     }
 }
 
-public struct GetEncryptionConfigurationInput: Swift.Equatable {
+public struct GetEncryptionConfigurationInput {
 
     public init() { }
 }
 
-struct GetEncryptionConfigurationInputBody: Swift.Equatable {
+struct GetEncryptionConfigurationInputBody {
 }
 
 extension GetEncryptionConfigurationInputBody: Swift.Decodable {
@@ -4859,7 +4859,7 @@ extension GetEncryptionConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEncryptionConfigurationOutput: Swift.Equatable {
+public struct GetEncryptionConfigurationOutput {
     /// The time when encryption was configured in seconds since epoch (January 1, 1970 at midnight UTC time).
     public var creationTime: ClientRuntime.Date?
     /// The encryption status.
@@ -4893,7 +4893,7 @@ public struct GetEncryptionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetEncryptionConfigurationOutputBody: Swift.Equatable {
+struct GetEncryptionConfigurationOutputBody {
     let kmsKeyId: Swift.String?
     let encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus?
     let encryptionType: IoTFleetWiseClientTypes.EncryptionType?
@@ -4961,7 +4961,7 @@ extension GetFleetInput {
     }
 }
 
-public struct GetFleetInput: Swift.Equatable {
+public struct GetFleetInput {
     /// The ID of the fleet to retrieve information about.
     /// This member is required.
     public var fleetId: Swift.String?
@@ -4974,7 +4974,7 @@ public struct GetFleetInput: Swift.Equatable {
     }
 }
 
-struct GetFleetInputBody: Swift.Equatable {
+struct GetFleetInputBody {
 }
 
 extension GetFleetInputBody: Swift.Decodable {
@@ -5005,7 +5005,7 @@ extension GetFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFleetOutput: Swift.Equatable {
+public struct GetFleetOutput {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var arn: Swift.String?
@@ -5042,7 +5042,7 @@ public struct GetFleetOutput: Swift.Equatable {
     }
 }
 
-struct GetFleetOutputBody: Swift.Equatable {
+struct GetFleetOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let description: Swift.String?
@@ -5110,12 +5110,12 @@ extension GetLoggingOptionsInput {
     }
 }
 
-public struct GetLoggingOptionsInput: Swift.Equatable {
+public struct GetLoggingOptionsInput {
 
     public init() { }
 }
 
-struct GetLoggingOptionsInputBody: Swift.Equatable {
+struct GetLoggingOptionsInputBody {
 }
 
 extension GetLoggingOptionsInputBody: Swift.Decodable {
@@ -5136,7 +5136,7 @@ extension GetLoggingOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLoggingOptionsOutput: Swift.Equatable {
+public struct GetLoggingOptionsOutput {
     /// Returns information about log delivery to Amazon CloudWatch Logs.
     /// This member is required.
     public var cloudWatchLogDelivery: IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions?
@@ -5149,7 +5149,7 @@ public struct GetLoggingOptionsOutput: Swift.Equatable {
     }
 }
 
-struct GetLoggingOptionsOutputBody: Swift.Equatable {
+struct GetLoggingOptionsOutputBody {
     let cloudWatchLogDelivery: IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions?
 }
 
@@ -5194,7 +5194,7 @@ extension GetModelManifestInput {
     }
 }
 
-public struct GetModelManifestInput: Swift.Equatable {
+public struct GetModelManifestInput {
     /// The name of the vehicle model to retrieve information about.
     /// This member is required.
     public var name: Swift.String?
@@ -5207,7 +5207,7 @@ public struct GetModelManifestInput: Swift.Equatable {
     }
 }
 
-struct GetModelManifestInputBody: Swift.Equatable {
+struct GetModelManifestInputBody {
 }
 
 extension GetModelManifestInputBody: Swift.Decodable {
@@ -5240,7 +5240,7 @@ extension GetModelManifestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetModelManifestOutput: Swift.Equatable {
+public struct GetModelManifestOutput {
     /// The Amazon Resource Name (ARN) of the vehicle model.
     /// This member is required.
     public var arn: Swift.String?
@@ -5280,7 +5280,7 @@ public struct GetModelManifestOutput: Swift.Equatable {
     }
 }
 
-struct GetModelManifestOutputBody: Swift.Equatable {
+struct GetModelManifestOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let description: Swift.String?
@@ -5351,12 +5351,12 @@ extension GetRegisterAccountStatusInput {
     }
 }
 
-public struct GetRegisterAccountStatusInput: Swift.Equatable {
+public struct GetRegisterAccountStatusInput {
 
     public init() { }
 }
 
-struct GetRegisterAccountStatusInputBody: Swift.Equatable {
+struct GetRegisterAccountStatusInputBody {
 }
 
 extension GetRegisterAccountStatusInputBody: Swift.Decodable {
@@ -5387,7 +5387,7 @@ extension GetRegisterAccountStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRegisterAccountStatusOutput: Swift.Equatable {
+public struct GetRegisterAccountStatusOutput {
     /// The status of registering your account and resources. The status can be one of:
     ///
     /// * REGISTRATION_SUCCESS - The Amazon Web Services resource is successfully registered.
@@ -5430,7 +5430,7 @@ public struct GetRegisterAccountStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetRegisterAccountStatusOutputBody: Swift.Equatable {
+struct GetRegisterAccountStatusOutputBody {
     let customerAccountId: Swift.String?
     let accountStatus: IoTFleetWiseClientTypes.RegistrationStatus?
     let timestreamRegistrationResponse: IoTFleetWiseClientTypes.TimestreamRegistrationResponse?
@@ -5498,7 +5498,7 @@ extension GetSignalCatalogInput {
     }
 }
 
-public struct GetSignalCatalogInput: Swift.Equatable {
+public struct GetSignalCatalogInput {
     /// The name of the signal catalog to retrieve information about.
     /// This member is required.
     public var name: Swift.String?
@@ -5511,7 +5511,7 @@ public struct GetSignalCatalogInput: Swift.Equatable {
     }
 }
 
-struct GetSignalCatalogInputBody: Swift.Equatable {
+struct GetSignalCatalogInputBody {
 }
 
 extension GetSignalCatalogInputBody: Swift.Decodable {
@@ -5542,7 +5542,7 @@ extension GetSignalCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSignalCatalogOutput: Swift.Equatable {
+public struct GetSignalCatalogOutput {
     /// The Amazon Resource Name (ARN) of the signal catalog.
     /// This member is required.
     public var arn: Swift.String?
@@ -5578,7 +5578,7 @@ public struct GetSignalCatalogOutput: Swift.Equatable {
     }
 }
 
-struct GetSignalCatalogOutputBody: Swift.Equatable {
+struct GetSignalCatalogOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let description: Swift.String?
@@ -5645,7 +5645,7 @@ extension GetVehicleInput {
     }
 }
 
-public struct GetVehicleInput: Swift.Equatable {
+public struct GetVehicleInput {
     /// The ID of the vehicle to retrieve information about.
     /// This member is required.
     public var vehicleName: Swift.String?
@@ -5658,7 +5658,7 @@ public struct GetVehicleInput: Swift.Equatable {
     }
 }
 
-struct GetVehicleInputBody: Swift.Equatable {
+struct GetVehicleInputBody {
 }
 
 extension GetVehicleInputBody: Swift.Decodable {
@@ -5691,7 +5691,7 @@ extension GetVehicleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetVehicleOutput: Swift.Equatable {
+public struct GetVehicleOutput {
     /// The Amazon Resource Name (ARN) of the vehicle to retrieve information about.
     public var arn: Swift.String?
     /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2"
@@ -5727,7 +5727,7 @@ public struct GetVehicleOutput: Swift.Equatable {
     }
 }
 
-struct GetVehicleOutputBody: Swift.Equatable {
+struct GetVehicleOutputBody {
     let vehicleName: Swift.String?
     let arn: Swift.String?
     let modelManifestArn: Swift.String?
@@ -5815,7 +5815,7 @@ extension GetVehicleStatusInput {
     }
 }
 
-public struct GetVehicleStatusInput: Swift.Equatable {
+public struct GetVehicleStatusInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -5836,7 +5836,7 @@ public struct GetVehicleStatusInput: Swift.Equatable {
     }
 }
 
-struct GetVehicleStatusInputBody: Swift.Equatable {
+struct GetVehicleStatusInputBody {
 }
 
 extension GetVehicleStatusInputBody: Swift.Decodable {
@@ -5859,7 +5859,7 @@ extension GetVehicleStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetVehicleStatusOutput: Swift.Equatable {
+public struct GetVehicleStatusOutput {
     /// Lists information about the state of the vehicle with deployed campaigns.
     public var campaigns: [IoTFleetWiseClientTypes.VehicleStatus]?
     /// The token to retrieve the next set of results, or null if there are no more results.
@@ -5875,7 +5875,7 @@ public struct GetVehicleStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetVehicleStatusOutputBody: Swift.Equatable {
+struct GetVehicleStatusOutputBody {
     let campaigns: [IoTFleetWiseClientTypes.VehicleStatus]?
     let nextToken: Swift.String?
 }
@@ -5953,7 +5953,7 @@ extension IoTFleetWiseClientTypes.IamRegistrationResponse: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about registering an Identity and Access Management (IAM) resource so Amazon Web Services IoT FleetWise edge agent software can transfer your vehicle data to Amazon Timestream.
-    public struct IamRegistrationResponse: Swift.Equatable {
+    public struct IamRegistrationResponse {
         /// A message associated with a registration error.
         public var errorMessage: Swift.String?
         /// The status of registering your IAM resource. The status can be one of REGISTRATION_SUCCESS, REGISTRATION_PENDING, REGISTRATION_FAILURE.
@@ -5998,7 +5998,7 @@ extension IoTFleetWiseClientTypes.IamResources: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// The IAM resource that enables Amazon Web Services IoT FleetWise edge agent software to send data to Amazon Timestream. For more information, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the Identity and Access Management User Guide.
-    public struct IamResources: Swift.Equatable {
+    public struct IamResources {
         /// The Amazon Resource Name (ARN) of the IAM resource that allows Amazon Web Services IoT FleetWise to send data to Amazon Timestream. For example, arn:aws:iam::123456789012:role/SERVICE-ROLE-ARN.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -6036,7 +6036,7 @@ extension ImportDecoderManifestInput {
     }
 }
 
-public struct ImportDecoderManifestInput: Swift.Equatable {
+public struct ImportDecoderManifestInput {
     /// The name of the decoder manifest to import.
     /// This member is required.
     public var name: Swift.String?
@@ -6054,7 +6054,7 @@ public struct ImportDecoderManifestInput: Swift.Equatable {
     }
 }
 
-struct ImportDecoderManifestInputBody: Swift.Equatable {
+struct ImportDecoderManifestInputBody {
     let networkFileDefinitions: [IoTFleetWiseClientTypes.NetworkFileDefinition]?
 }
 
@@ -6093,7 +6093,7 @@ extension ImportDecoderManifestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportDecoderManifestOutput: Swift.Equatable {
+public struct ImportDecoderManifestOutput {
     /// The Amazon Resource Name (ARN) of the decoder manifest that was imported.
     /// This member is required.
     public var arn: Swift.String?
@@ -6111,7 +6111,7 @@ public struct ImportDecoderManifestOutput: Swift.Equatable {
     }
 }
 
-struct ImportDecoderManifestOutputBody: Swift.Equatable {
+struct ImportDecoderManifestOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -6181,7 +6181,7 @@ extension ImportSignalCatalogInput {
     }
 }
 
-public struct ImportSignalCatalogInput: Swift.Equatable {
+public struct ImportSignalCatalogInput {
     /// A brief description of the signal catalog.
     public var description: Swift.String?
     /// The name of the signal catalog to import.
@@ -6206,7 +6206,7 @@ public struct ImportSignalCatalogInput: Swift.Equatable {
     }
 }
 
-struct ImportSignalCatalogInputBody: Swift.Equatable {
+struct ImportSignalCatalogInputBody {
     let description: Swift.String?
     let vss: IoTFleetWiseClientTypes.FormattedVss?
     let tags: [IoTFleetWiseClientTypes.Tag]?
@@ -6253,7 +6253,7 @@ extension ImportSignalCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportSignalCatalogOutput: Swift.Equatable {
+public struct ImportSignalCatalogOutput {
     /// The Amazon Resource Name (ARN) of the imported signal catalog.
     /// This member is required.
     public var arn: Swift.String?
@@ -6271,7 +6271,7 @@ public struct ImportSignalCatalogOutput: Swift.Equatable {
     }
 }
 
-struct ImportSignalCatalogOutputBody: Swift.Equatable {
+struct ImportSignalCatalogOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -6360,7 +6360,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -6403,7 +6403,7 @@ extension IoTFleetWiseClientTypes.InvalidNetworkInterface: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// A reason a vehicle network interface isn't valid.
-    public struct InvalidNetworkInterface: Swift.Equatable {
+    public struct InvalidNetworkInterface {
         /// The ID of the interface that isn't valid.
         public var interfaceId: Swift.String?
         /// A message about why the interface isn't valid.
@@ -6472,7 +6472,7 @@ public struct InvalidNodeException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InvalidNodeExceptionBody: Swift.Equatable {
+struct InvalidNodeExceptionBody {
     let invalidNodes: [IoTFleetWiseClientTypes.Node]?
     let reason: Swift.String?
     let message: Swift.String?
@@ -6532,7 +6532,7 @@ extension IoTFleetWiseClientTypes.InvalidSignal: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// A reason that a signal isn't valid.
-    public struct InvalidSignal: Swift.Equatable {
+    public struct InvalidSignal {
         /// The name of the signal that isn't valid.
         public var name: Swift.String?
         /// A message about why the signal isn't valid.
@@ -6583,7 +6583,7 @@ extension IoTFleetWiseClientTypes.InvalidSignalDecoder: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// A reason that a signal decoder isn't valid.
-    public struct InvalidSignalDecoder: Swift.Equatable {
+    public struct InvalidSignalDecoder {
         /// The possible cause for the invalid signal decoder.
         public var hint: Swift.String?
         /// The name of a signal decoder that isn't valid.
@@ -6650,7 +6650,7 @@ public struct InvalidSignalsException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidSignalsExceptionBody: Swift.Equatable {
+struct InvalidSignalsExceptionBody {
     let message: Swift.String?
     let invalidSignals: [IoTFleetWiseClientTypes.InvalidSignal]?
 }
@@ -6744,7 +6744,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -6790,7 +6790,7 @@ extension ListCampaignsInput {
     }
 }
 
-public struct ListCampaignsInput: Swift.Equatable {
+public struct ListCampaignsInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -6810,7 +6810,7 @@ public struct ListCampaignsInput: Swift.Equatable {
     }
 }
 
-struct ListCampaignsInputBody: Swift.Equatable {
+struct ListCampaignsInputBody {
 }
 
 extension ListCampaignsInputBody: Swift.Decodable {
@@ -6833,7 +6833,7 @@ extension ListCampaignsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCampaignsOutput: Swift.Equatable {
+public struct ListCampaignsOutput {
     /// A summary of information about each campaign.
     public var campaignSummaries: [IoTFleetWiseClientTypes.CampaignSummary]?
     /// The token to retrieve the next set of results, or null if there are no more results.
@@ -6849,7 +6849,7 @@ public struct ListCampaignsOutput: Swift.Equatable {
     }
 }
 
-struct ListCampaignsOutputBody: Swift.Equatable {
+struct ListCampaignsOutputBody {
     let campaignSummaries: [IoTFleetWiseClientTypes.CampaignSummary]?
     let nextToken: Swift.String?
 }
@@ -6915,7 +6915,7 @@ extension ListDecoderManifestNetworkInterfacesInput {
     }
 }
 
-public struct ListDecoderManifestNetworkInterfacesInput: Swift.Equatable {
+public struct ListDecoderManifestNetworkInterfacesInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// The name of the decoder manifest to list information about.
@@ -6936,7 +6936,7 @@ public struct ListDecoderManifestNetworkInterfacesInput: Swift.Equatable {
     }
 }
 
-struct ListDecoderManifestNetworkInterfacesInputBody: Swift.Equatable {
+struct ListDecoderManifestNetworkInterfacesInputBody {
 }
 
 extension ListDecoderManifestNetworkInterfacesInputBody: Swift.Decodable {
@@ -6959,7 +6959,7 @@ extension ListDecoderManifestNetworkInterfacesOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct ListDecoderManifestNetworkInterfacesOutput: Swift.Equatable {
+public struct ListDecoderManifestNetworkInterfacesOutput {
     /// A list of information about network interfaces.
     public var networkInterfaces: [IoTFleetWiseClientTypes.NetworkInterface]?
     /// The token to retrieve the next set of results, or null if there are no more results.
@@ -6975,7 +6975,7 @@ public struct ListDecoderManifestNetworkInterfacesOutput: Swift.Equatable {
     }
 }
 
-struct ListDecoderManifestNetworkInterfacesOutputBody: Swift.Equatable {
+struct ListDecoderManifestNetworkInterfacesOutputBody {
     let networkInterfaces: [IoTFleetWiseClientTypes.NetworkInterface]?
     let nextToken: Swift.String?
 }
@@ -7043,7 +7043,7 @@ extension ListDecoderManifestSignalsInput {
     }
 }
 
-public struct ListDecoderManifestSignalsInput: Swift.Equatable {
+public struct ListDecoderManifestSignalsInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// The name of the decoder manifest to list information about.
@@ -7064,7 +7064,7 @@ public struct ListDecoderManifestSignalsInput: Swift.Equatable {
     }
 }
 
-struct ListDecoderManifestSignalsInputBody: Swift.Equatable {
+struct ListDecoderManifestSignalsInputBody {
 }
 
 extension ListDecoderManifestSignalsInputBody: Swift.Decodable {
@@ -7087,7 +7087,7 @@ extension ListDecoderManifestSignalsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDecoderManifestSignalsOutput: Swift.Equatable {
+public struct ListDecoderManifestSignalsOutput {
     /// The token to retrieve the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// Information about a list of signals to decode.
@@ -7103,7 +7103,7 @@ public struct ListDecoderManifestSignalsOutput: Swift.Equatable {
     }
 }
 
-struct ListDecoderManifestSignalsOutputBody: Swift.Equatable {
+struct ListDecoderManifestSignalsOutputBody {
     let signalDecoders: [IoTFleetWiseClientTypes.SignalDecoder]?
     let nextToken: Swift.String?
 }
@@ -7171,7 +7171,7 @@ extension ListDecoderManifestsInput {
     }
 }
 
-public struct ListDecoderManifestsInput: Swift.Equatable {
+public struct ListDecoderManifestsInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// The Amazon Resource Name (ARN) of a vehicle model (model manifest) associated with the decoder manifest.
@@ -7191,7 +7191,7 @@ public struct ListDecoderManifestsInput: Swift.Equatable {
     }
 }
 
-struct ListDecoderManifestsInputBody: Swift.Equatable {
+struct ListDecoderManifestsInputBody {
 }
 
 extension ListDecoderManifestsInputBody: Swift.Decodable {
@@ -7214,7 +7214,7 @@ extension ListDecoderManifestsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDecoderManifestsOutput: Swift.Equatable {
+public struct ListDecoderManifestsOutput {
     /// The token to retrieve the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A list of information about each decoder manifest.
@@ -7230,7 +7230,7 @@ public struct ListDecoderManifestsOutput: Swift.Equatable {
     }
 }
 
-struct ListDecoderManifestsOutputBody: Swift.Equatable {
+struct ListDecoderManifestsOutputBody {
     let summaries: [IoTFleetWiseClientTypes.DecoderManifestSummary]?
     let nextToken: Swift.String?
 }
@@ -7297,7 +7297,7 @@ extension ListFleetsForVehicleInput {
     }
 }
 
-public struct ListFleetsForVehicleInput: Swift.Equatable {
+public struct ListFleetsForVehicleInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -7318,7 +7318,7 @@ public struct ListFleetsForVehicleInput: Swift.Equatable {
     }
 }
 
-struct ListFleetsForVehicleInputBody: Swift.Equatable {
+struct ListFleetsForVehicleInputBody {
 }
 
 extension ListFleetsForVehicleInputBody: Swift.Decodable {
@@ -7341,7 +7341,7 @@ extension ListFleetsForVehicleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFleetsForVehicleOutput: Swift.Equatable {
+public struct ListFleetsForVehicleOutput {
     /// A list of fleet IDs that the vehicle is associated with.
     public var fleets: [Swift.String]?
     /// The token to retrieve the next set of results, or null if there are no more results.
@@ -7357,7 +7357,7 @@ public struct ListFleetsForVehicleOutput: Swift.Equatable {
     }
 }
 
-struct ListFleetsForVehicleOutputBody: Swift.Equatable {
+struct ListFleetsForVehicleOutputBody {
     let fleets: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -7425,7 +7425,7 @@ extension ListFleetsInput {
     }
 }
 
-public struct ListFleetsInput: Swift.Equatable {
+public struct ListFleetsInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -7441,7 +7441,7 @@ public struct ListFleetsInput: Swift.Equatable {
     }
 }
 
-struct ListFleetsInputBody: Swift.Equatable {
+struct ListFleetsInputBody {
 }
 
 extension ListFleetsInputBody: Swift.Decodable {
@@ -7464,7 +7464,7 @@ extension ListFleetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFleetsOutput: Swift.Equatable {
+public struct ListFleetsOutput {
     /// A list of information for each fleet.
     public var fleetSummaries: [IoTFleetWiseClientTypes.FleetSummary]?
     /// The token to retrieve the next set of results, or null if there are no more results.
@@ -7480,7 +7480,7 @@ public struct ListFleetsOutput: Swift.Equatable {
     }
 }
 
-struct ListFleetsOutputBody: Swift.Equatable {
+struct ListFleetsOutputBody {
     let fleetSummaries: [IoTFleetWiseClientTypes.FleetSummary]?
     let nextToken: Swift.String?
 }
@@ -7548,7 +7548,7 @@ extension ListModelManifestNodesInput {
     }
 }
 
-public struct ListModelManifestNodesInput: Swift.Equatable {
+public struct ListModelManifestNodesInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// The name of the vehicle model to list information about.
@@ -7569,7 +7569,7 @@ public struct ListModelManifestNodesInput: Swift.Equatable {
     }
 }
 
-struct ListModelManifestNodesInputBody: Swift.Equatable {
+struct ListModelManifestNodesInputBody {
 }
 
 extension ListModelManifestNodesInputBody: Swift.Decodable {
@@ -7592,7 +7592,7 @@ extension ListModelManifestNodesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListModelManifestNodesOutput: Swift.Equatable {
+public struct ListModelManifestNodesOutput {
     /// The token to retrieve the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A list of information about nodes.
@@ -7608,7 +7608,7 @@ public struct ListModelManifestNodesOutput: Swift.Equatable {
     }
 }
 
-struct ListModelManifestNodesOutputBody: Swift.Equatable {
+struct ListModelManifestNodesOutputBody {
     let nodes: [IoTFleetWiseClientTypes.Node]?
     let nextToken: Swift.String?
 }
@@ -7677,7 +7677,7 @@ extension ListModelManifestsInput {
     }
 }
 
-public struct ListModelManifestsInput: Swift.Equatable {
+public struct ListModelManifestsInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -7697,7 +7697,7 @@ public struct ListModelManifestsInput: Swift.Equatable {
     }
 }
 
-struct ListModelManifestsInputBody: Swift.Equatable {
+struct ListModelManifestsInputBody {
 }
 
 extension ListModelManifestsInputBody: Swift.Decodable {
@@ -7720,7 +7720,7 @@ extension ListModelManifestsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListModelManifestsOutput: Swift.Equatable {
+public struct ListModelManifestsOutput {
     /// The token to retrieve the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A list of information about vehicle models.
@@ -7736,7 +7736,7 @@ public struct ListModelManifestsOutput: Swift.Equatable {
     }
 }
 
-struct ListModelManifestsOutputBody: Swift.Equatable {
+struct ListModelManifestsOutputBody {
     let summaries: [IoTFleetWiseClientTypes.ModelManifestSummary]?
     let nextToken: Swift.String?
 }
@@ -7803,7 +7803,7 @@ extension ListSignalCatalogNodesInput {
     }
 }
 
-public struct ListSignalCatalogNodesInput: Swift.Equatable {
+public struct ListSignalCatalogNodesInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// The name of the signal catalog to list information about.
@@ -7828,7 +7828,7 @@ public struct ListSignalCatalogNodesInput: Swift.Equatable {
     }
 }
 
-struct ListSignalCatalogNodesInputBody: Swift.Equatable {
+struct ListSignalCatalogNodesInputBody {
 }
 
 extension ListSignalCatalogNodesInputBody: Swift.Decodable {
@@ -7851,7 +7851,7 @@ extension ListSignalCatalogNodesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSignalCatalogNodesOutput: Swift.Equatable {
+public struct ListSignalCatalogNodesOutput {
     /// The token to retrieve the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A list of information about nodes.
@@ -7867,7 +7867,7 @@ public struct ListSignalCatalogNodesOutput: Swift.Equatable {
     }
 }
 
-struct ListSignalCatalogNodesOutputBody: Swift.Equatable {
+struct ListSignalCatalogNodesOutputBody {
     let nodes: [IoTFleetWiseClientTypes.Node]?
     let nextToken: Swift.String?
 }
@@ -7936,7 +7936,7 @@ extension ListSignalCatalogsInput {
     }
 }
 
-public struct ListSignalCatalogsInput: Swift.Equatable {
+public struct ListSignalCatalogsInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -7952,7 +7952,7 @@ public struct ListSignalCatalogsInput: Swift.Equatable {
     }
 }
 
-struct ListSignalCatalogsInputBody: Swift.Equatable {
+struct ListSignalCatalogsInputBody {
 }
 
 extension ListSignalCatalogsInputBody: Swift.Decodable {
@@ -7975,7 +7975,7 @@ extension ListSignalCatalogsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSignalCatalogsOutput: Swift.Equatable {
+public struct ListSignalCatalogsOutput {
     /// The token to retrieve the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A list of information about each signal catalog.
@@ -7991,7 +7991,7 @@ public struct ListSignalCatalogsOutput: Swift.Equatable {
     }
 }
 
-struct ListSignalCatalogsOutputBody: Swift.Equatable {
+struct ListSignalCatalogsOutputBody {
     let summaries: [IoTFleetWiseClientTypes.SignalCatalogSummary]?
     let nextToken: Swift.String?
 }
@@ -8058,7 +8058,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -8071,7 +8071,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -8092,7 +8092,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags assigned to the resource.
     public var tags: [IoTFleetWiseClientTypes.Tag]?
 
@@ -8104,7 +8104,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [IoTFleetWiseClientTypes.Tag]?
 }
 
@@ -8168,7 +8168,7 @@ extension ListVehiclesInFleetInput {
     }
 }
 
-public struct ListVehiclesInFleetInput: Swift.Equatable {
+public struct ListVehiclesInFleetInput {
     /// The ID of a fleet.
     /// This member is required.
     public var fleetId: Swift.String?
@@ -8189,7 +8189,7 @@ public struct ListVehiclesInFleetInput: Swift.Equatable {
     }
 }
 
-struct ListVehiclesInFleetInputBody: Swift.Equatable {
+struct ListVehiclesInFleetInputBody {
 }
 
 extension ListVehiclesInFleetInputBody: Swift.Decodable {
@@ -8212,7 +8212,7 @@ extension ListVehiclesInFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVehiclesInFleetOutput: Swift.Equatable {
+public struct ListVehiclesInFleetOutput {
     /// The token to retrieve the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A list of vehicles associated with the fleet.
@@ -8228,7 +8228,7 @@ public struct ListVehiclesInFleetOutput: Swift.Equatable {
     }
 }
 
-struct ListVehiclesInFleetOutputBody: Swift.Equatable {
+struct ListVehiclesInFleetOutputBody {
     let vehicles: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -8296,7 +8296,7 @@ extension ListVehiclesInput {
     }
 }
 
-public struct ListVehiclesInput: Swift.Equatable {
+public struct ListVehiclesInput {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
@@ -8316,7 +8316,7 @@ public struct ListVehiclesInput: Swift.Equatable {
     }
 }
 
-struct ListVehiclesInputBody: Swift.Equatable {
+struct ListVehiclesInputBody {
 }
 
 extension ListVehiclesInputBody: Swift.Decodable {
@@ -8339,7 +8339,7 @@ extension ListVehiclesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVehiclesOutput: Swift.Equatable {
+public struct ListVehiclesOutput {
     /// The token to retrieve the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A list of vehicles and information about them.
@@ -8355,7 +8355,7 @@ public struct ListVehiclesOutput: Swift.Equatable {
     }
 }
 
-struct ListVehiclesOutputBody: Swift.Equatable {
+struct ListVehiclesOutputBody {
     let vehicleSummaries: [IoTFleetWiseClientTypes.VehicleSummary]?
     let nextToken: Swift.String?
 }
@@ -8497,7 +8497,7 @@ extension IoTFleetWiseClientTypes.MessageSignal: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// The decoding information for a specific message which support higher order data types.
-    public struct MessageSignal: Swift.Equatable {
+    public struct MessageSignal {
         /// The structured message for the message signal. It can be defined with either a primitiveMessageDefinition, structuredMessageListDefinition, or structuredMessageDefinition recursively.
         /// This member is required.
         public var structuredMessage: IoTFleetWiseClientTypes.StructuredMessage?
@@ -8574,7 +8574,7 @@ extension IoTFleetWiseClientTypes.ModelManifestSummary: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about a vehicle model (model manifest). You can use the API operation to return this information about multiple vehicle models.
-    public struct ModelManifestSummary: Swift.Equatable {
+    public struct ModelManifestSummary {
         /// The Amazon Resource Name (ARN) of the vehicle model.
         public var arn: Swift.String?
         /// The time the vehicle model was created, in seconds since epoch (January 1, 1970 at midnight UTC time).
@@ -8643,7 +8643,7 @@ extension IoTFleetWiseClientTypes.NetworkFileDefinition: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Specifications for defining a vehicle network.
-    public enum NetworkFileDefinition: Swift.Equatable {
+    public enum NetworkFileDefinition {
         /// Information, including CAN DBC files, about the configurations used to create a decoder manifest.
         case candbc(IoTFleetWiseClientTypes.CanDbcDefinition)
         case sdkUnknown(Swift.String)
@@ -8696,7 +8696,7 @@ extension IoTFleetWiseClientTypes.NetworkInterface: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Represents a node and its specifications in an in-vehicle communication network. All signal decoders must be associated with a network node. To return this information about all the network interfaces specified in a decoder manifest, use the API operation.
-    public struct NetworkInterface: Swift.Equatable {
+    public struct NetworkInterface {
         /// Information about a network interface specified by the Controller Area Network (CAN) protocol.
         public var canInterface: IoTFleetWiseClientTypes.CanInterface?
         /// The ID of the network interface.
@@ -8879,7 +8879,7 @@ extension IoTFleetWiseClientTypes.Node: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// A general abstraction of a signal. A node can be specified as an actuator, attribute, branch, or sensor.
-    public enum Node: Swift.Equatable {
+    public enum Node {
         /// Information about a node specified as a branch. A group of signals that are defined in a hierarchical structure.
         case branch(IoTFleetWiseClientTypes.Branch)
         /// An input component that reports the environmental condition of a vehicle. You can collect data about fluid levels, temperatures, vibrations, or battery voltage from sensors.
@@ -8954,7 +8954,7 @@ extension IoTFleetWiseClientTypes.NodeCounts: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about the number of nodes and node types in a vehicle network.
-    public struct NodeCounts: Swift.Equatable {
+    public struct NodeCounts {
         /// The total number of nodes in a vehicle network that represent actuators.
         public var totalActuators: Swift.Int
         /// The total number of nodes in a vehicle network that represent attributes.
@@ -9194,7 +9194,7 @@ extension IoTFleetWiseClientTypes.ObdInterface: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// A network interface that specifies the On-board diagnostic (OBD) II network protocol.
-    public struct ObdInterface: Swift.Equatable {
+    public struct ObdInterface {
         /// The maximum number message requests per diagnostic trouble code per second.
         public var dtcRequestIntervalSeconds: Swift.Int
         /// Whether the vehicle has a transmission control module (TCM).
@@ -9303,7 +9303,7 @@ extension IoTFleetWiseClientTypes.ObdSignal: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about signal messages using the on-board diagnostics (OBD) II protocol in a vehicle.
-    public struct ObdSignal: Swift.Equatable {
+    public struct ObdSignal {
         /// The number of bits to mask in a message.
         public var bitMaskLength: Swift.Int?
         /// The number of positions to shift bits in the message.
@@ -9385,7 +9385,7 @@ extension IoTFleetWiseClientTypes.PrimitiveMessageDefinition: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Represents a primitive type node of the complex data structure.
-    public enum PrimitiveMessageDefinition: Swift.Equatable {
+    public enum PrimitiveMessageDefinition {
         /// Information about a PrimitiveMessage using a ROS 2 compliant primitive type message of the complex data structure.
         case ros2primitivemessagedefinition(IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition)
         case sdkUnknown(Swift.String)
@@ -9417,7 +9417,7 @@ extension PutEncryptionConfigurationInput {
     }
 }
 
-public struct PutEncryptionConfigurationInput: Swift.Equatable {
+public struct PutEncryptionConfigurationInput {
     /// The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key.
     /// This member is required.
     public var encryptionType: IoTFleetWiseClientTypes.EncryptionType?
@@ -9434,7 +9434,7 @@ public struct PutEncryptionConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutEncryptionConfigurationInputBody: Swift.Equatable {
+struct PutEncryptionConfigurationInputBody {
     let kmsKeyId: Swift.String?
     let encryptionType: IoTFleetWiseClientTypes.EncryptionType?
 }
@@ -9470,7 +9470,7 @@ extension PutEncryptionConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutEncryptionConfigurationOutput: Swift.Equatable {
+public struct PutEncryptionConfigurationOutput {
     /// The encryption status.
     /// This member is required.
     public var encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus?
@@ -9492,7 +9492,7 @@ public struct PutEncryptionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct PutEncryptionConfigurationOutputBody: Swift.Equatable {
+struct PutEncryptionConfigurationOutputBody {
     let kmsKeyId: Swift.String?
     let encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus?
     let encryptionType: IoTFleetWiseClientTypes.EncryptionType?
@@ -9554,7 +9554,7 @@ extension PutLoggingOptionsInput {
     }
 }
 
-public struct PutLoggingOptionsInput: Swift.Equatable {
+public struct PutLoggingOptionsInput {
     /// Creates or updates the log delivery option to Amazon CloudWatch Logs.
     /// This member is required.
     public var cloudWatchLogDelivery: IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions?
@@ -9567,7 +9567,7 @@ public struct PutLoggingOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutLoggingOptionsInputBody: Swift.Equatable {
+struct PutLoggingOptionsInputBody {
     let cloudWatchLogDelivery: IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions?
 }
 
@@ -9588,7 +9588,7 @@ extension PutLoggingOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutLoggingOptionsOutput: Swift.Equatable {
+public struct PutLoggingOptionsOutput {
 
     public init() { }
 }
@@ -9649,7 +9649,7 @@ extension IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition: Swift.Codable 
 
 extension IoTFleetWiseClientTypes {
     /// Represents a ROS 2 compliant primitive type message of the complex data structure.
-    public struct ROS2PrimitiveMessageDefinition: Swift.Equatable {
+    public struct ROS2PrimitiveMessageDefinition {
         /// The offset used to calculate the signal value. Combined with scaling, the calculation is value = raw_value * scaling + offset.
         public var offset: Swift.Double?
         /// The primitive type (integer, floating point, boolean, etc.) for the ROS 2 primitive message definition.
@@ -9771,7 +9771,7 @@ extension RegisterAccountInput {
     }
 }
 
-public struct RegisterAccountInput: Swift.Equatable {
+public struct RegisterAccountInput {
     /// The IAM resource that allows Amazon Web Services IoT FleetWise to send data to Amazon Timestream.
     @available(*, deprecated, message: "iamResources is no longer used or needed as input")
     public var iamResources: IoTFleetWiseClientTypes.IamResources?
@@ -9789,7 +9789,7 @@ public struct RegisterAccountInput: Swift.Equatable {
     }
 }
 
-struct RegisterAccountInputBody: Swift.Equatable {
+struct RegisterAccountInputBody {
     let timestreamResources: IoTFleetWiseClientTypes.TimestreamResources?
     let iamResources: IoTFleetWiseClientTypes.IamResources?
 }
@@ -9829,7 +9829,7 @@ extension RegisterAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterAccountOutput: Swift.Equatable {
+public struct RegisterAccountOutput {
     /// The time the account was registered, in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
@@ -9861,7 +9861,7 @@ public struct RegisterAccountOutput: Swift.Equatable {
     }
 }
 
-struct RegisterAccountOutputBody: Swift.Equatable {
+struct RegisterAccountOutputBody {
     let registerAccountStatus: IoTFleetWiseClientTypes.RegistrationStatus?
     let timestreamResources: IoTFleetWiseClientTypes.TimestreamResources?
     let iamResources: IoTFleetWiseClientTypes.IamResources?
@@ -10000,7 +10000,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -10063,7 +10063,7 @@ extension IoTFleetWiseClientTypes.S3Config: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign sends data. Amazon S3 is an object storage service that stores data as objects within buckets. For more information, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon Simple Storage Service User Guide.
-    public struct S3Config: Swift.Equatable {
+    public struct S3Config {
         /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
         /// This member is required.
         public var bucketArn: Swift.String?
@@ -10181,7 +10181,7 @@ extension IoTFleetWiseClientTypes.Sensor: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// An input component that reports the environmental condition of a vehicle. You can collect data about fluid levels, temperatures, vibrations, or battery voltage from sensors.
-    public struct Sensor: Swift.Equatable {
+    public struct Sensor {
         /// A list of possible values a sensor can take.
         public var allowedValues: [Swift.String]?
         /// A comment in addition to the description.
@@ -10272,7 +10272,7 @@ extension IoTFleetWiseClientTypes.SignalCatalogSummary: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about a collection of standardized signals, which can be attributes, branches, sensors, or actuators.
-    public struct SignalCatalogSummary: Swift.Equatable {
+    public struct SignalCatalogSummary {
         /// The Amazon Resource Name (ARN) of the signal catalog.
         public var arn: Swift.String?
         /// The time the signal catalog was created in seconds since epoch (January 1, 1970 at midnight UTC time).
@@ -10349,7 +10349,7 @@ extension IoTFleetWiseClientTypes.SignalDecoder: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about a signal decoder.
-    public struct SignalDecoder: Swift.Equatable {
+    public struct SignalDecoder {
         /// Information about signal decoder using the Controller Area Network (CAN) protocol.
         public var canSignal: IoTFleetWiseClientTypes.CanSignal?
         /// The fully qualified name of a signal decoder as defined in a vehicle model.
@@ -10525,7 +10525,7 @@ extension IoTFleetWiseClientTypes.SignalInformation: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about a signal.
-    public struct SignalInformation: Swift.Equatable {
+    public struct SignalInformation {
         /// The maximum number of samples to collect.
         public var maxSampleCount: Swift.Int?
         /// The minimum duration of time (in milliseconds) between two triggering events to collect data. If a signal changes often, you might want to collect data at a slower rate.
@@ -10713,7 +10713,7 @@ extension IoTFleetWiseClientTypes.StructuredMessage: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// The structured message for the message signal. It can be defined with either a primitiveMessageDefinition, structuredMessageListDefinition, or structuredMessageDefinition recursively.
-    public indirect enum StructuredMessage: Swift.Equatable {
+    public indirect enum StructuredMessage {
         /// Represents a primitive type node of the complex data structure.
         case primitivemessagedefinition(IoTFleetWiseClientTypes.PrimitiveMessageDefinition)
         /// Represents a list type node of the complex data structure.
@@ -10752,7 +10752,7 @@ extension IoTFleetWiseClientTypes.StructuredMessageFieldNameAndDataTypePair: Swi
 
 extension IoTFleetWiseClientTypes {
     /// Represents a StructureMessageName to DataType map element.
-    public struct StructuredMessageFieldNameAndDataTypePair: Swift.Equatable {
+    public struct StructuredMessageFieldNameAndDataTypePair {
         /// The data type.
         /// This member is required.
         public var dataType: IoTFleetWiseClientTypes.StructuredMessage?
@@ -10811,7 +10811,7 @@ extension IoTFleetWiseClientTypes.StructuredMessageListDefinition: Swift.Codable
 
 extension IoTFleetWiseClientTypes {
     /// Represents a list type node of the complex data structure.
-    public struct StructuredMessageListDefinition: Swift.Equatable {
+    public struct StructuredMessageListDefinition {
         /// The capacity of the structured message list definition when the list type is FIXED_CAPACITY or DYNAMIC_BOUNDED_CAPACITY.
         public var capacity: Swift.Int
         /// The type of list of the structured message list definition.
@@ -10902,7 +10902,7 @@ extension IoTFleetWiseClientTypes.Tag: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// A set of key/value pairs that are used to manage the resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag's key.
         /// This member is required.
         public var key: Swift.String?
@@ -10952,7 +10952,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -10970,7 +10970,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [IoTFleetWiseClientTypes.Tag]?
 }
 
@@ -11000,7 +11000,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -11083,7 +11083,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let quotaCode: Swift.String?
     let serviceCode: Swift.String?
@@ -11128,7 +11128,7 @@ extension IoTFleetWiseClientTypes.TimeBasedCollectionScheme: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about a collection scheme that uses a time period to decide how often to collect data.
-    public struct TimeBasedCollectionScheme: Swift.Equatable {
+    public struct TimeBasedCollectionScheme {
         /// The time period (in milliseconds) to decide how often to collect data. For example, if the time period is 60000, the Edge Agent software collects data once every minute.
         /// This member is required.
         public var periodMs: Swift.Int?
@@ -11170,7 +11170,7 @@ extension IoTFleetWiseClientTypes.TimestreamConfig: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// The Amazon Timestream table where the Amazon Web Services IoT FleetWise campaign sends data. Timestream stores and organizes data to optimize query processing time and to reduce storage costs. For more information, see [Data modeling](https://docs.aws.amazon.com/timestream/latest/developerguide/data-modeling.html) in the Amazon Timestream Developer Guide.
-    public struct TimestreamConfig: Swift.Equatable {
+    public struct TimestreamConfig {
         /// The Amazon Resource Name (ARN) of the task execution role that grants Amazon Web Services IoT FleetWise permission to deliver data to the Amazon Timestream table.
         /// This member is required.
         public var executionRoleArn: Swift.String?
@@ -11241,7 +11241,7 @@ extension IoTFleetWiseClientTypes.TimestreamRegistrationResponse: Swift.Codable 
 
 extension IoTFleetWiseClientTypes {
     /// Information about the registered Amazon Timestream resources or errors, if any.
-    public struct TimestreamRegistrationResponse: Swift.Equatable {
+    public struct TimestreamRegistrationResponse {
         /// A message associated with a registration error.
         public var errorMessage: Swift.String?
         /// The status of registering your Amazon Timestream resources. The status can be one of REGISTRATION_SUCCESS, REGISTRATION_PENDING, REGISTRATION_FAILURE.
@@ -11305,7 +11305,7 @@ extension IoTFleetWiseClientTypes.TimestreamResources: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// The registered Amazon Timestream resources that Amazon Web Services IoT FleetWise edge agent software can transfer your vehicle data to.
-    public struct TimestreamResources: Swift.Equatable {
+    public struct TimestreamResources {
         /// The name of the registered Amazon Timestream database.
         /// This member is required.
         public var timestreamDatabaseName: Swift.String?
@@ -11379,7 +11379,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -11397,7 +11397,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -11411,7 +11411,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -11502,7 +11502,7 @@ extension UpdateCampaignInput {
     }
 }
 
-public struct UpdateCampaignInput: Swift.Equatable {
+public struct UpdateCampaignInput {
     /// Specifies how to update a campaign. The action can be one of the following:
     ///
     /// * APPROVE - To approve delivering a data collection scheme to vehicles.
@@ -11536,7 +11536,7 @@ public struct UpdateCampaignInput: Swift.Equatable {
     }
 }
 
-struct UpdateCampaignInputBody: Swift.Equatable {
+struct UpdateCampaignInputBody {
     let description: Swift.String?
     let dataExtraDimensions: [Swift.String]?
     let action: IoTFleetWiseClientTypes.UpdateCampaignAction?
@@ -11585,7 +11585,7 @@ extension UpdateCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCampaignOutput: Swift.Equatable {
+public struct UpdateCampaignOutput {
     /// The Amazon Resource Name (ARN) of the campaign.
     public var arn: Swift.String?
     /// The name of the updated campaign.
@@ -11613,7 +11613,7 @@ public struct UpdateCampaignOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCampaignOutputBody: Swift.Equatable {
+struct UpdateCampaignOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let status: IoTFleetWiseClientTypes.CampaignStatus?
@@ -11720,7 +11720,7 @@ extension UpdateDecoderManifestInput {
     }
 }
 
-public struct UpdateDecoderManifestInput: Swift.Equatable {
+public struct UpdateDecoderManifestInput {
     /// A brief description of the decoder manifest to update.
     public var description: Swift.String?
     /// The name of the decoder manifest to update.
@@ -11765,7 +11765,7 @@ public struct UpdateDecoderManifestInput: Swift.Equatable {
     }
 }
 
-struct UpdateDecoderManifestInputBody: Swift.Equatable {
+struct UpdateDecoderManifestInputBody {
     let description: Swift.String?
     let signalDecodersToAdd: [IoTFleetWiseClientTypes.SignalDecoder]?
     let signalDecodersToUpdate: [IoTFleetWiseClientTypes.SignalDecoder]?
@@ -11877,7 +11877,7 @@ extension UpdateDecoderManifestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDecoderManifestOutput: Swift.Equatable {
+public struct UpdateDecoderManifestOutput {
     /// The Amazon Resource Name (ARN) of the updated decoder manifest.
     /// This member is required.
     public var arn: Swift.String?
@@ -11895,7 +11895,7 @@ public struct UpdateDecoderManifestOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDecoderManifestOutputBody: Swift.Equatable {
+struct UpdateDecoderManifestOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -11954,7 +11954,7 @@ extension UpdateFleetInput {
     }
 }
 
-public struct UpdateFleetInput: Swift.Equatable {
+public struct UpdateFleetInput {
     /// An updated description of the fleet.
     public var description: Swift.String?
     /// The ID of the fleet to update.
@@ -11971,7 +11971,7 @@ public struct UpdateFleetInput: Swift.Equatable {
     }
 }
 
-struct UpdateFleetInputBody: Swift.Equatable {
+struct UpdateFleetInputBody {
     let description: Swift.String?
 }
 
@@ -12001,7 +12001,7 @@ extension UpdateFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFleetOutput: Swift.Equatable {
+public struct UpdateFleetOutput {
     /// The Amazon Resource Name (ARN) of the updated fleet.
     public var arn: Swift.String?
     /// The ID of the updated fleet.
@@ -12017,7 +12017,7 @@ public struct UpdateFleetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFleetOutputBody: Swift.Equatable {
+struct UpdateFleetOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
 }
@@ -12125,7 +12125,7 @@ extension UpdateModelManifestInput {
     }
 }
 
-public struct UpdateModelManifestInput: Swift.Equatable {
+public struct UpdateModelManifestInput {
     /// A brief description of the vehicle model.
     public var description: Swift.String?
     /// The name of the vehicle model to update.
@@ -12154,7 +12154,7 @@ public struct UpdateModelManifestInput: Swift.Equatable {
     }
 }
 
-struct UpdateModelManifestInputBody: Swift.Equatable {
+struct UpdateModelManifestInputBody {
     let description: Swift.String?
     let nodesToAdd: [Swift.String]?
     let nodesToRemove: [Swift.String]?
@@ -12214,7 +12214,7 @@ extension UpdateModelManifestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateModelManifestOutput: Swift.Equatable {
+public struct UpdateModelManifestOutput {
     /// The Amazon Resource Name (ARN) of the updated vehicle model.
     /// This member is required.
     public var arn: Swift.String?
@@ -12232,7 +12232,7 @@ public struct UpdateModelManifestOutput: Swift.Equatable {
     }
 }
 
-struct UpdateModelManifestOutputBody: Swift.Equatable {
+struct UpdateModelManifestOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -12312,7 +12312,7 @@ extension UpdateSignalCatalogInput {
     }
 }
 
-public struct UpdateSignalCatalogInput: Swift.Equatable {
+public struct UpdateSignalCatalogInput {
     /// A brief description of the signal catalog to update.
     public var description: Swift.String?
     /// The name of the signal catalog to update.
@@ -12341,7 +12341,7 @@ public struct UpdateSignalCatalogInput: Swift.Equatable {
     }
 }
 
-struct UpdateSignalCatalogInputBody: Swift.Equatable {
+struct UpdateSignalCatalogInputBody {
     let description: Swift.String?
     let nodesToAdd: [IoTFleetWiseClientTypes.Node]?
     let nodesToUpdate: [IoTFleetWiseClientTypes.Node]?
@@ -12410,7 +12410,7 @@ extension UpdateSignalCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSignalCatalogOutput: Swift.Equatable {
+public struct UpdateSignalCatalogOutput {
     /// The ARN of the updated signal catalog.
     /// This member is required.
     public var arn: Swift.String?
@@ -12428,7 +12428,7 @@ public struct UpdateSignalCatalogOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSignalCatalogOutputBody: Swift.Equatable {
+struct UpdateSignalCatalogOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -12502,7 +12502,7 @@ extension IoTFleetWiseClientTypes.UpdateVehicleError: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// An HTTP error resulting from updating the description for a vehicle.
-    public struct UpdateVehicleError: Swift.Equatable {
+    public struct UpdateVehicleError {
         /// The relevant HTTP error code (400+).
         public var code: Swift.Int
         /// A message associated with the error.
@@ -12559,7 +12559,7 @@ extension UpdateVehicleInput {
     }
 }
 
-public struct UpdateVehicleInput: Swift.Equatable {
+public struct UpdateVehicleInput {
     /// The method the specified attributes will update the existing attributes on the vehicle. UseOverwite to replace the vehicle attributes with the specified attributes. Or use Merge to combine all attributes. This is required if attributes are present in the input.
     public var attributeUpdateMode: IoTFleetWiseClientTypes.UpdateMode?
     /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2"
@@ -12588,7 +12588,7 @@ public struct UpdateVehicleInput: Swift.Equatable {
     }
 }
 
-struct UpdateVehicleInputBody: Swift.Equatable {
+struct UpdateVehicleInputBody {
     let modelManifestArn: Swift.String?
     let decoderManifestArn: Swift.String?
     let attributes: [Swift.String:Swift.String]?
@@ -12639,7 +12639,7 @@ extension UpdateVehicleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVehicleOutput: Swift.Equatable {
+public struct UpdateVehicleOutput {
     /// The ARN of the updated vehicle.
     public var arn: Swift.String?
     /// The ID of the updated vehicle.
@@ -12655,7 +12655,7 @@ public struct UpdateVehicleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVehicleOutputBody: Swift.Equatable {
+struct UpdateVehicleOutputBody {
     let vehicleName: Swift.String?
     let arn: Swift.String?
 }
@@ -12750,7 +12750,7 @@ extension IoTFleetWiseClientTypes.UpdateVehicleRequestItem: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about the vehicle to update.
-    public struct UpdateVehicleRequestItem: Swift.Equatable {
+    public struct UpdateVehicleRequestItem {
         /// The method the specified attributes will update the existing attributes on the vehicle. UseOverwite to replace the vehicle attributes with the specified attributes. Or use Merge to combine all attributes. This is required if attributes are present in the input.
         public var attributeUpdateMode: IoTFleetWiseClientTypes.UpdateMode?
         /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2"
@@ -12808,7 +12808,7 @@ extension IoTFleetWiseClientTypes.UpdateVehicleResponseItem: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about the updated vehicle.
-    public struct UpdateVehicleResponseItem: Swift.Equatable {
+    public struct UpdateVehicleResponseItem {
         /// The Amazon Resource Name (ARN) of the updated vehicle.
         public var arn: Swift.String?
         /// The unique ID of the updated vehicle.
@@ -12878,7 +12878,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: IoTFleetWiseClientTypes.ValidationExceptionReason?
     let fieldList: [IoTFleetWiseClientTypes.ValidationExceptionField]?
@@ -12938,7 +12938,7 @@ extension IoTFleetWiseClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// A validation error due to mismatch between the expected data type, length, or pattern of the parameter and the input.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// A message about the validation error.
         /// This member is required.
         public var message: Swift.String?
@@ -13055,7 +13055,7 @@ extension IoTFleetWiseClientTypes.VehicleMiddleware: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// The vehicle middleware defined as a type of network interface. Examples of vehicle middleware include ROS2 and SOME/IP.
-    public struct VehicleMiddleware: Swift.Equatable {
+    public struct VehicleMiddleware {
         /// The name of the vehicle middleware.
         /// This member is required.
         public var name: Swift.String?
@@ -13178,7 +13178,7 @@ extension IoTFleetWiseClientTypes.VehicleStatus: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about the state of a vehicle and how it relates to the status of a campaign.
-    public struct VehicleStatus: Swift.Equatable {
+    public struct VehicleStatus {
         /// The name of a campaign.
         public var campaignName: Swift.String?
         /// The state of a vehicle, which can be one of the following:
@@ -13279,7 +13279,7 @@ extension IoTFleetWiseClientTypes.VehicleSummary: Swift.Codable {
 
 extension IoTFleetWiseClientTypes {
     /// Information about a vehicle. To return this information about vehicles in your account, you can use the API operation.
-    public struct VehicleSummary: Swift.Equatable {
+    public struct VehicleSummary {
         /// The Amazon Resource Name (ARN) of the vehicle.
         /// This member is required.
         public var arn: Swift.String?

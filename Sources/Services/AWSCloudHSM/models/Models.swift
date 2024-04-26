@@ -29,7 +29,7 @@ extension AddTagsToResourceInput {
     }
 }
 
-public struct AddTagsToResourceInput: Swift.Equatable {
+public struct AddTagsToResourceInput {
     /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -47,7 +47,7 @@ public struct AddTagsToResourceInput: Swift.Equatable {
     }
 }
 
-struct AddTagsToResourceInputBody: Swift.Equatable {
+struct AddTagsToResourceInputBody {
     let resourceArn: Swift.String?
     let tagList: [CloudHSMClientTypes.Tag]?
 }
@@ -88,7 +88,7 @@ extension AddTagsToResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddTagsToResourceOutput: Swift.Equatable {
+public struct AddTagsToResourceOutput {
     /// The status of the operation.
     /// This member is required.
     public var status: Swift.String?
@@ -101,7 +101,7 @@ public struct AddTagsToResourceOutput: Swift.Equatable {
     }
 }
 
-struct AddTagsToResourceOutputBody: Swift.Equatable {
+struct AddTagsToResourceOutputBody {
     let status: Swift.String?
 }
 
@@ -210,7 +210,7 @@ public struct CloudHsmInternalException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct CloudHsmInternalExceptionBody: Swift.Equatable {
+struct CloudHsmInternalExceptionBody {
     let message: Swift.String?
     let retryable: Swift.Bool
 }
@@ -311,7 +311,7 @@ public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct CloudHsmServiceExceptionBody: Swift.Equatable {
+struct CloudHsmServiceExceptionBody {
     let message: Swift.String?
     let retryable: Swift.Bool
 }
@@ -352,7 +352,7 @@ extension CreateHapgInput {
 }
 
 /// Contains the inputs for the [CreateHapgRequest] action.
-public struct CreateHapgInput: Swift.Equatable {
+public struct CreateHapgInput {
     /// The label of the new high-availability partition group.
     /// This member is required.
     public var label: Swift.String?
@@ -365,7 +365,7 @@ public struct CreateHapgInput: Swift.Equatable {
     }
 }
 
-struct CreateHapgInputBody: Swift.Equatable {
+struct CreateHapgInputBody {
     let label: Swift.String?
 }
 
@@ -394,7 +394,7 @@ extension CreateHapgOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of the [CreateHAPartitionGroup] action.
-public struct CreateHapgOutput: Swift.Equatable {
+public struct CreateHapgOutput {
     /// The ARN of the high-availability partition group.
     public var hapgArn: Swift.String?
 
@@ -406,7 +406,7 @@ public struct CreateHapgOutput: Swift.Equatable {
     }
 }
 
-struct CreateHapgOutputBody: Swift.Equatable {
+struct CreateHapgOutputBody {
     let hapgArn: Swift.String?
 }
 
@@ -484,7 +484,7 @@ extension CreateHsmInput {
 }
 
 /// Contains the inputs for the CreateHsm operation.
-public struct CreateHsmInput: Swift.Equatable {
+public struct CreateHsmInput {
     /// A user-defined token to ensure idempotence. Subsequent calls to this operation with the same token will be ignored.
     public var clientToken: Swift.String?
     /// The IP address to assign to the HSM's ENI. If an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the subnet.
@@ -532,7 +532,7 @@ public struct CreateHsmInput: Swift.Equatable {
     }
 }
 
-struct CreateHsmInputBody: Swift.Equatable {
+struct CreateHsmInputBody {
     let subnetId: Swift.String?
     let sshKey: Swift.String?
     let eniIp: Swift.String?
@@ -589,7 +589,7 @@ extension CreateHsmOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of the CreateHsm operation.
-public struct CreateHsmOutput: Swift.Equatable {
+public struct CreateHsmOutput {
     /// The ARN of the HSM.
     public var hsmArn: Swift.String?
 
@@ -601,7 +601,7 @@ public struct CreateHsmOutput: Swift.Equatable {
     }
 }
 
-struct CreateHsmOutputBody: Swift.Equatable {
+struct CreateHsmOutputBody {
     let hsmArn: Swift.String?
 }
 
@@ -655,7 +655,7 @@ extension CreateLunaClientInput {
 }
 
 /// Contains the inputs for the [CreateLunaClient] action.
-public struct CreateLunaClientInput: Swift.Equatable {
+public struct CreateLunaClientInput {
     /// The contents of a Base64-Encoded X.509 v3 certificate to be installed on the HSMs used by this client.
     /// This member is required.
     public var certificate: Swift.String?
@@ -672,7 +672,7 @@ public struct CreateLunaClientInput: Swift.Equatable {
     }
 }
 
-struct CreateLunaClientInputBody: Swift.Equatable {
+struct CreateLunaClientInputBody {
     let label: Swift.String?
     let certificate: Swift.String?
 }
@@ -705,7 +705,7 @@ extension CreateLunaClientOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of the [CreateLunaClient] action.
-public struct CreateLunaClientOutput: Swift.Equatable {
+public struct CreateLunaClientOutput {
     /// The ARN of the client.
     public var clientArn: Swift.String?
 
@@ -717,7 +717,7 @@ public struct CreateLunaClientOutput: Swift.Equatable {
     }
 }
 
-struct CreateLunaClientOutputBody: Swift.Equatable {
+struct CreateLunaClientOutputBody {
     let clientArn: Swift.String?
 }
 
@@ -767,7 +767,7 @@ extension DeleteHapgInput {
 }
 
 /// Contains the inputs for the [DeleteHapg] action.
-public struct DeleteHapgInput: Swift.Equatable {
+public struct DeleteHapgInput {
     /// The ARN of the high-availability partition group to delete.
     /// This member is required.
     public var hapgArn: Swift.String?
@@ -780,7 +780,7 @@ public struct DeleteHapgInput: Swift.Equatable {
     }
 }
 
-struct DeleteHapgInputBody: Swift.Equatable {
+struct DeleteHapgInputBody {
     let hapgArn: Swift.String?
 }
 
@@ -809,7 +809,7 @@ extension DeleteHapgOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of the [DeleteHapg] action.
-public struct DeleteHapgOutput: Swift.Equatable {
+public struct DeleteHapgOutput {
     /// The status of the action.
     /// This member is required.
     public var status: Swift.String?
@@ -822,7 +822,7 @@ public struct DeleteHapgOutput: Swift.Equatable {
     }
 }
 
-struct DeleteHapgOutputBody: Swift.Equatable {
+struct DeleteHapgOutputBody {
     let status: Swift.String?
 }
 
@@ -872,7 +872,7 @@ extension DeleteHsmInput {
 }
 
 /// Contains the inputs for the [DeleteHsm] operation.
-public struct DeleteHsmInput: Swift.Equatable {
+public struct DeleteHsmInput {
     /// The ARN of the HSM to delete.
     /// This member is required.
     public var hsmArn: Swift.String?
@@ -885,7 +885,7 @@ public struct DeleteHsmInput: Swift.Equatable {
     }
 }
 
-struct DeleteHsmInputBody: Swift.Equatable {
+struct DeleteHsmInputBody {
     let hsmArn: Swift.String?
 }
 
@@ -914,7 +914,7 @@ extension DeleteHsmOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of the [DeleteHsm] operation.
-public struct DeleteHsmOutput: Swift.Equatable {
+public struct DeleteHsmOutput {
     /// The status of the operation.
     /// This member is required.
     public var status: Swift.String?
@@ -927,7 +927,7 @@ public struct DeleteHsmOutput: Swift.Equatable {
     }
 }
 
-struct DeleteHsmOutputBody: Swift.Equatable {
+struct DeleteHsmOutputBody {
     let status: Swift.String?
 }
 
@@ -976,7 +976,7 @@ extension DeleteLunaClientInput {
     }
 }
 
-public struct DeleteLunaClientInput: Swift.Equatable {
+public struct DeleteLunaClientInput {
     /// The ARN of the client to delete.
     /// This member is required.
     public var clientArn: Swift.String?
@@ -989,7 +989,7 @@ public struct DeleteLunaClientInput: Swift.Equatable {
     }
 }
 
-struct DeleteLunaClientInputBody: Swift.Equatable {
+struct DeleteLunaClientInputBody {
     let clientArn: Swift.String?
 }
 
@@ -1017,7 +1017,7 @@ extension DeleteLunaClientOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLunaClientOutput: Swift.Equatable {
+public struct DeleteLunaClientOutput {
     /// The status of the action.
     /// This member is required.
     public var status: Swift.String?
@@ -1030,7 +1030,7 @@ public struct DeleteLunaClientOutput: Swift.Equatable {
     }
 }
 
-struct DeleteLunaClientOutputBody: Swift.Equatable {
+struct DeleteLunaClientOutputBody {
     let status: Swift.String?
 }
 
@@ -1080,7 +1080,7 @@ extension DescribeHapgInput {
 }
 
 /// Contains the inputs for the [DescribeHapg] action.
-public struct DescribeHapgInput: Swift.Equatable {
+public struct DescribeHapgInput {
     /// The ARN of the high-availability partition group to describe.
     /// This member is required.
     public var hapgArn: Swift.String?
@@ -1093,7 +1093,7 @@ public struct DescribeHapgInput: Swift.Equatable {
     }
 }
 
-struct DescribeHapgInputBody: Swift.Equatable {
+struct DescribeHapgInputBody {
     let hapgArn: Swift.String?
 }
 
@@ -1138,7 +1138,7 @@ extension DescribeHapgOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of the [DescribeHapg] action.
-public struct DescribeHapgOutput: Swift.Equatable {
+public struct DescribeHapgOutput {
     /// The ARN of the high-availability partition group.
     public var hapgArn: Swift.String?
     /// The serial number of the high-availability partition group.
@@ -1182,7 +1182,7 @@ public struct DescribeHapgOutput: Swift.Equatable {
     }
 }
 
-struct DescribeHapgOutputBody: Swift.Equatable {
+struct DescribeHapgOutputBody {
     let hapgArn: Swift.String?
     let hapgSerial: Swift.String?
     let hsmsLastActionFailed: [Swift.String]?
@@ -1304,7 +1304,7 @@ extension DescribeHsmInput {
 }
 
 /// Contains the inputs for the [DescribeHsm] operation.
-public struct DescribeHsmInput: Swift.Equatable {
+public struct DescribeHsmInput {
     /// The ARN of the HSM. Either the HsmArn or the SerialNumber parameter must be specified.
     public var hsmArn: Swift.String?
     /// The serial number of the HSM. Either the HsmArn or the HsmSerialNumber parameter must be specified.
@@ -1320,7 +1320,7 @@ public struct DescribeHsmInput: Swift.Equatable {
     }
 }
 
-struct DescribeHsmInputBody: Swift.Equatable {
+struct DescribeHsmInputBody {
     let hsmArn: Swift.String?
     let hsmSerialNumber: Swift.String?
 }
@@ -1393,7 +1393,7 @@ extension DescribeHsmOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of the [DescribeHsm] operation.
-public struct DescribeHsmOutput: Swift.Equatable {
+public struct DescribeHsmOutput {
     /// The Availability Zone that the HSM is in.
     public var availabilityZone: Swift.String?
     /// The identifier of the elastic network interface (ENI) attached to the HSM.
@@ -1489,7 +1489,7 @@ public struct DescribeHsmOutput: Swift.Equatable {
     }
 }
 
-struct DescribeHsmOutputBody: Swift.Equatable {
+struct DescribeHsmOutputBody {
     let hsmArn: Swift.String?
     let status: CloudHSMClientTypes.HsmStatus?
     let statusDetails: Swift.String?
@@ -1631,7 +1631,7 @@ extension DescribeLunaClientInput {
     }
 }
 
-public struct DescribeLunaClientInput: Swift.Equatable {
+public struct DescribeLunaClientInput {
     /// The certificate fingerprint.
     public var certificateFingerprint: Swift.String?
     /// The ARN of the client.
@@ -1647,7 +1647,7 @@ public struct DescribeLunaClientInput: Swift.Equatable {
     }
 }
 
-struct DescribeLunaClientInputBody: Swift.Equatable {
+struct DescribeLunaClientInputBody {
     let clientArn: Swift.String?
     let certificateFingerprint: Swift.String?
 }
@@ -1687,7 +1687,7 @@ extension DescribeLunaClientOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLunaClientOutput: Swift.Equatable {
+public struct DescribeLunaClientOutput {
     /// The certificate installed on the HSMs used by this client.
     public var certificate: Swift.String?
     /// The certificate fingerprint.
@@ -1715,7 +1715,7 @@ public struct DescribeLunaClientOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLunaClientOutputBody: Swift.Equatable {
+struct DescribeLunaClientOutputBody {
     let clientArn: Swift.String?
     let certificate: Swift.String?
     let certificateFingerprint: Swift.String?
@@ -1791,7 +1791,7 @@ extension GetConfigInput {
     }
 }
 
-public struct GetConfigInput: Swift.Equatable {
+public struct GetConfigInput {
     /// The ARN of the client.
     /// This member is required.
     public var clientArn: Swift.String?
@@ -1814,7 +1814,7 @@ public struct GetConfigInput: Swift.Equatable {
     }
 }
 
-struct GetConfigInputBody: Swift.Equatable {
+struct GetConfigInputBody {
     let clientArn: Swift.String?
     let clientVersion: CloudHSMClientTypes.ClientVersion?
     let hapgList: [Swift.String]?
@@ -1863,7 +1863,7 @@ extension GetConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConfigOutput: Swift.Equatable {
+public struct GetConfigOutput {
     /// The certificate file containing the server.pem files of the HSMs.
     public var configCred: Swift.String?
     /// The chrystoki.conf configuration file.
@@ -1883,7 +1883,7 @@ public struct GetConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigOutputBody: Swift.Equatable {
+struct GetConfigOutputBody {
     let configType: Swift.String?
     let configFile: Swift.String?
     let configCred: Swift.String?
@@ -2013,7 +2013,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
     let retryable: Swift.Bool
 }
@@ -2049,12 +2049,12 @@ extension ListAvailableZonesInput {
 }
 
 /// Contains the inputs for the [ListAvailableZones] action.
-public struct ListAvailableZonesInput: Swift.Equatable {
+public struct ListAvailableZonesInput {
 
     public init() { }
 }
 
-struct ListAvailableZonesInputBody: Swift.Equatable {
+struct ListAvailableZonesInputBody {
 }
 
 extension ListAvailableZonesInputBody: Swift.Decodable {
@@ -2075,7 +2075,7 @@ extension ListAvailableZonesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAvailableZonesOutput: Swift.Equatable {
+public struct ListAvailableZonesOutput {
     /// The list of Availability Zones that have available AWS CloudHSM capacity.
     public var azList: [Swift.String]?
 
@@ -2087,7 +2087,7 @@ public struct ListAvailableZonesOutput: Swift.Equatable {
     }
 }
 
-struct ListAvailableZonesOutputBody: Swift.Equatable {
+struct ListAvailableZonesOutputBody {
     let azList: [Swift.String]?
 }
 
@@ -2145,7 +2145,7 @@ extension ListHapgsInput {
     }
 }
 
-public struct ListHapgsInput: Swift.Equatable {
+public struct ListHapgsInput {
     /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
     public var nextToken: Swift.String?
 
@@ -2157,7 +2157,7 @@ public struct ListHapgsInput: Swift.Equatable {
     }
 }
 
-struct ListHapgsInputBody: Swift.Equatable {
+struct ListHapgsInputBody {
     let nextToken: Swift.String?
 }
 
@@ -2187,7 +2187,7 @@ extension ListHapgsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHapgsOutput: Swift.Equatable {
+public struct ListHapgsOutput {
     /// The list of high-availability partition groups.
     /// This member is required.
     public var hapgList: [Swift.String]?
@@ -2204,7 +2204,7 @@ public struct ListHapgsOutput: Swift.Equatable {
     }
 }
 
-struct ListHapgsOutputBody: Swift.Equatable {
+struct ListHapgsOutputBody {
     let hapgList: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -2266,7 +2266,7 @@ extension ListHsmsInput {
     }
 }
 
-public struct ListHsmsInput: Swift.Equatable {
+public struct ListHsmsInput {
     /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
     public var nextToken: Swift.String?
 
@@ -2278,7 +2278,7 @@ public struct ListHsmsInput: Swift.Equatable {
     }
 }
 
-struct ListHsmsInputBody: Swift.Equatable {
+struct ListHsmsInputBody {
     let nextToken: Swift.String?
 }
 
@@ -2309,7 +2309,7 @@ extension ListHsmsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of the ListHsms operation.
-public struct ListHsmsOutput: Swift.Equatable {
+public struct ListHsmsOutput {
     /// The list of ARNs that identify the HSMs.
     public var hsmList: [Swift.String]?
     /// If not null, more results are available. Pass this value to ListHsms to retrieve the next set of items.
@@ -2325,7 +2325,7 @@ public struct ListHsmsOutput: Swift.Equatable {
     }
 }
 
-struct ListHsmsOutputBody: Swift.Equatable {
+struct ListHsmsOutputBody {
     let hsmList: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -2387,7 +2387,7 @@ extension ListLunaClientsInput {
     }
 }
 
-public struct ListLunaClientsInput: Swift.Equatable {
+public struct ListLunaClientsInput {
     /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
     public var nextToken: Swift.String?
 
@@ -2399,7 +2399,7 @@ public struct ListLunaClientsInput: Swift.Equatable {
     }
 }
 
-struct ListLunaClientsInputBody: Swift.Equatable {
+struct ListLunaClientsInputBody {
     let nextToken: Swift.String?
 }
 
@@ -2429,7 +2429,7 @@ extension ListLunaClientsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLunaClientsOutput: Swift.Equatable {
+public struct ListLunaClientsOutput {
     /// The list of clients.
     /// This member is required.
     public var clientList: [Swift.String]?
@@ -2446,7 +2446,7 @@ public struct ListLunaClientsOutput: Swift.Equatable {
     }
 }
 
-struct ListLunaClientsOutputBody: Swift.Equatable {
+struct ListLunaClientsOutputBody {
     let clientList: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -2508,7 +2508,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2521,7 +2521,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -2549,7 +2549,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// One or more tags.
     /// This member is required.
     public var tagList: [CloudHSMClientTypes.Tag]?
@@ -2562,7 +2562,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tagList: [CloudHSMClientTypes.Tag]?
 }
 
@@ -2631,7 +2631,7 @@ extension ModifyHapgInput {
     }
 }
 
-public struct ModifyHapgInput: Swift.Equatable {
+public struct ModifyHapgInput {
     /// The ARN of the high-availability partition group to modify.
     /// This member is required.
     public var hapgArn: Swift.String?
@@ -2652,7 +2652,7 @@ public struct ModifyHapgInput: Swift.Equatable {
     }
 }
 
-struct ModifyHapgInputBody: Swift.Equatable {
+struct ModifyHapgInputBody {
     let hapgArn: Swift.String?
     let label: Swift.String?
     let partitionSerialList: [Swift.String]?
@@ -2697,7 +2697,7 @@ extension ModifyHapgOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyHapgOutput: Swift.Equatable {
+public struct ModifyHapgOutput {
     /// The ARN of the high-availability partition group.
     public var hapgArn: Swift.String?
 
@@ -2709,7 +2709,7 @@ public struct ModifyHapgOutput: Swift.Equatable {
     }
 }
 
-struct ModifyHapgOutputBody: Swift.Equatable {
+struct ModifyHapgOutputBody {
     let hapgArn: Swift.String?
 }
 
@@ -2779,7 +2779,7 @@ extension ModifyHsmInput {
 }
 
 /// Contains the inputs for the [ModifyHsm] operation.
-public struct ModifyHsmInput: Swift.Equatable {
+public struct ModifyHsmInput {
     /// The new IP address for the elastic network interface (ENI) attached to the HSM. If the HSM is moved to a different subnet, and an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the new subnet.
     public var eniIp: Swift.String?
     /// The new external ID.
@@ -2812,7 +2812,7 @@ public struct ModifyHsmInput: Swift.Equatable {
     }
 }
 
-struct ModifyHsmInputBody: Swift.Equatable {
+struct ModifyHsmInputBody {
     let hsmArn: Swift.String?
     let subnetId: Swift.String?
     let eniIp: Swift.String?
@@ -2861,7 +2861,7 @@ extension ModifyHsmOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the output of the [ModifyHsm] operation.
-public struct ModifyHsmOutput: Swift.Equatable {
+public struct ModifyHsmOutput {
     /// The ARN of the HSM.
     public var hsmArn: Swift.String?
 
@@ -2873,7 +2873,7 @@ public struct ModifyHsmOutput: Swift.Equatable {
     }
 }
 
-struct ModifyHsmOutputBody: Swift.Equatable {
+struct ModifyHsmOutputBody {
     let hsmArn: Swift.String?
 }
 
@@ -2926,7 +2926,7 @@ extension ModifyLunaClientInput {
     }
 }
 
-public struct ModifyLunaClientInput: Swift.Equatable {
+public struct ModifyLunaClientInput {
     /// The new certificate for the client.
     /// This member is required.
     public var certificate: Swift.String?
@@ -2944,7 +2944,7 @@ public struct ModifyLunaClientInput: Swift.Equatable {
     }
 }
 
-struct ModifyLunaClientInputBody: Swift.Equatable {
+struct ModifyLunaClientInputBody {
     let clientArn: Swift.String?
     let certificate: Swift.String?
 }
@@ -2976,7 +2976,7 @@ extension ModifyLunaClientOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyLunaClientOutput: Swift.Equatable {
+public struct ModifyLunaClientOutput {
     /// The ARN of the client.
     public var clientArn: Swift.String?
 
@@ -2988,7 +2988,7 @@ public struct ModifyLunaClientOutput: Swift.Equatable {
     }
 }
 
-struct ModifyLunaClientOutputBody: Swift.Equatable {
+struct ModifyLunaClientOutputBody {
     let clientArn: Swift.String?
 }
 
@@ -3042,7 +3042,7 @@ extension RemoveTagsFromResourceInput {
     }
 }
 
-public struct RemoveTagsFromResourceInput: Swift.Equatable {
+public struct RemoveTagsFromResourceInput {
     /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3060,7 +3060,7 @@ public struct RemoveTagsFromResourceInput: Swift.Equatable {
     }
 }
 
-struct RemoveTagsFromResourceInputBody: Swift.Equatable {
+struct RemoveTagsFromResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeyList: [Swift.String]?
 }
@@ -3101,7 +3101,7 @@ extension RemoveTagsFromResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveTagsFromResourceOutput: Swift.Equatable {
+public struct RemoveTagsFromResourceOutput {
     /// The status of the operation.
     /// This member is required.
     public var status: Swift.String?
@@ -3114,7 +3114,7 @@ public struct RemoveTagsFromResourceOutput: Swift.Equatable {
     }
 }
 
-struct RemoveTagsFromResourceOutputBody: Swift.Equatable {
+struct RemoveTagsFromResourceOutputBody {
     let status: Swift.String?
 }
 
@@ -3204,7 +3204,7 @@ extension CloudHSMClientTypes.Tag: Swift.Codable {
 
 extension CloudHSMClientTypes {
     /// A key-value pair that identifies or specifies metadata about an AWS CloudHSM resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag.
         /// This member is required.
         public var key: Swift.String?

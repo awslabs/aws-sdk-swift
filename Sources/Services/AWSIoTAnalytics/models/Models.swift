@@ -47,7 +47,7 @@ extension IoTAnalyticsClientTypes.AddAttributesActivity: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// An activity that adds other attributes based on existing attributes in the message.
-    public struct AddAttributesActivity: Swift.Equatable {
+    public struct AddAttributesActivity {
         /// A list of 1-50 AttributeNameMapping objects that map an existing attribute to a new attribute. The existing attributes remain in the message, so if you want to remove the originals, use RemoveAttributeActivity.
         /// This member is required.
         public var attributes: [Swift.String:Swift.String]?
@@ -104,7 +104,7 @@ extension IoTAnalyticsClientTypes.BatchPutMessageErrorEntry: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Contains informations about errors.
-    public struct BatchPutMessageErrorEntry: Swift.Equatable {
+    public struct BatchPutMessageErrorEntry {
         /// The code associated with the error.
         public var errorCode: Swift.String?
         /// The message associated with the error.
@@ -153,7 +153,7 @@ extension BatchPutMessageInput {
     }
 }
 
-public struct BatchPutMessageInput: Swift.Equatable {
+public struct BatchPutMessageInput {
     /// The name of the channel where the messages are sent.
     /// This member is required.
     public var channelName: Swift.String?
@@ -186,7 +186,7 @@ public struct BatchPutMessageInput: Swift.Equatable {
     }
 }
 
-struct BatchPutMessageInputBody: Swift.Equatable {
+struct BatchPutMessageInputBody {
     let channelName: Swift.String?
     let messages: [IoTAnalyticsClientTypes.Message]?
 }
@@ -227,7 +227,7 @@ extension BatchPutMessageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchPutMessageOutput: Swift.Equatable {
+public struct BatchPutMessageOutput {
     /// A list of any errors encountered when sending the messages to the channel.
     public var batchPutMessageErrorEntries: [IoTAnalyticsClientTypes.BatchPutMessageErrorEntry]?
 
@@ -239,7 +239,7 @@ public struct BatchPutMessageOutput: Swift.Equatable {
     }
 }
 
-struct BatchPutMessageOutputBody: Swift.Equatable {
+struct BatchPutMessageOutputBody {
     let batchPutMessageErrorEntries: [IoTAnalyticsClientTypes.BatchPutMessageErrorEntry]?
 }
 
@@ -292,7 +292,7 @@ extension CancelPipelineReprocessingInput {
     }
 }
 
-public struct CancelPipelineReprocessingInput: Swift.Equatable {
+public struct CancelPipelineReprocessingInput {
     /// The name of pipeline for which data reprocessing is canceled.
     /// This member is required.
     public var pipelineName: Swift.String?
@@ -310,7 +310,7 @@ public struct CancelPipelineReprocessingInput: Swift.Equatable {
     }
 }
 
-struct CancelPipelineReprocessingInputBody: Swift.Equatable {
+struct CancelPipelineReprocessingInputBody {
 }
 
 extension CancelPipelineReprocessingInputBody: Swift.Decodable {
@@ -324,7 +324,7 @@ extension CancelPipelineReprocessingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelPipelineReprocessingOutput: Swift.Equatable {
+public struct CancelPipelineReprocessingOutput {
 
     public init() { }
 }
@@ -407,7 +407,7 @@ extension IoTAnalyticsClientTypes.Channel: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// A collection of data from an MQTT topic. Channels archive the raw, unprocessed messages before publishing the data to a pipeline.
-    public struct Channel: Swift.Equatable {
+    public struct Channel {
         /// The ARN of the channel.
         public var arn: Swift.String?
         /// When the channel was created.
@@ -482,7 +482,7 @@ extension IoTAnalyticsClientTypes.ChannelActivity: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The activity that determines the source of the messages to be processed.
-    public struct ChannelActivity: Swift.Equatable {
+    public struct ChannelActivity {
         /// The name of the channel from which the messages are processed.
         /// This member is required.
         public var channelName: Swift.String?
@@ -539,7 +539,7 @@ extension IoTAnalyticsClientTypes.ChannelMessages: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Specifies one or more sets of channel messages.
-    public struct ChannelMessages: Swift.Equatable {
+    public struct ChannelMessages {
         /// Specifies one or more keys that identify the Amazon Simple Storage Service (Amazon S3) objects that save your channel messages. You must use the full path for the key. Example path: channel/mychannel/__dt=2020-02-29 00:00:00/1582940490000_1582940520000_123456789012_mychannel_0_2118.0.json.gz
         public var s3Paths: [Swift.String]?
 
@@ -574,7 +574,7 @@ extension IoTAnalyticsClientTypes.ChannelStatistics: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Statistics information about the channel.
-    public struct ChannelStatistics: Swift.Equatable {
+    public struct ChannelStatistics {
         /// The estimated size of the channel.
         public var size: IoTAnalyticsClientTypes.EstimatedResourceSize?
 
@@ -650,7 +650,7 @@ extension IoTAnalyticsClientTypes.ChannelStorage: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Where channel data is stored. You may choose one of serviceManagedS3, customerManagedS3 storage. If not specified, the default is serviceManagedS3. This can't be changed after creation of the channel.
-    public struct ChannelStorage: Swift.Equatable {
+    public struct ChannelStorage {
         /// Used to store channel data in an S3 bucket that you manage. If customer managed storage is selected, the retentionPeriod parameter is ignored. You can't change the choice of S3 storage after the data store is created.
         public var customerManagedS3: IoTAnalyticsClientTypes.CustomerManagedChannelS3Storage?
         /// Used to store channel data in an S3 bucket managed by IoT Analytics. You can't change the choice of S3 storage after the data store is created.
@@ -695,7 +695,7 @@ extension IoTAnalyticsClientTypes.ChannelStorageSummary: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Where channel data is stored.
-    public struct ChannelStorageSummary: Swift.Equatable {
+    public struct ChannelStorageSummary {
         /// Used to store channel data in an S3 bucket that you manage.
         public var customerManagedS3: IoTAnalyticsClientTypes.CustomerManagedChannelS3StorageSummary?
         /// Used to store channel data in an S3 bucket managed by IoT Analytics.
@@ -764,7 +764,7 @@ extension IoTAnalyticsClientTypes.ChannelSummary: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// A summary of information about a channel.
-    public struct ChannelSummary: Swift.Equatable {
+    public struct ChannelSummary {
         /// The name of the channel.
         public var channelName: Swift.String?
         /// Where channel data is stored.
@@ -825,7 +825,7 @@ extension IoTAnalyticsClientTypes.Column: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Contains information about a column that stores your data.
-    public struct Column: Swift.Equatable {
+    public struct Column {
         /// The name of the column.
         /// This member is required.
         public var name: Swift.String?
@@ -928,7 +928,7 @@ extension IoTAnalyticsClientTypes.ContainerDatasetAction: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Information required to run the containerAction to produce dataset contents.
-    public struct ContainerDatasetAction: Swift.Equatable {
+    public struct ContainerDatasetAction {
         /// The ARN of the role that gives permission to the system to access required resources to run the containerAction. This includes, at minimum, permission to retrieve the dataset contents that are the input to the containerized application.
         /// This member is required.
         public var executionRoleArn: Swift.String?
@@ -992,7 +992,7 @@ extension CreateChannelInput {
     }
 }
 
-public struct CreateChannelInput: Swift.Equatable {
+public struct CreateChannelInput {
     /// The name of the channel.
     /// This member is required.
     public var channelName: Swift.String?
@@ -1017,7 +1017,7 @@ public struct CreateChannelInput: Swift.Equatable {
     }
 }
 
-struct CreateChannelInputBody: Swift.Equatable {
+struct CreateChannelInputBody {
     let channelName: Swift.String?
     let channelStorage: IoTAnalyticsClientTypes.ChannelStorage?
     let retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod?
@@ -1070,7 +1070,7 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateChannelOutput: Swift.Equatable {
+public struct CreateChannelOutput {
     /// The ARN of the channel.
     public var channelArn: Swift.String?
     /// The name of the channel.
@@ -1090,7 +1090,7 @@ public struct CreateChannelOutput: Swift.Equatable {
     }
 }
 
-struct CreateChannelOutputBody: Swift.Equatable {
+struct CreateChannelOutputBody {
     let channelName: Swift.String?
     let channelArn: Swift.String?
     let retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod?
@@ -1153,7 +1153,7 @@ extension CreateDatasetContentInput {
     }
 }
 
-public struct CreateDatasetContentInput: Swift.Equatable {
+public struct CreateDatasetContentInput {
     /// The name of the dataset.
     /// This member is required.
     public var datasetName: Swift.String?
@@ -1170,7 +1170,7 @@ public struct CreateDatasetContentInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetContentInputBody: Swift.Equatable {
+struct CreateDatasetContentInputBody {
     let versionId: Swift.String?
 }
 
@@ -1198,7 +1198,7 @@ extension CreateDatasetContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetContentOutput: Swift.Equatable {
+public struct CreateDatasetContentOutput {
     /// The version ID of the dataset contents that are being created.
     public var versionId: Swift.String?
 
@@ -1210,7 +1210,7 @@ public struct CreateDatasetContentOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetContentOutputBody: Swift.Equatable {
+struct CreateDatasetContentOutputBody {
     let versionId: Swift.String?
 }
 
@@ -1304,7 +1304,7 @@ extension CreateDatasetInput {
     }
 }
 
-public struct CreateDatasetInput: Swift.Equatable {
+public struct CreateDatasetInput {
     /// A list of actions that create the dataset contents.
     /// This member is required.
     public var actions: [IoTAnalyticsClientTypes.DatasetAction]?
@@ -1346,7 +1346,7 @@ public struct CreateDatasetInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetInputBody: Swift.Equatable {
+struct CreateDatasetInputBody {
     let datasetName: Swift.String?
     let actions: [IoTAnalyticsClientTypes.DatasetAction]?
     let triggers: [IoTAnalyticsClientTypes.DatasetTrigger]?
@@ -1451,7 +1451,7 @@ extension CreateDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetOutput: Swift.Equatable {
+public struct CreateDatasetOutput {
     /// The ARN of the dataset.
     public var datasetArn: Swift.String?
     /// The name of the dataset.
@@ -1471,7 +1471,7 @@ public struct CreateDatasetOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetOutputBody: Swift.Equatable {
+struct CreateDatasetOutputBody {
     let datasetName: Swift.String?
     let datasetArn: Swift.String?
     let retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod?
@@ -1554,7 +1554,7 @@ extension CreateDatastoreInput {
     }
 }
 
-public struct CreateDatastoreInput: Swift.Equatable {
+public struct CreateDatastoreInput {
     /// The name of the data store.
     /// This member is required.
     public var datastoreName: Swift.String?
@@ -1587,7 +1587,7 @@ public struct CreateDatastoreInput: Swift.Equatable {
     }
 }
 
-struct CreateDatastoreInputBody: Swift.Equatable {
+struct CreateDatastoreInputBody {
     let datastoreName: Swift.String?
     let datastoreStorage: IoTAnalyticsClientTypes.DatastoreStorage?
     let retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod?
@@ -1648,7 +1648,7 @@ extension CreateDatastoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatastoreOutput: Swift.Equatable {
+public struct CreateDatastoreOutput {
     /// The ARN of the data store.
     public var datastoreArn: Swift.String?
     /// The name of the data store.
@@ -1668,7 +1668,7 @@ public struct CreateDatastoreOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatastoreOutputBody: Swift.Equatable {
+struct CreateDatastoreOutputBody {
     let datastoreName: Swift.String?
     let datastoreArn: Swift.String?
     let retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod?
@@ -1742,7 +1742,7 @@ extension CreatePipelineInput {
     }
 }
 
-public struct CreatePipelineInput: Swift.Equatable {
+public struct CreatePipelineInput {
     /// A list of PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda unctions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity. For example: pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]
     /// This member is required.
     public var pipelineActivities: [IoTAnalyticsClientTypes.PipelineActivity]?
@@ -1764,7 +1764,7 @@ public struct CreatePipelineInput: Swift.Equatable {
     }
 }
 
-struct CreatePipelineInputBody: Swift.Equatable {
+struct CreatePipelineInputBody {
     let pipelineName: Swift.String?
     let pipelineActivities: [IoTAnalyticsClientTypes.PipelineActivity]?
     let tags: [IoTAnalyticsClientTypes.Tag]?
@@ -1820,7 +1820,7 @@ extension CreatePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePipelineOutput: Swift.Equatable {
+public struct CreatePipelineOutput {
     /// The ARN of the pipeline.
     public var pipelineArn: Swift.String?
     /// The name of the pipeline.
@@ -1836,7 +1836,7 @@ public struct CreatePipelineOutput: Swift.Equatable {
     }
 }
 
-struct CreatePipelineOutputBody: Swift.Equatable {
+struct CreatePipelineOutputBody {
     let pipelineName: Swift.String?
     let pipelineArn: Swift.String?
 }
@@ -1905,7 +1905,7 @@ extension IoTAnalyticsClientTypes.CustomerManagedChannelS3Storage: Swift.Codable
 
 extension IoTAnalyticsClientTypes {
     /// Used to store channel data in an S3 bucket that you manage. If customer-managed storage is selected, the retentionPeriod parameter is ignored. You can't change the choice of S3 storage after the data store is created.
-    public struct CustomerManagedChannelS3Storage: Swift.Equatable {
+    public struct CustomerManagedChannelS3Storage {
         /// The name of the S3 bucket in which channel data is stored.
         /// This member is required.
         public var bucket: Swift.String?
@@ -1962,7 +1962,7 @@ extension IoTAnalyticsClientTypes.CustomerManagedChannelS3StorageSummary: Swift.
 
 extension IoTAnalyticsClientTypes {
     /// Used to store channel data in an S3 bucket that you manage.
-    public struct CustomerManagedChannelS3StorageSummary: Swift.Equatable {
+    public struct CustomerManagedChannelS3StorageSummary {
         /// The name of the S3 bucket in which channel data is stored.
         public var bucket: Swift.String?
         /// (Optional) The prefix used to create the keys of the channel data objects. Each object in an S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). The prefix must end with a forward slash (/).
@@ -2017,7 +2017,7 @@ extension IoTAnalyticsClientTypes.CustomerManagedDatastoreS3Storage: Swift.Codab
 
 extension IoTAnalyticsClientTypes {
     /// S3-customer-managed; When you choose customer-managed storage, the retentionPeriod parameter is ignored. You can't change the choice of Amazon S3 storage after your data store is created.
-    public struct CustomerManagedDatastoreS3Storage: Swift.Equatable {
+    public struct CustomerManagedDatastoreS3Storage {
         /// The name of the Amazon S3 bucket where your data is stored.
         /// This member is required.
         public var bucket: Swift.String?
@@ -2074,7 +2074,7 @@ extension IoTAnalyticsClientTypes.CustomerManagedDatastoreS3StorageSummary: Swif
 
 extension IoTAnalyticsClientTypes {
     /// Contains information about the data store that you manage.
-    public struct CustomerManagedDatastoreS3StorageSummary: Swift.Equatable {
+    public struct CustomerManagedDatastoreS3StorageSummary {
         /// The name of the Amazon S3 bucket where your data is stored.
         public var bucket: Swift.String?
         /// (Optional) The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).
@@ -2225,7 +2225,7 @@ extension IoTAnalyticsClientTypes.Dataset: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Information about a dataset.
-    public struct Dataset: Swift.Equatable {
+    public struct Dataset {
         /// The DatasetAction objects that automatically create the dataset contents.
         public var actions: [IoTAnalyticsClientTypes.DatasetAction]?
         /// The ARN of the dataset.
@@ -2312,7 +2312,7 @@ extension IoTAnalyticsClientTypes.DatasetAction: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// A DatasetAction object that specifies how dataset contents are automatically created.
-    public struct DatasetAction: Swift.Equatable {
+    public struct DatasetAction {
         /// The name of the dataset action by which dataset contents are automatically created.
         public var actionName: Swift.String?
         /// Information that allows the system to run a containerized application to create the dataset contents. The application must be in a Docker container along with any required support libraries.
@@ -2361,7 +2361,7 @@ extension IoTAnalyticsClientTypes.DatasetActionSummary: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Information about the action that automatically creates the dataset's contents.
-    public struct DatasetActionSummary: Swift.Equatable {
+    public struct DatasetActionSummary {
         /// The name of the action that automatically creates the dataset's contents.
         public var actionName: Swift.String?
         /// The type of action by which the dataset's contents are automatically created.
@@ -2438,7 +2438,7 @@ extension IoTAnalyticsClientTypes.DatasetContentDeliveryDestination: Swift.Codab
 
 extension IoTAnalyticsClientTypes {
     /// The destination to which dataset contents are delivered.
-    public struct DatasetContentDeliveryDestination: Swift.Equatable {
+    public struct DatasetContentDeliveryDestination {
         /// Configuration information for delivery of dataset contents to IoT Events.
         public var iotEventsDestinationConfiguration: IoTAnalyticsClientTypes.IotEventsDestinationConfiguration?
         /// Configuration information for delivery of dataset contents to Amazon S3.
@@ -2483,7 +2483,7 @@ extension IoTAnalyticsClientTypes.DatasetContentDeliveryRule: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// When dataset contents are created, they are delivered to destination specified here.
-    public struct DatasetContentDeliveryRule: Swift.Equatable {
+    public struct DatasetContentDeliveryRule {
         /// The destination to which dataset contents are delivered.
         /// This member is required.
         public var destination: IoTAnalyticsClientTypes.DatasetContentDeliveryDestination?
@@ -2564,7 +2564,7 @@ extension IoTAnalyticsClientTypes.DatasetContentStatus: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The state of the dataset contents and the reason they are in this state.
-    public struct DatasetContentStatus: Swift.Equatable {
+    public struct DatasetContentStatus {
         /// The reason the dataset contents are in this state.
         public var reason: Swift.String?
         /// The state of the dataset contents. Can be one of READY, CREATING, SUCCEEDED, or FAILED.
@@ -2627,7 +2627,7 @@ extension IoTAnalyticsClientTypes.DatasetContentSummary: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Summary information about dataset contents.
-    public struct DatasetContentSummary: Swift.Equatable {
+    public struct DatasetContentSummary {
         /// The time the dataset content status was updated to SUCCEEDED or FAILED.
         public var completionTime: ClientRuntime.Date?
         /// The actual time the creation of the dataset contents was started.
@@ -2678,7 +2678,7 @@ extension IoTAnalyticsClientTypes.DatasetContentVersionValue: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The dataset whose latest contents are used as input to the notebook or application.
-    public struct DatasetContentVersionValue: Swift.Equatable {
+    public struct DatasetContentVersionValue {
         /// The name of the dataset whose latest contents are used as input to the notebook or application.
         /// This member is required.
         public var datasetName: Swift.String?
@@ -2720,7 +2720,7 @@ extension IoTAnalyticsClientTypes.DatasetEntry: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The reference to a dataset entry.
-    public struct DatasetEntry: Swift.Equatable {
+    public struct DatasetEntry {
         /// The presigned URI of the dataset item.
         public var dataURI: Swift.String?
         /// The name of the dataset item.
@@ -2848,7 +2848,7 @@ extension IoTAnalyticsClientTypes.DatasetSummary: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// A summary of information about a dataset.
-    public struct DatasetSummary: Swift.Equatable {
+    public struct DatasetSummary {
         /// A list of DataActionSummary objects.
         public var actions: [IoTAnalyticsClientTypes.DatasetActionSummary]?
         /// The time the dataset was created.
@@ -2909,7 +2909,7 @@ extension IoTAnalyticsClientTypes.DatasetTrigger: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The DatasetTrigger that specifies when the dataset is automatically updated.
-    public struct DatasetTrigger: Swift.Equatable {
+    public struct DatasetTrigger {
         /// The dataset whose content creation triggers the creation of this dataset's contents.
         public var dataset: IoTAnalyticsClientTypes.TriggeringDataset?
         /// The Schedule when the trigger is initiated.
@@ -3002,7 +3002,7 @@ extension IoTAnalyticsClientTypes.Datastore: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Information about a data store.
-    public struct Datastore: Swift.Equatable {
+    public struct Datastore {
         /// The ARN of the data store.
         public var arn: Swift.String?
         /// When the data store was created.
@@ -3079,7 +3079,7 @@ extension IoTAnalyticsClientTypes.DatastoreActivity: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The datastore activity that specifies where to store the processed data.
-    public struct DatastoreActivity: Swift.Equatable {
+    public struct DatastoreActivity {
         /// The name of the data store where processed messages are stored.
         /// This member is required.
         public var datastoreName: Swift.String?
@@ -3120,7 +3120,7 @@ extension IoTAnalyticsClientTypes.DatastoreIotSiteWiseMultiLayerStorage: Swift.C
 
 extension IoTAnalyticsClientTypes {
     /// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you manage. You can't change the choice of Amazon S3 storage after your data store is created.
-    public struct DatastoreIotSiteWiseMultiLayerStorage: Swift.Equatable {
+    public struct DatastoreIotSiteWiseMultiLayerStorage {
         /// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you manage.
         /// This member is required.
         public var customerManagedS3Storage: IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3Storage?
@@ -3156,7 +3156,7 @@ extension IoTAnalyticsClientTypes.DatastoreIotSiteWiseMultiLayerStorageSummary: 
 
 extension IoTAnalyticsClientTypes {
     /// Contains information about the data store that you manage, which stores data used by IoT SiteWise.
-    public struct DatastoreIotSiteWiseMultiLayerStorageSummary: Swift.Equatable {
+    public struct DatastoreIotSiteWiseMultiLayerStorageSummary {
         /// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you manage.
         public var customerManagedS3Storage: IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3StorageSummary?
 
@@ -3197,7 +3197,7 @@ extension IoTAnalyticsClientTypes.DatastorePartition: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// A single dimension to partition a data store. The dimension must be an AttributePartition or a TimestampPartition.
-    public struct DatastorePartition: Swift.Equatable {
+    public struct DatastorePartition {
         /// A partition dimension defined by an attributeName.
         public var attributePartition: IoTAnalyticsClientTypes.Partition?
         /// A partition dimension defined by a timestamp attribute.
@@ -3248,7 +3248,7 @@ extension IoTAnalyticsClientTypes.DatastorePartitions: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Contains information about the partition dimensions in a data store.
-    public struct DatastorePartitions: Swift.Equatable {
+    public struct DatastorePartitions {
         /// A list of partition dimensions in a data store.
         public var partitions: [IoTAnalyticsClientTypes.DatastorePartition]?
 
@@ -3283,7 +3283,7 @@ extension IoTAnalyticsClientTypes.DatastoreStatistics: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Statistical information about the data store.
-    public struct DatastoreStatistics: Swift.Equatable {
+    public struct DatastoreStatistics {
         /// The estimated size of the data store.
         public var size: IoTAnalyticsClientTypes.EstimatedResourceSize?
 
@@ -3377,7 +3377,7 @@ extension IoTAnalyticsClientTypes.DatastoreStorage: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Where data in a data store is stored.. You can choose serviceManagedS3 storage, customerManagedS3 storage, or iotSiteWiseMultiLayerStorage storage. The default is serviceManagedS3. You can't change the choice of Amazon S3 storage after your data store is created.
-    public enum DatastoreStorage: Swift.Equatable {
+    public enum DatastoreStorage {
         /// Used to store data in an Amazon S3 bucket managed by IoT Analytics. You can't change the choice of Amazon S3 storage after your data store is created.
         case servicemanageds3(IoTAnalyticsClientTypes.ServiceManagedDatastoreS3Storage)
         /// S3-customer-managed; When you choose customer-managed storage, the retentionPeriod parameter is ignored. You can't change the choice of Amazon S3 storage after your data store is created.
@@ -3422,7 +3422,7 @@ extension IoTAnalyticsClientTypes.DatastoreStorageSummary: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Contains information about your data store.
-    public struct DatastoreStorageSummary: Swift.Equatable {
+    public struct DatastoreStorageSummary {
         /// Used to store data in an Amazon S3 bucket managed by IoT Analytics.
         public var customerManagedS3: IoTAnalyticsClientTypes.CustomerManagedDatastoreS3StorageSummary?
         /// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you manage.
@@ -3507,7 +3507,7 @@ extension IoTAnalyticsClientTypes.DatastoreSummary: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// A summary of information about a data store.
-    public struct DatastoreSummary: Swift.Equatable {
+    public struct DatastoreSummary {
         /// When the data store was created.
         public var creationTime: ClientRuntime.Date?
         /// The name of the data store.
@@ -3559,7 +3559,7 @@ extension DeleteChannelInput {
     }
 }
 
-public struct DeleteChannelInput: Swift.Equatable {
+public struct DeleteChannelInput {
     /// The name of the channel to delete.
     /// This member is required.
     public var channelName: Swift.String?
@@ -3572,7 +3572,7 @@ public struct DeleteChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteChannelInputBody: Swift.Equatable {
+struct DeleteChannelInputBody {
 }
 
 extension DeleteChannelInputBody: Swift.Decodable {
@@ -3586,7 +3586,7 @@ extension DeleteChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteChannelOutput: Swift.Equatable {
+public struct DeleteChannelOutput {
 
     public init() { }
 }
@@ -3628,7 +3628,7 @@ extension DeleteDatasetContentInput {
     }
 }
 
-public struct DeleteDatasetContentInput: Swift.Equatable {
+public struct DeleteDatasetContentInput {
     /// The name of the dataset whose content is deleted.
     /// This member is required.
     public var datasetName: Swift.String?
@@ -3645,7 +3645,7 @@ public struct DeleteDatasetContentInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetContentInputBody: Swift.Equatable {
+struct DeleteDatasetContentInputBody {
 }
 
 extension DeleteDatasetContentInputBody: Swift.Decodable {
@@ -3659,7 +3659,7 @@ extension DeleteDatasetContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatasetContentOutput: Swift.Equatable {
+public struct DeleteDatasetContentOutput {
 
     public init() { }
 }
@@ -3689,7 +3689,7 @@ extension DeleteDatasetInput {
     }
 }
 
-public struct DeleteDatasetInput: Swift.Equatable {
+public struct DeleteDatasetInput {
     /// The name of the dataset to delete.
     /// This member is required.
     public var datasetName: Swift.String?
@@ -3702,7 +3702,7 @@ public struct DeleteDatasetInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetInputBody: Swift.Equatable {
+struct DeleteDatasetInputBody {
 }
 
 extension DeleteDatasetInputBody: Swift.Decodable {
@@ -3716,7 +3716,7 @@ extension DeleteDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatasetOutput: Swift.Equatable {
+public struct DeleteDatasetOutput {
 
     public init() { }
 }
@@ -3746,7 +3746,7 @@ extension DeleteDatastoreInput {
     }
 }
 
-public struct DeleteDatastoreInput: Swift.Equatable {
+public struct DeleteDatastoreInput {
     /// The name of the data store to delete.
     /// This member is required.
     public var datastoreName: Swift.String?
@@ -3759,7 +3759,7 @@ public struct DeleteDatastoreInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatastoreInputBody: Swift.Equatable {
+struct DeleteDatastoreInputBody {
 }
 
 extension DeleteDatastoreInputBody: Swift.Decodable {
@@ -3773,7 +3773,7 @@ extension DeleteDatastoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatastoreOutput: Swift.Equatable {
+public struct DeleteDatastoreOutput {
 
     public init() { }
 }
@@ -3803,7 +3803,7 @@ extension DeletePipelineInput {
     }
 }
 
-public struct DeletePipelineInput: Swift.Equatable {
+public struct DeletePipelineInput {
     /// The name of the pipeline to delete.
     /// This member is required.
     public var pipelineName: Swift.String?
@@ -3816,7 +3816,7 @@ public struct DeletePipelineInput: Swift.Equatable {
     }
 }
 
-struct DeletePipelineInputBody: Swift.Equatable {
+struct DeletePipelineInputBody {
 }
 
 extension DeletePipelineInputBody: Swift.Decodable {
@@ -3830,7 +3830,7 @@ extension DeletePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePipelineOutput: Swift.Equatable {
+public struct DeletePipelineOutput {
 
     public init() { }
 }
@@ -3877,7 +3877,7 @@ extension IoTAnalyticsClientTypes.DeltaTime: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Used to limit data to that which has arrived since the last execution of the action.
-    public struct DeltaTime: Swift.Equatable {
+    public struct DeltaTime {
         /// The number of seconds of estimated in-flight lag time of message data. When you create dataset contents using message data from a specified timeframe, some message data might still be in flight when processing begins, and so do not arrive in time to be processed. Use this field to make allowances for the in flight time of your message data, so that data not processed from a previous timeframe is included with the next timeframe. Otherwise, missed message data would be excluded from processing during the next timeframe too, because its timestamp places it within the previous timeframe.
         /// This member is required.
         public var offsetSeconds: Swift.Int?
@@ -3918,7 +3918,7 @@ extension IoTAnalyticsClientTypes.DeltaTimeSessionWindowConfiguration: Swift.Cod
 
 extension IoTAnalyticsClientTypes {
     /// A structure that contains the configuration information of a delta time session window. [DeltaTime](https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html) specifies a time interval. You can use DeltaTime to create dataset contents with data that has arrived in the data store since the last execution. For an example of DeltaTime, see [ Creating a SQL dataset with a delta window (CLI)](https://docs.aws.amazon.com/iotanalytics/latest/userguide/automate-create-dataset.html#automate-example6) in the IoT Analytics User Guide.
-    public struct DeltaTimeSessionWindowConfiguration: Swift.Equatable {
+    public struct DeltaTimeSessionWindowConfiguration {
         /// A time interval. You can use timeoutInMinutes so that IoT Analytics can batch up late data notifications that have been generated since the last execution. IoT Analytics sends one batch of notifications to Amazon CloudWatch Events at one time. For more information about how to write a timestamp expression, see [Date and Time Functions and Operators](https://prestodb.io/docs/0.172/functions/datetime.html), in the Presto 0.172 Documentation.
         /// This member is required.
         public var timeoutInMinutes: Swift.Int?
@@ -3955,7 +3955,7 @@ extension DescribeChannelInput {
     }
 }
 
-public struct DescribeChannelInput: Swift.Equatable {
+public struct DescribeChannelInput {
     /// The name of the channel whose information is retrieved.
     /// This member is required.
     public var channelName: Swift.String?
@@ -3972,7 +3972,7 @@ public struct DescribeChannelInput: Swift.Equatable {
     }
 }
 
-struct DescribeChannelInputBody: Swift.Equatable {
+struct DescribeChannelInputBody {
 }
 
 extension DescribeChannelInputBody: Swift.Decodable {
@@ -3995,7 +3995,7 @@ extension DescribeChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeChannelOutput: Swift.Equatable {
+public struct DescribeChannelOutput {
     /// An object that contains information about the channel.
     public var channel: IoTAnalyticsClientTypes.Channel?
     /// Statistics about the channel. Included if the includeStatistics parameter is set to true in the request.
@@ -4011,7 +4011,7 @@ public struct DescribeChannelOutput: Swift.Equatable {
     }
 }
 
-struct DescribeChannelOutputBody: Swift.Equatable {
+struct DescribeChannelOutputBody {
     let channel: IoTAnalyticsClientTypes.Channel?
     let statistics: IoTAnalyticsClientTypes.ChannelStatistics?
 }
@@ -4056,7 +4056,7 @@ extension DescribeDatasetInput {
     }
 }
 
-public struct DescribeDatasetInput: Swift.Equatable {
+public struct DescribeDatasetInput {
     /// The name of the dataset whose information is retrieved.
     /// This member is required.
     public var datasetName: Swift.String?
@@ -4069,7 +4069,7 @@ public struct DescribeDatasetInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetInputBody: Swift.Equatable {
+struct DescribeDatasetInputBody {
 }
 
 extension DescribeDatasetInputBody: Swift.Decodable {
@@ -4090,7 +4090,7 @@ extension DescribeDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatasetOutput: Swift.Equatable {
+public struct DescribeDatasetOutput {
     /// An object that contains information about the dataset.
     public var dataset: IoTAnalyticsClientTypes.Dataset?
 
@@ -4102,7 +4102,7 @@ public struct DescribeDatasetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetOutputBody: Swift.Equatable {
+struct DescribeDatasetOutputBody {
     let dataset: IoTAnalyticsClientTypes.Dataset?
 }
 
@@ -4155,7 +4155,7 @@ extension DescribeDatastoreInput {
     }
 }
 
-public struct DescribeDatastoreInput: Swift.Equatable {
+public struct DescribeDatastoreInput {
     /// The name of the data store
     /// This member is required.
     public var datastoreName: Swift.String?
@@ -4172,7 +4172,7 @@ public struct DescribeDatastoreInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatastoreInputBody: Swift.Equatable {
+struct DescribeDatastoreInputBody {
 }
 
 extension DescribeDatastoreInputBody: Swift.Decodable {
@@ -4195,7 +4195,7 @@ extension DescribeDatastoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatastoreOutput: Swift.Equatable {
+public struct DescribeDatastoreOutput {
     /// Information about the data store.
     public var datastore: IoTAnalyticsClientTypes.Datastore?
     /// Additional statistical information about the data store. Included if the includeStatistics parameter is set to true in the request.
@@ -4211,7 +4211,7 @@ public struct DescribeDatastoreOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatastoreOutputBody: Swift.Equatable {
+struct DescribeDatastoreOutputBody {
     let datastore: IoTAnalyticsClientTypes.Datastore?
     let statistics: IoTAnalyticsClientTypes.DatastoreStatistics?
 }
@@ -4253,12 +4253,12 @@ extension DescribeLoggingOptionsInput {
     }
 }
 
-public struct DescribeLoggingOptionsInput: Swift.Equatable {
+public struct DescribeLoggingOptionsInput {
 
     public init() { }
 }
 
-struct DescribeLoggingOptionsInputBody: Swift.Equatable {
+struct DescribeLoggingOptionsInputBody {
 }
 
 extension DescribeLoggingOptionsInputBody: Swift.Decodable {
@@ -4279,7 +4279,7 @@ extension DescribeLoggingOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLoggingOptionsOutput: Swift.Equatable {
+public struct DescribeLoggingOptionsOutput {
     /// The current settings of the IoT Analytics logging options.
     public var loggingOptions: IoTAnalyticsClientTypes.LoggingOptions?
 
@@ -4291,7 +4291,7 @@ public struct DescribeLoggingOptionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLoggingOptionsOutputBody: Swift.Equatable {
+struct DescribeLoggingOptionsOutputBody {
     let loggingOptions: IoTAnalyticsClientTypes.LoggingOptions?
 }
 
@@ -4332,7 +4332,7 @@ extension DescribePipelineInput {
     }
 }
 
-public struct DescribePipelineInput: Swift.Equatable {
+public struct DescribePipelineInput {
     /// The name of the pipeline whose information is retrieved.
     /// This member is required.
     public var pipelineName: Swift.String?
@@ -4345,7 +4345,7 @@ public struct DescribePipelineInput: Swift.Equatable {
     }
 }
 
-struct DescribePipelineInputBody: Swift.Equatable {
+struct DescribePipelineInputBody {
 }
 
 extension DescribePipelineInputBody: Swift.Decodable {
@@ -4366,7 +4366,7 @@ extension DescribePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePipelineOutput: Swift.Equatable {
+public struct DescribePipelineOutput {
     /// A Pipeline object that contains information about the pipeline.
     public var pipeline: IoTAnalyticsClientTypes.Pipeline?
 
@@ -4378,7 +4378,7 @@ public struct DescribePipelineOutput: Swift.Equatable {
     }
 }
 
-struct DescribePipelineOutputBody: Swift.Equatable {
+struct DescribePipelineOutputBody {
     let pipeline: IoTAnalyticsClientTypes.Pipeline?
 }
 
@@ -4454,7 +4454,7 @@ extension IoTAnalyticsClientTypes.DeviceRegistryEnrichActivity: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// An activity that adds data from the IoT device registry to your message.
-    public struct DeviceRegistryEnrichActivity: Swift.Equatable {
+    public struct DeviceRegistryEnrichActivity {
         /// The name of the attribute that is added to the message.
         /// This member is required.
         public var attribute: Swift.String?
@@ -4533,7 +4533,7 @@ extension IoTAnalyticsClientTypes.DeviceShadowEnrichActivity: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// An activity that adds information from the IoT Device Shadow service to a message.
-    public struct DeviceShadowEnrichActivity: Swift.Equatable {
+    public struct DeviceShadowEnrichActivity {
         /// The name of the attribute that is added to the message.
         /// This member is required.
         public var attribute: Swift.String?
@@ -4594,7 +4594,7 @@ extension IoTAnalyticsClientTypes.EstimatedResourceSize: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The estimated size of the resource.
-    public struct EstimatedResourceSize: Swift.Equatable {
+    public struct EstimatedResourceSize {
         /// The time when the estimate of the size of the resource was made.
         public var estimatedOn: ClientRuntime.Date?
         /// The estimated size of the resource, in bytes.
@@ -4639,7 +4639,7 @@ extension IoTAnalyticsClientTypes.FileFormatConfiguration: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Contains the configuration information of file formats. IoT Analytics data stores support JSON and [Parquet](https://parquet.apache.org/). The default file format is JSON. You can specify only one format. You can't change the file format after you create the data store.
-    public struct FileFormatConfiguration: Swift.Equatable {
+    public struct FileFormatConfiguration {
         /// Contains the configuration information of the JSON format.
         public var jsonConfiguration: IoTAnalyticsClientTypes.JsonConfiguration?
         /// Contains the configuration information of the Parquet format.
@@ -4722,7 +4722,7 @@ extension IoTAnalyticsClientTypes.FilterActivity: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// An activity that filters a message based on its attributes.
-    public struct FilterActivity: Swift.Equatable {
+    public struct FilterActivity {
         /// An expression that looks like a SQL WHERE clause that must return a Boolean value. Messages that satisfy the condition are passed to the next activity.
         /// This member is required.
         public var filter: Swift.String?
@@ -4768,7 +4768,7 @@ extension GetDatasetContentInput {
     }
 }
 
-public struct GetDatasetContentInput: Swift.Equatable {
+public struct GetDatasetContentInput {
     /// The name of the dataset whose contents are retrieved.
     /// This member is required.
     public var datasetName: Swift.String?
@@ -4785,7 +4785,7 @@ public struct GetDatasetContentInput: Swift.Equatable {
     }
 }
 
-struct GetDatasetContentInputBody: Swift.Equatable {
+struct GetDatasetContentInputBody {
 }
 
 extension GetDatasetContentInputBody: Swift.Decodable {
@@ -4810,7 +4810,7 @@ extension GetDatasetContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDatasetContentOutput: Swift.Equatable {
+public struct GetDatasetContentOutput {
     /// A list of DatasetEntry objects.
     public var entries: [IoTAnalyticsClientTypes.DatasetEntry]?
     /// The status of the dataset content.
@@ -4830,7 +4830,7 @@ public struct GetDatasetContentOutput: Swift.Equatable {
     }
 }
 
-struct GetDatasetContentOutputBody: Swift.Equatable {
+struct GetDatasetContentOutputBody {
     let entries: [IoTAnalyticsClientTypes.DatasetEntry]?
     let timestamp: ClientRuntime.Date?
     let status: IoTAnalyticsClientTypes.DatasetContentStatus?
@@ -4905,7 +4905,7 @@ extension IoTAnalyticsClientTypes.GlueConfiguration: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Configuration information for coordination with Glue, a fully managed extract, transform and load (ETL) service.
-    public struct GlueConfiguration: Swift.Equatable {
+    public struct GlueConfiguration {
         /// The name of the database in your Glue Data Catalog in which the table is located. An Glue Data Catalog database contains metadata tables.
         /// This member is required.
         public var databaseName: Swift.String?
@@ -4964,7 +4964,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -5019,7 +5019,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -5064,7 +5064,7 @@ extension IoTAnalyticsClientTypes.IotEventsDestinationConfiguration: Swift.Codab
 
 extension IoTAnalyticsClientTypes {
     /// Configuration information for delivery of dataset contents to IoT Events.
-    public struct IotEventsDestinationConfiguration: Swift.Equatable {
+    public struct IotEventsDestinationConfiguration {
         /// The name of the IoT Events input to which dataset contents are delivered.
         /// This member is required.
         public var inputName: Swift.String?
@@ -5111,7 +5111,7 @@ extension IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3Storage: 
 
 extension IoTAnalyticsClientTypes {
     /// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you manage. You can't change the choice of Amazon S3 storage after your data store is created.
-    public struct IotSiteWiseCustomerManagedDatastoreS3Storage: Swift.Equatable {
+    public struct IotSiteWiseCustomerManagedDatastoreS3Storage {
         /// The name of the Amazon S3 bucket where your data is stored.
         /// This member is required.
         public var bucket: Swift.String?
@@ -5157,7 +5157,7 @@ extension IoTAnalyticsClientTypes.IotSiteWiseCustomerManagedDatastoreS3StorageSu
 
 extension IoTAnalyticsClientTypes {
     /// Contains information about the data store that you manage, which stores data used by IoT SiteWise.
-    public struct IotSiteWiseCustomerManagedDatastoreS3StorageSummary: Swift.Equatable {
+    public struct IotSiteWiseCustomerManagedDatastoreS3StorageSummary {
         /// The name of the Amazon S3 bucket where your data is stored.
         public var bucket: Swift.String?
         /// (Optional) The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).
@@ -5188,7 +5188,7 @@ extension IoTAnalyticsClientTypes.JsonConfiguration: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Contains the configuration information of the JSON format.
-    public struct JsonConfiguration: Swift.Equatable {
+    public struct JsonConfiguration {
 
         public init() { }
     }
@@ -5234,7 +5234,7 @@ extension IoTAnalyticsClientTypes.LambdaActivity: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// An activity that runs a Lambda function to modify the message.
-    public struct LambdaActivity: Swift.Equatable {
+    public struct LambdaActivity {
         /// The number of messages passed to the Lambda function for processing. The Lambda function must be able to process all of these messages within five minutes, which is the maximum timeout duration for Lambda functions.
         /// This member is required.
         public var batchSize: Swift.Int?
@@ -5290,7 +5290,7 @@ extension IoTAnalyticsClientTypes.LateDataRule: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// A structure that contains the name and configuration information of a late data rule.
-    public struct LateDataRule: Swift.Equatable {
+    public struct LateDataRule {
         /// The information needed to configure the late data rule.
         /// This member is required.
         public var ruleConfiguration: IoTAnalyticsClientTypes.LateDataRuleConfiguration?
@@ -5330,7 +5330,7 @@ extension IoTAnalyticsClientTypes.LateDataRuleConfiguration: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The information needed to configure a delta time session window.
-    public struct LateDataRuleConfiguration: Swift.Equatable {
+    public struct LateDataRuleConfiguration {
         /// The information needed to configure a delta time session window.
         public var deltaTimeSessionWindowConfiguration: IoTAnalyticsClientTypes.DeltaTimeSessionWindowConfiguration?
 
@@ -5383,7 +5383,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5422,7 +5422,7 @@ extension ListChannelsInput {
     }
 }
 
-public struct ListChannelsInput: Swift.Equatable {
+public struct ListChannelsInput {
     /// The maximum number of results to return in this request. The default value is 100.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -5438,7 +5438,7 @@ public struct ListChannelsInput: Swift.Equatable {
     }
 }
 
-struct ListChannelsInputBody: Swift.Equatable {
+struct ListChannelsInputBody {
 }
 
 extension ListChannelsInputBody: Swift.Decodable {
@@ -5461,7 +5461,7 @@ extension ListChannelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChannelsOutput: Swift.Equatable {
+public struct ListChannelsOutput {
     /// A list of ChannelSummary objects.
     public var channelSummaries: [IoTAnalyticsClientTypes.ChannelSummary]?
     /// The token to retrieve the next set of results, or null if there are no more results.
@@ -5477,7 +5477,7 @@ public struct ListChannelsOutput: Swift.Equatable {
     }
 }
 
-struct ListChannelsOutputBody: Swift.Equatable {
+struct ListChannelsOutputBody {
     let channelSummaries: [IoTAnalyticsClientTypes.ChannelSummary]?
     let nextToken: Swift.String?
 }
@@ -5554,7 +5554,7 @@ extension ListDatasetContentsInput {
     }
 }
 
-public struct ListDatasetContentsInput: Swift.Equatable {
+public struct ListDatasetContentsInput {
     /// The name of the dataset whose contents information you want to list.
     /// This member is required.
     public var datasetName: Swift.String?
@@ -5583,7 +5583,7 @@ public struct ListDatasetContentsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetContentsInputBody: Swift.Equatable {
+struct ListDatasetContentsInputBody {
 }
 
 extension ListDatasetContentsInputBody: Swift.Decodable {
@@ -5606,7 +5606,7 @@ extension ListDatasetContentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetContentsOutput: Swift.Equatable {
+public struct ListDatasetContentsOutput {
     /// Summary information about dataset contents that have been created.
     public var datasetContentSummaries: [IoTAnalyticsClientTypes.DatasetContentSummary]?
     /// The token to retrieve the next set of results, or null if there are no more results.
@@ -5622,7 +5622,7 @@ public struct ListDatasetContentsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetContentsOutputBody: Swift.Equatable {
+struct ListDatasetContentsOutputBody {
     let datasetContentSummaries: [IoTAnalyticsClientTypes.DatasetContentSummary]?
     let nextToken: Swift.String?
 }
@@ -5689,7 +5689,7 @@ extension ListDatasetsInput {
     }
 }
 
-public struct ListDatasetsInput: Swift.Equatable {
+public struct ListDatasetsInput {
     /// The maximum number of results to return in this request. The default value is 100.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -5705,7 +5705,7 @@ public struct ListDatasetsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsInputBody: Swift.Equatable {
+struct ListDatasetsInputBody {
 }
 
 extension ListDatasetsInputBody: Swift.Decodable {
@@ -5728,7 +5728,7 @@ extension ListDatasetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetsOutput: Swift.Equatable {
+public struct ListDatasetsOutput {
     /// A list of DatasetSummary objects.
     public var datasetSummaries: [IoTAnalyticsClientTypes.DatasetSummary]?
     /// The token to retrieve the next set of results, or null if there are no more results.
@@ -5744,7 +5744,7 @@ public struct ListDatasetsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsOutputBody: Swift.Equatable {
+struct ListDatasetsOutputBody {
     let datasetSummaries: [IoTAnalyticsClientTypes.DatasetSummary]?
     let nextToken: Swift.String?
 }
@@ -5810,7 +5810,7 @@ extension ListDatastoresInput {
     }
 }
 
-public struct ListDatastoresInput: Swift.Equatable {
+public struct ListDatastoresInput {
     /// The maximum number of results to return in this request. The default value is 100.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -5826,7 +5826,7 @@ public struct ListDatastoresInput: Swift.Equatable {
     }
 }
 
-struct ListDatastoresInputBody: Swift.Equatable {
+struct ListDatastoresInputBody {
 }
 
 extension ListDatastoresInputBody: Swift.Decodable {
@@ -5849,7 +5849,7 @@ extension ListDatastoresOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatastoresOutput: Swift.Equatable {
+public struct ListDatastoresOutput {
     /// A list of DatastoreSummary objects.
     public var datastoreSummaries: [IoTAnalyticsClientTypes.DatastoreSummary]?
     /// The token to retrieve the next set of results, or null if there are no more results.
@@ -5865,7 +5865,7 @@ public struct ListDatastoresOutput: Swift.Equatable {
     }
 }
 
-struct ListDatastoresOutputBody: Swift.Equatable {
+struct ListDatastoresOutputBody {
     let datastoreSummaries: [IoTAnalyticsClientTypes.DatastoreSummary]?
     let nextToken: Swift.String?
 }
@@ -5931,7 +5931,7 @@ extension ListPipelinesInput {
     }
 }
 
-public struct ListPipelinesInput: Swift.Equatable {
+public struct ListPipelinesInput {
     /// The maximum number of results to return in this request. The default value is 100.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -5947,7 +5947,7 @@ public struct ListPipelinesInput: Swift.Equatable {
     }
 }
 
-struct ListPipelinesInputBody: Swift.Equatable {
+struct ListPipelinesInputBody {
 }
 
 extension ListPipelinesInputBody: Swift.Decodable {
@@ -5970,7 +5970,7 @@ extension ListPipelinesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPipelinesOutput: Swift.Equatable {
+public struct ListPipelinesOutput {
     /// The token to retrieve the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// A list of PipelineSummary objects.
@@ -5986,7 +5986,7 @@ public struct ListPipelinesOutput: Swift.Equatable {
     }
 }
 
-struct ListPipelinesOutputBody: Swift.Equatable {
+struct ListPipelinesOutputBody {
     let pipelineSummaries: [IoTAnalyticsClientTypes.PipelineSummary]?
     let nextToken: Swift.String?
 }
@@ -6050,7 +6050,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource whose tags you want to list.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6063,7 +6063,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -6084,7 +6084,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags (metadata) that you have assigned to the resource.
     public var tags: [IoTAnalyticsClientTypes.Tag]?
 
@@ -6096,7 +6096,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [IoTAnalyticsClientTypes.Tag]?
 }
 
@@ -6199,7 +6199,7 @@ extension IoTAnalyticsClientTypes.LoggingOptions: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Information about logging options.
-    public struct LoggingOptions: Swift.Equatable {
+    public struct LoggingOptions {
         /// If true, logging is enabled for IoT Analytics.
         /// This member is required.
         public var enabled: Swift.Bool
@@ -6263,7 +6263,7 @@ extension IoTAnalyticsClientTypes.MathActivity: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// An activity that computes an arithmetic expression using the message's attributes.
-    public struct MathActivity: Swift.Equatable {
+    public struct MathActivity {
         /// The name of the attribute that contains the result of the math operation.
         /// This member is required.
         public var attribute: Swift.String?
@@ -6319,7 +6319,7 @@ extension IoTAnalyticsClientTypes.Message: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Information about a message.
-    public struct Message: Swift.Equatable {
+    public struct Message {
         /// The ID you want to assign to the message. Each messageId must be unique within each batch sent.
         /// This member is required.
         public var messageId: Swift.String?
@@ -6360,7 +6360,7 @@ extension IoTAnalyticsClientTypes.OutputFileUriValue: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The value of the variable as a structure that specifies an output file URI.
-    public struct OutputFileUriValue: Swift.Equatable {
+    public struct OutputFileUriValue {
         /// The URI of the location where dataset contents are stored, usually the URI of a file in an S3 bucket.
         /// This member is required.
         public var fileName: Swift.String?
@@ -6396,7 +6396,7 @@ extension IoTAnalyticsClientTypes.ParquetConfiguration: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Contains the configuration information of the Parquet format.
-    public struct ParquetConfiguration: Swift.Equatable {
+    public struct ParquetConfiguration {
         /// Information needed to define a schema.
         public var schemaDefinition: IoTAnalyticsClientTypes.SchemaDefinition?
 
@@ -6431,7 +6431,7 @@ extension IoTAnalyticsClientTypes.Partition: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// A partition dimension defined by an attribute.
-    public struct Partition: Swift.Equatable {
+    public struct Partition {
         /// The name of the attribute that defines a partition dimension.
         /// This member is required.
         public var attributeName: Swift.String?
@@ -6521,7 +6521,7 @@ extension IoTAnalyticsClientTypes.Pipeline: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Contains information about a pipeline.
-    public struct Pipeline: Swift.Equatable {
+    public struct Pipeline {
         /// The activities that perform transformations on the messages.
         public var activities: [IoTAnalyticsClientTypes.PipelineActivity]?
         /// The ARN of the pipeline.
@@ -6630,7 +6630,7 @@ extension IoTAnalyticsClientTypes.PipelineActivity: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// An activity that performs a transformation on a message.
-    public struct PipelineActivity: Swift.Equatable {
+    public struct PipelineActivity {
         /// Adds other attributes based on existing attributes in the message.
         public var addAttributes: IoTAnalyticsClientTypes.AddAttributesActivity?
         /// Determines the source of the messages to be processed.
@@ -6731,7 +6731,7 @@ extension IoTAnalyticsClientTypes.PipelineSummary: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// A summary of information about a pipeline.
-    public struct PipelineSummary: Swift.Equatable {
+    public struct PipelineSummary {
         /// When the pipeline was created.
         public var creationTime: ClientRuntime.Date?
         /// When the pipeline was last updated.
@@ -6777,7 +6777,7 @@ extension PutLoggingOptionsInput {
     }
 }
 
-public struct PutLoggingOptionsInput: Swift.Equatable {
+public struct PutLoggingOptionsInput {
     /// The new values of the IoT Analytics logging options.
     /// This member is required.
     public var loggingOptions: IoTAnalyticsClientTypes.LoggingOptions?
@@ -6790,7 +6790,7 @@ public struct PutLoggingOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutLoggingOptionsInputBody: Swift.Equatable {
+struct PutLoggingOptionsInputBody {
     let loggingOptions: IoTAnalyticsClientTypes.LoggingOptions?
 }
 
@@ -6811,7 +6811,7 @@ extension PutLoggingOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutLoggingOptionsOutput: Swift.Equatable {
+public struct PutLoggingOptionsOutput {
 
     public init() { }
 }
@@ -6851,7 +6851,7 @@ extension IoTAnalyticsClientTypes.QueryFilter: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Information that is used to filter message data, to segregate it according to the timeframe in which it arrives.
-    public struct QueryFilter: Swift.Equatable {
+    public struct QueryFilter {
         /// Used to limit data to that which has arrived since the last execution of the action.
         public var deltaTime: IoTAnalyticsClientTypes.DeltaTime?
 
@@ -6910,7 +6910,7 @@ extension IoTAnalyticsClientTypes.RemoveAttributesActivity: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// An activity that removes attributes from a message.
-    public struct RemoveAttributesActivity: Swift.Equatable {
+    public struct RemoveAttributesActivity {
         /// A list of 1-50 attributes to remove from the message.
         /// This member is required.
         public var attributes: [Swift.String]?
@@ -7005,7 +7005,7 @@ extension IoTAnalyticsClientTypes.ReprocessingSummary: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Information about pipeline reprocessing.
-    public struct ReprocessingSummary: Swift.Equatable {
+    public struct ReprocessingSummary {
         /// The time the pipeline reprocessing was created.
         public var creationTime: ClientRuntime.Date?
         /// The reprocessingId returned by StartPipelineReprocessing.
@@ -7078,7 +7078,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceArn: Swift.String?
@@ -7129,7 +7129,7 @@ extension IoTAnalyticsClientTypes.ResourceConfiguration: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The configuration of the resource used to execute the containerAction.
-    public struct ResourceConfiguration: Swift.Equatable {
+    public struct ResourceConfiguration {
         /// The type of the compute resource used to execute the containerAction. Possible values are: ACU_1 (vCPU=4, memory=16 GiB) or ACU_2 (vCPU=8, memory=32 GiB).
         /// This member is required.
         public var computeType: IoTAnalyticsClientTypes.ComputeType?
@@ -7188,7 +7188,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -7231,7 +7231,7 @@ extension IoTAnalyticsClientTypes.RetentionPeriod: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// How long, in days, message data is kept.
-    public struct RetentionPeriod: Swift.Equatable {
+    public struct RetentionPeriod {
         /// The number of days that message data is kept. The unlimited parameter must be false.
         public var numberOfDays: Swift.Int?
         /// If true, message data is kept indefinitely.
@@ -7276,7 +7276,7 @@ extension RunPipelineActivityInput {
     }
 }
 
-public struct RunPipelineActivityInput: Swift.Equatable {
+public struct RunPipelineActivityInput {
     /// The sample message payloads on which the pipeline activity is run.
     /// This member is required.
     public var payloads: [ClientRuntime.Data]?
@@ -7294,7 +7294,7 @@ public struct RunPipelineActivityInput: Swift.Equatable {
     }
 }
 
-struct RunPipelineActivityInputBody: Swift.Equatable {
+struct RunPipelineActivityInputBody {
     let pipelineActivity: IoTAnalyticsClientTypes.PipelineActivity?
     let payloads: [ClientRuntime.Data]?
 }
@@ -7337,7 +7337,7 @@ extension RunPipelineActivityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RunPipelineActivityOutput: Swift.Equatable {
+public struct RunPipelineActivityOutput {
     /// In case the pipeline activity fails, the log message that is generated.
     public var logResult: Swift.String?
     /// The enriched or transformed sample message payloads as base64-encoded strings. (The results of running the pipeline activity on each input sample message payload, encoded in base64.)
@@ -7353,7 +7353,7 @@ public struct RunPipelineActivityOutput: Swift.Equatable {
     }
 }
 
-struct RunPipelineActivityOutputBody: Swift.Equatable {
+struct RunPipelineActivityOutputBody {
     let payloads: [ClientRuntime.Data]?
     let logResult: Swift.String?
 }
@@ -7435,7 +7435,7 @@ extension IoTAnalyticsClientTypes.S3DestinationConfiguration: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Configuration information for delivery of dataset contents to Amazon Simple Storage Service (Amazon S3).
-    public struct S3DestinationConfiguration: Swift.Equatable {
+    public struct S3DestinationConfiguration {
         /// The name of the S3 bucket to which dataset contents are delivered.
         /// This member is required.
         public var bucket: Swift.String?
@@ -7503,7 +7503,7 @@ extension SampleChannelDataInput {
     }
 }
 
-public struct SampleChannelDataInput: Swift.Equatable {
+public struct SampleChannelDataInput {
     /// The name of the channel whose message samples are retrieved.
     /// This member is required.
     public var channelName: Swift.String?
@@ -7528,7 +7528,7 @@ public struct SampleChannelDataInput: Swift.Equatable {
     }
 }
 
-struct SampleChannelDataInputBody: Swift.Equatable {
+struct SampleChannelDataInputBody {
 }
 
 extension SampleChannelDataInputBody: Swift.Decodable {
@@ -7549,7 +7549,7 @@ extension SampleChannelDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SampleChannelDataOutput: Swift.Equatable {
+public struct SampleChannelDataOutput {
     /// The list of message samples. Each sample message is returned as a base64-encoded string.
     public var payloads: [ClientRuntime.Data]?
 
@@ -7561,7 +7561,7 @@ public struct SampleChannelDataOutput: Swift.Equatable {
     }
 }
 
-struct SampleChannelDataOutputBody: Swift.Equatable {
+struct SampleChannelDataOutputBody {
     let payloads: [ClientRuntime.Data]?
 }
 
@@ -7622,7 +7622,7 @@ extension IoTAnalyticsClientTypes.Schedule: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The schedule for when to trigger an update.
-    public struct Schedule: Swift.Equatable {
+    public struct Schedule {
         /// The expression that defines when to trigger an update. For more information, see [Schedule Expressions for Rules](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html) in the Amazon CloudWatch Events User Guide.
         public var expression: Swift.String?
 
@@ -7669,7 +7669,7 @@ extension IoTAnalyticsClientTypes.SchemaDefinition: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Information needed to define a schema.
-    public struct SchemaDefinition: Swift.Equatable {
+    public struct SchemaDefinition {
         /// Specifies one or more columns that store your data. Each schema can have up to 100 columns. Each column can have up to 100 nested types.
         public var columns: [IoTAnalyticsClientTypes.Column]?
 
@@ -7728,7 +7728,7 @@ extension IoTAnalyticsClientTypes.SelectAttributesActivity: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Used to create a new message using only the specified attributes from the original message.
-    public struct SelectAttributesActivity: Swift.Equatable {
+    public struct SelectAttributesActivity {
         /// A list of the attributes to select from the message.
         /// This member is required.
         public var attributes: [Swift.String]?
@@ -7765,7 +7765,7 @@ extension IoTAnalyticsClientTypes.ServiceManagedChannelS3Storage: Swift.Codable 
 
 extension IoTAnalyticsClientTypes {
     /// Used to store channel data in an S3 bucket managed by IoT Analytics. You can't change the choice of S3 storage after the data store is created.
-    public struct ServiceManagedChannelS3Storage: Swift.Equatable {
+    public struct ServiceManagedChannelS3Storage {
 
         public init() { }
     }
@@ -7785,7 +7785,7 @@ extension IoTAnalyticsClientTypes.ServiceManagedChannelS3StorageSummary: Swift.C
 
 extension IoTAnalyticsClientTypes {
     /// Used to store channel data in an S3 bucket managed by IoT Analytics.
-    public struct ServiceManagedChannelS3StorageSummary: Swift.Equatable {
+    public struct ServiceManagedChannelS3StorageSummary {
 
         public init() { }
     }
@@ -7805,7 +7805,7 @@ extension IoTAnalyticsClientTypes.ServiceManagedDatastoreS3Storage: Swift.Codabl
 
 extension IoTAnalyticsClientTypes {
     /// Used to store data in an Amazon S3 bucket managed by IoT Analytics. You can't change the choice of Amazon S3 storage after your data store is created.
-    public struct ServiceManagedDatastoreS3Storage: Swift.Equatable {
+    public struct ServiceManagedDatastoreS3Storage {
 
         public init() { }
     }
@@ -7825,7 +7825,7 @@ extension IoTAnalyticsClientTypes.ServiceManagedDatastoreS3StorageSummary: Swift
 
 extension IoTAnalyticsClientTypes {
     /// Contains information about the data store that is managed by IoT Analytics.
-    public struct ServiceManagedDatastoreS3StorageSummary: Swift.Equatable {
+    public struct ServiceManagedDatastoreS3StorageSummary {
 
         public init() { }
     }
@@ -7871,7 +7871,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -7926,7 +7926,7 @@ extension IoTAnalyticsClientTypes.SqlQueryDatasetAction: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// The SQL query to modify the message.
-    public struct SqlQueryDatasetAction: Swift.Equatable {
+    public struct SqlQueryDatasetAction {
         /// Prefilters applied to message data.
         public var filters: [IoTAnalyticsClientTypes.QueryFilter]?
         /// A SQL query string.
@@ -7976,7 +7976,7 @@ extension StartPipelineReprocessingInput {
     }
 }
 
-public struct StartPipelineReprocessingInput: Swift.Equatable {
+public struct StartPipelineReprocessingInput {
     /// Specifies one or more sets of channel messages that you want to reprocess. If you use the channelMessages object, you must not specify a value for startTime and endTime.
     public var channelMessages: IoTAnalyticsClientTypes.ChannelMessages?
     /// The end time (exclusive) of raw message data that is reprocessed. If you specify a value for the endTime parameter, you must not use the channelMessages object.
@@ -8001,7 +8001,7 @@ public struct StartPipelineReprocessingInput: Swift.Equatable {
     }
 }
 
-struct StartPipelineReprocessingInputBody: Swift.Equatable {
+struct StartPipelineReprocessingInputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let channelMessages: IoTAnalyticsClientTypes.ChannelMessages?
@@ -8037,7 +8037,7 @@ extension StartPipelineReprocessingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartPipelineReprocessingOutput: Swift.Equatable {
+public struct StartPipelineReprocessingOutput {
     /// The ID of the pipeline reprocessing activity that was started.
     public var reprocessingId: Swift.String?
 
@@ -8049,7 +8049,7 @@ public struct StartPipelineReprocessingOutput: Swift.Equatable {
     }
 }
 
-struct StartPipelineReprocessingOutputBody: Swift.Equatable {
+struct StartPipelineReprocessingOutputBody {
     let reprocessingId: Swift.String?
 }
 
@@ -8108,7 +8108,7 @@ extension IoTAnalyticsClientTypes.Tag: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// A set of key-value pairs that are used to manage the resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag's key.
         /// This member is required.
         public var key: Swift.String?
@@ -8165,7 +8165,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource whose tags you want to modify.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8183,7 +8183,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [IoTAnalyticsClientTypes.Tag]?
 }
 
@@ -8213,7 +8213,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -8273,7 +8273,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -8316,7 +8316,7 @@ extension IoTAnalyticsClientTypes.TimestampPartition: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// A partition dimension defined by a timestamp attribute.
-    public struct TimestampPartition: Swift.Equatable {
+    public struct TimestampPartition {
         /// The attribute name of the partition defined by a timestamp.
         /// This member is required.
         public var attributeName: Swift.String?
@@ -8356,7 +8356,7 @@ extension IoTAnalyticsClientTypes.TriggeringDataset: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Information about the dataset whose content generation triggers the new dataset content generation.
-    public struct TriggeringDataset: Swift.Equatable {
+    public struct TriggeringDataset {
         /// The name of the dataset whose content generation triggers the new dataset content generation.
         /// This member is required.
         public var name: Swift.String?
@@ -8400,7 +8400,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource whose tags you want to remove.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8418,7 +8418,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -8432,7 +8432,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -8480,7 +8480,7 @@ extension UpdateChannelInput {
     }
 }
 
-public struct UpdateChannelInput: Swift.Equatable {
+public struct UpdateChannelInput {
     /// The name of the channel to be updated.
     /// This member is required.
     public var channelName: Swift.String?
@@ -8501,7 +8501,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelInputBody: Swift.Equatable {
+struct UpdateChannelInputBody {
     let channelStorage: IoTAnalyticsClientTypes.ChannelStorage?
     let retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod?
 }
@@ -8526,7 +8526,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateChannelOutput: Swift.Equatable {
+public struct UpdateChannelOutput {
 
     public init() { }
 }
@@ -8601,7 +8601,7 @@ extension UpdateDatasetInput {
     }
 }
 
-public struct UpdateDatasetInput: Swift.Equatable {
+public struct UpdateDatasetInput {
     /// A list of DatasetAction objects.
     /// This member is required.
     public var actions: [IoTAnalyticsClientTypes.DatasetAction]?
@@ -8639,7 +8639,7 @@ public struct UpdateDatasetInput: Swift.Equatable {
     }
 }
 
-struct UpdateDatasetInputBody: Swift.Equatable {
+struct UpdateDatasetInputBody {
     let actions: [IoTAnalyticsClientTypes.DatasetAction]?
     let triggers: [IoTAnalyticsClientTypes.DatasetTrigger]?
     let contentDeliveryRules: [IoTAnalyticsClientTypes.DatasetContentDeliveryRule]?
@@ -8716,7 +8716,7 @@ extension UpdateDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDatasetOutput: Swift.Equatable {
+public struct UpdateDatasetOutput {
 
     public init() { }
 }
@@ -8767,7 +8767,7 @@ extension UpdateDatastoreInput {
     }
 }
 
-public struct UpdateDatastoreInput: Swift.Equatable {
+public struct UpdateDatastoreInput {
     /// The name of the data store to be updated.
     /// This member is required.
     public var datastoreName: Swift.String?
@@ -8792,7 +8792,7 @@ public struct UpdateDatastoreInput: Swift.Equatable {
     }
 }
 
-struct UpdateDatastoreInputBody: Swift.Equatable {
+struct UpdateDatastoreInputBody {
     let retentionPeriod: IoTAnalyticsClientTypes.RetentionPeriod?
     let datastoreStorage: IoTAnalyticsClientTypes.DatastoreStorage?
     let fileFormatConfiguration: IoTAnalyticsClientTypes.FileFormatConfiguration?
@@ -8821,7 +8821,7 @@ extension UpdateDatastoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDatastoreOutput: Swift.Equatable {
+public struct UpdateDatastoreOutput {
 
     public init() { }
 }
@@ -8867,7 +8867,7 @@ extension UpdatePipelineInput {
     }
 }
 
-public struct UpdatePipelineInput: Swift.Equatable {
+public struct UpdatePipelineInput {
     /// A list of PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity. For example: pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]
     /// This member is required.
     public var pipelineActivities: [IoTAnalyticsClientTypes.PipelineActivity]?
@@ -8885,7 +8885,7 @@ public struct UpdatePipelineInput: Swift.Equatable {
     }
 }
 
-struct UpdatePipelineInputBody: Swift.Equatable {
+struct UpdatePipelineInputBody {
     let pipelineActivities: [IoTAnalyticsClientTypes.PipelineActivity]?
 }
 
@@ -8915,7 +8915,7 @@ extension UpdatePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePipelineOutput: Swift.Equatable {
+public struct UpdatePipelineOutput {
 
     public init() { }
 }
@@ -8981,7 +8981,7 @@ extension IoTAnalyticsClientTypes.Variable: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// An instance of a variable to be passed to the containerAction execution. Each variable must have a name and a value given by one of stringValue, datasetContentVersionValue, or outputFileUriValue.
-    public struct Variable: Swift.Equatable {
+    public struct Variable {
         /// The value of the variable as a structure that specifies a dataset content version.
         public var datasetContentVersionValue: IoTAnalyticsClientTypes.DatasetContentVersionValue?
         /// The value of the variable as a double (numeric).
@@ -9039,7 +9039,7 @@ extension IoTAnalyticsClientTypes.VersioningConfiguration: Swift.Codable {
 
 extension IoTAnalyticsClientTypes {
     /// Information about the versioning of dataset contents.
-    public struct VersioningConfiguration: Swift.Equatable {
+    public struct VersioningConfiguration {
         /// How many versions of dataset contents are kept. The unlimited parameter must be false.
         public var maxVersions: Swift.Int?
         /// If true, unlimited versions of dataset contents are kept.

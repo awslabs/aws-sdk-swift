@@ -41,7 +41,7 @@ extension BackupClientTypes.AdvancedBackupSetting: Swift.Codable {
 
 extension BackupClientTypes {
     /// A list of backup options for each resource type.
-    public struct AdvancedBackupSetting: Swift.Equatable {
+    public struct AdvancedBackupSetting {
         /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see [Creating a VSS-Enabled Windows Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/windows-backups.html).
         public var backupOptions: [Swift.String:Swift.String]?
         /// Specifies an object containing resource type and backup options. The only supported resource type is Amazon EC2 instances with Windows Volume Shadow Copy Service (VSS). For a CloudFormation example, see the [sample CloudFormation template to enable Windows VSS](https://docs.aws.amazon.com/aws-backup/latest/devguide/integrate-cloudformation-with-aws-backup.html) in the Backup User Guide. Valid values: EC2.
@@ -162,7 +162,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct AlreadyExistsExceptionBody: Swift.Equatable {
+struct AlreadyExistsExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let creatorRequestId: Swift.String?
@@ -377,7 +377,7 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains detailed information about a backup job.
-    public struct BackupJob: Swift.Equatable {
+    public struct BackupJob {
         /// The account ID that owns the backup job.
         public var accountId: Swift.String?
         /// Uniquely identifies a request to Backup to back up a resource.
@@ -662,7 +662,7 @@ extension BackupClientTypes.BackupJobSummary: Swift.Codable {
 
 extension BackupClientTypes {
     /// This is a summary of jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
-    public struct BackupJobSummary: Swift.Equatable {
+    public struct BackupJobSummary {
         /// The account ID that owns the jobs within the summary.
         public var accountId: Swift.String?
         /// The value as a number of jobs in a job summary.
@@ -761,7 +761,7 @@ extension BackupClientTypes.BackupPlan: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains an optional backup plan display name and an array of BackupRule objects, each of which specifies a backup rule. Each rule in a backup plan is a separate scheduled task and can back up a different selection of Amazon Web Services resources.
-    public struct BackupPlan: Swift.Equatable {
+    public struct BackupPlan {
         /// Contains a list of BackupOptions for each resource type.
         public var advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
         /// The display name of a backup plan. Must contain 1 to 50 alphanumeric or '-_.' characters.
@@ -842,7 +842,7 @@ extension BackupClientTypes.BackupPlanInput: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains an optional backup plan display name and an array of BackupRule objects, each of which specifies a backup rule. Each rule in a backup plan is a separate scheduled task.
-    public struct BackupPlanInput: Swift.Equatable {
+    public struct BackupPlanInput {
         /// Specifies a list of BackupOptions for each resource type. These settings are only available for Windows Volume Shadow Copy Service (VSS) backup jobs.
         public var advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
         /// The display name of a backup plan. Must contain 1 to 50 alphanumeric or '-_.' characters.
@@ -893,7 +893,7 @@ extension BackupClientTypes.BackupPlanTemplatesListMember: Swift.Codable {
 
 extension BackupClientTypes {
     /// An object specifying metadata associated with a backup plan template.
-    public struct BackupPlanTemplatesListMember: Swift.Equatable {
+    public struct BackupPlanTemplatesListMember {
         /// Uniquely identifies a stored backup plan template.
         public var backupPlanTemplateId: Swift.String?
         /// The optional display name of a backup plan template.
@@ -992,7 +992,7 @@ extension BackupClientTypes.BackupPlansListMember: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains metadata about a backup plan.
-    public struct BackupPlansListMember: Swift.Equatable {
+    public struct BackupPlansListMember {
         /// Contains a list of BackupOptions for a resource type.
         public var advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
@@ -1148,7 +1148,7 @@ extension BackupClientTypes.BackupRule: Swift.CustomDebugStringConvertible {
 
 extension BackupClientTypes {
     /// Specifies a scheduled task used to back up a selection of resources.
-    public struct BackupRule: Swift.Equatable {
+    public struct BackupRule {
         /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by Backup. This value is optional.
         public var completionWindowMinutes: Swift.Int?
         /// An array of CopyAction objects, which contains the details of the copy operation.
@@ -1308,7 +1308,7 @@ extension BackupClientTypes.BackupRuleInput: Swift.CustomDebugStringConvertible 
 
 extension BackupClientTypes {
     /// Specifies a scheduled task used to back up a selection of resources.
-    public struct BackupRuleInput: Swift.Equatable {
+    public struct BackupRuleInput {
         /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by Backup. This value is optional.
         public var completionWindowMinutes: Swift.Int?
         /// An array of CopyAction objects, which contains the details of the copy operation.
@@ -1447,7 +1447,7 @@ extension BackupClientTypes.BackupSelection: Swift.Codable {
 
 extension BackupClientTypes {
     /// Used to specify a set of resources to a backup plan. Specifying your desired Conditions, ListOfTags, NotResources, and/or Resources is recommended. If none of these are specified, Backup will attempt to select all supported and opted-in storage resources, which could have unintended cost implications.
-    public struct BackupSelection: Swift.Equatable {
+    public struct BackupSelection {
         /// A list of conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo", "Value": "true" },. Condition operators are case sensitive. Conditions differs from ListOfTags as follows:
         ///
         /// * When you specify more than one condition, you only assign the resources that match ALL conditions (using AND logic).
@@ -1542,7 +1542,7 @@ extension BackupClientTypes.BackupSelectionsListMember: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains metadata about a BackupSelection object.
-    public struct BackupSelectionsListMember: Swift.Equatable {
+    public struct BackupSelectionsListMember {
         /// Uniquely identifies a backup plan.
         public var backupPlanId: Swift.String?
         /// The date and time a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -1728,7 +1728,7 @@ extension BackupClientTypes.BackupVaultListMember: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains metadata about a backup vault.
-    public struct BackupVaultListMember: Swift.Equatable {
+    public struct BackupVaultListMember {
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public var backupVaultArn: Swift.String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1805,7 +1805,7 @@ extension BackupClientTypes.CalculatedLifecycle: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains DeleteAt and MoveToColdStorageAt timestamps, which are used to specify a lifecycle for a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types.
-    public struct CalculatedLifecycle: Swift.Equatable {
+    public struct CalculatedLifecycle {
         /// A timestamp that specifies when to delete a recovery point.
         public var deleteAt: ClientRuntime.Date?
         /// A timestamp that specifies when to transition a recovery point to cold storage.
@@ -1851,7 +1851,7 @@ extension CancelLegalHoldInput {
     }
 }
 
-public struct CancelLegalHoldInput: Swift.Equatable {
+public struct CancelLegalHoldInput {
     /// String describing the reason for removing the legal hold.
     /// This member is required.
     public var cancelDescription: Swift.String?
@@ -1873,7 +1873,7 @@ public struct CancelLegalHoldInput: Swift.Equatable {
     }
 }
 
-struct CancelLegalHoldInputBody: Swift.Equatable {
+struct CancelLegalHoldInputBody {
 }
 
 extension CancelLegalHoldInputBody: Swift.Decodable {
@@ -1887,7 +1887,7 @@ extension CancelLegalHoldOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelLegalHoldOutput: Swift.Equatable {
+public struct CancelLegalHoldOutput {
 
     public init() { }
 }
@@ -1940,7 +1940,7 @@ extension BackupClientTypes.Condition: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains an array of triplets made up of a condition type (such as StringEquals), a key, and a value. Used to filter resources using their tags and assign them to a backup plan. Case sensitive.
-    public struct Condition: Swift.Equatable {
+    public struct Condition {
         /// The key in a key-value pair. For example, in the tag Department: Accounting, Department is the key.
         /// This member is required.
         public var conditionKey: Swift.String?
@@ -1992,7 +1992,7 @@ extension BackupClientTypes.ConditionParameter: Swift.Codable {
 
 extension BackupClientTypes {
     /// Includes information about tags you define to assign tagged resources to a backup plan.
-    public struct ConditionParameter: Swift.Equatable {
+    public struct ConditionParameter {
         /// The key in a key-value pair. For example, in the tag Department: Accounting, Department is the key.
         public var conditionKey: Swift.String?
         /// The value in a key-value pair. For example, in the tag Department: Accounting, Accounting is the value.
@@ -2126,7 +2126,7 @@ extension BackupClientTypes.Conditions: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains information about which resources to include or exclude from a backup plan using their tags. Conditions are case sensitive.
-    public struct Conditions: Swift.Equatable {
+    public struct Conditions {
         /// Filters the values of your tagged resources for only those resources that you tagged with the same value. Also called "exact matching."
         public var stringEquals: [BackupClientTypes.ConditionParameter]?
         /// Filters the values of your tagged resources for matching tag values with the use of a wildcard character (*) anywhere in the string. For example, "prod*" or "*rod*" matches the tag value "production".
@@ -2208,7 +2208,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let type: Swift.String?
@@ -2263,7 +2263,7 @@ extension BackupClientTypes.ControlInputParameter: Swift.Codable {
 
 extension BackupClientTypes {
     /// A list of parameters for a control. A control can have zero, one, or more than one parameter. An example of a control with two parameters is: "backup plan frequency is at least daily and the retention period is at least 1 year". The first parameter is daily. The second parameter is 1 year.
-    public struct ControlInputParameter: Swift.Equatable {
+    public struct ControlInputParameter {
         /// The name of a parameter, for example, BackupPlanFrequency.
         public var parameterName: Swift.String?
         /// The value of parameter, for example, hourly.
@@ -2350,7 +2350,7 @@ extension BackupClientTypes.ControlScope: Swift.Codable {
 
 extension BackupClientTypes {
     /// A framework consists of one or more controls. Each control has its own control scope. The control scope can include one or more resource types, a combination of a tag key and value, or a combination of one resource type and one resource ID. If no scope is specified, evaluations for the rule are triggered when any resource in your recording group changes in configuration. To set a control scope that includes all of a particular resource, leave the ControlScope empty or do not pass it when calling CreateFramework.
-    public struct ControlScope: Swift.Equatable {
+    public struct ControlScope {
         /// The ID of the only Amazon Web Services resource that you want your control scope to contain.
         public var complianceResourceIds: [Swift.String]?
         /// Describes whether the control scope includes one or more types of resources, such as EFS or RDS.
@@ -2399,7 +2399,7 @@ extension BackupClientTypes.CopyAction: Swift.Codable {
 
 extension BackupClientTypes {
     /// The details of the copy operation.
-    public struct CopyAction: Swift.Equatable {
+    public struct CopyAction {
         /// An Amazon Resource Name (ARN) that uniquely identifies the destination backup vault for the copied backup. For example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         /// This member is required.
         public var destinationBackupVaultArn: Swift.String?
@@ -2577,7 +2577,7 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains detailed information about a copy job.
-    public struct CopyJob: Swift.Equatable {
+    public struct CopyJob {
         /// The account ID that owns the copy job.
         public var accountId: Swift.String?
         /// The size, in bytes, of a copy job.
@@ -2838,7 +2838,7 @@ extension BackupClientTypes.CopyJobSummary: Swift.Codable {
 
 extension BackupClientTypes {
     /// This is a summary of copy jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
-    public struct CopyJobSummary: Swift.Equatable {
+    public struct CopyJobSummary {
         /// The account ID that owns the jobs within the summary.
         public var accountId: Swift.String?
         /// The value as a number of jobs in a job summary.
@@ -2916,7 +2916,7 @@ extension CreateBackupPlanInput {
     }
 }
 
-public struct CreateBackupPlanInput: Swift.Equatable {
+public struct CreateBackupPlanInput {
     /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
     /// This member is required.
     public var backupPlan: BackupClientTypes.BackupPlanInput?
@@ -2937,7 +2937,7 @@ public struct CreateBackupPlanInput: Swift.Equatable {
     }
 }
 
-struct CreateBackupPlanInputBody: Swift.Equatable {
+struct CreateBackupPlanInputBody {
     let backupPlan: BackupClientTypes.BackupPlanInput?
     let backupPlanTags: [Swift.String:Swift.String]?
     let creatorRequestId: Swift.String?
@@ -2990,7 +2990,7 @@ extension CreateBackupPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackupPlanOutput: Swift.Equatable {
+public struct CreateBackupPlanOutput {
     /// A list of BackupOptions settings for a resource type. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs.
     public var advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
@@ -3018,7 +3018,7 @@ public struct CreateBackupPlanOutput: Swift.Equatable {
     }
 }
 
-struct CreateBackupPlanOutputBody: Swift.Equatable {
+struct CreateBackupPlanOutputBody {
     let backupPlanId: Swift.String?
     let backupPlanArn: Swift.String?
     let creationDate: ClientRuntime.Date?
@@ -3101,7 +3101,7 @@ extension CreateBackupSelectionInput {
     }
 }
 
-public struct CreateBackupSelectionInput: Swift.Equatable {
+public struct CreateBackupSelectionInput {
     /// Uniquely identifies the backup plan to be associated with the selection of resources.
     /// This member is required.
     public var backupPlanId: Swift.String?
@@ -3123,7 +3123,7 @@ public struct CreateBackupSelectionInput: Swift.Equatable {
     }
 }
 
-struct CreateBackupSelectionInputBody: Swift.Equatable {
+struct CreateBackupSelectionInputBody {
     let backupSelection: BackupClientTypes.BackupSelection?
     let creatorRequestId: Swift.String?
 }
@@ -3159,7 +3159,7 @@ extension CreateBackupSelectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackupSelectionOutput: Swift.Equatable {
+public struct CreateBackupSelectionOutput {
     /// Uniquely identifies a backup plan.
     public var backupPlanId: Swift.String?
     /// The date and time a backup selection is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -3179,7 +3179,7 @@ public struct CreateBackupSelectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateBackupSelectionOutputBody: Swift.Equatable {
+struct CreateBackupSelectionOutputBody {
     let selectionId: Swift.String?
     let backupPlanId: Swift.String?
     let creationDate: ClientRuntime.Date?
@@ -3257,7 +3257,7 @@ extension CreateBackupVaultInput {
     }
 }
 
-public struct CreateBackupVaultInput: Swift.Equatable {
+public struct CreateBackupVaultInput {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -3282,7 +3282,7 @@ public struct CreateBackupVaultInput: Swift.Equatable {
     }
 }
 
-struct CreateBackupVaultInputBody: Swift.Equatable {
+struct CreateBackupVaultInputBody {
     let backupVaultTags: [Swift.String:Swift.String]?
     let encryptionKeyArn: Swift.String?
     let creatorRequestId: Swift.String?
@@ -3331,7 +3331,7 @@ extension CreateBackupVaultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBackupVaultOutput: Swift.Equatable {
+public struct CreateBackupVaultOutput {
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -3351,7 +3351,7 @@ public struct CreateBackupVaultOutput: Swift.Equatable {
     }
 }
 
-struct CreateBackupVaultOutputBody: Swift.Equatable {
+struct CreateBackupVaultOutputBody {
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
     let creationDate: ClientRuntime.Date?
@@ -3432,7 +3432,7 @@ extension CreateFrameworkInput {
     }
 }
 
-public struct CreateFrameworkInput: Swift.Equatable {
+public struct CreateFrameworkInput {
     /// A list of the controls that make up the framework. Each control in the list has a name, input parameters, and scope.
     /// This member is required.
     public var frameworkControls: [BackupClientTypes.FrameworkControl]?
@@ -3462,7 +3462,7 @@ public struct CreateFrameworkInput: Swift.Equatable {
     }
 }
 
-struct CreateFrameworkInputBody: Swift.Equatable {
+struct CreateFrameworkInputBody {
     let frameworkName: Swift.String?
     let frameworkDescription: Swift.String?
     let frameworkControls: [BackupClientTypes.FrameworkControl]?
@@ -3526,7 +3526,7 @@ extension CreateFrameworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFrameworkOutput: Swift.Equatable {
+public struct CreateFrameworkOutput {
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     public var frameworkArn: Swift.String?
     /// The unique name of the framework. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
@@ -3542,7 +3542,7 @@ public struct CreateFrameworkOutput: Swift.Equatable {
     }
 }
 
-struct CreateFrameworkOutputBody: Swift.Equatable {
+struct CreateFrameworkOutputBody {
     let frameworkName: Swift.String?
     let frameworkArn: Swift.String?
 }
@@ -3621,7 +3621,7 @@ extension CreateLegalHoldInput {
     }
 }
 
-public struct CreateLegalHoldInput: Swift.Equatable {
+public struct CreateLegalHoldInput {
     /// This is the string description of the legal hold.
     /// This member is required.
     public var description: Swift.String?
@@ -3651,7 +3651,7 @@ public struct CreateLegalHoldInput: Swift.Equatable {
     }
 }
 
-struct CreateLegalHoldInputBody: Swift.Equatable {
+struct CreateLegalHoldInputBody {
     let title: Swift.String?
     let description: Swift.String?
     let idempotencyToken: Swift.String?
@@ -3716,7 +3716,7 @@ extension CreateLegalHoldOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLegalHoldOutput: Swift.Equatable {
+public struct CreateLegalHoldOutput {
     /// Time in number format when legal hold was created.
     public var creationDate: ClientRuntime.Date?
     /// This is the returned string description of the legal hold.
@@ -3752,7 +3752,7 @@ public struct CreateLegalHoldOutput: Swift.Equatable {
     }
 }
 
-struct CreateLegalHoldOutputBody: Swift.Equatable {
+struct CreateLegalHoldOutputBody {
     let title: Swift.String?
     let status: BackupClientTypes.LegalHoldStatus?
     let description: Swift.String?
@@ -3849,7 +3849,7 @@ extension CreateLogicallyAirGappedBackupVaultInput {
     }
 }
 
-public struct CreateLogicallyAirGappedBackupVaultInput: Swift.Equatable {
+public struct CreateLogicallyAirGappedBackupVaultInput {
     /// This is the name of the vault that is being created.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -3880,7 +3880,7 @@ public struct CreateLogicallyAirGappedBackupVaultInput: Swift.Equatable {
     }
 }
 
-struct CreateLogicallyAirGappedBackupVaultInputBody: Swift.Equatable {
+struct CreateLogicallyAirGappedBackupVaultInputBody {
     let backupVaultTags: [Swift.String:Swift.String]?
     let creatorRequestId: Swift.String?
     let minRetentionDays: Swift.Int?
@@ -3935,7 +3935,7 @@ extension CreateLogicallyAirGappedBackupVaultOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct CreateLogicallyAirGappedBackupVaultOutput: Swift.Equatable {
+public struct CreateLogicallyAirGappedBackupVaultOutput {
     /// This is the ARN (Amazon Resource Name) of the vault being created.
     public var backupVaultArn: Swift.String?
     /// The name of a logical container where backups are stored. Logically air-gapped backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -3959,7 +3959,7 @@ public struct CreateLogicallyAirGappedBackupVaultOutput: Swift.Equatable {
     }
 }
 
-struct CreateLogicallyAirGappedBackupVaultOutputBody: Swift.Equatable {
+struct CreateLogicallyAirGappedBackupVaultOutputBody {
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
     let creationDate: ClientRuntime.Date?
@@ -4046,7 +4046,7 @@ extension CreateReportPlanInput {
     }
 }
 
-public struct CreateReportPlanInput: Swift.Equatable {
+public struct CreateReportPlanInput {
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to CreateReportPlanInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
     public var idempotencyToken: Swift.String?
     /// A structure that contains information about where and how to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports.
@@ -4081,7 +4081,7 @@ public struct CreateReportPlanInput: Swift.Equatable {
     }
 }
 
-struct CreateReportPlanInputBody: Swift.Equatable {
+struct CreateReportPlanInputBody {
     let reportPlanName: Swift.String?
     let reportPlanDescription: Swift.String?
     let reportDeliveryChannel: BackupClientTypes.ReportDeliveryChannel?
@@ -4142,7 +4142,7 @@ extension CreateReportPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateReportPlanOutput: Swift.Equatable {
+public struct CreateReportPlanOutput {
     /// The date and time a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationTime: ClientRuntime.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -4162,7 +4162,7 @@ public struct CreateReportPlanOutput: Swift.Equatable {
     }
 }
 
-struct CreateReportPlanOutputBody: Swift.Equatable {
+struct CreateReportPlanOutputBody {
     let reportPlanName: Swift.String?
     let reportPlanArn: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -4237,7 +4237,7 @@ extension CreateRestoreTestingPlanInput {
     }
 }
 
-public struct CreateRestoreTestingPlanInput: Swift.Equatable {
+public struct CreateRestoreTestingPlanInput {
     /// This is a unique string that identifies the request and allows failed requests to be retriedwithout the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
     public var creatorRequestId: Swift.String?
     /// A restore testing plan must contain a unique RestoreTestingPlanName string you create and must contain a ScheduleExpression cron. You may optionally include a StartWindowHours integer and a CreatorRequestId string. The RestoreTestingPlanName is a unique string that is the name of the restore testing plan. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
@@ -4258,7 +4258,7 @@ public struct CreateRestoreTestingPlanInput: Swift.Equatable {
     }
 }
 
-struct CreateRestoreTestingPlanInputBody: Swift.Equatable {
+struct CreateRestoreTestingPlanInputBody {
     let creatorRequestId: Swift.String?
     let restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForCreate?
     let tags: [Swift.String:Swift.String]?
@@ -4307,7 +4307,7 @@ extension CreateRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRestoreTestingPlanOutput: Swift.Equatable {
+public struct CreateRestoreTestingPlanOutput {
     /// The date and time a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
@@ -4330,7 +4330,7 @@ public struct CreateRestoreTestingPlanOutput: Swift.Equatable {
     }
 }
 
-struct CreateRestoreTestingPlanOutputBody: Swift.Equatable {
+struct CreateRestoreTestingPlanOutputBody {
     let creationTime: ClientRuntime.Date?
     let restoreTestingPlanArn: Swift.String?
     let restoreTestingPlanName: Swift.String?
@@ -4397,7 +4397,7 @@ extension CreateRestoreTestingSelectionInput {
     }
 }
 
-public struct CreateRestoreTestingSelectionInput: Swift.Equatable {
+public struct CreateRestoreTestingSelectionInput {
     /// This is an optional unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
     public var creatorRequestId: Swift.String?
     /// Input the restore testing plan name that was returned from the related CreateRestoreTestingPlan request.
@@ -4426,7 +4426,7 @@ public struct CreateRestoreTestingSelectionInput: Swift.Equatable {
     }
 }
 
-struct CreateRestoreTestingSelectionInputBody: Swift.Equatable {
+struct CreateRestoreTestingSelectionInputBody {
     let creatorRequestId: Swift.String?
     let restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForCreate?
 }
@@ -4464,7 +4464,7 @@ extension CreateRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateRestoreTestingSelectionOutput: Swift.Equatable {
+public struct CreateRestoreTestingSelectionOutput {
     /// This is the time the resource testing selection was created successfully.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
@@ -4492,7 +4492,7 @@ public struct CreateRestoreTestingSelectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateRestoreTestingSelectionOutputBody: Swift.Equatable {
+struct CreateRestoreTestingSelectionOutputBody {
     let creationTime: ClientRuntime.Date?
     let restoreTestingPlanArn: Swift.String?
     let restoreTestingPlanName: Swift.String?
@@ -4563,7 +4563,7 @@ extension BackupClientTypes.DateRange: Swift.Codable {
 
 extension BackupClientTypes {
     /// This is a resource filter containing FromDate: DateTime and ToDate: DateTime. Both values are required. Future DateTime values are not permitted. The date and time are in Unix format and Coordinated Universal Time (UTC), and it is accurate to milliseconds ((milliseconds are optional). For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public struct DateRange: Swift.Equatable {
+    public struct DateRange {
         /// This value is the beginning date, inclusive. The date and time are in Unix format and Coordinated Universal Time (UTC), and it is accurate to milliseconds (milliseconds are optional).
         /// This member is required.
         public var fromDate: ClientRuntime.Date?
@@ -4593,7 +4593,7 @@ extension DeleteBackupPlanInput {
     }
 }
 
-public struct DeleteBackupPlanInput: Swift.Equatable {
+public struct DeleteBackupPlanInput {
     /// Uniquely identifies a backup plan.
     /// This member is required.
     public var backupPlanId: Swift.String?
@@ -4606,7 +4606,7 @@ public struct DeleteBackupPlanInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupPlanInputBody: Swift.Equatable {
+struct DeleteBackupPlanInputBody {
 }
 
 extension DeleteBackupPlanInputBody: Swift.Decodable {
@@ -4633,7 +4633,7 @@ extension DeleteBackupPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBackupPlanOutput: Swift.Equatable {
+public struct DeleteBackupPlanOutput {
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
     public var backupPlanArn: Swift.String?
     /// Uniquely identifies a backup plan.
@@ -4657,7 +4657,7 @@ public struct DeleteBackupPlanOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupPlanOutputBody: Swift.Equatable {
+struct DeleteBackupPlanOutputBody {
     let backupPlanId: Swift.String?
     let backupPlanArn: Swift.String?
     let deletionDate: ClientRuntime.Date?
@@ -4713,7 +4713,7 @@ extension DeleteBackupSelectionInput {
     }
 }
 
-public struct DeleteBackupSelectionInput: Swift.Equatable {
+public struct DeleteBackupSelectionInput {
     /// Uniquely identifies a backup plan.
     /// This member is required.
     public var backupPlanId: Swift.String?
@@ -4731,7 +4731,7 @@ public struct DeleteBackupSelectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupSelectionInputBody: Swift.Equatable {
+struct DeleteBackupSelectionInputBody {
 }
 
 extension DeleteBackupSelectionInputBody: Swift.Decodable {
@@ -4745,7 +4745,7 @@ extension DeleteBackupSelectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBackupSelectionOutput: Swift.Equatable {
+public struct DeleteBackupSelectionOutput {
 
     public init() { }
 }
@@ -4774,7 +4774,7 @@ extension DeleteBackupVaultAccessPolicyInput {
     }
 }
 
-public struct DeleteBackupVaultAccessPolicyInput: Swift.Equatable {
+public struct DeleteBackupVaultAccessPolicyInput {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -4787,7 +4787,7 @@ public struct DeleteBackupVaultAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupVaultAccessPolicyInputBody: Swift.Equatable {
+struct DeleteBackupVaultAccessPolicyInputBody {
 }
 
 extension DeleteBackupVaultAccessPolicyInputBody: Swift.Decodable {
@@ -4801,7 +4801,7 @@ extension DeleteBackupVaultAccessPolicyOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeleteBackupVaultAccessPolicyOutput: Swift.Equatable {
+public struct DeleteBackupVaultAccessPolicyOutput {
 
     public init() { }
 }
@@ -4830,7 +4830,7 @@ extension DeleteBackupVaultInput {
     }
 }
 
-public struct DeleteBackupVaultInput: Swift.Equatable {
+public struct DeleteBackupVaultInput {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -4843,7 +4843,7 @@ public struct DeleteBackupVaultInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupVaultInputBody: Swift.Equatable {
+struct DeleteBackupVaultInputBody {
 }
 
 extension DeleteBackupVaultInputBody: Swift.Decodable {
@@ -4862,7 +4862,7 @@ extension DeleteBackupVaultLockConfigurationInput {
     }
 }
 
-public struct DeleteBackupVaultLockConfigurationInput: Swift.Equatable {
+public struct DeleteBackupVaultLockConfigurationInput {
     /// The name of the backup vault from which to delete Backup Vault Lock.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -4875,7 +4875,7 @@ public struct DeleteBackupVaultLockConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupVaultLockConfigurationInputBody: Swift.Equatable {
+struct DeleteBackupVaultLockConfigurationInputBody {
 }
 
 extension DeleteBackupVaultLockConfigurationInputBody: Swift.Decodable {
@@ -4889,7 +4889,7 @@ extension DeleteBackupVaultLockConfigurationOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DeleteBackupVaultLockConfigurationOutput: Swift.Equatable {
+public struct DeleteBackupVaultLockConfigurationOutput {
 
     public init() { }
 }
@@ -4919,7 +4919,7 @@ extension DeleteBackupVaultNotificationsInput {
     }
 }
 
-public struct DeleteBackupVaultNotificationsInput: Swift.Equatable {
+public struct DeleteBackupVaultNotificationsInput {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -4932,7 +4932,7 @@ public struct DeleteBackupVaultNotificationsInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupVaultNotificationsInputBody: Swift.Equatable {
+struct DeleteBackupVaultNotificationsInputBody {
 }
 
 extension DeleteBackupVaultNotificationsInputBody: Swift.Decodable {
@@ -4946,7 +4946,7 @@ extension DeleteBackupVaultNotificationsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteBackupVaultNotificationsOutput: Swift.Equatable {
+public struct DeleteBackupVaultNotificationsOutput {
 
     public init() { }
 }
@@ -4970,7 +4970,7 @@ extension DeleteBackupVaultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBackupVaultOutput: Swift.Equatable {
+public struct DeleteBackupVaultOutput {
 
     public init() { }
 }
@@ -5000,7 +5000,7 @@ extension DeleteFrameworkInput {
     }
 }
 
-public struct DeleteFrameworkInput: Swift.Equatable {
+public struct DeleteFrameworkInput {
     /// The unique name of a framework.
     /// This member is required.
     public var frameworkName: Swift.String?
@@ -5013,7 +5013,7 @@ public struct DeleteFrameworkInput: Swift.Equatable {
     }
 }
 
-struct DeleteFrameworkInputBody: Swift.Equatable {
+struct DeleteFrameworkInputBody {
 }
 
 extension DeleteFrameworkInputBody: Swift.Decodable {
@@ -5027,7 +5027,7 @@ extension DeleteFrameworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFrameworkOutput: Swift.Equatable {
+public struct DeleteFrameworkOutput {
 
     public init() { }
 }
@@ -5060,7 +5060,7 @@ extension DeleteRecoveryPointInput {
     }
 }
 
-public struct DeleteRecoveryPointInput: Swift.Equatable {
+public struct DeleteRecoveryPointInput {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -5078,7 +5078,7 @@ public struct DeleteRecoveryPointInput: Swift.Equatable {
     }
 }
 
-struct DeleteRecoveryPointInputBody: Swift.Equatable {
+struct DeleteRecoveryPointInputBody {
 }
 
 extension DeleteRecoveryPointInputBody: Swift.Decodable {
@@ -5092,7 +5092,7 @@ extension DeleteRecoveryPointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRecoveryPointOutput: Swift.Equatable {
+public struct DeleteRecoveryPointOutput {
 
     public init() { }
 }
@@ -5123,7 +5123,7 @@ extension DeleteReportPlanInput {
     }
 }
 
-public struct DeleteReportPlanInput: Swift.Equatable {
+public struct DeleteReportPlanInput {
     /// The unique name of a report plan.
     /// This member is required.
     public var reportPlanName: Swift.String?
@@ -5136,7 +5136,7 @@ public struct DeleteReportPlanInput: Swift.Equatable {
     }
 }
 
-struct DeleteReportPlanInputBody: Swift.Equatable {
+struct DeleteReportPlanInputBody {
 }
 
 extension DeleteReportPlanInputBody: Swift.Decodable {
@@ -5150,7 +5150,7 @@ extension DeleteReportPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteReportPlanOutput: Swift.Equatable {
+public struct DeleteReportPlanOutput {
 
     public init() { }
 }
@@ -5180,7 +5180,7 @@ extension DeleteRestoreTestingPlanInput {
     }
 }
 
-public struct DeleteRestoreTestingPlanInput: Swift.Equatable {
+public struct DeleteRestoreTestingPlanInput {
     /// Required unique name of the restore testing plan you wish to delete.
     /// This member is required.
     public var restoreTestingPlanName: Swift.String?
@@ -5193,7 +5193,7 @@ public struct DeleteRestoreTestingPlanInput: Swift.Equatable {
     }
 }
 
-struct DeleteRestoreTestingPlanInputBody: Swift.Equatable {
+struct DeleteRestoreTestingPlanInputBody {
 }
 
 extension DeleteRestoreTestingPlanInputBody: Swift.Decodable {
@@ -5207,7 +5207,7 @@ extension DeleteRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRestoreTestingPlanOutput: Swift.Equatable {
+public struct DeleteRestoreTestingPlanOutput {
 
     public init() { }
 }
@@ -5237,7 +5237,7 @@ extension DeleteRestoreTestingSelectionInput {
     }
 }
 
-public struct DeleteRestoreTestingSelectionInput: Swift.Equatable {
+public struct DeleteRestoreTestingSelectionInput {
     /// Required unique name of the restore testing plan that contains the restore testing selection you wish to delete.
     /// This member is required.
     public var restoreTestingPlanName: Swift.String?
@@ -5255,7 +5255,7 @@ public struct DeleteRestoreTestingSelectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteRestoreTestingSelectionInputBody: Swift.Equatable {
+struct DeleteRestoreTestingSelectionInputBody {
 }
 
 extension DeleteRestoreTestingSelectionInputBody: Swift.Decodable {
@@ -5269,7 +5269,7 @@ extension DeleteRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeleteRestoreTestingSelectionOutput: Swift.Equatable {
+public struct DeleteRestoreTestingSelectionOutput {
 
     public init() { }
 }
@@ -5342,7 +5342,7 @@ public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct DependencyFailureExceptionBody: Swift.Equatable {
+struct DependencyFailureExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let type: Swift.String?
@@ -5380,7 +5380,7 @@ extension DescribeBackupJobInput {
     }
 }
 
-public struct DescribeBackupJobInput: Swift.Equatable {
+public struct DescribeBackupJobInput {
     /// Uniquely identifies a request to Backup to back up a resource.
     /// This member is required.
     public var backupJobId: Swift.String?
@@ -5393,7 +5393,7 @@ public struct DescribeBackupJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupJobInputBody: Swift.Equatable {
+struct DescribeBackupJobInputBody {
 }
 
 extension DescribeBackupJobInputBody: Swift.Decodable {
@@ -5466,7 +5466,7 @@ extension DescribeBackupJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBackupJobOutput: Swift.Equatable {
+public struct DescribeBackupJobOutput {
     /// Returns the account ID that owns the backup job.
     public var accountId: Swift.String?
     /// Uniquely identifies a request to Backup to back up a resource.
@@ -5582,7 +5582,7 @@ public struct DescribeBackupJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupJobOutputBody: Swift.Equatable {
+struct DescribeBackupJobOutputBody {
     let accountId: Swift.String?
     let backupJobId: Swift.String?
     let backupVaultName: Swift.String?
@@ -5757,7 +5757,7 @@ extension DescribeBackupVaultInput {
     }
 }
 
-public struct DescribeBackupVaultInput: Swift.Equatable {
+public struct DescribeBackupVaultInput {
     /// This is the account ID of the specified backup vault.
     public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -5774,7 +5774,7 @@ public struct DescribeBackupVaultInput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupVaultInputBody: Swift.Equatable {
+struct DescribeBackupVaultInputBody {
 }
 
 extension DescribeBackupVaultInputBody: Swift.Decodable {
@@ -5815,7 +5815,7 @@ extension DescribeBackupVaultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBackupVaultOutput: Swift.Equatable {
+public struct DescribeBackupVaultOutput {
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -5867,7 +5867,7 @@ public struct DescribeBackupVaultOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupVaultOutputBody: Swift.Equatable {
+struct DescribeBackupVaultOutputBody {
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
     let vaultType: BackupClientTypes.VaultType?
@@ -5947,7 +5947,7 @@ extension DescribeCopyJobInput {
     }
 }
 
-public struct DescribeCopyJobInput: Swift.Equatable {
+public struct DescribeCopyJobInput {
     /// Uniquely identifies a copy job.
     /// This member is required.
     public var copyJobId: Swift.String?
@@ -5960,7 +5960,7 @@ public struct DescribeCopyJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeCopyJobInputBody: Swift.Equatable {
+struct DescribeCopyJobInputBody {
 }
 
 extension DescribeCopyJobInputBody: Swift.Decodable {
@@ -5981,7 +5981,7 @@ extension DescribeCopyJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCopyJobOutput: Swift.Equatable {
+public struct DescribeCopyJobOutput {
     /// Contains detailed information about a copy job.
     public var copyJob: BackupClientTypes.CopyJob?
 
@@ -5993,7 +5993,7 @@ public struct DescribeCopyJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCopyJobOutputBody: Swift.Equatable {
+struct DescribeCopyJobOutputBody {
     let copyJob: BackupClientTypes.CopyJob?
 }
 
@@ -6033,7 +6033,7 @@ extension DescribeFrameworkInput {
     }
 }
 
-public struct DescribeFrameworkInput: Swift.Equatable {
+public struct DescribeFrameworkInput {
     /// The unique name of a framework.
     /// This member is required.
     public var frameworkName: Swift.String?
@@ -6046,7 +6046,7 @@ public struct DescribeFrameworkInput: Swift.Equatable {
     }
 }
 
-struct DescribeFrameworkInputBody: Swift.Equatable {
+struct DescribeFrameworkInputBody {
 }
 
 extension DescribeFrameworkInputBody: Swift.Decodable {
@@ -6081,7 +6081,7 @@ extension DescribeFrameworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFrameworkOutput: Swift.Equatable {
+public struct DescribeFrameworkOutput {
     /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
     public var creationTime: ClientRuntime.Date?
     /// The deployment status of a framework. The statuses are: CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED | FAILED
@@ -6129,7 +6129,7 @@ public struct DescribeFrameworkOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFrameworkOutputBody: Swift.Equatable {
+struct DescribeFrameworkOutputBody {
     let frameworkName: Swift.String?
     let frameworkArn: Swift.String?
     let frameworkDescription: Swift.String?
@@ -6203,12 +6203,12 @@ extension DescribeGlobalSettingsInput {
     }
 }
 
-public struct DescribeGlobalSettingsInput: Swift.Equatable {
+public struct DescribeGlobalSettingsInput {
 
     public init() { }
 }
 
-struct DescribeGlobalSettingsInputBody: Swift.Equatable {
+struct DescribeGlobalSettingsInputBody {
 }
 
 extension DescribeGlobalSettingsInputBody: Swift.Decodable {
@@ -6231,7 +6231,7 @@ extension DescribeGlobalSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeGlobalSettingsOutput: Swift.Equatable {
+public struct DescribeGlobalSettingsOutput {
     /// The status of the flag isCrossAccountBackupEnabled.
     public var globalSettings: [Swift.String:Swift.String]?
     /// The date and time that the flag isCrossAccountBackupEnabled was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -6247,7 +6247,7 @@ public struct DescribeGlobalSettingsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeGlobalSettingsOutputBody: Swift.Equatable {
+struct DescribeGlobalSettingsOutputBody {
     let globalSettings: [Swift.String:Swift.String]?
     let lastUpdateTime: ClientRuntime.Date?
 }
@@ -6298,7 +6298,7 @@ extension DescribeProtectedResourceInput {
     }
 }
 
-public struct DescribeProtectedResourceInput: Swift.Equatable {
+public struct DescribeProtectedResourceInput {
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6311,7 +6311,7 @@ public struct DescribeProtectedResourceInput: Swift.Equatable {
     }
 }
 
-struct DescribeProtectedResourceInputBody: Swift.Equatable {
+struct DescribeProtectedResourceInputBody {
 }
 
 extension DescribeProtectedResourceInputBody: Swift.Decodable {
@@ -6348,7 +6348,7 @@ extension DescribeProtectedResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProtectedResourceOutput: Swift.Equatable {
+public struct DescribeProtectedResourceOutput {
     /// The date and time that a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var lastBackupTime: ClientRuntime.Date?
     /// This is the ARN (Amazon Resource Name) of the backup vault that contains the most recent backup recovery point.
@@ -6392,7 +6392,7 @@ public struct DescribeProtectedResourceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProtectedResourceOutputBody: Swift.Equatable {
+struct DescribeProtectedResourceOutputBody {
     let resourceArn: Swift.String?
     let resourceType: Swift.String?
     let lastBackupTime: ClientRuntime.Date?
@@ -6479,7 +6479,7 @@ extension DescribeRecoveryPointInput {
     }
 }
 
-public struct DescribeRecoveryPointInput: Swift.Equatable {
+public struct DescribeRecoveryPointInput {
     /// This is the account ID of the specified backup vault.
     public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -6501,7 +6501,7 @@ public struct DescribeRecoveryPointInput: Swift.Equatable {
     }
 }
 
-struct DescribeRecoveryPointInputBody: Swift.Equatable {
+struct DescribeRecoveryPointInputBody {
 }
 
 extension DescribeRecoveryPointInputBody: Swift.Decodable {
@@ -6568,7 +6568,7 @@ extension DescribeRecoveryPointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRecoveryPointOutput: Swift.Equatable {
+public struct DescribeRecoveryPointOutput {
     /// The size, in bytes, of a backup.
     public var backupSizeInBytes: Swift.Int?
     /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
@@ -6672,7 +6672,7 @@ public struct DescribeRecoveryPointOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRecoveryPointOutputBody: Swift.Equatable {
+struct DescribeRecoveryPointOutputBody {
     let recoveryPointArn: Swift.String?
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
@@ -6801,12 +6801,12 @@ extension DescribeRegionSettingsInput {
     }
 }
 
-public struct DescribeRegionSettingsInput: Swift.Equatable {
+public struct DescribeRegionSettingsInput {
 
     public init() { }
 }
 
-struct DescribeRegionSettingsInputBody: Swift.Equatable {
+struct DescribeRegionSettingsInputBody {
 }
 
 extension DescribeRegionSettingsInputBody: Swift.Decodable {
@@ -6829,7 +6829,7 @@ extension DescribeRegionSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRegionSettingsOutput: Swift.Equatable {
+public struct DescribeRegionSettingsOutput {
     /// Returns whether Backup fully manages the backups for a resource type. For the benefits of full Backup management, see [ Full Backup management](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#full-management). For a list of resource types and whether each supports full Backup management, see the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. If "DynamoDB":false, you can enable full Backup management for DynamoDB backup by enabling [ Backup's advanced DynamoDB backup features](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli).
     public var resourceTypeManagementPreference: [Swift.String:Swift.Bool]?
     /// Returns a list of all services along with the opt-in preferences in the Region.
@@ -6845,7 +6845,7 @@ public struct DescribeRegionSettingsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRegionSettingsOutputBody: Swift.Equatable {
+struct DescribeRegionSettingsOutputBody {
     let resourceTypeOptInPreference: [Swift.String:Swift.Bool]?
     let resourceTypeManagementPreference: [Swift.String:Swift.Bool]?
 }
@@ -6904,7 +6904,7 @@ extension DescribeReportJobInput {
     }
 }
 
-public struct DescribeReportJobInput: Swift.Equatable {
+public struct DescribeReportJobInput {
     /// The identifier of the report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
     /// This member is required.
     public var reportJobId: Swift.String?
@@ -6917,7 +6917,7 @@ public struct DescribeReportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeReportJobInputBody: Swift.Equatable {
+struct DescribeReportJobInputBody {
 }
 
 extension DescribeReportJobInputBody: Swift.Decodable {
@@ -6938,7 +6938,7 @@ extension DescribeReportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeReportJobOutput: Swift.Equatable {
+public struct DescribeReportJobOutput {
     /// A list of information about a report job, including its completion and creation times, report destination, unique report job ID, Amazon Resource Name (ARN), report template, status, and status message.
     public var reportJob: BackupClientTypes.ReportJob?
 
@@ -6950,7 +6950,7 @@ public struct DescribeReportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReportJobOutputBody: Swift.Equatable {
+struct DescribeReportJobOutputBody {
     let reportJob: BackupClientTypes.ReportJob?
 }
 
@@ -6989,7 +6989,7 @@ extension DescribeReportPlanInput {
     }
 }
 
-public struct DescribeReportPlanInput: Swift.Equatable {
+public struct DescribeReportPlanInput {
     /// The unique name of a report plan.
     /// This member is required.
     public var reportPlanName: Swift.String?
@@ -7002,7 +7002,7 @@ public struct DescribeReportPlanInput: Swift.Equatable {
     }
 }
 
-struct DescribeReportPlanInputBody: Swift.Equatable {
+struct DescribeReportPlanInputBody {
 }
 
 extension DescribeReportPlanInputBody: Swift.Decodable {
@@ -7023,7 +7023,7 @@ extension DescribeReportPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeReportPlanOutput: Swift.Equatable {
+public struct DescribeReportPlanOutput {
     /// Returns details about the report plan that is specified by its name. These details include the report plan's Amazon Resource Name (ARN), description, settings, delivery channel, deployment status, creation time, and last attempted and successful run times.
     public var reportPlan: BackupClientTypes.ReportPlan?
 
@@ -7035,7 +7035,7 @@ public struct DescribeReportPlanOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReportPlanOutputBody: Swift.Equatable {
+struct DescribeReportPlanOutputBody {
     let reportPlan: BackupClientTypes.ReportPlan?
 }
 
@@ -7075,7 +7075,7 @@ extension DescribeRestoreJobInput {
     }
 }
 
-public struct DescribeRestoreJobInput: Swift.Equatable {
+public struct DescribeRestoreJobInput {
     /// Uniquely identifies the job that restores a recovery point.
     /// This member is required.
     public var restoreJobId: Swift.String?
@@ -7088,7 +7088,7 @@ public struct DescribeRestoreJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeRestoreJobInputBody: Swift.Equatable {
+struct DescribeRestoreJobInputBody {
 }
 
 extension DescribeRestoreJobInputBody: Swift.Decodable {
@@ -7145,7 +7145,7 @@ extension DescribeRestoreJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRestoreJobOutput: Swift.Equatable {
+public struct DescribeRestoreJobOutput {
     /// Returns the account ID that owns the restore job.
     public var accountId: Swift.String?
     /// The size, in bytes, of the restored resource.
@@ -7229,7 +7229,7 @@ public struct DescribeRestoreJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRestoreJobOutputBody: Swift.Equatable {
+struct DescribeRestoreJobOutputBody {
     let accountId: Swift.String?
     let restoreJobId: Swift.String?
     let recoveryPointArn: Swift.String?
@@ -7345,7 +7345,7 @@ extension DisassociateRecoveryPointFromParentInput {
     }
 }
 
-public struct DisassociateRecoveryPointFromParentInput: Swift.Equatable {
+public struct DisassociateRecoveryPointFromParentInput {
     /// This is the name of a logical container where the child (nested) recovery point is stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -7363,7 +7363,7 @@ public struct DisassociateRecoveryPointFromParentInput: Swift.Equatable {
     }
 }
 
-struct DisassociateRecoveryPointFromParentInputBody: Swift.Equatable {
+struct DisassociateRecoveryPointFromParentInputBody {
 }
 
 extension DisassociateRecoveryPointFromParentInputBody: Swift.Decodable {
@@ -7377,7 +7377,7 @@ extension DisassociateRecoveryPointFromParentOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DisassociateRecoveryPointFromParentOutput: Swift.Equatable {
+public struct DisassociateRecoveryPointFromParentOutput {
 
     public init() { }
 }
@@ -7410,7 +7410,7 @@ extension DisassociateRecoveryPointInput {
     }
 }
 
-public struct DisassociateRecoveryPointInput: Swift.Equatable {
+public struct DisassociateRecoveryPointInput {
     /// The unique name of an Backup vault.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -7428,7 +7428,7 @@ public struct DisassociateRecoveryPointInput: Swift.Equatable {
     }
 }
 
-struct DisassociateRecoveryPointInputBody: Swift.Equatable {
+struct DisassociateRecoveryPointInputBody {
 }
 
 extension DisassociateRecoveryPointInputBody: Swift.Decodable {
@@ -7442,7 +7442,7 @@ extension DisassociateRecoveryPointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateRecoveryPointOutput: Swift.Equatable {
+public struct DisassociateRecoveryPointOutput {
 
     public init() { }
 }
@@ -7473,7 +7473,7 @@ extension ExportBackupPlanTemplateInput {
     }
 }
 
-public struct ExportBackupPlanTemplateInput: Swift.Equatable {
+public struct ExportBackupPlanTemplateInput {
     /// Uniquely identifies a backup plan.
     /// This member is required.
     public var backupPlanId: Swift.String?
@@ -7486,7 +7486,7 @@ public struct ExportBackupPlanTemplateInput: Swift.Equatable {
     }
 }
 
-struct ExportBackupPlanTemplateInputBody: Swift.Equatable {
+struct ExportBackupPlanTemplateInputBody {
 }
 
 extension ExportBackupPlanTemplateInputBody: Swift.Decodable {
@@ -7507,7 +7507,7 @@ extension ExportBackupPlanTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportBackupPlanTemplateOutput: Swift.Equatable {
+public struct ExportBackupPlanTemplateOutput {
     /// The body of a backup plan template in JSON format. This is a signed JSON document that cannot be modified before being passed to GetBackupPlanFromJSON.
     public var backupPlanTemplateJson: Swift.String?
 
@@ -7519,7 +7519,7 @@ public struct ExportBackupPlanTemplateOutput: Swift.Equatable {
     }
 }
 
-struct ExportBackupPlanTemplateOutputBody: Swift.Equatable {
+struct ExportBackupPlanTemplateOutputBody {
     let backupPlanTemplateJson: Swift.String?
 }
 
@@ -7600,7 +7600,7 @@ extension BackupClientTypes.Framework: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains detailed information about a framework. Frameworks contain controls, which evaluate and report on your backup events and resources. Frameworks generate daily compliance results.
-    public struct Framework: Swift.Equatable {
+    public struct Framework {
         /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
         public var creationTime: ClientRuntime.Date?
         /// The deployment status of a framework. The statuses are: CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED | FAILED
@@ -7679,7 +7679,7 @@ extension BackupClientTypes.FrameworkControl: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains detailed information about all of the controls of a framework. Each framework must contain at least one control.
-    public struct FrameworkControl: Swift.Equatable {
+    public struct FrameworkControl {
         /// A list of ParameterName and ParameterValue pairs.
         public var controlInputParameters: [BackupClientTypes.ControlInputParameter]?
         /// The name of a control. This name is between 1 and 256 characters.
@@ -7722,7 +7722,7 @@ extension GetBackupPlanFromJSONInput {
     }
 }
 
-public struct GetBackupPlanFromJSONInput: Swift.Equatable {
+public struct GetBackupPlanFromJSONInput {
     /// A customer-supplied backup plan document in JSON format.
     /// This member is required.
     public var backupPlanTemplateJson: Swift.String?
@@ -7735,7 +7735,7 @@ public struct GetBackupPlanFromJSONInput: Swift.Equatable {
     }
 }
 
-struct GetBackupPlanFromJSONInputBody: Swift.Equatable {
+struct GetBackupPlanFromJSONInputBody {
     let backupPlanTemplateJson: Swift.String?
 }
 
@@ -7763,7 +7763,7 @@ extension GetBackupPlanFromJSONOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackupPlanFromJSONOutput: Swift.Equatable {
+public struct GetBackupPlanFromJSONOutput {
     /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
     public var backupPlan: BackupClientTypes.BackupPlan?
 
@@ -7775,7 +7775,7 @@ public struct GetBackupPlanFromJSONOutput: Swift.Equatable {
     }
 }
 
-struct GetBackupPlanFromJSONOutputBody: Swift.Equatable {
+struct GetBackupPlanFromJSONOutputBody {
     let backupPlan: BackupClientTypes.BackupPlan?
 }
 
@@ -7816,7 +7816,7 @@ extension GetBackupPlanFromTemplateInput {
     }
 }
 
-public struct GetBackupPlanFromTemplateInput: Swift.Equatable {
+public struct GetBackupPlanFromTemplateInput {
     /// Uniquely identifies a stored backup plan template.
     /// This member is required.
     public var backupPlanTemplateId: Swift.String?
@@ -7829,7 +7829,7 @@ public struct GetBackupPlanFromTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetBackupPlanFromTemplateInputBody: Swift.Equatable {
+struct GetBackupPlanFromTemplateInputBody {
 }
 
 extension GetBackupPlanFromTemplateInputBody: Swift.Decodable {
@@ -7850,7 +7850,7 @@ extension GetBackupPlanFromTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackupPlanFromTemplateOutput: Swift.Equatable {
+public struct GetBackupPlanFromTemplateOutput {
     /// Returns the body of a backup plan based on the target template, including the name, rules, and backup vault of the plan.
     public var backupPlanDocument: BackupClientTypes.BackupPlan?
 
@@ -7862,7 +7862,7 @@ public struct GetBackupPlanFromTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetBackupPlanFromTemplateOutputBody: Swift.Equatable {
+struct GetBackupPlanFromTemplateOutputBody {
     let backupPlanDocument: BackupClientTypes.BackupPlan?
 }
 
@@ -7914,7 +7914,7 @@ extension GetBackupPlanInput {
     }
 }
 
-public struct GetBackupPlanInput: Swift.Equatable {
+public struct GetBackupPlanInput {
     /// Uniquely identifies a backup plan.
     /// This member is required.
     public var backupPlanId: Swift.String?
@@ -7931,7 +7931,7 @@ public struct GetBackupPlanInput: Swift.Equatable {
     }
 }
 
-struct GetBackupPlanInputBody: Swift.Equatable {
+struct GetBackupPlanInputBody {
 }
 
 extension GetBackupPlanInputBody: Swift.Decodable {
@@ -7968,7 +7968,7 @@ extension GetBackupPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackupPlanOutput: Swift.Equatable {
+public struct GetBackupPlanOutput {
     /// Contains a list of BackupOptions for each resource type. The list is populated only if the advanced option is set for the backup plan.
     public var advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
     /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
@@ -8012,7 +8012,7 @@ public struct GetBackupPlanOutput: Swift.Equatable {
     }
 }
 
-struct GetBackupPlanOutputBody: Swift.Equatable {
+struct GetBackupPlanOutputBody {
     let backupPlan: BackupClientTypes.BackupPlan?
     let backupPlanId: Swift.String?
     let backupPlanArn: Swift.String?
@@ -8096,7 +8096,7 @@ extension GetBackupSelectionInput {
     }
 }
 
-public struct GetBackupSelectionInput: Swift.Equatable {
+public struct GetBackupSelectionInput {
     /// Uniquely identifies a backup plan.
     /// This member is required.
     public var backupPlanId: Swift.String?
@@ -8114,7 +8114,7 @@ public struct GetBackupSelectionInput: Swift.Equatable {
     }
 }
 
-struct GetBackupSelectionInputBody: Swift.Equatable {
+struct GetBackupSelectionInputBody {
 }
 
 extension GetBackupSelectionInputBody: Swift.Decodable {
@@ -8143,7 +8143,7 @@ extension GetBackupSelectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackupSelectionOutput: Swift.Equatable {
+public struct GetBackupSelectionOutput {
     /// Uniquely identifies a backup plan.
     public var backupPlanId: Swift.String?
     /// Specifies the body of a request to assign a set of resources to a backup plan.
@@ -8171,7 +8171,7 @@ public struct GetBackupSelectionOutput: Swift.Equatable {
     }
 }
 
-struct GetBackupSelectionOutputBody: Swift.Equatable {
+struct GetBackupSelectionOutputBody {
     let backupSelection: BackupClientTypes.BackupSelection?
     let selectionId: Swift.String?
     let backupPlanId: Swift.String?
@@ -8227,7 +8227,7 @@ extension GetBackupVaultAccessPolicyInput {
     }
 }
 
-public struct GetBackupVaultAccessPolicyInput: Swift.Equatable {
+public struct GetBackupVaultAccessPolicyInput {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -8240,7 +8240,7 @@ public struct GetBackupVaultAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetBackupVaultAccessPolicyInputBody: Swift.Equatable {
+struct GetBackupVaultAccessPolicyInputBody {
 }
 
 extension GetBackupVaultAccessPolicyInputBody: Swift.Decodable {
@@ -8265,7 +8265,7 @@ extension GetBackupVaultAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackupVaultAccessPolicyOutput: Swift.Equatable {
+public struct GetBackupVaultAccessPolicyOutput {
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -8285,7 +8285,7 @@ public struct GetBackupVaultAccessPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetBackupVaultAccessPolicyOutputBody: Swift.Equatable {
+struct GetBackupVaultAccessPolicyOutputBody {
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
     let policy: Swift.String?
@@ -8333,7 +8333,7 @@ extension GetBackupVaultNotificationsInput {
     }
 }
 
-public struct GetBackupVaultNotificationsInput: Swift.Equatable {
+public struct GetBackupVaultNotificationsInput {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -8346,7 +8346,7 @@ public struct GetBackupVaultNotificationsInput: Swift.Equatable {
     }
 }
 
-struct GetBackupVaultNotificationsInputBody: Swift.Equatable {
+struct GetBackupVaultNotificationsInputBody {
 }
 
 extension GetBackupVaultNotificationsInputBody: Swift.Decodable {
@@ -8373,7 +8373,7 @@ extension GetBackupVaultNotificationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBackupVaultNotificationsOutput: Swift.Equatable {
+public struct GetBackupVaultNotificationsOutput {
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// An array of events that indicate the status of jobs to back up resources to the backup vault.
@@ -8397,7 +8397,7 @@ public struct GetBackupVaultNotificationsOutput: Swift.Equatable {
     }
 }
 
-struct GetBackupVaultNotificationsOutputBody: Swift.Equatable {
+struct GetBackupVaultNotificationsOutputBody {
     let backupVaultName: Swift.String?
     let backupVaultArn: Swift.String?
     let snsTopicArn: Swift.String?
@@ -8458,7 +8458,7 @@ extension GetLegalHoldInput {
     }
 }
 
-public struct GetLegalHoldInput: Swift.Equatable {
+public struct GetLegalHoldInput {
     /// This is the ID required to use GetLegalHold. This unique ID is associated with a specific legal hold.
     /// This member is required.
     public var legalHoldId: Swift.String?
@@ -8471,7 +8471,7 @@ public struct GetLegalHoldInput: Swift.Equatable {
     }
 }
 
-struct GetLegalHoldInputBody: Swift.Equatable {
+struct GetLegalHoldInputBody {
 }
 
 extension GetLegalHoldInputBody: Swift.Decodable {
@@ -8510,7 +8510,7 @@ extension GetLegalHoldOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLegalHoldOutput: Swift.Equatable {
+public struct GetLegalHoldOutput {
     /// String describing the reason for removing the legal hold.
     public var cancelDescription: Swift.String?
     /// Time in number when legal hold was cancelled.
@@ -8558,7 +8558,7 @@ public struct GetLegalHoldOutput: Swift.Equatable {
     }
 }
 
-struct GetLegalHoldOutputBody: Swift.Equatable {
+struct GetLegalHoldOutputBody {
     let title: Swift.String?
     let status: BackupClientTypes.LegalHoldStatus?
     let description: Swift.String?
@@ -8649,7 +8649,7 @@ extension GetRecoveryPointRestoreMetadataInput {
     }
 }
 
-public struct GetRecoveryPointRestoreMetadataInput: Swift.Equatable {
+public struct GetRecoveryPointRestoreMetadataInput {
     /// This is the account ID of the specified backup vault.
     public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -8671,7 +8671,7 @@ public struct GetRecoveryPointRestoreMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetRecoveryPointRestoreMetadataInputBody: Swift.Equatable {
+struct GetRecoveryPointRestoreMetadataInputBody {
 }
 
 extension GetRecoveryPointRestoreMetadataInputBody: Swift.Decodable {
@@ -8703,7 +8703,7 @@ extension GetRecoveryPointRestoreMetadataOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetRecoveryPointRestoreMetadataOutput: Swift.Equatable {
+public struct GetRecoveryPointRestoreMetadataOutput {
     /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -8727,7 +8727,7 @@ public struct GetRecoveryPointRestoreMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetRecoveryPointRestoreMetadataOutputBody: Swift.Equatable {
+struct GetRecoveryPointRestoreMetadataOutputBody {
     let backupVaultArn: Swift.String?
     let recoveryPointArn: Swift.String?
     let restoreMetadata: [Swift.String:Swift.String]?
@@ -8788,7 +8788,7 @@ extension GetRestoreJobMetadataInput {
     }
 }
 
-public struct GetRestoreJobMetadataInput: Swift.Equatable {
+public struct GetRestoreJobMetadataInput {
     /// This is a unique identifier of a restore job within Backup.
     /// This member is required.
     public var restoreJobId: Swift.String?
@@ -8801,7 +8801,7 @@ public struct GetRestoreJobMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetRestoreJobMetadataInputBody: Swift.Equatable {
+struct GetRestoreJobMetadataInputBody {
 }
 
 extension GetRestoreJobMetadataInputBody: Swift.Decodable {
@@ -8829,7 +8829,7 @@ extension GetRestoreJobMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRestoreJobMetadataOutput: Swift.Equatable {
+public struct GetRestoreJobMetadataOutput {
     /// This contains the metadata of the specified backup job.
     public var metadata: [Swift.String:Swift.String]?
     /// This is a unique identifier of a restore job within Backup.
@@ -8845,7 +8845,7 @@ public struct GetRestoreJobMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetRestoreJobMetadataOutputBody: Swift.Equatable {
+struct GetRestoreJobMetadataOutputBody {
     let restoreJobId: Swift.String?
     let metadata: [Swift.String:Swift.String]?
 }
@@ -8919,7 +8919,7 @@ extension GetRestoreTestingInferredMetadataInput {
     }
 }
 
-public struct GetRestoreTestingInferredMetadataInput: Swift.Equatable {
+public struct GetRestoreTestingInferredMetadataInput {
     /// This is the account ID of the specified backup vault.
     public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web ServicesRegion where they are created. They consist of letters, numbers, and hyphens.
@@ -8941,7 +8941,7 @@ public struct GetRestoreTestingInferredMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetRestoreTestingInferredMetadataInputBody: Swift.Equatable {
+struct GetRestoreTestingInferredMetadataInputBody {
 }
 
 extension GetRestoreTestingInferredMetadataInputBody: Swift.Decodable {
@@ -8962,7 +8962,7 @@ extension GetRestoreTestingInferredMetadataOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetRestoreTestingInferredMetadataOutput: Swift.Equatable {
+public struct GetRestoreTestingInferredMetadataOutput {
     /// This is a string map of the metadata inferred from the request.
     /// This member is required.
     public var inferredMetadata: [Swift.String:Swift.String]?
@@ -8975,7 +8975,7 @@ public struct GetRestoreTestingInferredMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetRestoreTestingInferredMetadataOutputBody: Swift.Equatable {
+struct GetRestoreTestingInferredMetadataOutputBody {
     let inferredMetadata: [Swift.String:Swift.String]?
 }
 
@@ -9024,7 +9024,7 @@ extension GetRestoreTestingPlanInput {
     }
 }
 
-public struct GetRestoreTestingPlanInput: Swift.Equatable {
+public struct GetRestoreTestingPlanInput {
     /// Required unique name of the restore testing plan.
     /// This member is required.
     public var restoreTestingPlanName: Swift.String?
@@ -9037,7 +9037,7 @@ public struct GetRestoreTestingPlanInput: Swift.Equatable {
     }
 }
 
-struct GetRestoreTestingPlanInputBody: Swift.Equatable {
+struct GetRestoreTestingPlanInputBody {
 }
 
 extension GetRestoreTestingPlanInputBody: Swift.Decodable {
@@ -9058,7 +9058,7 @@ extension GetRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRestoreTestingPlanOutput: Swift.Equatable {
+public struct GetRestoreTestingPlanOutput {
     /// Specifies the body of a restore testing plan. Includes RestoreTestingPlanName.
     /// This member is required.
     public var restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForGet?
@@ -9071,7 +9071,7 @@ public struct GetRestoreTestingPlanOutput: Swift.Equatable {
     }
 }
 
-struct GetRestoreTestingPlanOutputBody: Swift.Equatable {
+struct GetRestoreTestingPlanOutputBody {
     let restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForGet?
 }
 
@@ -9112,7 +9112,7 @@ extension GetRestoreTestingSelectionInput {
     }
 }
 
-public struct GetRestoreTestingSelectionInput: Swift.Equatable {
+public struct GetRestoreTestingSelectionInput {
     /// Required unique name of the restore testing plan.
     /// This member is required.
     public var restoreTestingPlanName: Swift.String?
@@ -9130,7 +9130,7 @@ public struct GetRestoreTestingSelectionInput: Swift.Equatable {
     }
 }
 
-struct GetRestoreTestingSelectionInputBody: Swift.Equatable {
+struct GetRestoreTestingSelectionInputBody {
 }
 
 extension GetRestoreTestingSelectionInputBody: Swift.Decodable {
@@ -9151,7 +9151,7 @@ extension GetRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRestoreTestingSelectionOutput: Swift.Equatable {
+public struct GetRestoreTestingSelectionOutput {
     /// Unique name of the restore testing selection.
     /// This member is required.
     public var restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForGet?
@@ -9164,7 +9164,7 @@ public struct GetRestoreTestingSelectionOutput: Swift.Equatable {
     }
 }
 
-struct GetRestoreTestingSelectionOutputBody: Swift.Equatable {
+struct GetRestoreTestingSelectionOutputBody {
     let restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForGet?
 }
 
@@ -9199,12 +9199,12 @@ extension GetSupportedResourceTypesInput {
     }
 }
 
-public struct GetSupportedResourceTypesInput: Swift.Equatable {
+public struct GetSupportedResourceTypesInput {
 
     public init() { }
 }
 
-struct GetSupportedResourceTypesInputBody: Swift.Equatable {
+struct GetSupportedResourceTypesInputBody {
 }
 
 extension GetSupportedResourceTypesInputBody: Swift.Decodable {
@@ -9225,7 +9225,7 @@ extension GetSupportedResourceTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSupportedResourceTypesOutput: Swift.Equatable {
+public struct GetSupportedResourceTypesOutput {
     /// Contains a string with the supported Amazon Web Services resource types:
     ///
     /// * Aurora for Amazon Aurora
@@ -9257,7 +9257,7 @@ public struct GetSupportedResourceTypesOutput: Swift.Equatable {
     }
 }
 
-struct GetSupportedResourceTypesOutputBody: Swift.Equatable {
+struct GetSupportedResourceTypesOutputBody {
     let resourceTypes: [Swift.String]?
 }
 
@@ -9349,7 +9349,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidParameterValueExceptionBody: Swift.Equatable {
+struct InvalidParameterValueExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let type: Swift.String?
@@ -9433,7 +9433,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let type: Swift.String?
@@ -9517,7 +9517,7 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidResourceStateExceptionBody: Swift.Equatable {
+struct InvalidResourceStateExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let type: Swift.String?
@@ -9572,7 +9572,7 @@ extension BackupClientTypes.KeyValue: Swift.Codable {
 
 extension BackupClientTypes {
     /// Pair of two related strings. Allowed characters are letters, white space, and numbers that can be represented in UTF-8 and the following characters:  + - = . _ : /
-    public struct KeyValue: Swift.Equatable {
+    public struct KeyValue {
         /// The tag key (String). The key can't start with aws:. Length Constraints: Minimum length of 1. Maximum length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$
         /// This member is required.
         public var key: Swift.String?
@@ -9649,7 +9649,7 @@ extension BackupClientTypes.LegalHold: Swift.Codable {
 
 extension BackupClientTypes {
     /// A legal hold is an administrative tool that helps prevent backups from being deleted while under a hold. While the hold is in place, backups under a hold cannot be deleted and lifecycle policies that would alter the backup status (such as transition to cold storage) are delayed until the legal hold is removed. A backup can have more than one legal hold. Legal holds are applied to one or more backups (also known as recovery points). These backups can be filtered by resource types and by resource IDs.
-    public struct LegalHold: Swift.Equatable {
+    public struct LegalHold {
         /// This is the time in number format when legal hold was cancelled.
         public var cancellationDate: ClientRuntime.Date?
         /// This is the time in number format when legal hold was created.
@@ -9758,7 +9758,7 @@ extension BackupClientTypes.Lifecycle: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains an array of Transition objects specifying how long in days before a recovery point transitions to cold storage or is deleted. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, on the console, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types.
-    public struct Lifecycle: Swift.Equatable {
+    public struct Lifecycle {
         /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than 90 days plus MoveToColdStorageAfterDays.
         public var deleteAfterDays: Swift.Int?
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
@@ -9836,7 +9836,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let type: Swift.String?
@@ -9907,7 +9907,7 @@ extension ListBackupJobSummariesInput {
     }
 }
 
-public struct ListBackupJobSummariesInput: Swift.Equatable {
+public struct ListBackupJobSummariesInput {
     /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
     public var accountId: Swift.String?
     /// This is the period that sets the boundaries for returned results. Acceptable values include
@@ -9949,7 +9949,7 @@ public struct ListBackupJobSummariesInput: Swift.Equatable {
     }
 }
 
-struct ListBackupJobSummariesInputBody: Swift.Equatable {
+struct ListBackupJobSummariesInputBody {
 }
 
 extension ListBackupJobSummariesInputBody: Swift.Decodable {
@@ -9974,7 +9974,7 @@ extension ListBackupJobSummariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBackupJobSummariesOutput: Swift.Equatable {
+public struct ListBackupJobSummariesOutput {
     /// This is the period that sets the boundaries for returned results.
     ///
     /// * ONE_DAY for daily job count for the prior 14 days.
@@ -10000,7 +10000,7 @@ public struct ListBackupJobSummariesOutput: Swift.Equatable {
     }
 }
 
-struct ListBackupJobSummariesOutputBody: Swift.Equatable {
+struct ListBackupJobSummariesOutputBody {
     let backupJobSummaries: [BackupClientTypes.BackupJobSummary]?
     let aggregationPeriod: Swift.String?
     let nextToken: Swift.String?
@@ -10112,7 +10112,7 @@ extension ListBackupJobsInput {
     }
 }
 
-public struct ListBackupJobsInput: Swift.Equatable {
+public struct ListBackupJobsInput {
     /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an Organizations management account, passing * returns all jobs across the organization.
     public var byAccountId: Swift.String?
     /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -10204,7 +10204,7 @@ public struct ListBackupJobsInput: Swift.Equatable {
     }
 }
 
-struct ListBackupJobsInputBody: Swift.Equatable {
+struct ListBackupJobsInputBody {
 }
 
 extension ListBackupJobsInputBody: Swift.Decodable {
@@ -10227,7 +10227,7 @@ extension ListBackupJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBackupJobsOutput: Swift.Equatable {
+public struct ListBackupJobsOutput {
     /// An array of structures containing metadata about your backup jobs returned in JSON format.
     public var backupJobs: [BackupClientTypes.BackupJob]?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -10243,7 +10243,7 @@ public struct ListBackupJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListBackupJobsOutputBody: Swift.Equatable {
+struct ListBackupJobsOutputBody {
     let backupJobs: [BackupClientTypes.BackupJob]?
     let nextToken: Swift.String?
 }
@@ -10307,7 +10307,7 @@ extension ListBackupPlanTemplatesInput {
     }
 }
 
-public struct ListBackupPlanTemplatesInput: Swift.Equatable {
+public struct ListBackupPlanTemplatesInput {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -10323,7 +10323,7 @@ public struct ListBackupPlanTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListBackupPlanTemplatesInputBody: Swift.Equatable {
+struct ListBackupPlanTemplatesInputBody {
 }
 
 extension ListBackupPlanTemplatesInputBody: Swift.Decodable {
@@ -10346,7 +10346,7 @@ extension ListBackupPlanTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBackupPlanTemplatesOutput: Swift.Equatable {
+public struct ListBackupPlanTemplatesOutput {
     /// An array of template list items containing metadata about your saved templates.
     public var backupPlanTemplatesList: [BackupClientTypes.BackupPlanTemplatesListMember]?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -10362,7 +10362,7 @@ public struct ListBackupPlanTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListBackupPlanTemplatesOutputBody: Swift.Equatable {
+struct ListBackupPlanTemplatesOutputBody {
     let nextToken: Swift.String?
     let backupPlanTemplatesList: [BackupClientTypes.BackupPlanTemplatesListMember]?
 }
@@ -10431,7 +10431,7 @@ extension ListBackupPlanVersionsInput {
     }
 }
 
-public struct ListBackupPlanVersionsInput: Swift.Equatable {
+public struct ListBackupPlanVersionsInput {
     /// Uniquely identifies a backup plan.
     /// This member is required.
     public var backupPlanId: Swift.String?
@@ -10452,7 +10452,7 @@ public struct ListBackupPlanVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListBackupPlanVersionsInputBody: Swift.Equatable {
+struct ListBackupPlanVersionsInputBody {
 }
 
 extension ListBackupPlanVersionsInputBody: Swift.Decodable {
@@ -10475,7 +10475,7 @@ extension ListBackupPlanVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBackupPlanVersionsOutput: Swift.Equatable {
+public struct ListBackupPlanVersionsOutput {
     /// An array of version list items containing metadata about your backup plans.
     public var backupPlanVersionsList: [BackupClientTypes.BackupPlansListMember]?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -10491,7 +10491,7 @@ public struct ListBackupPlanVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListBackupPlanVersionsOutputBody: Swift.Equatable {
+struct ListBackupPlanVersionsOutputBody {
     let nextToken: Swift.String?
     let backupPlanVersionsList: [BackupClientTypes.BackupPlansListMember]?
 }
@@ -10561,7 +10561,7 @@ extension ListBackupPlansInput {
     }
 }
 
-public struct ListBackupPlansInput: Swift.Equatable {
+public struct ListBackupPlansInput {
     /// A Boolean value with a default value of FALSE that returns deleted backup plans when set to TRUE.
     public var includeDeleted: Swift.Bool?
     /// The maximum number of items to be returned.
@@ -10581,7 +10581,7 @@ public struct ListBackupPlansInput: Swift.Equatable {
     }
 }
 
-struct ListBackupPlansInputBody: Swift.Equatable {
+struct ListBackupPlansInputBody {
 }
 
 extension ListBackupPlansInputBody: Swift.Decodable {
@@ -10604,7 +10604,7 @@ extension ListBackupPlansOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBackupPlansOutput: Swift.Equatable {
+public struct ListBackupPlansOutput {
     /// An array of backup plan list items containing metadata about your saved backup plans.
     public var backupPlansList: [BackupClientTypes.BackupPlansListMember]?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -10620,7 +10620,7 @@ public struct ListBackupPlansOutput: Swift.Equatable {
     }
 }
 
-struct ListBackupPlansOutputBody: Swift.Equatable {
+struct ListBackupPlansOutputBody {
     let nextToken: Swift.String?
     let backupPlansList: [BackupClientTypes.BackupPlansListMember]?
 }
@@ -10689,7 +10689,7 @@ extension ListBackupSelectionsInput {
     }
 }
 
-public struct ListBackupSelectionsInput: Swift.Equatable {
+public struct ListBackupSelectionsInput {
     /// Uniquely identifies a backup plan.
     /// This member is required.
     public var backupPlanId: Swift.String?
@@ -10710,7 +10710,7 @@ public struct ListBackupSelectionsInput: Swift.Equatable {
     }
 }
 
-struct ListBackupSelectionsInputBody: Swift.Equatable {
+struct ListBackupSelectionsInputBody {
 }
 
 extension ListBackupSelectionsInputBody: Swift.Decodable {
@@ -10733,7 +10733,7 @@ extension ListBackupSelectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBackupSelectionsOutput: Swift.Equatable {
+public struct ListBackupSelectionsOutput {
     /// An array of backup selection list items containing metadata about each resource in the list.
     public var backupSelectionsList: [BackupClientTypes.BackupSelectionsListMember]?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -10749,7 +10749,7 @@ public struct ListBackupSelectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListBackupSelectionsOutputBody: Swift.Equatable {
+struct ListBackupSelectionsOutputBody {
     let nextToken: Swift.String?
     let backupSelectionsList: [BackupClientTypes.BackupSelectionsListMember]?
 }
@@ -10823,7 +10823,7 @@ extension ListBackupVaultsInput {
     }
 }
 
-public struct ListBackupVaultsInput: Swift.Equatable {
+public struct ListBackupVaultsInput {
     /// This parameter will sort the list of vaults by shared vaults.
     public var byShared: Swift.Bool?
     /// This parameter will sort the list of vaults by vault type.
@@ -10847,7 +10847,7 @@ public struct ListBackupVaultsInput: Swift.Equatable {
     }
 }
 
-struct ListBackupVaultsInputBody: Swift.Equatable {
+struct ListBackupVaultsInputBody {
 }
 
 extension ListBackupVaultsInputBody: Swift.Decodable {
@@ -10870,7 +10870,7 @@ extension ListBackupVaultsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBackupVaultsOutput: Swift.Equatable {
+public struct ListBackupVaultsOutput {
     /// An array of backup vault list members containing vault metadata, including Amazon Resource Name (ARN), display name, creation date, number of saved recovery points, and encryption information if the resources saved in the backup vault are encrypted.
     public var backupVaultList: [BackupClientTypes.BackupVaultListMember]?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -10886,7 +10886,7 @@ public struct ListBackupVaultsOutput: Swift.Equatable {
     }
 }
 
-struct ListBackupVaultsOutputBody: Swift.Equatable {
+struct ListBackupVaultsOutputBody {
     let backupVaultList: [BackupClientTypes.BackupVaultListMember]?
     let nextToken: Swift.String?
 }
@@ -10972,7 +10972,7 @@ extension ListCopyJobSummariesInput {
     }
 }
 
-public struct ListCopyJobSummariesInput: Swift.Equatable {
+public struct ListCopyJobSummariesInput {
     /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
     public var accountId: Swift.String?
     /// This is the period that sets the boundaries for returned results.
@@ -11014,7 +11014,7 @@ public struct ListCopyJobSummariesInput: Swift.Equatable {
     }
 }
 
-struct ListCopyJobSummariesInputBody: Swift.Equatable {
+struct ListCopyJobSummariesInputBody {
 }
 
 extension ListCopyJobSummariesInputBody: Swift.Decodable {
@@ -11039,7 +11039,7 @@ extension ListCopyJobSummariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCopyJobSummariesOutput: Swift.Equatable {
+public struct ListCopyJobSummariesOutput {
     /// This is the period that sets the boundaries for returned results.
     ///
     /// * ONE_DAY for daily job count for the prior 14 days.
@@ -11065,7 +11065,7 @@ public struct ListCopyJobSummariesOutput: Swift.Equatable {
     }
 }
 
-struct ListCopyJobSummariesOutputBody: Swift.Equatable {
+struct ListCopyJobSummariesOutputBody {
     let copyJobSummaries: [BackupClientTypes.CopyJobSummary]?
     let aggregationPeriod: Swift.String?
     let nextToken: Swift.String?
@@ -11177,7 +11177,7 @@ extension ListCopyJobsInput {
     }
 }
 
-public struct ListCopyJobsInput: Swift.Equatable {
+public struct ListCopyJobsInput {
     /// The account ID to list the jobs from. Returns only copy jobs associated with the specified account ID.
     public var byAccountId: Swift.String?
     /// Returns only copy jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
@@ -11269,7 +11269,7 @@ public struct ListCopyJobsInput: Swift.Equatable {
     }
 }
 
-struct ListCopyJobsInputBody: Swift.Equatable {
+struct ListCopyJobsInputBody {
 }
 
 extension ListCopyJobsInputBody: Swift.Decodable {
@@ -11292,7 +11292,7 @@ extension ListCopyJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCopyJobsOutput: Swift.Equatable {
+public struct ListCopyJobsOutput {
     /// An array of structures containing metadata about your copy jobs returned in JSON format.
     public var copyJobs: [BackupClientTypes.CopyJob]?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -11308,7 +11308,7 @@ public struct ListCopyJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListCopyJobsOutputBody: Swift.Equatable {
+struct ListCopyJobsOutputBody {
     let copyJobs: [BackupClientTypes.CopyJob]?
     let nextToken: Swift.String?
 }
@@ -11372,7 +11372,7 @@ extension ListFrameworksInput {
     }
 }
 
-public struct ListFrameworksInput: Swift.Equatable {
+public struct ListFrameworksInput {
     /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
     public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -11388,7 +11388,7 @@ public struct ListFrameworksInput: Swift.Equatable {
     }
 }
 
-struct ListFrameworksInputBody: Swift.Equatable {
+struct ListFrameworksInputBody {
 }
 
 extension ListFrameworksInputBody: Swift.Decodable {
@@ -11411,7 +11411,7 @@ extension ListFrameworksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFrameworksOutput: Swift.Equatable {
+public struct ListFrameworksOutput {
     /// A list of frameworks with details for each framework, including the framework name, Amazon Resource Name (ARN), description, number of controls, creation time, and deployment status.
     public var frameworks: [BackupClientTypes.Framework]?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -11427,7 +11427,7 @@ public struct ListFrameworksOutput: Swift.Equatable {
     }
 }
 
-struct ListFrameworksOutputBody: Swift.Equatable {
+struct ListFrameworksOutputBody {
     let frameworks: [BackupClientTypes.Framework]?
     let nextToken: Swift.String?
 }
@@ -11491,7 +11491,7 @@ extension ListLegalHoldsInput {
     }
 }
 
-public struct ListLegalHoldsInput: Swift.Equatable {
+public struct ListLegalHoldsInput {
     /// The maximum number of resource list items to be returned.
     public var maxResults: Swift.Int?
     /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -11507,7 +11507,7 @@ public struct ListLegalHoldsInput: Swift.Equatable {
     }
 }
 
-struct ListLegalHoldsInputBody: Swift.Equatable {
+struct ListLegalHoldsInputBody {
 }
 
 extension ListLegalHoldsInputBody: Swift.Decodable {
@@ -11530,7 +11530,7 @@ extension ListLegalHoldsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLegalHoldsOutput: Swift.Equatable {
+public struct ListLegalHoldsOutput {
     /// This is an array of returned legal holds, both active and previous.
     public var legalHolds: [BackupClientTypes.LegalHold]?
     /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -11546,7 +11546,7 @@ public struct ListLegalHoldsOutput: Swift.Equatable {
     }
 }
 
-struct ListLegalHoldsOutputBody: Swift.Equatable {
+struct ListLegalHoldsOutputBody {
     let nextToken: Swift.String?
     let legalHolds: [BackupClientTypes.LegalHold]?
 }
@@ -11617,7 +11617,7 @@ extension ListProtectedResourcesByBackupVaultInput {
     }
 }
 
-public struct ListProtectedResourcesByBackupVaultInput: Swift.Equatable {
+public struct ListProtectedResourcesByBackupVaultInput {
     /// This is the list of protected resources by backup vault within the vault(s) you specify by account ID.
     public var backupVaultAccountId: Swift.String?
     /// This is the list of protected resources by backup vault within the vault(s) you specify by name.
@@ -11642,7 +11642,7 @@ public struct ListProtectedResourcesByBackupVaultInput: Swift.Equatable {
     }
 }
 
-struct ListProtectedResourcesByBackupVaultInputBody: Swift.Equatable {
+struct ListProtectedResourcesByBackupVaultInputBody {
 }
 
 extension ListProtectedResourcesByBackupVaultInputBody: Swift.Decodable {
@@ -11665,7 +11665,7 @@ extension ListProtectedResourcesByBackupVaultOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListProtectedResourcesByBackupVaultOutput: Swift.Equatable {
+public struct ListProtectedResourcesByBackupVaultOutput {
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// These are the results returned for the request ListProtectedResourcesByBackupVault.
@@ -11681,7 +11681,7 @@ public struct ListProtectedResourcesByBackupVaultOutput: Swift.Equatable {
     }
 }
 
-struct ListProtectedResourcesByBackupVaultOutputBody: Swift.Equatable {
+struct ListProtectedResourcesByBackupVaultOutputBody {
     let results: [BackupClientTypes.ProtectedResource]?
     let nextToken: Swift.String?
 }
@@ -11746,7 +11746,7 @@ extension ListProtectedResourcesInput {
     }
 }
 
-public struct ListProtectedResourcesInput: Swift.Equatable {
+public struct ListProtectedResourcesInput {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -11762,7 +11762,7 @@ public struct ListProtectedResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListProtectedResourcesInputBody: Swift.Equatable {
+struct ListProtectedResourcesInputBody {
 }
 
 extension ListProtectedResourcesInputBody: Swift.Decodable {
@@ -11785,7 +11785,7 @@ extension ListProtectedResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProtectedResourcesOutput: Swift.Equatable {
+public struct ListProtectedResourcesOutput {
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of resources successfully backed up by Backup including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
@@ -11801,7 +11801,7 @@ public struct ListProtectedResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListProtectedResourcesOutputBody: Swift.Equatable {
+struct ListProtectedResourcesOutputBody {
     let results: [BackupClientTypes.ProtectedResource]?
     let nextToken: Swift.String?
 }
@@ -11896,7 +11896,7 @@ extension ListRecoveryPointsByBackupVaultInput {
     }
 }
 
-public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
+public struct ListRecoveryPointsByBackupVaultInput {
     /// This parameter will sort the list of recovery points by account ID.
     public var backupVaultAccountId: Swift.String?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens. Backup vault name might not be available when a supported service creates the backup.
@@ -11977,7 +11977,7 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
     }
 }
 
-struct ListRecoveryPointsByBackupVaultInputBody: Swift.Equatable {
+struct ListRecoveryPointsByBackupVaultInputBody {
 }
 
 extension ListRecoveryPointsByBackupVaultInputBody: Swift.Decodable {
@@ -12000,7 +12000,7 @@ extension ListRecoveryPointsByBackupVaultOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListRecoveryPointsByBackupVaultOutput: Swift.Equatable {
+public struct ListRecoveryPointsByBackupVaultOutput {
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about recovery points saved in a backup vault.
@@ -12016,7 +12016,7 @@ public struct ListRecoveryPointsByBackupVaultOutput: Swift.Equatable {
     }
 }
 
-struct ListRecoveryPointsByBackupVaultOutputBody: Swift.Equatable {
+struct ListRecoveryPointsByBackupVaultOutputBody {
     let nextToken: Swift.String?
     let recoveryPoints: [BackupClientTypes.RecoveryPointByBackupVault]?
 }
@@ -12085,7 +12085,7 @@ extension ListRecoveryPointsByLegalHoldInput {
     }
 }
 
-public struct ListRecoveryPointsByLegalHoldInput: Swift.Equatable {
+public struct ListRecoveryPointsByLegalHoldInput {
     /// This is the ID of the legal hold.
     /// This member is required.
     public var legalHoldId: Swift.String?
@@ -12106,7 +12106,7 @@ public struct ListRecoveryPointsByLegalHoldInput: Swift.Equatable {
     }
 }
 
-struct ListRecoveryPointsByLegalHoldInputBody: Swift.Equatable {
+struct ListRecoveryPointsByLegalHoldInputBody {
 }
 
 extension ListRecoveryPointsByLegalHoldInputBody: Swift.Decodable {
@@ -12129,7 +12129,7 @@ extension ListRecoveryPointsByLegalHoldOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListRecoveryPointsByLegalHoldOutput: Swift.Equatable {
+public struct ListRecoveryPointsByLegalHoldOutput {
     /// This return is the next item following a partial list of returned resources.
     public var nextToken: Swift.String?
     /// This is a list of the recovery points returned by ListRecoveryPointsByLegalHold.
@@ -12145,7 +12145,7 @@ public struct ListRecoveryPointsByLegalHoldOutput: Swift.Equatable {
     }
 }
 
-struct ListRecoveryPointsByLegalHoldOutputBody: Swift.Equatable {
+struct ListRecoveryPointsByLegalHoldOutputBody {
     let recoveryPoints: [BackupClientTypes.RecoveryPointMember]?
     let nextToken: Swift.String?
 }
@@ -12217,7 +12217,7 @@ extension ListRecoveryPointsByResourceInput {
     }
 }
 
-public struct ListRecoveryPointsByResourceInput: Swift.Equatable {
+public struct ListRecoveryPointsByResourceInput {
     /// This attribute filters recovery points based on ownership. If this is set to TRUE, the response will contain recovery points associated with the selected resources that are managed by Backup. If this is set to FALSE, the response will contain all recovery points associated with the selected resource. Type: Boolean
     public var managedByAWSBackupOnly: Swift.Bool?
     /// The maximum number of items to be returned. Amazon RDS requires a value of at least 20.
@@ -12242,7 +12242,7 @@ public struct ListRecoveryPointsByResourceInput: Swift.Equatable {
     }
 }
 
-struct ListRecoveryPointsByResourceInputBody: Swift.Equatable {
+struct ListRecoveryPointsByResourceInputBody {
 }
 
 extension ListRecoveryPointsByResourceInputBody: Swift.Decodable {
@@ -12265,7 +12265,7 @@ extension ListRecoveryPointsByResourceOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListRecoveryPointsByResourceOutput: Swift.Equatable {
+public struct ListRecoveryPointsByResourceOutput {
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about recovery points of the specified resource type. Only Amazon EFS and Amazon EC2 recovery points return BackupVaultName.
@@ -12281,7 +12281,7 @@ public struct ListRecoveryPointsByResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListRecoveryPointsByResourceOutputBody: Swift.Equatable {
+struct ListRecoveryPointsByResourceOutputBody {
     let nextToken: Swift.String?
     let recoveryPoints: [BackupClientTypes.RecoveryPointByResource]?
 }
@@ -12363,7 +12363,7 @@ extension ListReportJobsInput {
     }
 }
 
-public struct ListReportJobsInput: Swift.Equatable {
+public struct ListReportJobsInput {
     /// Returns only report jobs that were created after the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
     public var byCreationAfter: ClientRuntime.Date?
     /// Returns only report jobs that were created before the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
@@ -12395,7 +12395,7 @@ public struct ListReportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListReportJobsInputBody: Swift.Equatable {
+struct ListReportJobsInputBody {
 }
 
 extension ListReportJobsInputBody: Swift.Decodable {
@@ -12418,7 +12418,7 @@ extension ListReportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReportJobsOutput: Swift.Equatable {
+public struct ListReportJobsOutput {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// Details about your report jobs in JSON format.
@@ -12434,7 +12434,7 @@ public struct ListReportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListReportJobsOutputBody: Swift.Equatable {
+struct ListReportJobsOutputBody {
     let reportJobs: [BackupClientTypes.ReportJob]?
     let nextToken: Swift.String?
 }
@@ -12499,7 +12499,7 @@ extension ListReportPlansInput {
     }
 }
 
-public struct ListReportPlansInput: Swift.Equatable {
+public struct ListReportPlansInput {
     /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
     public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -12515,7 +12515,7 @@ public struct ListReportPlansInput: Swift.Equatable {
     }
 }
 
-struct ListReportPlansInputBody: Swift.Equatable {
+struct ListReportPlansInputBody {
 }
 
 extension ListReportPlansInputBody: Swift.Decodable {
@@ -12538,7 +12538,7 @@ extension ListReportPlansOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReportPlansOutput: Swift.Equatable {
+public struct ListReportPlansOutput {
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
     /// A list of your report plans with detailed information for each plan. This information includes the Amazon Resource Name (ARN), report plan name, description, settings, delivery channel, deployment status, creation time, and last times the report plan attempted to and successfully ran.
@@ -12554,7 +12554,7 @@ public struct ListReportPlansOutput: Swift.Equatable {
     }
 }
 
-struct ListReportPlansOutputBody: Swift.Equatable {
+struct ListReportPlansOutputBody {
     let reportPlans: [BackupClientTypes.ReportPlan]?
     let nextToken: Swift.String?
 }
@@ -12634,7 +12634,7 @@ extension ListRestoreJobSummariesInput {
     }
 }
 
-public struct ListRestoreJobSummariesInput: Swift.Equatable {
+public struct ListRestoreJobSummariesInput {
     /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization. AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
     public var accountId: Swift.String?
     /// This is the period that sets the boundaries for returned results. Acceptable values include
@@ -12672,7 +12672,7 @@ public struct ListRestoreJobSummariesInput: Swift.Equatable {
     }
 }
 
-struct ListRestoreJobSummariesInputBody: Swift.Equatable {
+struct ListRestoreJobSummariesInputBody {
 }
 
 extension ListRestoreJobSummariesInputBody: Swift.Decodable {
@@ -12697,7 +12697,7 @@ extension ListRestoreJobSummariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRestoreJobSummariesOutput: Swift.Equatable {
+public struct ListRestoreJobSummariesOutput {
     /// This is the period that sets the boundaries for returned results.
     ///
     /// * ONE_DAY for daily job count for the prior 14 days.
@@ -12723,7 +12723,7 @@ public struct ListRestoreJobSummariesOutput: Swift.Equatable {
     }
 }
 
-struct ListRestoreJobSummariesOutputBody: Swift.Equatable {
+struct ListRestoreJobSummariesOutputBody {
     let restoreJobSummaries: [BackupClientTypes.RestoreJobSummary]?
     let aggregationPeriod: Swift.String?
     let nextToken: Swift.String?
@@ -12806,7 +12806,7 @@ extension ListRestoreJobsByProtectedResourceInput {
     }
 }
 
-public struct ListRestoreJobsByProtectedResourceInput: Swift.Equatable {
+public struct ListRestoreJobsByProtectedResourceInput {
     /// Returns only restore jobs of recovery points that were created after the specified date.
     public var byRecoveryPointCreationDateAfter: ClientRuntime.Date?
     /// Returns only restore jobs of recovery points that were created before the specified date.
@@ -12839,7 +12839,7 @@ public struct ListRestoreJobsByProtectedResourceInput: Swift.Equatable {
     }
 }
 
-struct ListRestoreJobsByProtectedResourceInputBody: Swift.Equatable {
+struct ListRestoreJobsByProtectedResourceInputBody {
 }
 
 extension ListRestoreJobsByProtectedResourceInputBody: Swift.Decodable {
@@ -12862,7 +12862,7 @@ extension ListRestoreJobsByProtectedResourceOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListRestoreJobsByProtectedResourceOutput: Swift.Equatable {
+public struct ListRestoreJobsByProtectedResourceOutput {
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows youto return more items in your list starting at the location pointed to by the next token
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about jobs to restore saved resources.>
@@ -12878,7 +12878,7 @@ public struct ListRestoreJobsByProtectedResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListRestoreJobsByProtectedResourceOutputBody: Swift.Equatable {
+struct ListRestoreJobsByProtectedResourceOutputBody {
     let restoreJobs: [BackupClientTypes.RestoreJobsListMember]?
     let nextToken: Swift.String?
 }
@@ -12976,7 +12976,7 @@ extension ListRestoreJobsInput {
     }
 }
 
-public struct ListRestoreJobsInput: Swift.Equatable {
+public struct ListRestoreJobsInput {
     /// The account ID to list the jobs from. Returns only restore jobs associated with the specified account ID.
     public var byAccountId: Swift.String?
     /// Returns only copy jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
@@ -13056,7 +13056,7 @@ public struct ListRestoreJobsInput: Swift.Equatable {
     }
 }
 
-struct ListRestoreJobsInputBody: Swift.Equatable {
+struct ListRestoreJobsInputBody {
 }
 
 extension ListRestoreJobsInputBody: Swift.Decodable {
@@ -13079,7 +13079,7 @@ extension ListRestoreJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRestoreJobsOutput: Swift.Equatable {
+public struct ListRestoreJobsOutput {
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about jobs to restore saved resources.
@@ -13095,7 +13095,7 @@ public struct ListRestoreJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListRestoreJobsOutputBody: Swift.Equatable {
+struct ListRestoreJobsOutputBody {
     let restoreJobs: [BackupClientTypes.RestoreJobsListMember]?
     let nextToken: Swift.String?
 }
@@ -13161,7 +13161,7 @@ extension ListRestoreTestingPlansInput {
     }
 }
 
-public struct ListRestoreTestingPlansInput: Swift.Equatable {
+public struct ListRestoreTestingPlansInput {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
@@ -13177,7 +13177,7 @@ public struct ListRestoreTestingPlansInput: Swift.Equatable {
     }
 }
 
-struct ListRestoreTestingPlansInputBody: Swift.Equatable {
+struct ListRestoreTestingPlansInputBody {
 }
 
 extension ListRestoreTestingPlansInputBody: Swift.Decodable {
@@ -13200,7 +13200,7 @@ extension ListRestoreTestingPlansOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRestoreTestingPlansOutput: Swift.Equatable {
+public struct ListRestoreTestingPlansOutput {
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
     public var nextToken: Swift.String?
     /// This is a returned list of restore testing plans.
@@ -13217,7 +13217,7 @@ public struct ListRestoreTestingPlansOutput: Swift.Equatable {
     }
 }
 
-struct ListRestoreTestingPlansOutputBody: Swift.Equatable {
+struct ListRestoreTestingPlansOutputBody {
     let nextToken: Swift.String?
     let restoreTestingPlans: [BackupClientTypes.RestoreTestingPlanForList]?
 }
@@ -13284,7 +13284,7 @@ extension ListRestoreTestingSelectionsInput {
     }
 }
 
-public struct ListRestoreTestingSelectionsInput: Swift.Equatable {
+public struct ListRestoreTestingSelectionsInput {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
@@ -13305,7 +13305,7 @@ public struct ListRestoreTestingSelectionsInput: Swift.Equatable {
     }
 }
 
-struct ListRestoreTestingSelectionsInputBody: Swift.Equatable {
+struct ListRestoreTestingSelectionsInputBody {
 }
 
 extension ListRestoreTestingSelectionsInputBody: Swift.Decodable {
@@ -13328,7 +13328,7 @@ extension ListRestoreTestingSelectionsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListRestoreTestingSelectionsOutput: Swift.Equatable {
+public struct ListRestoreTestingSelectionsOutput {
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the nexttoken.
     public var nextToken: Swift.String?
     /// The returned restore testing selections associated with the restore testing plan.
@@ -13345,7 +13345,7 @@ public struct ListRestoreTestingSelectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListRestoreTestingSelectionsOutputBody: Swift.Equatable {
+struct ListRestoreTestingSelectionsOutputBody {
     let nextToken: Swift.String?
     let restoreTestingSelections: [BackupClientTypes.RestoreTestingSelectionForList]?
 }
@@ -13413,7 +13413,7 @@ extension ListTagsInput {
     }
 }
 
-public struct ListTagsInput: Swift.Equatable {
+public struct ListTagsInput {
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -13434,7 +13434,7 @@ public struct ListTagsInput: Swift.Equatable {
     }
 }
 
-struct ListTagsInputBody: Swift.Equatable {
+struct ListTagsInputBody {
 }
 
 extension ListTagsInputBody: Swift.Decodable {
@@ -13462,7 +13462,7 @@ extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsOutput: Swift.Equatable {
+public struct ListTagsOutput {
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// To help organize your resources, you can assign your own metadata to the resources you create. Each tag is a key-value pair.
@@ -13478,7 +13478,7 @@ public struct ListTagsOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputBody: Swift.Equatable {
+struct ListTagsOutputBody {
     let nextToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -13577,7 +13577,7 @@ public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct MissingParameterValueExceptionBody: Swift.Equatable {
+struct MissingParameterValueExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let type: Swift.String?
@@ -13656,7 +13656,7 @@ extension BackupClientTypes.ProtectedResource: Swift.Codable {
 
 extension BackupClientTypes {
     /// A structure that contains information about a backed-up resource.
-    public struct ProtectedResource: Swift.Equatable {
+    public struct ProtectedResource {
         /// The date and time a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var lastBackupTime: ClientRuntime.Date?
         /// This is the ARN (Amazon Resource Name) of the backup vault that contains the most recent backup recovery point.
@@ -13741,7 +13741,7 @@ extension BackupClientTypes.ProtectedResourceConditions: Swift.Codable {
 
 extension BackupClientTypes {
     /// A list of conditions that you define for resources in your restore testing plan using tags. For example, "StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo", "Value": "true" },. Condition operators are case sensitive.
-    public struct ProtectedResourceConditions: Swift.Equatable {
+    public struct ProtectedResourceConditions {
         /// Filters the values of your tagged resources for only those resources that you tagged with the same value. Also called "exact matching."
         public var stringEquals: [BackupClientTypes.KeyValue]?
         /// Filters the values of your tagged resources for only those resources that you tagged that do not have the same value. Also called "negated matching."
@@ -13782,7 +13782,7 @@ extension PutBackupVaultAccessPolicyInput {
     }
 }
 
-public struct PutBackupVaultAccessPolicyInput: Swift.Equatable {
+public struct PutBackupVaultAccessPolicyInput {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -13799,7 +13799,7 @@ public struct PutBackupVaultAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutBackupVaultAccessPolicyInputBody: Swift.Equatable {
+struct PutBackupVaultAccessPolicyInputBody {
     let policy: Swift.String?
 }
 
@@ -13820,7 +13820,7 @@ extension PutBackupVaultAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutBackupVaultAccessPolicyOutput: Swift.Equatable {
+public struct PutBackupVaultAccessPolicyOutput {
 
     public init() { }
 }
@@ -13870,7 +13870,7 @@ extension PutBackupVaultLockConfigurationInput {
     }
 }
 
-public struct PutBackupVaultLockConfigurationInput: Swift.Equatable {
+public struct PutBackupVaultLockConfigurationInput {
     /// The Backup Vault Lock configuration that specifies the name of the backup vault it protects.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -13895,7 +13895,7 @@ public struct PutBackupVaultLockConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutBackupVaultLockConfigurationInputBody: Swift.Equatable {
+struct PutBackupVaultLockConfigurationInputBody {
     let minRetentionDays: Swift.Int?
     let maxRetentionDays: Swift.Int?
     let changeableForDays: Swift.Int?
@@ -13924,7 +13924,7 @@ extension PutBackupVaultLockConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct PutBackupVaultLockConfigurationOutput: Swift.Equatable {
+public struct PutBackupVaultLockConfigurationOutput {
 
     public init() { }
 }
@@ -13974,7 +13974,7 @@ extension PutBackupVaultNotificationsInput {
     }
 }
 
-public struct PutBackupVaultNotificationsInput: Swift.Equatable {
+public struct PutBackupVaultNotificationsInput {
     /// An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see [Using Amazon SNS to track Backup events](https://docs.aws.amazon.com/aws-backup/latest/devguide/sns-notifications.html). The following events are supported:
     ///
     /// * BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED
@@ -14008,7 +14008,7 @@ public struct PutBackupVaultNotificationsInput: Swift.Equatable {
     }
 }
 
-struct PutBackupVaultNotificationsInputBody: Swift.Equatable {
+struct PutBackupVaultNotificationsInputBody {
     let snsTopicArn: Swift.String?
     let backupVaultEvents: [BackupClientTypes.BackupVaultEvent]?
 }
@@ -14042,7 +14042,7 @@ extension PutBackupVaultNotificationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutBackupVaultNotificationsOutput: Swift.Equatable {
+public struct PutBackupVaultNotificationsOutput {
 
     public init() { }
 }
@@ -14088,7 +14088,7 @@ extension PutRestoreValidationResultInput {
     }
 }
 
-public struct PutRestoreValidationResultInput: Swift.Equatable {
+public struct PutRestoreValidationResultInput {
     /// This is a unique identifier of a restore job within Backup.
     /// This member is required.
     public var restoreJobId: Swift.String?
@@ -14110,7 +14110,7 @@ public struct PutRestoreValidationResultInput: Swift.Equatable {
     }
 }
 
-struct PutRestoreValidationResultInputBody: Swift.Equatable {
+struct PutRestoreValidationResultInputBody {
     let validationStatus: BackupClientTypes.RestoreValidationStatus?
     let validationStatusMessage: Swift.String?
 }
@@ -14135,7 +14135,7 @@ extension PutRestoreValidationResultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutRestoreValidationResultOutput: Swift.Equatable {
+public struct PutRestoreValidationResultOutput {
 
     public init() { }
 }
@@ -14308,7 +14308,7 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains detailed information about the recovery points stored in a backup vault.
-    public struct RecoveryPointByBackupVault: Swift.Equatable {
+    public struct RecoveryPointByBackupVault {
         /// The size, in bytes, of a backup.
         public var backupSizeInBytes: Swift.Int?
         /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
@@ -14491,7 +14491,7 @@ extension BackupClientTypes.RecoveryPointByResource: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains detailed information about a saved recovery point.
-    public struct RecoveryPointByResource: Swift.Equatable {
+    public struct RecoveryPointByResource {
         /// The size, in bytes, of a backup.
         public var backupSizeBytes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -14584,7 +14584,7 @@ extension BackupClientTypes.RecoveryPointCreator: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains information about the backup plan and rule that Backup used to initiate the recovery point backup.
-    public struct RecoveryPointCreator: Swift.Equatable {
+    public struct RecoveryPointCreator {
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public var backupPlanArn: Swift.String?
         /// Uniquely identifies a backup plan.
@@ -14649,7 +14649,7 @@ extension BackupClientTypes.RecoveryPointMember: Swift.Codable {
 
 extension BackupClientTypes {
     /// This is a recovery point which is a child (nested) recovery point of a parent (composite) recovery point. These recovery points can be disassociated from their parent (composite) recovery point, in which case they will no longer be a member.
-    public struct RecoveryPointMember: Swift.Equatable {
+    public struct RecoveryPointMember {
         /// This is the name of the backup vault (the logical container in which backups are stored).
         public var backupVaultName: Swift.String?
         /// This is the Amazon Resource Name (ARN) of the parent (composite) recovery point.
@@ -14732,7 +14732,7 @@ extension BackupClientTypes.RecoveryPointSelection: Swift.Codable {
 
 extension BackupClientTypes {
     /// This specifies criteria to assign a set of resources, such as resource types or backup vaults.
-    public struct RecoveryPointSelection: Swift.Equatable {
+    public struct RecoveryPointSelection {
         /// This is a resource filter containing FromDate: DateTime and ToDate: DateTime. Both values are required. Future DateTime values are not permitted. The date and time are in Unix format and Coordinated Universal Time (UTC), and it is accurate to milliseconds ((milliseconds are optional). For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var dateRange: BackupClientTypes.DateRange?
         /// These are the resources included in the resource selection (including type of resources and vaults).
@@ -14837,7 +14837,7 @@ extension BackupClientTypes.ReportDeliveryChannel: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains information from your report plan about where to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports.
-    public struct ReportDeliveryChannel: Swift.Equatable {
+    public struct ReportDeliveryChannel {
         /// A list of the format of your reports: CSV, JSON, or both. If not specified, the default format is CSV.
         public var formats: [Swift.String]?
         /// The unique name of the S3 bucket that receives your reports.
@@ -14899,7 +14899,7 @@ extension BackupClientTypes.ReportDestination: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains information from your report job about your report destination.
-    public struct ReportDestination: Swift.Equatable {
+    public struct ReportDestination {
         /// The unique name of the Amazon S3 bucket that receives your reports.
         public var s3BucketName: Swift.String?
         /// The object key that uniquely identifies your reports in your S3 bucket.
@@ -14980,7 +14980,7 @@ extension BackupClientTypes.ReportJob: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains detailed information about a report job. A report job compiles a report based on a report plan and publishes it to Amazon S3.
-    public struct ReportJob: Swift.Equatable {
+    public struct ReportJob {
         /// The date and time that a report job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var completionTime: ClientRuntime.Date?
         /// The date and time that a report job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -15091,7 +15091,7 @@ extension BackupClientTypes.ReportPlan: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains detailed information about a report plan.
-    public struct ReportPlan: Swift.Equatable {
+    public struct ReportPlan {
         /// The date and time that a report plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var creationTime: ClientRuntime.Date?
         /// The deployment status of a report plan. The statuses are: CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED
@@ -15236,7 +15236,7 @@ extension BackupClientTypes.ReportSetting: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains detailed information about a report setting.
-    public struct ReportSetting: Swift.Equatable {
+    public struct ReportSetting {
         /// These are the accounts to be included in the report.
         public var accounts: [Swift.String]?
         /// The Amazon Resource Names (ARNs) of the frameworks a report covers.
@@ -15327,7 +15327,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let type: Swift.String?
@@ -15411,7 +15411,7 @@ extension BackupClientTypes.RestoreJobCreator: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains information about the restore testing plan that Backup used to initiate the restore job.
-    public struct RestoreJobCreator: Swift.Equatable {
+    public struct RestoreJobCreator {
         /// An Amazon Resource Name (ARN) that uniquely identifies a restore testing plan.
         public var restoreTestingPlanArn: Swift.String?
 
@@ -15573,7 +15573,7 @@ extension BackupClientTypes.RestoreJobSummary: Swift.Codable {
 
 extension BackupClientTypes {
     /// This is a summary of restore jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
-    public struct RestoreJobSummary: Swift.Equatable {
+    public struct RestoreJobSummary {
         /// The account ID that owns the jobs within the summary.
         public var accountId: Swift.String?
         /// The value as a number of jobs in a job summary.
@@ -15740,7 +15740,7 @@ extension BackupClientTypes.RestoreJobsListMember: Swift.Codable {
 
 extension BackupClientTypes {
     /// Contains metadata about a restore job.
-    public struct RestoreJobsListMember: Swift.Equatable {
+    public struct RestoreJobsListMember {
         /// The account ID that owns the restore job.
         public var accountId: Swift.String?
         /// The size, in bytes, of the restored resource.
@@ -15871,7 +15871,7 @@ extension BackupClientTypes.RestoreTestingPlanForCreate: Swift.Codable {
 
 extension BackupClientTypes {
     /// This contains metadata about a restore testing plan.
-    public struct RestoreTestingPlanForCreate: Swift.Equatable {
+    public struct RestoreTestingPlanForCreate {
         /// Required: Algorithm; Required: Recovery point types; IncludeVaults (one or more). Optional: SelectionWindowDays ('30' if not specified); ExcludeVaults (list of selectors), defaults to empty list if not listed.
         /// This member is required.
         public var recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection?
@@ -15979,7 +15979,7 @@ extension BackupClientTypes.RestoreTestingPlanForGet: Swift.Codable {
 
 extension BackupClientTypes {
     /// This contains metadata about a restore testing plan.
-    public struct RestoreTestingPlanForGet: Swift.Equatable {
+    public struct RestoreTestingPlanForGet {
         /// The date and time that a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
@@ -16097,7 +16097,7 @@ extension BackupClientTypes.RestoreTestingPlanForList: Swift.Codable {
 
 extension BackupClientTypes {
     /// This contains metadata about a restore testing plan.
-    public struct RestoreTestingPlanForList: Swift.Equatable {
+    public struct RestoreTestingPlanForList {
         /// The date and time that a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
@@ -16182,7 +16182,7 @@ extension BackupClientTypes.RestoreTestingPlanForUpdate: Swift.Codable {
 
 extension BackupClientTypes {
     /// This contains metadata about a restore testing plan.
-    public struct RestoreTestingPlanForUpdate: Swift.Equatable {
+    public struct RestoreTestingPlanForUpdate {
         /// Required: Algorithm; RecoveryPointTypes; IncludeVaults (one or more). Optional: SelectionWindowDays ('30' if not specified); ExcludeVaults (defaults to empty list if not listed).
         public var recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection?
         /// A CRON expression in specified timezone when a restore testing plan is executed.
@@ -16289,7 +16289,7 @@ extension BackupClientTypes.RestoreTestingRecoveryPointSelection: Swift.Codable 
 
 extension BackupClientTypes {
     /// Required: Algorithm; Required: Recovery point types; IncludeVaults(one or more). Optional: SelectionWindowDays ('30' if not specified);ExcludeVaults (list of selectors), defaults to empty list if not listed.
-    public struct RestoreTestingRecoveryPointSelection: Swift.Equatable {
+    public struct RestoreTestingRecoveryPointSelection {
         /// Acceptable values include "LATEST_WITHIN_WINDOW" or "RANDOM_WITHIN_WINDOW"
         public var algorithm: BackupClientTypes.RestoreTestingRecoveryPointSelectionAlgorithm?
         /// Accepted values include specific ARNs or list of selectors. Defaults to empty list if not listed.
@@ -16476,7 +16476,7 @@ extension BackupClientTypes {
     ///
     ///
     /// Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for ProtectedResourceArns along with ProtectedResourceConditions. Alternatively, you can include up to 30 specific protected resource ARNs in ProtectedResourceArns. ProtectedResourceConditions examples include as StringEquals and StringNotEquals.
-    public struct RestoreTestingSelectionForCreate: Swift.Equatable {
+    public struct RestoreTestingSelectionForCreate {
         /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
         /// This member is required.
         public var iamRoleArn: Swift.String?
@@ -16641,7 +16641,7 @@ extension BackupClientTypes.RestoreTestingSelectionForGet: Swift.CustomDebugStri
 
 extension BackupClientTypes {
     /// This contains metadata about a restore testing selection.
-    public struct RestoreTestingSelectionForGet: Swift.Equatable {
+    public struct RestoreTestingSelectionForGet {
         /// The date and time that a restore testing selection was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 201812:11:30.087 AM.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
@@ -16747,7 +16747,7 @@ extension BackupClientTypes.RestoreTestingSelectionForList: Swift.Codable {
 
 extension BackupClientTypes {
     /// This contains metadata about a restore testing selection.
-    public struct RestoreTestingSelectionForList: Swift.Equatable {
+    public struct RestoreTestingSelectionForList {
         /// This is the date and time that a restore testing selection was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26,2018 12:11:30.087 AM.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
@@ -16860,7 +16860,7 @@ extension BackupClientTypes.RestoreTestingSelectionForUpdate: Swift.CustomDebugS
 
 extension BackupClientTypes {
     /// This contains metadata about a restore testing selection.
-    public struct RestoreTestingSelectionForUpdate: Swift.Equatable {
+    public struct RestoreTestingSelectionForUpdate {
         /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
         public var iamRoleArn: Swift.String?
         /// You can include a list of specific ARNs, such as ProtectedResourceArns: ["arn:aws:...", "arn:aws:..."] or you can include a wildcard: ProtectedResourceArns: ["*"], but not both.
@@ -16984,7 +16984,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let type: Swift.String?
@@ -17075,7 +17075,7 @@ extension StartBackupJobInput {
     }
 }
 
-public struct StartBackupJobInput: Swift.Equatable {
+public struct StartBackupJobInput {
     /// Specifies the backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS""disabled" to create a regular backup. The WindowsVSS option is not enabled by default.
     public var backupOptions: [Swift.String:Swift.String]?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -17122,7 +17122,7 @@ public struct StartBackupJobInput: Swift.Equatable {
     }
 }
 
-struct StartBackupJobInputBody: Swift.Equatable {
+struct StartBackupJobInputBody {
     let backupVaultName: Swift.String?
     let resourceArn: Swift.String?
     let iamRoleArn: Swift.String?
@@ -17206,7 +17206,7 @@ extension StartBackupJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartBackupJobOutput: Swift.Equatable {
+public struct StartBackupJobOutput {
     /// Uniquely identifies a request to Backup to back up a resource.
     public var backupJobId: Swift.String?
     /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -17230,7 +17230,7 @@ public struct StartBackupJobOutput: Swift.Equatable {
     }
 }
 
-struct StartBackupJobOutputBody: Swift.Equatable {
+struct StartBackupJobOutputBody {
     let backupJobId: Swift.String?
     let recoveryPointArn: Swift.String?
     let creationDate: ClientRuntime.Date?
@@ -17314,7 +17314,7 @@ extension StartCopyJobInput {
     }
 }
 
-public struct StartCopyJobInput: Swift.Equatable {
+public struct StartCopyJobInput {
     /// An Amazon Resource Name (ARN) that uniquely identifies a destination backup vault to copy to; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     /// This member is required.
     public var destinationBackupVaultArn: Swift.String?
@@ -17350,7 +17350,7 @@ public struct StartCopyJobInput: Swift.Equatable {
     }
 }
 
-struct StartCopyJobInputBody: Swift.Equatable {
+struct StartCopyJobInputBody {
     let recoveryPointArn: Swift.String?
     let sourceBackupVaultName: Swift.String?
     let destinationBackupVaultArn: Swift.String?
@@ -17402,7 +17402,7 @@ extension StartCopyJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCopyJobOutput: Swift.Equatable {
+public struct StartCopyJobOutput {
     /// Uniquely identifies a copy job.
     public var copyJobId: Swift.String?
     /// The date and time that a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -17422,7 +17422,7 @@ public struct StartCopyJobOutput: Swift.Equatable {
     }
 }
 
-struct StartCopyJobOutputBody: Swift.Equatable {
+struct StartCopyJobOutputBody {
     let copyJobId: Swift.String?
     let creationDate: ClientRuntime.Date?
     let isParent: Swift.Bool
@@ -17485,7 +17485,7 @@ extension StartReportJobInput {
     }
 }
 
-public struct StartReportJobInput: Swift.Equatable {
+public struct StartReportJobInput {
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartReportJobInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
     public var idempotencyToken: Swift.String?
     /// The unique name of a report plan.
@@ -17502,7 +17502,7 @@ public struct StartReportJobInput: Swift.Equatable {
     }
 }
 
-struct StartReportJobInputBody: Swift.Equatable {
+struct StartReportJobInputBody {
     let idempotencyToken: Swift.String?
 }
 
@@ -17530,7 +17530,7 @@ extension StartReportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartReportJobOutput: Swift.Equatable {
+public struct StartReportJobOutput {
     /// The identifier of the report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
     public var reportJobId: Swift.String?
 
@@ -17542,7 +17542,7 @@ public struct StartReportJobOutput: Swift.Equatable {
     }
 }
 
-struct StartReportJobOutputBody: Swift.Equatable {
+struct StartReportJobOutputBody {
     let reportJobId: Swift.String?
 }
 
@@ -17620,7 +17620,7 @@ extension StartRestoreJobInput {
     }
 }
 
-public struct StartRestoreJobInput: Swift.Equatable {
+public struct StartRestoreJobInput {
     /// This is an optional parameter. If this equals True, tags included in the backup will be copied to the restored resource. This can only be applied to backups created through Backup.
     public var copySourceTagsToRestoredResource: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
@@ -17698,7 +17698,7 @@ public struct StartRestoreJobInput: Swift.Equatable {
     }
 }
 
-struct StartRestoreJobInputBody: Swift.Equatable {
+struct StartRestoreJobInputBody {
     let recoveryPointArn: Swift.String?
     let metadata: [Swift.String:Swift.String]?
     let iamRoleArn: Swift.String?
@@ -17755,7 +17755,7 @@ extension StartRestoreJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartRestoreJobOutput: Swift.Equatable {
+public struct StartRestoreJobOutput {
     /// Uniquely identifies the job that restores a recovery point.
     public var restoreJobId: Swift.String?
 
@@ -17767,7 +17767,7 @@ public struct StartRestoreJobOutput: Swift.Equatable {
     }
 }
 
-struct StartRestoreJobOutputBody: Swift.Equatable {
+struct StartRestoreJobOutputBody {
     let restoreJobId: Swift.String?
 }
 
@@ -17808,7 +17808,7 @@ extension StopBackupJobInput {
     }
 }
 
-public struct StopBackupJobInput: Swift.Equatable {
+public struct StopBackupJobInput {
     /// Uniquely identifies a request to Backup to back up a resource.
     /// This member is required.
     public var backupJobId: Swift.String?
@@ -17821,7 +17821,7 @@ public struct StopBackupJobInput: Swift.Equatable {
     }
 }
 
-struct StopBackupJobInputBody: Swift.Equatable {
+struct StopBackupJobInputBody {
 }
 
 extension StopBackupJobInputBody: Swift.Decodable {
@@ -17835,7 +17835,7 @@ extension StopBackupJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopBackupJobOutput: Swift.Equatable {
+public struct StopBackupJobOutput {
 
     public init() { }
 }
@@ -17921,7 +17921,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -17939,7 +17939,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -17969,7 +17969,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -18020,7 +18020,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -18038,7 +18038,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let tagKeyList: [Swift.String]?
 }
 
@@ -18068,7 +18068,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -18110,7 +18110,7 @@ extension UpdateBackupPlanInput {
     }
 }
 
-public struct UpdateBackupPlanInput: Swift.Equatable {
+public struct UpdateBackupPlanInput {
     /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
     /// This member is required.
     public var backupPlan: BackupClientTypes.BackupPlanInput?
@@ -18128,7 +18128,7 @@ public struct UpdateBackupPlanInput: Swift.Equatable {
     }
 }
 
-struct UpdateBackupPlanInputBody: Swift.Equatable {
+struct UpdateBackupPlanInputBody {
     let backupPlan: BackupClientTypes.BackupPlanInput?
 }
 
@@ -18164,7 +18164,7 @@ extension UpdateBackupPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBackupPlanOutput: Swift.Equatable {
+public struct UpdateBackupPlanOutput {
     /// Contains a list of BackupOptions for each resource type.
     public var advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]?
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
@@ -18192,7 +18192,7 @@ public struct UpdateBackupPlanOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBackupPlanOutputBody: Swift.Equatable {
+struct UpdateBackupPlanOutputBody {
     let backupPlanId: Swift.String?
     let backupPlanArn: Swift.String?
     let creationDate: ClientRuntime.Date?
@@ -18281,7 +18281,7 @@ extension UpdateFrameworkInput {
     }
 }
 
-public struct UpdateFrameworkInput: Swift.Equatable {
+public struct UpdateFrameworkInput {
     /// A list of the controls that make up the framework. Each control in the list has a name, input parameters, and scope.
     public var frameworkControls: [BackupClientTypes.FrameworkControl]?
     /// An optional description of the framework with a maximum 1,024 characters.
@@ -18306,7 +18306,7 @@ public struct UpdateFrameworkInput: Swift.Equatable {
     }
 }
 
-struct UpdateFrameworkInputBody: Swift.Equatable {
+struct UpdateFrameworkInputBody {
     let frameworkDescription: Swift.String?
     let frameworkControls: [BackupClientTypes.FrameworkControl]?
     let idempotencyToken: Swift.String?
@@ -18355,7 +18355,7 @@ extension UpdateFrameworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFrameworkOutput: Swift.Equatable {
+public struct UpdateFrameworkOutput {
     /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
     public var creationTime: ClientRuntime.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -18375,7 +18375,7 @@ public struct UpdateFrameworkOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFrameworkOutputBody: Swift.Equatable {
+struct UpdateFrameworkOutputBody {
     let frameworkName: Swift.String?
     let frameworkArn: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -18439,7 +18439,7 @@ extension UpdateGlobalSettingsInput {
     }
 }
 
-public struct UpdateGlobalSettingsInput: Swift.Equatable {
+public struct UpdateGlobalSettingsInput {
     /// A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2.
     public var globalSettings: [Swift.String:Swift.String]?
 
@@ -18451,7 +18451,7 @@ public struct UpdateGlobalSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateGlobalSettingsInputBody: Swift.Equatable {
+struct UpdateGlobalSettingsInputBody {
     let globalSettings: [Swift.String:Swift.String]?
 }
 
@@ -18481,7 +18481,7 @@ extension UpdateGlobalSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGlobalSettingsOutput: Swift.Equatable {
+public struct UpdateGlobalSettingsOutput {
 
     public init() { }
 }
@@ -18526,7 +18526,7 @@ extension UpdateRecoveryPointLifecycleInput {
     }
 }
 
-public struct UpdateRecoveryPointLifecycleInput: Swift.Equatable {
+public struct UpdateRecoveryPointLifecycleInput {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     /// This member is required.
     public var backupVaultName: Swift.String?
@@ -18548,7 +18548,7 @@ public struct UpdateRecoveryPointLifecycleInput: Swift.Equatable {
     }
 }
 
-struct UpdateRecoveryPointLifecycleInputBody: Swift.Equatable {
+struct UpdateRecoveryPointLifecycleInputBody {
     let lifecycle: BackupClientTypes.Lifecycle?
 }
 
@@ -18582,7 +18582,7 @@ extension UpdateRecoveryPointLifecycleOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateRecoveryPointLifecycleOutput: Swift.Equatable {
+public struct UpdateRecoveryPointLifecycleOutput {
     /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var backupVaultArn: Swift.String?
     /// A CalculatedLifecycle object containing DeleteAt and MoveToColdStorageAt timestamps.
@@ -18606,7 +18606,7 @@ public struct UpdateRecoveryPointLifecycleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRecoveryPointLifecycleOutputBody: Swift.Equatable {
+struct UpdateRecoveryPointLifecycleOutputBody {
     let backupVaultArn: Swift.String?
     let recoveryPointArn: Swift.String?
     let lifecycle: BackupClientTypes.Lifecycle?
@@ -18679,7 +18679,7 @@ extension UpdateRegionSettingsInput {
     }
 }
 
-public struct UpdateRegionSettingsInput: Swift.Equatable {
+public struct UpdateRegionSettingsInput {
     /// Enables or disables full Backup management of backups for a resource type. To enable full Backup management for DynamoDB along with [ Backup's advanced DynamoDB backup features](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html), follow the procedure to [ enable advanced DynamoDB backup programmatically](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli).
     public var resourceTypeManagementPreference: [Swift.String:Swift.Bool]?
     /// Updates the list of services along with the opt-in preferences for the Region. If resource assignments are only based on tags, then service opt-in settings are applied. If a resource type is explicitly assigned to a backup plan, such as Amazon S3, Amazon EC2, or Amazon RDS, it will be included in the backup even if the opt-in is not enabled for that particular service. If both a resource type and tags are specified in a resource assignment, the resource type specified in the backup plan takes priority over the tag condition. Service opt-in settings are disregarded in this situation.
@@ -18695,7 +18695,7 @@ public struct UpdateRegionSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateRegionSettingsInputBody: Swift.Equatable {
+struct UpdateRegionSettingsInputBody {
     let resourceTypeOptInPreference: [Swift.String:Swift.Bool]?
     let resourceTypeManagementPreference: [Swift.String:Swift.Bool]?
 }
@@ -18738,7 +18738,7 @@ extension UpdateRegionSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRegionSettingsOutput: Swift.Equatable {
+public struct UpdateRegionSettingsOutput {
 
     public init() { }
 }
@@ -18791,7 +18791,7 @@ extension UpdateReportPlanInput {
     }
 }
 
-public struct UpdateReportPlanInput: Swift.Equatable {
+public struct UpdateReportPlanInput {
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to UpdateReportPlanInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
     public var idempotencyToken: Swift.String?
     /// A structure that contains information about where to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports.
@@ -18820,7 +18820,7 @@ public struct UpdateReportPlanInput: Swift.Equatable {
     }
 }
 
-struct UpdateReportPlanInputBody: Swift.Equatable {
+struct UpdateReportPlanInputBody {
     let reportPlanDescription: Swift.String?
     let reportDeliveryChannel: BackupClientTypes.ReportDeliveryChannel?
     let reportSetting: BackupClientTypes.ReportSetting?
@@ -18864,7 +18864,7 @@ extension UpdateReportPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateReportPlanOutput: Swift.Equatable {
+public struct UpdateReportPlanOutput {
     /// The date and time that a report plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationTime: ClientRuntime.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -18884,7 +18884,7 @@ public struct UpdateReportPlanOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReportPlanOutputBody: Swift.Equatable {
+struct UpdateReportPlanOutputBody {
     let reportPlanName: Swift.String?
     let reportPlanArn: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -18946,7 +18946,7 @@ extension UpdateRestoreTestingPlanInput {
     }
 }
 
-public struct UpdateRestoreTestingPlanInput: Swift.Equatable {
+public struct UpdateRestoreTestingPlanInput {
     /// Specifies the body of a restore testing plan.
     /// This member is required.
     public var restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForUpdate?
@@ -18964,7 +18964,7 @@ public struct UpdateRestoreTestingPlanInput: Swift.Equatable {
     }
 }
 
-struct UpdateRestoreTestingPlanInputBody: Swift.Equatable {
+struct UpdateRestoreTestingPlanInputBody {
     let restoreTestingPlan: BackupClientTypes.RestoreTestingPlanForUpdate?
 }
 
@@ -18998,7 +18998,7 @@ extension UpdateRestoreTestingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRestoreTestingPlanOutput: Swift.Equatable {
+public struct UpdateRestoreTestingPlanOutput {
     /// This is the time the resource testing plan was created.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
@@ -19026,7 +19026,7 @@ public struct UpdateRestoreTestingPlanOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRestoreTestingPlanOutputBody: Swift.Equatable {
+struct UpdateRestoreTestingPlanOutputBody {
     let creationTime: ClientRuntime.Date?
     let restoreTestingPlanArn: Swift.String?
     let restoreTestingPlanName: Swift.String?
@@ -19095,7 +19095,7 @@ extension UpdateRestoreTestingSelectionInput {
     }
 }
 
-public struct UpdateRestoreTestingSelectionInput: Swift.Equatable {
+public struct UpdateRestoreTestingSelectionInput {
     /// The restore testing plan name is required to update the indicated testing plan.
     /// This member is required.
     public var restoreTestingPlanName: Swift.String?
@@ -19118,7 +19118,7 @@ public struct UpdateRestoreTestingSelectionInput: Swift.Equatable {
     }
 }
 
-struct UpdateRestoreTestingSelectionInputBody: Swift.Equatable {
+struct UpdateRestoreTestingSelectionInputBody {
     let restoreTestingSelection: BackupClientTypes.RestoreTestingSelectionForUpdate?
 }
 
@@ -19154,7 +19154,7 @@ extension UpdateRestoreTestingSelectionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateRestoreTestingSelectionOutput: Swift.Equatable {
+public struct UpdateRestoreTestingSelectionOutput {
     /// This is the time the resource testing selection was updated successfully.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
@@ -19187,7 +19187,7 @@ public struct UpdateRestoreTestingSelectionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRestoreTestingSelectionOutputBody: Swift.Equatable {
+struct UpdateRestoreTestingSelectionOutputBody {
     let creationTime: ClientRuntime.Date?
     let restoreTestingPlanArn: Swift.String?
     let restoreTestingPlanName: Swift.String?

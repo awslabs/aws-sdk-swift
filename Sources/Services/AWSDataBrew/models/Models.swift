@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -90,7 +90,7 @@ extension DataBrewClientTypes.AllowedStatistics: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Configuration of statistics that are allowed to be run on columns that contain detected entities. When undefined, no statistics will be computed on columns that contain detected entities.
-    public struct AllowedStatistics: Swift.Equatable {
+    public struct AllowedStatistics {
         /// One or more column statistics to allow for columns that contain detected entities.
         /// This member is required.
         public var statistics: [Swift.String]?
@@ -163,7 +163,7 @@ extension BatchDeleteRecipeVersionInput {
     }
 }
 
-public struct BatchDeleteRecipeVersionInput: Swift.Equatable {
+public struct BatchDeleteRecipeVersionInput {
     /// The name of the recipe whose versions are to be deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -181,7 +181,7 @@ public struct BatchDeleteRecipeVersionInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteRecipeVersionInputBody: Swift.Equatable {
+struct BatchDeleteRecipeVersionInputBody {
     let recipeVersions: [Swift.String]?
 }
 
@@ -220,7 +220,7 @@ extension BatchDeleteRecipeVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteRecipeVersionOutput: Swift.Equatable {
+public struct BatchDeleteRecipeVersionOutput {
     /// Errors, if any, that occurred while attempting to delete the recipe versions.
     public var errors: [DataBrewClientTypes.RecipeVersionErrorDetail]?
     /// The name of the recipe that was modified.
@@ -237,7 +237,7 @@ public struct BatchDeleteRecipeVersionOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteRecipeVersionOutputBody: Swift.Equatable {
+struct BatchDeleteRecipeVersionOutputBody {
     let name: Swift.String?
     let errors: [DataBrewClientTypes.RecipeVersionErrorDetail]?
 }
@@ -306,7 +306,7 @@ extension DataBrewClientTypes.ColumnSelector: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Selector of a column from a dataset for profile job configuration. One selector includes either a column name or a regular expression.
-    public struct ColumnSelector: Swift.Equatable {
+    public struct ColumnSelector {
         /// The name of a column from a dataset.
         public var name: Swift.String?
         /// A regular expression for selecting a column from a dataset.
@@ -363,7 +363,7 @@ extension DataBrewClientTypes.ColumnStatisticsConfiguration: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Configuration for column evaluations for a profile job. ColumnStatisticsConfiguration can be used to select evaluations and override parameters of evaluations for particular columns.
-    public struct ColumnStatisticsConfiguration: Swift.Equatable {
+    public struct ColumnStatisticsConfiguration {
         /// List of column selectors. Selectors can be used to select columns from the dataset. When selectors are undefined, configuration will be applied to all supported columns.
         public var selectors: [DataBrewClientTypes.ColumnSelector]?
         /// Configuration for evaluations. Statistics can be used to select evaluations and override parameters of evaluations.
@@ -468,7 +468,7 @@ extension DataBrewClientTypes.ConditionExpression: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents an individual condition that evaluates to true or false. Conditions are used with recipe actions. The action is only performed for column values where the condition evaluates to true. If a recipe requires more than one condition, then the recipe must specify multiple ConditionExpression elements. Each condition is applied to the rows in a dataset first, before the recipe action is performed.
-    public struct ConditionExpression: Swift.Equatable {
+    public struct ConditionExpression {
         /// A specific condition to apply to a recipe action. For more information, see [Recipe structure](https://docs.aws.amazon.com/databrew/latest/dg/recipes.html#recipes.structure) in the Glue DataBrew Developer Guide.
         /// This member is required.
         public var condition: Swift.String?
@@ -531,7 +531,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -590,7 +590,7 @@ extension CreateDatasetInput {
     }
 }
 
-public struct CreateDatasetInput: Swift.Equatable {
+public struct CreateDatasetInput {
     /// The file format of a dataset that is created from an Amazon S3 file or folder.
     public var format: DataBrewClientTypes.InputFormat?
     /// Represents a set of options that define the structure of either comma-separated value (CSV), Excel, or JSON input.
@@ -624,7 +624,7 @@ public struct CreateDatasetInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetInputBody: Swift.Equatable {
+struct CreateDatasetInputBody {
     let name: Swift.String?
     let format: DataBrewClientTypes.InputFormat?
     let formatOptions: DataBrewClientTypes.FormatOptions?
@@ -681,7 +681,7 @@ extension CreateDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetOutput: Swift.Equatable {
+public struct CreateDatasetOutput {
     /// The name of the dataset that you created.
     /// This member is required.
     public var name: Swift.String?
@@ -694,7 +694,7 @@ public struct CreateDatasetOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetOutputBody: Swift.Equatable {
+struct CreateDatasetOutputBody {
     let name: Swift.String?
 }
 
@@ -802,7 +802,7 @@ extension CreateProfileJobInput {
     }
 }
 
-public struct CreateProfileJobInput: Swift.Equatable {
+public struct CreateProfileJobInput {
     /// Configuration for profile jobs. Used to select columns, do evaluations, and override default parameters of evaluations. When configuration is null, the profile job will run with default settings.
     public var configuration: DataBrewClientTypes.ProfileConfiguration?
     /// The name of the dataset that this job is to act upon.
@@ -874,7 +874,7 @@ public struct CreateProfileJobInput: Swift.Equatable {
     }
 }
 
-struct CreateProfileJobInputBody: Swift.Equatable {
+struct CreateProfileJobInputBody {
     let datasetName: Swift.String?
     let encryptionKeyArn: Swift.String?
     let encryptionMode: DataBrewClientTypes.EncryptionMode?
@@ -972,7 +972,7 @@ extension CreateProfileJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProfileJobOutput: Swift.Equatable {
+public struct CreateProfileJobOutput {
     /// The name of the job that was created.
     /// This member is required.
     public var name: Swift.String?
@@ -985,7 +985,7 @@ public struct CreateProfileJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateProfileJobOutputBody: Swift.Equatable {
+struct CreateProfileJobOutputBody {
     let name: Swift.String?
 }
 
@@ -1059,7 +1059,7 @@ extension CreateProjectInput {
     }
 }
 
-public struct CreateProjectInput: Swift.Equatable {
+public struct CreateProjectInput {
     /// The name of an existing dataset to associate this project with.
     /// This member is required.
     public var datasetName: Swift.String?
@@ -1095,7 +1095,7 @@ public struct CreateProjectInput: Swift.Equatable {
     }
 }
 
-struct CreateProjectInputBody: Swift.Equatable {
+struct CreateProjectInputBody {
     let datasetName: Swift.String?
     let name: Swift.String?
     let recipeName: Swift.String?
@@ -1152,7 +1152,7 @@ extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProjectOutput: Swift.Equatable {
+public struct CreateProjectOutput {
     /// The name of the project that you created.
     /// This member is required.
     public var name: Swift.String?
@@ -1165,7 +1165,7 @@ public struct CreateProjectOutput: Swift.Equatable {
     }
 }
 
-struct CreateProjectOutputBody: Swift.Equatable {
+struct CreateProjectOutputBody {
     let name: Swift.String?
 }
 
@@ -1233,7 +1233,7 @@ extension CreateRecipeInput {
     }
 }
 
-public struct CreateRecipeInput: Swift.Equatable {
+public struct CreateRecipeInput {
     /// A description for the recipe.
     public var description: Swift.String?
     /// A unique name for the recipe. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
@@ -1259,7 +1259,7 @@ public struct CreateRecipeInput: Swift.Equatable {
     }
 }
 
-struct CreateRecipeInputBody: Swift.Equatable {
+struct CreateRecipeInputBody {
     let description: Swift.String?
     let name: Swift.String?
     let steps: [DataBrewClientTypes.RecipeStep]?
@@ -1393,7 +1393,7 @@ extension CreateRecipeJobInput {
     }
 }
 
-public struct CreateRecipeJobInput: Swift.Equatable {
+public struct CreateRecipeJobInput {
     /// One or more artifacts that represent the Glue Data Catalog output from running the job.
     public var dataCatalogOutputs: [DataBrewClientTypes.DataCatalogOutput]?
     /// Represents a list of JDBC database output objects which defines the output destination for a DataBrew recipe job to write to.
@@ -1467,7 +1467,7 @@ public struct CreateRecipeJobInput: Swift.Equatable {
     }
 }
 
-struct CreateRecipeJobInputBody: Swift.Equatable {
+struct CreateRecipeJobInputBody {
     let datasetName: Swift.String?
     let encryptionKeyArn: Swift.String?
     let encryptionMode: DataBrewClientTypes.EncryptionMode?
@@ -1587,7 +1587,7 @@ extension CreateRecipeJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRecipeJobOutput: Swift.Equatable {
+public struct CreateRecipeJobOutput {
     /// The name of the job that you created.
     /// This member is required.
     public var name: Swift.String?
@@ -1600,7 +1600,7 @@ public struct CreateRecipeJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateRecipeJobOutputBody: Swift.Equatable {
+struct CreateRecipeJobOutputBody {
     let name: Swift.String?
 }
 
@@ -1643,7 +1643,7 @@ extension CreateRecipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRecipeOutput: Swift.Equatable {
+public struct CreateRecipeOutput {
     /// The name of the recipe that you created.
     /// This member is required.
     public var name: Swift.String?
@@ -1656,7 +1656,7 @@ public struct CreateRecipeOutput: Swift.Equatable {
     }
 }
 
-struct CreateRecipeOutputBody: Swift.Equatable {
+struct CreateRecipeOutputBody {
     let name: Swift.String?
 }
 
@@ -1727,7 +1727,7 @@ extension CreateRulesetInput {
     }
 }
 
-public struct CreateRulesetInput: Swift.Equatable {
+public struct CreateRulesetInput {
     /// The description of the ruleset.
     public var description: Swift.String?
     /// The name of the ruleset to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
@@ -1758,7 +1758,7 @@ public struct CreateRulesetInput: Swift.Equatable {
     }
 }
 
-struct CreateRulesetInputBody: Swift.Equatable {
+struct CreateRulesetInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let targetArn: Swift.String?
@@ -1820,7 +1820,7 @@ extension CreateRulesetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRulesetOutput: Swift.Equatable {
+public struct CreateRulesetOutput {
     /// The unique name of the created ruleset.
     /// This member is required.
     public var name: Swift.String?
@@ -1833,7 +1833,7 @@ public struct CreateRulesetOutput: Swift.Equatable {
     }
 }
 
-struct CreateRulesetOutputBody: Swift.Equatable {
+struct CreateRulesetOutputBody {
     let name: Swift.String?
 }
 
@@ -1900,7 +1900,7 @@ extension CreateScheduleInput {
     }
 }
 
-public struct CreateScheduleInput: Swift.Equatable {
+public struct CreateScheduleInput {
     /// The date or dates and time or times when the jobs are to be run. For more information, see [Cron expressions](https://docs.aws.amazon.com/databrew/latest/dg/jobs.cron.html) in the Glue DataBrew Developer Guide.
     /// This member is required.
     public var cronExpression: Swift.String?
@@ -1926,7 +1926,7 @@ public struct CreateScheduleInput: Swift.Equatable {
     }
 }
 
-struct CreateScheduleInputBody: Swift.Equatable {
+struct CreateScheduleInputBody {
     let jobNames: [Swift.String]?
     let cronExpression: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -1984,7 +1984,7 @@ extension CreateScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateScheduleOutput: Swift.Equatable {
+public struct CreateScheduleOutput {
     /// The name of the schedule that was created.
     /// This member is required.
     public var name: Swift.String?
@@ -1997,7 +1997,7 @@ public struct CreateScheduleOutput: Swift.Equatable {
     }
 }
 
-struct CreateScheduleOutputBody: Swift.Equatable {
+struct CreateScheduleOutputBody {
     let name: Swift.String?
 }
 
@@ -2053,7 +2053,7 @@ extension DataBrewClientTypes.CsvOptions: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a set of options that define how DataBrew will read a comma-separated value (CSV) file when creating a dataset from that file.
-    public struct CsvOptions: Swift.Equatable {
+    public struct CsvOptions {
         /// A single character that specifies the delimiter being used in the CSV file.
         public var delimiter: Swift.String?
         /// A variable that specifies whether the first row in the file is parsed as the header. If this value is false, column names are auto-generated.
@@ -2092,7 +2092,7 @@ extension DataBrewClientTypes.CsvOutputOptions: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a set of options that define how DataBrew will write a comma-separated value (CSV) file.
-    public struct CsvOutputOptions: Swift.Equatable {
+    public struct CsvOutputOptions {
         /// A single character that specifies the delimiter used to create CSV job output.
         public var delimiter: Swift.String?
 
@@ -2147,7 +2147,7 @@ extension DataBrewClientTypes.DataCatalogInputDefinition: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents how metadata stored in the Glue Data Catalog is defined in a DataBrew dataset.
-    public struct DataCatalogInputDefinition: Swift.Equatable {
+    public struct DataCatalogInputDefinition {
         /// The unique identifier of the Amazon Web Services account that holds the Data Catalog that stores the data.
         public var catalogId: Swift.String?
         /// The name of a database in the Data Catalog.
@@ -2226,7 +2226,7 @@ extension DataBrewClientTypes.DataCatalogOutput: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents options that specify how and where in the Glue Data Catalog DataBrew writes the output generated by recipe jobs.
-    public struct DataCatalogOutput: Swift.Equatable {
+    public struct DataCatalogOutput {
         /// The unique identifier of the Amazon Web Services account that holds the Data Catalog that stores the data.
         public var catalogId: Swift.String?
         /// The name of a database in the Data Catalog.
@@ -2301,7 +2301,7 @@ extension DataBrewClientTypes.DatabaseInputDefinition: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Connection information for dataset input files stored in a database.
-    public struct DatabaseInputDefinition: Swift.Equatable {
+    public struct DatabaseInputDefinition {
         /// The table within the target database.
         public var databaseTableName: Swift.String?
         /// The Glue Connection that stores the connection information for the target database.
@@ -2361,7 +2361,7 @@ extension DataBrewClientTypes.DatabaseOutput: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a JDBC database output object which defines the output destination for a DataBrew recipe job to write into.
-    public struct DatabaseOutput: Swift.Equatable {
+    public struct DatabaseOutput {
         /// Represents options that specify how and where DataBrew writes the database output generated by recipe jobs.
         /// This member is required.
         public var databaseOptions: DataBrewClientTypes.DatabaseTableOutputOptions?
@@ -2441,7 +2441,7 @@ extension DataBrewClientTypes.DatabaseTableOutputOptions: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents options that specify how and where DataBrew writes the database output generated by recipe jobs.
-    public struct DatabaseTableOutputOptions: Swift.Equatable {
+    public struct DatabaseTableOutputOptions {
         /// A prefix for the name of a table DataBrew will create in the database.
         /// This member is required.
         public var tableName: Swift.String?
@@ -2565,7 +2565,7 @@ extension DataBrewClientTypes.Dataset: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a dataset that can be processed by DataBrew.
-    public struct Dataset: Swift.Equatable {
+    public struct Dataset {
         /// The ID of the Amazon Web Services account that owns the dataset.
         public var accountId: Swift.String?
         /// The date and time that the dataset was created.
@@ -2674,7 +2674,7 @@ extension DataBrewClientTypes.DatasetParameter: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a dataset parameter that defines type and conditions for a parameter in the Amazon S3 path of the dataset.
-    public struct DatasetParameter: Swift.Equatable {
+    public struct DatasetParameter {
         /// Optional boolean value that defines whether the captured value of this parameter should be used to create a new column in a dataset.
         public var createColumn: Swift.Bool
         /// Additional parameter options such as a format and a timezone. Required for datetime parameters.
@@ -2739,7 +2739,7 @@ extension DataBrewClientTypes.DatetimeOptions: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents additional options for correct interpretation of datetime parameters used in the Amazon S3 path of a dataset.
-    public struct DatetimeOptions: Swift.Equatable {
+    public struct DatetimeOptions {
         /// Required option, that defines the datetime format used for a date parameter in the Amazon S3 path. Should use only supported datetime specifiers and separation characters, all literal a-z or A-Z characters should be escaped with single quotes. E.g. "MM.dd.yyyy-'at'-HH:mm".
         /// This member is required.
         public var format: Swift.String?
@@ -2772,7 +2772,7 @@ extension DeleteDatasetInput {
     }
 }
 
-public struct DeleteDatasetInput: Swift.Equatable {
+public struct DeleteDatasetInput {
     /// The name of the dataset to be deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -2785,7 +2785,7 @@ public struct DeleteDatasetInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetInputBody: Swift.Equatable {
+struct DeleteDatasetInputBody {
 }
 
 extension DeleteDatasetInputBody: Swift.Decodable {
@@ -2806,7 +2806,7 @@ extension DeleteDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatasetOutput: Swift.Equatable {
+public struct DeleteDatasetOutput {
     /// The name of the dataset that you deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -2819,7 +2819,7 @@ public struct DeleteDatasetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetOutputBody: Swift.Equatable {
+struct DeleteDatasetOutputBody {
     let name: Swift.String?
 }
 
@@ -2858,7 +2858,7 @@ extension DeleteJobInput {
     }
 }
 
-public struct DeleteJobInput: Swift.Equatable {
+public struct DeleteJobInput {
     /// The name of the job to be deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -2871,7 +2871,7 @@ public struct DeleteJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteJobInputBody: Swift.Equatable {
+struct DeleteJobInputBody {
 }
 
 extension DeleteJobInputBody: Swift.Decodable {
@@ -2892,7 +2892,7 @@ extension DeleteJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteJobOutput: Swift.Equatable {
+public struct DeleteJobOutput {
     /// The name of the job that you deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -2905,7 +2905,7 @@ public struct DeleteJobOutput: Swift.Equatable {
     }
 }
 
-struct DeleteJobOutputBody: Swift.Equatable {
+struct DeleteJobOutputBody {
     let name: Swift.String?
 }
 
@@ -2944,7 +2944,7 @@ extension DeleteProjectInput {
     }
 }
 
-public struct DeleteProjectInput: Swift.Equatable {
+public struct DeleteProjectInput {
     /// The name of the project to be deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -2957,7 +2957,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectInputBody: Swift.Equatable {
+struct DeleteProjectInputBody {
 }
 
 extension DeleteProjectInputBody: Swift.Decodable {
@@ -2978,7 +2978,7 @@ extension DeleteProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProjectOutput: Swift.Equatable {
+public struct DeleteProjectOutput {
     /// The name of the project that you deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -2991,7 +2991,7 @@ public struct DeleteProjectOutput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectOutputBody: Swift.Equatable {
+struct DeleteProjectOutputBody {
     let name: Swift.String?
 }
 
@@ -3033,7 +3033,7 @@ extension DeleteRecipeVersionInput {
     }
 }
 
-public struct DeleteRecipeVersionInput: Swift.Equatable {
+public struct DeleteRecipeVersionInput {
     /// The name of the recipe.
     /// This member is required.
     public var name: Swift.String?
@@ -3051,7 +3051,7 @@ public struct DeleteRecipeVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteRecipeVersionInputBody: Swift.Equatable {
+struct DeleteRecipeVersionInputBody {
 }
 
 extension DeleteRecipeVersionInputBody: Swift.Decodable {
@@ -3074,7 +3074,7 @@ extension DeleteRecipeVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRecipeVersionOutput: Swift.Equatable {
+public struct DeleteRecipeVersionOutput {
     /// The name of the recipe that was deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -3092,7 +3092,7 @@ public struct DeleteRecipeVersionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRecipeVersionOutputBody: Swift.Equatable {
+struct DeleteRecipeVersionOutputBody {
     let name: Swift.String?
     let recipeVersion: Swift.String?
 }
@@ -3135,7 +3135,7 @@ extension DeleteRulesetInput {
     }
 }
 
-public struct DeleteRulesetInput: Swift.Equatable {
+public struct DeleteRulesetInput {
     /// The name of the ruleset to be deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -3148,7 +3148,7 @@ public struct DeleteRulesetInput: Swift.Equatable {
     }
 }
 
-struct DeleteRulesetInputBody: Swift.Equatable {
+struct DeleteRulesetInputBody {
 }
 
 extension DeleteRulesetInputBody: Swift.Decodable {
@@ -3169,7 +3169,7 @@ extension DeleteRulesetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRulesetOutput: Swift.Equatable {
+public struct DeleteRulesetOutput {
     /// The name of the deleted ruleset.
     /// This member is required.
     public var name: Swift.String?
@@ -3182,7 +3182,7 @@ public struct DeleteRulesetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRulesetOutputBody: Swift.Equatable {
+struct DeleteRulesetOutputBody {
     let name: Swift.String?
 }
 
@@ -3221,7 +3221,7 @@ extension DeleteScheduleInput {
     }
 }
 
-public struct DeleteScheduleInput: Swift.Equatable {
+public struct DeleteScheduleInput {
     /// The name of the schedule to be deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -3234,7 +3234,7 @@ public struct DeleteScheduleInput: Swift.Equatable {
     }
 }
 
-struct DeleteScheduleInputBody: Swift.Equatable {
+struct DeleteScheduleInputBody {
 }
 
 extension DeleteScheduleInputBody: Swift.Decodable {
@@ -3255,7 +3255,7 @@ extension DeleteScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteScheduleOutput: Swift.Equatable {
+public struct DeleteScheduleOutput {
     /// The name of the schedule that was deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -3268,7 +3268,7 @@ public struct DeleteScheduleOutput: Swift.Equatable {
     }
 }
 
-struct DeleteScheduleOutputBody: Swift.Equatable {
+struct DeleteScheduleOutputBody {
     let name: Swift.String?
 }
 
@@ -3306,7 +3306,7 @@ extension DescribeDatasetInput {
     }
 }
 
-public struct DescribeDatasetInput: Swift.Equatable {
+public struct DescribeDatasetInput {
     /// The name of the dataset to be described.
     /// This member is required.
     public var name: Swift.String?
@@ -3319,7 +3319,7 @@ public struct DescribeDatasetInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetInputBody: Swift.Equatable {
+struct DescribeDatasetInputBody {
 }
 
 extension DescribeDatasetInputBody: Swift.Decodable {
@@ -3362,7 +3362,7 @@ extension DescribeDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatasetOutput: Swift.Equatable {
+public struct DescribeDatasetOutput {
     /// The date and time that the dataset was created.
     public var createDate: ClientRuntime.Date?
     /// The identifier (user name) of the user who created the dataset.
@@ -3420,7 +3420,7 @@ public struct DescribeDatasetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetOutputBody: Swift.Equatable {
+struct DescribeDatasetOutputBody {
     let createdBy: Swift.String?
     let createDate: ClientRuntime.Date?
     let name: Swift.String?
@@ -3511,7 +3511,7 @@ extension DescribeJobInput {
     }
 }
 
-public struct DescribeJobInput: Swift.Equatable {
+public struct DescribeJobInput {
     /// The name of the job to be described.
     /// This member is required.
     public var name: Swift.String?
@@ -3524,7 +3524,7 @@ public struct DescribeJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobInputBody: Swift.Equatable {
+struct DescribeJobInputBody {
 }
 
 extension DescribeJobInputBody: Swift.Decodable {
@@ -3591,7 +3591,7 @@ extension DescribeJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobOutput: Swift.Equatable {
+public struct DescribeJobOutput {
     /// The date and time that the job was created.
     public var createDate: ClientRuntime.Date?
     /// The identifier (user name) of the user associated with the creation of the job.
@@ -3704,7 +3704,7 @@ public struct DescribeJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobOutputBody: Swift.Equatable {
+struct DescribeJobOutputBody {
     let createDate: ClientRuntime.Date?
     let createdBy: Swift.String?
     let datasetName: Swift.String?
@@ -3882,7 +3882,7 @@ extension DescribeJobRunInput {
     }
 }
 
-public struct DescribeJobRunInput: Swift.Equatable {
+public struct DescribeJobRunInput {
     /// The name of the job being processed during this run.
     /// This member is required.
     public var name: Swift.String?
@@ -3900,7 +3900,7 @@ public struct DescribeJobRunInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobRunInputBody: Swift.Equatable {
+struct DescribeJobRunInputBody {
 }
 
 extension DescribeJobRunInputBody: Swift.Decodable {
@@ -3957,7 +3957,7 @@ extension DescribeJobRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobRunOutput: Swift.Equatable {
+public struct DescribeJobRunOutput {
     /// The number of times that DataBrew has attempted to run the job.
     public var attempt: Swift.Int
     /// The date and time when the job completed processing.
@@ -4042,7 +4042,7 @@ public struct DescribeJobRunOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobRunOutputBody: Swift.Equatable {
+struct DescribeJobRunOutputBody {
     let attempt: Swift.Int
     let completedOn: ClientRuntime.Date?
     let datasetName: Swift.String?
@@ -4188,7 +4188,7 @@ extension DescribeProjectInput {
     }
 }
 
-public struct DescribeProjectInput: Swift.Equatable {
+public struct DescribeProjectInput {
     /// The name of the project to be described.
     /// This member is required.
     public var name: Swift.String?
@@ -4201,7 +4201,7 @@ public struct DescribeProjectInput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectInputBody: Swift.Equatable {
+struct DescribeProjectInputBody {
 }
 
 extension DescribeProjectInputBody: Swift.Decodable {
@@ -4248,7 +4248,7 @@ extension DescribeProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProjectOutput: Swift.Equatable {
+public struct DescribeProjectOutput {
     /// The date and time that the project was created.
     public var createDate: ClientRuntime.Date?
     /// The identifier (user name) of the user who created the project.
@@ -4319,7 +4319,7 @@ public struct DescribeProjectOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectOutputBody: Swift.Equatable {
+struct DescribeProjectOutputBody {
     let createDate: ClientRuntime.Date?
     let createdBy: Swift.String?
     let datasetName: Swift.String?
@@ -4430,7 +4430,7 @@ extension DescribeRecipeInput {
     }
 }
 
-public struct DescribeRecipeInput: Swift.Equatable {
+public struct DescribeRecipeInput {
     /// The name of the recipe to be described.
     /// This member is required.
     public var name: Swift.String?
@@ -4447,7 +4447,7 @@ public struct DescribeRecipeInput: Swift.Equatable {
     }
 }
 
-struct DescribeRecipeInputBody: Swift.Equatable {
+struct DescribeRecipeInputBody {
 }
 
 extension DescribeRecipeInputBody: Swift.Decodable {
@@ -4492,7 +4492,7 @@ extension DescribeRecipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRecipeOutput: Swift.Equatable {
+public struct DescribeRecipeOutput {
     /// The date and time that the recipe was created.
     public var createDate: ClientRuntime.Date?
     /// The identifier (user name) of the user who created the recipe.
@@ -4553,7 +4553,7 @@ public struct DescribeRecipeOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRecipeOutputBody: Swift.Equatable {
+struct DescribeRecipeOutputBody {
     let createdBy: Swift.String?
     let createDate: ClientRuntime.Date?
     let lastModifiedBy: Swift.String?
@@ -4657,7 +4657,7 @@ extension DescribeRulesetInput {
     }
 }
 
-public struct DescribeRulesetInput: Swift.Equatable {
+public struct DescribeRulesetInput {
     /// The name of the ruleset to be described.
     /// This member is required.
     public var name: Swift.String?
@@ -4670,7 +4670,7 @@ public struct DescribeRulesetInput: Swift.Equatable {
     }
 }
 
-struct DescribeRulesetInputBody: Swift.Equatable {
+struct DescribeRulesetInputBody {
 }
 
 extension DescribeRulesetInputBody: Swift.Decodable {
@@ -4709,7 +4709,7 @@ extension DescribeRulesetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRulesetOutput: Swift.Equatable {
+public struct DescribeRulesetOutput {
     /// The date and time that the ruleset was created.
     public var createDate: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) of the user who created the ruleset.
@@ -4758,7 +4758,7 @@ public struct DescribeRulesetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRulesetOutputBody: Swift.Equatable {
+struct DescribeRulesetOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let targetArn: Swift.String?
@@ -4850,7 +4850,7 @@ extension DescribeScheduleInput {
     }
 }
 
-public struct DescribeScheduleInput: Swift.Equatable {
+public struct DescribeScheduleInput {
     /// The name of the schedule to be described.
     /// This member is required.
     public var name: Swift.String?
@@ -4863,7 +4863,7 @@ public struct DescribeScheduleInput: Swift.Equatable {
     }
 }
 
-struct DescribeScheduleInputBody: Swift.Equatable {
+struct DescribeScheduleInputBody {
 }
 
 extension DescribeScheduleInputBody: Swift.Decodable {
@@ -4900,7 +4900,7 @@ extension DescribeScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeScheduleOutput: Swift.Equatable {
+public struct DescribeScheduleOutput {
     /// The date and time that the schedule was created.
     public var createDate: ClientRuntime.Date?
     /// The identifier (user name) of the user who created the schedule.
@@ -4945,7 +4945,7 @@ public struct DescribeScheduleOutput: Swift.Equatable {
     }
 }
 
-struct DescribeScheduleOutputBody: Swift.Equatable {
+struct DescribeScheduleOutputBody {
     let createDate: ClientRuntime.Date?
     let createdBy: Swift.String?
     let jobNames: [Swift.String]?
@@ -5106,7 +5106,7 @@ extension DataBrewClientTypes.EntityDetectorConfiguration: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Configuration of entity detection for a profile job. When undefined, entity detection is disabled.
-    public struct EntityDetectorConfiguration: Swift.Equatable {
+    public struct EntityDetectorConfiguration {
         /// Configuration of statistics that are allowed to be run on columns that contain detected entities. When undefined, no statistics will be computed on columns that contain detected entities.
         public var allowedStatistics: [DataBrewClientTypes.AllowedStatistics]?
         /// Entity types to detect. Can be any of the following:
@@ -5223,7 +5223,7 @@ extension DataBrewClientTypes.ExcelOptions: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a set of options that define how DataBrew will interpret a Microsoft Excel file when creating a dataset from that file.
-    public struct ExcelOptions: Swift.Equatable {
+    public struct ExcelOptions {
         /// A variable that specifies whether the first row in the file is parsed as the header. If this value is false, column names are auto-generated.
         public var headerRow: Swift.Bool?
         /// One or more sheet numbers in the Excel file that will be included in the dataset.
@@ -5278,7 +5278,7 @@ extension DataBrewClientTypes.FilesLimit: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a limit imposed on number of Amazon S3 files that should be selected for a dataset from a connected Amazon S3 path.
-    public struct FilesLimit: Swift.Equatable {
+    public struct FilesLimit {
         /// The number of Amazon S3 files to select.
         /// This member is required.
         public var maxFiles: Swift.Int?
@@ -5340,7 +5340,7 @@ extension DataBrewClientTypes.FilterExpression: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a structure for defining parameter conditions. Supported conditions are described here: [Supported conditions for dynamic datasets](https://docs.aws.amazon.com/databrew/latest/dg/datasets.multiple-files.html#conditions.for.dynamic.datasets) in the Glue DataBrew Developer Guide.
-    public struct FilterExpression: Swift.Equatable {
+    public struct FilterExpression {
         /// The expression which includes condition names followed by substitution variables, possibly grouped and combined with other conditions. For example, "(starts_with :prefix1 or starts_with :prefix2) and (ends_with :suffix1 or ends_with :suffix2)". Substitution variables should start with ':' symbol.
         /// This member is required.
         public var expression: Swift.String?
@@ -5393,7 +5393,7 @@ extension DataBrewClientTypes.FormatOptions: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a set of options that define the structure of either comma-separated value (CSV), Excel, or JSON input.
-    public struct FormatOptions: Swift.Equatable {
+    public struct FormatOptions {
         /// Options that define how CSV input is to be interpreted by DataBrew.
         public var csv: DataBrewClientTypes.CsvOptions?
         /// Options that define how Excel input is to be interpreted by DataBrew.
@@ -5454,7 +5454,7 @@ extension DataBrewClientTypes.Input: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents information on how DataBrew can find data, in either the Glue Data Catalog or Amazon S3.
-    public struct Input: Swift.Equatable {
+    public struct Input {
         /// The Glue Data Catalog parameters for the data.
         public var dataCatalogInputDefinition: DataBrewClientTypes.DataCatalogInputDefinition?
         /// Connection information for dataset input files stored in a database.
@@ -5560,7 +5560,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -5795,7 +5795,7 @@ extension DataBrewClientTypes.Job: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents all of the attributes of a DataBrew job.
-    public struct Job: Swift.Equatable {
+    public struct Job {
         /// The ID of the Amazon Web Services account that owns the job.
         public var accountId: Swift.String?
         /// The date and time that the job was created.
@@ -6081,7 +6081,7 @@ extension DataBrewClientTypes.JobRun: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents one run of a DataBrew job.
-    public struct JobRun: Swift.Equatable {
+    public struct JobRun {
         /// The number of times that DataBrew has attempted to run the job.
         public var attempt: Swift.Int
         /// The date and time when the job completed processing.
@@ -6237,7 +6237,7 @@ extension DataBrewClientTypes.JobSample: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// A sample configuration for profile jobs only, which determines the number of rows on which the profile job is run. If a JobSample value isn't provided, the default is used. The default value is CUSTOM_ROWS for the mode parameter and 20,000 for the size parameter.
-    public struct JobSample: Swift.Equatable {
+    public struct JobSample {
         /// A value that determines whether the profile job is run on the entire dataset or a specified number of rows. This value must be one of the following:
         ///
         /// * FULL_DATASET - The profile job is run on the entire dataset.
@@ -6312,7 +6312,7 @@ extension DataBrewClientTypes.JsonOptions: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents the JSON-specific options that define how input is to be interpreted by Glue DataBrew.
-    public struct JsonOptions: Swift.Equatable {
+    public struct JsonOptions {
         /// A value that specifies whether JSON input contains embedded new line characters.
         public var multiLine: Swift.Bool
 
@@ -6349,7 +6349,7 @@ extension ListDatasetsInput {
     }
 }
 
-public struct ListDatasetsInput: Swift.Equatable {
+public struct ListDatasetsInput {
     /// The maximum number of results to return in this request.
     public var maxResults: Swift.Int?
     /// The token returned by a previous call to retrieve the next set of results.
@@ -6365,7 +6365,7 @@ public struct ListDatasetsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsInputBody: Swift.Equatable {
+struct ListDatasetsInputBody {
 }
 
 extension ListDatasetsInputBody: Swift.Decodable {
@@ -6388,7 +6388,7 @@ extension ListDatasetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetsOutput: Swift.Equatable {
+public struct ListDatasetsOutput {
     /// A list of datasets that are defined.
     /// This member is required.
     public var datasets: [DataBrewClientTypes.Dataset]?
@@ -6405,7 +6405,7 @@ public struct ListDatasetsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsOutputBody: Swift.Equatable {
+struct ListDatasetsOutputBody {
     let datasets: [DataBrewClientTypes.Dataset]?
     let nextToken: Swift.String?
 }
@@ -6471,7 +6471,7 @@ extension ListJobRunsInput {
     }
 }
 
-public struct ListJobRunsInput: Swift.Equatable {
+public struct ListJobRunsInput {
     /// The maximum number of results to return in this request.
     public var maxResults: Swift.Int?
     /// The name of the job.
@@ -6492,7 +6492,7 @@ public struct ListJobRunsInput: Swift.Equatable {
     }
 }
 
-struct ListJobRunsInputBody: Swift.Equatable {
+struct ListJobRunsInputBody {
 }
 
 extension ListJobRunsInputBody: Swift.Decodable {
@@ -6515,7 +6515,7 @@ extension ListJobRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobRunsOutput: Swift.Equatable {
+public struct ListJobRunsOutput {
     /// A list of job runs that have occurred for the specified job.
     /// This member is required.
     public var jobRuns: [DataBrewClientTypes.JobRun]?
@@ -6532,7 +6532,7 @@ public struct ListJobRunsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobRunsOutputBody: Swift.Equatable {
+struct ListJobRunsOutputBody {
     let jobRuns: [DataBrewClientTypes.JobRun]?
     let nextToken: Swift.String?
 }
@@ -6604,7 +6604,7 @@ extension ListJobsInput {
     }
 }
 
-public struct ListJobsInput: Swift.Equatable {
+public struct ListJobsInput {
     /// The name of a dataset. Using this parameter indicates to return only those jobs that act on the specified dataset.
     public var datasetName: Swift.String?
     /// The maximum number of results to return in this request.
@@ -6628,7 +6628,7 @@ public struct ListJobsInput: Swift.Equatable {
     }
 }
 
-struct ListJobsInputBody: Swift.Equatable {
+struct ListJobsInputBody {
 }
 
 extension ListJobsInputBody: Swift.Decodable {
@@ -6651,7 +6651,7 @@ extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobsOutput: Swift.Equatable {
+public struct ListJobsOutput {
     /// A list of jobs that are defined.
     /// This member is required.
     public var jobs: [DataBrewClientTypes.Job]?
@@ -6668,7 +6668,7 @@ public struct ListJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputBody: Swift.Equatable {
+struct ListJobsOutputBody {
     let jobs: [DataBrewClientTypes.Job]?
     let nextToken: Swift.String?
 }
@@ -6731,7 +6731,7 @@ extension ListProjectsInput {
     }
 }
 
-public struct ListProjectsInput: Swift.Equatable {
+public struct ListProjectsInput {
     /// The maximum number of results to return in this request.
     public var maxResults: Swift.Int?
     /// The token returned by a previous call to retrieve the next set of results.
@@ -6747,7 +6747,7 @@ public struct ListProjectsInput: Swift.Equatable {
     }
 }
 
-struct ListProjectsInputBody: Swift.Equatable {
+struct ListProjectsInputBody {
 }
 
 extension ListProjectsInputBody: Swift.Decodable {
@@ -6770,7 +6770,7 @@ extension ListProjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProjectsOutput: Swift.Equatable {
+public struct ListProjectsOutput {
     /// A token that you can use in a subsequent call to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of projects that are defined .
@@ -6787,7 +6787,7 @@ public struct ListProjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListProjectsOutputBody: Swift.Equatable {
+struct ListProjectsOutputBody {
     let projects: [DataBrewClientTypes.Project]?
     let nextToken: Swift.String?
 }
@@ -6856,7 +6856,7 @@ extension ListRecipeVersionsInput {
     }
 }
 
-public struct ListRecipeVersionsInput: Swift.Equatable {
+public struct ListRecipeVersionsInput {
     /// The maximum number of results to return in this request.
     public var maxResults: Swift.Int?
     /// The name of the recipe for which to return version information.
@@ -6877,7 +6877,7 @@ public struct ListRecipeVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListRecipeVersionsInputBody: Swift.Equatable {
+struct ListRecipeVersionsInputBody {
 }
 
 extension ListRecipeVersionsInputBody: Swift.Decodable {
@@ -6900,7 +6900,7 @@ extension ListRecipeVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecipeVersionsOutput: Swift.Equatable {
+public struct ListRecipeVersionsOutput {
     /// A token that you can use in a subsequent call to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of versions for the specified recipe.
@@ -6917,7 +6917,7 @@ public struct ListRecipeVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListRecipeVersionsOutputBody: Swift.Equatable {
+struct ListRecipeVersionsOutputBody {
     let nextToken: Swift.String?
     let recipes: [DataBrewClientTypes.Recipe]?
 }
@@ -6984,7 +6984,7 @@ extension ListRecipesInput {
     }
 }
 
-public struct ListRecipesInput: Swift.Equatable {
+public struct ListRecipesInput {
     /// The maximum number of results to return in this request.
     public var maxResults: Swift.Int?
     /// The token returned by a previous call to retrieve the next set of results.
@@ -7004,7 +7004,7 @@ public struct ListRecipesInput: Swift.Equatable {
     }
 }
 
-struct ListRecipesInputBody: Swift.Equatable {
+struct ListRecipesInputBody {
 }
 
 extension ListRecipesInputBody: Swift.Decodable {
@@ -7027,7 +7027,7 @@ extension ListRecipesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecipesOutput: Swift.Equatable {
+public struct ListRecipesOutput {
     /// A token that you can use in a subsequent call to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of recipes that are defined.
@@ -7044,7 +7044,7 @@ public struct ListRecipesOutput: Swift.Equatable {
     }
 }
 
-struct ListRecipesOutputBody: Swift.Equatable {
+struct ListRecipesOutputBody {
     let recipes: [DataBrewClientTypes.Recipe]?
     let nextToken: Swift.String?
 }
@@ -7111,7 +7111,7 @@ extension ListRulesetsInput {
     }
 }
 
-public struct ListRulesetsInput: Swift.Equatable {
+public struct ListRulesetsInput {
     /// The maximum number of results to return in this request.
     public var maxResults: Swift.Int?
     /// A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call.
@@ -7131,7 +7131,7 @@ public struct ListRulesetsInput: Swift.Equatable {
     }
 }
 
-struct ListRulesetsInputBody: Swift.Equatable {
+struct ListRulesetsInputBody {
 }
 
 extension ListRulesetsInputBody: Swift.Decodable {
@@ -7154,7 +7154,7 @@ extension ListRulesetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRulesetsOutput: Swift.Equatable {
+public struct ListRulesetsOutput {
     /// A token that you can use in a subsequent call to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of RulesetItem. RulesetItem contains meta data of a ruleset.
@@ -7171,7 +7171,7 @@ public struct ListRulesetsOutput: Swift.Equatable {
     }
 }
 
-struct ListRulesetsOutputBody: Swift.Equatable {
+struct ListRulesetsOutputBody {
     let rulesets: [DataBrewClientTypes.RulesetItem]?
     let nextToken: Swift.String?
 }
@@ -7239,7 +7239,7 @@ extension ListSchedulesInput {
     }
 }
 
-public struct ListSchedulesInput: Swift.Equatable {
+public struct ListSchedulesInput {
     /// The name of the job that these schedules apply to.
     public var jobName: Swift.String?
     /// The maximum number of results to return in this request.
@@ -7259,7 +7259,7 @@ public struct ListSchedulesInput: Swift.Equatable {
     }
 }
 
-struct ListSchedulesInputBody: Swift.Equatable {
+struct ListSchedulesInputBody {
 }
 
 extension ListSchedulesInputBody: Swift.Decodable {
@@ -7282,7 +7282,7 @@ extension ListSchedulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchedulesOutput: Swift.Equatable {
+public struct ListSchedulesOutput {
     /// A token that you can use in a subsequent call to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of schedules that are defined.
@@ -7299,7 +7299,7 @@ public struct ListSchedulesOutput: Swift.Equatable {
     }
 }
 
-struct ListSchedulesOutputBody: Swift.Equatable {
+struct ListSchedulesOutputBody {
     let schedules: [DataBrewClientTypes.Schedule]?
     let nextToken: Swift.String?
 }
@@ -7349,7 +7349,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) string that uniquely identifies the DataBrew resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7362,7 +7362,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -7383,7 +7383,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags associated with the DataBrew resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -7395,7 +7395,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -7486,7 +7486,7 @@ extension DataBrewClientTypes.Metadata: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Contains additional resource information needed for specific datasets.
-    public struct Metadata: Swift.Equatable {
+    public struct Metadata {
         /// The Amazon Resource Name (ARN) associated with the dataset. Currently, DataBrew only supports ARNs from Amazon AppFlow.
         public var sourceArn: Swift.String?
 
@@ -7630,7 +7630,7 @@ extension DataBrewClientTypes.Output: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents options that specify how and where in Amazon S3 DataBrew writes the output generated by recipe jobs or profile jobs.
-    public struct Output: Swift.Equatable {
+    public struct Output {
         /// The compression algorithm used to compress the output text of the job.
         public var compressionFormat: DataBrewClientTypes.CompressionFormat?
         /// The data format of the output of the job.
@@ -7740,7 +7740,7 @@ extension DataBrewClientTypes.OutputFormatOptions: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a set of options that define the structure of comma-separated (CSV) job output.
-    public struct OutputFormatOptions: Swift.Equatable {
+    public struct OutputFormatOptions {
         /// Represents a set of options that define the structure of comma-separated value (CSV) job output.
         public var csv: DataBrewClientTypes.CsvOutputOptions?
 
@@ -7834,7 +7834,7 @@ extension DataBrewClientTypes.PathOptions: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a set of options that define how DataBrew selects files for a given Amazon S3 path in a dataset.
-    public struct PathOptions: Swift.Equatable {
+    public struct PathOptions {
         /// If provided, this structure imposes a limit on a number of files that should be selected.
         public var filesLimit: DataBrewClientTypes.FilesLimit?
         /// If provided, this structure defines a date range for matching Amazon S3 objects based on their LastModifiedDate attribute in Amazon S3.
@@ -7919,7 +7919,7 @@ extension DataBrewClientTypes.ProfileConfiguration: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Configuration for profile jobs. Configuration can be used to select columns, do evaluations, and override default parameters of evaluations. When configuration is undefined, the profile job will apply default settings to all supported columns.
-    public struct ProfileConfiguration: Swift.Equatable {
+    public struct ProfileConfiguration {
         /// List of configurations for column evaluations. ColumnStatisticsConfigurations are used to select evaluations and override parameters of evaluations for particular columns. When ColumnStatisticsConfigurations is undefined, the profile job will profile all supported columns and run all supported evaluations.
         public var columnStatisticsConfigurations: [DataBrewClientTypes.ColumnStatisticsConfiguration]?
         /// Configuration for inter-column evaluations. Configuration can be used to select evaluations and override parameters of evaluations. When configuration is undefined, the profile job will run all supported inter-column evaluations.
@@ -8056,7 +8056,7 @@ extension DataBrewClientTypes.Project: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents all of the attributes of a DataBrew project.
-    public struct Project: Swift.Equatable {
+    public struct Project {
         /// The ID of the Amazon Web Services account that owns the project.
         public var accountId: Swift.String?
         /// The date and time that the project was created.
@@ -8147,7 +8147,7 @@ extension PublishRecipeInput {
     }
 }
 
-public struct PublishRecipeInput: Swift.Equatable {
+public struct PublishRecipeInput {
     /// A description of the recipe to be published, for this version of the recipe.
     public var description: Swift.String?
     /// The name of the recipe to be published.
@@ -8164,7 +8164,7 @@ public struct PublishRecipeInput: Swift.Equatable {
     }
 }
 
-struct PublishRecipeInputBody: Swift.Equatable {
+struct PublishRecipeInputBody {
     let description: Swift.String?
 }
 
@@ -8192,7 +8192,7 @@ extension PublishRecipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PublishRecipeOutput: Swift.Equatable {
+public struct PublishRecipeOutput {
     /// The name of the recipe that you published.
     /// This member is required.
     public var name: Swift.String?
@@ -8205,7 +8205,7 @@ public struct PublishRecipeOutput: Swift.Equatable {
     }
 }
 
-struct PublishRecipeOutputBody: Swift.Equatable {
+struct PublishRecipeOutputBody {
     let name: Swift.String?
 }
 
@@ -8351,7 +8351,7 @@ extension DataBrewClientTypes.Recipe: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents one or more actions to be performed on a DataBrew dataset.
-    public struct Recipe: Swift.Equatable {
+    public struct Recipe {
         /// The date and time that the recipe was created.
         public var createDate: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the user who created the recipe.
@@ -8459,7 +8459,7 @@ extension DataBrewClientTypes.RecipeAction: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a transformation and associated parameters that are used to apply a change to a DataBrew dataset. For more information, see [Recipe actions reference](https://docs.aws.amazon.com/databrew/latest/dg/recipe-actions-reference.html).
-    public struct RecipeAction: Swift.Equatable {
+    public struct RecipeAction {
         /// The name of a valid DataBrew transformation to be performed on the data.
         /// This member is required.
         public var operation: Swift.String?
@@ -8505,7 +8505,7 @@ extension DataBrewClientTypes.RecipeReference: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents the name and version of a DataBrew recipe.
-    public struct RecipeReference: Swift.Equatable {
+    public struct RecipeReference {
         /// The name of the recipe.
         /// This member is required.
         public var name: Swift.String?
@@ -8563,7 +8563,7 @@ extension DataBrewClientTypes.RecipeStep: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a single step from a DataBrew recipe to be performed.
-    public struct RecipeStep: Swift.Equatable {
+    public struct RecipeStep {
         /// The particular action to be performed in the recipe step.
         /// This member is required.
         public var action: DataBrewClientTypes.RecipeAction?
@@ -8615,7 +8615,7 @@ extension DataBrewClientTypes.RecipeVersionErrorDetail: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents any errors encountered when attempting to delete multiple recipe versions.
-    public struct RecipeVersionErrorDetail: Swift.Equatable {
+    public struct RecipeVersionErrorDetail {
         /// The HTTP status code for the error.
         public var errorCode: Swift.String?
         /// The text of the error message.
@@ -8676,7 +8676,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -8767,7 +8767,7 @@ extension DataBrewClientTypes.Rule: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents a single data quality requirement that should be validated in the scope of this dataset.
-    public struct Rule: Swift.Equatable {
+    public struct Rule {
         /// The expression which includes column references, condition names followed by variable references, possibly grouped and combined with other conditions. For example, (:col1 starts_with :prefix1 or :col1 starts_with :prefix2) and (:col1 ends_with :suffix1 or :col1 ends_with :suffix2). Column and value references are substitution variables that should start with the ':' symbol. Depending on the context, substitution variables' values can be either an actual value or a column name. These values are defined in the SubstitutionMap. If a CheckExpression starts with a column reference, then ColumnSelectors in the rule should be null. If ColumnSelectors has been defined, then there should be no column reference in the left side of a condition, for example, is_between :val1 and :val2. For more information, see [Available checks](https://docs.aws.amazon.com/databrew/latest/dg/profile.data-quality-available-checks.html)
         /// This member is required.
         public var checkExpression: Swift.String?
@@ -8896,7 +8896,7 @@ extension DataBrewClientTypes.RulesetItem: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Contains metadata about the ruleset.
-    public struct RulesetItem: Swift.Equatable {
+    public struct RulesetItem {
         /// The ID of the Amazon Web Services account that owns the ruleset.
         public var accountId: Swift.String?
         /// The date and time that the ruleset was created.
@@ -8985,7 +8985,7 @@ extension DataBrewClientTypes.S3Location: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents an Amazon S3 location (bucket name, bucket owner, and object key) where DataBrew can read input data, or write output from a job.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// The Amazon S3 bucket name.
         /// This member is required.
         public var bucket: Swift.String?
@@ -9029,7 +9029,7 @@ extension DataBrewClientTypes.S3TableOutputOptions: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents options that specify how and where DataBrew writes the Amazon S3 output generated by recipe jobs.
-    public struct S3TableOutputOptions: Swift.Equatable {
+    public struct S3TableOutputOptions {
         /// Represents an Amazon S3 location (bucket name and object key) where DataBrew can write output from a job.
         /// This member is required.
         public var location: DataBrewClientTypes.S3Location?
@@ -9071,7 +9071,7 @@ extension DataBrewClientTypes.Sample: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents the sample size and sampling type for DataBrew to use for interactive data analysis.
-    public struct Sample: Swift.Equatable {
+    public struct Sample {
         /// The number of rows in the sample.
         public var size: Swift.Int?
         /// The way in which DataBrew obtains rows from a dataset.
@@ -9256,7 +9256,7 @@ extension DataBrewClientTypes.Schedule: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents one or more dates and times when a job is to run.
-    public struct Schedule: Swift.Equatable {
+    public struct Schedule {
         /// The ID of the Amazon Web Services account that owns the schedule.
         public var accountId: Swift.String?
         /// The date and time that the schedule was created.
@@ -9351,7 +9351,7 @@ extension SendProjectSessionActionInput {
     }
 }
 
-public struct SendProjectSessionActionInput: Swift.Equatable {
+public struct SendProjectSessionActionInput {
     /// A unique identifier for an interactive session that's currently open and ready for work. The action will be performed on this session.
     public var clientSessionId: Swift.String?
     /// The name of the project to apply the action to.
@@ -9384,7 +9384,7 @@ public struct SendProjectSessionActionInput: Swift.Equatable {
     }
 }
 
-struct SendProjectSessionActionInputBody: Swift.Equatable {
+struct SendProjectSessionActionInputBody {
     let preview: Swift.Bool?
     let recipeStep: DataBrewClientTypes.RecipeStep?
     let stepIndex: Swift.Int?
@@ -9432,7 +9432,7 @@ extension SendProjectSessionActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendProjectSessionActionOutput: Swift.Equatable {
+public struct SendProjectSessionActionOutput {
     /// A unique identifier for the action that was performed.
     public var actionId: Swift.Int?
     /// The name of the project that was affected by the action.
@@ -9453,7 +9453,7 @@ public struct SendProjectSessionActionOutput: Swift.Equatable {
     }
 }
 
-struct SendProjectSessionActionOutputBody: Swift.Equatable {
+struct SendProjectSessionActionOutputBody {
     let result: Swift.String?
     let name: Swift.String?
     let actionId: Swift.Int?
@@ -9529,7 +9529,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -9646,7 +9646,7 @@ extension StartJobRunInput {
     }
 }
 
-public struct StartJobRunInput: Swift.Equatable {
+public struct StartJobRunInput {
     /// The name of the job to be run.
     /// This member is required.
     public var name: Swift.String?
@@ -9659,7 +9659,7 @@ public struct StartJobRunInput: Swift.Equatable {
     }
 }
 
-struct StartJobRunInputBody: Swift.Equatable {
+struct StartJobRunInputBody {
 }
 
 extension StartJobRunInputBody: Swift.Decodable {
@@ -9680,7 +9680,7 @@ extension StartJobRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartJobRunOutput: Swift.Equatable {
+public struct StartJobRunOutput {
     /// A system-generated identifier for this particular job run.
     /// This member is required.
     public var runId: Swift.String?
@@ -9693,7 +9693,7 @@ public struct StartJobRunOutput: Swift.Equatable {
     }
 }
 
-struct StartJobRunOutputBody: Swift.Equatable {
+struct StartJobRunOutputBody {
     let runId: Swift.String?
 }
 
@@ -9746,7 +9746,7 @@ extension StartProjectSessionInput {
     }
 }
 
-public struct StartProjectSessionInput: Swift.Equatable {
+public struct StartProjectSessionInput {
     /// A value that, if true, enables you to take control of a session, even if a different client is currently accessing the project.
     public var assumeControl: Swift.Bool?
     /// The name of the project to act upon.
@@ -9763,7 +9763,7 @@ public struct StartProjectSessionInput: Swift.Equatable {
     }
 }
 
-struct StartProjectSessionInputBody: Swift.Equatable {
+struct StartProjectSessionInputBody {
     let assumeControl: Swift.Bool?
 }
 
@@ -9798,7 +9798,7 @@ extension StartProjectSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartProjectSessionOutput: Swift.Equatable {
+public struct StartProjectSessionOutput {
     /// A system-generated identifier for the session.
     public var clientSessionId: Swift.String?
     /// The name of the project to be acted upon.
@@ -9815,7 +9815,7 @@ public struct StartProjectSessionOutput: Swift.Equatable {
     }
 }
 
-struct StartProjectSessionOutputBody: Swift.Equatable {
+struct StartProjectSessionOutputBody {
     let name: Swift.String?
     let clientSessionId: Swift.String?
 }
@@ -9888,7 +9888,7 @@ extension DataBrewClientTypes.StatisticOverride: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Override of a particular evaluation for a profile job.
-    public struct StatisticOverride: Swift.Equatable {
+    public struct StatisticOverride {
         /// A map that includes overrides of an evaluation’s parameters.
         /// This member is required.
         public var parameters: [Swift.String:Swift.String]?
@@ -9959,7 +9959,7 @@ extension DataBrewClientTypes.StatisticsConfiguration: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Configuration of evaluations for a profile job. This configuration can be used to select evaluations and override the parameters of selected evaluations.
-    public struct StatisticsConfiguration: Swift.Equatable {
+    public struct StatisticsConfiguration {
         /// List of included evaluations. When the list is undefined, all supported evaluations will be included.
         public var includedStatistics: [Swift.String]?
         /// List of overrides for evaluations.
@@ -9990,7 +9990,7 @@ extension StopJobRunInput {
     }
 }
 
-public struct StopJobRunInput: Swift.Equatable {
+public struct StopJobRunInput {
     /// The name of the job to be stopped.
     /// This member is required.
     public var name: Swift.String?
@@ -10008,7 +10008,7 @@ public struct StopJobRunInput: Swift.Equatable {
     }
 }
 
-struct StopJobRunInputBody: Swift.Equatable {
+struct StopJobRunInputBody {
 }
 
 extension StopJobRunInputBody: Swift.Decodable {
@@ -10029,7 +10029,7 @@ extension StopJobRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopJobRunOutput: Swift.Equatable {
+public struct StopJobRunOutput {
     /// The ID of the job run that you stopped.
     /// This member is required.
     public var runId: Swift.String?
@@ -10042,7 +10042,7 @@ public struct StopJobRunOutput: Swift.Equatable {
     }
 }
 
-struct StopJobRunOutputBody: Swift.Equatable {
+struct StopJobRunOutputBody {
     let runId: Swift.String?
 }
 
@@ -10096,7 +10096,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The DataBrew resource to which tags should be added. The value for this parameter is an Amazon Resource Name (ARN). For DataBrew, you can tag a dataset, a job, a project, or a recipe.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10114,7 +10114,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -10144,7 +10144,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -10195,7 +10195,7 @@ extension DataBrewClientTypes.Threshold: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// The threshold used with a non-aggregate check expression. The non-aggregate check expression will be applied to each row in a specific column. Then the threshold will be used to determine whether the validation succeeds.
-    public struct Threshold: Swift.Equatable {
+    public struct Threshold {
         /// The type of a threshold. Used for comparison of an actual count of rows that satisfy the rule to the threshold value.
         public var type: DataBrewClientTypes.ThresholdType?
         /// Unit of threshold value. Can be either a COUNT or PERCENTAGE of the full sample size used for validation.
@@ -10314,7 +10314,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// A DataBrew resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10332,7 +10332,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -10346,7 +10346,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -10399,7 +10399,7 @@ extension UpdateDatasetInput {
     }
 }
 
-public struct UpdateDatasetInput: Swift.Equatable {
+public struct UpdateDatasetInput {
     /// The file format of a dataset that is created from an Amazon S3 file or folder.
     public var format: DataBrewClientTypes.InputFormat?
     /// Represents a set of options that define the structure of either comma-separated value (CSV), Excel, or JSON input.
@@ -10429,7 +10429,7 @@ public struct UpdateDatasetInput: Swift.Equatable {
     }
 }
 
-struct UpdateDatasetInputBody: Swift.Equatable {
+struct UpdateDatasetInputBody {
     let format: DataBrewClientTypes.InputFormat?
     let formatOptions: DataBrewClientTypes.FormatOptions?
     let input: DataBrewClientTypes.Input?
@@ -10469,7 +10469,7 @@ extension UpdateDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDatasetOutput: Swift.Equatable {
+public struct UpdateDatasetOutput {
     /// The name of the dataset that you updated.
     /// This member is required.
     public var name: Swift.String?
@@ -10482,7 +10482,7 @@ public struct UpdateDatasetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDatasetOutputBody: Swift.Equatable {
+struct UpdateDatasetOutputBody {
     let name: Swift.String?
 }
 
@@ -10577,7 +10577,7 @@ extension UpdateProfileJobInput {
     }
 }
 
-public struct UpdateProfileJobInput: Swift.Equatable {
+public struct UpdateProfileJobInput {
     /// Configuration for profile jobs. Used to select columns, do evaluations, and override default parameters of evaluations. When configuration is null, the profile job will run with default settings.
     public var configuration: DataBrewClientTypes.ProfileConfiguration?
     /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
@@ -10640,7 +10640,7 @@ public struct UpdateProfileJobInput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileJobInputBody: Swift.Equatable {
+struct UpdateProfileJobInputBody {
     let configuration: DataBrewClientTypes.ProfileConfiguration?
     let encryptionKeyArn: Swift.String?
     let encryptionMode: DataBrewClientTypes.EncryptionMode?
@@ -10717,7 +10717,7 @@ extension UpdateProfileJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProfileJobOutput: Swift.Equatable {
+public struct UpdateProfileJobOutput {
     /// The name of the job that was updated.
     /// This member is required.
     public var name: Swift.String?
@@ -10730,7 +10730,7 @@ public struct UpdateProfileJobOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileJobOutputBody: Swift.Equatable {
+struct UpdateProfileJobOutputBody {
     let name: Swift.String?
 }
 
@@ -10786,7 +10786,7 @@ extension UpdateProjectInput {
     }
 }
 
-public struct UpdateProjectInput: Swift.Equatable {
+public struct UpdateProjectInput {
     /// The name of the project to be updated.
     /// This member is required.
     public var name: Swift.String?
@@ -10808,7 +10808,7 @@ public struct UpdateProjectInput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectInputBody: Swift.Equatable {
+struct UpdateProjectInputBody {
     let sample: DataBrewClientTypes.Sample?
     let roleArn: Swift.String?
 }
@@ -10842,7 +10842,7 @@ extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProjectOutput: Swift.Equatable {
+public struct UpdateProjectOutput {
     /// The date and time that the project was last modified.
     public var lastModifiedDate: ClientRuntime.Date?
     /// The name of the project that you updated.
@@ -10859,7 +10859,7 @@ public struct UpdateProjectOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectOutputBody: Swift.Equatable {
+struct UpdateProjectOutputBody {
     let lastModifiedDate: ClientRuntime.Date?
     let name: Swift.String?
 }
@@ -10921,7 +10921,7 @@ extension UpdateRecipeInput {
     }
 }
 
-public struct UpdateRecipeInput: Swift.Equatable {
+public struct UpdateRecipeInput {
     /// A description of the recipe.
     public var description: Swift.String?
     /// The name of the recipe to be updated.
@@ -10942,7 +10942,7 @@ public struct UpdateRecipeInput: Swift.Equatable {
     }
 }
 
-struct UpdateRecipeInputBody: Swift.Equatable {
+struct UpdateRecipeInputBody {
     let description: Swift.String?
     let steps: [DataBrewClientTypes.RecipeStep]?
 }
@@ -11039,7 +11039,7 @@ extension UpdateRecipeJobInput {
     }
 }
 
-public struct UpdateRecipeJobInput: Swift.Equatable {
+public struct UpdateRecipeJobInput {
     /// One or more artifacts that represent the Glue Data Catalog output from running the job.
     public var dataCatalogOutputs: [DataBrewClientTypes.DataCatalogOutput]?
     /// Represents a list of JDBC database output objects which defines the output destination for a DataBrew recipe job to write into.
@@ -11097,7 +11097,7 @@ public struct UpdateRecipeJobInput: Swift.Equatable {
     }
 }
 
-struct UpdateRecipeJobInputBody: Swift.Equatable {
+struct UpdateRecipeJobInputBody {
     let encryptionKeyArn: Swift.String?
     let encryptionMode: DataBrewClientTypes.EncryptionMode?
     let logSubscription: DataBrewClientTypes.LogSubscription?
@@ -11188,7 +11188,7 @@ extension UpdateRecipeJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRecipeJobOutput: Swift.Equatable {
+public struct UpdateRecipeJobOutput {
     /// The name of the job that you updated.
     /// This member is required.
     public var name: Swift.String?
@@ -11201,7 +11201,7 @@ public struct UpdateRecipeJobOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRecipeJobOutputBody: Swift.Equatable {
+struct UpdateRecipeJobOutputBody {
     let name: Swift.String?
 }
 
@@ -11242,7 +11242,7 @@ extension UpdateRecipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRecipeOutput: Swift.Equatable {
+public struct UpdateRecipeOutput {
     /// The name of the recipe that was updated.
     /// This member is required.
     public var name: Swift.String?
@@ -11255,7 +11255,7 @@ public struct UpdateRecipeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRecipeOutputBody: Swift.Equatable {
+struct UpdateRecipeOutputBody {
     let name: Swift.String?
 }
 
@@ -11313,7 +11313,7 @@ extension UpdateRulesetInput {
     }
 }
 
-public struct UpdateRulesetInput: Swift.Equatable {
+public struct UpdateRulesetInput {
     /// The description of the ruleset.
     public var description: Swift.String?
     /// The name of the ruleset to be updated.
@@ -11335,7 +11335,7 @@ public struct UpdateRulesetInput: Swift.Equatable {
     }
 }
 
-struct UpdateRulesetInputBody: Swift.Equatable {
+struct UpdateRulesetInputBody {
     let description: Swift.String?
     let rules: [DataBrewClientTypes.Rule]?
 }
@@ -11376,7 +11376,7 @@ extension UpdateRulesetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRulesetOutput: Swift.Equatable {
+public struct UpdateRulesetOutput {
     /// The name of the updated ruleset.
     /// This member is required.
     public var name: Swift.String?
@@ -11389,7 +11389,7 @@ public struct UpdateRulesetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRulesetOutputBody: Swift.Equatable {
+struct UpdateRulesetOutputBody {
     let name: Swift.String?
 }
 
@@ -11447,7 +11447,7 @@ extension UpdateScheduleInput {
     }
 }
 
-public struct UpdateScheduleInput: Swift.Equatable {
+public struct UpdateScheduleInput {
     /// The date or dates and time or times when the jobs are to be run. For more information, see [Cron expressions](https://docs.aws.amazon.com/databrew/latest/dg/jobs.cron.html) in the Glue DataBrew Developer Guide.
     /// This member is required.
     public var cronExpression: Swift.String?
@@ -11469,7 +11469,7 @@ public struct UpdateScheduleInput: Swift.Equatable {
     }
 }
 
-struct UpdateScheduleInputBody: Swift.Equatable {
+struct UpdateScheduleInputBody {
     let jobNames: [Swift.String]?
     let cronExpression: Swift.String?
 }
@@ -11510,7 +11510,7 @@ extension UpdateScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateScheduleOutput: Swift.Equatable {
+public struct UpdateScheduleOutput {
     /// The name of the schedule that was updated.
     /// This member is required.
     public var name: Swift.String?
@@ -11523,7 +11523,7 @@ public struct UpdateScheduleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateScheduleOutputBody: Swift.Equatable {
+struct UpdateScheduleOutputBody {
     let name: Swift.String?
 }
 
@@ -11579,7 +11579,7 @@ extension DataBrewClientTypes.ValidationConfiguration: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Configuration for data quality validation. Used to select the Rulesets and Validation Mode to be used in the profile job. When ValidationConfiguration is null, the profile job will run without data quality validation.
-    public struct ValidationConfiguration: Swift.Equatable {
+    public struct ValidationConfiguration {
         /// The Amazon Resource Name (ARN) for the ruleset to be validated in the profile job. The TargetArn of the selected ruleset should be the same as the Amazon Resource Name (ARN) of the dataset that is associated with the profile job.
         /// This member is required.
         public var rulesetArn: Swift.String?
@@ -11637,7 +11637,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -11745,7 +11745,7 @@ extension DataBrewClientTypes.ViewFrame: Swift.Codable {
 
 extension DataBrewClientTypes {
     /// Represents the data being transformed during an action.
-    public struct ViewFrame: Swift.Equatable {
+    public struct ViewFrame {
         /// Controls if analytics computation is enabled or disabled. Enabled by default.
         public var analytics: DataBrewClientTypes.AnalyticsMode?
         /// The number of columns to include in the view frame, beginning with the StartColumnIndex value and ignoring any columns in the HiddenColumns list.

@@ -47,7 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let reason: CleanRoomsClientTypes.AccessDeniedExceptionReason?
 }
@@ -135,7 +135,7 @@ extension CleanRoomsClientTypes.AggregateColumn: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Column in configured table that can be used in aggregate function in query.
-    public struct AggregateColumn: Swift.Equatable {
+    public struct AggregateColumn {
         /// Column names in configured table of aggregate columns.
         /// This member is required.
         public var columnNames: [Swift.String]?
@@ -229,7 +229,7 @@ extension CleanRoomsClientTypes.AggregationConstraint: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Constraint on query output removing output rows that do not meet a minimum number of distinct values of a specified column.
-    public struct AggregationConstraint: Swift.Equatable {
+    public struct AggregationConstraint {
         /// Column in aggregation constraint for which there must be a minimum number of distinct values in an output row for it to be in the query output.
         /// This member is required.
         public var columnName: Swift.String?
@@ -380,7 +380,7 @@ extension CleanRoomsClientTypes.AnalysisParameter: Swift.CustomDebugStringConver
 
 extension CleanRoomsClientTypes {
     /// Optional. The member who can query can provide this placeholder for a literal data value in an analysis template.
-    public struct AnalysisParameter: Swift.Equatable {
+    public struct AnalysisParameter {
         /// Optional. The default value that is applied in the analysis template. The member who can query can override this value in the query editor.
         public var defaultValue: Swift.String?
         /// The name of the parameter. The name must use only alphanumeric, underscore (_), or hyphen (-) characters but cannot start or end with a hyphen.
@@ -455,7 +455,7 @@ extension CleanRoomsClientTypes.AnalysisRule: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A specification about how data from the configured table can be used in a query.
-    public struct AnalysisRule: Swift.Equatable {
+    public struct AnalysisRule {
         /// The unique ID for the associated collaboration.
         /// This member is required.
         public var collaborationId: Swift.String?
@@ -624,7 +624,7 @@ extension CleanRoomsClientTypes.AnalysisRuleAggregation: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A type of analysis rule that enables query structure and specified queries that produce aggregate statistics.
-    public struct AnalysisRuleAggregation: Swift.Equatable {
+    public struct AnalysisRuleAggregation {
         /// The columns that query runners are allowed to use in aggregation queries.
         /// This member is required.
         public var aggregateColumns: [CleanRoomsClientTypes.AggregateColumn]?
@@ -724,7 +724,7 @@ extension CleanRoomsClientTypes.AnalysisRuleCustom: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy.
-    public struct AnalysisRuleCustom: Swift.Equatable {
+    public struct AnalysisRuleCustom {
         /// The ARN of the analysis templates that are allowed by the custom analysis rule.
         /// This member is required.
         public var allowedAnalyses: [Swift.String]?
@@ -816,7 +816,7 @@ extension CleanRoomsClientTypes.AnalysisRuleList: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A type of analysis rule that enables row-level analysis.
-    public struct AnalysisRuleList: Swift.Equatable {
+    public struct AnalysisRuleList {
         /// The logical operators (if any) that are to be used in an INNER JOIN match condition. Default is AND.
         public var allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]?
         /// Columns that can be used to join a configured table with the table of the member who can query and other members' configured tables.
@@ -869,7 +869,7 @@ extension CleanRoomsClientTypes.AnalysisRulePolicy: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Controls on the query specifications that can be run on configured table.
-    public enum AnalysisRulePolicy: Swift.Equatable {
+    public enum AnalysisRulePolicy {
         /// Controls on the query specifications that can be run on configured table.
         case v1(CleanRoomsClientTypes.AnalysisRulePolicyV1)
         case sdkUnknown(Swift.String)
@@ -922,7 +922,7 @@ extension CleanRoomsClientTypes.AnalysisRulePolicyV1: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Controls on the query specifications that can be run on configured table.
-    public enum AnalysisRulePolicyV1: Swift.Equatable {
+    public enum AnalysisRulePolicyV1 {
         /// Analysis rule type that enables only list queries on a configured table.
         case list(CleanRoomsClientTypes.AnalysisRuleList)
         /// Analysis rule type that enables only aggregation queries on a configured table.
@@ -1002,7 +1002,7 @@ extension CleanRoomsClientTypes.AnalysisSchema: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A relation within an analysis.
-    public struct AnalysisSchema: Swift.Equatable {
+    public struct AnalysisSchema {
         /// The tables referenced in the analysis schema.
         public var referencedTables: [Swift.String]?
 
@@ -1045,7 +1045,7 @@ extension CleanRoomsClientTypes.AnalysisSource: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The structure that defines the body of the analysis template.
-    public enum AnalysisSource: Swift.Equatable {
+    public enum AnalysisSource {
         /// The query text.
         case text(Swift.String)
         case sdkUnknown(Swift.String)
@@ -1187,7 +1187,7 @@ extension CleanRoomsClientTypes.AnalysisTemplate: Swift.CustomDebugStringConvert
 
 extension CleanRoomsClientTypes {
     /// The analysis template.
-    public struct AnalysisTemplate: Swift.Equatable {
+    public struct AnalysisTemplate {
         /// The parameters of the analysis template.
         public var analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]?
         /// The Amazon Resource Name (ARN) of the analysis template.
@@ -1344,7 +1344,7 @@ extension CleanRoomsClientTypes.AnalysisTemplateSummary: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The metadata of the analysis template.
-    public struct AnalysisTemplateSummary: Swift.Equatable {
+    public struct AnalysisTemplateSummary {
         /// The Amazon Resource Name (ARN) of the analysis template.
         /// This member is required.
         public var arn: Swift.String?
@@ -1483,7 +1483,7 @@ extension CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail: Swift.Co
 
 extension CleanRoomsClientTypes {
     /// The status details of the analysis template validation. Clean Rooms Differential Privacy uses a general-purpose query structure to support complex SQL queries and validates whether an analysis template fits that general-purpose query structure. Validation is performed when analysis templates are created and fetched. Because analysis templates are immutable by design, we recommend that you create analysis templates after you associate the configured tables with their analysis rule to your collaboration. For more information, see [https://docs.aws.amazon.com/clean-rooms/latest/userguide/analysis-rules-custom.html#custom-diff-privacy](https://docs.aws.amazon.com/clean-rooms/latest/userguide/analysis-rules-custom.html#custom-diff-privacy).
-    public struct AnalysisTemplateValidationStatusDetail: Swift.Equatable {
+    public struct AnalysisTemplateValidationStatusDetail {
         /// The reasons for the validation results.
         public var reasons: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason]?
         /// The status of the validation.
@@ -1528,7 +1528,7 @@ extension CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason: Swift.Co
 
 extension CleanRoomsClientTypes {
     /// The reasons for the validation results.
-    public struct AnalysisTemplateValidationStatusReason: Swift.Equatable {
+    public struct AnalysisTemplateValidationStatusReason {
         /// The validation message.
         /// This member is required.
         public var message: Swift.String?
@@ -1605,7 +1605,7 @@ extension CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError: Swif
 
 extension CleanRoomsClientTypes {
     /// Details of errors thrown by the call to retrieve multiple analysis templates within a collaboration by their identifiers.
-    public struct BatchGetCollaborationAnalysisTemplateError: Swift.Equatable {
+    public struct BatchGetCollaborationAnalysisTemplateError {
         /// The Amazon Resource Name (ARN) of the analysis template.
         /// This member is required.
         public var arn: Swift.String?
@@ -1656,7 +1656,7 @@ extension BatchGetCollaborationAnalysisTemplateInput {
     }
 }
 
-public struct BatchGetCollaborationAnalysisTemplateInput: Swift.Equatable {
+public struct BatchGetCollaborationAnalysisTemplateInput {
     /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
     /// This member is required.
     public var analysisTemplateArns: [Swift.String]?
@@ -1674,7 +1674,7 @@ public struct BatchGetCollaborationAnalysisTemplateInput: Swift.Equatable {
     }
 }
 
-struct BatchGetCollaborationAnalysisTemplateInputBody: Swift.Equatable {
+struct BatchGetCollaborationAnalysisTemplateInputBody {
     let analysisTemplateArns: [Swift.String]?
 }
 
@@ -1713,7 +1713,7 @@ extension BatchGetCollaborationAnalysisTemplateOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct BatchGetCollaborationAnalysisTemplateOutput: Swift.Equatable {
+public struct BatchGetCollaborationAnalysisTemplateOutput {
     /// The retrieved list of analysis templates within a collaboration.
     /// This member is required.
     public var collaborationAnalysisTemplates: [CleanRoomsClientTypes.CollaborationAnalysisTemplate]?
@@ -1731,7 +1731,7 @@ public struct BatchGetCollaborationAnalysisTemplateOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetCollaborationAnalysisTemplateOutputBody: Swift.Equatable {
+struct BatchGetCollaborationAnalysisTemplateOutputBody {
     let collaborationAnalysisTemplates: [CleanRoomsClientTypes.CollaborationAnalysisTemplate]?
     let errors: [CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError]?
 }
@@ -1823,7 +1823,7 @@ extension CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// An error that describes why a schema could not be fetched.
-    public struct BatchGetSchemaAnalysisRuleError: Swift.Equatable {
+    public struct BatchGetSchemaAnalysisRuleError {
         /// An error code for the error.
         /// This member is required.
         public var code: Swift.String?
@@ -1879,7 +1879,7 @@ extension BatchGetSchemaAnalysisRuleInput {
     }
 }
 
-public struct BatchGetSchemaAnalysisRuleInput: Swift.Equatable {
+public struct BatchGetSchemaAnalysisRuleInput {
     /// The unique identifier of the collaboration that contains the schema analysis rule.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -1897,7 +1897,7 @@ public struct BatchGetSchemaAnalysisRuleInput: Swift.Equatable {
     }
 }
 
-struct BatchGetSchemaAnalysisRuleInputBody: Swift.Equatable {
+struct BatchGetSchemaAnalysisRuleInputBody {
     let schemaAnalysisRuleRequests: [CleanRoomsClientTypes.SchemaAnalysisRuleRequest]?
 }
 
@@ -1936,7 +1936,7 @@ extension BatchGetSchemaAnalysisRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetSchemaAnalysisRuleOutput: Swift.Equatable {
+public struct BatchGetSchemaAnalysisRuleOutput {
     /// The retrieved list of analysis rules.
     /// This member is required.
     public var analysisRules: [CleanRoomsClientTypes.AnalysisRule]?
@@ -1954,7 +1954,7 @@ public struct BatchGetSchemaAnalysisRuleOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetSchemaAnalysisRuleOutputBody: Swift.Equatable {
+struct BatchGetSchemaAnalysisRuleOutputBody {
     let analysisRules: [CleanRoomsClientTypes.AnalysisRule]?
     let errors: [CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError]?
 }
@@ -2040,7 +2040,7 @@ extension CleanRoomsClientTypes.BatchGetSchemaError: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// An error describing why a schema could not be fetched.
-    public struct BatchGetSchemaError: Swift.Equatable {
+    public struct BatchGetSchemaError {
         /// An error code for the error.
         /// This member is required.
         public var code: Swift.String?
@@ -2091,7 +2091,7 @@ extension BatchGetSchemaInput {
     }
 }
 
-public struct BatchGetSchemaInput: Swift.Equatable {
+public struct BatchGetSchemaInput {
     /// A unique identifier for the collaboration that the schemas belong to. Currently accepts collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -2109,7 +2109,7 @@ public struct BatchGetSchemaInput: Swift.Equatable {
     }
 }
 
-struct BatchGetSchemaInputBody: Swift.Equatable {
+struct BatchGetSchemaInputBody {
     let names: [Swift.String]?
 }
 
@@ -2148,7 +2148,7 @@ extension BatchGetSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetSchemaOutput: Swift.Equatable {
+public struct BatchGetSchemaOutput {
     /// Error reasons for schemas that could not be retrieved. One error is returned for every schema that could not be retrieved.
     /// This member is required.
     public var errors: [CleanRoomsClientTypes.BatchGetSchemaError]?
@@ -2166,7 +2166,7 @@ public struct BatchGetSchemaOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetSchemaOutputBody: Swift.Equatable {
+struct BatchGetSchemaOutputBody {
     let schemas: [CleanRoomsClientTypes.Schema]?
     let errors: [CleanRoomsClientTypes.BatchGetSchemaError]?
 }
@@ -2314,7 +2314,7 @@ extension CleanRoomsClientTypes.Collaboration: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The multi-party data share environment. The collaboration contains metadata about its purpose and participants.
-    public struct Collaboration: Swift.Equatable {
+    public struct Collaboration {
         /// The unique ARN for the collaboration.
         /// This member is required.
         public var arn: Swift.String?
@@ -2513,7 +2513,7 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.CustomDebug
 
 extension CleanRoomsClientTypes {
     /// The analysis template within a collaboration.
-    public struct CollaborationAnalysisTemplate: Swift.Equatable {
+    public struct CollaborationAnalysisTemplate {
         /// The analysis parameters that have been specified in the analysis template.
         public var analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]?
         /// The Amazon Resource Name (ARN) of the analysis template.
@@ -2659,7 +2659,7 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary: Swift.Coda
 
 extension CleanRoomsClientTypes {
     /// The metadata of the analysis template within a collaboration.
-    public struct CollaborationAnalysisTemplateSummary: Swift.Equatable {
+    public struct CollaborationAnalysisTemplateSummary {
         /// The Amazon Resource Name (ARN) of the analysis template.
         /// This member is required.
         public var arn: Swift.String?
@@ -2788,7 +2788,7 @@ extension CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation:
 
 extension CleanRoomsClientTypes {
     /// The configured audience model association within a collaboration.
-    public struct CollaborationConfiguredAudienceModelAssociation: Swift.Equatable {
+    public struct CollaborationConfiguredAudienceModelAssociation {
         /// The Amazon Resource Name (ARN) of the configured audience model association.
         /// This member is required.
         public var arn: Swift.String?
@@ -2916,7 +2916,7 @@ extension CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationS
 
 extension CleanRoomsClientTypes {
     /// A summary of the configured audience model association in the collaboration.
-    public struct CollaborationConfiguredAudienceModelAssociationSummary: Swift.Equatable {
+    public struct CollaborationConfiguredAudienceModelAssociationSummary {
         /// The Amazon Resource Name (ARN) of the configured audience model association.
         /// This member is required.
         public var arn: Swift.String?
@@ -3045,7 +3045,7 @@ extension CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary: Swift.Codable
 
 extension CleanRoomsClientTypes {
     /// A summary of the collaboration privacy budgets. This summary includes the collaboration information, creation information, epsilon provided, and utility in terms of aggregations.
-    public struct CollaborationPrivacyBudgetSummary: Swift.Equatable {
+    public struct CollaborationPrivacyBudgetSummary {
         /// The includes epsilon provided and utility in terms of aggregations.
         /// This member is required.
         public var budget: CleanRoomsClientTypes.PrivacyBudget?
@@ -3180,7 +3180,7 @@ extension CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate: Swift.Codabl
 
 extension CleanRoomsClientTypes {
     /// An array that specifies the information for a collaboration's privacy budget template.
-    public struct CollaborationPrivacyBudgetTemplate: Swift.Equatable {
+    public struct CollaborationPrivacyBudgetTemplate {
         /// The ARN of the collaboration privacy budget template.
         /// This member is required.
         public var arn: Swift.String?
@@ -3303,7 +3303,7 @@ extension CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary: Swift
 
 extension CleanRoomsClientTypes {
     /// A summary of the collaboration's privacy budget template. This summary includes information about who created the privacy budget template and what collaborations it belongs to.
-    public struct CollaborationPrivacyBudgetTemplateSummary: Swift.Equatable {
+    public struct CollaborationPrivacyBudgetTemplateSummary {
         /// The ARN of the collaboration privacy budget template.
         /// This member is required.
         public var arn: Swift.String?
@@ -3460,7 +3460,7 @@ extension CleanRoomsClientTypes.CollaborationSummary: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The metadata of the collaboration.
-    public struct CollaborationSummary: Swift.Equatable {
+    public struct CollaborationSummary {
         /// The ARN of the collaboration.
         /// This member is required.
         public var arn: Swift.String?
@@ -3545,7 +3545,7 @@ extension CleanRoomsClientTypes.Column: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A column within a schema relation, derived from the underlying Glue table.
-    public struct Column: Swift.Equatable {
+    public struct Column {
         /// The name of the column.
         /// This member is required.
         public var name: Swift.String?
@@ -3652,7 +3652,7 @@ extension CleanRoomsClientTypes.ConfiguredAudienceModelAssociation: Swift.Codabl
 
 extension CleanRoomsClientTypes {
     /// Details about the configured audience model association.
-    public struct ConfiguredAudienceModelAssociation: Swift.Equatable {
+    public struct ConfiguredAudienceModelAssociation {
         /// The Amazon Resource Name (ARN) of the configured audience model association.
         /// This member is required.
         public var arn: Swift.String?
@@ -3802,7 +3802,7 @@ extension CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary: Swift
 
 extension CleanRoomsClientTypes {
     /// A summary of the configured audience model association.
-    public struct ConfiguredAudienceModelAssociationSummary: Swift.Equatable {
+    public struct ConfiguredAudienceModelAssociationSummary {
         /// The Amazon Resource Name (ARN) of the configured audience model association.
         /// This member is required.
         public var arn: Swift.String?
@@ -3965,7 +3965,7 @@ extension CleanRoomsClientTypes.ConfiguredTable: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A table that has been configured for use in a collaboration.
-    public struct ConfiguredTable: Swift.Equatable {
+    public struct ConfiguredTable {
         /// The columns within the underlying Glue table that can be utilized within collaborations.
         /// This member is required.
         public var allowedColumns: [Swift.String]?
@@ -4075,7 +4075,7 @@ extension CleanRoomsClientTypes.ConfiguredTableAnalysisRule: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A configured table analysis rule, which limits how data for this table can be used.
-    public struct ConfiguredTableAnalysisRule: Swift.Equatable {
+    public struct ConfiguredTableAnalysisRule {
         /// The unique ARN for the configured table.
         /// This member is required.
         public var configuredTableArn: Swift.String?
@@ -4144,7 +4144,7 @@ extension CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy: Swift.Codable
 
 extension CleanRoomsClientTypes {
     /// Controls on the query specifications that can be run on a configured table.
-    public enum ConfiguredTableAnalysisRulePolicy: Swift.Equatable {
+    public enum ConfiguredTableAnalysisRulePolicy {
         /// Controls on the query specifications that can be run on a configured table.
         case v1(CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicyV1)
         case sdkUnknown(Swift.String)
@@ -4197,7 +4197,7 @@ extension CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicyV1: Swift.Codab
 
 extension CleanRoomsClientTypes {
     /// Controls on the query specifications that can be run on a configured table.
-    public enum ConfiguredTableAnalysisRulePolicyV1: Swift.Equatable {
+    public enum ConfiguredTableAnalysisRulePolicyV1 {
         /// Analysis rule type that enables only list queries on a configured table.
         case list(CleanRoomsClientTypes.AnalysisRuleList)
         /// Analysis rule type that enables only aggregation queries on a configured table.
@@ -4325,7 +4325,7 @@ extension CleanRoomsClientTypes.ConfiguredTableAssociation: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A configured table association links a configured table to a collaboration.
-    public struct ConfiguredTableAssociation: Swift.Equatable {
+    public struct ConfiguredTableAssociation {
         /// The unique ARN for the configured table association.
         /// This member is required.
         public var arn: Swift.String?
@@ -4452,7 +4452,7 @@ extension CleanRoomsClientTypes.ConfiguredTableAssociationSummary: Swift.Codable
 
 extension CleanRoomsClientTypes {
     /// The configured table association summary for the objects listed by the request.
-    public struct ConfiguredTableAssociationSummary: Swift.Equatable {
+    public struct ConfiguredTableAssociationSummary {
         /// The unique ARN for the configured table association.
         /// This member is required.
         public var arn: Swift.String?
@@ -4571,7 +4571,7 @@ extension CleanRoomsClientTypes.ConfiguredTableSummary: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The configured table summary for the objects listed by the request.
-    public struct ConfiguredTableSummary: Swift.Equatable {
+    public struct ConfiguredTableSummary {
         /// The analysis method for the configured tables. The only valid value is currently `DIRECT_QUERY`.
         /// This member is required.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
@@ -4673,7 +4673,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: CleanRoomsClientTypes.ResourceType?
@@ -4790,7 +4790,7 @@ extension CreateAnalysisTemplateInput {
     }
 }
 
-public struct CreateAnalysisTemplateInput: Swift.Equatable {
+public struct CreateAnalysisTemplateInput {
     /// The parameters of the analysis template.
     public var analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]?
     /// The description of the analysis template.
@@ -4830,7 +4830,7 @@ public struct CreateAnalysisTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateAnalysisTemplateInputBody: Swift.Equatable {
+struct CreateAnalysisTemplateInputBody {
     let description: Swift.String?
     let name: Swift.String?
     let format: CleanRoomsClientTypes.AnalysisFormat?
@@ -4896,7 +4896,7 @@ extension CreateAnalysisTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAnalysisTemplateOutput: Swift.Equatable {
+public struct CreateAnalysisTemplateOutput {
     /// The analysis template.
     /// This member is required.
     public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
@@ -4909,7 +4909,7 @@ public struct CreateAnalysisTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateAnalysisTemplateOutputBody: Swift.Equatable {
+struct CreateAnalysisTemplateOutputBody {
     let analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
 }
 
@@ -5003,7 +5003,7 @@ extension CreateCollaborationInput {
     }
 }
 
-public struct CreateCollaborationInput: Swift.Equatable {
+public struct CreateCollaborationInput {
     /// The display name of the collaboration creator.
     /// This member is required.
     public var creatorDisplayName: Swift.String?
@@ -5053,7 +5053,7 @@ public struct CreateCollaborationInput: Swift.Equatable {
     }
 }
 
-struct CreateCollaborationInputBody: Swift.Equatable {
+struct CreateCollaborationInputBody {
     let members: [CleanRoomsClientTypes.MemberSpecification]?
     let name: Swift.String?
     let description: Swift.String?
@@ -5140,7 +5140,7 @@ extension CreateCollaborationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCollaborationOutput: Swift.Equatable {
+public struct CreateCollaborationOutput {
     /// The entire created collaboration object.
     /// This member is required.
     public var collaboration: CleanRoomsClientTypes.Collaboration?
@@ -5153,7 +5153,7 @@ public struct CreateCollaborationOutput: Swift.Equatable {
     }
 }
 
-struct CreateCollaborationOutputBody: Swift.Equatable {
+struct CreateCollaborationOutputBody {
     let collaboration: CleanRoomsClientTypes.Collaboration?
 }
 
@@ -5226,7 +5226,7 @@ extension CreateConfiguredAudienceModelAssociationInput {
     }
 }
 
-public struct CreateConfiguredAudienceModelAssociationInput: Swift.Equatable {
+public struct CreateConfiguredAudienceModelAssociationInput {
     /// A unique identifier for the configured audience model that you want to associate.
     /// This member is required.
     public var configuredAudienceModelArn: Swift.String?
@@ -5262,7 +5262,7 @@ public struct CreateConfiguredAudienceModelAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
+struct CreateConfiguredAudienceModelAssociationInputBody {
     let configuredAudienceModelArn: Swift.String?
     let configuredAudienceModelAssociationName: Swift.String?
     let manageResourcePolicies: Swift.Bool?
@@ -5315,7 +5315,7 @@ extension CreateConfiguredAudienceModelAssociationOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct CreateConfiguredAudienceModelAssociationOutput: Swift.Equatable {
+public struct CreateConfiguredAudienceModelAssociationOutput {
     /// Information about the configured audience model association.
     /// This member is required.
     public var configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
@@ -5328,7 +5328,7 @@ public struct CreateConfiguredAudienceModelAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredAudienceModelAssociationOutputBody: Swift.Equatable {
+struct CreateConfiguredAudienceModelAssociationOutputBody {
     let configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
 }
 
@@ -5388,7 +5388,7 @@ extension CreateConfiguredTableAnalysisRuleInput {
     }
 }
 
-public struct CreateConfiguredTableAnalysisRuleInput: Swift.Equatable {
+public struct CreateConfiguredTableAnalysisRuleInput {
     /// The entire created configured table analysis rule object.
     /// This member is required.
     public var analysisRulePolicy: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy?
@@ -5411,7 +5411,7 @@ public struct CreateConfiguredTableAnalysisRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredTableAnalysisRuleInputBody: Swift.Equatable {
+struct CreateConfiguredTableAnalysisRuleInputBody {
     let analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType?
     let analysisRulePolicy: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy?
 }
@@ -5443,7 +5443,7 @@ extension CreateConfiguredTableAnalysisRuleOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct CreateConfiguredTableAnalysisRuleOutput: Swift.Equatable {
+public struct CreateConfiguredTableAnalysisRuleOutput {
     /// The entire created analysis rule.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
@@ -5456,7 +5456,7 @@ public struct CreateConfiguredTableAnalysisRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredTableAnalysisRuleOutputBody: Swift.Equatable {
+struct CreateConfiguredTableAnalysisRuleOutputBody {
     let analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
 }
 
@@ -5530,7 +5530,7 @@ extension CreateConfiguredTableAssociationInput {
     }
 }
 
-public struct CreateConfiguredTableAssociationInput: Swift.Equatable {
+public struct CreateConfiguredTableAssociationInput {
     /// A unique identifier for the configured table to be associated to. Currently accepts a configured table ID.
     /// This member is required.
     public var configuredTableIdentifier: Swift.String?
@@ -5566,7 +5566,7 @@ public struct CreateConfiguredTableAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredTableAssociationInputBody: Swift.Equatable {
+struct CreateConfiguredTableAssociationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let configuredTableIdentifier: Swift.String?
@@ -5619,7 +5619,7 @@ extension CreateConfiguredTableAssociationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateConfiguredTableAssociationOutput: Swift.Equatable {
+public struct CreateConfiguredTableAssociationOutput {
     /// The entire configured table association object.
     /// This member is required.
     public var configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
@@ -5632,7 +5632,7 @@ public struct CreateConfiguredTableAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredTableAssociationOutputBody: Swift.Equatable {
+struct CreateConfiguredTableAssociationOutputBody {
     let configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
 }
 
@@ -5711,7 +5711,7 @@ extension CreateConfiguredTableInput {
     }
 }
 
-public struct CreateConfiguredTableInput: Swift.Equatable {
+public struct CreateConfiguredTableInput {
     /// The columns of the underlying table that can be used by collaborations or analysis rules.
     /// This member is required.
     public var allowedColumns: [Swift.String]?
@@ -5747,7 +5747,7 @@ public struct CreateConfiguredTableInput: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredTableInputBody: Swift.Equatable {
+struct CreateConfiguredTableInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let tableReference: CleanRoomsClientTypes.TableReference?
@@ -5813,7 +5813,7 @@ extension CreateConfiguredTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConfiguredTableOutput: Swift.Equatable {
+public struct CreateConfiguredTableOutput {
     /// The created configured table.
     /// This member is required.
     public var configuredTable: CleanRoomsClientTypes.ConfiguredTable?
@@ -5826,7 +5826,7 @@ public struct CreateConfiguredTableOutput: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredTableOutputBody: Swift.Equatable {
+struct CreateConfiguredTableOutputBody {
     let configuredTable: CleanRoomsClientTypes.ConfiguredTable?
 }
 
@@ -5898,7 +5898,7 @@ extension CreateMembershipInput {
     }
 }
 
-public struct CreateMembershipInput: Swift.Equatable {
+public struct CreateMembershipInput {
     /// The unique ID for the associated collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -5928,7 +5928,7 @@ public struct CreateMembershipInput: Swift.Equatable {
     }
 }
 
-struct CreateMembershipInputBody: Swift.Equatable {
+struct CreateMembershipInputBody {
     let collaborationIdentifier: Swift.String?
     let queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
     let tags: [Swift.String:Swift.String]?
@@ -5981,7 +5981,7 @@ extension CreateMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMembershipOutput: Swift.Equatable {
+public struct CreateMembershipOutput {
     /// The membership that was created.
     /// This member is required.
     public var membership: CleanRoomsClientTypes.Membership?
@@ -5994,7 +5994,7 @@ public struct CreateMembershipOutput: Swift.Equatable {
     }
 }
 
-struct CreateMembershipOutputBody: Swift.Equatable {
+struct CreateMembershipOutputBody {
     let membership: CleanRoomsClientTypes.Membership?
 }
 
@@ -6065,7 +6065,7 @@ extension CreatePrivacyBudgetTemplateInput {
     }
 }
 
-public struct CreatePrivacyBudgetTemplateInput: Swift.Equatable {
+public struct CreatePrivacyBudgetTemplateInput {
     /// How often the privacy budget refreshes. If you plan to regularly bring new data into the collaboration, you can use CALENDAR_MONTH to automatically get a new privacy budget for the collaboration every calendar month. Choosing this option allows arbitrary amounts of information to be revealed about rows of the data when repeatedly queries across refreshes. Avoid choosing this if the same rows will be repeatedly queried between privacy budget refreshes.
     /// This member is required.
     public var autoRefresh: CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh?
@@ -6097,7 +6097,7 @@ public struct CreatePrivacyBudgetTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreatePrivacyBudgetTemplateInputBody: Swift.Equatable {
+struct CreatePrivacyBudgetTemplateInputBody {
     let autoRefresh: CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh?
     let privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
     let parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersInput?
@@ -6146,7 +6146,7 @@ extension CreatePrivacyBudgetTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePrivacyBudgetTemplateOutput: Swift.Equatable {
+public struct CreatePrivacyBudgetTemplateOutput {
     /// A summary of the elements in the privacy budget template.
     /// This member is required.
     public var privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
@@ -6159,7 +6159,7 @@ public struct CreatePrivacyBudgetTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreatePrivacyBudgetTemplateOutputBody: Swift.Equatable {
+struct CreatePrivacyBudgetTemplateOutputBody {
     let privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
 }
 
@@ -6230,7 +6230,7 @@ extension CleanRoomsClientTypes.DataEncryptionMetadata: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The settings for client-side encryption for cryptographic computing.
-    public struct DataEncryptionMetadata: Swift.Equatable {
+    public struct DataEncryptionMetadata {
         /// Indicates whether encrypted tables can contain cleartext data (TRUE) or are to cryptographically process every column (FALSE).
         /// This member is required.
         public var allowCleartext: Swift.Bool?
@@ -6273,7 +6273,7 @@ extension DeleteAnalysisTemplateInput {
     }
 }
 
-public struct DeleteAnalysisTemplateInput: Swift.Equatable {
+public struct DeleteAnalysisTemplateInput {
     /// The identifier for the analysis template resource.
     /// This member is required.
     public var analysisTemplateIdentifier: Swift.String?
@@ -6291,7 +6291,7 @@ public struct DeleteAnalysisTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteAnalysisTemplateInputBody: Swift.Equatable {
+struct DeleteAnalysisTemplateInputBody {
 }
 
 extension DeleteAnalysisTemplateInputBody: Swift.Decodable {
@@ -6305,7 +6305,7 @@ extension DeleteAnalysisTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAnalysisTemplateOutput: Swift.Equatable {
+public struct DeleteAnalysisTemplateOutput {
 
     public init() { }
 }
@@ -6335,7 +6335,7 @@ extension DeleteCollaborationInput {
     }
 }
 
-public struct DeleteCollaborationInput: Swift.Equatable {
+public struct DeleteCollaborationInput {
     /// The identifier for the collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -6348,7 +6348,7 @@ public struct DeleteCollaborationInput: Swift.Equatable {
     }
 }
 
-struct DeleteCollaborationInputBody: Swift.Equatable {
+struct DeleteCollaborationInputBody {
 }
 
 extension DeleteCollaborationInputBody: Swift.Decodable {
@@ -6362,7 +6362,7 @@ extension DeleteCollaborationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCollaborationOutput: Swift.Equatable {
+public struct DeleteCollaborationOutput {
 
     public init() { }
 }
@@ -6394,7 +6394,7 @@ extension DeleteConfiguredAudienceModelAssociationInput {
     }
 }
 
-public struct DeleteConfiguredAudienceModelAssociationInput: Swift.Equatable {
+public struct DeleteConfiguredAudienceModelAssociationInput {
     /// A unique identifier of the configured audience model association that you want to delete.
     /// This member is required.
     public var configuredAudienceModelAssociationIdentifier: Swift.String?
@@ -6412,7 +6412,7 @@ public struct DeleteConfiguredAudienceModelAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
+struct DeleteConfiguredAudienceModelAssociationInputBody {
 }
 
 extension DeleteConfiguredAudienceModelAssociationInputBody: Swift.Decodable {
@@ -6426,7 +6426,7 @@ extension DeleteConfiguredAudienceModelAssociationOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct DeleteConfiguredAudienceModelAssociationOutput: Swift.Equatable {
+public struct DeleteConfiguredAudienceModelAssociationOutput {
 
     public init() { }
 }
@@ -6459,7 +6459,7 @@ extension DeleteConfiguredTableAnalysisRuleInput {
     }
 }
 
-public struct DeleteConfiguredTableAnalysisRuleInput: Swift.Equatable {
+public struct DeleteConfiguredTableAnalysisRuleInput {
     /// The analysis rule type to be deleted. Configured table analysis rules are uniquely identified by their configured table identifier and analysis rule type.
     /// This member is required.
     public var analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType?
@@ -6477,7 +6477,7 @@ public struct DeleteConfiguredTableAnalysisRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfiguredTableAnalysisRuleInputBody: Swift.Equatable {
+struct DeleteConfiguredTableAnalysisRuleInputBody {
 }
 
 extension DeleteConfiguredTableAnalysisRuleInputBody: Swift.Decodable {
@@ -6492,7 +6492,7 @@ extension DeleteConfiguredTableAnalysisRuleOutput: ClientRuntime.HttpResponseBin
 }
 
 /// An empty response that indicates a successful delete.
-public struct DeleteConfiguredTableAnalysisRuleOutput: Swift.Equatable {
+public struct DeleteConfiguredTableAnalysisRuleOutput {
 
     public init() { }
 }
@@ -6526,7 +6526,7 @@ extension DeleteConfiguredTableAssociationInput {
     }
 }
 
-public struct DeleteConfiguredTableAssociationInput: Swift.Equatable {
+public struct DeleteConfiguredTableAssociationInput {
     /// The unique ID for the configured table association to be deleted. Currently accepts the configured table ID.
     /// This member is required.
     public var configuredTableAssociationIdentifier: Swift.String?
@@ -6544,7 +6544,7 @@ public struct DeleteConfiguredTableAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfiguredTableAssociationInputBody: Swift.Equatable {
+struct DeleteConfiguredTableAssociationInputBody {
 }
 
 extension DeleteConfiguredTableAssociationInputBody: Swift.Decodable {
@@ -6558,7 +6558,7 @@ extension DeleteConfiguredTableAssociationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteConfiguredTableAssociationOutput: Swift.Equatable {
+public struct DeleteConfiguredTableAssociationOutput {
 
     public init() { }
 }
@@ -6589,7 +6589,7 @@ extension DeleteConfiguredTableInput {
     }
 }
 
-public struct DeleteConfiguredTableInput: Swift.Equatable {
+public struct DeleteConfiguredTableInput {
     /// The unique ID for the configured table to delete.
     /// This member is required.
     public var configuredTableIdentifier: Swift.String?
@@ -6602,7 +6602,7 @@ public struct DeleteConfiguredTableInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfiguredTableInputBody: Swift.Equatable {
+struct DeleteConfiguredTableInputBody {
 }
 
 extension DeleteConfiguredTableInputBody: Swift.Decodable {
@@ -6617,7 +6617,7 @@ extension DeleteConfiguredTableOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The empty output for a successful deletion.
-public struct DeleteConfiguredTableOutput: Swift.Equatable {
+public struct DeleteConfiguredTableOutput {
 
     public init() { }
 }
@@ -6651,7 +6651,7 @@ extension DeleteMemberInput {
     }
 }
 
-public struct DeleteMemberInput: Swift.Equatable {
+public struct DeleteMemberInput {
     /// The account ID of the member to remove.
     /// This member is required.
     public var accountId: Swift.String?
@@ -6669,7 +6669,7 @@ public struct DeleteMemberInput: Swift.Equatable {
     }
 }
 
-struct DeleteMemberInputBody: Swift.Equatable {
+struct DeleteMemberInputBody {
 }
 
 extension DeleteMemberInputBody: Swift.Decodable {
@@ -6683,7 +6683,7 @@ extension DeleteMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMemberOutput: Swift.Equatable {
+public struct DeleteMemberOutput {
 
     public init() { }
 }
@@ -6714,7 +6714,7 @@ extension DeleteMembershipInput {
     }
 }
 
-public struct DeleteMembershipInput: Swift.Equatable {
+public struct DeleteMembershipInput {
     /// The identifier for a membership resource.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -6727,7 +6727,7 @@ public struct DeleteMembershipInput: Swift.Equatable {
     }
 }
 
-struct DeleteMembershipInputBody: Swift.Equatable {
+struct DeleteMembershipInputBody {
 }
 
 extension DeleteMembershipInputBody: Swift.Decodable {
@@ -6741,7 +6741,7 @@ extension DeleteMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMembershipOutput: Swift.Equatable {
+public struct DeleteMembershipOutput {
 
     public init() { }
 }
@@ -6775,7 +6775,7 @@ extension DeletePrivacyBudgetTemplateInput {
     }
 }
 
-public struct DeletePrivacyBudgetTemplateInput: Swift.Equatable {
+public struct DeletePrivacyBudgetTemplateInput {
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is deleted from the collaboration that this membership belongs to. Accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -6793,7 +6793,7 @@ public struct DeletePrivacyBudgetTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeletePrivacyBudgetTemplateInputBody: Swift.Equatable {
+struct DeletePrivacyBudgetTemplateInputBody {
 }
 
 extension DeletePrivacyBudgetTemplateInputBody: Swift.Decodable {
@@ -6807,7 +6807,7 @@ extension DeletePrivacyBudgetTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePrivacyBudgetTemplateOutput: Swift.Equatable {
+public struct DeletePrivacyBudgetTemplateOutput {
 
     public init() { }
 }
@@ -6889,7 +6889,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyColumn: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Specifies the name of the column that contains the unique identifier of your users, whose privacy you want to protect.
-    public struct DifferentialPrivacyColumn: Swift.Equatable {
+    public struct DifferentialPrivacyColumn {
         /// The name of the column, such as user_id, that contains the unique identifier of your users, whose privacy you want to protect. If you want to turn on differential privacy for two or more tables in a collaboration, you must configure the same column as the user identifier column in both analysis rules.
         /// This member is required.
         public var name: Swift.String?
@@ -6937,7 +6937,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyConfiguration: Swift.Codable 
 
 extension CleanRoomsClientTypes {
     /// Specifies the unique identifier for your users.
-    public struct DifferentialPrivacyConfiguration: Swift.Equatable {
+    public struct DifferentialPrivacyConfiguration {
         /// The name of the column (such as user_id) that contains the unique identifier of your users whose privacy you want to protect. If you want to turn on diﬀerential privacy for two or more tables in a collaboration, you must conﬁgure the same column as the user identiﬁer column in both analysis rules.
         /// This member is required.
         public var columns: [CleanRoomsClientTypes.DifferentialPrivacyColumn]?
@@ -6985,7 +6985,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyParameters: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// An array that contains the sensitivity parameters.
-    public struct DifferentialPrivacyParameters: Swift.Equatable {
+    public struct DifferentialPrivacyParameters {
         /// Provides the sensitivity parameters that you can use to better understand the total amount of noise in query results.
         /// This member is required.
         public var sensitivityParameters: [CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters]?
@@ -7027,7 +7027,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation: Swift.Cod
 
 extension CleanRoomsClientTypes {
     /// Provides an estimate of the number of aggregation functions that the member who can query can run given the epsilon and noise parameters.
-    public struct DifferentialPrivacyPreviewAggregation: Swift.Equatable {
+    public struct DifferentialPrivacyPreviewAggregation {
         /// The maximum number of aggregations that the member who can query can run given the epsilon and noise parameters.
         /// This member is required.
         public var maxCount: Swift.Int?
@@ -7074,7 +7074,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyPreviewParametersInput: Swift
 
 extension CleanRoomsClientTypes {
     /// The epsilon and noise parameters that you want to preview.
-    public struct DifferentialPrivacyPreviewParametersInput: Swift.Equatable {
+    public struct DifferentialPrivacyPreviewParametersInput {
         /// The epsilon value that you want to preview.
         /// This member is required.
         public var epsilon: Swift.Int?
@@ -7133,7 +7133,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudget: Swift.Codable 
 
 extension CleanRoomsClientTypes {
     /// Specifies the configured epsilon value and the utility in terms of total aggregations, as well as the remaining aggregations available.
-    public struct DifferentialPrivacyPrivacyBudget: Swift.Equatable {
+    public struct DifferentialPrivacyPrivacyBudget {
         /// This information includes the configured epsilon value and the utility in terms of total aggregations, as well as the remaining aggregations.
         /// This member is required.
         public var aggregations: [CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation]?
@@ -7186,7 +7186,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation: Swi
 
 extension CleanRoomsClientTypes {
     /// Information about the total number of aggregations, as well as the remaining aggregations.
-    public struct DifferentialPrivacyPrivacyBudgetAggregation: Swift.Equatable {
+    public struct DifferentialPrivacyPrivacyBudgetAggregation {
         /// The maximum number of aggregation functions that you can perform with the given privacy budget.
         /// This member is required.
         public var maxCount: Swift.Int?
@@ -7244,7 +7244,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyPrivacyImpact: Swift.Codable 
 
 extension CleanRoomsClientTypes {
     /// Information about the number of aggregation functions that the member who can query can run given the epsilon and noise parameters.
-    public struct DifferentialPrivacyPrivacyImpact: Swift.Equatable {
+    public struct DifferentialPrivacyPrivacyImpact {
         /// The number of aggregation functions that you can perform.
         /// This member is required.
         public var aggregations: [CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation]?
@@ -7304,7 +7304,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters: Swift.
 
 extension CleanRoomsClientTypes {
     /// Provides the sensitivity parameters.
-    public struct DifferentialPrivacySensitivityParameters: Swift.Equatable {
+    public struct DifferentialPrivacySensitivityParameters {
         /// The aggregation expression that was run.
         /// This member is required.
         public var aggregationExpression: Swift.String?
@@ -7364,7 +7364,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersInput: Swif
 
 extension CleanRoomsClientTypes {
     /// The epsilon and noise parameter values that you want to use for the differential privacy template.
-    public struct DifferentialPrivacyTemplateParametersInput: Swift.Equatable {
+    public struct DifferentialPrivacyTemplateParametersInput {
         /// The epsilon value that you want to use.
         /// This member is required.
         public var epsilon: Swift.Int?
@@ -7411,7 +7411,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersOutput: Swi
 
 extension CleanRoomsClientTypes {
     /// The epsilon and noise parameter values that were used for the differential privacy template.
-    public struct DifferentialPrivacyTemplateParametersOutput: Swift.Equatable {
+    public struct DifferentialPrivacyTemplateParametersOutput {
         /// The epsilon value that you specified.
         /// This member is required.
         public var epsilon: Swift.Int?
@@ -7458,7 +7458,7 @@ extension CleanRoomsClientTypes.DifferentialPrivacyTemplateUpdateParameters: Swi
 
 extension CleanRoomsClientTypes {
     /// The epsilon and noise parameter values that you want to update in the differential privacy template.
-    public struct DifferentialPrivacyTemplateUpdateParameters: Swift.Equatable {
+    public struct DifferentialPrivacyTemplateUpdateParameters {
         /// The updated epsilon value that you want to use.
         public var epsilon: Swift.Int?
         /// The updated value of noise added per query. It is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted.
@@ -7521,7 +7521,7 @@ extension GetAnalysisTemplateInput {
     }
 }
 
-public struct GetAnalysisTemplateInput: Swift.Equatable {
+public struct GetAnalysisTemplateInput {
     /// The identifier for the analysis template resource.
     /// This member is required.
     public var analysisTemplateIdentifier: Swift.String?
@@ -7539,7 +7539,7 @@ public struct GetAnalysisTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetAnalysisTemplateInputBody: Swift.Equatable {
+struct GetAnalysisTemplateInputBody {
 }
 
 extension GetAnalysisTemplateInputBody: Swift.Decodable {
@@ -7560,7 +7560,7 @@ extension GetAnalysisTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAnalysisTemplateOutput: Swift.Equatable {
+public struct GetAnalysisTemplateOutput {
     /// The analysis template.
     /// This member is required.
     public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
@@ -7573,7 +7573,7 @@ public struct GetAnalysisTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetAnalysisTemplateOutputBody: Swift.Equatable {
+struct GetAnalysisTemplateOutputBody {
     let analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
 }
 
@@ -7617,7 +7617,7 @@ extension GetCollaborationAnalysisTemplateInput {
     }
 }
 
-public struct GetCollaborationAnalysisTemplateInput: Swift.Equatable {
+public struct GetCollaborationAnalysisTemplateInput {
     /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
     /// This member is required.
     public var analysisTemplateArn: Swift.String?
@@ -7635,7 +7635,7 @@ public struct GetCollaborationAnalysisTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetCollaborationAnalysisTemplateInputBody: Swift.Equatable {
+struct GetCollaborationAnalysisTemplateInputBody {
 }
 
 extension GetCollaborationAnalysisTemplateInputBody: Swift.Decodable {
@@ -7656,7 +7656,7 @@ extension GetCollaborationAnalysisTemplateOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetCollaborationAnalysisTemplateOutput: Swift.Equatable {
+public struct GetCollaborationAnalysisTemplateOutput {
     /// The analysis template within a collaboration.
     /// This member is required.
     public var collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate?
@@ -7669,7 +7669,7 @@ public struct GetCollaborationAnalysisTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetCollaborationAnalysisTemplateOutputBody: Swift.Equatable {
+struct GetCollaborationAnalysisTemplateOutputBody {
     let collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate?
 }
 
@@ -7713,7 +7713,7 @@ extension GetCollaborationConfiguredAudienceModelAssociationInput {
     }
 }
 
-public struct GetCollaborationConfiguredAudienceModelAssociationInput: Swift.Equatable {
+public struct GetCollaborationConfiguredAudienceModelAssociationInput {
     /// A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -7731,7 +7731,7 @@ public struct GetCollaborationConfiguredAudienceModelAssociationInput: Swift.Equ
     }
 }
 
-struct GetCollaborationConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
+struct GetCollaborationConfiguredAudienceModelAssociationInputBody {
 }
 
 extension GetCollaborationConfiguredAudienceModelAssociationInputBody: Swift.Decodable {
@@ -7752,7 +7752,7 @@ extension GetCollaborationConfiguredAudienceModelAssociationOutput: ClientRuntim
     }
 }
 
-public struct GetCollaborationConfiguredAudienceModelAssociationOutput: Swift.Equatable {
+public struct GetCollaborationConfiguredAudienceModelAssociationOutput {
     /// The metadata of the configured audience model association.
     /// This member is required.
     public var collaborationConfiguredAudienceModelAssociation: CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation?
@@ -7765,7 +7765,7 @@ public struct GetCollaborationConfiguredAudienceModelAssociationOutput: Swift.Eq
     }
 }
 
-struct GetCollaborationConfiguredAudienceModelAssociationOutputBody: Swift.Equatable {
+struct GetCollaborationConfiguredAudienceModelAssociationOutputBody {
     let collaborationConfiguredAudienceModelAssociation: CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation?
 }
 
@@ -7806,7 +7806,7 @@ extension GetCollaborationInput {
     }
 }
 
-public struct GetCollaborationInput: Swift.Equatable {
+public struct GetCollaborationInput {
     /// The identifier for the collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -7819,7 +7819,7 @@ public struct GetCollaborationInput: Swift.Equatable {
     }
 }
 
-struct GetCollaborationInputBody: Swift.Equatable {
+struct GetCollaborationInputBody {
 }
 
 extension GetCollaborationInputBody: Swift.Decodable {
@@ -7840,7 +7840,7 @@ extension GetCollaborationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCollaborationOutput: Swift.Equatable {
+public struct GetCollaborationOutput {
     /// The entire collaboration for this identifier.
     /// This member is required.
     public var collaboration: CleanRoomsClientTypes.Collaboration?
@@ -7853,7 +7853,7 @@ public struct GetCollaborationOutput: Swift.Equatable {
     }
 }
 
-struct GetCollaborationOutputBody: Swift.Equatable {
+struct GetCollaborationOutputBody {
     let collaboration: CleanRoomsClientTypes.Collaboration?
 }
 
@@ -7896,7 +7896,7 @@ extension GetCollaborationPrivacyBudgetTemplateInput {
     }
 }
 
-public struct GetCollaborationPrivacyBudgetTemplateInput: Swift.Equatable {
+public struct GetCollaborationPrivacyBudgetTemplateInput {
     /// A unique identifier for one of your collaborations.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -7914,7 +7914,7 @@ public struct GetCollaborationPrivacyBudgetTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetCollaborationPrivacyBudgetTemplateInputBody: Swift.Equatable {
+struct GetCollaborationPrivacyBudgetTemplateInputBody {
 }
 
 extension GetCollaborationPrivacyBudgetTemplateInputBody: Swift.Decodable {
@@ -7935,7 +7935,7 @@ extension GetCollaborationPrivacyBudgetTemplateOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetCollaborationPrivacyBudgetTemplateOutput: Swift.Equatable {
+public struct GetCollaborationPrivacyBudgetTemplateOutput {
     /// Returns the details of the privacy budget template that you requested.
     /// This member is required.
     public var collaborationPrivacyBudgetTemplate: CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate?
@@ -7948,7 +7948,7 @@ public struct GetCollaborationPrivacyBudgetTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetCollaborationPrivacyBudgetTemplateOutputBody: Swift.Equatable {
+struct GetCollaborationPrivacyBudgetTemplateOutputBody {
     let collaborationPrivacyBudgetTemplate: CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate?
 }
 
@@ -7992,7 +7992,7 @@ extension GetConfiguredAudienceModelAssociationInput {
     }
 }
 
-public struct GetConfiguredAudienceModelAssociationInput: Swift.Equatable {
+public struct GetConfiguredAudienceModelAssociationInput {
     /// A unique identifier for the configured audience model association that you want to retrieve.
     /// This member is required.
     public var configuredAudienceModelAssociationIdentifier: Swift.String?
@@ -8010,7 +8010,7 @@ public struct GetConfiguredAudienceModelAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
+struct GetConfiguredAudienceModelAssociationInputBody {
 }
 
 extension GetConfiguredAudienceModelAssociationInputBody: Swift.Decodable {
@@ -8031,7 +8031,7 @@ extension GetConfiguredAudienceModelAssociationOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetConfiguredAudienceModelAssociationOutput: Swift.Equatable {
+public struct GetConfiguredAudienceModelAssociationOutput {
     /// Information about the configured audience model association that you requested.
     /// This member is required.
     public var configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
@@ -8044,7 +8044,7 @@ public struct GetConfiguredAudienceModelAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredAudienceModelAssociationOutputBody: Swift.Equatable {
+struct GetConfiguredAudienceModelAssociationOutputBody {
     let configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
 }
 
@@ -8088,7 +8088,7 @@ extension GetConfiguredTableAnalysisRuleInput {
     }
 }
 
-public struct GetConfiguredTableAnalysisRuleInput: Swift.Equatable {
+public struct GetConfiguredTableAnalysisRuleInput {
     /// The analysis rule to be retrieved. Configured table analysis rules are uniquely identified by their configured table identifier and analysis rule type.
     /// This member is required.
     public var analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType?
@@ -8106,7 +8106,7 @@ public struct GetConfiguredTableAnalysisRuleInput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredTableAnalysisRuleInputBody: Swift.Equatable {
+struct GetConfiguredTableAnalysisRuleInputBody {
 }
 
 extension GetConfiguredTableAnalysisRuleInputBody: Swift.Decodable {
@@ -8127,7 +8127,7 @@ extension GetConfiguredTableAnalysisRuleOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetConfiguredTableAnalysisRuleOutput: Swift.Equatable {
+public struct GetConfiguredTableAnalysisRuleOutput {
     /// The entire analysis rule output.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
@@ -8140,7 +8140,7 @@ public struct GetConfiguredTableAnalysisRuleOutput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredTableAnalysisRuleOutputBody: Swift.Equatable {
+struct GetConfiguredTableAnalysisRuleOutputBody {
     let analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
 }
 
@@ -8184,7 +8184,7 @@ extension GetConfiguredTableAssociationInput {
     }
 }
 
-public struct GetConfiguredTableAssociationInput: Swift.Equatable {
+public struct GetConfiguredTableAssociationInput {
     /// The unique ID for the configured table association to retrieve. Currently accepts the configured table ID.
     /// This member is required.
     public var configuredTableAssociationIdentifier: Swift.String?
@@ -8202,7 +8202,7 @@ public struct GetConfiguredTableAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredTableAssociationInputBody: Swift.Equatable {
+struct GetConfiguredTableAssociationInputBody {
 }
 
 extension GetConfiguredTableAssociationInputBody: Swift.Decodable {
@@ -8223,7 +8223,7 @@ extension GetConfiguredTableAssociationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetConfiguredTableAssociationOutput: Swift.Equatable {
+public struct GetConfiguredTableAssociationOutput {
     /// The entire configured table association object.
     /// This member is required.
     public var configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
@@ -8236,7 +8236,7 @@ public struct GetConfiguredTableAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredTableAssociationOutputBody: Swift.Equatable {
+struct GetConfiguredTableAssociationOutputBody {
     let configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
 }
 
@@ -8277,7 +8277,7 @@ extension GetConfiguredTableInput {
     }
 }
 
-public struct GetConfiguredTableInput: Swift.Equatable {
+public struct GetConfiguredTableInput {
     /// The unique ID for the configured table to retrieve.
     /// This member is required.
     public var configuredTableIdentifier: Swift.String?
@@ -8290,7 +8290,7 @@ public struct GetConfiguredTableInput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredTableInputBody: Swift.Equatable {
+struct GetConfiguredTableInputBody {
 }
 
 extension GetConfiguredTableInputBody: Swift.Decodable {
@@ -8311,7 +8311,7 @@ extension GetConfiguredTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConfiguredTableOutput: Swift.Equatable {
+public struct GetConfiguredTableOutput {
     /// The retrieved configured table.
     /// This member is required.
     public var configuredTable: CleanRoomsClientTypes.ConfiguredTable?
@@ -8324,7 +8324,7 @@ public struct GetConfiguredTableOutput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredTableOutputBody: Swift.Equatable {
+struct GetConfiguredTableOutputBody {
     let configuredTable: CleanRoomsClientTypes.ConfiguredTable?
 }
 
@@ -8365,7 +8365,7 @@ extension GetMembershipInput {
     }
 }
 
-public struct GetMembershipInput: Swift.Equatable {
+public struct GetMembershipInput {
     /// The identifier for a membership resource.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -8378,7 +8378,7 @@ public struct GetMembershipInput: Swift.Equatable {
     }
 }
 
-struct GetMembershipInputBody: Swift.Equatable {
+struct GetMembershipInputBody {
 }
 
 extension GetMembershipInputBody: Swift.Decodable {
@@ -8399,7 +8399,7 @@ extension GetMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMembershipOutput: Swift.Equatable {
+public struct GetMembershipOutput {
     /// The membership retrieved for the provided identifier.
     /// This member is required.
     public var membership: CleanRoomsClientTypes.Membership?
@@ -8412,7 +8412,7 @@ public struct GetMembershipOutput: Swift.Equatable {
     }
 }
 
-struct GetMembershipOutputBody: Swift.Equatable {
+struct GetMembershipOutputBody {
     let membership: CleanRoomsClientTypes.Membership?
 }
 
@@ -8456,7 +8456,7 @@ extension GetPrivacyBudgetTemplateInput {
     }
 }
 
-public struct GetPrivacyBudgetTemplateInput: Swift.Equatable {
+public struct GetPrivacyBudgetTemplateInput {
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -8474,7 +8474,7 @@ public struct GetPrivacyBudgetTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetPrivacyBudgetTemplateInputBody: Swift.Equatable {
+struct GetPrivacyBudgetTemplateInputBody {
 }
 
 extension GetPrivacyBudgetTemplateInputBody: Swift.Decodable {
@@ -8495,7 +8495,7 @@ extension GetPrivacyBudgetTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPrivacyBudgetTemplateOutput: Swift.Equatable {
+public struct GetPrivacyBudgetTemplateOutput {
     /// Returns the details of the privacy budget template that you requested.
     /// This member is required.
     public var privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
@@ -8508,7 +8508,7 @@ public struct GetPrivacyBudgetTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetPrivacyBudgetTemplateOutputBody: Swift.Equatable {
+struct GetPrivacyBudgetTemplateOutputBody {
     let privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
 }
 
@@ -8552,7 +8552,7 @@ extension GetProtectedQueryInput {
     }
 }
 
-public struct GetProtectedQueryInput: Swift.Equatable {
+public struct GetProtectedQueryInput {
     /// The identifier for a membership in a protected query instance.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -8570,7 +8570,7 @@ public struct GetProtectedQueryInput: Swift.Equatable {
     }
 }
 
-struct GetProtectedQueryInputBody: Swift.Equatable {
+struct GetProtectedQueryInputBody {
 }
 
 extension GetProtectedQueryInputBody: Swift.Decodable {
@@ -8591,7 +8591,7 @@ extension GetProtectedQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProtectedQueryOutput: Swift.Equatable {
+public struct GetProtectedQueryOutput {
     /// The query processing metadata.
     /// This member is required.
     public var protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
@@ -8604,7 +8604,7 @@ public struct GetProtectedQueryOutput: Swift.Equatable {
     }
 }
 
-struct GetProtectedQueryOutputBody: Swift.Equatable {
+struct GetProtectedQueryOutputBody {
     let protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
 }
 
@@ -8651,7 +8651,7 @@ extension GetSchemaAnalysisRuleInput {
     }
 }
 
-public struct GetSchemaAnalysisRuleInput: Swift.Equatable {
+public struct GetSchemaAnalysisRuleInput {
     /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -8674,7 +8674,7 @@ public struct GetSchemaAnalysisRuleInput: Swift.Equatable {
     }
 }
 
-struct GetSchemaAnalysisRuleInputBody: Swift.Equatable {
+struct GetSchemaAnalysisRuleInputBody {
 }
 
 extension GetSchemaAnalysisRuleInputBody: Swift.Decodable {
@@ -8695,7 +8695,7 @@ extension GetSchemaAnalysisRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSchemaAnalysisRuleOutput: Swift.Equatable {
+public struct GetSchemaAnalysisRuleOutput {
     /// A specification about how data from the configured table can be used.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.AnalysisRule?
@@ -8708,7 +8708,7 @@ public struct GetSchemaAnalysisRuleOutput: Swift.Equatable {
     }
 }
 
-struct GetSchemaAnalysisRuleOutputBody: Swift.Equatable {
+struct GetSchemaAnalysisRuleOutputBody {
     let analysisRule: CleanRoomsClientTypes.AnalysisRule?
 }
 
@@ -8752,7 +8752,7 @@ extension GetSchemaInput {
     }
 }
 
-public struct GetSchemaInput: Swift.Equatable {
+public struct GetSchemaInput {
     /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -8770,7 +8770,7 @@ public struct GetSchemaInput: Swift.Equatable {
     }
 }
 
-struct GetSchemaInputBody: Swift.Equatable {
+struct GetSchemaInputBody {
 }
 
 extension GetSchemaInputBody: Swift.Decodable {
@@ -8791,7 +8791,7 @@ extension GetSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSchemaOutput: Swift.Equatable {
+public struct GetSchemaOutput {
     /// The entire schema object.
     /// This member is required.
     public var schema: CleanRoomsClientTypes.Schema?
@@ -8804,7 +8804,7 @@ public struct GetSchemaOutput: Swift.Equatable {
     }
 }
 
-struct GetSchemaOutputBody: Swift.Equatable {
+struct GetSchemaOutputBody {
     let schema: CleanRoomsClientTypes.Schema?
 }
 
@@ -8862,7 +8862,7 @@ extension CleanRoomsClientTypes.GlueTableReference: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A reference to a table within an Glue data catalog.
-    public struct GlueTableReference: Swift.Equatable {
+    public struct GlueTableReference {
         /// The name of the database the Glue table belongs to.
         /// This member is required.
         public var databaseName: Swift.String?
@@ -8921,7 +8921,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -9024,7 +9024,7 @@ extension ListAnalysisTemplatesInput {
     }
 }
 
-public struct ListAnalysisTemplatesInput: Swift.Equatable {
+public struct ListAnalysisTemplatesInput {
     /// The maximum size of the results that is returned per call.
     public var maxResults: Swift.Int?
     /// The identifier for a membership resource.
@@ -9045,7 +9045,7 @@ public struct ListAnalysisTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListAnalysisTemplatesInputBody: Swift.Equatable {
+struct ListAnalysisTemplatesInputBody {
 }
 
 extension ListAnalysisTemplatesInputBody: Swift.Decodable {
@@ -9068,7 +9068,7 @@ extension ListAnalysisTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAnalysisTemplatesOutput: Swift.Equatable {
+public struct ListAnalysisTemplatesOutput {
     /// Lists analysis template metadata.
     /// This member is required.
     public var analysisTemplateSummaries: [CleanRoomsClientTypes.AnalysisTemplateSummary]?
@@ -9085,7 +9085,7 @@ public struct ListAnalysisTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListAnalysisTemplatesOutputBody: Swift.Equatable {
+struct ListAnalysisTemplatesOutputBody {
     let nextToken: Swift.String?
     let analysisTemplateSummaries: [CleanRoomsClientTypes.AnalysisTemplateSummary]?
 }
@@ -9155,7 +9155,7 @@ extension ListCollaborationAnalysisTemplatesInput {
     }
 }
 
-public struct ListCollaborationAnalysisTemplatesInput: Swift.Equatable {
+public struct ListCollaborationAnalysisTemplatesInput {
     /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -9176,7 +9176,7 @@ public struct ListCollaborationAnalysisTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListCollaborationAnalysisTemplatesInputBody: Swift.Equatable {
+struct ListCollaborationAnalysisTemplatesInputBody {
 }
 
 extension ListCollaborationAnalysisTemplatesInputBody: Swift.Decodable {
@@ -9199,7 +9199,7 @@ extension ListCollaborationAnalysisTemplatesOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListCollaborationAnalysisTemplatesOutput: Swift.Equatable {
+public struct ListCollaborationAnalysisTemplatesOutput {
     /// The metadata of the analysis template within a collaboration.
     /// This member is required.
     public var collaborationAnalysisTemplateSummaries: [CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]?
@@ -9216,7 +9216,7 @@ public struct ListCollaborationAnalysisTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListCollaborationAnalysisTemplatesOutputBody: Swift.Equatable {
+struct ListCollaborationAnalysisTemplatesOutputBody {
     let nextToken: Swift.String?
     let collaborationAnalysisTemplateSummaries: [CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]?
 }
@@ -9286,7 +9286,7 @@ extension ListCollaborationConfiguredAudienceModelAssociationsInput {
     }
 }
 
-public struct ListCollaborationConfiguredAudienceModelAssociationsInput: Swift.Equatable {
+public struct ListCollaborationConfiguredAudienceModelAssociationsInput {
     /// A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -9307,7 +9307,7 @@ public struct ListCollaborationConfiguredAudienceModelAssociationsInput: Swift.E
     }
 }
 
-struct ListCollaborationConfiguredAudienceModelAssociationsInputBody: Swift.Equatable {
+struct ListCollaborationConfiguredAudienceModelAssociationsInputBody {
 }
 
 extension ListCollaborationConfiguredAudienceModelAssociationsInputBody: Swift.Decodable {
@@ -9330,7 +9330,7 @@ extension ListCollaborationConfiguredAudienceModelAssociationsOutput: ClientRunt
     }
 }
 
-public struct ListCollaborationConfiguredAudienceModelAssociationsOutput: Swift.Equatable {
+public struct ListCollaborationConfiguredAudienceModelAssociationsOutput {
     /// The metadata of the configured audience model association within a collaboration.
     /// This member is required.
     public var collaborationConfiguredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary]?
@@ -9347,7 +9347,7 @@ public struct ListCollaborationConfiguredAudienceModelAssociationsOutput: Swift.
     }
 }
 
-struct ListCollaborationConfiguredAudienceModelAssociationsOutputBody: Swift.Equatable {
+struct ListCollaborationConfiguredAudienceModelAssociationsOutputBody {
     let collaborationConfiguredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -9417,7 +9417,7 @@ extension ListCollaborationPrivacyBudgetTemplatesInput {
     }
 }
 
-public struct ListCollaborationPrivacyBudgetTemplatesInput: Swift.Equatable {
+public struct ListCollaborationPrivacyBudgetTemplatesInput {
     /// A unique identifier for one of your collaborations.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -9438,7 +9438,7 @@ public struct ListCollaborationPrivacyBudgetTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListCollaborationPrivacyBudgetTemplatesInputBody: Swift.Equatable {
+struct ListCollaborationPrivacyBudgetTemplatesInputBody {
 }
 
 extension ListCollaborationPrivacyBudgetTemplatesInputBody: Swift.Decodable {
@@ -9461,7 +9461,7 @@ extension ListCollaborationPrivacyBudgetTemplatesOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListCollaborationPrivacyBudgetTemplatesOutput: Swift.Equatable {
+public struct ListCollaborationPrivacyBudgetTemplatesOutput {
     /// An array that summarizes the collaboration privacy budget templates. The summary includes collaboration information, creation information, the privacy budget type.
     /// This member is required.
     public var collaborationPrivacyBudgetTemplateSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary]?
@@ -9478,7 +9478,7 @@ public struct ListCollaborationPrivacyBudgetTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListCollaborationPrivacyBudgetTemplatesOutputBody: Swift.Equatable {
+struct ListCollaborationPrivacyBudgetTemplatesOutputBody {
     let nextToken: Swift.String?
     let collaborationPrivacyBudgetTemplateSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary]?
 }
@@ -9554,7 +9554,7 @@ extension ListCollaborationPrivacyBudgetsInput {
     }
 }
 
-public struct ListCollaborationPrivacyBudgetsInput: Swift.Equatable {
+public struct ListCollaborationPrivacyBudgetsInput {
     /// A unique identifier for one of your collaborations.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -9580,7 +9580,7 @@ public struct ListCollaborationPrivacyBudgetsInput: Swift.Equatable {
     }
 }
 
-struct ListCollaborationPrivacyBudgetsInputBody: Swift.Equatable {
+struct ListCollaborationPrivacyBudgetsInputBody {
 }
 
 extension ListCollaborationPrivacyBudgetsInputBody: Swift.Decodable {
@@ -9603,7 +9603,7 @@ extension ListCollaborationPrivacyBudgetsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListCollaborationPrivacyBudgetsOutput: Swift.Equatable {
+public struct ListCollaborationPrivacyBudgetsOutput {
     /// Summaries of the collaboration privacy budgets.
     /// This member is required.
     public var collaborationPrivacyBudgetSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary]?
@@ -9620,7 +9620,7 @@ public struct ListCollaborationPrivacyBudgetsOutput: Swift.Equatable {
     }
 }
 
-struct ListCollaborationPrivacyBudgetsOutputBody: Swift.Equatable {
+struct ListCollaborationPrivacyBudgetsOutputBody {
     let collaborationPrivacyBudgetSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary]?
     let nextToken: Swift.String?
 }
@@ -9691,7 +9691,7 @@ extension ListCollaborationsInput {
     }
 }
 
-public struct ListCollaborationsInput: Swift.Equatable {
+public struct ListCollaborationsInput {
     /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
     public var maxResults: Swift.Int?
     /// The caller's status in a collaboration.
@@ -9711,7 +9711,7 @@ public struct ListCollaborationsInput: Swift.Equatable {
     }
 }
 
-struct ListCollaborationsInputBody: Swift.Equatable {
+struct ListCollaborationsInputBody {
 }
 
 extension ListCollaborationsInputBody: Swift.Decodable {
@@ -9734,7 +9734,7 @@ extension ListCollaborationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCollaborationsOutput: Swift.Equatable {
+public struct ListCollaborationsOutput {
     /// The list of collaborations.
     /// This member is required.
     public var collaborationList: [CleanRoomsClientTypes.CollaborationSummary]?
@@ -9751,7 +9751,7 @@ public struct ListCollaborationsOutput: Swift.Equatable {
     }
 }
 
-struct ListCollaborationsOutputBody: Swift.Equatable {
+struct ListCollaborationsOutputBody {
     let nextToken: Swift.String?
     let collaborationList: [CleanRoomsClientTypes.CollaborationSummary]?
 }
@@ -9820,7 +9820,7 @@ extension ListConfiguredAudienceModelAssociationsInput {
     }
 }
 
-public struct ListConfiguredAudienceModelAssociationsInput: Swift.Equatable {
+public struct ListConfiguredAudienceModelAssociationsInput {
     /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
     public var maxResults: Swift.Int?
     /// A unique identifier for a membership that contains the configured audience model associations that you want to retrieve.
@@ -9841,7 +9841,7 @@ public struct ListConfiguredAudienceModelAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListConfiguredAudienceModelAssociationsInputBody: Swift.Equatable {
+struct ListConfiguredAudienceModelAssociationsInputBody {
 }
 
 extension ListConfiguredAudienceModelAssociationsInputBody: Swift.Decodable {
@@ -9864,7 +9864,7 @@ extension ListConfiguredAudienceModelAssociationsOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListConfiguredAudienceModelAssociationsOutput: Swift.Equatable {
+public struct ListConfiguredAudienceModelAssociationsOutput {
     /// Summaries of the configured audience model associations that you requested.
     /// This member is required.
     public var configuredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary]?
@@ -9881,7 +9881,7 @@ public struct ListConfiguredAudienceModelAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListConfiguredAudienceModelAssociationsOutputBody: Swift.Equatable {
+struct ListConfiguredAudienceModelAssociationsOutputBody {
     let configuredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -9951,7 +9951,7 @@ extension ListConfiguredTableAssociationsInput {
     }
 }
 
-public struct ListConfiguredTableAssociationsInput: Swift.Equatable {
+public struct ListConfiguredTableAssociationsInput {
     /// The maximum size of the results that is returned per call.
     public var maxResults: Swift.Int?
     /// A unique identifier for the membership to list configured table associations for. Currently accepts the membership ID.
@@ -9972,7 +9972,7 @@ public struct ListConfiguredTableAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListConfiguredTableAssociationsInputBody: Swift.Equatable {
+struct ListConfiguredTableAssociationsInputBody {
 }
 
 extension ListConfiguredTableAssociationsInputBody: Swift.Decodable {
@@ -9995,7 +9995,7 @@ extension ListConfiguredTableAssociationsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListConfiguredTableAssociationsOutput: Swift.Equatable {
+public struct ListConfiguredTableAssociationsOutput {
     /// The retrieved list of configured table associations.
     /// This member is required.
     public var configuredTableAssociationSummaries: [CleanRoomsClientTypes.ConfiguredTableAssociationSummary]?
@@ -10012,7 +10012,7 @@ public struct ListConfiguredTableAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListConfiguredTableAssociationsOutputBody: Swift.Equatable {
+struct ListConfiguredTableAssociationsOutputBody {
     let configuredTableAssociationSummaries: [CleanRoomsClientTypes.ConfiguredTableAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -10079,7 +10079,7 @@ extension ListConfiguredTablesInput {
     }
 }
 
-public struct ListConfiguredTablesInput: Swift.Equatable {
+public struct ListConfiguredTablesInput {
     /// The maximum size of the results that is returned per call.
     public var maxResults: Swift.Int?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -10095,7 +10095,7 @@ public struct ListConfiguredTablesInput: Swift.Equatable {
     }
 }
 
-struct ListConfiguredTablesInputBody: Swift.Equatable {
+struct ListConfiguredTablesInputBody {
 }
 
 extension ListConfiguredTablesInputBody: Swift.Decodable {
@@ -10118,7 +10118,7 @@ extension ListConfiguredTablesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConfiguredTablesOutput: Swift.Equatable {
+public struct ListConfiguredTablesOutput {
     /// The configured tables listed by the request.
     /// This member is required.
     public var configuredTableSummaries: [CleanRoomsClientTypes.ConfiguredTableSummary]?
@@ -10135,7 +10135,7 @@ public struct ListConfiguredTablesOutput: Swift.Equatable {
     }
 }
 
-struct ListConfiguredTablesOutputBody: Swift.Equatable {
+struct ListConfiguredTablesOutputBody {
     let configuredTableSummaries: [CleanRoomsClientTypes.ConfiguredTableSummary]?
     let nextToken: Swift.String?
 }
@@ -10204,7 +10204,7 @@ extension ListMembersInput {
     }
 }
 
-public struct ListMembersInput: Swift.Equatable {
+public struct ListMembersInput {
     /// The identifier of the collaboration in which the members are listed.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -10225,7 +10225,7 @@ public struct ListMembersInput: Swift.Equatable {
     }
 }
 
-struct ListMembersInputBody: Swift.Equatable {
+struct ListMembersInputBody {
 }
 
 extension ListMembersInputBody: Swift.Decodable {
@@ -10248,7 +10248,7 @@ extension ListMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMembersOutput: Swift.Equatable {
+public struct ListMembersOutput {
     /// The list of members returned by the ListMembers operation.
     /// This member is required.
     public var memberSummaries: [CleanRoomsClientTypes.MemberSummary]?
@@ -10265,7 +10265,7 @@ public struct ListMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListMembersOutputBody: Swift.Equatable {
+struct ListMembersOutputBody {
     let nextToken: Swift.String?
     let memberSummaries: [CleanRoomsClientTypes.MemberSummary]?
 }
@@ -10336,7 +10336,7 @@ extension ListMembershipsInput {
     }
 }
 
-public struct ListMembershipsInput: Swift.Equatable {
+public struct ListMembershipsInput {
     /// The maximum size of the results that is returned per call.
     public var maxResults: Swift.Int?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -10356,7 +10356,7 @@ public struct ListMembershipsInput: Swift.Equatable {
     }
 }
 
-struct ListMembershipsInputBody: Swift.Equatable {
+struct ListMembershipsInputBody {
 }
 
 extension ListMembershipsInputBody: Swift.Decodable {
@@ -10379,7 +10379,7 @@ extension ListMembershipsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMembershipsOutput: Swift.Equatable {
+public struct ListMembershipsOutput {
     /// The list of memberships returned from the ListMemberships operation.
     /// This member is required.
     public var membershipSummaries: [CleanRoomsClientTypes.MembershipSummary]?
@@ -10396,7 +10396,7 @@ public struct ListMembershipsOutput: Swift.Equatable {
     }
 }
 
-struct ListMembershipsOutputBody: Swift.Equatable {
+struct ListMembershipsOutputBody {
     let nextToken: Swift.String?
     let membershipSummaries: [CleanRoomsClientTypes.MembershipSummary]?
 }
@@ -10465,7 +10465,7 @@ extension ListPrivacyBudgetTemplatesInput {
     }
 }
 
-public struct ListPrivacyBudgetTemplatesInput: Swift.Equatable {
+public struct ListPrivacyBudgetTemplatesInput {
     /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
     public var maxResults: Swift.Int?
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget templates are retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
@@ -10486,7 +10486,7 @@ public struct ListPrivacyBudgetTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListPrivacyBudgetTemplatesInputBody: Swift.Equatable {
+struct ListPrivacyBudgetTemplatesInputBody {
 }
 
 extension ListPrivacyBudgetTemplatesInputBody: Swift.Decodable {
@@ -10509,7 +10509,7 @@ extension ListPrivacyBudgetTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPrivacyBudgetTemplatesOutput: Swift.Equatable {
+public struct ListPrivacyBudgetTemplatesOutput {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// An array that summarizes the privacy budget templates. The summary includes collaboration information, creation information, and privacy budget type.
@@ -10526,7 +10526,7 @@ public struct ListPrivacyBudgetTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListPrivacyBudgetTemplatesOutputBody: Swift.Equatable {
+struct ListPrivacyBudgetTemplatesOutputBody {
     let nextToken: Swift.String?
     let privacyBudgetTemplateSummaries: [CleanRoomsClientTypes.PrivacyBudgetTemplateSummary]?
 }
@@ -10602,7 +10602,7 @@ extension ListPrivacyBudgetsInput {
     }
 }
 
-public struct ListPrivacyBudgetsInput: Swift.Equatable {
+public struct ListPrivacyBudgetsInput {
     /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
     public var maxResults: Swift.Int?
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
@@ -10628,7 +10628,7 @@ public struct ListPrivacyBudgetsInput: Swift.Equatable {
     }
 }
 
-struct ListPrivacyBudgetsInputBody: Swift.Equatable {
+struct ListPrivacyBudgetsInputBody {
 }
 
 extension ListPrivacyBudgetsInputBody: Swift.Decodable {
@@ -10651,7 +10651,7 @@ extension ListPrivacyBudgetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPrivacyBudgetsOutput: Swift.Equatable {
+public struct ListPrivacyBudgetsOutput {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// An array that summarizes the privacy budgets. The summary includes collaboration information, membership information, privacy budget template information, and privacy budget details.
@@ -10668,7 +10668,7 @@ public struct ListPrivacyBudgetsOutput: Swift.Equatable {
     }
 }
 
-struct ListPrivacyBudgetsOutputBody: Swift.Equatable {
+struct ListPrivacyBudgetsOutputBody {
     let privacyBudgetSummaries: [CleanRoomsClientTypes.PrivacyBudgetSummary]?
     let nextToken: Swift.String?
 }
@@ -10742,7 +10742,7 @@ extension ListProtectedQueriesInput {
     }
 }
 
-public struct ListProtectedQueriesInput: Swift.Equatable {
+public struct ListProtectedQueriesInput {
     /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service can return a nextToken even if the maximum results has not been met.
     public var maxResults: Swift.Int?
     /// The identifier for the membership in the collaboration.
@@ -10767,7 +10767,7 @@ public struct ListProtectedQueriesInput: Swift.Equatable {
     }
 }
 
-struct ListProtectedQueriesInputBody: Swift.Equatable {
+struct ListProtectedQueriesInputBody {
 }
 
 extension ListProtectedQueriesInputBody: Swift.Decodable {
@@ -10790,7 +10790,7 @@ extension ListProtectedQueriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProtectedQueriesOutput: Swift.Equatable {
+public struct ListProtectedQueriesOutput {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// A list of protected queries.
@@ -10807,7 +10807,7 @@ public struct ListProtectedQueriesOutput: Swift.Equatable {
     }
 }
 
-struct ListProtectedQueriesOutputBody: Swift.Equatable {
+struct ListProtectedQueriesOutputBody {
     let nextToken: Swift.String?
     let protectedQueries: [CleanRoomsClientTypes.ProtectedQuerySummary]?
 }
@@ -10881,7 +10881,7 @@ extension ListSchemasInput {
     }
 }
 
-public struct ListSchemasInput: Swift.Equatable {
+public struct ListSchemasInput {
     /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -10906,7 +10906,7 @@ public struct ListSchemasInput: Swift.Equatable {
     }
 }
 
-struct ListSchemasInputBody: Swift.Equatable {
+struct ListSchemasInputBody {
 }
 
 extension ListSchemasInputBody: Swift.Decodable {
@@ -10929,7 +10929,7 @@ extension ListSchemasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchemasOutput: Swift.Equatable {
+public struct ListSchemasOutput {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// The retrieved list of schemas.
@@ -10946,7 +10946,7 @@ public struct ListSchemasOutput: Swift.Equatable {
     }
 }
 
-struct ListSchemasOutputBody: Swift.Equatable {
+struct ListSchemasOutputBody {
     let schemaSummaries: [CleanRoomsClientTypes.SchemaSummary]?
     let nextToken: Swift.String?
 }
@@ -11000,7 +11000,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) associated with the resource you want to list tags on.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -11013,7 +11013,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -11034,7 +11034,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A map of objects specifying each key name and value.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -11047,7 +11047,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -11167,7 +11167,7 @@ extension CleanRoomsClientTypes.MemberSpecification: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Basic metadata used to construct a new member.
-    public struct MemberSpecification: Swift.Equatable {
+    public struct MemberSpecification {
         /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
         /// This member is required.
         public var accountId: Swift.String?
@@ -11315,7 +11315,7 @@ extension CleanRoomsClientTypes.MemberSummary: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The member object listed by the request.
-    public struct MemberSummary: Swift.Equatable {
+    public struct MemberSummary {
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var abilities: [CleanRoomsClientTypes.MemberAbility]?
@@ -11479,7 +11479,7 @@ extension CleanRoomsClientTypes.Membership: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The membership object.
-    public struct Membership: Swift.Equatable {
+    public struct Membership {
         /// The unique ARN for the membership.
         /// This member is required.
         public var arn: Swift.String?
@@ -11579,7 +11579,7 @@ extension CleanRoomsClientTypes.MembershipPaymentConfiguration: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// An object representing the payment responsibilities accepted by the collaboration member.
-    public struct MembershipPaymentConfiguration: Swift.Equatable {
+    public struct MembershipPaymentConfiguration {
         /// The payment responsibilities accepted by the collaboration member for query compute costs.
         /// This member is required.
         public var queryCompute: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig?
@@ -11623,7 +11623,7 @@ extension CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration: Swi
 
 extension CleanRoomsClientTypes {
     /// Contains configurations for protected query results.
-    public enum MembershipProtectedQueryOutputConfiguration: Swift.Equatable {
+    public enum MembershipProtectedQueryOutputConfiguration {
         /// Contains the configuration to write the query results to S3.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration)
         case sdkUnknown(Swift.String)
@@ -11658,7 +11658,7 @@ extension CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration: Swi
 
 extension CleanRoomsClientTypes {
     /// Contains configurations for protected query results.
-    public struct MembershipProtectedQueryResultConfiguration: Swift.Equatable {
+    public struct MembershipProtectedQueryResultConfiguration {
         /// Configuration for protected query results.
         /// This member is required.
         public var outputConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration?
@@ -11698,7 +11698,7 @@ extension CleanRoomsClientTypes.MembershipQueryComputePaymentConfig: Swift.Codab
 
 extension CleanRoomsClientTypes {
     /// An object representing the payment responsibilities accepted by the collaboration member for query compute costs.
-    public struct MembershipQueryComputePaymentConfig: Swift.Equatable {
+    public struct MembershipQueryComputePaymentConfig {
         /// Indicates whether the collaboration member has accepted to pay for query compute costs (TRUE) or has not accepted to pay for query compute costs (FALSE). If the collaboration creator has not specified anyone to pay for query compute costs, then the member who can query is the default payer. An error message is returned for the following reasons:
         ///
         /// * If you set the value to FALSE but you are responsible to pay for query compute costs.
@@ -11883,7 +11883,7 @@ extension CleanRoomsClientTypes.MembershipSummary: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The membership object listed by the request.
-    public struct MembershipSummary: Swift.Equatable {
+    public struct MembershipSummary {
         /// The unique ARN for the membership.
         /// This member is required.
         public var arn: Swift.String?
@@ -12045,7 +12045,7 @@ extension CleanRoomsClientTypes.PaymentConfiguration: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// An object representing the collaboration member's payment responsibilities set by the collaboration creator.
-    public struct PaymentConfiguration: Swift.Equatable {
+    public struct PaymentConfiguration {
         /// The collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
         /// This member is required.
         public var queryCompute: CleanRoomsClientTypes.QueryComputePaymentConfig?
@@ -12083,7 +12083,7 @@ extension PreviewPrivacyImpactInput {
     }
 }
 
-public struct PreviewPrivacyImpactInput: Swift.Equatable {
+public struct PreviewPrivacyImpactInput {
     /// A unique identifier for one of your memberships for a collaboration. Accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -12101,7 +12101,7 @@ public struct PreviewPrivacyImpactInput: Swift.Equatable {
     }
 }
 
-struct PreviewPrivacyImpactInputBody: Swift.Equatable {
+struct PreviewPrivacyImpactInputBody {
     let parameters: CleanRoomsClientTypes.PreviewPrivacyImpactParametersInput?
 }
 
@@ -12129,7 +12129,7 @@ extension PreviewPrivacyImpactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PreviewPrivacyImpactOutput: Swift.Equatable {
+public struct PreviewPrivacyImpactOutput {
     /// An estimate of the number of aggregation functions that the member who can query can run given the epsilon and noise parameters. This does not change the privacy budget.
     /// This member is required.
     public var privacyImpact: CleanRoomsClientTypes.PrivacyImpact?
@@ -12142,7 +12142,7 @@ public struct PreviewPrivacyImpactOutput: Swift.Equatable {
     }
 }
 
-struct PreviewPrivacyImpactOutputBody: Swift.Equatable {
+struct PreviewPrivacyImpactOutputBody {
     let privacyImpact: CleanRoomsClientTypes.PrivacyImpact?
 }
 
@@ -12202,7 +12202,7 @@ extension CleanRoomsClientTypes.PreviewPrivacyImpactParametersInput: Swift.Codab
 
 extension CleanRoomsClientTypes {
     /// Specifies the updated epsilon and noise parameters to preview. The preview allows you to see how the maximum number of each type of aggregation function would change with the new parameters.
-    public enum PreviewPrivacyImpactParametersInput: Swift.Equatable {
+    public enum PreviewPrivacyImpactParametersInput {
         /// An array that specifies the epsilon and noise parameters.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyPreviewParametersInput)
         case sdkUnknown(Swift.String)
@@ -12239,7 +12239,7 @@ extension CleanRoomsClientTypes.PrivacyBudget: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The epsilon parameter value and number of each aggregation function that you can perform.
-    public enum PrivacyBudget: Swift.Equatable {
+    public enum PrivacyBudget {
         /// An object that specifies the epsilon parameter and the utility in terms of total aggregations, as well as the remaining aggregations available.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudget)
         case sdkUnknown(Swift.String)
@@ -12328,7 +12328,7 @@ extension CleanRoomsClientTypes.PrivacyBudgetSummary: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// An array that summaries the specified privacy budget. This summary includes collaboration information, creation information, membership information, and privacy budget information.
-    public struct PrivacyBudgetSummary: Swift.Equatable {
+    public struct PrivacyBudgetSummary {
         /// The provided privacy budget.
         /// This member is required.
         public var budget: CleanRoomsClientTypes.PrivacyBudget?
@@ -12474,7 +12474,7 @@ extension CleanRoomsClientTypes.PrivacyBudgetTemplate: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// An object that defines the privacy budget template.
-    public struct PrivacyBudgetTemplate: Swift.Equatable {
+    public struct PrivacyBudgetTemplate {
         /// The ARN of the privacy budget template.
         /// This member is required.
         public var arn: Swift.String?
@@ -12600,7 +12600,7 @@ extension CleanRoomsClientTypes.PrivacyBudgetTemplateParametersInput: Swift.Coda
 
 extension CleanRoomsClientTypes {
     /// The epsilon and noise parameters that you want to use for the privacy budget template.
-    public enum PrivacyBudgetTemplateParametersInput: Swift.Equatable {
+    public enum PrivacyBudgetTemplateParametersInput {
         /// An object that specifies the epsilon and noise parameters.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersInput)
         case sdkUnknown(Swift.String)
@@ -12637,7 +12637,7 @@ extension CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput: Swift.Cod
 
 extension CleanRoomsClientTypes {
     /// The epsilon and noise parameters that were used in the privacy budget template.
-    public enum PrivacyBudgetTemplateParametersOutput: Swift.Equatable {
+    public enum PrivacyBudgetTemplateParametersOutput {
         /// The epsilon and noise parameters.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersOutput)
         case sdkUnknown(Swift.String)
@@ -12714,7 +12714,7 @@ extension CleanRoomsClientTypes.PrivacyBudgetTemplateSummary: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A summary of the privacy budget template. The summary includes membership information, collaboration information, and creation information.
-    public struct PrivacyBudgetTemplateSummary: Swift.Equatable {
+    public struct PrivacyBudgetTemplateSummary {
         /// The ARN of the privacy budget template.
         /// This member is required.
         public var arn: Swift.String?
@@ -12798,7 +12798,7 @@ extension CleanRoomsClientTypes.PrivacyBudgetTemplateUpdateParameters: Swift.Cod
 
 extension CleanRoomsClientTypes {
     /// The epsilon and noise parameters that you want to update in the privacy budget template.
-    public enum PrivacyBudgetTemplateUpdateParameters: Swift.Equatable {
+    public enum PrivacyBudgetTemplateUpdateParameters {
         /// An object that specifies the new values for the epsilon and noise parameters.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateUpdateParameters)
         case sdkUnknown(Swift.String)
@@ -12864,7 +12864,7 @@ extension CleanRoomsClientTypes.PrivacyImpact: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Provides an estimate of the number of aggregation functions that the member who can query can run given the epsilon and noise parameters.
-    public enum PrivacyImpact: Swift.Equatable {
+    public enum PrivacyImpact {
         /// An object that lists the number and type of aggregation functions you can perform.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyPrivacyImpact)
         case sdkUnknown(Swift.String)
@@ -12958,7 +12958,7 @@ extension CleanRoomsClientTypes.ProtectedQuery: Swift.CustomDebugStringConvertib
 
 extension CleanRoomsClientTypes {
     /// The parameters for an Clean Rooms protected query.
-    public struct ProtectedQuery: Swift.Equatable {
+    public struct ProtectedQuery {
         /// The time at which the protected query was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
@@ -13044,7 +13044,7 @@ extension CleanRoomsClientTypes.ProtectedQueryError: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Details of errors thrown by the protected query.
-    public struct ProtectedQueryError: Swift.Equatable {
+    public struct ProtectedQueryError {
         /// An error code for the error.
         /// This member is required.
         public var code: Swift.String?
@@ -13113,7 +13113,7 @@ extension CleanRoomsClientTypes.ProtectedQueryOutput: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Contains details about the protected query output.
-    public enum ProtectedQueryOutput: Swift.Equatable {
+    public enum ProtectedQueryOutput {
         /// If present, the output for a protected query with an `S3` output type.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3Output)
         /// The list of member Amazon Web Services account(s) that received the results of the query.
@@ -13152,7 +13152,7 @@ extension CleanRoomsClientTypes.ProtectedQueryOutputConfiguration: Swift.Codable
 
 extension CleanRoomsClientTypes {
     /// Contains configuration details for protected query output.
-    public enum ProtectedQueryOutputConfiguration: Swift.Equatable {
+    public enum ProtectedQueryOutputConfiguration {
         /// Required configuration for a protected query with an `S3` output type.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration)
         case sdkUnknown(Swift.String)
@@ -13181,7 +13181,7 @@ extension CleanRoomsClientTypes.ProtectedQueryResult: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Details about the query results.
-    public struct ProtectedQueryResult: Swift.Equatable {
+    public struct ProtectedQueryResult {
         /// The output of the protected query.
         /// This member is required.
         public var output: CleanRoomsClientTypes.ProtectedQueryOutput?
@@ -13217,7 +13217,7 @@ extension CleanRoomsClientTypes.ProtectedQueryResultConfiguration: Swift.Codable
 
 extension CleanRoomsClientTypes {
     /// Contains configurations for protected query results.
-    public struct ProtectedQueryResultConfiguration: Swift.Equatable {
+    public struct ProtectedQueryResultConfiguration {
         /// Configuration for protected query results.
         /// This member is required.
         public var outputConfiguration: CleanRoomsClientTypes.ProtectedQueryOutputConfiguration?
@@ -13253,7 +13253,7 @@ extension CleanRoomsClientTypes.ProtectedQueryS3Output: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Contains output information for protected queries with an S3 output type.
-    public struct ProtectedQueryS3Output: Swift.Equatable {
+    public struct ProtectedQueryS3Output {
         /// The S3 location of the result.
         /// This member is required.
         public var location: Swift.String?
@@ -13301,7 +13301,7 @@ extension CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration: Swift.Codab
 
 extension CleanRoomsClientTypes {
     /// Contains the configuration to write the query results to S3.
-    public struct ProtectedQueryS3OutputConfiguration: Swift.Equatable {
+    public struct ProtectedQueryS3OutputConfiguration {
         /// The S3 bucket to unload the protected query results.
         /// This member is required.
         public var bucket: Swift.String?
@@ -13376,7 +13376,7 @@ extension CleanRoomsClientTypes.ProtectedQuerySQLParameters: Swift.CustomDebugSt
 
 extension CleanRoomsClientTypes {
     /// The parameters for the SQL type Protected Query.
-    public struct ProtectedQuerySQLParameters: Swift.Equatable {
+    public struct ProtectedQuerySQLParameters {
         /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
         public var analysisTemplateArn: Swift.String?
         /// The protected query SQL parameters.
@@ -13419,7 +13419,7 @@ extension CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput: Swift.Codable 
 
 extension CleanRoomsClientTypes {
     /// Details about the member who received the query result.
-    public struct ProtectedQuerySingleMemberOutput: Swift.Equatable {
+    public struct ProtectedQuerySingleMemberOutput {
         /// The Amazon Web Services account ID of the member in the collaboration who can receive results for the query.
         /// This member is required.
         public var accountId: Swift.String?
@@ -13455,7 +13455,7 @@ extension CleanRoomsClientTypes.ProtectedQueryStatistics: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Contains statistics about the execution of the protected query.
-    public struct ProtectedQueryStatistics: Swift.Equatable {
+    public struct ProtectedQueryStatistics {
         /// The duration of the Protected Query, from creation until query completion.
         public var totalDurationInMillis: Swift.Int?
 
@@ -13561,7 +13561,7 @@ extension CleanRoomsClientTypes.ProtectedQuerySummary: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The protected query summary for the objects listed by the request.
-    public struct ProtectedQuerySummary: Swift.Equatable {
+    public struct ProtectedQuerySummary {
         /// The time the protected query was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
@@ -13646,7 +13646,7 @@ extension CleanRoomsClientTypes.QueryComputePaymentConfig: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// An object representing the collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
-    public struct QueryComputePaymentConfig: Swift.Equatable {
+    public struct QueryComputePaymentConfig {
         /// Indicates whether the collaboration creator has configured the collaboration member to pay for query compute costs (TRUE) or has not configured the collaboration member to pay for query compute costs (FALSE). Exactly one member can be configured to pay for query compute costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration. If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
         /// This member is required.
         public var isResponsible: Swift.Bool?
@@ -13715,7 +13715,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: CleanRoomsClientTypes.ResourceType?
@@ -14048,7 +14048,7 @@ extension CleanRoomsClientTypes.Schema: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A schema is a relation within a collaboration.
-    public struct Schema: Swift.Equatable {
+    public struct Schema {
         /// The analysis method for the schema. The only valid value is currently DIRECT_QUERY.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
         /// The analysis rule types associated with the schema. Currently, only one entry is present.
@@ -14149,7 +14149,7 @@ extension CleanRoomsClientTypes.SchemaAnalysisRuleRequest: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Defines the information that's necessary to retrieve an analysis rule schema. Schema analysis rules are uniquely identiﬁed by a combination of the schema name and the analysis rule type for a given collaboration.
-    public struct SchemaAnalysisRuleRequest: Swift.Equatable {
+    public struct SchemaAnalysisRuleRequest {
         /// The name of the analysis rule schema that you are requesting.
         /// This member is required.
         public var name: Swift.String?
@@ -14293,7 +14293,7 @@ extension CleanRoomsClientTypes.SchemaStatusDetail: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Information about the schema status. A status of READY means that based on the schema analysis rule, queries of the given analysis rule type are properly configured to run queries on this schema.
-    public struct SchemaStatusDetail: Swift.Equatable {
+    public struct SchemaStatusDetail {
         /// The analysis rule type for which the schema status has been evaluated.
         public var analysisRuleType: CleanRoomsClientTypes.AnalysisRuleType?
         /// The configuration details of the schema analysis rule for the given type.
@@ -14347,7 +14347,7 @@ extension CleanRoomsClientTypes.SchemaStatusReason: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A reason why the schema status is set to its current value.
-    public struct SchemaStatusReason: Swift.Equatable {
+    public struct SchemaStatusReason {
         /// The schema status reason code.
         /// This member is required.
         public var code: CleanRoomsClientTypes.SchemaStatusReasonCode?
@@ -14486,7 +14486,7 @@ extension CleanRoomsClientTypes.SchemaSummary: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// The schema summary for the objects listed by the request.
-    public struct SchemaSummary: Swift.Equatable {
+    public struct SchemaSummary {
         /// The analysis method for the associated schema. The only valid value is currently `DIRECT_QUERY`.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
         /// The types of analysis rules that are associated with this schema object.
@@ -14623,7 +14623,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let quotaName: Swift.String?
     let quotaValue: Swift.Double?
@@ -14683,7 +14683,7 @@ extension StartProtectedQueryInput {
     }
 }
 
-public struct StartProtectedQueryInput: Swift.Equatable {
+public struct StartProtectedQueryInput {
     /// A unique identifier for the membership to run this query against. Currently accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -14710,7 +14710,7 @@ public struct StartProtectedQueryInput: Swift.Equatable {
     }
 }
 
-struct StartProtectedQueryInputBody: Swift.Equatable {
+struct StartProtectedQueryInputBody {
     let type: CleanRoomsClientTypes.ProtectedQueryType?
     let sqlParameters: CleanRoomsClientTypes.ProtectedQuerySQLParameters?
     let resultConfiguration: CleanRoomsClientTypes.ProtectedQueryResultConfiguration?
@@ -14746,7 +14746,7 @@ extension StartProtectedQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartProtectedQueryOutput: Swift.Equatable {
+public struct StartProtectedQueryOutput {
     /// The protected query.
     /// This member is required.
     public var protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
@@ -14759,7 +14759,7 @@ public struct StartProtectedQueryOutput: Swift.Equatable {
     }
 }
 
-struct StartProtectedQueryOutputBody: Swift.Equatable {
+struct StartProtectedQueryOutputBody {
     let protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
 }
 
@@ -14820,7 +14820,7 @@ extension CleanRoomsClientTypes.TableReference: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// A pointer to the dataset that underlies this table. Currently, this can only be an Glue table.
-    public enum TableReference: Swift.Equatable {
+    public enum TableReference {
         /// If present, a reference to the Glue table referred to by this table reference.
         case glue(CleanRoomsClientTypes.GlueTableReference)
         case sdkUnknown(Swift.String)
@@ -14854,7 +14854,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) associated with the resource you want to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -14872,7 +14872,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -14902,7 +14902,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -14987,7 +14987,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -15029,7 +15029,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -15047,7 +15047,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -15061,7 +15061,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -15104,7 +15104,7 @@ extension UpdateAnalysisTemplateInput {
     }
 }
 
-public struct UpdateAnalysisTemplateInput: Swift.Equatable {
+public struct UpdateAnalysisTemplateInput {
     /// The identifier for the analysis template resource.
     /// This member is required.
     public var analysisTemplateIdentifier: Swift.String?
@@ -15126,7 +15126,7 @@ public struct UpdateAnalysisTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateAnalysisTemplateInputBody: Swift.Equatable {
+struct UpdateAnalysisTemplateInputBody {
     let description: Swift.String?
 }
 
@@ -15154,7 +15154,7 @@ extension UpdateAnalysisTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAnalysisTemplateOutput: Swift.Equatable {
+public struct UpdateAnalysisTemplateOutput {
     /// The analysis template.
     /// This member is required.
     public var analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
@@ -15167,7 +15167,7 @@ public struct UpdateAnalysisTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAnalysisTemplateOutputBody: Swift.Equatable {
+struct UpdateAnalysisTemplateOutputBody {
     let analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate?
 }
 
@@ -15225,7 +15225,7 @@ extension UpdateCollaborationInput {
     }
 }
 
-public struct UpdateCollaborationInput: Swift.Equatable {
+public struct UpdateCollaborationInput {
     /// The identifier for the collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -15246,7 +15246,7 @@ public struct UpdateCollaborationInput: Swift.Equatable {
     }
 }
 
-struct UpdateCollaborationInputBody: Swift.Equatable {
+struct UpdateCollaborationInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -15278,7 +15278,7 @@ extension UpdateCollaborationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCollaborationOutput: Swift.Equatable {
+public struct UpdateCollaborationOutput {
     /// The entire collaboration that has been updated.
     /// This member is required.
     public var collaboration: CleanRoomsClientTypes.Collaboration?
@@ -15291,7 +15291,7 @@ public struct UpdateCollaborationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCollaborationOutputBody: Swift.Equatable {
+struct UpdateCollaborationOutputBody {
     let collaboration: CleanRoomsClientTypes.Collaboration?
 }
 
@@ -15351,7 +15351,7 @@ extension UpdateConfiguredAudienceModelAssociationInput {
     }
 }
 
-public struct UpdateConfiguredAudienceModelAssociationInput: Swift.Equatable {
+public struct UpdateConfiguredAudienceModelAssociationInput {
     /// A unique identifier for the configured audience model association that you want to update.
     /// This member is required.
     public var configuredAudienceModelAssociationIdentifier: Swift.String?
@@ -15377,7 +15377,7 @@ public struct UpdateConfiguredAudienceModelAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
+struct UpdateConfiguredAudienceModelAssociationInputBody {
     let description: Swift.String?
     let name: Swift.String?
 }
@@ -15409,7 +15409,7 @@ extension UpdateConfiguredAudienceModelAssociationOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct UpdateConfiguredAudienceModelAssociationOutput: Swift.Equatable {
+public struct UpdateConfiguredAudienceModelAssociationOutput {
     /// Details about the configured audience model association that you updated.
     /// This member is required.
     public var configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
@@ -15422,7 +15422,7 @@ public struct UpdateConfiguredAudienceModelAssociationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredAudienceModelAssociationOutputBody: Swift.Equatable {
+struct UpdateConfiguredAudienceModelAssociationOutputBody {
     let configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation?
 }
 
@@ -15479,7 +15479,7 @@ extension UpdateConfiguredTableAnalysisRuleInput {
     }
 }
 
-public struct UpdateConfiguredTableAnalysisRuleInput: Swift.Equatable {
+public struct UpdateConfiguredTableAnalysisRuleInput {
     /// The new analysis rule policy for the configured table analysis rule.
     /// This member is required.
     public var analysisRulePolicy: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy?
@@ -15502,7 +15502,7 @@ public struct UpdateConfiguredTableAnalysisRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredTableAnalysisRuleInputBody: Swift.Equatable {
+struct UpdateConfiguredTableAnalysisRuleInputBody {
     let analysisRulePolicy: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy?
 }
 
@@ -15530,7 +15530,7 @@ extension UpdateConfiguredTableAnalysisRuleOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct UpdateConfiguredTableAnalysisRuleOutput: Swift.Equatable {
+public struct UpdateConfiguredTableAnalysisRuleOutput {
     /// The entire updated analysis rule.
     /// This member is required.
     public var analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
@@ -15543,7 +15543,7 @@ public struct UpdateConfiguredTableAnalysisRuleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredTableAnalysisRuleOutputBody: Swift.Equatable {
+struct UpdateConfiguredTableAnalysisRuleOutputBody {
     let analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule?
 }
 
@@ -15605,7 +15605,7 @@ extension UpdateConfiguredTableAssociationInput {
     }
 }
 
-public struct UpdateConfiguredTableAssociationInput: Swift.Equatable {
+public struct UpdateConfiguredTableAssociationInput {
     /// The unique identifier for the configured table association to update. Currently accepts the configured table association ID.
     /// This member is required.
     public var configuredTableAssociationIdentifier: Swift.String?
@@ -15631,7 +15631,7 @@ public struct UpdateConfiguredTableAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredTableAssociationInputBody: Swift.Equatable {
+struct UpdateConfiguredTableAssociationInputBody {
     let description: Swift.String?
     let roleArn: Swift.String?
 }
@@ -15663,7 +15663,7 @@ extension UpdateConfiguredTableAssociationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateConfiguredTableAssociationOutput: Swift.Equatable {
+public struct UpdateConfiguredTableAssociationOutput {
     /// The entire updated configured table association.
     /// This member is required.
     public var configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
@@ -15676,7 +15676,7 @@ public struct UpdateConfiguredTableAssociationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredTableAssociationOutputBody: Swift.Equatable {
+struct UpdateConfiguredTableAssociationOutputBody {
     let configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation?
 }
 
@@ -15735,7 +15735,7 @@ extension UpdateConfiguredTableInput {
     }
 }
 
-public struct UpdateConfiguredTableInput: Swift.Equatable {
+public struct UpdateConfiguredTableInput {
     /// The identifier for the configured table to update. Currently accepts the configured table ID.
     /// This member is required.
     public var configuredTableIdentifier: Swift.String?
@@ -15756,7 +15756,7 @@ public struct UpdateConfiguredTableInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredTableInputBody: Swift.Equatable {
+struct UpdateConfiguredTableInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -15788,7 +15788,7 @@ extension UpdateConfiguredTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConfiguredTableOutput: Swift.Equatable {
+public struct UpdateConfiguredTableOutput {
     /// The updated configured table.
     /// This member is required.
     public var configuredTable: CleanRoomsClientTypes.ConfiguredTable?
@@ -15801,7 +15801,7 @@ public struct UpdateConfiguredTableOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredTableOutputBody: Swift.Equatable {
+struct UpdateConfiguredTableOutputBody {
     let configuredTable: CleanRoomsClientTypes.ConfiguredTable?
 }
 
@@ -15860,7 +15860,7 @@ extension UpdateMembershipInput {
     }
 }
 
-public struct UpdateMembershipInput: Swift.Equatable {
+public struct UpdateMembershipInput {
     /// The default protected query result configuration as specified by the member who can receive results.
     public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
     /// The unique identifier of the membership.
@@ -15881,7 +15881,7 @@ public struct UpdateMembershipInput: Swift.Equatable {
     }
 }
 
-struct UpdateMembershipInputBody: Swift.Equatable {
+struct UpdateMembershipInputBody {
     let queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
     let defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
 }
@@ -15913,7 +15913,7 @@ extension UpdateMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMembershipOutput: Swift.Equatable {
+public struct UpdateMembershipOutput {
     /// The membership object.
     /// This member is required.
     public var membership: CleanRoomsClientTypes.Membership?
@@ -15926,7 +15926,7 @@ public struct UpdateMembershipOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMembershipOutputBody: Swift.Equatable {
+struct UpdateMembershipOutputBody {
     let membership: CleanRoomsClientTypes.Membership?
 }
 
@@ -15988,7 +15988,7 @@ extension UpdatePrivacyBudgetTemplateInput {
     }
 }
 
-public struct UpdatePrivacyBudgetTemplateInput: Swift.Equatable {
+public struct UpdatePrivacyBudgetTemplateInput {
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is updated in the collaboration that this membership belongs to. Accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -16015,7 +16015,7 @@ public struct UpdatePrivacyBudgetTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdatePrivacyBudgetTemplateInputBody: Swift.Equatable {
+struct UpdatePrivacyBudgetTemplateInputBody {
     let privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
     let parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateUpdateParameters?
 }
@@ -16047,7 +16047,7 @@ extension UpdatePrivacyBudgetTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePrivacyBudgetTemplateOutput: Swift.Equatable {
+public struct UpdatePrivacyBudgetTemplateOutput {
     /// Summary of the privacy budget template.
     /// This member is required.
     public var privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
@@ -16060,7 +16060,7 @@ public struct UpdatePrivacyBudgetTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePrivacyBudgetTemplateOutputBody: Swift.Equatable {
+struct UpdatePrivacyBudgetTemplateOutputBody {
     let privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
 }
 
@@ -16118,7 +16118,7 @@ extension UpdateProtectedQueryInput {
     }
 }
 
-public struct UpdateProtectedQueryInput: Swift.Equatable {
+public struct UpdateProtectedQueryInput {
     /// The identifier for a member of a protected query instance.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -16141,7 +16141,7 @@ public struct UpdateProtectedQueryInput: Swift.Equatable {
     }
 }
 
-struct UpdateProtectedQueryInputBody: Swift.Equatable {
+struct UpdateProtectedQueryInputBody {
     let targetStatus: CleanRoomsClientTypes.TargetProtectedQueryStatus?
 }
 
@@ -16169,7 +16169,7 @@ extension UpdateProtectedQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProtectedQueryOutput: Swift.Equatable {
+public struct UpdateProtectedQueryOutput {
     /// The protected query output.
     /// This member is required.
     public var protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
@@ -16182,7 +16182,7 @@ public struct UpdateProtectedQueryOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProtectedQueryOutputBody: Swift.Equatable {
+struct UpdateProtectedQueryOutputBody {
     let protectedQuery: CleanRoomsClientTypes.ProtectedQuery?
 }
 
@@ -16265,7 +16265,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: CleanRoomsClientTypes.ValidationExceptionReason?
     let fieldList: [CleanRoomsClientTypes.ValidationExceptionField]?
@@ -16325,7 +16325,7 @@ extension CleanRoomsClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension CleanRoomsClientTypes {
     /// Describes validation errors for specific input parameters.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// A message for the input validation error.
         /// This member is required.
         public var message: Swift.String?

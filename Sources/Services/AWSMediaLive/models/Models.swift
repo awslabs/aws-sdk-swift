@@ -248,7 +248,7 @@ extension MediaLiveClientTypes.AacSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Aac Settings
-    public struct AacSettings: Swift.Equatable {
+    public struct AacSettings {
         /// Average bitrate in bits/second. Valid values depend on rate control mode and profile.
         public var bitrate: Swift.Double?
         /// Mono, Stereo, or 5.1 channel layout. Valid values depend on rate control mode and profile. The adReceiverMix setting receives a stereo description plus control track and emits a mono AAC encode of the description track, with control data emitted in the PES header as per ETSI TS 101 154 Annex E.
@@ -651,7 +651,7 @@ extension MediaLiveClientTypes.Ac3Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Ac3 Settings
-    public struct Ac3Settings: Swift.Equatable {
+    public struct Ac3Settings {
         /// Applies a 3 dB attenuation to the surround channels. Applies only when the coding mode parameter is CODING_MODE_3_2_LFE.
         public var attenuationControl: MediaLiveClientTypes.Ac3AttenuationControl?
         /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
@@ -734,7 +734,7 @@ extension AcceptInputDeviceTransferInput {
 }
 
 /// Placeholder documentation for AcceptInputDeviceTransferRequest
-public struct AcceptInputDeviceTransferInput: Swift.Equatable {
+public struct AcceptInputDeviceTransferInput {
     /// The unique ID of the input device to accept. For example, hd-123456789abcdef.
     /// This member is required.
     public var inputDeviceId: Swift.String?
@@ -747,7 +747,7 @@ public struct AcceptInputDeviceTransferInput: Swift.Equatable {
     }
 }
 
-struct AcceptInputDeviceTransferInputBody: Swift.Equatable {
+struct AcceptInputDeviceTransferInputBody {
 }
 
 extension AcceptInputDeviceTransferInputBody: Swift.Decodable {
@@ -762,7 +762,7 @@ extension AcceptInputDeviceTransferOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for AcceptInputDeviceTransferResponse
-public struct AcceptInputDeviceTransferOutput: Swift.Equatable {
+public struct AcceptInputDeviceTransferOutput {
 
     public init() { }
 }
@@ -840,7 +840,7 @@ extension MediaLiveClientTypes.AccountConfiguration: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for AccountConfiguration
-    public struct AccountConfiguration: Swift.Equatable {
+    public struct AccountConfiguration {
         /// Specifies the KMS key to use for all features that use key encryption. Specify the ARN of a KMS key that you have created. Or leave blank to use the key that MediaLive creates and manages for you.
         public var kmsKeyId: Swift.String?
 
@@ -911,7 +911,7 @@ extension MediaLiveClientTypes.AncillarySourceSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Ancillary Source Settings
-    public struct AncillarySourceSettings: Swift.Equatable {
+    public struct AncillarySourceSettings {
         /// Specifies the number (1 to 4) of the captions channel you want to extract from the ancillary captions. If you plan to convert the ancillary captions to another format, complete this field. If you plan to choose Embedded as the captions destination in the output (to pass through all the channels in the ancillary captions), leave this field blank because MediaLive ignores the field.
         public var sourceAncillaryChannelNumber: Swift.Int?
 
@@ -946,7 +946,7 @@ extension MediaLiveClientTypes.ArchiveCdnSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Archive Cdn Settings
-    public struct ArchiveCdnSettings: Swift.Equatable {
+    public struct ArchiveCdnSettings {
         /// Archive S3 Settings
         public var archiveS3Settings: MediaLiveClientTypes.ArchiveS3Settings?
 
@@ -987,7 +987,7 @@ extension MediaLiveClientTypes.ArchiveContainerSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Archive Container Settings
-    public struct ArchiveContainerSettings: Swift.Equatable {
+    public struct ArchiveContainerSettings {
         /// M2ts Settings
         public var m2tsSettings: MediaLiveClientTypes.M2tsSettings?
         /// Raw Settings
@@ -1038,7 +1038,7 @@ extension MediaLiveClientTypes.ArchiveGroupSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Archive Group Settings
-    public struct ArchiveGroupSettings: Swift.Equatable {
+    public struct ArchiveGroupSettings {
         /// Parameters that control interactions with the CDN.
         public var archiveCdnSettings: MediaLiveClientTypes.ArchiveCdnSettings?
         /// A directory and base filename where archive files should be written.
@@ -1094,7 +1094,7 @@ extension MediaLiveClientTypes.ArchiveOutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Archive Output Settings
-    public struct ArchiveOutputSettings: Swift.Equatable {
+    public struct ArchiveOutputSettings {
         /// Settings specific to the container type of the file.
         /// This member is required.
         public var containerSettings: MediaLiveClientTypes.ArchiveContainerSettings?
@@ -1138,7 +1138,7 @@ extension MediaLiveClientTypes.ArchiveS3Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Archive S3 Settings
-    public struct ArchiveS3Settings: Swift.Equatable {
+    public struct ArchiveS3Settings {
         /// Specify the canned ACL to apply to each S3 request. Defaults to none.
         public var cannedAcl: MediaLiveClientTypes.S3CannedAcl?
 
@@ -1165,7 +1165,7 @@ extension MediaLiveClientTypes.AribDestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Arib Destination Settings
-    public struct AribDestinationSettings: Swift.Equatable {
+    public struct AribDestinationSettings {
 
         public init() { }
     }
@@ -1185,7 +1185,7 @@ extension MediaLiveClientTypes.AribSourceSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Arib Source Settings
-    public struct AribSourceSettings: Swift.Equatable {
+    public struct AribSourceSettings {
 
         public init() { }
     }
@@ -1231,7 +1231,7 @@ extension MediaLiveClientTypes.AudioChannelMapping: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Channel Mapping
-    public struct AudioChannelMapping: Swift.Equatable {
+    public struct AudioChannelMapping {
         /// Indices and gain values for each input channel that should be remixed into this output channel.
         /// This member is required.
         public var inputChannelLevels: [MediaLiveClientTypes.InputChannelLevel]?
@@ -1308,7 +1308,7 @@ extension MediaLiveClientTypes.AudioCodecSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Codec Settings
-    public struct AudioCodecSettings: Swift.Equatable {
+    public struct AudioCodecSettings {
         /// Aac Settings
         public var aacSettings: MediaLiveClientTypes.AacSettings?
         /// Ac3 Settings
@@ -1451,7 +1451,7 @@ extension MediaLiveClientTypes.AudioDescription: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Description
-    public struct AudioDescription: Swift.Equatable {
+    public struct AudioDescription {
         /// Identifies the DASH roles to assign to this audio output. Applies only when the audio output is configured for DVB DASH accessibility signaling.
         public var audioDashRoles: [MediaLiveClientTypes.DashRoleAudio]?
         /// Advanced audio normalization settings.
@@ -1602,7 +1602,7 @@ extension MediaLiveClientTypes.AudioDolbyEDecode: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Dolby EDecode
-    public struct AudioDolbyEDecode: Swift.Equatable {
+    public struct AudioDolbyEDecode {
         /// Applies only to Dolby E. Enter the program ID (according to the metadata in the audio) of the Dolby E program to extract from the specified track. One program extracted per audio selector. To select multiple programs, create multiple selectors with the same Track and different Program numbers. “All channels” means to ignore the program IDs and include all the channels in this selector; useful if metadata is known to be incorrect.
         /// This member is required.
         public var programSelection: MediaLiveClientTypes.DolbyEProgramSelection?
@@ -1644,7 +1644,7 @@ extension MediaLiveClientTypes.AudioHlsRenditionSelection: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Hls Rendition Selection
-    public struct AudioHlsRenditionSelection: Swift.Equatable {
+    public struct AudioHlsRenditionSelection {
         /// Specifies the GROUP-ID in the #EXT-X-MEDIA tag of the target HLS audio rendition.
         /// This member is required.
         public var groupId: Swift.String?
@@ -1691,7 +1691,7 @@ extension MediaLiveClientTypes.AudioLanguageSelection: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Language Selection
-    public struct AudioLanguageSelection: Swift.Equatable {
+    public struct AudioLanguageSelection {
         /// Selects a specific three-letter language code from within an audio source.
         /// This member is required.
         public var languageCode: Swift.String?
@@ -1839,7 +1839,7 @@ extension MediaLiveClientTypes.AudioNormalizationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Normalization Settings
-    public struct AudioNormalizationSettings: Swift.Equatable {
+    public struct AudioNormalizationSettings {
         /// Audio normalization algorithm to use. itu17701 conforms to the CALM Act specification, itu17702 conforms to the EBU R-128 specification.
         public var algorithm: MediaLiveClientTypes.AudioNormalizationAlgorithm?
         /// When set to correctAudio the output audio is corrected using the chosen algorithm. If set to measureOnly, the audio will be measured but not adjusted.
@@ -1933,7 +1933,7 @@ extension MediaLiveClientTypes.AudioOnlyHlsSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Only Hls Settings
-    public struct AudioOnlyHlsSettings: Swift.Equatable {
+    public struct AudioOnlyHlsSettings {
         /// Specifies the group to which the audio Rendition belongs.
         public var audioGroupId: Swift.String?
         /// Optional. Specifies the .jpg or .png image to use as the cover art for an audio-only output. We recommend a low bit-size file because the image increases the output audio bandwidth. The image is attached to the audio as an ID3 tag, frame type APIC, picture type 0x10, as per the "ID3 tag version 2.4.0 - Native Frames" standard.
@@ -2019,7 +2019,7 @@ extension MediaLiveClientTypes.AudioPidSelection: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Pid Selection
-    public struct AudioPidSelection: Swift.Equatable {
+    public struct AudioPidSelection {
         /// Selects a specific PID from within a source.
         /// This member is required.
         public var pid: Swift.Int?
@@ -2061,7 +2061,7 @@ extension MediaLiveClientTypes.AudioSelector: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Selector
-    public struct AudioSelector: Swift.Equatable {
+    public struct AudioSelector {
         /// The name of this AudioSelector. AudioDescriptions will use this name to uniquely identify this Selector. Selector names should be unique per input.
         /// This member is required.
         public var name: Swift.String?
@@ -2119,7 +2119,7 @@ extension MediaLiveClientTypes.AudioSelectorSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Selector Settings
-    public struct AudioSelectorSettings: Swift.Equatable {
+    public struct AudioSelectorSettings {
         /// Audio Hls Rendition Selection
         public var audioHlsRenditionSelection: MediaLiveClientTypes.AudioHlsRenditionSelection?
         /// Audio Language Selection
@@ -2172,7 +2172,7 @@ extension MediaLiveClientTypes.AudioSilenceFailoverSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for AudioSilenceFailoverSettings
-    public struct AudioSilenceFailoverSettings: Swift.Equatable {
+    public struct AudioSilenceFailoverSettings {
         /// The name of the audio selector in the input that MediaLive should monitor to detect silence. Select your most important rendition. If you didn't create an audio selector in this input, leave blank.
         /// This member is required.
         public var audioSelectorName: Swift.String?
@@ -2212,7 +2212,7 @@ extension MediaLiveClientTypes.AudioTrack: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Track
-    public struct AudioTrack: Swift.Equatable {
+    public struct AudioTrack {
         /// 1-based integer value that maps to a specific audio track
         /// This member is required.
         public var track: Swift.Int?
@@ -2266,7 +2266,7 @@ extension MediaLiveClientTypes.AudioTrackSelection: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Track Selection
-    public struct AudioTrackSelection: Swift.Equatable {
+    public struct AudioTrackSelection {
         /// Configure decoding options for Dolby E streams - these should be Dolby E frames carried in PCM streams tagged with SMPTE-337
         public var dolbyEDecode: MediaLiveClientTypes.AudioDolbyEDecode?
         /// Selects one or more unique audio tracks from within a source.
@@ -2345,7 +2345,7 @@ extension MediaLiveClientTypes.AudioWatermarkSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Audio Watermark Settings
-    public struct AudioWatermarkSettings: Swift.Equatable {
+    public struct AudioWatermarkSettings {
         /// Settings to configure Nielsen Watermarks in the audio encode
         public var nielsenWatermarksSettings: MediaLiveClientTypes.NielsenWatermarksSettings?
 
@@ -2443,7 +2443,7 @@ extension MediaLiveClientTypes.AutomaticInputFailoverSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The settings for Automatic Input Failover.
-    public struct AutomaticInputFailoverSettings: Swift.Equatable {
+    public struct AutomaticInputFailoverSettings {
         /// This clear time defines the requirement a recovered input must meet to be considered healthy. The input must have no failover conditions for this length of time. Enter a time in milliseconds. This value is particularly important if the input_preference for the failover pair is set to PRIMARY_INPUT_PREFERRED, because after this time, MediaLive will switch back to the primary input.
         public var errorClearTimeMsec: Swift.Int?
         /// A list of failover conditions. If any of these conditions occur, MediaLive will perform a failover to the other input.
@@ -2497,7 +2497,7 @@ extension MediaLiveClientTypes.AvailBlanking: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Avail Blanking
-    public struct AvailBlanking: Swift.Equatable {
+    public struct AvailBlanking {
         /// Blanking image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public var availBlankingImage: MediaLiveClientTypes.InputLocation?
         /// When set to enabled, causes video, audio and captions to be blanked when insertion metadata is added.
@@ -2569,7 +2569,7 @@ extension MediaLiveClientTypes.AvailConfiguration: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Avail Configuration
-    public struct AvailConfiguration: Swift.Equatable {
+    public struct AvailConfiguration {
         /// Controls how SCTE-35 messages create cues. Splice Insert mode treats all segmentation signals traditionally. With Time Signal APOS mode only Time Signal Placement Opportunity and Break messages create segment breaks. With ESAM mode, signals are forwarded to an ESAM server for possible update.
         public var availSettings: MediaLiveClientTypes.AvailSettings?
 
@@ -2616,7 +2616,7 @@ extension MediaLiveClientTypes.AvailSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Avail Settings
-    public struct AvailSettings: Swift.Equatable {
+    public struct AvailSettings {
         /// Esam
         public var esam: MediaLiveClientTypes.Esam?
         /// Typical configuration that applies breaks on splice inserts in addition to time signal placement opportunities, breaks, and advertisements.
@@ -2678,7 +2678,7 @@ public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadGatewayExceptionBody: Swift.Equatable {
+struct BadGatewayExceptionBody {
     let message: Swift.String?
 }
 
@@ -2734,7 +2734,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -2795,7 +2795,7 @@ extension BatchDeleteInput {
 }
 
 /// A request to delete resources
-public struct BatchDeleteInput: Swift.Equatable {
+public struct BatchDeleteInput {
     /// List of channel IDs
     public var channelIds: [Swift.String]?
     /// List of input IDs
@@ -2819,7 +2819,7 @@ public struct BatchDeleteInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteInputBody: Swift.Equatable {
+struct BatchDeleteInputBody {
     let channelIds: [Swift.String]?
     let inputIds: [Swift.String]?
     let inputSecurityGroupIds: [Swift.String]?
@@ -2898,7 +2898,7 @@ extension BatchDeleteOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for BatchDeleteResponse
-public struct BatchDeleteOutput: Swift.Equatable {
+public struct BatchDeleteOutput {
     /// List of failed operations
     public var failed: [MediaLiveClientTypes.BatchFailedResultModel]?
     /// List of successful operations
@@ -2914,7 +2914,7 @@ public struct BatchDeleteOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteOutputBody: Swift.Equatable {
+struct BatchDeleteOutputBody {
     let failed: [MediaLiveClientTypes.BatchFailedResultModel]?
     let successful: [MediaLiveClientTypes.BatchSuccessfulResultModel]?
 }
@@ -3009,7 +3009,7 @@ extension MediaLiveClientTypes.BatchFailedResultModel: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Details from a failed operation
-    public struct BatchFailedResultModel: Swift.Equatable {
+    public struct BatchFailedResultModel {
         /// ARN of the resource
         public var arn: Swift.String?
         /// Error code for the failed operation
@@ -3068,7 +3068,7 @@ extension MediaLiveClientTypes.BatchScheduleActionCreateRequest: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// A list of schedule actions to create (in a request) or that have been created (in a response).
-    public struct BatchScheduleActionCreateRequest: Swift.Equatable {
+    public struct BatchScheduleActionCreateRequest {
         /// A list of schedule actions to create.
         /// This member is required.
         public var scheduleActions: [MediaLiveClientTypes.ScheduleAction]?
@@ -3116,7 +3116,7 @@ extension MediaLiveClientTypes.BatchScheduleActionCreateResult: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// List of actions that have been created in the schedule.
-    public struct BatchScheduleActionCreateResult: Swift.Equatable {
+    public struct BatchScheduleActionCreateResult {
         /// List of actions that have been created in the schedule.
         /// This member is required.
         public var scheduleActions: [MediaLiveClientTypes.ScheduleAction]?
@@ -3164,7 +3164,7 @@ extension MediaLiveClientTypes.BatchScheduleActionDeleteRequest: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// A list of schedule actions to delete.
-    public struct BatchScheduleActionDeleteRequest: Swift.Equatable {
+    public struct BatchScheduleActionDeleteRequest {
         /// A list of schedule actions to delete.
         /// This member is required.
         public var actionNames: [Swift.String]?
@@ -3212,7 +3212,7 @@ extension MediaLiveClientTypes.BatchScheduleActionDeleteResult: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// List of actions that have been deleted from the schedule.
-    public struct BatchScheduleActionDeleteResult: Swift.Equatable {
+    public struct BatchScheduleActionDeleteResult {
         /// List of actions that have been deleted from the schedule.
         /// This member is required.
         public var scheduleActions: [MediaLiveClientTypes.ScheduleAction]?
@@ -3258,7 +3258,7 @@ extension BatchStartInput {
 }
 
 /// A request to start resources
-public struct BatchStartInput: Swift.Equatable {
+public struct BatchStartInput {
     /// List of channel IDs
     public var channelIds: [Swift.String]?
     /// List of multiplex IDs
@@ -3274,7 +3274,7 @@ public struct BatchStartInput: Swift.Equatable {
     }
 }
 
-struct BatchStartInputBody: Swift.Equatable {
+struct BatchStartInputBody {
     let channelIds: [Swift.String]?
     let multiplexIds: [Swift.String]?
 }
@@ -3327,7 +3327,7 @@ extension BatchStartOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for BatchStartResponse
-public struct BatchStartOutput: Swift.Equatable {
+public struct BatchStartOutput {
     /// List of failed operations
     public var failed: [MediaLiveClientTypes.BatchFailedResultModel]?
     /// List of successful operations
@@ -3343,7 +3343,7 @@ public struct BatchStartOutput: Swift.Equatable {
     }
 }
 
-struct BatchStartOutputBody: Swift.Equatable {
+struct BatchStartOutputBody {
     let failed: [MediaLiveClientTypes.BatchFailedResultModel]?
     let successful: [MediaLiveClientTypes.BatchSuccessfulResultModel]?
 }
@@ -3430,7 +3430,7 @@ extension BatchStopInput {
 }
 
 /// A request to stop resources
-public struct BatchStopInput: Swift.Equatable {
+public struct BatchStopInput {
     /// List of channel IDs
     public var channelIds: [Swift.String]?
     /// List of multiplex IDs
@@ -3446,7 +3446,7 @@ public struct BatchStopInput: Swift.Equatable {
     }
 }
 
-struct BatchStopInputBody: Swift.Equatable {
+struct BatchStopInputBody {
     let channelIds: [Swift.String]?
     let multiplexIds: [Swift.String]?
 }
@@ -3499,7 +3499,7 @@ extension BatchStopOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for BatchStopResponse
-public struct BatchStopOutput: Swift.Equatable {
+public struct BatchStopOutput {
     /// List of failed operations
     public var failed: [MediaLiveClientTypes.BatchFailedResultModel]?
     /// List of successful operations
@@ -3515,7 +3515,7 @@ public struct BatchStopOutput: Swift.Equatable {
     }
 }
 
-struct BatchStopOutputBody: Swift.Equatable {
+struct BatchStopOutputBody {
     let failed: [MediaLiveClientTypes.BatchFailedResultModel]?
     let successful: [MediaLiveClientTypes.BatchSuccessfulResultModel]?
 }
@@ -3604,7 +3604,7 @@ extension MediaLiveClientTypes.BatchSuccessfulResultModel: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Details from a successful operation
-    public struct BatchSuccessfulResultModel: Swift.Equatable {
+    public struct BatchSuccessfulResultModel {
         /// ARN of the resource
         public var arn: Swift.String?
         /// ID of the resource
@@ -3654,7 +3654,7 @@ extension BatchUpdateScheduleInput {
 }
 
 /// List of actions to create and list of actions to delete.
-public struct BatchUpdateScheduleInput: Swift.Equatable {
+public struct BatchUpdateScheduleInput {
     /// Id of the channel whose schedule is being updated.
     /// This member is required.
     public var channelId: Swift.String?
@@ -3675,7 +3675,7 @@ public struct BatchUpdateScheduleInput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateScheduleInputBody: Swift.Equatable {
+struct BatchUpdateScheduleInputBody {
     let creates: MediaLiveClientTypes.BatchScheduleActionCreateRequest?
     let deletes: MediaLiveClientTypes.BatchScheduleActionDeleteRequest?
 }
@@ -3710,7 +3710,7 @@ extension BatchUpdateScheduleOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for BatchUpdateScheduleResponse
-public struct BatchUpdateScheduleOutput: Swift.Equatable {
+public struct BatchUpdateScheduleOutput {
     /// Schedule actions created in the schedule.
     public var creates: MediaLiveClientTypes.BatchScheduleActionCreateResult?
     /// Schedule actions deleted from the schedule.
@@ -3726,7 +3726,7 @@ public struct BatchUpdateScheduleOutput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateScheduleOutputBody: Swift.Equatable {
+struct BatchUpdateScheduleOutputBody {
     let creates: MediaLiveClientTypes.BatchScheduleActionCreateResult?
     let deletes: MediaLiveClientTypes.BatchScheduleActionDeleteResult?
 }
@@ -3809,7 +3809,7 @@ extension MediaLiveClientTypes.BlackoutSlate: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Blackout Slate
-    public struct BlackoutSlate: Swift.Equatable {
+    public struct BlackoutSlate {
         /// Blackout slate image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public var blackoutSlateImage: MediaLiveClientTypes.InputLocation?
         /// Setting to enabled causes the encoder to blackout the video, audio, and captions, and raise the "Network Blackout Image" slate when an SCTE104/35 Network End Segmentation Descriptor is encountered. The blackout will be lifted when the Network Start Segmentation Descriptor is encountered. The Network End and Network Start descriptors must contain a network ID that matches the value entered in "Network ID".
@@ -4094,7 +4094,7 @@ extension MediaLiveClientTypes.BurnInDestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Burn In Destination Settings
-    public struct BurnInDestinationSettings: Swift.Equatable {
+    public struct BurnInDestinationSettings {
         /// If no explicit xPosition or yPosition is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Selecting "smart" justification will left-justify live subtitles and center-justify pre-recorded subtitles. All burn-in and DVB-Sub font settings must match.
         public var alignment: MediaLiveClientTypes.BurnInAlignment?
         /// Specifies the color of the rectangle behind the captions. All burn-in and DVB-Sub font settings must match.
@@ -4342,7 +4342,7 @@ extension CancelInputDeviceTransferInput {
 }
 
 /// Placeholder documentation for CancelInputDeviceTransferRequest
-public struct CancelInputDeviceTransferInput: Swift.Equatable {
+public struct CancelInputDeviceTransferInput {
     /// The unique ID of the input device to cancel. For example, hd-123456789abcdef.
     /// This member is required.
     public var inputDeviceId: Swift.String?
@@ -4355,7 +4355,7 @@ public struct CancelInputDeviceTransferInput: Swift.Equatable {
     }
 }
 
-struct CancelInputDeviceTransferInputBody: Swift.Equatable {
+struct CancelInputDeviceTransferInputBody {
 }
 
 extension CancelInputDeviceTransferInputBody: Swift.Decodable {
@@ -4370,7 +4370,7 @@ extension CancelInputDeviceTransferOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for CancelInputDeviceTransferResponse
-public struct CancelInputDeviceTransferOutput: Swift.Equatable {
+public struct CancelInputDeviceTransferOutput {
 
     public init() { }
 }
@@ -4469,7 +4469,7 @@ extension MediaLiveClientTypes.CaptionDescription: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Caption Description
-    public struct CaptionDescription: Swift.Equatable {
+    public struct CaptionDescription {
         /// Indicates whether the caption track implements accessibility features such as written descriptions of spoken dialog, music, and sounds. This signaling is added to HLS output group and MediaPackage output group.
         public var accessibility: MediaLiveClientTypes.AccessibilityType?
         /// Identifies the DASH roles to assign to this captions output. Applies only when the captions output is configured for DVB DASH accessibility signaling.
@@ -4606,7 +4606,7 @@ extension MediaLiveClientTypes.CaptionDestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Caption Destination Settings
-    public struct CaptionDestinationSettings: Swift.Equatable {
+    public struct CaptionDestinationSettings {
         /// Arib Destination Settings
         public var aribDestinationSettings: MediaLiveClientTypes.AribDestinationSettings?
         /// Burn In Destination Settings
@@ -4701,7 +4701,7 @@ extension MediaLiveClientTypes.CaptionLanguageMapping: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Maps a caption channel to an ISO 693-2 language code (http://www.loc.gov/standards/iso639-2), with an optional description.
-    public struct CaptionLanguageMapping: Swift.Equatable {
+    public struct CaptionLanguageMapping {
         /// The closed caption channel being described by this CaptionLanguageMapping. Each channel mapping must have a unique channel number (maximum of 4)
         /// This member is required.
         public var captionChannel: Swift.Int?
@@ -4765,7 +4765,7 @@ extension MediaLiveClientTypes.CaptionRectangle: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Caption Rectangle
-    public struct CaptionRectangle: Swift.Equatable {
+    public struct CaptionRectangle {
         /// See the description in leftOffset. For height, specify the entire height of the rectangle as a percentage of the underlying frame height. For example, "80" means the rectangle height is 80% of the underlying frame height. The topOffset and rectangleHeight must add up to 100% or less. This field corresponds to tts:extent - Y in the TTML standard.
         /// This member is required.
         public var height: Swift.Double?
@@ -4828,7 +4828,7 @@ extension MediaLiveClientTypes.CaptionSelector: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Caption Selector
-    public struct CaptionSelector: Swift.Equatable {
+    public struct CaptionSelector {
         /// When specified this field indicates the three letter language code of the caption track to extract from the source.
         public var languageCode: Swift.String?
         /// Name identifier for a caption selector. This name is used to associate this caption selector with one or more caption descriptions. Names must be unique within an event.
@@ -4908,7 +4908,7 @@ extension MediaLiveClientTypes.CaptionSelectorSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Caption Selector Settings
-    public struct CaptionSelectorSettings: Swift.Equatable {
+    public struct CaptionSelectorSettings {
         /// Ancillary Source Settings
         public var ancillarySourceSettings: MediaLiveClientTypes.AncillarySourceSettings?
         /// Arib Source Settings
@@ -5006,7 +5006,7 @@ extension MediaLiveClientTypes.CdiInputSpecification: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for CdiInputSpecification
-    public struct CdiInputSpecification: Swift.Equatable {
+    public struct CdiInputSpecification {
         /// Maximum CDI input resolution
         public var resolution: MediaLiveClientTypes.CdiInputResolution?
 
@@ -5203,7 +5203,7 @@ extension MediaLiveClientTypes.Channel: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for Channel
-    public struct Channel: Swift.Equatable {
+    public struct Channel {
         /// The unique arn of the channel.
         public var arn: Swift.String?
         /// Specification of CDI inputs for this channel
@@ -5339,7 +5339,7 @@ extension MediaLiveClientTypes.ChannelEgressEndpoint: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for ChannelEgressEndpoint
-    public struct ChannelEgressEndpoint: Swift.Equatable {
+    public struct ChannelEgressEndpoint {
         /// Public IP of where a channel's output comes from
         public var sourceIp: Swift.String?
 
@@ -5605,7 +5605,7 @@ extension MediaLiveClientTypes.ChannelSummary: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for ChannelSummary
-    public struct ChannelSummary: Swift.Equatable {
+    public struct ChannelSummary {
         /// The unique arn of the channel.
         public var arn: Swift.String?
         /// Specification of CDI inputs for this channel
@@ -5700,7 +5700,7 @@ extension ClaimDeviceInput {
 }
 
 /// A request to claim an AWS Elemental device that you have purchased from a third-party vendor.
-public struct ClaimDeviceInput: Swift.Equatable {
+public struct ClaimDeviceInput {
     /// The id of the device you want to claim.
     public var id: Swift.String?
 
@@ -5712,7 +5712,7 @@ public struct ClaimDeviceInput: Swift.Equatable {
     }
 }
 
-struct ClaimDeviceInputBody: Swift.Equatable {
+struct ClaimDeviceInputBody {
     let id: Swift.String?
 }
 
@@ -5734,7 +5734,7 @@ extension ClaimDeviceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ClaimDeviceResponse
-public struct ClaimDeviceOutput: Swift.Equatable {
+public struct ClaimDeviceOutput {
 
     public init() { }
 }
@@ -5871,7 +5871,7 @@ extension MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary: Swift.Codabl
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for CloudWatchAlarmTemplateGroupSummary
-    public struct CloudWatchAlarmTemplateGroupSummary: Swift.Equatable {
+    public struct CloudWatchAlarmTemplateGroupSummary {
         /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
         /// This member is required.
         public var arn: Swift.String?
@@ -6089,7 +6089,7 @@ extension MediaLiveClientTypes.CloudWatchAlarmTemplateSummary: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for CloudWatchAlarmTemplateSummary
-    public struct CloudWatchAlarmTemplateSummary: Swift.Equatable {
+    public struct CloudWatchAlarmTemplateSummary {
         /// A cloudwatch alarm template's ARN (Amazon Resource Name)
         /// This member is required.
         public var arn: Swift.String?
@@ -6321,7 +6321,7 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Cmaf Ingest Group Settings
-    public struct CmafIngestGroupSettings: Swift.Equatable {
+    public struct CmafIngestGroupSettings {
         /// A HTTP destination for the tracks
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
@@ -6377,7 +6377,7 @@ extension MediaLiveClientTypes.CmafIngestOutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Cmaf Ingest Output Settings
-    public struct CmafIngestOutputSettings: Swift.Equatable {
+    public struct CmafIngestOutputSettings {
         /// String concatenated to the end of the destination filename. Required for multiple outputs of the same type.
         public var nameModifier: Swift.String?
 
@@ -6490,7 +6490,7 @@ extension MediaLiveClientTypes.ColorCorrection: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Property of ColorCorrectionSettings. Used for custom color space conversion. The object identifies one 3D LUT file and specifies the input/output color space combination that the file will be used for.
-    public struct ColorCorrection: Swift.Equatable {
+    public struct ColorCorrection {
         /// The color space of the input.
         /// This member is required.
         public var inputColorSpace: MediaLiveClientTypes.ColorSpace?
@@ -6548,7 +6548,7 @@ extension MediaLiveClientTypes.ColorCorrectionSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Property of encoderSettings. Controls color conversion when you are using 3D LUT files to perform color conversion on video.
-    public struct ColorCorrectionSettings: Swift.Equatable {
+    public struct ColorCorrectionSettings {
         /// An array of colorCorrections that applies when you are using 3D LUT files to perform color conversion on video. Each colorCorrection contains one 3D LUT file (that defines the color mapping for converting an input color space to an output color space), and the input/output combination that this 3D LUT file applies to. MediaLive reads the color space in the input metadata, determines the color space that you have specified for the output, and finds and uses the LUT file that applies to this combination.
         /// This member is required.
         public var globalColorCorrections: [MediaLiveClientTypes.ColorCorrection]?
@@ -6615,7 +6615,7 @@ extension MediaLiveClientTypes.ColorSpacePassthroughSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Passthrough applies no color space conversion to the output
-    public struct ColorSpacePassthroughSettings: Swift.Equatable {
+    public struct ColorSpacePassthroughSettings {
 
         public init() { }
     }
@@ -6662,7 +6662,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -6790,7 +6790,7 @@ extension CreateChannelInput {
 }
 
 /// A request to create a channel
-public struct CreateChannelInput: Swift.Equatable {
+public struct CreateChannelInput {
     /// Specification of CDI inputs for this channel
     public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
@@ -6855,7 +6855,7 @@ public struct CreateChannelInput: Swift.Equatable {
     }
 }
 
-struct CreateChannelInputBody: Swift.Equatable {
+struct CreateChannelInputBody {
     let cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     let channelClass: MediaLiveClientTypes.ChannelClass?
     let destinations: [MediaLiveClientTypes.OutputDestination]?
@@ -6963,7 +6963,7 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for CreateChannelResponse
-public struct CreateChannelOutput: Swift.Equatable {
+public struct CreateChannelOutput {
     /// Placeholder documentation for Channel
     public var channel: MediaLiveClientTypes.Channel?
 
@@ -6975,7 +6975,7 @@ public struct CreateChannelOutput: Swift.Equatable {
     }
 }
 
-struct CreateChannelOutputBody: Swift.Equatable {
+struct CreateChannelOutputBody {
     let channel: MediaLiveClientTypes.Channel?
 }
 
@@ -7041,7 +7041,7 @@ extension CreateCloudWatchAlarmTemplateGroupInput {
 }
 
 /// Placeholder documentation for CreateCloudWatchAlarmTemplateGroupRequest
-public struct CreateCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
+public struct CreateCloudWatchAlarmTemplateGroupInput {
     /// A resource's optional description.
     public var description: Swift.String?
     /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
@@ -7062,7 +7062,7 @@ public struct CreateCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateCloudWatchAlarmTemplateGroupInputBody: Swift.Equatable {
+struct CreateCloudWatchAlarmTemplateGroupInputBody {
     let description: Swift.String?
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -7120,7 +7120,7 @@ extension CreateCloudWatchAlarmTemplateGroupOutput: ClientRuntime.HttpResponseBi
 }
 
 /// Placeholder documentation for CreateCloudWatchAlarmTemplateGroupResponse
-public struct CreateCloudWatchAlarmTemplateGroupOutput: Swift.Equatable {
+public struct CreateCloudWatchAlarmTemplateGroupOutput {
     /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __timestampIso8601
@@ -7156,7 +7156,7 @@ public struct CreateCloudWatchAlarmTemplateGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateCloudWatchAlarmTemplateGroupOutputBody: Swift.Equatable {
+struct CreateCloudWatchAlarmTemplateGroupOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let description: Swift.String?
@@ -7293,7 +7293,7 @@ extension CreateCloudWatchAlarmTemplateInput {
 }
 
 /// Placeholder documentation for CreateCloudWatchAlarmTemplateRequest
-public struct CreateCloudWatchAlarmTemplateInput: Swift.Equatable {
+public struct CreateCloudWatchAlarmTemplateInput {
     /// The comparison operator used to compare the specified statistic and the threshold.
     /// This member is required.
     public var comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
@@ -7363,7 +7363,7 @@ public struct CreateCloudWatchAlarmTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateCloudWatchAlarmTemplateInputBody: Swift.Equatable {
+struct CreateCloudWatchAlarmTemplateInputBody {
     let comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
     let datapointsToAlarm: Swift.Int?
     let description: Swift.String?
@@ -7481,7 +7481,7 @@ extension CreateCloudWatchAlarmTemplateOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// Placeholder documentation for CreateCloudWatchAlarmTemplateResponse
-public struct CreateCloudWatchAlarmTemplateOutput: Swift.Equatable {
+public struct CreateCloudWatchAlarmTemplateOutput {
     /// A cloudwatch alarm template's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// The comparison operator used to compare the specified statistic and the threshold.
@@ -7557,7 +7557,7 @@ public struct CreateCloudWatchAlarmTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateCloudWatchAlarmTemplateOutputBody: Swift.Equatable {
+struct CreateCloudWatchAlarmTemplateOutputBody {
     let arn: Swift.String?
     let comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
     let createdAt: ClientRuntime.Date?
@@ -7694,7 +7694,7 @@ extension CreateEventBridgeRuleTemplateGroupInput {
 }
 
 /// Placeholder documentation for CreateEventBridgeRuleTemplateGroupRequest
-public struct CreateEventBridgeRuleTemplateGroupInput: Swift.Equatable {
+public struct CreateEventBridgeRuleTemplateGroupInput {
     /// A resource's optional description.
     public var description: Swift.String?
     /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
@@ -7715,7 +7715,7 @@ public struct CreateEventBridgeRuleTemplateGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateEventBridgeRuleTemplateGroupInputBody: Swift.Equatable {
+struct CreateEventBridgeRuleTemplateGroupInputBody {
     let description: Swift.String?
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -7773,7 +7773,7 @@ extension CreateEventBridgeRuleTemplateGroupOutput: ClientRuntime.HttpResponseBi
 }
 
 /// Placeholder documentation for CreateEventBridgeRuleTemplateGroupResponse
-public struct CreateEventBridgeRuleTemplateGroupOutput: Swift.Equatable {
+public struct CreateEventBridgeRuleTemplateGroupOutput {
     /// An eventbridge rule template group's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __timestampIso8601
@@ -7809,7 +7809,7 @@ public struct CreateEventBridgeRuleTemplateGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateEventBridgeRuleTemplateGroupOutputBody: Swift.Equatable {
+struct CreateEventBridgeRuleTemplateGroupOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let description: Swift.String?
@@ -7921,7 +7921,7 @@ extension CreateEventBridgeRuleTemplateInput {
 }
 
 /// Placeholder documentation for CreateEventBridgeRuleTemplateRequest
-public struct CreateEventBridgeRuleTemplateInput: Swift.Equatable {
+public struct CreateEventBridgeRuleTemplateInput {
     /// A resource's optional description.
     public var description: Swift.String?
     /// Placeholder documentation for __listOfEventBridgeRuleTemplateTarget
@@ -7956,7 +7956,7 @@ public struct CreateEventBridgeRuleTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateEventBridgeRuleTemplateInputBody: Swift.Equatable {
+struct CreateEventBridgeRuleTemplateInputBody {
     let description: Swift.String?
     let eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
     let eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
@@ -8041,7 +8041,7 @@ extension CreateEventBridgeRuleTemplateOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// Placeholder documentation for CreateEventBridgeRuleTemplateResponse
-public struct CreateEventBridgeRuleTemplateOutput: Swift.Equatable {
+public struct CreateEventBridgeRuleTemplateOutput {
     /// An eventbridge rule template's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __timestampIso8601
@@ -8089,7 +8089,7 @@ public struct CreateEventBridgeRuleTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateEventBridgeRuleTemplateOutputBody: Swift.Equatable {
+struct CreateEventBridgeRuleTemplateOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let description: Swift.String?
@@ -8254,7 +8254,7 @@ extension CreateInputInput {
 }
 
 /// The name of the input
-public struct CreateInputInput: Swift.Equatable {
+public struct CreateInputInput {
     /// Destination settings for PUSH type inputs.
     public var destinations: [MediaLiveClientTypes.InputDestinationRequest]?
     /// Settings for the devices.
@@ -8306,7 +8306,7 @@ public struct CreateInputInput: Swift.Equatable {
     }
 }
 
-struct CreateInputInputBody: Swift.Equatable {
+struct CreateInputInputBody {
     let destinations: [MediaLiveClientTypes.InputDestinationRequest]?
     let inputDevices: [MediaLiveClientTypes.InputDeviceSettings]?
     let inputSecurityGroups: [Swift.String]?
@@ -8429,7 +8429,7 @@ extension CreateInputOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for CreateInputResponse
-public struct CreateInputOutput: Swift.Equatable {
+public struct CreateInputOutput {
     /// Placeholder documentation for Input
     public var input: MediaLiveClientTypes.Input?
 
@@ -8441,7 +8441,7 @@ public struct CreateInputOutput: Swift.Equatable {
     }
 }
 
-struct CreateInputOutputBody: Swift.Equatable {
+struct CreateInputOutputBody {
     let input: MediaLiveClientTypes.Input?
 }
 
@@ -8504,7 +8504,7 @@ extension CreateInputSecurityGroupInput {
 }
 
 /// The IPv4 CIDRs to whitelist for this Input Security Group
-public struct CreateInputSecurityGroupInput: Swift.Equatable {
+public struct CreateInputSecurityGroupInput {
     /// A collection of key-value pairs.
     public var tags: [Swift.String:Swift.String]?
     /// List of IPv4 CIDR addresses to whitelist
@@ -8520,7 +8520,7 @@ public struct CreateInputSecurityGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateInputSecurityGroupInputBody: Swift.Equatable {
+struct CreateInputSecurityGroupInputBody {
     let tags: [Swift.String:Swift.String]?
     let whitelistRules: [MediaLiveClientTypes.InputWhitelistRuleCidr]?
 }
@@ -8571,7 +8571,7 @@ extension CreateInputSecurityGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for CreateInputSecurityGroupResponse
-public struct CreateInputSecurityGroupOutput: Swift.Equatable {
+public struct CreateInputSecurityGroupOutput {
     /// An Input Security Group
     public var securityGroup: MediaLiveClientTypes.InputSecurityGroup?
 
@@ -8583,7 +8583,7 @@ public struct CreateInputSecurityGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateInputSecurityGroupOutputBody: Swift.Equatable {
+struct CreateInputSecurityGroupOutputBody {
     let securityGroup: MediaLiveClientTypes.InputSecurityGroup?
 }
 
@@ -8658,7 +8658,7 @@ extension CreateMultiplexInput {
 }
 
 /// A request to create a multiplex.
-public struct CreateMultiplexInput: Swift.Equatable {
+public struct CreateMultiplexInput {
     /// A list of availability zones for the multiplex. You must specify exactly two.
     /// This member is required.
     public var availabilityZones: [Swift.String]?
@@ -8690,7 +8690,7 @@ public struct CreateMultiplexInput: Swift.Equatable {
     }
 }
 
-struct CreateMultiplexInputBody: Swift.Equatable {
+struct CreateMultiplexInputBody {
     let availabilityZones: [Swift.String]?
     let multiplexSettings: MediaLiveClientTypes.MultiplexSettings?
     let name: Swift.String?
@@ -8753,7 +8753,7 @@ extension CreateMultiplexOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for CreateMultiplexResponse
-public struct CreateMultiplexOutput: Swift.Equatable {
+public struct CreateMultiplexOutput {
     /// The newly created multiplex.
     public var multiplex: MediaLiveClientTypes.Multiplex?
 
@@ -8765,7 +8765,7 @@ public struct CreateMultiplexOutput: Swift.Equatable {
     }
 }
 
-struct CreateMultiplexOutputBody: Swift.Equatable {
+struct CreateMultiplexOutputBody {
     let multiplex: MediaLiveClientTypes.Multiplex?
 }
 
@@ -8831,7 +8831,7 @@ extension CreateMultiplexProgramInput {
 }
 
 /// A request to create a program in a multiplex.
-public struct CreateMultiplexProgramInput: Swift.Equatable {
+public struct CreateMultiplexProgramInput {
     /// ID of the multiplex where the program is to be created.
     /// This member is required.
     public var multiplexId: Swift.String?
@@ -8859,7 +8859,7 @@ public struct CreateMultiplexProgramInput: Swift.Equatable {
     }
 }
 
-struct CreateMultiplexProgramInputBody: Swift.Equatable {
+struct CreateMultiplexProgramInputBody {
     let multiplexProgramSettings: MediaLiveClientTypes.MultiplexProgramSettings?
     let programName: Swift.String?
     let requestId: Swift.String?
@@ -8896,7 +8896,7 @@ extension CreateMultiplexProgramOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for CreateMultiplexProgramResponse
-public struct CreateMultiplexProgramOutput: Swift.Equatable {
+public struct CreateMultiplexProgramOutput {
     /// The newly created multiplex program.
     public var multiplexProgram: MediaLiveClientTypes.MultiplexProgram?
 
@@ -8908,7 +8908,7 @@ public struct CreateMultiplexProgramOutput: Swift.Equatable {
     }
 }
 
-struct CreateMultiplexProgramOutputBody: Swift.Equatable {
+struct CreateMultiplexProgramOutputBody {
     let multiplexProgram: MediaLiveClientTypes.MultiplexProgram?
 }
 
@@ -8973,7 +8973,7 @@ extension CreatePartnerInputInput {
 }
 
 /// A request to create a partner input
-public struct CreatePartnerInputInput: Swift.Equatable {
+public struct CreatePartnerInputInput {
     /// Unique ID of the input.
     /// This member is required.
     public var inputId: Swift.String?
@@ -8994,7 +8994,7 @@ public struct CreatePartnerInputInput: Swift.Equatable {
     }
 }
 
-struct CreatePartnerInputInputBody: Swift.Equatable {
+struct CreatePartnerInputInputBody {
     let requestId: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -9036,7 +9036,7 @@ extension CreatePartnerInputOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for CreatePartnerInputResponse
-public struct CreatePartnerInputOutput: Swift.Equatable {
+public struct CreatePartnerInputOutput {
     /// Placeholder documentation for Input
     public var input: MediaLiveClientTypes.Input?
 
@@ -9048,7 +9048,7 @@ public struct CreatePartnerInputOutput: Swift.Equatable {
     }
 }
 
-struct CreatePartnerInputOutputBody: Swift.Equatable {
+struct CreatePartnerInputOutputBody {
     let input: MediaLiveClientTypes.Input?
 }
 
@@ -9130,7 +9130,7 @@ extension CreateSignalMapInput {
 }
 
 /// Placeholder documentation for CreateSignalMapRequest
-public struct CreateSignalMapInput: Swift.Equatable {
+public struct CreateSignalMapInput {
     /// Placeholder documentation for __listOf__stringPatternS
     public var cloudWatchAlarmTemplateGroupIdentifiers: [Swift.String]?
     /// A resource's optional description.
@@ -9164,7 +9164,7 @@ public struct CreateSignalMapInput: Swift.Equatable {
     }
 }
 
-struct CreateSignalMapInputBody: Swift.Equatable {
+struct CreateSignalMapInputBody {
     let cloudWatchAlarmTemplateGroupIdentifiers: [Swift.String]?
     let description: Swift.String?
     let discoveryEntryPointArn: Swift.String?
@@ -9274,7 +9274,7 @@ extension CreateSignalMapOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for CreateSignalMapResponse
-public struct CreateSignalMapOutput: Swift.Equatable {
+public struct CreateSignalMapOutput {
     /// A signal map's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
@@ -9354,7 +9354,7 @@ public struct CreateSignalMapOutput: Swift.Equatable {
     }
 }
 
-struct CreateSignalMapOutputBody: Swift.Equatable {
+struct CreateSignalMapOutputBody {
     let arn: Swift.String?
     let cloudWatchAlarmTemplateGroupIds: [Swift.String]?
     let createdAt: ClientRuntime.Date?
@@ -9526,7 +9526,7 @@ extension CreateTagsInput {
 }
 
 /// Placeholder documentation for CreateTagsRequest
-public struct CreateTagsInput: Swift.Equatable {
+public struct CreateTagsInput {
     /// Placeholder documentation for __string
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9543,7 +9543,7 @@ public struct CreateTagsInput: Swift.Equatable {
     }
 }
 
-struct CreateTagsInputBody: Swift.Equatable {
+struct CreateTagsInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -9573,7 +9573,7 @@ extension CreateTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTagsOutput: Swift.Equatable {
+public struct CreateTagsOutput {
 
     public init() { }
 }
@@ -9723,7 +9723,7 @@ extension DeleteChannelInput {
 }
 
 /// Placeholder documentation for DeleteChannelRequest
-public struct DeleteChannelInput: Swift.Equatable {
+public struct DeleteChannelInput {
     /// Unique ID of the channel.
     /// This member is required.
     public var channelId: Swift.String?
@@ -9736,7 +9736,7 @@ public struct DeleteChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteChannelInputBody: Swift.Equatable {
+struct DeleteChannelInputBody {
 }
 
 extension DeleteChannelInputBody: Swift.Decodable {
@@ -9792,7 +9792,7 @@ extension DeleteChannelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DeleteChannelResponse
-public struct DeleteChannelOutput: Swift.Equatable {
+public struct DeleteChannelOutput {
     /// The unique arn of the channel.
     public var arn: Swift.String?
     /// Specification of CDI inputs for this channel
@@ -9872,7 +9872,7 @@ public struct DeleteChannelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteChannelOutputBody: Swift.Equatable {
+struct DeleteChannelOutputBody {
     let arn: Swift.String?
     let cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     let channelClass: MediaLiveClientTypes.ChannelClass?
@@ -10030,7 +10030,7 @@ extension DeleteCloudWatchAlarmTemplateGroupInput {
 }
 
 /// Placeholder documentation for DeleteCloudWatchAlarmTemplateGroupRequest
-public struct DeleteCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
+public struct DeleteCloudWatchAlarmTemplateGroupInput {
     /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
@@ -10043,7 +10043,7 @@ public struct DeleteCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteCloudWatchAlarmTemplateGroupInputBody: Swift.Equatable {
+struct DeleteCloudWatchAlarmTemplateGroupInputBody {
 }
 
 extension DeleteCloudWatchAlarmTemplateGroupInputBody: Swift.Decodable {
@@ -10057,7 +10057,7 @@ extension DeleteCloudWatchAlarmTemplateGroupOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DeleteCloudWatchAlarmTemplateGroupOutput: Swift.Equatable {
+public struct DeleteCloudWatchAlarmTemplateGroupOutput {
 
     public init() { }
 }
@@ -10089,7 +10089,7 @@ extension DeleteCloudWatchAlarmTemplateInput {
 }
 
 /// Placeholder documentation for DeleteCloudWatchAlarmTemplateRequest
-public struct DeleteCloudWatchAlarmTemplateInput: Swift.Equatable {
+public struct DeleteCloudWatchAlarmTemplateInput {
     /// A cloudwatch alarm template's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
@@ -10102,7 +10102,7 @@ public struct DeleteCloudWatchAlarmTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteCloudWatchAlarmTemplateInputBody: Swift.Equatable {
+struct DeleteCloudWatchAlarmTemplateInputBody {
 }
 
 extension DeleteCloudWatchAlarmTemplateInputBody: Swift.Decodable {
@@ -10116,7 +10116,7 @@ extension DeleteCloudWatchAlarmTemplateOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeleteCloudWatchAlarmTemplateOutput: Swift.Equatable {
+public struct DeleteCloudWatchAlarmTemplateOutput {
 
     public init() { }
 }
@@ -10148,7 +10148,7 @@ extension DeleteEventBridgeRuleTemplateGroupInput {
 }
 
 /// Placeholder documentation for DeleteEventBridgeRuleTemplateGroupRequest
-public struct DeleteEventBridgeRuleTemplateGroupInput: Swift.Equatable {
+public struct DeleteEventBridgeRuleTemplateGroupInput {
     /// An eventbridge rule template group's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
@@ -10161,7 +10161,7 @@ public struct DeleteEventBridgeRuleTemplateGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventBridgeRuleTemplateGroupInputBody: Swift.Equatable {
+struct DeleteEventBridgeRuleTemplateGroupInputBody {
 }
 
 extension DeleteEventBridgeRuleTemplateGroupInputBody: Swift.Decodable {
@@ -10175,7 +10175,7 @@ extension DeleteEventBridgeRuleTemplateGroupOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DeleteEventBridgeRuleTemplateGroupOutput: Swift.Equatable {
+public struct DeleteEventBridgeRuleTemplateGroupOutput {
 
     public init() { }
 }
@@ -10207,7 +10207,7 @@ extension DeleteEventBridgeRuleTemplateInput {
 }
 
 /// Placeholder documentation for DeleteEventBridgeRuleTemplateRequest
-public struct DeleteEventBridgeRuleTemplateInput: Swift.Equatable {
+public struct DeleteEventBridgeRuleTemplateInput {
     /// An eventbridge rule template's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
@@ -10220,7 +10220,7 @@ public struct DeleteEventBridgeRuleTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventBridgeRuleTemplateInputBody: Swift.Equatable {
+struct DeleteEventBridgeRuleTemplateInputBody {
 }
 
 extension DeleteEventBridgeRuleTemplateInputBody: Swift.Decodable {
@@ -10234,7 +10234,7 @@ extension DeleteEventBridgeRuleTemplateOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeleteEventBridgeRuleTemplateOutput: Swift.Equatable {
+public struct DeleteEventBridgeRuleTemplateOutput {
 
     public init() { }
 }
@@ -10266,7 +10266,7 @@ extension DeleteInputInput {
 }
 
 /// Placeholder documentation for DeleteInputRequest
-public struct DeleteInputInput: Swift.Equatable {
+public struct DeleteInputInput {
     /// Unique ID of the input
     /// This member is required.
     public var inputId: Swift.String?
@@ -10279,7 +10279,7 @@ public struct DeleteInputInput: Swift.Equatable {
     }
 }
 
-struct DeleteInputInputBody: Swift.Equatable {
+struct DeleteInputInputBody {
 }
 
 extension DeleteInputInputBody: Swift.Decodable {
@@ -10294,7 +10294,7 @@ extension DeleteInputOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DeleteInputResponse
-public struct DeleteInputOutput: Swift.Equatable {
+public struct DeleteInputOutput {
 
     public init() { }
 }
@@ -10328,7 +10328,7 @@ extension DeleteInputSecurityGroupInput {
 }
 
 /// Placeholder documentation for DeleteInputSecurityGroupRequest
-public struct DeleteInputSecurityGroupInput: Swift.Equatable {
+public struct DeleteInputSecurityGroupInput {
     /// The Input Security Group to delete
     /// This member is required.
     public var inputSecurityGroupId: Swift.String?
@@ -10341,7 +10341,7 @@ public struct DeleteInputSecurityGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteInputSecurityGroupInputBody: Swift.Equatable {
+struct DeleteInputSecurityGroupInputBody {
 }
 
 extension DeleteInputSecurityGroupInputBody: Swift.Decodable {
@@ -10356,7 +10356,7 @@ extension DeleteInputSecurityGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DeleteInputSecurityGroupResponse
-public struct DeleteInputSecurityGroupOutput: Swift.Equatable {
+public struct DeleteInputSecurityGroupOutput {
 
     public init() { }
 }
@@ -10389,7 +10389,7 @@ extension DeleteMultiplexInput {
 }
 
 /// Placeholder documentation for DeleteMultiplexRequest
-public struct DeleteMultiplexInput: Swift.Equatable {
+public struct DeleteMultiplexInput {
     /// The ID of the multiplex.
     /// This member is required.
     public var multiplexId: Swift.String?
@@ -10402,7 +10402,7 @@ public struct DeleteMultiplexInput: Swift.Equatable {
     }
 }
 
-struct DeleteMultiplexInputBody: Swift.Equatable {
+struct DeleteMultiplexInputBody {
 }
 
 extension DeleteMultiplexInputBody: Swift.Decodable {
@@ -10442,7 +10442,7 @@ extension DeleteMultiplexOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DeleteMultiplexResponse
-public struct DeleteMultiplexOutput: Swift.Equatable {
+public struct DeleteMultiplexOutput {
     /// The unique arn of the multiplex.
     public var arn: Swift.String?
     /// A list of availability zones for the multiplex.
@@ -10490,7 +10490,7 @@ public struct DeleteMultiplexOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMultiplexOutputBody: Swift.Equatable {
+struct DeleteMultiplexOutputBody {
     let arn: Swift.String?
     let availabilityZones: [Swift.String]?
     let destinations: [MediaLiveClientTypes.MultiplexOutputDestination]?
@@ -10601,7 +10601,7 @@ extension DeleteMultiplexProgramInput {
 }
 
 /// Placeholder documentation for DeleteMultiplexProgramRequest
-public struct DeleteMultiplexProgramInput: Swift.Equatable {
+public struct DeleteMultiplexProgramInput {
     /// The ID of the multiplex that the program belongs to.
     /// This member is required.
     public var multiplexId: Swift.String?
@@ -10619,7 +10619,7 @@ public struct DeleteMultiplexProgramInput: Swift.Equatable {
     }
 }
 
-struct DeleteMultiplexProgramInputBody: Swift.Equatable {
+struct DeleteMultiplexProgramInputBody {
 }
 
 extension DeleteMultiplexProgramInputBody: Swift.Decodable {
@@ -10649,7 +10649,7 @@ extension DeleteMultiplexProgramOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DeleteMultiplexProgramResponse
-public struct DeleteMultiplexProgramOutput: Swift.Equatable {
+public struct DeleteMultiplexProgramOutput {
     /// The MediaLive channel associated with the program.
     public var channelId: Swift.String?
     /// The settings for this multiplex program.
@@ -10677,7 +10677,7 @@ public struct DeleteMultiplexProgramOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMultiplexProgramOutputBody: Swift.Equatable {
+struct DeleteMultiplexProgramOutputBody {
     let channelId: Swift.String?
     let multiplexProgramSettings: MediaLiveClientTypes.MultiplexProgramSettings?
     let packetIdentifiersMap: MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap?
@@ -10747,7 +10747,7 @@ extension DeleteReservationInput {
 }
 
 /// Placeholder documentation for DeleteReservationRequest
-public struct DeleteReservationInput: Swift.Equatable {
+public struct DeleteReservationInput {
     /// Unique reservation ID, e.g. '1234567'
     /// This member is required.
     public var reservationId: Swift.String?
@@ -10760,7 +10760,7 @@ public struct DeleteReservationInput: Swift.Equatable {
     }
 }
 
-struct DeleteReservationInputBody: Swift.Equatable {
+struct DeleteReservationInputBody {
 }
 
 extension DeleteReservationInputBody: Swift.Decodable {
@@ -10818,7 +10818,7 @@ extension DeleteReservationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DeleteReservationResponse
-public struct DeleteReservationOutput: Swift.Equatable {
+public struct DeleteReservationOutput {
     /// Unique reservation ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
     public var arn: Swift.String?
     /// Number of reserved resources
@@ -10902,7 +10902,7 @@ public struct DeleteReservationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteReservationOutputBody: Swift.Equatable {
+struct DeleteReservationOutputBody {
     let arn: Swift.String?
     let count: Swift.Int?
     let currencyCode: Swift.String?
@@ -11028,7 +11028,7 @@ extension DeleteScheduleInput {
 }
 
 /// Placeholder documentation for DeleteScheduleRequest
-public struct DeleteScheduleInput: Swift.Equatable {
+public struct DeleteScheduleInput {
     /// Id of the channel whose schedule is being deleted.
     /// This member is required.
     public var channelId: Swift.String?
@@ -11041,7 +11041,7 @@ public struct DeleteScheduleInput: Swift.Equatable {
     }
 }
 
-struct DeleteScheduleInputBody: Swift.Equatable {
+struct DeleteScheduleInputBody {
 }
 
 extension DeleteScheduleInputBody: Swift.Decodable {
@@ -11056,7 +11056,7 @@ extension DeleteScheduleOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DeleteScheduleResponse
-public struct DeleteScheduleOutput: Swift.Equatable {
+public struct DeleteScheduleOutput {
 
     public init() { }
 }
@@ -11089,7 +11089,7 @@ extension DeleteSignalMapInput {
 }
 
 /// Placeholder documentation for DeleteSignalMapRequest
-public struct DeleteSignalMapInput: Swift.Equatable {
+public struct DeleteSignalMapInput {
     /// A signal map's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
@@ -11102,7 +11102,7 @@ public struct DeleteSignalMapInput: Swift.Equatable {
     }
 }
 
-struct DeleteSignalMapInputBody: Swift.Equatable {
+struct DeleteSignalMapInputBody {
 }
 
 extension DeleteSignalMapInputBody: Swift.Decodable {
@@ -11116,7 +11116,7 @@ extension DeleteSignalMapOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSignalMapOutput: Swift.Equatable {
+public struct DeleteSignalMapOutput {
 
     public init() { }
 }
@@ -11164,7 +11164,7 @@ extension DeleteTagsInput {
 }
 
 /// Placeholder documentation for DeleteTagsRequest
-public struct DeleteTagsInput: Swift.Equatable {
+public struct DeleteTagsInput {
     /// Placeholder documentation for __string
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -11182,7 +11182,7 @@ public struct DeleteTagsInput: Swift.Equatable {
     }
 }
 
-struct DeleteTagsInputBody: Swift.Equatable {
+struct DeleteTagsInputBody {
 }
 
 extension DeleteTagsInputBody: Swift.Decodable {
@@ -11196,7 +11196,7 @@ extension DeleteTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTagsOutput: Swift.Equatable {
+public struct DeleteTagsOutput {
 
     public init() { }
 }
@@ -11223,12 +11223,12 @@ extension DescribeAccountConfigurationInput {
 }
 
 /// Placeholder documentation for DescribeAccountConfigurationRequest
-public struct DescribeAccountConfigurationInput: Swift.Equatable {
+public struct DescribeAccountConfigurationInput {
 
     public init() { }
 }
 
-struct DescribeAccountConfigurationInputBody: Swift.Equatable {
+struct DescribeAccountConfigurationInputBody {
 }
 
 extension DescribeAccountConfigurationInputBody: Swift.Decodable {
@@ -11250,7 +11250,7 @@ extension DescribeAccountConfigurationOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Placeholder documentation for DescribeAccountConfigurationResponse
-public struct DescribeAccountConfigurationOutput: Swift.Equatable {
+public struct DescribeAccountConfigurationOutput {
     /// Placeholder documentation for AccountConfiguration
     public var accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
 
@@ -11262,7 +11262,7 @@ public struct DescribeAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountConfigurationOutputBody: Swift.Equatable {
+struct DescribeAccountConfigurationOutputBody {
     let accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
 }
 
@@ -11305,7 +11305,7 @@ extension DescribeChannelInput {
 }
 
 /// Placeholder documentation for DescribeChannelRequest
-public struct DescribeChannelInput: Swift.Equatable {
+public struct DescribeChannelInput {
     /// channel ID
     /// This member is required.
     public var channelId: Swift.String?
@@ -11318,7 +11318,7 @@ public struct DescribeChannelInput: Swift.Equatable {
     }
 }
 
-struct DescribeChannelInputBody: Swift.Equatable {
+struct DescribeChannelInputBody {
 }
 
 extension DescribeChannelInputBody: Swift.Decodable {
@@ -11374,7 +11374,7 @@ extension DescribeChannelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DescribeChannelResponse
-public struct DescribeChannelOutput: Swift.Equatable {
+public struct DescribeChannelOutput {
     /// The unique arn of the channel.
     public var arn: Swift.String?
     /// Specification of CDI inputs for this channel
@@ -11454,7 +11454,7 @@ public struct DescribeChannelOutput: Swift.Equatable {
     }
 }
 
-struct DescribeChannelOutputBody: Swift.Equatable {
+struct DescribeChannelOutputBody {
     let arn: Swift.String?
     let cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     let channelClass: MediaLiveClientTypes.ChannelClass?
@@ -11611,7 +11611,7 @@ extension DescribeInputDeviceInput {
 }
 
 /// Placeholder documentation for DescribeInputDeviceRequest
-public struct DescribeInputDeviceInput: Swift.Equatable {
+public struct DescribeInputDeviceInput {
     /// The unique ID of this input device. For example, hd-123456789abcdef.
     /// This member is required.
     public var inputDeviceId: Swift.String?
@@ -11624,7 +11624,7 @@ public struct DescribeInputDeviceInput: Swift.Equatable {
     }
 }
 
-struct DescribeInputDeviceInputBody: Swift.Equatable {
+struct DescribeInputDeviceInputBody {
 }
 
 extension DescribeInputDeviceInputBody: Swift.Decodable {
@@ -11676,7 +11676,7 @@ extension DescribeInputDeviceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DescribeInputDeviceResponse
-public struct DescribeInputDeviceOutput: Swift.Equatable {
+public struct DescribeInputDeviceOutput {
     /// The unique ARN of the input device.
     public var arn: Swift.String?
     /// The Availability Zone associated with this input device.
@@ -11748,7 +11748,7 @@ public struct DescribeInputDeviceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInputDeviceOutputBody: Swift.Equatable {
+struct DescribeInputDeviceOutputBody {
     let arn: Swift.String?
     let connectionState: MediaLiveClientTypes.InputDeviceConnectionState?
     let deviceSettingsSyncState: MediaLiveClientTypes.DeviceSettingsSyncState?
@@ -11881,7 +11881,7 @@ extension DescribeInputDeviceThumbnailInput {
 }
 
 /// Placeholder documentation for DescribeInputDeviceThumbnailRequest
-public struct DescribeInputDeviceThumbnailInput: Swift.Equatable {
+public struct DescribeInputDeviceThumbnailInput {
     /// The HTTP Accept header. Indicates the requested type for the thumbnail.
     /// This member is required.
     public var accept: MediaLiveClientTypes.AcceptHeader?
@@ -11899,7 +11899,7 @@ public struct DescribeInputDeviceThumbnailInput: Swift.Equatable {
     }
 }
 
-struct DescribeInputDeviceThumbnailInputBody: Swift.Equatable {
+struct DescribeInputDeviceThumbnailInputBody {
 }
 
 extension DescribeInputDeviceThumbnailInputBody: Swift.Decodable {
@@ -11942,7 +11942,7 @@ extension DescribeInputDeviceThumbnailOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Placeholder documentation for DescribeInputDeviceThumbnailResponse
-public struct DescribeInputDeviceThumbnailOutput: Swift.Equatable {
+public struct DescribeInputDeviceThumbnailOutput {
     /// The binary data for the thumbnail that the Link device has most recently sent to MediaLive.
     public var body: ClientRuntime.ByteStream?
     /// The length of the content.
@@ -11970,7 +11970,7 @@ public struct DescribeInputDeviceThumbnailOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInputDeviceThumbnailOutputBody: Swift.Equatable {
+struct DescribeInputDeviceThumbnailOutputBody {
     let body: ClientRuntime.ByteStream?
 }
 
@@ -12014,7 +12014,7 @@ extension DescribeInputInput {
 }
 
 /// Placeholder documentation for DescribeInputRequest
-public struct DescribeInputInput: Swift.Equatable {
+public struct DescribeInputInput {
     /// Unique ID of the input
     /// This member is required.
     public var inputId: Swift.String?
@@ -12027,7 +12027,7 @@ public struct DescribeInputInput: Swift.Equatable {
     }
 }
 
-struct DescribeInputInputBody: Swift.Equatable {
+struct DescribeInputInputBody {
 }
 
 extension DescribeInputInputBody: Swift.Decodable {
@@ -12079,7 +12079,7 @@ extension DescribeInputOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DescribeInputResponse
-public struct DescribeInputOutput: Swift.Equatable {
+public struct DescribeInputOutput {
     /// The Unique ARN of the input (generated, immutable).
     public var arn: Swift.String?
     /// A list of channel IDs that that input is attached to (currently an input can only be attached to one channel).
@@ -12151,7 +12151,7 @@ public struct DescribeInputOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInputOutputBody: Swift.Equatable {
+struct DescribeInputOutputBody {
     let arn: Swift.String?
     let attachedChannels: [Swift.String]?
     let destinations: [MediaLiveClientTypes.InputDestination]?
@@ -12327,7 +12327,7 @@ extension DescribeInputSecurityGroupInput {
 }
 
 /// Placeholder documentation for DescribeInputSecurityGroupRequest
-public struct DescribeInputSecurityGroupInput: Swift.Equatable {
+public struct DescribeInputSecurityGroupInput {
     /// The id of the Input Security Group to describe
     /// This member is required.
     public var inputSecurityGroupId: Swift.String?
@@ -12340,7 +12340,7 @@ public struct DescribeInputSecurityGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeInputSecurityGroupInputBody: Swift.Equatable {
+struct DescribeInputSecurityGroupInputBody {
 }
 
 extension DescribeInputSecurityGroupInputBody: Swift.Decodable {
@@ -12372,7 +12372,7 @@ extension DescribeInputSecurityGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DescribeInputSecurityGroupResponse
-public struct DescribeInputSecurityGroupOutput: Swift.Equatable {
+public struct DescribeInputSecurityGroupOutput {
     /// Unique ARN of Input Security Group
     public var arn: Swift.String?
     /// The Id of the Input Security Group
@@ -12404,7 +12404,7 @@ public struct DescribeInputSecurityGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInputSecurityGroupOutputBody: Swift.Equatable {
+struct DescribeInputSecurityGroupOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let inputs: [Swift.String]?
@@ -12495,7 +12495,7 @@ extension DescribeMultiplexInput {
 }
 
 /// Placeholder documentation for DescribeMultiplexRequest
-public struct DescribeMultiplexInput: Swift.Equatable {
+public struct DescribeMultiplexInput {
     /// The ID of the multiplex.
     /// This member is required.
     public var multiplexId: Swift.String?
@@ -12508,7 +12508,7 @@ public struct DescribeMultiplexInput: Swift.Equatable {
     }
 }
 
-struct DescribeMultiplexInputBody: Swift.Equatable {
+struct DescribeMultiplexInputBody {
 }
 
 extension DescribeMultiplexInputBody: Swift.Decodable {
@@ -12548,7 +12548,7 @@ extension DescribeMultiplexOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DescribeMultiplexResponse
-public struct DescribeMultiplexOutput: Swift.Equatable {
+public struct DescribeMultiplexOutput {
     /// The unique arn of the multiplex.
     public var arn: Swift.String?
     /// A list of availability zones for the multiplex.
@@ -12596,7 +12596,7 @@ public struct DescribeMultiplexOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMultiplexOutputBody: Swift.Equatable {
+struct DescribeMultiplexOutputBody {
     let arn: Swift.String?
     let availabilityZones: [Swift.String]?
     let destinations: [MediaLiveClientTypes.MultiplexOutputDestination]?
@@ -12706,7 +12706,7 @@ extension DescribeMultiplexProgramInput {
 }
 
 /// Placeholder documentation for DescribeMultiplexProgramRequest
-public struct DescribeMultiplexProgramInput: Swift.Equatable {
+public struct DescribeMultiplexProgramInput {
     /// The ID of the multiplex that the program belongs to.
     /// This member is required.
     public var multiplexId: Swift.String?
@@ -12724,7 +12724,7 @@ public struct DescribeMultiplexProgramInput: Swift.Equatable {
     }
 }
 
-struct DescribeMultiplexProgramInputBody: Swift.Equatable {
+struct DescribeMultiplexProgramInputBody {
 }
 
 extension DescribeMultiplexProgramInputBody: Swift.Decodable {
@@ -12754,7 +12754,7 @@ extension DescribeMultiplexProgramOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DescribeMultiplexProgramResponse
-public struct DescribeMultiplexProgramOutput: Swift.Equatable {
+public struct DescribeMultiplexProgramOutput {
     /// The MediaLive channel associated with the program.
     public var channelId: Swift.String?
     /// The settings for this multiplex program.
@@ -12782,7 +12782,7 @@ public struct DescribeMultiplexProgramOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMultiplexProgramOutputBody: Swift.Equatable {
+struct DescribeMultiplexProgramOutputBody {
     let channelId: Swift.String?
     let multiplexProgramSettings: MediaLiveClientTypes.MultiplexProgramSettings?
     let packetIdentifiersMap: MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap?
@@ -12851,7 +12851,7 @@ extension DescribeOfferingInput {
 }
 
 /// Placeholder documentation for DescribeOfferingRequest
-public struct DescribeOfferingInput: Swift.Equatable {
+public struct DescribeOfferingInput {
     /// Unique offering ID, e.g. '87654321'
     /// This member is required.
     public var offeringId: Swift.String?
@@ -12864,7 +12864,7 @@ public struct DescribeOfferingInput: Swift.Equatable {
     }
 }
 
-struct DescribeOfferingInputBody: Swift.Equatable {
+struct DescribeOfferingInputBody {
 }
 
 extension DescribeOfferingInputBody: Swift.Decodable {
@@ -12906,7 +12906,7 @@ extension DescribeOfferingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DescribeOfferingResponse
-public struct DescribeOfferingOutput: Swift.Equatable {
+public struct DescribeOfferingOutput {
     /// Unique offering ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:offering:87654321'
     public var arn: Swift.String?
     /// Currency code for usagePrice and fixedPrice in ISO-4217 format, e.g. 'USD'
@@ -12958,7 +12958,7 @@ public struct DescribeOfferingOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOfferingOutputBody: Swift.Equatable {
+struct DescribeOfferingOutputBody {
     let arn: Swift.String?
     let currencyCode: Swift.String?
     let duration: Swift.Int?
@@ -13042,7 +13042,7 @@ extension DescribeReservationInput {
 }
 
 /// Placeholder documentation for DescribeReservationRequest
-public struct DescribeReservationInput: Swift.Equatable {
+public struct DescribeReservationInput {
     /// Unique reservation ID, e.g. '1234567'
     /// This member is required.
     public var reservationId: Swift.String?
@@ -13055,7 +13055,7 @@ public struct DescribeReservationInput: Swift.Equatable {
     }
 }
 
-struct DescribeReservationInputBody: Swift.Equatable {
+struct DescribeReservationInputBody {
 }
 
 extension DescribeReservationInputBody: Swift.Decodable {
@@ -13113,7 +13113,7 @@ extension DescribeReservationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DescribeReservationResponse
-public struct DescribeReservationOutput: Swift.Equatable {
+public struct DescribeReservationOutput {
     /// Unique reservation ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
     public var arn: Swift.String?
     /// Number of reserved resources
@@ -13197,7 +13197,7 @@ public struct DescribeReservationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReservationOutputBody: Swift.Equatable {
+struct DescribeReservationOutputBody {
     let arn: Swift.String?
     let count: Swift.Int?
     let currencyCode: Swift.String?
@@ -13338,7 +13338,7 @@ extension DescribeScheduleInput {
 }
 
 /// Placeholder documentation for DescribeScheduleRequest
-public struct DescribeScheduleInput: Swift.Equatable {
+public struct DescribeScheduleInput {
     /// Id of the channel whose schedule is being updated.
     /// This member is required.
     public var channelId: Swift.String?
@@ -13359,7 +13359,7 @@ public struct DescribeScheduleInput: Swift.Equatable {
     }
 }
 
-struct DescribeScheduleInputBody: Swift.Equatable {
+struct DescribeScheduleInputBody {
 }
 
 extension DescribeScheduleInputBody: Swift.Decodable {
@@ -13383,7 +13383,7 @@ extension DescribeScheduleOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DescribeScheduleResponse
-public struct DescribeScheduleOutput: Swift.Equatable {
+public struct DescribeScheduleOutput {
     /// The next token; for use in pagination.
     public var nextToken: Swift.String?
     /// The list of actions in the schedule.
@@ -13399,7 +13399,7 @@ public struct DescribeScheduleOutput: Swift.Equatable {
     }
 }
 
-struct DescribeScheduleOutputBody: Swift.Equatable {
+struct DescribeScheduleOutputBody {
     let nextToken: Swift.String?
     let scheduleActions: [MediaLiveClientTypes.ScheduleAction]?
 }
@@ -13476,7 +13476,7 @@ extension DescribeThumbnailsInput {
 }
 
 /// Placeholder documentation for DescribeThumbnailsRequest
-public struct DescribeThumbnailsInput: Swift.Equatable {
+public struct DescribeThumbnailsInput {
     /// Unique ID of the channel
     /// This member is required.
     public var channelId: Swift.String?
@@ -13499,7 +13499,7 @@ public struct DescribeThumbnailsInput: Swift.Equatable {
     }
 }
 
-struct DescribeThumbnailsInputBody: Swift.Equatable {
+struct DescribeThumbnailsInputBody {
 }
 
 extension DescribeThumbnailsInputBody: Swift.Decodable {
@@ -13521,7 +13521,7 @@ extension DescribeThumbnailsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for DescribeThumbnailsResponse
-public struct DescribeThumbnailsOutput: Swift.Equatable {
+public struct DescribeThumbnailsOutput {
     /// Placeholder documentation for __listOfThumbnailDetail
     public var thumbnailDetails: [MediaLiveClientTypes.ThumbnailDetail]?
 
@@ -13533,7 +13533,7 @@ public struct DescribeThumbnailsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeThumbnailsOutputBody: Swift.Equatable {
+struct DescribeThumbnailsOutputBody {
     let thumbnailDetails: [MediaLiveClientTypes.ThumbnailDetail]?
 }
 
@@ -13712,7 +13712,7 @@ extension MediaLiveClientTypes.DolbyVision81Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Dolby Vision81 Settings
-    public struct DolbyVision81Settings: Swift.Equatable {
+    public struct DolbyVision81Settings {
 
         public init() { }
     }
@@ -13800,7 +13800,7 @@ extension MediaLiveClientTypes.DvbNitSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// DVB Network Information Table (NIT)
-    public struct DvbNitSettings: Swift.Equatable {
+    public struct DvbNitSettings {
         /// The numeric value placed in the Network Information Table (NIT).
         /// This member is required.
         public var networkId: Swift.Int?
@@ -13902,7 +13902,7 @@ extension MediaLiveClientTypes.DvbSdtSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// DVB Service Description Table (SDT)
-    public struct DvbSdtSettings: Swift.Equatable {
+    public struct DvbSdtSettings {
         /// Selects method of inserting SDT information into output stream. The sdtFollow setting copies SDT information from input stream to output stream. The sdtFollowIfPresent setting copies SDT information from input stream to output stream if SDT information is present in the input, otherwise it will fall back on the user-defined values. The sdtManual setting means user will enter the SDT information. The sdtNone setting means output stream will not contain SDT information.
         public var outputSdt: MediaLiveClientTypes.DvbSdtOutputSdt?
         /// The number of milliseconds between instances of this table in the output transport stream.
@@ -14207,7 +14207,7 @@ extension MediaLiveClientTypes.DvbSubDestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Dvb Sub Destination Settings
-    public struct DvbSubDestinationSettings: Swift.Equatable {
+    public struct DvbSubDestinationSettings {
         /// If no explicit xPosition or yPosition is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Selecting "smart" justification will left-justify live subtitles and center-justify pre-recorded subtitles. This option is not valid for source captions that are STL or 608/embedded. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public var alignment: MediaLiveClientTypes.DvbSubDestinationAlignment?
         /// Specifies the color of the rectangle behind the captions. All burn-in and DVB-Sub font settings must match.
@@ -14426,7 +14426,7 @@ extension MediaLiveClientTypes.DvbSubSourceSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Dvb Sub Source Settings
-    public struct DvbSubSourceSettings: Swift.Equatable {
+    public struct DvbSubSourceSettings {
         /// If you will configure a WebVTT caption description that references this caption selector, use this field to provide the language to consider when translating the image-based source to text.
         public var ocrLanguage: MediaLiveClientTypes.DvbSubOcrLanguage?
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
@@ -14465,7 +14465,7 @@ extension MediaLiveClientTypes.DvbTdtSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// DVB Time and Date Table (SDT)
-    public struct DvbTdtSettings: Swift.Equatable {
+    public struct DvbTdtSettings {
         /// The number of milliseconds between instances of this table in the output transport stream.
         public var repInterval: Swift.Int?
 
@@ -14662,7 +14662,7 @@ extension MediaLiveClientTypes.Eac3AtmosSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Eac3 Atmos Settings
-    public struct Eac3AtmosSettings: Swift.Equatable {
+    public struct Eac3AtmosSettings {
         /// Average bitrate in bits/second. Valid bitrates depend on the coding mode. // * @affectsRightSizing true
         public var bitrate: Swift.Double?
         /// Dolby Digital Plus with Dolby Atmos coding mode. Determines number of channels.
@@ -15234,7 +15234,7 @@ extension MediaLiveClientTypes.Eac3Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Eac3 Settings
-    public struct Eac3Settings: Swift.Equatable {
+    public struct Eac3Settings {
         /// When set to attenuate3Db, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
         public var attenuationControl: MediaLiveClientTypes.Eac3AttenuationControl?
         /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
@@ -15474,7 +15474,7 @@ extension MediaLiveClientTypes.EbuTtDDestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Ebu Tt DDestination Settings
-    public struct EbuTtDDestinationSettings: Swift.Equatable {
+    public struct EbuTtDDestinationSettings {
         /// Complete this field if you want to include the name of the copyright holder in the copyright tag in the captions metadata.
         public var copyrightHolder: Swift.String?
         /// Specifies how to handle the gap between the lines (in multi-line captions).
@@ -15624,7 +15624,7 @@ extension MediaLiveClientTypes.EmbeddedDestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Embedded Destination Settings
-    public struct EmbeddedDestinationSettings: Swift.Equatable {
+    public struct EmbeddedDestinationSettings {
 
         public init() { }
     }
@@ -15644,7 +15644,7 @@ extension MediaLiveClientTypes.EmbeddedPlusScte20DestinationSettings: Swift.Coda
 
 extension MediaLiveClientTypes {
     /// Embedded Plus Scte20 Destination Settings
-    public struct EmbeddedPlusScte20DestinationSettings: Swift.Equatable {
+    public struct EmbeddedPlusScte20DestinationSettings {
 
         public init() { }
     }
@@ -15723,7 +15723,7 @@ extension MediaLiveClientTypes.EmbeddedSourceSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Embedded Source Settings
-    public struct EmbeddedSourceSettings: Swift.Equatable {
+    public struct EmbeddedSourceSettings {
         /// If upconvert, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
         public var convert608To708: MediaLiveClientTypes.EmbeddedConvert608To708?
         /// Set to "auto" to handle streams with intermittent and/or non-aligned SCTE-20 and Embedded captions.
@@ -15896,7 +15896,7 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Encoder Settings
-    public struct EncoderSettings: Swift.Equatable {
+    public struct EncoderSettings {
         /// Placeholder documentation for __listOfAudioDescription
         /// This member is required.
         public var audioDescriptions: [MediaLiveClientTypes.AudioDescription]?
@@ -15993,7 +15993,7 @@ extension MediaLiveClientTypes.EpochLockingSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Epoch Locking Settings
-    public struct EpochLockingSettings: Swift.Equatable {
+    public struct EpochLockingSettings {
         /// Optional. Enter a value here to use a custom epoch, instead of the standard epoch (which started at 1970-01-01T00:00:00 UTC). Specify the start time of the custom epoch, in YYYY-MM-DDTHH:MM:SS in UTC. The time must be 2000-01-01T00:00:00 or later. Always set the MM:SS portion to 00:00.
         public var customEpoch: Swift.String?
         /// Optional. Enter a time for the jam sync. The default is midnight UTC. When epoch locking is enabled, MediaLive performs a daily jam sync on every output encode to ensure timecodes don’t diverge from the wall clock. The jam sync applies only to encodes with frame rate of 29.97 or 59.94 FPS. To override, enter a time in HH:MM:SS in UTC. Always set the MM:SS portion to 00:00.
@@ -16062,7 +16062,7 @@ extension MediaLiveClientTypes.Esam: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Esam
-    public struct Esam: Swift.Equatable {
+    public struct Esam {
         /// Sent as acquisitionPointIdentity to identify the MediaLive channel to the POIS.
         /// This member is required.
         public var acquisitionPointId: Swift.String?
@@ -16239,7 +16239,7 @@ extension MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary: Swift.Codabl
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for EventBridgeRuleTemplateGroupSummary
-    public struct EventBridgeRuleTemplateGroupSummary: Swift.Equatable {
+    public struct EventBridgeRuleTemplateGroupSummary {
         /// An eventbridge rule template group's ARN (Amazon Resource Name)
         /// This member is required.
         public var arn: Swift.String?
@@ -16373,7 +16373,7 @@ extension MediaLiveClientTypes.EventBridgeRuleTemplateSummary: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for EventBridgeRuleTemplateSummary
-    public struct EventBridgeRuleTemplateSummary: Swift.Equatable {
+    public struct EventBridgeRuleTemplateSummary {
         /// An eventbridge rule template's ARN (Amazon Resource Name)
         /// This member is required.
         public var arn: Swift.String?
@@ -16451,7 +16451,7 @@ extension MediaLiveClientTypes.EventBridgeRuleTemplateTarget: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The target to which to send matching events.
-    public struct EventBridgeRuleTemplateTarget: Swift.Equatable {
+    public struct EventBridgeRuleTemplateTarget {
         /// Target ARNs must be either an SNS topic or CloudWatch log group.
         /// This member is required.
         public var arn: Swift.String?
@@ -16487,7 +16487,7 @@ extension MediaLiveClientTypes.FailoverCondition: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Failover Condition settings. There can be multiple failover conditions inside AutomaticInputFailoverSettings.
-    public struct FailoverCondition: Swift.Equatable {
+    public struct FailoverCondition {
         /// Failover condition type-specific settings.
         public var failoverConditionSettings: MediaLiveClientTypes.FailoverConditionSettings?
 
@@ -16534,7 +16534,7 @@ extension MediaLiveClientTypes.FailoverConditionSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings for one failover condition.
-    public struct FailoverConditionSettings: Swift.Equatable {
+    public struct FailoverConditionSettings {
         /// MediaLive will perform a failover if the specified audio selector is silent for the specified period.
         public var audioSilenceSettings: MediaLiveClientTypes.AudioSilenceFailoverSettings?
         /// MediaLive will perform a failover if content is not detected in this input for the specified period.
@@ -16583,7 +16583,7 @@ extension MediaLiveClientTypes.FeatureActivations: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Feature Activations
-    public struct FeatureActivations: Swift.Equatable {
+    public struct FeatureActivations {
         /// Enables the Input Prepare feature. You can create Input Prepare actions in the schedule only if this feature is enabled. If you disable the feature on an existing schedule, make sure that you first delete all input prepare actions from the schedule.
         public var inputPrepareScheduleActions: MediaLiveClientTypes.FeatureActivationsInputPrepareScheduleActions?
         /// Enables the output static image overlay feature. Enabling this feature allows you to send channel schedule updates to display/clear/modify image overlays on an output-by-output bases.
@@ -16733,7 +16733,7 @@ extension MediaLiveClientTypes.FecOutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Fec Output Settings
-    public struct FecOutputSettings: Swift.Equatable {
+    public struct FecOutputSettings {
         /// Parameter D from SMPTE 2022-1. The height of the FEC protection matrix. The number of transport stream packets per column error correction packet. Must be between 4 and 20, inclusive.
         public var columnDepth: Swift.Int?
         /// Enables column only or column and row based FEC
@@ -16836,7 +16836,7 @@ extension MediaLiveClientTypes.FixedModeScheduleActionStartSettings: Swift.Codab
 
 extension MediaLiveClientTypes {
     /// Start time for the action.
-    public struct FixedModeScheduleActionStartSettings: Swift.Equatable {
+    public struct FixedModeScheduleActionStartSettings {
         /// Start time for the action to start in the channel. (Not the time for the action to be added to the schedule: actions are always added to the schedule immediately.) UTC format: yyyy-mm-ddThh:mm:ss.nnnZ. All the letters are digits (for example, mm might be 01) except for the two constants "T" for time and "Z" for "UTC format".
         /// This member is required.
         public var time: Swift.String?
@@ -16884,7 +16884,7 @@ extension MediaLiveClientTypes.Fmp4HlsSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Fmp4 Hls Settings
-    public struct Fmp4HlsSettings: Swift.Equatable {
+    public struct Fmp4HlsSettings {
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public var audioRenditionSets: Swift.String?
         /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
@@ -16999,7 +16999,7 @@ extension MediaLiveClientTypes.FollowModeScheduleActionStartSettings: Swift.Coda
 
 extension MediaLiveClientTypes {
     /// Settings to specify if an action follows another.
-    public struct FollowModeScheduleActionStartSettings: Swift.Equatable {
+    public struct FollowModeScheduleActionStartSettings {
         /// Identifies whether this action starts relative to the start or relative to the end of the reference action.
         /// This member is required.
         public var followPoint: MediaLiveClientTypes.FollowPoint?
@@ -17092,7 +17092,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let message: Swift.String?
 }
 
@@ -17129,7 +17129,7 @@ extension MediaLiveClientTypes.FrameCaptureCdnSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Frame Capture Cdn Settings
-    public struct FrameCaptureCdnSettings: Swift.Equatable {
+    public struct FrameCaptureCdnSettings {
         /// Frame Capture S3 Settings
         public var frameCaptureS3Settings: MediaLiveClientTypes.FrameCaptureS3Settings?
 
@@ -17170,7 +17170,7 @@ extension MediaLiveClientTypes.FrameCaptureGroupSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Frame Capture Group Settings
-    public struct FrameCaptureGroupSettings: Swift.Equatable {
+    public struct FrameCaptureGroupSettings {
         /// The destination for the frame capture files. Either the URI for an Amazon S3 bucket and object, plus a file name prefix (for example, s3ssl://sportsDelivery/highlights/20180820/curling-) or the URI for a MediaStore container, plus a file name prefix (for example, mediastoressl://sportsDelivery/20180820/curling-). The final file names consist of the prefix from the destination field (for example, "curling-") + name modifier + the counter (5 digits, starting from 00001) + extension (which is always .jpg). For example, curling-low.00001.jpg
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
@@ -17202,7 +17202,7 @@ extension MediaLiveClientTypes.FrameCaptureHlsSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Frame Capture Hls Settings
-    public struct FrameCaptureHlsSettings: Swift.Equatable {
+    public struct FrameCaptureHlsSettings {
 
         public init() { }
     }
@@ -17263,7 +17263,7 @@ extension MediaLiveClientTypes.FrameCaptureOutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Frame Capture Output Settings
-    public struct FrameCaptureOutputSettings: Swift.Equatable {
+    public struct FrameCaptureOutputSettings {
         /// Required if the output group contains more than one output. This modifier forms part of the output file name.
         public var nameModifier: Swift.String?
 
@@ -17298,7 +17298,7 @@ extension MediaLiveClientTypes.FrameCaptureS3Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Frame Capture S3 Settings
-    public struct FrameCaptureS3Settings: Swift.Equatable {
+    public struct FrameCaptureS3Settings {
         /// Specify the canned ACL to apply to each S3 request. Defaults to none.
         public var cannedAcl: MediaLiveClientTypes.S3CannedAcl?
 
@@ -17345,7 +17345,7 @@ extension MediaLiveClientTypes.FrameCaptureSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Frame Capture Settings
-    public struct FrameCaptureSettings: Swift.Equatable {
+    public struct FrameCaptureSettings {
         /// The frequency at which to capture frames for inclusion in the output. May be specified in either seconds or milliseconds, as specified by captureIntervalUnits.
         public var captureInterval: Swift.Int?
         /// Unit for the frame capture interval.
@@ -17407,7 +17407,7 @@ public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct GatewayTimeoutExceptionBody: Swift.Equatable {
+struct GatewayTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -17434,7 +17434,7 @@ extension GetCloudWatchAlarmTemplateGroupInput {
 }
 
 /// Placeholder documentation for GetCloudWatchAlarmTemplateGroupRequest
-public struct GetCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
+public struct GetCloudWatchAlarmTemplateGroupInput {
     /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
@@ -17447,7 +17447,7 @@ public struct GetCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
     }
 }
 
-struct GetCloudWatchAlarmTemplateGroupInputBody: Swift.Equatable {
+struct GetCloudWatchAlarmTemplateGroupInputBody {
 }
 
 extension GetCloudWatchAlarmTemplateGroupInputBody: Swift.Decodable {
@@ -17481,7 +17481,7 @@ extension GetCloudWatchAlarmTemplateGroupOutput: ClientRuntime.HttpResponseBindi
 }
 
 /// Placeholder documentation for GetCloudWatchAlarmTemplateGroupResponse
-public struct GetCloudWatchAlarmTemplateGroupOutput: Swift.Equatable {
+public struct GetCloudWatchAlarmTemplateGroupOutput {
     /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __timestampIso8601
@@ -17517,7 +17517,7 @@ public struct GetCloudWatchAlarmTemplateGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetCloudWatchAlarmTemplateGroupOutputBody: Swift.Equatable {
+struct GetCloudWatchAlarmTemplateGroupOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let description: Swift.String?
@@ -17592,7 +17592,7 @@ extension GetCloudWatchAlarmTemplateInput {
 }
 
 /// Placeholder documentation for GetCloudWatchAlarmTemplateRequest
-public struct GetCloudWatchAlarmTemplateInput: Swift.Equatable {
+public struct GetCloudWatchAlarmTemplateInput {
     /// A cloudwatch alarm template's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
@@ -17605,7 +17605,7 @@ public struct GetCloudWatchAlarmTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetCloudWatchAlarmTemplateInputBody: Swift.Equatable {
+struct GetCloudWatchAlarmTemplateInputBody {
 }
 
 extension GetCloudWatchAlarmTemplateInputBody: Swift.Decodable {
@@ -17659,7 +17659,7 @@ extension GetCloudWatchAlarmTemplateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for GetCloudWatchAlarmTemplateResponse
-public struct GetCloudWatchAlarmTemplateOutput: Swift.Equatable {
+public struct GetCloudWatchAlarmTemplateOutput {
     /// A cloudwatch alarm template's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// The comparison operator used to compare the specified statistic and the threshold.
@@ -17735,7 +17735,7 @@ public struct GetCloudWatchAlarmTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetCloudWatchAlarmTemplateOutputBody: Swift.Equatable {
+struct GetCloudWatchAlarmTemplateOutputBody {
     let arn: Swift.String?
     let comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
     let createdAt: ClientRuntime.Date?
@@ -17850,7 +17850,7 @@ extension GetEventBridgeRuleTemplateGroupInput {
 }
 
 /// Placeholder documentation for GetEventBridgeRuleTemplateGroupRequest
-public struct GetEventBridgeRuleTemplateGroupInput: Swift.Equatable {
+public struct GetEventBridgeRuleTemplateGroupInput {
     /// An eventbridge rule template group's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
@@ -17863,7 +17863,7 @@ public struct GetEventBridgeRuleTemplateGroupInput: Swift.Equatable {
     }
 }
 
-struct GetEventBridgeRuleTemplateGroupInputBody: Swift.Equatable {
+struct GetEventBridgeRuleTemplateGroupInputBody {
 }
 
 extension GetEventBridgeRuleTemplateGroupInputBody: Swift.Decodable {
@@ -17897,7 +17897,7 @@ extension GetEventBridgeRuleTemplateGroupOutput: ClientRuntime.HttpResponseBindi
 }
 
 /// Placeholder documentation for GetEventBridgeRuleTemplateGroupResponse
-public struct GetEventBridgeRuleTemplateGroupOutput: Swift.Equatable {
+public struct GetEventBridgeRuleTemplateGroupOutput {
     /// An eventbridge rule template group's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __timestampIso8601
@@ -17933,7 +17933,7 @@ public struct GetEventBridgeRuleTemplateGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetEventBridgeRuleTemplateGroupOutputBody: Swift.Equatable {
+struct GetEventBridgeRuleTemplateGroupOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let description: Swift.String?
@@ -18008,7 +18008,7 @@ extension GetEventBridgeRuleTemplateInput {
 }
 
 /// Placeholder documentation for GetEventBridgeRuleTemplateRequest
-public struct GetEventBridgeRuleTemplateInput: Swift.Equatable {
+public struct GetEventBridgeRuleTemplateInput {
     /// An eventbridge rule template's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
@@ -18021,7 +18021,7 @@ public struct GetEventBridgeRuleTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetEventBridgeRuleTemplateInputBody: Swift.Equatable {
+struct GetEventBridgeRuleTemplateInputBody {
 }
 
 extension GetEventBridgeRuleTemplateInputBody: Swift.Decodable {
@@ -18061,7 +18061,7 @@ extension GetEventBridgeRuleTemplateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for GetEventBridgeRuleTemplateResponse
-public struct GetEventBridgeRuleTemplateOutput: Swift.Equatable {
+public struct GetEventBridgeRuleTemplateOutput {
     /// An eventbridge rule template's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __timestampIso8601
@@ -18109,7 +18109,7 @@ public struct GetEventBridgeRuleTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetEventBridgeRuleTemplateOutputBody: Swift.Equatable {
+struct GetEventBridgeRuleTemplateOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let description: Swift.String?
@@ -18205,7 +18205,7 @@ extension GetSignalMapInput {
 }
 
 /// Placeholder documentation for GetSignalMapRequest
-public struct GetSignalMapInput: Swift.Equatable {
+public struct GetSignalMapInput {
     /// A signal map's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
@@ -18218,7 +18218,7 @@ public struct GetSignalMapInput: Swift.Equatable {
     }
 }
 
-struct GetSignalMapInputBody: Swift.Equatable {
+struct GetSignalMapInputBody {
 }
 
 extension GetSignalMapInputBody: Swift.Decodable {
@@ -18274,7 +18274,7 @@ extension GetSignalMapOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for GetSignalMapResponse
-public struct GetSignalMapOutput: Swift.Equatable {
+public struct GetSignalMapOutput {
     /// A signal map's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
@@ -18354,7 +18354,7 @@ public struct GetSignalMapOutput: Swift.Equatable {
     }
 }
 
-struct GetSignalMapOutputBody: Swift.Equatable {
+struct GetSignalMapOutputBody {
     let arn: Swift.String?
     let cloudWatchAlarmTemplateGroupIds: [Swift.String]?
     let createdAt: ClientRuntime.Date?
@@ -18555,7 +18555,7 @@ extension MediaLiveClientTypes.GlobalConfiguration: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Global Configuration
-    public struct GlobalConfiguration: Swift.Equatable {
+    public struct GlobalConfiguration {
         /// Value to set the initial audio gain for the Live Event.
         public var initialAudioGain: Swift.Int?
         /// Indicates the action to take when the current input completes (e.g. end-of-file). When switchAndLoopInputs is configured the encoder will restart at the beginning of the first input. When "none" is configured the encoder will transcode either black, a solid color, or a user specified slate images per the "Input Loss Behavior" configuration until the next input switch occurs (which is controlled through the Channel Schedule API).
@@ -18839,7 +18839,7 @@ extension MediaLiveClientTypes.H264ColorSpaceSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// H264 Color Space Settings
-    public struct H264ColorSpaceSettings: Swift.Equatable {
+    public struct H264ColorSpaceSettings {
         /// Passthrough applies no color space conversion to the output
         public var colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings?
         /// Rec601 Settings
@@ -18915,7 +18915,7 @@ extension MediaLiveClientTypes.H264FilterSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// H264 Filter Settings
-    public struct H264FilterSettings: Swift.Equatable {
+    public struct H264FilterSettings {
         /// Temporal Filter Settings
         public var temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings?
 
@@ -19691,7 +19691,7 @@ extension MediaLiveClientTypes.H264Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// H264 Settings
-    public struct H264Settings: Swift.Equatable {
+    public struct H264Settings {
         /// Enables or disables adaptive quantization, which is a technique MediaLive can apply to video on a frame-by-frame basis to produce more compression without losing quality. There are three types of adaptive quantization: flicker, spatial, and temporal. Set the field in one of these ways: Set to Auto. Recommended. For each type of AQ, MediaLive will determine if AQ is needed, and if so, the appropriate strength. Set a strength (a value other than Auto or Disable). This strength will apply to any of the AQ fields that you choose to enable. Set to Disabled to disable all types of adaptive quantization.
         public var adaptiveQuantization: MediaLiveClientTypes.H264AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream. If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
@@ -20211,7 +20211,7 @@ extension MediaLiveClientTypes.H265ColorSpaceSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// H265 Color Space Settings
-    public struct H265ColorSpaceSettings: Swift.Equatable {
+    public struct H265ColorSpaceSettings {
         /// Passthrough applies no color space conversion to the output
         public var colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings?
         /// Dolby Vision81 Settings
@@ -20262,7 +20262,7 @@ extension MediaLiveClientTypes.H265FilterSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// H265 Filter Settings
-    public struct H265FilterSettings: Swift.Equatable {
+    public struct H265FilterSettings {
         /// Temporal Filter Settings
         public var temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings?
 
@@ -20879,7 +20879,7 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// H265 Settings
-    public struct H265Settings: Swift.Equatable {
+    public struct H265Settings {
         /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
         public var adaptiveQuantization: MediaLiveClientTypes.H265AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream. If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
@@ -21204,7 +21204,7 @@ extension MediaLiveClientTypes.Hdr10Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Hdr10 Settings
-    public struct Hdr10Settings: Swift.Equatable {
+    public struct Hdr10Settings {
         /// Maximum Content Light Level An integer metadata value defining the maximum light level, in nits, of any single pixel within an encoded HDR video stream or file.
         public var maxCll: Swift.Int?
         /// Maximum Frame Average Light Level An integer metadata value defining the maximum average light level, in nits, for any single frame within an encoded HDR video stream or file.
@@ -21348,7 +21348,7 @@ extension MediaLiveClientTypes.HlsAkamaiSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Hls Akamai Settings
-    public struct HlsAkamaiSettings: Swift.Equatable {
+    public struct HlsAkamaiSettings {
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public var connectionRetryInterval: Swift.Int?
         /// Size in seconds of file cache for streaming outputs.
@@ -21425,7 +21425,7 @@ extension MediaLiveClientTypes.HlsBasicPutSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Hls Basic Put Settings
-    public struct HlsBasicPutSettings: Swift.Equatable {
+    public struct HlsBasicPutSettings {
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public var connectionRetryInterval: Swift.Int?
         /// Size in seconds of file cache for streaming outputs.
@@ -21532,7 +21532,7 @@ extension MediaLiveClientTypes.HlsCdnSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Hls Cdn Settings
-    public struct HlsCdnSettings: Swift.Equatable {
+    public struct HlsCdnSettings {
         /// Hls Akamai Settings
         public var hlsAkamaiSettings: MediaLiveClientTypes.HlsAkamaiSettings?
         /// Hls Basic Put Settings
@@ -22024,7 +22024,7 @@ extension MediaLiveClientTypes.HlsGroupSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Hls Group Settings
-    public struct HlsGroupSettings: Swift.Equatable {
+    public struct HlsGroupSettings {
         /// Choose one or more ad marker types to pass SCTE35 signals through to this group of Apple HLS outputs.
         public var adMarkers: [MediaLiveClientTypes.HlsAdMarkers]?
         /// A partial URI prefix that will be prepended to each output in the media .m3u8 file. Can be used if base manifest is delivered from a different URL than the main .m3u8 file.
@@ -22267,7 +22267,7 @@ extension MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings: Swift
 
 extension MediaLiveClientTypes {
     /// Settings for the action to insert a user-defined ID3 tag in each HLS segment
-    public struct HlsId3SegmentTaggingScheduleActionSettings: Swift.Equatable {
+    public struct HlsId3SegmentTaggingScheduleActionSettings {
         /// Base64 string formatted according to the ID3 specification: http://id3.org/id3v2.4.0-structure
         public var id3: Swift.String?
         /// ID3 tag to insert into each segment. Supports special keyword identifiers to substitute in segment-related values.\nSupported keyword identifiers: https://docs.aws.amazon.com/medialive/latest/ug/variable-data-identifiers.html
@@ -22396,7 +22396,7 @@ extension MediaLiveClientTypes.HlsInputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Hls Input Settings
-    public struct HlsInputSettings: Swift.Equatable {
+    public struct HlsInputSettings {
         /// When specified the HLS stream with the m3u8 BANDWIDTH that most closely matches this value will be chosen, otherwise the highest bandwidth stream in the m3u8 will be chosen. The bitrate is specified in bits per second, as in an HLS manifest.
         public var bandwidth: Swift.Int?
         /// When specified, reading of the HLS input will begin this many buffer segments from the end (most recently written segment). When not specified, the HLS input will begin with the first segment specified in the m3u8.
@@ -22603,7 +22603,7 @@ extension MediaLiveClientTypes.HlsMediaStoreSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Hls Media Store Settings
-    public struct HlsMediaStoreSettings: Swift.Equatable {
+    public struct HlsMediaStoreSettings {
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public var connectionRetryInterval: Swift.Int?
         /// Size in seconds of file cache for streaming outputs.
@@ -22771,7 +22771,7 @@ extension MediaLiveClientTypes.HlsOutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Hls Output Settings
-    public struct HlsOutputSettings: Swift.Equatable {
+    public struct HlsOutputSettings {
         /// Only applicable when this output is referencing an H.265 video description. Specifies whether MP4 segments should be packaged as HEV1 or HVC1.
         public var h265PackagingType: MediaLiveClientTypes.HlsH265PackagingType?
         /// Settings regarding the underlying stream. These settings are different for audio-only outputs.
@@ -22918,7 +22918,7 @@ extension MediaLiveClientTypes.HlsS3Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Hls S3 Settings
-    public struct HlsS3Settings: Swift.Equatable {
+    public struct HlsS3Settings {
         /// Specify the canned ACL to apply to each S3 request. Defaults to none.
         public var cannedAcl: MediaLiveClientTypes.S3CannedAcl?
 
@@ -23037,7 +23037,7 @@ extension MediaLiveClientTypes.HlsSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Hls Settings
-    public struct HlsSettings: Swift.Equatable {
+    public struct HlsSettings {
         /// Audio Only Hls Settings
         public var audioOnlyHlsSettings: MediaLiveClientTypes.AudioOnlyHlsSettings?
         /// Fmp4 Hls Settings
@@ -23153,7 +23153,7 @@ extension MediaLiveClientTypes.HlsTimedMetadataScheduleActionSettings: Swift.Cod
 
 extension MediaLiveClientTypes {
     /// Settings for the action to emit HLS metadata
-    public struct HlsTimedMetadataScheduleActionSettings: Swift.Equatable {
+    public struct HlsTimedMetadataScheduleActionSettings {
         /// Base64 string formatted according to the ID3 specification: http://id3.org/id3v2.4.0-structure
         /// This member is required.
         public var id3: Swift.String?
@@ -23279,7 +23279,7 @@ extension MediaLiveClientTypes.HlsWebdavSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Hls Webdav Settings
-    public struct HlsWebdavSettings: Swift.Equatable {
+    public struct HlsWebdavSettings {
         /// Number of seconds to wait before retrying connection to the CDN if the connection is lost.
         public var connectionRetryInterval: Swift.Int?
         /// Size in seconds of file cache for streaming outputs.
@@ -23322,7 +23322,7 @@ extension MediaLiveClientTypes.HtmlMotionGraphicsSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Html Motion Graphics Settings
-    public struct HtmlMotionGraphicsSettings: Swift.Equatable {
+    public struct HtmlMotionGraphicsSettings {
 
         public init() { }
     }
@@ -23375,7 +23375,7 @@ extension MediaLiveClientTypes.ImmediateModeScheduleActionStartSettings: Swift.C
 
 extension MediaLiveClientTypes {
     /// Settings to configure an action so that it occurs as soon as possible.
-    public struct ImmediateModeScheduleActionStartSettings: Swift.Equatable {
+    public struct ImmediateModeScheduleActionStartSettings {
 
         public init() { }
     }
@@ -23625,7 +23625,7 @@ extension MediaLiveClientTypes.Input: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for Input
-    public struct Input: Swift.Equatable {
+    public struct Input {
         /// The Unique ARN of the input (generated, immutable).
         public var arn: Swift.String?
         /// A list of channel IDs that that input is attached to (currently an input can only be attached to one channel).
@@ -23738,7 +23738,7 @@ extension MediaLiveClientTypes.InputAttachment: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for InputAttachment
-    public struct InputAttachment: Swift.Equatable {
+    public struct InputAttachment {
         /// User-specified settings for defining what the conditions are for declaring the input unhealthy and failing over to a different input.
         public var automaticInputFailoverSettings: MediaLiveClientTypes.AutomaticInputFailoverSettings?
         /// User-specified name for the attachment. This is required if the user wants to use this input in an input switch action.
@@ -23791,7 +23791,7 @@ extension MediaLiveClientTypes.InputChannelLevel: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Input Channel Level
-    public struct InputChannelLevel: Swift.Equatable {
+    public struct InputChannelLevel {
         /// Remixing value. Units are in dB and acceptable values are within the range from -60 (mute) and 6 dB.
         /// This member is required.
         public var gain: Swift.Int?
@@ -23877,7 +23877,7 @@ extension MediaLiveClientTypes.InputClippingSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings to let you create a clip of the file input, in order to set up the input to ingest only a portion of the file.
-    public struct InputClippingSettings: Swift.Equatable {
+    public struct InputClippingSettings {
         /// The source of the timecodes in the source being clipped.
         /// This member is required.
         public var inputTimecodeSource: MediaLiveClientTypes.InputTimecodeSource?
@@ -24041,7 +24041,7 @@ extension MediaLiveClientTypes.InputDestination: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The settings for a PUSH type input.
-    public struct InputDestination: Swift.Equatable {
+    public struct InputDestination {
         /// The system-generated static IP address of endpoint. It remains fixed for the lifetime of the input.
         public var ip: Swift.String?
         /// The port number for the input.
@@ -24088,7 +24088,7 @@ extension MediaLiveClientTypes.InputDestinationRequest: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Endpoint settings for a PUSH type input.
-    public struct InputDestinationRequest: Swift.Equatable {
+    public struct InputDestinationRequest {
         /// A unique name for the location the RTMP stream is being pushed to.
         public var streamName: Swift.String?
 
@@ -24129,7 +24129,7 @@ extension MediaLiveClientTypes.InputDestinationVpc: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The properties for a VPC type input destination.
-    public struct InputDestinationVpc: Swift.Equatable {
+    public struct InputDestinationVpc {
         /// The availability zone of the Input destination.
         public var availabilityZone: Swift.String?
         /// The network interface ID of the Input destination in the VPC.
@@ -24240,7 +24240,7 @@ extension MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig: Sw
 
 extension MediaLiveClientTypes {
     /// One audio configuration that specifies the format for one audio pair that the device produces as output.
-    public struct InputDeviceConfigurableAudioChannelPairConfig: Swift.Equatable {
+    public struct InputDeviceConfigurableAudioChannelPairConfig {
         /// The ID for one audio pair configuration, a value from 1 to 8.
         public var id: Swift.Int?
         /// The profile to set for one audio pair configuration. Choose an enumeration value. Each value describes one audio configuration using the format (rate control algorithm)-(codec)_(quality)-(bitrate in bytes). For example, CBR-AAC_HQ-192000. Or choose DISABLED, in which case the device won't produce audio for this pair.
@@ -24372,7 +24372,7 @@ extension MediaLiveClientTypes.InputDeviceConfigurableSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Configurable settings for the input device.
-    public struct InputDeviceConfigurableSettings: Swift.Equatable {
+    public struct InputDeviceConfigurableSettings {
         /// An array of eight audio configurations, one for each audio pair in the source. Set up each audio configuration either to exclude the pair, or to format it and include it in the output from the device. This parameter applies only to UHD devices, and only when the device is configured as the source for a MediaConnect flow. For an HD device, you configure the audio by setting up audio selectors in the channel configuration.
         public var audioChannelPairs: [MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig]?
         /// Choose the codec for the video that the device produces. Only UHD devices can specify this parameter.
@@ -24544,7 +24544,7 @@ extension MediaLiveClientTypes.InputDeviceHdSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings that describe the active source from the input device, and the video characteristics of that source.
-    public struct InputDeviceHdSettings: Swift.Equatable {
+    public struct InputDeviceHdSettings {
         /// If you specified Auto as the configured input, specifies which of the sources is currently active (SDI or HDMI).
         public var activeInput: MediaLiveClientTypes.InputDeviceActiveInput?
         /// The source at the input device that is currently active. You can specify this source.
@@ -24662,7 +24662,7 @@ extension MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings: Swif
 
 extension MediaLiveClientTypes {
     /// Parameters required to attach a MediaConnect flow to the device.
-    public struct InputDeviceMediaConnectConfigurableSettings: Swift.Equatable {
+    public struct InputDeviceMediaConnectConfigurableSettings {
         /// The ARN of the MediaConnect flow to attach this device to.
         public var flowArn: Swift.String?
         /// The ARN for the role that MediaLive assumes to access the attached flow and secret. For more information about how to create this role, see the MediaLive user guide.
@@ -24727,7 +24727,7 @@ extension MediaLiveClientTypes.InputDeviceMediaConnectSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Information about the MediaConnect flow attached to the device.
-    public struct InputDeviceMediaConnectSettings: Swift.Equatable {
+    public struct InputDeviceMediaConnectSettings {
         /// The ARN of the MediaConnect flow.
         public var flowArn: Swift.String?
         /// The ARN for the role that MediaLive assumes to access the attached flow and secret.
@@ -24810,7 +24810,7 @@ extension MediaLiveClientTypes.InputDeviceNetworkSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The network settings for the input device.
-    public struct InputDeviceNetworkSettings: Swift.Equatable {
+    public struct InputDeviceNetworkSettings {
         /// The DNS addresses of the input device.
         public var dnsAddresses: [Swift.String]?
         /// The network gateway IP address.
@@ -24897,7 +24897,7 @@ extension MediaLiveClientTypes.InputDeviceRequest: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings for an input device.
-    public struct InputDeviceRequest: Swift.Equatable {
+    public struct InputDeviceRequest {
         /// The unique ID for the device.
         public var id: Swift.String?
 
@@ -24965,7 +24965,7 @@ extension MediaLiveClientTypes.InputDeviceSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings for an input device.
-    public struct InputDeviceSettings: Swift.Equatable {
+    public struct InputDeviceSettings {
         /// The unique ID for the device.
         public var id: Swift.String?
 
@@ -25147,7 +25147,7 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Details of the input device.
-    public struct InputDeviceSummary: Swift.Equatable {
+    public struct InputDeviceSummary {
         /// The unique ARN of the input device.
         public var arn: Swift.String?
         /// The Availability Zone associated with this input device.
@@ -25314,7 +25314,7 @@ extension MediaLiveClientTypes.InputDeviceUhdAudioChannelPairConfig: Swift.Codab
 
 extension MediaLiveClientTypes {
     /// One audio configuration that specifies the format for one audio pair that the device produces as output.
-    public struct InputDeviceUhdAudioChannelPairConfig: Swift.Equatable {
+    public struct InputDeviceUhdAudioChannelPairConfig {
         /// The ID for one audio pair configuration, a value from 1 to 8.
         public var id: Swift.Int?
         /// The profile for one audio pair configuration. This property describes one audio configuration in the format (rate control algorithm)-(codec)_(quality)-(bitrate in bytes). For example, CBR-AAC_HQ-192000. Or DISABLED, in which case the device won't produce audio for this pair.
@@ -25482,7 +25482,7 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings that describe the active source from the input device, and the video characteristics of that source.
-    public struct InputDeviceUhdSettings: Swift.Equatable {
+    public struct InputDeviceUhdSettings {
         /// If you specified Auto as the configured input, specifies which of the sources is currently active (SDI or HDMI).
         public var activeInput: MediaLiveClientTypes.InputDeviceActiveInput?
         /// An array of eight audio configurations, one for each audio pair in the source. Each audio configuration specifies either to exclude the pair, or to format it and include it in the output from the UHD device. Applies only when the device is configured as the source for a MediaConnect flow.
@@ -25609,7 +25609,7 @@ extension MediaLiveClientTypes.InputLocation: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Input Location
-    public struct InputLocation: Swift.Equatable {
+    public struct InputLocation {
         /// key used to extract the password from EC2 Parameter store
         public var passwordParam: Swift.String?
         /// Uniform Resource Identifier - This should be a path to a file accessible to the Live system (eg. a http:// URI) depending on the output type. For example, a RTMP destination should have a uri simliar to: "rtmp://fmsserver/live".
@@ -25812,7 +25812,7 @@ extension MediaLiveClientTypes.InputLossBehavior: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Input Loss Behavior
-    public struct InputLossBehavior: Swift.Equatable {
+    public struct InputLossBehavior {
         /// Documentation update needed
         public var blackFrameMsec: Swift.Int?
         /// When input loss image type is "color" this field specifies the color to use. Value: 6 hex characters representing the values of RGB.
@@ -25863,7 +25863,7 @@ extension MediaLiveClientTypes.InputLossFailoverSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// MediaLive will perform a failover if content is not detected in this input for the specified period.
-    public struct InputLossFailoverSettings: Swift.Equatable {
+    public struct InputLossFailoverSettings {
         /// The amount of time (in milliseconds) that no input is detected. After that time, an input failover will occur.
         public var inputLossThresholdMsec: Swift.Int?
 
@@ -26024,7 +26024,7 @@ extension MediaLiveClientTypes.InputPrepareScheduleActionSettings: Swift.Codable
 
 extension MediaLiveClientTypes {
     /// Action to prepare an input for a future immediate input switch.
-    public struct InputPrepareScheduleActionSettings: Swift.Equatable {
+    public struct InputPrepareScheduleActionSettings {
         /// The name of the input attachment that should be prepared by this action. If no name is provided, the action will stop the most recent prepare (if any) when activated.
         public var inputAttachmentNameReference: Swift.String?
         /// Settings to let you create a clip of the file input, in order to set up the input to ingest only a portion of the file.
@@ -26169,7 +26169,7 @@ extension MediaLiveClientTypes.InputSecurityGroup: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// An Input Security Group
-    public struct InputSecurityGroup: Swift.Equatable {
+    public struct InputSecurityGroup {
         /// Unique ARN of Input Security Group
         public var arn: Swift.String?
         /// The Id of the Input Security Group
@@ -26347,7 +26347,7 @@ extension MediaLiveClientTypes.InputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Live Event input parameters. There can be multiple inputs in a single Live Event.
-    public struct InputSettings: Swift.Equatable {
+    public struct InputSettings {
         /// Used to select the audio stream to decode for inputs that have multiple available.
         public var audioSelectors: [MediaLiveClientTypes.AudioSelector]?
         /// Used to select the caption input to use for inputs that have multiple available.
@@ -26444,7 +26444,7 @@ extension MediaLiveClientTypes.InputSource: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The settings for a PULL type input.
-    public struct InputSource: Swift.Equatable {
+    public struct InputSource {
         /// The key used to extract the password from EC2 Parameter store.
         public var passwordParam: Swift.String?
         /// This represents the customer's source URL where stream is pulled from.
@@ -26532,7 +26532,7 @@ extension MediaLiveClientTypes.InputSourceRequest: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings for for a PULL type input.
-    public struct InputSourceRequest: Swift.Equatable {
+    public struct InputSourceRequest {
         /// The key used to extract the password from EC2 Parameter store.
         public var passwordParam: Swift.String?
         /// This represents the customer's source URL where stream is pulled from.
@@ -26620,7 +26620,7 @@ extension MediaLiveClientTypes.InputSpecification: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for InputSpecification
-    public struct InputSpecification: Swift.Equatable {
+    public struct InputSpecification {
         /// Input codec
         public var codec: MediaLiveClientTypes.InputCodec?
         /// Maximum input bitrate, categorized coarsely
@@ -26729,7 +26729,7 @@ extension MediaLiveClientTypes.InputSwitchScheduleActionSettings: Swift.Codable 
 
 extension MediaLiveClientTypes {
     /// Settings for the "switch input" action: to switch from ingesting one input to ingesting another input.
-    public struct InputSwitchScheduleActionSettings: Swift.Equatable {
+    public struct InputSwitchScheduleActionSettings {
         /// The name of the input attachment (not the name of the input!) to switch to. The name is specified in the channel configuration.
         /// This member is required.
         public var inputAttachmentNameReference: Swift.String?
@@ -26893,7 +26893,7 @@ extension MediaLiveClientTypes.InputVpcRequest: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings for a private VPC Input. When this property is specified, the input destination addresses will be created in a VPC rather than with public Internet addresses. This property requires setting the roleArn property on Input creation. Not compatible with the inputSecurityGroups property.
-    public struct InputVpcRequest: Swift.Equatable {
+    public struct InputVpcRequest {
         /// A list of up to 5 EC2 VPC security group IDs to attach to the Input VPC network interfaces. Requires subnetIds. If none are specified then the VPC default security group will be used.
         public var securityGroupIds: [Swift.String]?
         /// A list of 2 VPC subnet IDs from the same VPC. Subnet IDs must be mapped to two unique availability zones (AZ).
@@ -26933,7 +26933,7 @@ extension MediaLiveClientTypes.InputWhitelistRule: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Whitelist rule
-    public struct InputWhitelistRule: Swift.Equatable {
+    public struct InputWhitelistRule {
         /// The IPv4 CIDR that's whitelisted.
         public var cidr: Swift.String?
 
@@ -26968,7 +26968,7 @@ extension MediaLiveClientTypes.InputWhitelistRuleCidr: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// An IPv4 CIDR to whitelist.
-    public struct InputWhitelistRuleCidr: Swift.Equatable {
+    public struct InputWhitelistRuleCidr {
         /// The IPv4 CIDR to whitelist.
         public var cidr: Swift.String?
 
@@ -27022,7 +27022,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -27059,7 +27059,7 @@ extension MediaLiveClientTypes.KeyProviderSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Key Provider Settings
-    public struct KeyProviderSettings: Swift.Equatable {
+    public struct KeyProviderSettings {
         /// Static Key Settings
         public var staticKeySettings: MediaLiveClientTypes.StaticKeySettings?
 
@@ -27130,7 +27130,7 @@ extension ListChannelsInput {
 }
 
 /// Placeholder documentation for ListChannelsRequest
-public struct ListChannelsInput: Swift.Equatable {
+public struct ListChannelsInput {
     /// Placeholder documentation for MaxResults
     public var maxResults: Swift.Int?
     /// Placeholder documentation for __string
@@ -27146,7 +27146,7 @@ public struct ListChannelsInput: Swift.Equatable {
     }
 }
 
-struct ListChannelsInputBody: Swift.Equatable {
+struct ListChannelsInputBody {
 }
 
 extension ListChannelsInputBody: Swift.Decodable {
@@ -27170,7 +27170,7 @@ extension ListChannelsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ListChannelsResponse
-public struct ListChannelsOutput: Swift.Equatable {
+public struct ListChannelsOutput {
     /// Placeholder documentation for __listOfChannelSummary
     public var channels: [MediaLiveClientTypes.ChannelSummary]?
     /// Placeholder documentation for __string
@@ -27186,7 +27186,7 @@ public struct ListChannelsOutput: Swift.Equatable {
     }
 }
 
-struct ListChannelsOutputBody: Swift.Equatable {
+struct ListChannelsOutputBody {
     let channels: [MediaLiveClientTypes.ChannelSummary]?
     let nextToken: Swift.String?
 }
@@ -27263,7 +27263,7 @@ extension ListCloudWatchAlarmTemplateGroupsInput {
 }
 
 /// Placeholder documentation for ListCloudWatchAlarmTemplateGroupsRequest
-public struct ListCloudWatchAlarmTemplateGroupsInput: Swift.Equatable {
+public struct ListCloudWatchAlarmTemplateGroupsInput {
     /// Placeholder documentation for MaxResults
     public var maxResults: Swift.Int?
     /// A token used to retrieve the next set of results in paginated list responses.
@@ -27287,7 +27287,7 @@ public struct ListCloudWatchAlarmTemplateGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListCloudWatchAlarmTemplateGroupsInputBody: Swift.Equatable {
+struct ListCloudWatchAlarmTemplateGroupsInputBody {
 }
 
 extension ListCloudWatchAlarmTemplateGroupsInputBody: Swift.Decodable {
@@ -27311,7 +27311,7 @@ extension ListCloudWatchAlarmTemplateGroupsOutput: ClientRuntime.HttpResponseBin
 }
 
 /// Placeholder documentation for ListCloudWatchAlarmTemplateGroupsResponse
-public struct ListCloudWatchAlarmTemplateGroupsOutput: Swift.Equatable {
+public struct ListCloudWatchAlarmTemplateGroupsOutput {
     /// Placeholder documentation for __listOfCloudWatchAlarmTemplateGroupSummary
     public var cloudWatchAlarmTemplateGroups: [MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary]?
     /// A token used to retrieve the next set of results in paginated list responses.
@@ -27327,7 +27327,7 @@ public struct ListCloudWatchAlarmTemplateGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListCloudWatchAlarmTemplateGroupsOutputBody: Swift.Equatable {
+struct ListCloudWatchAlarmTemplateGroupsOutputBody {
     let cloudWatchAlarmTemplateGroups: [MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -27407,7 +27407,7 @@ extension ListCloudWatchAlarmTemplatesInput {
 }
 
 /// Placeholder documentation for ListCloudWatchAlarmTemplatesRequest
-public struct ListCloudWatchAlarmTemplatesInput: Swift.Equatable {
+public struct ListCloudWatchAlarmTemplatesInput {
     /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
     public var groupIdentifier: Swift.String?
     /// Placeholder documentation for MaxResults
@@ -27435,7 +27435,7 @@ public struct ListCloudWatchAlarmTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListCloudWatchAlarmTemplatesInputBody: Swift.Equatable {
+struct ListCloudWatchAlarmTemplatesInputBody {
 }
 
 extension ListCloudWatchAlarmTemplatesInputBody: Swift.Decodable {
@@ -27459,7 +27459,7 @@ extension ListCloudWatchAlarmTemplatesOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Placeholder documentation for ListCloudWatchAlarmTemplatesResponse
-public struct ListCloudWatchAlarmTemplatesOutput: Swift.Equatable {
+public struct ListCloudWatchAlarmTemplatesOutput {
     /// Placeholder documentation for __listOfCloudWatchAlarmTemplateSummary
     public var cloudWatchAlarmTemplates: [MediaLiveClientTypes.CloudWatchAlarmTemplateSummary]?
     /// A token used to retrieve the next set of results in paginated list responses.
@@ -27475,7 +27475,7 @@ public struct ListCloudWatchAlarmTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListCloudWatchAlarmTemplatesOutputBody: Swift.Equatable {
+struct ListCloudWatchAlarmTemplatesOutputBody {
     let cloudWatchAlarmTemplates: [MediaLiveClientTypes.CloudWatchAlarmTemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -27547,7 +27547,7 @@ extension ListEventBridgeRuleTemplateGroupsInput {
 }
 
 /// Placeholder documentation for ListEventBridgeRuleTemplateGroupsRequest
-public struct ListEventBridgeRuleTemplateGroupsInput: Swift.Equatable {
+public struct ListEventBridgeRuleTemplateGroupsInput {
     /// Placeholder documentation for MaxResults
     public var maxResults: Swift.Int?
     /// A token used to retrieve the next set of results in paginated list responses.
@@ -27567,7 +27567,7 @@ public struct ListEventBridgeRuleTemplateGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListEventBridgeRuleTemplateGroupsInputBody: Swift.Equatable {
+struct ListEventBridgeRuleTemplateGroupsInputBody {
 }
 
 extension ListEventBridgeRuleTemplateGroupsInputBody: Swift.Decodable {
@@ -27591,7 +27591,7 @@ extension ListEventBridgeRuleTemplateGroupsOutput: ClientRuntime.HttpResponseBin
 }
 
 /// Placeholder documentation for ListEventBridgeRuleTemplateGroupsResponse
-public struct ListEventBridgeRuleTemplateGroupsOutput: Swift.Equatable {
+public struct ListEventBridgeRuleTemplateGroupsOutput {
     /// Placeholder documentation for __listOfEventBridgeRuleTemplateGroupSummary
     public var eventBridgeRuleTemplateGroups: [MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary]?
     /// A token used to retrieve the next set of results in paginated list responses.
@@ -27607,7 +27607,7 @@ public struct ListEventBridgeRuleTemplateGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListEventBridgeRuleTemplateGroupsOutputBody: Swift.Equatable {
+struct ListEventBridgeRuleTemplateGroupsOutputBody {
     let eventBridgeRuleTemplateGroups: [MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -27683,7 +27683,7 @@ extension ListEventBridgeRuleTemplatesInput {
 }
 
 /// Placeholder documentation for ListEventBridgeRuleTemplatesRequest
-public struct ListEventBridgeRuleTemplatesInput: Swift.Equatable {
+public struct ListEventBridgeRuleTemplatesInput {
     /// An eventbridge rule template group's identifier. Can be either be its id or current name.
     public var groupIdentifier: Swift.String?
     /// Placeholder documentation for MaxResults
@@ -27707,7 +27707,7 @@ public struct ListEventBridgeRuleTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListEventBridgeRuleTemplatesInputBody: Swift.Equatable {
+struct ListEventBridgeRuleTemplatesInputBody {
 }
 
 extension ListEventBridgeRuleTemplatesInputBody: Swift.Decodable {
@@ -27731,7 +27731,7 @@ extension ListEventBridgeRuleTemplatesOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Placeholder documentation for ListEventBridgeRuleTemplatesResponse
-public struct ListEventBridgeRuleTemplatesOutput: Swift.Equatable {
+public struct ListEventBridgeRuleTemplatesOutput {
     /// Placeholder documentation for __listOfEventBridgeRuleTemplateSummary
     public var eventBridgeRuleTemplates: [MediaLiveClientTypes.EventBridgeRuleTemplateSummary]?
     /// A token used to retrieve the next set of results in paginated list responses.
@@ -27747,7 +27747,7 @@ public struct ListEventBridgeRuleTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListEventBridgeRuleTemplatesOutputBody: Swift.Equatable {
+struct ListEventBridgeRuleTemplatesOutputBody {
     let eventBridgeRuleTemplates: [MediaLiveClientTypes.EventBridgeRuleTemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -27821,7 +27821,7 @@ extension ListInputDeviceTransfersInput {
 }
 
 /// Placeholder documentation for ListInputDeviceTransfersRequest
-public struct ListInputDeviceTransfersInput: Swift.Equatable {
+public struct ListInputDeviceTransfersInput {
     /// Placeholder documentation for MaxResults
     public var maxResults: Swift.Int?
     /// Placeholder documentation for __string
@@ -27842,7 +27842,7 @@ public struct ListInputDeviceTransfersInput: Swift.Equatable {
     }
 }
 
-struct ListInputDeviceTransfersInputBody: Swift.Equatable {
+struct ListInputDeviceTransfersInputBody {
 }
 
 extension ListInputDeviceTransfersInputBody: Swift.Decodable {
@@ -27866,7 +27866,7 @@ extension ListInputDeviceTransfersOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ListInputDeviceTransfersResponse
-public struct ListInputDeviceTransfersOutput: Swift.Equatable {
+public struct ListInputDeviceTransfersOutput {
     /// The list of devices that you are transferring or are being transferred to you.
     public var inputDeviceTransfers: [MediaLiveClientTypes.TransferringInputDeviceSummary]?
     /// A token to get additional list results.
@@ -27882,7 +27882,7 @@ public struct ListInputDeviceTransfersOutput: Swift.Equatable {
     }
 }
 
-struct ListInputDeviceTransfersOutputBody: Swift.Equatable {
+struct ListInputDeviceTransfersOutputBody {
     let inputDeviceTransfers: [MediaLiveClientTypes.TransferringInputDeviceSummary]?
     let nextToken: Swift.String?
 }
@@ -27952,7 +27952,7 @@ extension ListInputDevicesInput {
 }
 
 /// Placeholder documentation for ListInputDevicesRequest
-public struct ListInputDevicesInput: Swift.Equatable {
+public struct ListInputDevicesInput {
     /// Placeholder documentation for MaxResults
     public var maxResults: Swift.Int?
     /// Placeholder documentation for __string
@@ -27968,7 +27968,7 @@ public struct ListInputDevicesInput: Swift.Equatable {
     }
 }
 
-struct ListInputDevicesInputBody: Swift.Equatable {
+struct ListInputDevicesInputBody {
 }
 
 extension ListInputDevicesInputBody: Swift.Decodable {
@@ -27992,7 +27992,7 @@ extension ListInputDevicesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ListInputDevicesResponse
-public struct ListInputDevicesOutput: Swift.Equatable {
+public struct ListInputDevicesOutput {
     /// The list of input devices.
     public var inputDevices: [MediaLiveClientTypes.InputDeviceSummary]?
     /// A token to get additional list results.
@@ -28008,7 +28008,7 @@ public struct ListInputDevicesOutput: Swift.Equatable {
     }
 }
 
-struct ListInputDevicesOutputBody: Swift.Equatable {
+struct ListInputDevicesOutputBody {
     let inputDevices: [MediaLiveClientTypes.InputDeviceSummary]?
     let nextToken: Swift.String?
 }
@@ -28077,7 +28077,7 @@ extension ListInputSecurityGroupsInput {
 }
 
 /// Placeholder documentation for ListInputSecurityGroupsRequest
-public struct ListInputSecurityGroupsInput: Swift.Equatable {
+public struct ListInputSecurityGroupsInput {
     /// Placeholder documentation for MaxResults
     public var maxResults: Swift.Int?
     /// Placeholder documentation for __string
@@ -28093,7 +28093,7 @@ public struct ListInputSecurityGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListInputSecurityGroupsInputBody: Swift.Equatable {
+struct ListInputSecurityGroupsInputBody {
 }
 
 extension ListInputSecurityGroupsInputBody: Swift.Decodable {
@@ -28117,7 +28117,7 @@ extension ListInputSecurityGroupsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ListInputSecurityGroupsResponse
-public struct ListInputSecurityGroupsOutput: Swift.Equatable {
+public struct ListInputSecurityGroupsOutput {
     /// List of input security groups
     public var inputSecurityGroups: [MediaLiveClientTypes.InputSecurityGroup]?
     /// Placeholder documentation for __string
@@ -28133,7 +28133,7 @@ public struct ListInputSecurityGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListInputSecurityGroupsOutputBody: Swift.Equatable {
+struct ListInputSecurityGroupsOutputBody {
     let inputSecurityGroups: [MediaLiveClientTypes.InputSecurityGroup]?
     let nextToken: Swift.String?
 }
@@ -28202,7 +28202,7 @@ extension ListInputsInput {
 }
 
 /// Placeholder documentation for ListInputsRequest
-public struct ListInputsInput: Swift.Equatable {
+public struct ListInputsInput {
     /// Placeholder documentation for MaxResults
     public var maxResults: Swift.Int?
     /// Placeholder documentation for __string
@@ -28218,7 +28218,7 @@ public struct ListInputsInput: Swift.Equatable {
     }
 }
 
-struct ListInputsInputBody: Swift.Equatable {
+struct ListInputsInputBody {
 }
 
 extension ListInputsInputBody: Swift.Decodable {
@@ -28242,7 +28242,7 @@ extension ListInputsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ListInputsResponse
-public struct ListInputsOutput: Swift.Equatable {
+public struct ListInputsOutput {
     /// Placeholder documentation for __listOfInput
     public var inputs: [MediaLiveClientTypes.Input]?
     /// Placeholder documentation for __string
@@ -28258,7 +28258,7 @@ public struct ListInputsOutput: Swift.Equatable {
     }
 }
 
-struct ListInputsOutputBody: Swift.Equatable {
+struct ListInputsOutputBody {
     let inputs: [MediaLiveClientTypes.Input]?
     let nextToken: Swift.String?
 }
@@ -28330,7 +28330,7 @@ extension ListMultiplexProgramsInput {
 }
 
 /// Placeholder documentation for ListMultiplexProgramsRequest
-public struct ListMultiplexProgramsInput: Swift.Equatable {
+public struct ListMultiplexProgramsInput {
     /// The maximum number of items to return.
     public var maxResults: Swift.Int?
     /// The ID of the multiplex that the programs belong to.
@@ -28351,7 +28351,7 @@ public struct ListMultiplexProgramsInput: Swift.Equatable {
     }
 }
 
-struct ListMultiplexProgramsInputBody: Swift.Equatable {
+struct ListMultiplexProgramsInputBody {
 }
 
 extension ListMultiplexProgramsInputBody: Swift.Decodable {
@@ -28375,7 +28375,7 @@ extension ListMultiplexProgramsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ListMultiplexProgramsResponse
-public struct ListMultiplexProgramsOutput: Swift.Equatable {
+public struct ListMultiplexProgramsOutput {
     /// List of multiplex programs.
     public var multiplexPrograms: [MediaLiveClientTypes.MultiplexProgramSummary]?
     /// Token for the next ListMultiplexProgram request.
@@ -28391,7 +28391,7 @@ public struct ListMultiplexProgramsOutput: Swift.Equatable {
     }
 }
 
-struct ListMultiplexProgramsOutputBody: Swift.Equatable {
+struct ListMultiplexProgramsOutputBody {
     let multiplexPrograms: [MediaLiveClientTypes.MultiplexProgramSummary]?
     let nextToken: Swift.String?
 }
@@ -28461,7 +28461,7 @@ extension ListMultiplexesInput {
 }
 
 /// Placeholder documentation for ListMultiplexesRequest
-public struct ListMultiplexesInput: Swift.Equatable {
+public struct ListMultiplexesInput {
     /// The maximum number of items to return.
     public var maxResults: Swift.Int?
     /// The token to retrieve the next page of results.
@@ -28477,7 +28477,7 @@ public struct ListMultiplexesInput: Swift.Equatable {
     }
 }
 
-struct ListMultiplexesInputBody: Swift.Equatable {
+struct ListMultiplexesInputBody {
 }
 
 extension ListMultiplexesInputBody: Swift.Decodable {
@@ -28501,7 +28501,7 @@ extension ListMultiplexesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ListMultiplexesResponse
-public struct ListMultiplexesOutput: Swift.Equatable {
+public struct ListMultiplexesOutput {
     /// List of multiplexes.
     public var multiplexes: [MediaLiveClientTypes.MultiplexSummary]?
     /// Token for the next ListMultiplexes request.
@@ -28517,7 +28517,7 @@ public struct ListMultiplexesOutput: Swift.Equatable {
     }
 }
 
-struct ListMultiplexesOutputBody: Swift.Equatable {
+struct ListMultiplexesOutputBody {
     let multiplexes: [MediaLiveClientTypes.MultiplexSummary]?
     let nextToken: Swift.String?
 }
@@ -28626,7 +28626,7 @@ extension ListOfferingsInput {
 }
 
 /// Placeholder documentation for ListOfferingsRequest
-public struct ListOfferingsInput: Swift.Equatable {
+public struct ListOfferingsInput {
     /// Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
     public var channelClass: Swift.String?
     /// Filter to offerings that match the configuration of an existing channel, e.g. '2345678' (a channel ID)
@@ -28682,7 +28682,7 @@ public struct ListOfferingsInput: Swift.Equatable {
     }
 }
 
-struct ListOfferingsInputBody: Swift.Equatable {
+struct ListOfferingsInputBody {
 }
 
 extension ListOfferingsInputBody: Swift.Decodable {
@@ -28706,7 +28706,7 @@ extension ListOfferingsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ListOfferingsResponse
-public struct ListOfferingsOutput: Swift.Equatable {
+public struct ListOfferingsOutput {
     /// Token to retrieve the next page of results
     public var nextToken: Swift.String?
     /// List of offerings
@@ -28722,7 +28722,7 @@ public struct ListOfferingsOutput: Swift.Equatable {
     }
 }
 
-struct ListOfferingsOutputBody: Swift.Equatable {
+struct ListOfferingsOutputBody {
     let nextToken: Swift.String?
     let offerings: [MediaLiveClientTypes.Offering]?
 }
@@ -28823,7 +28823,7 @@ extension ListReservationsInput {
 }
 
 /// Placeholder documentation for ListReservationsRequest
-public struct ListReservationsInput: Swift.Equatable {
+public struct ListReservationsInput {
     /// Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
     public var channelClass: Swift.String?
     /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
@@ -28871,7 +28871,7 @@ public struct ListReservationsInput: Swift.Equatable {
     }
 }
 
-struct ListReservationsInputBody: Swift.Equatable {
+struct ListReservationsInputBody {
 }
 
 extension ListReservationsInputBody: Swift.Decodable {
@@ -28895,7 +28895,7 @@ extension ListReservationsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ListReservationsResponse
-public struct ListReservationsOutput: Swift.Equatable {
+public struct ListReservationsOutput {
     /// Token to retrieve the next page of results
     public var nextToken: Swift.String?
     /// List of reservations
@@ -28911,7 +28911,7 @@ public struct ListReservationsOutput: Swift.Equatable {
     }
 }
 
-struct ListReservationsOutputBody: Swift.Equatable {
+struct ListReservationsOutputBody {
     let nextToken: Swift.String?
     let reservations: [MediaLiveClientTypes.Reservation]?
 }
@@ -28988,7 +28988,7 @@ extension ListSignalMapsInput {
 }
 
 /// Placeholder documentation for ListSignalMapsRequest
-public struct ListSignalMapsInput: Swift.Equatable {
+public struct ListSignalMapsInput {
     /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
     public var cloudWatchAlarmTemplateGroupIdentifier: Swift.String?
     /// An eventbridge rule template group's identifier. Can be either be its id or current name.
@@ -29012,7 +29012,7 @@ public struct ListSignalMapsInput: Swift.Equatable {
     }
 }
 
-struct ListSignalMapsInputBody: Swift.Equatable {
+struct ListSignalMapsInputBody {
 }
 
 extension ListSignalMapsInputBody: Swift.Decodable {
@@ -29036,7 +29036,7 @@ extension ListSignalMapsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ListSignalMapsResponse
-public struct ListSignalMapsOutput: Swift.Equatable {
+public struct ListSignalMapsOutput {
     /// A token used to retrieve the next set of results in paginated list responses.
     public var nextToken: Swift.String?
     /// Placeholder documentation for __listOfSignalMapSummary
@@ -29052,7 +29052,7 @@ public struct ListSignalMapsOutput: Swift.Equatable {
     }
 }
 
-struct ListSignalMapsOutputBody: Swift.Equatable {
+struct ListSignalMapsOutputBody {
     let nextToken: Swift.String?
     let signalMaps: [MediaLiveClientTypes.SignalMapSummary]?
 }
@@ -29107,7 +29107,7 @@ extension ListTagsForResourceInput {
 }
 
 /// Placeholder documentation for ListTagsForResourceRequest
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// Placeholder documentation for __string
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -29120,7 +29120,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -29142,7 +29142,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for ListTagsForResourceResponse
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Placeholder documentation for Tags
     public var tags: [Swift.String:Swift.String]?
 
@@ -29154,7 +29154,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -30144,7 +30144,7 @@ extension MediaLiveClientTypes.M2tsSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// M2ts Settings
-    public struct M2tsSettings: Swift.Equatable {
+    public struct M2tsSettings {
         /// When set to drop, output audio streams will be removed from the program if the selected input audio stream is removed from the input. This allows the output audio configuration to dynamically change based on input configuration. If this is set to encodeSilence, all output audio streams will output encoded silence when not connected to an active input stream.
         public var absentInputAudioBehavior: MediaLiveClientTypes.M2tsAbsentInputAudioBehavior?
         /// When set to enabled, uses ARIB-compliant field muxing and removes video descriptor.
@@ -30640,7 +30640,7 @@ extension MediaLiveClientTypes.M3u8Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings information for the .m3u8 container
-    public struct M3u8Settings: Swift.Equatable {
+    public struct M3u8Settings {
         /// The number of audio frames to insert for each PES packet.
         public var audioFramesPerPes: Swift.Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.
@@ -30786,7 +30786,7 @@ extension MediaLiveClientTypes.MaintenanceCreateSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for MaintenanceCreateSettings
-    public struct MaintenanceCreateSettings: Swift.Equatable {
+    public struct MaintenanceCreateSettings {
         /// Choose one day of the week for maintenance. The chosen day is used for all future maintenance windows.
         public var maintenanceDay: MediaLiveClientTypes.MaintenanceDay?
         /// Choose the hour that maintenance will start. The chosen time is used for all future maintenance windows.
@@ -30891,7 +30891,7 @@ extension MediaLiveClientTypes.MaintenanceStatus: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for MaintenanceStatus
-    public struct MaintenanceStatus: Swift.Equatable {
+    public struct MaintenanceStatus {
         /// The currently selected maintenance day.
         public var maintenanceDay: MediaLiveClientTypes.MaintenanceDay?
         /// Maintenance is required by the displayed date and time. Date and time is in ISO.
@@ -30950,7 +30950,7 @@ extension MediaLiveClientTypes.MaintenanceUpdateSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for MaintenanceUpdateSettings
-    public struct MaintenanceUpdateSettings: Swift.Equatable {
+    public struct MaintenanceUpdateSettings {
         /// Choose one day of the week for maintenance. The chosen day is used for all future maintenance windows.
         public var maintenanceDay: MediaLiveClientTypes.MaintenanceDay?
         /// Choose a specific date for maintenance to occur. The chosen date is used for the next maintenance window only.
@@ -30993,7 +30993,7 @@ extension MediaLiveClientTypes.MediaConnectFlow: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The settings for a MediaConnect Flow.
-    public struct MediaConnectFlow: Swift.Equatable {
+    public struct MediaConnectFlow {
         /// The unique ARN of the MediaConnect Flow being used as a source.
         public var flowArn: Swift.String?
 
@@ -31028,7 +31028,7 @@ extension MediaLiveClientTypes.MediaConnectFlowRequest: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The settings for a MediaConnect Flow.
-    public struct MediaConnectFlowRequest: Swift.Equatable {
+    public struct MediaConnectFlowRequest {
         /// The ARN of the MediaConnect Flow that you want to use as a source.
         public var flowArn: Swift.String?
 
@@ -31065,7 +31065,7 @@ extension MediaLiveClientTypes.MediaPackageGroupSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Media Package Group Settings
-    public struct MediaPackageGroupSettings: Swift.Equatable {
+    public struct MediaPackageGroupSettings {
         /// MediaPackage channel destination.
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
@@ -31101,7 +31101,7 @@ extension MediaLiveClientTypes.MediaPackageOutputDestinationSettings: Swift.Coda
 
 extension MediaLiveClientTypes {
     /// MediaPackage Output Destination Settings
-    public struct MediaPackageOutputDestinationSettings: Swift.Equatable {
+    public struct MediaPackageOutputDestinationSettings {
         /// ID of the channel in MediaPackage that is the destination for this output group. You do not need to specify the individual inputs in MediaPackage; MediaLive will handle the connection of the two MediaLive pipelines to the two MediaPackage inputs. The MediaPackage channel and MediaLive channel must be in the same region.
         public var channelId: Swift.String?
 
@@ -31128,7 +31128,7 @@ extension MediaLiveClientTypes.MediaPackageOutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Media Package Output Settings
-    public struct MediaPackageOutputSettings: Swift.Equatable {
+    public struct MediaPackageOutputSettings {
 
         public init() { }
     }
@@ -31192,7 +31192,7 @@ extension MediaLiveClientTypes.MediaResource: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// An AWS resource used in media workflows.
-    public struct MediaResource: Swift.Equatable {
+    public struct MediaResource {
         /// Placeholder documentation for __listOfMediaResourceNeighbor
         public var destinations: [MediaLiveClientTypes.MediaResourceNeighbor]?
         /// The logical name of an AWS media resource.
@@ -31241,7 +31241,7 @@ extension MediaLiveClientTypes.MediaResourceNeighbor: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// A direct source or destination neighbor to an AWS media resource.
-    public struct MediaResourceNeighbor: Swift.Equatable {
+    public struct MediaResourceNeighbor {
         /// The ARN of a resource used in AWS media workflows.
         /// This member is required.
         public var arn: Swift.String?
@@ -31293,7 +31293,7 @@ extension MediaLiveClientTypes.MonitorDeployment: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Represents the latest monitor deployment of a signal map.
-    public struct MonitorDeployment: Swift.Equatable {
+    public struct MonitorDeployment {
         /// URI associated with a signal map's monitor deployment.
         public var detailsUri: Swift.String?
         /// Error message associated with a failed monitor deployment of a signal map.
@@ -31355,7 +31355,7 @@ extension MediaLiveClientTypes.MotionGraphicsActivateScheduleActionSettings: Swi
 
 extension MediaLiveClientTypes {
     /// Settings to specify the rendering of motion graphics into the video stream.
-    public struct MotionGraphicsActivateScheduleActionSettings: Swift.Equatable {
+    public struct MotionGraphicsActivateScheduleActionSettings {
         /// Duration (in milliseconds) that motion graphics should render on to the video stream. Leaving out this property or setting to 0 will result in rendering continuing until a deactivate action is processed.
         public var duration: Swift.Int?
         /// Key used to extract the password from EC2 Parameter store
@@ -31408,7 +31408,7 @@ extension MediaLiveClientTypes.MotionGraphicsConfiguration: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Motion Graphics Configuration
-    public struct MotionGraphicsConfiguration: Swift.Equatable {
+    public struct MotionGraphicsConfiguration {
         /// Motion Graphics Insertion
         public var motionGraphicsInsertion: MediaLiveClientTypes.MotionGraphicsInsertion?
         /// Motion Graphics Settings
@@ -31440,7 +31440,7 @@ extension MediaLiveClientTypes.MotionGraphicsDeactivateScheduleActionSettings: S
 
 extension MediaLiveClientTypes {
     /// Settings to specify the ending of rendering motion graphics into the video stream.
-    public struct MotionGraphicsDeactivateScheduleActionSettings: Swift.Equatable {
+    public struct MotionGraphicsDeactivateScheduleActionSettings {
 
         public init() { }
     }
@@ -31501,7 +31501,7 @@ extension MediaLiveClientTypes.MotionGraphicsSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Motion Graphics Settings
-    public struct MotionGraphicsSettings: Swift.Equatable {
+    public struct MotionGraphicsSettings {
         /// Html Motion Graphics Settings
         public var htmlMotionGraphicsSettings: MediaLiveClientTypes.HtmlMotionGraphicsSettings?
 
@@ -31581,7 +31581,7 @@ extension MediaLiveClientTypes.Mp2Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Mp2 Settings
-    public struct Mp2Settings: Swift.Equatable {
+    public struct Mp2Settings {
         /// Average bitrate in bits/second.
         public var bitrate: Swift.Double?
         /// The MPEG2 Audio coding mode. Valid values are codingMode10 (for mono) or codingMode20 (for stereo).
@@ -31765,7 +31765,7 @@ extension MediaLiveClientTypes.Mpeg2FilterSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Mpeg2 Filter Settings
-    public struct Mpeg2FilterSettings: Swift.Equatable {
+    public struct Mpeg2FilterSettings {
         /// Temporal Filter Settings
         public var temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings?
 
@@ -31962,7 +31962,7 @@ extension MediaLiveClientTypes.Mpeg2Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Mpeg2 Settings
-    public struct Mpeg2Settings: Swift.Equatable {
+    public struct Mpeg2Settings {
         /// Choose Off to disable adaptive quantization. Or choose another value to enable the quantizer and set its strength. The strengths are: Auto, Off, Low, Medium, High. When you enable this field, MediaLive allows intra-frame quantizers to vary, which might improve visual quality.
         public var adaptiveQuantization: MediaLiveClientTypes.Mpeg2AdaptiveQuantization?
         /// Indicates the AFD values that MediaLive will write into the video encode. If you do not know what AFD signaling is, or if your downstream system has not given you guidance, choose AUTO. AUTO: MediaLive will try to preserve the input AFD value (in cases where multiple AFD values are valid). FIXED: MediaLive will use the value you specify in fixedAFD.
@@ -32237,7 +32237,7 @@ extension MediaLiveClientTypes.MsSmoothGroupSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Ms Smooth Group Settings
-    public struct MsSmoothGroupSettings: Swift.Equatable {
+    public struct MsSmoothGroupSettings {
         /// The ID to include in each message in the sparse track. Ignored if sparseTrackType is NONE.
         public var acquisitionPointId: Swift.String?
         /// If set to passthrough for an audio-only MS Smooth output, the fragment absolute time will be set to the current timecode. This option does not write timecodes to the audio elementary stream.
@@ -32400,7 +32400,7 @@ extension MediaLiveClientTypes.MsSmoothOutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Ms Smooth Output Settings
-    public struct MsSmoothOutputSettings: Swift.Equatable {
+    public struct MsSmoothOutputSettings {
         /// Only applicable when this output is referencing an H.265 video description. Specifies whether MP4 segments should be packaged as HEV1 or HVC1.
         public var h265PackagingType: MediaLiveClientTypes.MsSmoothH265PackagingType?
         /// String concatenated to the end of the destination filename. Required for multiple outputs of the same type.
@@ -32529,7 +32529,7 @@ extension MediaLiveClientTypes.Multiplex: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The multiplex object.
-    public struct Multiplex: Swift.Equatable {
+    public struct Multiplex {
         /// The unique arn of the multiplex.
         public var arn: Swift.String?
         /// A list of availability zones for the multiplex.
@@ -32592,7 +32592,7 @@ extension MediaLiveClientTypes.MultiplexGroupSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Multiplex Group Settings
-    public struct MultiplexGroupSettings: Swift.Equatable {
+    public struct MultiplexGroupSettings {
 
         public init() { }
     }
@@ -32620,7 +32620,7 @@ extension MediaLiveClientTypes.MultiplexMediaConnectOutputDestinationSettings: S
 
 extension MediaLiveClientTypes {
     /// Multiplex MediaConnect output destination settings.
-    public struct MultiplexMediaConnectOutputDestinationSettings: Swift.Equatable {
+    public struct MultiplexMediaConnectOutputDestinationSettings {
         /// The MediaConnect entitlement ARN available as a Flow source.
         public var entitlementArn: Swift.String?
 
@@ -32655,7 +32655,7 @@ extension MediaLiveClientTypes.MultiplexOutputDestination: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Multiplex output destination settings
-    public struct MultiplexOutputDestination: Swift.Equatable {
+    public struct MultiplexOutputDestination {
         /// Multiplex MediaConnect output destination settings.
         public var mediaConnectSettings: MediaLiveClientTypes.MultiplexMediaConnectOutputDestinationSettings?
 
@@ -32690,7 +32690,7 @@ extension MediaLiveClientTypes.MultiplexOutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Multiplex Output Settings
-    public struct MultiplexOutputSettings: Swift.Equatable {
+    public struct MultiplexOutputSettings {
         /// Destination is a Multiplex.
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
@@ -32762,7 +32762,7 @@ extension MediaLiveClientTypes.MultiplexProgram: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The multiplex program object.
-    public struct MultiplexProgram: Swift.Equatable {
+    public struct MultiplexProgram {
         /// The MediaLive channel associated with the program.
         public var channelId: Swift.String?
         /// The settings for this multiplex program.
@@ -32819,7 +32819,7 @@ extension MediaLiveClientTypes.MultiplexProgramChannelDestinationSettings: Swift
 
 extension MediaLiveClientTypes {
     /// Multiplex Program Input Destination Settings for outputting a Channel to a Multiplex
-    public struct MultiplexProgramChannelDestinationSettings: Swift.Equatable {
+    public struct MultiplexProgramChannelDestinationSettings {
         /// The ID of the Multiplex that the encoder is providing output to. You do not need to specify the individual inputs to the Multiplex; MediaLive will handle the connection of the two MediaLive pipelines to the two Multiplex instances. The Multiplex must be in the same region as the Channel.
         public var multiplexId: Swift.String?
         /// The program name of the Multiplex program that the encoder is providing output to.
@@ -32978,7 +32978,7 @@ extension MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap: Swift.Codab
 
 extension MediaLiveClientTypes {
     /// Packet identifiers map for a given Multiplex program.
-    public struct MultiplexProgramPacketIdentifiersMap: Swift.Equatable {
+    public struct MultiplexProgramPacketIdentifiersMap {
         /// Placeholder documentation for __listOf__integer
         public var audioPids: [Swift.Int]?
         /// Placeholder documentation for __listOf__integer
@@ -33067,7 +33067,7 @@ extension MediaLiveClientTypes.MultiplexProgramPipelineDetail: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The current source for one of the pipelines in the multiplex.
-    public struct MultiplexProgramPipelineDetail: Swift.Equatable {
+    public struct MultiplexProgramPipelineDetail {
         /// Identifies the channel pipeline that is currently active for the pipeline (identified by PipelineId) in the multiplex.
         public var activeChannelPipeline: Swift.String?
         /// Identifies a specific pipeline in the multiplex.
@@ -33112,7 +33112,7 @@ extension MediaLiveClientTypes.MultiplexProgramServiceDescriptor: Swift.Codable 
 
 extension MediaLiveClientTypes {
     /// Transport stream service descriptor configuration for the Multiplex program.
-    public struct MultiplexProgramServiceDescriptor: Swift.Equatable {
+    public struct MultiplexProgramServiceDescriptor {
         /// Name of the provider.
         /// This member is required.
         public var providerName: Swift.String?
@@ -33171,7 +33171,7 @@ extension MediaLiveClientTypes.MultiplexProgramSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Multiplex Program settings configuration.
-    public struct MultiplexProgramSettings: Swift.Equatable {
+    public struct MultiplexProgramSettings {
         /// Indicates which pipeline is preferred by the multiplex for program ingest.
         public var preferredChannelPipeline: MediaLiveClientTypes.PreferredChannelPipeline?
         /// Unique program number.
@@ -33225,7 +33225,7 @@ extension MediaLiveClientTypes.MultiplexProgramSummary: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for MultiplexProgramSummary
-    public struct MultiplexProgramSummary: Swift.Equatable {
+    public struct MultiplexProgramSummary {
         /// The MediaLive Channel associated with the program.
         public var channelId: Swift.String?
         /// The name of the multiplex program.
@@ -33282,7 +33282,7 @@ extension MediaLiveClientTypes.MultiplexSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Contains configuration for a Multiplex event
-    public struct MultiplexSettings: Swift.Equatable {
+    public struct MultiplexSettings {
         /// Maximum video buffer delay in milliseconds.
         public var maximumVideoBufferDelayMilliseconds: Swift.Int?
         /// Transport stream bit rate.
@@ -33331,7 +33331,7 @@ extension MediaLiveClientTypes.MultiplexSettingsSummary: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Contains summary configuration for a Multiplex event.
-    public struct MultiplexSettingsSummary: Swift.Equatable {
+    public struct MultiplexSettingsSummary {
         /// Transport stream bit rate.
         public var transportStreamBitrate: Swift.Int?
 
@@ -33432,7 +33432,7 @@ extension MediaLiveClientTypes.MultiplexStatmuxVideoSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Statmux rate control settings
-    public struct MultiplexStatmuxVideoSettings: Swift.Equatable {
+    public struct MultiplexStatmuxVideoSettings {
         /// Maximum statmux bitrate.
         public var maximumBitrate: Swift.Int?
         /// Minimum statmux bitrate.
@@ -33547,7 +33547,7 @@ extension MediaLiveClientTypes.MultiplexSummary: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for MultiplexSummary
-    public struct MultiplexSummary: Swift.Equatable {
+    public struct MultiplexSummary {
         /// The unique arn of the multiplex.
         public var arn: Swift.String?
         /// A list of availability zones for the multiplex.
@@ -33620,7 +33620,7 @@ extension MediaLiveClientTypes.MultiplexVideoSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The video configuration for each program in a multiplex.
-    public struct MultiplexVideoSettings: Swift.Equatable {
+    public struct MultiplexVideoSettings {
         /// The constant bitrate configuration for the video encode. When this field is defined, StatmuxSettings must be undefined.
         public var constantBitrate: Swift.Int?
         /// Statmux rate control settings. When this field is defined, ConstantBitrate must be undefined.
@@ -33698,7 +33698,7 @@ extension MediaLiveClientTypes.NetworkInputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Network source to transcode. Must be accessible to the Elemental Live node that is running the live event through a network connection.
-    public struct NetworkInputSettings: Swift.Equatable {
+    public struct NetworkInputSettings {
         /// Specifies HLS input settings when the uri is for a HLS manifest.
         public var hlsInputSettings: MediaLiveClientTypes.HlsInputSettings?
         /// Check HTTPS server certificates. When set to checkCryptographyOnly, cryptography in the certificate will be checked, but not the server's name. Certain subdomains (notably S3 buckets that use dots in the bucket name) do not strictly match the corresponding certificate's wildcard pattern and would otherwise cause the event to error. This setting is ignored for protocols that do not use https.
@@ -33749,7 +33749,7 @@ extension MediaLiveClientTypes.NielsenCBET: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Nielsen CBET
-    public struct NielsenCBET: Swift.Equatable {
+    public struct NielsenCBET {
         /// Enter the CBET check digits to use in the watermark.
         /// This member is required.
         public var cbetCheckDigitString: Swift.String?
@@ -33801,7 +33801,7 @@ extension MediaLiveClientTypes.NielsenConfiguration: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Nielsen Configuration
-    public struct NielsenConfiguration: Swift.Equatable {
+    public struct NielsenConfiguration {
         /// Enter the Distributor ID assigned to your organization by Nielsen.
         public var distributorId: Swift.String?
         /// Enables Nielsen PCM to ID3 tagging
@@ -33852,7 +33852,7 @@ extension MediaLiveClientTypes.NielsenNaesIiNw: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Nielsen Naes Ii Nw
-    public struct NielsenNaesIiNw: Swift.Equatable {
+    public struct NielsenNaesIiNw {
         /// Enter the check digit string for the watermark
         /// This member is required.
         public var checkDigitString: Swift.String?
@@ -34065,7 +34065,7 @@ extension MediaLiveClientTypes.NielsenWatermarksSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Nielsen Watermarks Settings
-    public struct NielsenWatermarksSettings: Swift.Equatable {
+    public struct NielsenWatermarksSettings {
         /// Complete these fields only if you want to insert watermarks of type Nielsen CBET
         public var nielsenCbetSettings: MediaLiveClientTypes.NielsenCBET?
         /// Choose the distribution types that you want to assign to the watermarks:
@@ -34131,7 +34131,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -34228,7 +34228,7 @@ extension MediaLiveClientTypes.Offering: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Reserved resources available for purchase
-    public struct Offering: Swift.Equatable {
+    public struct Offering {
         /// Unique offering ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:offering:87654321'
         public var arn: Swift.String?
         /// Currency code for usagePrice and fixedPrice in ISO-4217 format, e.g. 'USD'
@@ -34411,7 +34411,7 @@ extension MediaLiveClientTypes.Output: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Output settings. There can be multiple outputs within a group.
-    public struct Output: Swift.Equatable {
+    public struct Output {
         /// The names of the AudioDescriptions used as audio sources for this output.
         public var audioDescriptionNames: [Swift.String]?
         /// The names of the CaptionDescriptions used as caption sources for this output.
@@ -34505,7 +34505,7 @@ extension MediaLiveClientTypes.OutputDestination: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for OutputDestination
-    public struct OutputDestination: Swift.Equatable {
+    public struct OutputDestination {
         /// User-specified id. This is used in an output group or an output.
         public var id: Swift.String?
         /// Destination settings for a MediaPackage output; one destination for both encoders.
@@ -34570,7 +34570,7 @@ extension MediaLiveClientTypes.OutputDestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for OutputDestinationSettings
-    public struct OutputDestinationSettings: Swift.Equatable {
+    public struct OutputDestinationSettings {
         /// key used to extract the password from EC2 Parameter store
         public var passwordParam: Swift.String?
         /// Stream name for RTMP destinations (URLs of type rtmp://)
@@ -34641,7 +34641,7 @@ extension MediaLiveClientTypes.OutputGroup: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Output groups for this Live Event. Output groups contain information about where streams should be distributed.
-    public struct OutputGroup: Swift.Equatable {
+    public struct OutputGroup {
         /// Custom output group name optionally defined by the user.
         public var name: Swift.String?
         /// Settings associated with the output group.
@@ -34734,7 +34734,7 @@ extension MediaLiveClientTypes.OutputGroupSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Output Group Settings
-    public struct OutputGroupSettings: Swift.Equatable {
+    public struct OutputGroupSettings {
         /// Archive Group Settings
         public var archiveGroupSettings: MediaLiveClientTypes.ArchiveGroupSettings?
         /// Cmaf Ingest Group Settings
@@ -34801,7 +34801,7 @@ extension MediaLiveClientTypes.OutputLocationRef: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Reference to an OutputDestination ID defined in the channel
-    public struct OutputLocationRef: Swift.Equatable {
+    public struct OutputLocationRef {
         /// Placeholder documentation for __string
         public var destinationRefId: Swift.String?
 
@@ -34842,7 +34842,7 @@ extension MediaLiveClientTypes.OutputLockingSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Output Locking Settings
-    public struct OutputLockingSettings: Swift.Equatable {
+    public struct OutputLockingSettings {
         /// Epoch Locking Settings
         public var epochLockingSettings: MediaLiveClientTypes.EpochLockingSettings?
         /// Pipeline Locking Settings
@@ -34929,7 +34929,7 @@ extension MediaLiveClientTypes.OutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Output Settings
-    public struct OutputSettings: Swift.Equatable {
+    public struct OutputSettings {
         /// Archive Output Settings
         public var archiveOutputSettings: MediaLiveClientTypes.ArchiveOutputSettings?
         /// Cmaf Ingest Output Settings
@@ -34988,7 +34988,7 @@ extension MediaLiveClientTypes.PassThroughSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Pass Through Settings
-    public struct PassThroughSettings: Swift.Equatable {
+    public struct PassThroughSettings {
 
         public init() { }
     }
@@ -35028,7 +35028,7 @@ extension MediaLiveClientTypes.PauseStateScheduleActionSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings for the action to set pause state of a channel.
-    public struct PauseStateScheduleActionSettings: Swift.Equatable {
+    public struct PauseStateScheduleActionSettings {
         /// Placeholder documentation for __listOfPipelinePauseStateSettings
         public var pipelines: [MediaLiveClientTypes.PipelinePauseStateSettings]?
 
@@ -35087,7 +35087,7 @@ extension MediaLiveClientTypes.PipelineDetail: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Runtime details of a pipeline when a channel is running.
-    public struct PipelineDetail: Swift.Equatable {
+    public struct PipelineDetail {
         /// The name of the active input attachment currently being ingested by this pipeline.
         public var activeInputAttachmentName: Swift.String?
         /// The name of the input switch schedule action that occurred most recently and that resulted in the switch to the current input attachment for this pipeline.
@@ -35163,7 +35163,7 @@ extension MediaLiveClientTypes.PipelineLockingSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Pipeline Locking Settings
-    public struct PipelineLockingSettings: Swift.Equatable {
+    public struct PipelineLockingSettings {
 
         public init() { }
     }
@@ -35191,7 +35191,7 @@ extension MediaLiveClientTypes.PipelinePauseStateSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings for pausing a pipeline.
-    public struct PipelinePauseStateSettings: Swift.Equatable {
+    public struct PipelinePauseStateSettings {
         /// Pipeline ID to pause ("PIPELINE_0" or "PIPELINE_1").
         /// This member is required.
         public var pipelineId: MediaLiveClientTypes.PipelineId?
@@ -35289,7 +35289,7 @@ extension PurchaseOfferingInput {
 }
 
 /// Placeholder documentation for PurchaseOfferingRequest
-public struct PurchaseOfferingInput: Swift.Equatable {
+public struct PurchaseOfferingInput {
     /// Number of resources
     /// This member is required.
     public var count: Swift.Int?
@@ -35327,7 +35327,7 @@ public struct PurchaseOfferingInput: Swift.Equatable {
     }
 }
 
-struct PurchaseOfferingInputBody: Swift.Equatable {
+struct PurchaseOfferingInputBody {
     let count: Swift.Int?
     let name: Swift.String?
     let renewalSettings: MediaLiveClientTypes.RenewalSettings?
@@ -35385,7 +35385,7 @@ extension PurchaseOfferingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for PurchaseOfferingResponse
-public struct PurchaseOfferingOutput: Swift.Equatable {
+public struct PurchaseOfferingOutput {
     /// Reserved resources available to use
     public var reservation: MediaLiveClientTypes.Reservation?
 
@@ -35397,7 +35397,7 @@ public struct PurchaseOfferingOutput: Swift.Equatable {
     }
 }
 
-struct PurchaseOfferingOutputBody: Swift.Equatable {
+struct PurchaseOfferingOutputBody {
     let reservation: MediaLiveClientTypes.Reservation?
 }
 
@@ -35444,7 +35444,7 @@ extension MediaLiveClientTypes.RawSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Raw Settings
-    public struct RawSettings: Swift.Equatable {
+    public struct RawSettings {
 
         public init() { }
     }
@@ -35508,7 +35508,7 @@ extension RebootInputDeviceInput {
 }
 
 /// A request to reboot an AWS Elemental device.
-public struct RebootInputDeviceInput: Swift.Equatable {
+public struct RebootInputDeviceInput {
     /// Force a reboot of an input device. If the device is streaming, it will stop streaming and begin rebooting within a few seconds of sending the command. If the device was streaming prior to the reboot, the device will resume streaming when the reboot completes.
     public var force: MediaLiveClientTypes.RebootInputDeviceForce?
     /// The unique ID of the input device to reboot. For example, hd-123456789abcdef.
@@ -35525,7 +35525,7 @@ public struct RebootInputDeviceInput: Swift.Equatable {
     }
 }
 
-struct RebootInputDeviceInputBody: Swift.Equatable {
+struct RebootInputDeviceInputBody {
     let force: MediaLiveClientTypes.RebootInputDeviceForce?
 }
 
@@ -35547,7 +35547,7 @@ extension RebootInputDeviceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for RebootInputDeviceResponse
-public struct RebootInputDeviceOutput: Swift.Equatable {
+public struct RebootInputDeviceOutput {
 
     public init() { }
 }
@@ -35583,7 +35583,7 @@ extension MediaLiveClientTypes.Rec601Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Rec601 Settings
-    public struct Rec601Settings: Swift.Equatable {
+    public struct Rec601Settings {
 
         public init() { }
     }
@@ -35603,7 +35603,7 @@ extension MediaLiveClientTypes.Rec709Settings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Rec709 Settings
-    public struct Rec709Settings: Swift.Equatable {
+    public struct Rec709Settings {
 
         public init() { }
     }
@@ -35621,7 +35621,7 @@ extension RejectInputDeviceTransferInput {
 }
 
 /// Placeholder documentation for RejectInputDeviceTransferRequest
-public struct RejectInputDeviceTransferInput: Swift.Equatable {
+public struct RejectInputDeviceTransferInput {
     /// The unique ID of the input device to reject. For example, hd-123456789abcdef.
     /// This member is required.
     public var inputDeviceId: Swift.String?
@@ -35634,7 +35634,7 @@ public struct RejectInputDeviceTransferInput: Swift.Equatable {
     }
 }
 
-struct RejectInputDeviceTransferInputBody: Swift.Equatable {
+struct RejectInputDeviceTransferInputBody {
 }
 
 extension RejectInputDeviceTransferInputBody: Swift.Decodable {
@@ -35649,7 +35649,7 @@ extension RejectInputDeviceTransferOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for RejectInputDeviceTransferResponse
-public struct RejectInputDeviceTransferOutput: Swift.Equatable {
+public struct RejectInputDeviceTransferOutput {
 
     public init() { }
 }
@@ -35718,7 +35718,7 @@ extension MediaLiveClientTypes.RemixSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Remix Settings
-    public struct RemixSettings: Swift.Equatable {
+    public struct RemixSettings {
         /// Mapping of input channels to output channels, with appropriate gain adjustments.
         /// This member is required.
         public var channelMappings: [MediaLiveClientTypes.AudioChannelMapping]?
@@ -35768,7 +35768,7 @@ extension MediaLiveClientTypes.RenewalSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The Renewal settings for Reservations
-    public struct RenewalSettings: Swift.Equatable {
+    public struct RenewalSettings {
         /// Automatic renewal status for the reservation
         public var automaticRenewal: MediaLiveClientTypes.ReservationAutomaticRenewal?
         /// Count for the reservation renewal
@@ -35927,7 +35927,7 @@ extension MediaLiveClientTypes.Reservation: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Reserved resources available to use
-    public struct Reservation: Swift.Equatable {
+    public struct Reservation {
         /// Unique reservation ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:reservation:1234567'
         public var arn: Swift.String?
         /// Number of reserved resources
@@ -36262,7 +36262,7 @@ extension MediaLiveClientTypes.ReservationResourceSpecification: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Resource configuration (codec, resolution, bitrate, ...)
-    public struct ReservationResourceSpecification: Swift.Equatable {
+    public struct ReservationResourceSpecification {
         /// Channel class, e.g. 'STANDARD'
         public var channelClass: MediaLiveClientTypes.ChannelClass?
         /// Codec, e.g. 'AVC'
@@ -36484,7 +36484,7 @@ extension RestartChannelPipelinesInput {
 }
 
 /// Pipelines to restart.
-public struct RestartChannelPipelinesInput: Swift.Equatable {
+public struct RestartChannelPipelinesInput {
     /// ID of channel
     /// This member is required.
     public var channelId: Swift.String?
@@ -36501,7 +36501,7 @@ public struct RestartChannelPipelinesInput: Swift.Equatable {
     }
 }
 
-struct RestartChannelPipelinesInputBody: Swift.Equatable {
+struct RestartChannelPipelinesInputBody {
     let pipelineIds: [MediaLiveClientTypes.ChannelPipelineIdToRestart]?
 }
 
@@ -36575,7 +36575,7 @@ extension RestartChannelPipelinesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for RestartChannelPipelinesResponse
-public struct RestartChannelPipelinesOutput: Swift.Equatable {
+public struct RestartChannelPipelinesOutput {
     /// The unique arn of the channel.
     public var arn: Swift.String?
     /// Specification of CDI inputs for this channel
@@ -36659,7 +36659,7 @@ public struct RestartChannelPipelinesOutput: Swift.Equatable {
     }
 }
 
-struct RestartChannelPipelinesOutputBody: Swift.Equatable {
+struct RestartChannelPipelinesOutputBody {
     let arn: Swift.String?
     let cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     let channelClass: MediaLiveClientTypes.ChannelClass?
@@ -36922,7 +36922,7 @@ extension MediaLiveClientTypes.RtmpCaptionInfoDestinationSettings: Swift.Codable
 
 extension MediaLiveClientTypes {
     /// Rtmp Caption Info Destination Settings
-    public struct RtmpCaptionInfoDestinationSettings: Swift.Equatable {
+    public struct RtmpCaptionInfoDestinationSettings {
 
         public init() { }
     }
@@ -37004,7 +37004,7 @@ extension MediaLiveClientTypes.RtmpGroupSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Rtmp Group Settings
-    public struct RtmpGroupSettings: Swift.Equatable {
+    public struct RtmpGroupSettings {
         /// Choose the ad marker type for this output group. MediaLive will create a message based on the content of each SCTE-35 message, format it for that marker type, and insert it in the datastream.
         public var adMarkers: [MediaLiveClientTypes.RtmpAdMarkers]?
         /// Authentication scheme to use when connecting with CDN
@@ -37122,7 +37122,7 @@ extension MediaLiveClientTypes.RtmpOutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Rtmp Output Settings
-    public struct RtmpOutputSettings: Swift.Equatable {
+    public struct RtmpOutputSettings {
         /// If set to verifyAuthenticity, verify the tls certificate chain to a trusted Certificate Authority (CA). This will cause rtmps outputs with self-signed certificates to fail.
         public var certificateMode: MediaLiveClientTypes.RtmpOutputCertificateMode?
         /// Number of seconds to wait before retrying a connection to the Flash Media server if the connection is lost.
@@ -37221,7 +37221,7 @@ extension MediaLiveClientTypes.ScheduleAction: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Contains information on a single schedule action.
-    public struct ScheduleAction: Swift.Equatable {
+    public struct ScheduleAction {
         /// The name of the action, must be unique within the schedule. This name provides the main reference to an action once it is added to the schedule. A name is unique if it is no longer in the schedule. The schedule is automatically cleaned up to remove actions with a start time of more than 1 hour ago (approximately) so at that point a name can be reused.
         /// This member is required.
         public var actionName: Swift.String?
@@ -37351,7 +37351,7 @@ extension MediaLiveClientTypes.ScheduleActionSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Holds the settings for a single schedule action.
-    public struct ScheduleActionSettings: Swift.Equatable {
+    public struct ScheduleActionSettings {
         /// Action to insert HLS ID3 segment tagging
         public var hlsId3SegmentTaggingSettings: MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings?
         /// Action to insert HLS metadata
@@ -37454,7 +37454,7 @@ extension MediaLiveClientTypes.ScheduleActionStartSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings to specify when an action should occur. Only one of the options must be selected.
-    public struct ScheduleActionStartSettings: Swift.Equatable {
+    public struct ScheduleActionStartSettings {
         /// Option for specifying the start time for an action.
         public var fixedModeScheduleActionStartSettings: MediaLiveClientTypes.FixedModeScheduleActionStartSettings?
         /// Option for specifying an action as relative to another action.
@@ -37522,7 +37522,7 @@ extension MediaLiveClientTypes.Scte20PlusEmbeddedDestinationSettings: Swift.Coda
 
 extension MediaLiveClientTypes {
     /// Scte20 Plus Embedded Destination Settings
-    public struct Scte20PlusEmbeddedDestinationSettings: Swift.Equatable {
+    public struct Scte20PlusEmbeddedDestinationSettings {
 
         public init() { }
     }
@@ -37556,7 +37556,7 @@ extension MediaLiveClientTypes.Scte20SourceSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Scte20 Source Settings
-    public struct Scte20SourceSettings: Swift.Equatable {
+    public struct Scte20SourceSettings {
         /// If upconvert, 608 data is both passed through via the "608 compatibility bytes" fields of the 708 wrapper as well as translated into 708. 708 data present in the source content will be discarded.
         public var convert608To708: MediaLiveClientTypes.Scte20Convert608To708?
         /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
@@ -37587,7 +37587,7 @@ extension MediaLiveClientTypes.Scte27DestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Scte27 Destination Settings
-    public struct Scte27DestinationSettings: Swift.Equatable {
+    public struct Scte27DestinationSettings {
 
         public init() { }
     }
@@ -37666,7 +37666,7 @@ extension MediaLiveClientTypes.Scte27SourceSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Scte27 Source Settings
-    public struct Scte27SourceSettings: Swift.Equatable {
+    public struct Scte27SourceSettings {
         /// If you will configure a WebVTT caption description that references this caption selector, use this field to provide the language to consider when translating the image-based source to text.
         public var ocrLanguage: MediaLiveClientTypes.Scte27OcrLanguage?
         /// The pid field is used in conjunction with the caption selector languageCode field as follows:
@@ -37830,7 +37830,7 @@ extension MediaLiveClientTypes.Scte35DeliveryRestrictions: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Corresponds to SCTE-35 delivery_not_restricted_flag parameter. To declare delivery restrictions, include this element and its four "restriction" flags. To declare that there are no restrictions, omit this element.
-    public struct Scte35DeliveryRestrictions: Swift.Equatable {
+    public struct Scte35DeliveryRestrictions {
         /// Corresponds to SCTE-35 archive_allowed_flag.
         /// This member is required.
         public var archiveAllowedFlag: MediaLiveClientTypes.Scte35ArchiveAllowedFlag?
@@ -37881,7 +37881,7 @@ extension MediaLiveClientTypes.Scte35Descriptor: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Holds one set of SCTE-35 Descriptor Settings.
-    public struct Scte35Descriptor: Swift.Equatable {
+    public struct Scte35Descriptor {
         /// SCTE-35 Descriptor Settings.
         /// This member is required.
         public var scte35DescriptorSettings: MediaLiveClientTypes.Scte35DescriptorSettings?
@@ -37917,7 +37917,7 @@ extension MediaLiveClientTypes.Scte35DescriptorSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// SCTE-35 Descriptor settings.
-    public struct Scte35DescriptorSettings: Swift.Equatable {
+    public struct Scte35DescriptorSettings {
         /// SCTE-35 Segmentation Descriptor.
         /// This member is required.
         public var segmentationDescriptorScte35DescriptorSettings: MediaLiveClientTypes.Scte35SegmentationDescriptor?
@@ -38031,7 +38031,7 @@ extension MediaLiveClientTypes.Scte35InputScheduleActionSettings: Swift.Codable 
 
 extension MediaLiveClientTypes {
     /// Scte35Input Schedule Action Settings
-    public struct Scte35InputScheduleActionSettings: Swift.Equatable {
+    public struct Scte35InputScheduleActionSettings {
         /// In fixed mode, enter the name of the input attachment that you want to use as a SCTE-35 input. (Don't enter the ID of the input.)"
         public var inputAttachmentNameReference: Swift.String?
         /// Whether the SCTE-35 input should be the active input or a fixed input.
@@ -38104,7 +38104,7 @@ extension MediaLiveClientTypes.Scte35ReturnToNetworkScheduleActionSettings: Swif
 
 extension MediaLiveClientTypes {
     /// Settings for a SCTE-35 return_to_network message.
-    public struct Scte35ReturnToNetworkScheduleActionSettings: Swift.Equatable {
+    public struct Scte35ReturnToNetworkScheduleActionSettings {
         /// The splice_event_id for the SCTE-35 splice_insert, as defined in SCTE-35.
         /// This member is required.
         public var spliceEventId: Swift.Int?
@@ -38233,7 +38233,7 @@ extension MediaLiveClientTypes.Scte35SegmentationDescriptor: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Corresponds to SCTE-35 segmentation_descriptor.
-    public struct Scte35SegmentationDescriptor: Swift.Equatable {
+    public struct Scte35SegmentationDescriptor {
         /// Holds the four SCTE-35 delivery restriction parameters.
         public var deliveryRestrictions: MediaLiveClientTypes.Scte35DeliveryRestrictions?
         /// Corresponds to SCTE-35 segment_num. A value that is valid for the specified segmentation_type_id.
@@ -38322,7 +38322,7 @@ extension MediaLiveClientTypes.Scte35SpliceInsert: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Typical configuration that applies breaks on splice inserts in addition to time signal placement opportunities, breaks, and advertisements.
-    public struct Scte35SpliceInsert: Swift.Equatable {
+    public struct Scte35SpliceInsert {
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
         public var adAvailOffset: Swift.Int?
         /// When set to ignore, Segment Descriptors with noRegionalBlackoutFlag set to 0 will no longer trigger blackouts or Ad Avail slates
@@ -38404,7 +38404,7 @@ extension MediaLiveClientTypes.Scte35SpliceInsertScheduleActionSettings: Swift.C
 
 extension MediaLiveClientTypes {
     /// Settings for a SCTE-35 splice_insert message.
-    public struct Scte35SpliceInsertScheduleActionSettings: Swift.Equatable {
+    public struct Scte35SpliceInsertScheduleActionSettings {
         /// Optional, the duration for the splice_insert, in 90 KHz ticks. To convert seconds to ticks, multiple the seconds by 90,000. If you enter a duration, there is an expectation that the downstream system can read the duration and cue in at that time. If you do not enter a duration, the splice_insert will continue indefinitely and there is an expectation that you will enter a return_to_network to end the splice_insert at the appropriate time.
         public var duration: Swift.Int?
         /// The splice_event_id for the SCTE-35 splice_insert, as defined in SCTE-35.
@@ -38489,7 +38489,7 @@ extension MediaLiveClientTypes.Scte35TimeSignalApos: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Atypical configuration that applies segment breaks only on SCTE-35 time signal placement opportunities and breaks.
-    public struct Scte35TimeSignalApos: Swift.Equatable {
+    public struct Scte35TimeSignalApos {
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
         public var adAvailOffset: Swift.Int?
         /// When set to ignore, Segment Descriptors with noRegionalBlackoutFlag set to 0 will no longer trigger blackouts or Ad Avail slates
@@ -38544,7 +38544,7 @@ extension MediaLiveClientTypes.Scte35TimeSignalScheduleActionSettings: Swift.Cod
 
 extension MediaLiveClientTypes {
     /// Settings for a SCTE-35 time_signal.
-    public struct Scte35TimeSignalScheduleActionSettings: Swift.Equatable {
+    public struct Scte35TimeSignalScheduleActionSettings {
         /// The list of SCTE-35 descriptors accompanying the SCTE-35 time_signal.
         /// This member is required.
         public var scte35Descriptors: [MediaLiveClientTypes.Scte35Descriptor]?
@@ -38817,7 +38817,7 @@ extension MediaLiveClientTypes.SignalMapSummary: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for SignalMapSummary
-    public struct SignalMapSummary: Swift.Equatable {
+    public struct SignalMapSummary {
         /// A signal map's ARN (Amazon Resource Name)
         /// This member is required.
         public var arn: Swift.String?
@@ -39185,7 +39185,7 @@ extension MediaLiveClientTypes.SmpteTtDestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Smpte Tt Destination Settings
-    public struct SmpteTtDestinationSettings: Swift.Equatable {
+    public struct SmpteTtDestinationSettings {
 
         public init() { }
     }
@@ -39219,7 +39219,7 @@ extension MediaLiveClientTypes.StandardHlsSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Standard Hls Settings
-    public struct StandardHlsSettings: Swift.Equatable {
+    public struct StandardHlsSettings {
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public var audioRenditionSets: Swift.String?
         /// Settings information for the .m3u8 container
@@ -39249,7 +39249,7 @@ extension StartChannelInput {
 }
 
 /// Placeholder documentation for StartChannelRequest
-public struct StartChannelInput: Swift.Equatable {
+public struct StartChannelInput {
     /// A request to start a channel
     /// This member is required.
     public var channelId: Swift.String?
@@ -39262,7 +39262,7 @@ public struct StartChannelInput: Swift.Equatable {
     }
 }
 
-struct StartChannelInputBody: Swift.Equatable {
+struct StartChannelInputBody {
 }
 
 extension StartChannelInputBody: Swift.Decodable {
@@ -39318,7 +39318,7 @@ extension StartChannelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for StartChannelResponse
-public struct StartChannelOutput: Swift.Equatable {
+public struct StartChannelOutput {
     /// The unique arn of the channel.
     public var arn: Swift.String?
     /// Specification of CDI inputs for this channel
@@ -39398,7 +39398,7 @@ public struct StartChannelOutput: Swift.Equatable {
     }
 }
 
-struct StartChannelOutputBody: Swift.Equatable {
+struct StartChannelOutputBody {
     let arn: Swift.String?
     let cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     let channelClass: MediaLiveClientTypes.ChannelClass?
@@ -39556,7 +39556,7 @@ extension StartDeleteMonitorDeploymentInput {
 }
 
 /// Placeholder documentation for StartDeleteMonitorDeploymentRequest
-public struct StartDeleteMonitorDeploymentInput: Swift.Equatable {
+public struct StartDeleteMonitorDeploymentInput {
     /// A signal map's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
@@ -39569,7 +39569,7 @@ public struct StartDeleteMonitorDeploymentInput: Swift.Equatable {
     }
 }
 
-struct StartDeleteMonitorDeploymentInputBody: Swift.Equatable {
+struct StartDeleteMonitorDeploymentInputBody {
 }
 
 extension StartDeleteMonitorDeploymentInputBody: Swift.Decodable {
@@ -39625,7 +39625,7 @@ extension StartDeleteMonitorDeploymentOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Placeholder documentation for StartDeleteMonitorDeploymentResponse
-public struct StartDeleteMonitorDeploymentOutput: Swift.Equatable {
+public struct StartDeleteMonitorDeploymentOutput {
     /// A signal map's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
@@ -39705,7 +39705,7 @@ public struct StartDeleteMonitorDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct StartDeleteMonitorDeploymentOutputBody: Swift.Equatable {
+struct StartDeleteMonitorDeploymentOutputBody {
     let arn: Swift.String?
     let cloudWatchAlarmTemplateGroupIds: [Swift.String]?
     let createdAt: ClientRuntime.Date?
@@ -39861,7 +39861,7 @@ extension StartInputDeviceInput {
 }
 
 /// Placeholder documentation for StartInputDeviceRequest
-public struct StartInputDeviceInput: Swift.Equatable {
+public struct StartInputDeviceInput {
     /// The unique ID of the input device to start. For example, hd-123456789abcdef.
     /// This member is required.
     public var inputDeviceId: Swift.String?
@@ -39874,7 +39874,7 @@ public struct StartInputDeviceInput: Swift.Equatable {
     }
 }
 
-struct StartInputDeviceInputBody: Swift.Equatable {
+struct StartInputDeviceInputBody {
 }
 
 extension StartInputDeviceInputBody: Swift.Decodable {
@@ -39894,7 +39894,7 @@ extension StartInputDeviceMaintenanceWindowInput {
 }
 
 /// Placeholder documentation for StartInputDeviceMaintenanceWindowRequest
-public struct StartInputDeviceMaintenanceWindowInput: Swift.Equatable {
+public struct StartInputDeviceMaintenanceWindowInput {
     /// The unique ID of the input device to start a maintenance window for. For example, hd-123456789abcdef.
     /// This member is required.
     public var inputDeviceId: Swift.String?
@@ -39907,7 +39907,7 @@ public struct StartInputDeviceMaintenanceWindowInput: Swift.Equatable {
     }
 }
 
-struct StartInputDeviceMaintenanceWindowInputBody: Swift.Equatable {
+struct StartInputDeviceMaintenanceWindowInputBody {
 }
 
 extension StartInputDeviceMaintenanceWindowInputBody: Swift.Decodable {
@@ -39922,7 +39922,7 @@ extension StartInputDeviceMaintenanceWindowOutput: ClientRuntime.HttpResponseBin
 }
 
 /// Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
-public struct StartInputDeviceMaintenanceWindowOutput: Swift.Equatable {
+public struct StartInputDeviceMaintenanceWindowOutput {
 
     public init() { }
 }
@@ -39951,7 +39951,7 @@ extension StartInputDeviceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for StartInputDeviceResponse
-public struct StartInputDeviceOutput: Swift.Equatable {
+public struct StartInputDeviceOutput {
 
     public init() { }
 }
@@ -39998,7 +39998,7 @@ extension StartMonitorDeploymentInput {
 }
 
 /// Placeholder documentation for StartMonitorDeploymentRequest
-public struct StartMonitorDeploymentInput: Swift.Equatable {
+public struct StartMonitorDeploymentInput {
     /// Placeholder documentation for __boolean
     public var dryRun: Swift.Bool?
     /// A signal map's identifier. Can be either be its id or current name.
@@ -40015,7 +40015,7 @@ public struct StartMonitorDeploymentInput: Swift.Equatable {
     }
 }
 
-struct StartMonitorDeploymentInputBody: Swift.Equatable {
+struct StartMonitorDeploymentInputBody {
     let dryRun: Swift.Bool?
 }
 
@@ -40078,7 +40078,7 @@ extension StartMonitorDeploymentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for StartMonitorDeploymentResponse
-public struct StartMonitorDeploymentOutput: Swift.Equatable {
+public struct StartMonitorDeploymentOutput {
     /// A signal map's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
@@ -40158,7 +40158,7 @@ public struct StartMonitorDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct StartMonitorDeploymentOutputBody: Swift.Equatable {
+struct StartMonitorDeploymentOutputBody {
     let arn: Swift.String?
     let cloudWatchAlarmTemplateGroupIds: [Swift.String]?
     let createdAt: ClientRuntime.Date?
@@ -40314,7 +40314,7 @@ extension StartMultiplexInput {
 }
 
 /// Placeholder documentation for StartMultiplexRequest
-public struct StartMultiplexInput: Swift.Equatable {
+public struct StartMultiplexInput {
     /// The ID of the multiplex.
     /// This member is required.
     public var multiplexId: Swift.String?
@@ -40327,7 +40327,7 @@ public struct StartMultiplexInput: Swift.Equatable {
     }
 }
 
-struct StartMultiplexInputBody: Swift.Equatable {
+struct StartMultiplexInputBody {
 }
 
 extension StartMultiplexInputBody: Swift.Decodable {
@@ -40367,7 +40367,7 @@ extension StartMultiplexOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for StartMultiplexResponse
-public struct StartMultiplexOutput: Swift.Equatable {
+public struct StartMultiplexOutput {
     /// The unique arn of the multiplex.
     public var arn: Swift.String?
     /// A list of availability zones for the multiplex.
@@ -40415,7 +40415,7 @@ public struct StartMultiplexOutput: Swift.Equatable {
     }
 }
 
-struct StartMultiplexOutputBody: Swift.Equatable {
+struct StartMultiplexOutputBody {
     let arn: Swift.String?
     let availabilityZones: [Swift.String]?
     let destinations: [MediaLiveClientTypes.MultiplexOutputDestination]?
@@ -40533,7 +40533,7 @@ extension MediaLiveClientTypes.StartTimecode: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings to identify the start of the clip.
-    public struct StartTimecode: Swift.Equatable {
+    public struct StartTimecode {
         /// The timecode for the frame where you want to start the clip. Optional; if not specified, the clip starts at first frame in the file. Enter the timecode as HH:MM:SS:FF or HH:MM:SS;FF.
         public var timecode: Swift.String?
 
@@ -40597,7 +40597,7 @@ extension StartUpdateSignalMapInput {
 }
 
 /// Placeholder documentation for StartUpdateSignalMapRequest
-public struct StartUpdateSignalMapInput: Swift.Equatable {
+public struct StartUpdateSignalMapInput {
     /// Placeholder documentation for __listOf__stringPatternS
     public var cloudWatchAlarmTemplateGroupIdentifiers: [Swift.String]?
     /// A resource's optional description.
@@ -40634,7 +40634,7 @@ public struct StartUpdateSignalMapInput: Swift.Equatable {
     }
 }
 
-struct StartUpdateSignalMapInputBody: Swift.Equatable {
+struct StartUpdateSignalMapInputBody {
     let cloudWatchAlarmTemplateGroupIdentifiers: [Swift.String]?
     let description: Swift.String?
     let discoveryEntryPointArn: Swift.String?
@@ -40735,7 +40735,7 @@ extension StartUpdateSignalMapOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for StartUpdateSignalMapResponse
-public struct StartUpdateSignalMapOutput: Swift.Equatable {
+public struct StartUpdateSignalMapOutput {
     /// A signal map's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
@@ -40815,7 +40815,7 @@ public struct StartUpdateSignalMapOutput: Swift.Equatable {
     }
 }
 
-struct StartUpdateSignalMapOutputBody: Swift.Equatable {
+struct StartUpdateSignalMapOutputBody {
     let arn: Swift.String?
     let cloudWatchAlarmTemplateGroupIds: [Swift.String]?
     let createdAt: ClientRuntime.Date?
@@ -41035,7 +41035,7 @@ extension MediaLiveClientTypes.StaticImageActivateScheduleActionSettings: Swift.
 
 extension MediaLiveClientTypes {
     /// Settings for the action to activate a static image.
-    public struct StaticImageActivateScheduleActionSettings: Swift.Equatable {
+    public struct StaticImageActivateScheduleActionSettings {
         /// The duration in milliseconds for the image to remain on the video. If omitted or set to 0 the duration is unlimited and the image will remain until it is explicitly deactivated.
         public var duration: Swift.Int?
         /// The time in milliseconds for the image to fade in. The fade-in starts at the start time of the overlay. Default is 0 (no fade-in).
@@ -41113,7 +41113,7 @@ extension MediaLiveClientTypes.StaticImageDeactivateScheduleActionSettings: Swif
 
 extension MediaLiveClientTypes {
     /// Settings for the action to deactivate the image in a specific layer.
-    public struct StaticImageDeactivateScheduleActionSettings: Swift.Equatable {
+    public struct StaticImageDeactivateScheduleActionSettings {
         /// The time in milliseconds for the image to fade out. Default is 0 (no fade-out).
         public var fadeOut: Swift.Int?
         /// The image overlay layer to deactivate, 0 to 7. Default is 0.
@@ -41224,7 +41224,7 @@ extension MediaLiveClientTypes.StaticImageOutputActivateScheduleActionSettings: 
 
 extension MediaLiveClientTypes {
     /// Settings for the action to activate a static image.
-    public struct StaticImageOutputActivateScheduleActionSettings: Swift.Equatable {
+    public struct StaticImageOutputActivateScheduleActionSettings {
         /// The duration in milliseconds for the image to remain on the video. If omitted or set to 0 the duration is unlimited and the image will remain until it is explicitly deactivated.
         public var duration: Swift.Int?
         /// The time in milliseconds for the image to fade in. The fade-in starts at the start time of the overlay. Default is 0 (no fade-in).
@@ -41325,7 +41325,7 @@ extension MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings
 
 extension MediaLiveClientTypes {
     /// Settings for the action to deactivate the image in a specific layer.
-    public struct StaticImageOutputDeactivateScheduleActionSettings: Swift.Equatable {
+    public struct StaticImageOutputDeactivateScheduleActionSettings {
         /// The time in milliseconds for the image to fade out. Default is 0 (no fade-out).
         public var fadeOut: Swift.Int?
         /// The image overlay layer to deactivate, 0 to 7. Default is 0.
@@ -41375,7 +41375,7 @@ extension MediaLiveClientTypes.StaticKeySettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Static Key Settings
-    public struct StaticKeySettings: Swift.Equatable {
+    public struct StaticKeySettings {
         /// The URL of the license server used for protecting content.
         public var keyProviderServer: MediaLiveClientTypes.InputLocation?
         /// Static key value as a 32 character hexadecimal string.
@@ -41405,7 +41405,7 @@ extension StopChannelInput {
 }
 
 /// Placeholder documentation for StopChannelRequest
-public struct StopChannelInput: Swift.Equatable {
+public struct StopChannelInput {
     /// A request to stop a running channel
     /// This member is required.
     public var channelId: Swift.String?
@@ -41418,7 +41418,7 @@ public struct StopChannelInput: Swift.Equatable {
     }
 }
 
-struct StopChannelInputBody: Swift.Equatable {
+struct StopChannelInputBody {
 }
 
 extension StopChannelInputBody: Swift.Decodable {
@@ -41474,7 +41474,7 @@ extension StopChannelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for StopChannelResponse
-public struct StopChannelOutput: Swift.Equatable {
+public struct StopChannelOutput {
     /// The unique arn of the channel.
     public var arn: Swift.String?
     /// Specification of CDI inputs for this channel
@@ -41554,7 +41554,7 @@ public struct StopChannelOutput: Swift.Equatable {
     }
 }
 
-struct StopChannelOutputBody: Swift.Equatable {
+struct StopChannelOutputBody {
     let arn: Swift.String?
     let cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     let channelClass: MediaLiveClientTypes.ChannelClass?
@@ -41712,7 +41712,7 @@ extension StopInputDeviceInput {
 }
 
 /// Placeholder documentation for StopInputDeviceRequest
-public struct StopInputDeviceInput: Swift.Equatable {
+public struct StopInputDeviceInput {
     /// The unique ID of the input device to stop. For example, hd-123456789abcdef.
     /// This member is required.
     public var inputDeviceId: Swift.String?
@@ -41725,7 +41725,7 @@ public struct StopInputDeviceInput: Swift.Equatable {
     }
 }
 
-struct StopInputDeviceInputBody: Swift.Equatable {
+struct StopInputDeviceInputBody {
 }
 
 extension StopInputDeviceInputBody: Swift.Decodable {
@@ -41740,7 +41740,7 @@ extension StopInputDeviceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for StopInputDeviceResponse
-public struct StopInputDeviceOutput: Swift.Equatable {
+public struct StopInputDeviceOutput {
 
     public init() { }
 }
@@ -41774,7 +41774,7 @@ extension StopMultiplexInput {
 }
 
 /// Placeholder documentation for StopMultiplexRequest
-public struct StopMultiplexInput: Swift.Equatable {
+public struct StopMultiplexInput {
     /// The ID of the multiplex.
     /// This member is required.
     public var multiplexId: Swift.String?
@@ -41787,7 +41787,7 @@ public struct StopMultiplexInput: Swift.Equatable {
     }
 }
 
-struct StopMultiplexInputBody: Swift.Equatable {
+struct StopMultiplexInputBody {
 }
 
 extension StopMultiplexInputBody: Swift.Decodable {
@@ -41827,7 +41827,7 @@ extension StopMultiplexOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for StopMultiplexResponse
-public struct StopMultiplexOutput: Swift.Equatable {
+public struct StopMultiplexOutput {
     /// The unique arn of the multiplex.
     public var arn: Swift.String?
     /// A list of availability zones for the multiplex.
@@ -41875,7 +41875,7 @@ public struct StopMultiplexOutput: Swift.Equatable {
     }
 }
 
-struct StopMultiplexOutputBody: Swift.Equatable {
+struct StopMultiplexOutputBody {
     let arn: Swift.String?
     let availabilityZones: [Swift.String]?
     let destinations: [MediaLiveClientTypes.MultiplexOutputDestination]?
@@ -41999,7 +41999,7 @@ extension MediaLiveClientTypes.StopTimecode: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Settings to identify the end of the clip.
-    public struct StopTimecode: Swift.Equatable {
+    public struct StopTimecode {
         /// If you specify a StopTimecode in an input (in order to clip the file), you can specify if you want the clip to exclude (the default) or include the frame specified by the timecode.
         public var lastFrameClippingBehavior: MediaLiveClientTypes.LastFrameClippingBehavior?
         /// The timecode for the frame where you want to stop the clip. Optional; if not specified, the clip continues to the end of the file. Enter the timecode as HH:MM:SS:FF or HH:MM:SS;FF.
@@ -42044,7 +42044,7 @@ extension MediaLiveClientTypes.SuccessfulMonitorDeployment: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Represents the latest successful monitor deployment of a signal map.
-    public struct SuccessfulMonitorDeployment: Swift.Equatable {
+    public struct SuccessfulMonitorDeployment {
         /// URI associated with a signal map's monitor deployment.
         /// This member is required.
         public var detailsUri: Swift.String?
@@ -42077,7 +42077,7 @@ extension MediaLiveClientTypes.TeletextDestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Teletext Destination Settings
-    public struct TeletextDestinationSettings: Swift.Equatable {
+    public struct TeletextDestinationSettings {
 
         public init() { }
     }
@@ -42111,7 +42111,7 @@ extension MediaLiveClientTypes.TeletextSourceSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Teletext Source Settings
-    public struct TeletextSourceSettings: Swift.Equatable {
+    public struct TeletextSourceSettings {
         /// Optionally defines a region where TTML style captions will be displayed
         public var outputRectangle: MediaLiveClientTypes.CaptionRectangle?
         /// Specifies the teletext page number within the data stream from which to extract captions. Range of 0x100 (256) to 0x8FF (2303). Unused for passthrough. Should be specified as a hexadecimal string with no "0x" prefix.
@@ -42192,7 +42192,7 @@ extension MediaLiveClientTypes.TemporalFilterSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Temporal Filter Settings
-    public struct TemporalFilterSettings: Swift.Equatable {
+    public struct TemporalFilterSettings {
         /// If you enable this filter, the results are the following:
         ///
         /// * If the source content is noisy (it contains excessive digital artifacts), the filter cleans up the source.
@@ -42331,7 +42331,7 @@ extension MediaLiveClientTypes.Thumbnail: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Details of a single thumbnail
-    public struct Thumbnail: Swift.Equatable {
+    public struct Thumbnail {
         /// The binary data for the latest thumbnail.
         public var body: Swift.String?
         /// The content type for the latest thumbnail.
@@ -42378,7 +42378,7 @@ extension MediaLiveClientTypes.ThumbnailConfiguration: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Thumbnail Configuration
-    public struct ThumbnailConfiguration: Swift.Equatable {
+    public struct ThumbnailConfiguration {
         /// Enables the thumbnail feature. The feature generates thumbnails of the incoming video in each pipeline in the channel. AUTO turns the feature on, DISABLE turns the feature off.
         /// This member is required.
         public var state: MediaLiveClientTypes.ThumbnailState?
@@ -42432,7 +42432,7 @@ extension MediaLiveClientTypes.ThumbnailDetail: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Thumbnail details for one pipeline of a running channel.
-    public struct ThumbnailDetail: Swift.Equatable {
+    public struct ThumbnailDetail {
         /// Pipeline ID
         public var pipelineId: Swift.String?
         /// thumbnails of a single pipeline
@@ -42642,7 +42642,7 @@ extension MediaLiveClientTypes.TimecodeBurninSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Timecode Burnin Settings
-    public struct TimecodeBurninSettings: Swift.Equatable {
+    public struct TimecodeBurninSettings {
         /// Choose a timecode burn-in font size
         /// This member is required.
         public var fontSize: MediaLiveClientTypes.TimecodeBurninFontSize?
@@ -42693,7 +42693,7 @@ extension MediaLiveClientTypes.TimecodeConfig: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Timecode Config
-    public struct TimecodeConfig: Swift.Equatable {
+    public struct TimecodeConfig {
         /// Identifies the source for the timecode that will be associated with the events outputs. -Embedded (embedded): Initialize the output timecode with timecode from the the source. If no embedded timecode is detected in the source, the system falls back to using "Start at 0" (zerobased). -System Clock (systemclock): Use the UTC time. -Start at 0 (zerobased): The time of the first frame of the event will be 00:00:00:00.
         /// This member is required.
         public var source: MediaLiveClientTypes.TimecodeConfigSource?
@@ -42788,7 +42788,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -42836,7 +42836,7 @@ extension TransferInputDeviceInput {
 }
 
 /// A request to transfer an input device.
-public struct TransferInputDeviceInput: Swift.Equatable {
+public struct TransferInputDeviceInput {
     /// The unique ID of this input device. For example, hd-123456789abcdef.
     /// This member is required.
     public var inputDeviceId: Swift.String?
@@ -42861,7 +42861,7 @@ public struct TransferInputDeviceInput: Swift.Equatable {
     }
 }
 
-struct TransferInputDeviceInputBody: Swift.Equatable {
+struct TransferInputDeviceInputBody {
     let targetCustomerId: Swift.String?
     let targetRegion: Swift.String?
     let transferMessage: Swift.String?
@@ -42891,7 +42891,7 @@ extension TransferInputDeviceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for TransferInputDeviceResponse
-public struct TransferInputDeviceOutput: Swift.Equatable {
+public struct TransferInputDeviceOutput {
 
     public init() { }
 }
@@ -42954,7 +42954,7 @@ extension MediaLiveClientTypes.TransferringInputDeviceSummary: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Details about the input device that is being transferred.
-    public struct TransferringInputDeviceSummary: Swift.Equatable {
+    public struct TransferringInputDeviceSummary {
         /// The unique ID of the input device.
         public var id: Swift.String?
         /// The optional message that the sender has attached to the transfer.
@@ -43001,7 +43001,7 @@ extension MediaLiveClientTypes.TtmlDestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Ttml Destination Settings
-    public struct TtmlDestinationSettings: Swift.Equatable {
+    public struct TtmlDestinationSettings {
         /// This field is not currently supported and will not affect the output styling. Leave the default value.
         public var styleControl: MediaLiveClientTypes.TtmlDestinationStyleControl?
 
@@ -43069,7 +43069,7 @@ extension MediaLiveClientTypes.UdpContainerSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Udp Container Settings
-    public struct UdpContainerSettings: Swift.Equatable {
+    public struct UdpContainerSettings {
         /// M2ts Settings
         public var m2tsSettings: MediaLiveClientTypes.M2tsSettings?
 
@@ -43116,7 +43116,7 @@ extension MediaLiveClientTypes.UdpGroupSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Udp Group Settings
-    public struct UdpGroupSettings: Swift.Equatable {
+    public struct UdpGroupSettings {
         /// Specifies behavior of last resort when input video is lost, and no more backup inputs are available. When dropTs is selected the entire transport stream will stop being emitted. When dropProgram is selected the program can be dropped from the transport stream (and replaced with null packets to meet the TS bitrate requirement). Or, when emitProgram is chosen the transport stream will continue to be produced normally with repeat frames, black frames, or slate frames substituted for the absent input video.
         public var inputLossAction: MediaLiveClientTypes.InputLossActionForUdpOut?
         /// Indicates ID3 frame that has the timecode.
@@ -43177,7 +43177,7 @@ extension MediaLiveClientTypes.UdpOutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Udp Output Settings
-    public struct UdpOutputSettings: Swift.Equatable {
+    public struct UdpOutputSettings {
         /// UDP output buffering in milliseconds. Larger values increase latency through the transcoder but simultaneously assist the transcoder in maintaining a constant, low-jitter UDP/RTP output while accommodating clock recovery, input switching, input disruptions, picture reordering, etc.
         public var bufferMsec: Swift.Int?
         /// Udp Container Settings
@@ -43287,7 +43287,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct UnprocessableEntityExceptionBody: Swift.Equatable {
+struct UnprocessableEntityExceptionBody {
     let message: Swift.String?
     let validationErrors: [MediaLiveClientTypes.ValidationError]?
 }
@@ -43337,7 +43337,7 @@ extension UpdateAccountConfigurationInput {
 }
 
 /// List of account configuration parameters to update.
-public struct UpdateAccountConfigurationInput: Swift.Equatable {
+public struct UpdateAccountConfigurationInput {
     /// Placeholder documentation for AccountConfiguration
     public var accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
 
@@ -43349,7 +43349,7 @@ public struct UpdateAccountConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountConfigurationInputBody: Swift.Equatable {
+struct UpdateAccountConfigurationInputBody {
     let accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
 }
 
@@ -43378,7 +43378,7 @@ extension UpdateAccountConfigurationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for UpdateAccountConfigurationResponse
-public struct UpdateAccountConfigurationOutput: Swift.Equatable {
+public struct UpdateAccountConfigurationOutput {
     /// Placeholder documentation for AccountConfiguration
     public var accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
 
@@ -43390,7 +43390,7 @@ public struct UpdateAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountConfigurationOutputBody: Swift.Equatable {
+struct UpdateAccountConfigurationOutputBody {
     let accountConfiguration: MediaLiveClientTypes.AccountConfiguration?
 }
 
@@ -43454,7 +43454,7 @@ extension UpdateChannelClassInput {
 }
 
 /// Channel class that the channel should be updated to.
-public struct UpdateChannelClassInput: Swift.Equatable {
+public struct UpdateChannelClassInput {
     /// The channel class that you wish to update this channel to use.
     /// This member is required.
     public var channelClass: MediaLiveClientTypes.ChannelClass?
@@ -43476,7 +43476,7 @@ public struct UpdateChannelClassInput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelClassInputBody: Swift.Equatable {
+struct UpdateChannelClassInputBody {
     let channelClass: MediaLiveClientTypes.ChannelClass?
     let destinations: [MediaLiveClientTypes.OutputDestination]?
 }
@@ -43518,7 +43518,7 @@ extension UpdateChannelClassOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for UpdateChannelClassResponse
-public struct UpdateChannelClassOutput: Swift.Equatable {
+public struct UpdateChannelClassOutput {
     /// Placeholder documentation for Channel
     public var channel: MediaLiveClientTypes.Channel?
 
@@ -43530,7 +43530,7 @@ public struct UpdateChannelClassOutput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelClassOutputBody: Swift.Equatable {
+struct UpdateChannelClassOutputBody {
     let channel: MediaLiveClientTypes.Channel?
 }
 
@@ -43627,7 +43627,7 @@ extension UpdateChannelInput {
 }
 
 /// A request to update a channel.
-public struct UpdateChannelInput: Swift.Equatable {
+public struct UpdateChannelInput {
     /// Specification of CDI inputs for this channel
     public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     /// channel ID
@@ -43676,7 +43676,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelInputBody: Swift.Equatable {
+struct UpdateChannelInputBody {
     let cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     let destinations: [MediaLiveClientTypes.OutputDestination]?
     let encoderSettings: MediaLiveClientTypes.EncoderSettings?
@@ -43755,7 +43755,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for UpdateChannelResponse
-public struct UpdateChannelOutput: Swift.Equatable {
+public struct UpdateChannelOutput {
     /// Placeholder documentation for Channel
     public var channel: MediaLiveClientTypes.Channel?
 
@@ -43767,7 +43767,7 @@ public struct UpdateChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelOutputBody: Swift.Equatable {
+struct UpdateChannelOutputBody {
     let channel: MediaLiveClientTypes.Channel?
 }
 
@@ -43824,7 +43824,7 @@ extension UpdateCloudWatchAlarmTemplateGroupInput {
 }
 
 /// Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupRequest
-public struct UpdateCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
+public struct UpdateCloudWatchAlarmTemplateGroupInput {
     /// A resource's optional description.
     public var description: Swift.String?
     /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
@@ -43841,7 +43841,7 @@ public struct UpdateCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateCloudWatchAlarmTemplateGroupInputBody: Swift.Equatable {
+struct UpdateCloudWatchAlarmTemplateGroupInputBody {
     let description: Swift.String?
 }
 
@@ -43882,7 +43882,7 @@ extension UpdateCloudWatchAlarmTemplateGroupOutput: ClientRuntime.HttpResponseBi
 }
 
 /// Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupResponse
-public struct UpdateCloudWatchAlarmTemplateGroupOutput: Swift.Equatable {
+public struct UpdateCloudWatchAlarmTemplateGroupOutput {
     /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __timestampIso8601
@@ -43918,7 +43918,7 @@ public struct UpdateCloudWatchAlarmTemplateGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCloudWatchAlarmTemplateGroupOutputBody: Swift.Equatable {
+struct UpdateCloudWatchAlarmTemplateGroupOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let description: Swift.String?
@@ -44051,7 +44051,7 @@ extension UpdateCloudWatchAlarmTemplateInput {
 }
 
 /// Placeholder documentation for UpdateCloudWatchAlarmTemplateRequest
-public struct UpdateCloudWatchAlarmTemplateInput: Swift.Equatable {
+public struct UpdateCloudWatchAlarmTemplateInput {
     /// The comparison operator used to compare the specified statistic and the threshold.
     public var comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
     /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
@@ -44112,7 +44112,7 @@ public struct UpdateCloudWatchAlarmTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateCloudWatchAlarmTemplateInputBody: Swift.Equatable {
+struct UpdateCloudWatchAlarmTemplateInputBody {
     let comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
     let datapointsToAlarm: Swift.Int?
     let description: Swift.String?
@@ -44217,7 +44217,7 @@ extension UpdateCloudWatchAlarmTemplateOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// Placeholder documentation for UpdateCloudWatchAlarmTemplateResponse
-public struct UpdateCloudWatchAlarmTemplateOutput: Swift.Equatable {
+public struct UpdateCloudWatchAlarmTemplateOutput {
     /// A cloudwatch alarm template's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// The comparison operator used to compare the specified statistic and the threshold.
@@ -44293,7 +44293,7 @@ public struct UpdateCloudWatchAlarmTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCloudWatchAlarmTemplateOutputBody: Swift.Equatable {
+struct UpdateCloudWatchAlarmTemplateOutputBody {
     let arn: Swift.String?
     let comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
     let createdAt: ClientRuntime.Date?
@@ -44422,7 +44422,7 @@ extension UpdateEventBridgeRuleTemplateGroupInput {
 }
 
 /// Placeholder documentation for UpdateEventBridgeRuleTemplateGroupRequest
-public struct UpdateEventBridgeRuleTemplateGroupInput: Swift.Equatable {
+public struct UpdateEventBridgeRuleTemplateGroupInput {
     /// A resource's optional description.
     public var description: Swift.String?
     /// An eventbridge rule template group's identifier. Can be either be its id or current name.
@@ -44439,7 +44439,7 @@ public struct UpdateEventBridgeRuleTemplateGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateEventBridgeRuleTemplateGroupInputBody: Swift.Equatable {
+struct UpdateEventBridgeRuleTemplateGroupInputBody {
     let description: Swift.String?
 }
 
@@ -44480,7 +44480,7 @@ extension UpdateEventBridgeRuleTemplateGroupOutput: ClientRuntime.HttpResponseBi
 }
 
 /// Placeholder documentation for UpdateEventBridgeRuleTemplateGroupResponse
-public struct UpdateEventBridgeRuleTemplateGroupOutput: Swift.Equatable {
+public struct UpdateEventBridgeRuleTemplateGroupOutput {
     /// An eventbridge rule template group's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __timestampIso8601
@@ -44516,7 +44516,7 @@ public struct UpdateEventBridgeRuleTemplateGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEventBridgeRuleTemplateGroupOutputBody: Swift.Equatable {
+struct UpdateEventBridgeRuleTemplateGroupOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let description: Swift.String?
@@ -44624,7 +44624,7 @@ extension UpdateEventBridgeRuleTemplateInput {
 }
 
 /// Placeholder documentation for UpdateEventBridgeRuleTemplateRequest
-public struct UpdateEventBridgeRuleTemplateInput: Swift.Equatable {
+public struct UpdateEventBridgeRuleTemplateInput {
     /// A resource's optional description.
     public var description: Swift.String?
     /// Placeholder documentation for __listOfEventBridgeRuleTemplateTarget
@@ -44657,7 +44657,7 @@ public struct UpdateEventBridgeRuleTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateEventBridgeRuleTemplateInputBody: Swift.Equatable {
+struct UpdateEventBridgeRuleTemplateInputBody {
     let description: Swift.String?
     let eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
     let eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
@@ -44729,7 +44729,7 @@ extension UpdateEventBridgeRuleTemplateOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// Placeholder documentation for UpdateEventBridgeRuleTemplateResponse
-public struct UpdateEventBridgeRuleTemplateOutput: Swift.Equatable {
+public struct UpdateEventBridgeRuleTemplateOutput {
     /// An eventbridge rule template's ARN (Amazon Resource Name)
     public var arn: Swift.String?
     /// Placeholder documentation for __timestampIso8601
@@ -44777,7 +44777,7 @@ public struct UpdateEventBridgeRuleTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEventBridgeRuleTemplateOutputBody: Swift.Equatable {
+struct UpdateEventBridgeRuleTemplateOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let description: Swift.String?
@@ -44899,7 +44899,7 @@ extension UpdateInputDeviceInput {
 }
 
 /// A request to update an input device.
-public struct UpdateInputDeviceInput: Swift.Equatable {
+public struct UpdateInputDeviceInput {
     /// The Availability Zone you want associated with this input device.
     public var availabilityZone: Swift.String?
     /// The settings that you want to apply to the HD input device.
@@ -44928,7 +44928,7 @@ public struct UpdateInputDeviceInput: Swift.Equatable {
     }
 }
 
-struct UpdateInputDeviceInputBody: Swift.Equatable {
+struct UpdateInputDeviceInputBody {
     let hdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings?
     let name: Swift.String?
     let uhdDeviceSettings: MediaLiveClientTypes.InputDeviceConfigurableSettings?
@@ -44999,7 +44999,7 @@ extension UpdateInputDeviceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for UpdateInputDeviceResponse
-public struct UpdateInputDeviceOutput: Swift.Equatable {
+public struct UpdateInputDeviceOutput {
     /// The unique ARN of the input device.
     public var arn: Swift.String?
     /// The Availability Zone associated with this input device.
@@ -45071,7 +45071,7 @@ public struct UpdateInputDeviceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateInputDeviceOutputBody: Swift.Equatable {
+struct UpdateInputDeviceOutputBody {
     let arn: Swift.String?
     let connectionState: MediaLiveClientTypes.InputDeviceConnectionState?
     let deviceSettingsSyncState: MediaLiveClientTypes.DeviceSettingsSyncState?
@@ -45246,7 +45246,7 @@ extension UpdateInputInput {
 }
 
 /// A request to update an input.
-public struct UpdateInputInput: Swift.Equatable {
+public struct UpdateInputInput {
     /// Destination settings for PUSH type inputs.
     public var destinations: [MediaLiveClientTypes.InputDestinationRequest]?
     /// Settings for the devices.
@@ -45287,7 +45287,7 @@ public struct UpdateInputInput: Swift.Equatable {
     }
 }
 
-struct UpdateInputInputBody: Swift.Equatable {
+struct UpdateInputInputBody {
     let destinations: [MediaLiveClientTypes.InputDestinationRequest]?
     let inputDevices: [MediaLiveClientTypes.InputDeviceRequest]?
     let inputSecurityGroups: [Swift.String]?
@@ -45385,7 +45385,7 @@ extension UpdateInputOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for UpdateInputResponse
-public struct UpdateInputOutput: Swift.Equatable {
+public struct UpdateInputOutput {
     /// Placeholder documentation for Input
     public var input: MediaLiveClientTypes.Input?
 
@@ -45397,7 +45397,7 @@ public struct UpdateInputOutput: Swift.Equatable {
     }
 }
 
-struct UpdateInputOutputBody: Swift.Equatable {
+struct UpdateInputOutputBody {
     let input: MediaLiveClientTypes.Input?
 }
 
@@ -45464,7 +45464,7 @@ extension UpdateInputSecurityGroupInput {
 }
 
 /// The request to update some combination of the Input Security Group name and the IPv4 CIDRs the Input Security Group should allow.
-public struct UpdateInputSecurityGroupInput: Swift.Equatable {
+public struct UpdateInputSecurityGroupInput {
     /// The id of the Input Security Group to update.
     /// This member is required.
     public var inputSecurityGroupId: Swift.String?
@@ -45485,7 +45485,7 @@ public struct UpdateInputSecurityGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateInputSecurityGroupInputBody: Swift.Equatable {
+struct UpdateInputSecurityGroupInputBody {
     let tags: [Swift.String:Swift.String]?
     let whitelistRules: [MediaLiveClientTypes.InputWhitelistRuleCidr]?
 }
@@ -45536,7 +45536,7 @@ extension UpdateInputSecurityGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for UpdateInputSecurityGroupResponse
-public struct UpdateInputSecurityGroupOutput: Swift.Equatable {
+public struct UpdateInputSecurityGroupOutput {
     /// An Input Security Group
     public var securityGroup: MediaLiveClientTypes.InputSecurityGroup?
 
@@ -45548,7 +45548,7 @@ public struct UpdateInputSecurityGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateInputSecurityGroupOutputBody: Swift.Equatable {
+struct UpdateInputSecurityGroupOutputBody {
     let securityGroup: MediaLiveClientTypes.InputSecurityGroup?
 }
 
@@ -45609,7 +45609,7 @@ extension UpdateMultiplexInput {
 }
 
 /// A request to update a multiplex.
-public struct UpdateMultiplexInput: Swift.Equatable {
+public struct UpdateMultiplexInput {
     /// ID of the multiplex to update.
     /// This member is required.
     public var multiplexId: Swift.String?
@@ -45630,7 +45630,7 @@ public struct UpdateMultiplexInput: Swift.Equatable {
     }
 }
 
-struct UpdateMultiplexInputBody: Swift.Equatable {
+struct UpdateMultiplexInputBody {
     let multiplexSettings: MediaLiveClientTypes.MultiplexSettings?
     let name: Swift.String?
 }
@@ -45663,7 +45663,7 @@ extension UpdateMultiplexOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for UpdateMultiplexResponse
-public struct UpdateMultiplexOutput: Swift.Equatable {
+public struct UpdateMultiplexOutput {
     /// The updated multiplex.
     public var multiplex: MediaLiveClientTypes.Multiplex?
 
@@ -45675,7 +45675,7 @@ public struct UpdateMultiplexOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMultiplexOutputBody: Swift.Equatable {
+struct UpdateMultiplexOutputBody {
     let multiplex: MediaLiveClientTypes.Multiplex?
 }
 
@@ -45736,7 +45736,7 @@ extension UpdateMultiplexProgramInput {
 }
 
 /// A request to update a program in a multiplex.
-public struct UpdateMultiplexProgramInput: Swift.Equatable {
+public struct UpdateMultiplexProgramInput {
     /// The ID of the multiplex of the program to update.
     /// This member is required.
     public var multiplexId: Swift.String?
@@ -45758,7 +45758,7 @@ public struct UpdateMultiplexProgramInput: Swift.Equatable {
     }
 }
 
-struct UpdateMultiplexProgramInputBody: Swift.Equatable {
+struct UpdateMultiplexProgramInputBody {
     let multiplexProgramSettings: MediaLiveClientTypes.MultiplexProgramSettings?
 }
 
@@ -45787,7 +45787,7 @@ extension UpdateMultiplexProgramOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for UpdateMultiplexProgramResponse
-public struct UpdateMultiplexProgramOutput: Swift.Equatable {
+public struct UpdateMultiplexProgramOutput {
     /// The updated multiplex program.
     public var multiplexProgram: MediaLiveClientTypes.MultiplexProgram?
 
@@ -45799,7 +45799,7 @@ public struct UpdateMultiplexProgramOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMultiplexProgramOutputBody: Swift.Equatable {
+struct UpdateMultiplexProgramOutputBody {
     let multiplexProgram: MediaLiveClientTypes.MultiplexProgram?
 }
 
@@ -45861,7 +45861,7 @@ extension UpdateReservationInput {
 }
 
 /// Request to update a reservation
-public struct UpdateReservationInput: Swift.Equatable {
+public struct UpdateReservationInput {
     /// Name of the reservation
     public var name: Swift.String?
     /// Renewal settings for the reservation
@@ -45882,7 +45882,7 @@ public struct UpdateReservationInput: Swift.Equatable {
     }
 }
 
-struct UpdateReservationInputBody: Swift.Equatable {
+struct UpdateReservationInputBody {
     let name: Swift.String?
     let renewalSettings: MediaLiveClientTypes.RenewalSettings?
 }
@@ -45915,7 +45915,7 @@ extension UpdateReservationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Placeholder documentation for UpdateReservationResponse
-public struct UpdateReservationOutput: Swift.Equatable {
+public struct UpdateReservationOutput {
     /// Reserved resources available to use
     public var reservation: MediaLiveClientTypes.Reservation?
 
@@ -45927,7 +45927,7 @@ public struct UpdateReservationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReservationOutputBody: Swift.Equatable {
+struct UpdateReservationOutputBody {
     let reservation: MediaLiveClientTypes.Reservation?
 }
 
@@ -45988,7 +45988,7 @@ extension MediaLiveClientTypes.ValidationError: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for ValidationError
-    public struct ValidationError: Swift.Equatable {
+    public struct ValidationError {
         /// Path to the source of the error.
         public var elementPath: Swift.String?
         /// The error message.
@@ -46033,7 +46033,7 @@ extension MediaLiveClientTypes.VideoBlackFailoverSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Placeholder documentation for VideoBlackFailoverSettings
-    public struct VideoBlackFailoverSettings: Swift.Equatable {
+    public struct VideoBlackFailoverSettings {
         /// A value used in calculating the threshold below which MediaLive considers a pixel to be 'black'. For the input to be considered black, every pixel in a frame must be below this threshold. The threshold is calculated as a percentage (expressed as a decimal) of white. Therefore .1 means 10% white (or 90% black). Note how the formula works for any color depth. For example, if you set this field to 0.1 in 10-bit color depth: (10230.1=102.3), which means a pixel value of 102 or less is 'black'. If you set this field to .1 in an 8-bit color depth: (2550.1=25.5), which means a pixel value of 25 or less is 'black'. The range is 0.0 to 1.0, with any number of decimal places.
         public var blackDetectThreshold: Swift.Double?
         /// The amount of time (in milliseconds) that the active input must be black before automatic input failover occurs.
@@ -46090,7 +46090,7 @@ extension MediaLiveClientTypes.VideoCodecSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Video Codec Settings
-    public struct VideoCodecSettings: Swift.Equatable {
+    public struct VideoCodecSettings {
         /// Frame Capture Settings
         public var frameCaptureSettings: MediaLiveClientTypes.FrameCaptureSettings?
         /// H264 Settings
@@ -46173,7 +46173,7 @@ extension MediaLiveClientTypes.VideoDescription: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Video settings for this stream.
-    public struct VideoDescription: Swift.Equatable {
+    public struct VideoDescription {
         /// Video codec settings.
         public var codecSettings: MediaLiveClientTypes.VideoCodecSettings?
         /// Output video height, in pixels. Must be an even number. For most codecs, you can leave this field and width blank in order to use the height and width (resolution) from the source. Note, however, that leaving blank is not recommended. For the Frame Capture codec, height and width are required.
@@ -46320,7 +46320,7 @@ extension MediaLiveClientTypes.VideoSelector: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Specifies a particular video stream within an input source. An input may have only a single video selector.
-    public struct VideoSelector: Swift.Equatable {
+    public struct VideoSelector {
         /// Specifies the color space of an input. This setting works in tandem with colorSpaceUsage and a video description's colorSpaceSettingsChoice to determine if any conversion will be performed.
         public var colorSpace: MediaLiveClientTypes.VideoSelectorColorSpace?
         /// Color space settings
@@ -46409,7 +46409,7 @@ extension MediaLiveClientTypes.VideoSelectorColorSpaceSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Video Selector Color Space Settings
-    public struct VideoSelectorColorSpaceSettings: Swift.Equatable {
+    public struct VideoSelectorColorSpaceSettings {
         /// Hdr10 Settings
         public var hdr10Settings: MediaLiveClientTypes.Hdr10Settings?
 
@@ -46477,7 +46477,7 @@ extension MediaLiveClientTypes.VideoSelectorPid: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Video Selector Pid
-    public struct VideoSelectorPid: Swift.Equatable {
+    public struct VideoSelectorPid {
         /// Selects a specific PID from within a video source.
         public var pid: Swift.Int?
 
@@ -46512,7 +46512,7 @@ extension MediaLiveClientTypes.VideoSelectorProgramId: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Video Selector Program Id
-    public struct VideoSelectorProgramId: Swift.Equatable {
+    public struct VideoSelectorProgramId {
         /// Selects a specific program from within a multi-program transport stream. If the program doesn't exist, the first program within the transport stream will be selected by default.
         public var programId: Swift.Int?
 
@@ -46553,7 +46553,7 @@ extension MediaLiveClientTypes.VideoSelectorSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Video Selector Settings
-    public struct VideoSelectorSettings: Swift.Equatable {
+    public struct VideoSelectorSettings {
         /// Video Selector Pid
         public var videoSelectorPid: MediaLiveClientTypes.VideoSelectorPid?
         /// Video Selector Program Id
@@ -46640,7 +46640,7 @@ extension MediaLiveClientTypes.VpcOutputSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The properties for a private VPC Output When this property is specified, the output egress addresses will be created in a user specified VPC
-    public struct VpcOutputSettings: Swift.Equatable {
+    public struct VpcOutputSettings {
         /// List of public address allocation ids to associate with ENIs that will be created in Output VPC. Must specify one for SINGLE_PIPELINE, two for STANDARD channels
         public var publicAddressAllocationIds: [Swift.String]?
         /// A list of up to 5 EC2 VPC security group IDs to attach to the Output VPC network interfaces. If none are specified then the VPC default security group will be used
@@ -46750,7 +46750,7 @@ extension MediaLiveClientTypes.VpcOutputSettingsDescription: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// The properties for a private VPC Output
-    public struct VpcOutputSettingsDescription: Swift.Equatable {
+    public struct VpcOutputSettingsDescription {
         /// The Availability Zones where the vpc subnets are located. The first Availability Zone applies to the first subnet in the list of subnets. The second Availability Zone applies to the second subnet.
         public var availabilityZones: [Swift.String]?
         /// A list of Elastic Network Interfaces created by MediaLive in the customer's VPC
@@ -46848,7 +46848,7 @@ extension MediaLiveClientTypes.WavSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Wav Settings
-    public struct WavSettings: Swift.Equatable {
+    public struct WavSettings {
         /// Bits per sample.
         public var bitDepth: Swift.Double?
         /// The audio coding mode for the WAV audio. The mode determines the number of channels in the audio.
@@ -46891,7 +46891,7 @@ extension MediaLiveClientTypes.WebvttDestinationSettings: Swift.Codable {
 
 extension MediaLiveClientTypes {
     /// Webvtt Destination Settings
-    public struct WebvttDestinationSettings: Swift.Equatable {
+    public struct WebvttDestinationSettings {
         /// Controls whether the color and position of the source captions is passed through to the WebVTT output captions. PASSTHROUGH - Valid only if the source captions are EMBEDDED or TELETEXT. NO_STYLE_DATA - Don't pass through the style. The output captions will not contain any font styling information.
         public var styleControl: MediaLiveClientTypes.WebvttDestinationStyleControl?
 

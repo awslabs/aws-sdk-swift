@@ -58,7 +58,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -146,7 +146,7 @@ extension IdentitystoreClientTypes.Address: Swift.CustomDebugStringConvertible {
 
 extension IdentitystoreClientTypes {
     /// The address associated with the specified user.
-    public struct Address: Swift.Equatable {
+    public struct Address {
         /// The country of the address.
         public var country: Swift.String?
         /// A string containing a formatted version of the address for display.
@@ -225,7 +225,7 @@ extension IdentitystoreClientTypes.AlternateIdentifier: Swift.Codable {
 
 extension IdentitystoreClientTypes {
     /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute.
-    public enum AlternateIdentifier: Swift.Equatable {
+    public enum AlternateIdentifier {
         /// The identifier issued to this resource by an external identity provider.
         case externalid(IdentitystoreClientTypes.ExternalId)
         /// An entity attribute that's unique to a specific entity.
@@ -262,7 +262,7 @@ extension IdentitystoreClientTypes.AttributeOperation: Swift.Codable {
 
 extension IdentitystoreClientTypes {
     /// An operation that applies to the requested group. This operation might add, replace, or remove an attribute.
-    public struct AttributeOperation: Swift.Equatable {
+    public struct AttributeOperation {
         /// A string representation of the path to a given attribute or sub-attribute. Supports JMESPath.
         /// This member is required.
         public var attributePath: Swift.String?
@@ -340,7 +340,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
     let reason: IdentitystoreClientTypes.ConflictExceptionReason?
@@ -429,7 +429,7 @@ extension CreateGroupInput {
     }
 }
 
-public struct CreateGroupInput: Swift.Equatable {
+public struct CreateGroupInput {
     /// A string containing the description of the group.
     public var description: Swift.String?
     /// A string containing the name of the group. This value is commonly displayed when the group is referenced. Administrator and AWSAdministrators are reserved names and can't be used for users or groups.
@@ -450,7 +450,7 @@ public struct CreateGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateGroupInputBody: Swift.Equatable {
+struct CreateGroupInputBody {
     let identityStoreId: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -502,7 +502,7 @@ extension CreateGroupMembershipInput {
     }
 }
 
-public struct CreateGroupMembershipInput: Swift.Equatable {
+public struct CreateGroupMembershipInput {
     /// The identifier for a group in the identity store.
     /// This member is required.
     public var groupId: Swift.String?
@@ -525,7 +525,7 @@ public struct CreateGroupMembershipInput: Swift.Equatable {
     }
 }
 
-struct CreateGroupMembershipInputBody: Swift.Equatable {
+struct CreateGroupMembershipInputBody {
     let identityStoreId: Swift.String?
     let groupId: Swift.String?
     let memberId: IdentitystoreClientTypes.MemberId?
@@ -563,7 +563,7 @@ extension CreateGroupMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGroupMembershipOutput: Swift.Equatable {
+public struct CreateGroupMembershipOutput {
     /// The globally unique identifier for the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -581,7 +581,7 @@ public struct CreateGroupMembershipOutput: Swift.Equatable {
     }
 }
 
-struct CreateGroupMembershipOutputBody: Swift.Equatable {
+struct CreateGroupMembershipOutputBody {
     let membershipId: Swift.String?
     let identityStoreId: Swift.String?
 }
@@ -631,7 +631,7 @@ extension CreateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGroupOutput: Swift.Equatable {
+public struct CreateGroupOutput {
     /// The identifier of the newly created group in the identity store.
     /// This member is required.
     public var groupId: Swift.String?
@@ -649,7 +649,7 @@ public struct CreateGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateGroupOutputBody: Swift.Equatable {
+struct CreateGroupOutputBody {
     let groupId: Swift.String?
     let identityStoreId: Swift.String?
 }
@@ -771,7 +771,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// A list of Address objects containing addresses associated with the user.
     public var addresses: [IdentitystoreClientTypes.Address]?
     /// A string containing the name of the user. This value is typically formatted for display when the user is referenced. For example, "John Doe."
@@ -836,7 +836,7 @@ public struct CreateUserInput: Swift.Equatable {
     }
 }
 
-struct CreateUserInputBody: Swift.Equatable {
+struct CreateUserInputBody {
     let identityStoreId: Swift.String?
     let userName: Swift.String?
     let name: IdentitystoreClientTypes.Name?
@@ -945,7 +945,7 @@ extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
     /// The globally unique identifier for the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -963,7 +963,7 @@ public struct CreateUserOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserOutputBody: Swift.Equatable {
+struct CreateUserOutputBody {
     let userId: Swift.String?
     let identityStoreId: Swift.String?
 }
@@ -1023,7 +1023,7 @@ extension DeleteGroupInput {
     }
 }
 
-public struct DeleteGroupInput: Swift.Equatable {
+public struct DeleteGroupInput {
     /// The identifier for a group in the identity store.
     /// This member is required.
     public var groupId: Swift.String?
@@ -1041,7 +1041,7 @@ public struct DeleteGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupInputBody: Swift.Equatable {
+struct DeleteGroupInputBody {
     let identityStoreId: Swift.String?
     let groupId: Swift.String?
 }
@@ -1085,7 +1085,7 @@ extension DeleteGroupMembershipInput {
     }
 }
 
-public struct DeleteGroupMembershipInput: Swift.Equatable {
+public struct DeleteGroupMembershipInput {
     /// The globally unique identifier for the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -1103,7 +1103,7 @@ public struct DeleteGroupMembershipInput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupMembershipInputBody: Swift.Equatable {
+struct DeleteGroupMembershipInputBody {
     let identityStoreId: Swift.String?
     let membershipId: Swift.String?
 }
@@ -1128,7 +1128,7 @@ extension DeleteGroupMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGroupMembershipOutput: Swift.Equatable {
+public struct DeleteGroupMembershipOutput {
 
     public init() { }
 }
@@ -1153,7 +1153,7 @@ extension DeleteGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGroupOutput: Swift.Equatable {
+public struct DeleteGroupOutput {
 
     public init() { }
 }
@@ -1197,7 +1197,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// The globally unique identifier for the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -1215,7 +1215,7 @@ public struct DeleteUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserInputBody: Swift.Equatable {
+struct DeleteUserInputBody {
     let identityStoreId: Swift.String?
     let userId: Swift.String?
 }
@@ -1240,7 +1240,7 @@ extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
 
     public init() { }
 }
@@ -1284,7 +1284,7 @@ extension DescribeGroupInput {
     }
 }
 
-public struct DescribeGroupInput: Swift.Equatable {
+public struct DescribeGroupInput {
     /// The identifier for a group in the identity store.
     /// This member is required.
     public var groupId: Swift.String?
@@ -1302,7 +1302,7 @@ public struct DescribeGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupInputBody: Swift.Equatable {
+struct DescribeGroupInputBody {
     let identityStoreId: Swift.String?
     let groupId: Swift.String?
 }
@@ -1346,7 +1346,7 @@ extension DescribeGroupMembershipInput {
     }
 }
 
-public struct DescribeGroupMembershipInput: Swift.Equatable {
+public struct DescribeGroupMembershipInput {
     /// The globally unique identifier for the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -1364,7 +1364,7 @@ public struct DescribeGroupMembershipInput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupMembershipInputBody: Swift.Equatable {
+struct DescribeGroupMembershipInputBody {
     let identityStoreId: Swift.String?
     let membershipId: Swift.String?
 }
@@ -1402,7 +1402,7 @@ extension DescribeGroupMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeGroupMembershipOutput: Swift.Equatable {
+public struct DescribeGroupMembershipOutput {
     /// The identifier for a group in the identity store.
     /// This member is required.
     public var groupId: Swift.String?
@@ -1430,7 +1430,7 @@ public struct DescribeGroupMembershipOutput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupMembershipOutputBody: Swift.Equatable {
+struct DescribeGroupMembershipOutputBody {
     let identityStoreId: Swift.String?
     let membershipId: Swift.String?
     let groupId: Swift.String?
@@ -1497,7 +1497,7 @@ extension DescribeGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeGroupOutput: Swift.Equatable {
+public struct DescribeGroupOutput {
     /// A string containing a description of the group.
     public var description: Swift.String?
     /// The group’s display name value. The length limit is 1,024 characters. This value can consist of letters, accented characters, symbols, numbers, punctuation, tab, new line, carriage return, space, and nonbreaking space in this attribute. This value is specified at the time that the group is created and stored as an attribute of the group object in the identity store.
@@ -1527,7 +1527,7 @@ public struct DescribeGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupOutputBody: Swift.Equatable {
+struct DescribeGroupOutputBody {
     let groupId: Swift.String?
     let displayName: Swift.String?
     let externalIds: [IdentitystoreClientTypes.ExternalId]?
@@ -1606,7 +1606,7 @@ extension DescribeUserInput {
     }
 }
 
-public struct DescribeUserInput: Swift.Equatable {
+public struct DescribeUserInput {
     /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -1624,7 +1624,7 @@ public struct DescribeUserInput: Swift.Equatable {
     }
 }
 
-struct DescribeUserInputBody: Swift.Equatable {
+struct DescribeUserInputBody {
     let identityStoreId: Swift.String?
     let userId: Swift.String?
 }
@@ -1691,7 +1691,7 @@ extension DescribeUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUserOutput: Swift.Equatable {
+public struct DescribeUserOutput {
     /// The physical address of the user.
     public var addresses: [IdentitystoreClientTypes.Address]?
     /// The display name of the user.
@@ -1765,7 +1765,7 @@ public struct DescribeUserOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUserOutputBody: Swift.Equatable {
+struct DescribeUserOutputBody {
     let userName: Swift.String?
     let userId: Swift.String?
     let externalIds: [IdentitystoreClientTypes.ExternalId]?
@@ -1929,7 +1929,7 @@ extension IdentitystoreClientTypes.Email: Swift.CustomDebugStringConvertible {
 
 extension IdentitystoreClientTypes {
     /// The email address associated with the user.
-    public struct Email: Swift.Equatable {
+    public struct Email {
         /// A Boolean value representing whether this is the primary email address for the associated resource.
         public var primary: Swift.Bool
         /// A string representing the type of address. For example, "Work."
@@ -1983,7 +1983,7 @@ extension IdentitystoreClientTypes.ExternalId: Swift.CustomDebugStringConvertibl
 
 extension IdentitystoreClientTypes {
     /// The identifier issued to this resource by an external identity provider.
-    public struct ExternalId: Swift.Equatable {
+    public struct ExternalId {
         /// The identifier issued to this resource by an external identity provider.
         /// This member is required.
         public var id: Swift.String?
@@ -2035,7 +2035,7 @@ extension IdentitystoreClientTypes.Filter: Swift.CustomDebugStringConvertible {
 
 extension IdentitystoreClientTypes {
     /// A query filter used by ListUsers and ListGroups. This filter object provides the attribute name and attribute value to search users or groups.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The attribute path that is used to specify which attribute name to search. Length limit is 255 characters. For example, UserName is a valid attribute path for the ListUsers API, and DisplayName is a valid attribute path for the ListGroups API.
         /// This member is required.
         public var attributePath: Swift.String?
@@ -2079,7 +2079,7 @@ extension GetGroupIdInput {
     }
 }
 
-public struct GetGroupIdInput: Swift.Equatable {
+public struct GetGroupIdInput {
     /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid path is displayName.
     /// This member is required.
     public var alternateIdentifier: IdentitystoreClientTypes.AlternateIdentifier?
@@ -2097,7 +2097,7 @@ public struct GetGroupIdInput: Swift.Equatable {
     }
 }
 
-struct GetGroupIdInputBody: Swift.Equatable {
+struct GetGroupIdInputBody {
     let identityStoreId: Swift.String?
     let alternateIdentifier: IdentitystoreClientTypes.AlternateIdentifier?
 }
@@ -2131,7 +2131,7 @@ extension GetGroupIdOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGroupIdOutput: Swift.Equatable {
+public struct GetGroupIdOutput {
     /// The identifier for a group in the identity store.
     /// This member is required.
     public var groupId: Swift.String?
@@ -2149,7 +2149,7 @@ public struct GetGroupIdOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupIdOutputBody: Swift.Equatable {
+struct GetGroupIdOutputBody {
     let groupId: Swift.String?
     let identityStoreId: Swift.String?
 }
@@ -2211,7 +2211,7 @@ extension GetGroupMembershipIdInput {
     }
 }
 
-public struct GetGroupMembershipIdInput: Swift.Equatable {
+public struct GetGroupMembershipIdInput {
     /// The identifier for a group in the identity store.
     /// This member is required.
     public var groupId: Swift.String?
@@ -2234,7 +2234,7 @@ public struct GetGroupMembershipIdInput: Swift.Equatable {
     }
 }
 
-struct GetGroupMembershipIdInputBody: Swift.Equatable {
+struct GetGroupMembershipIdInputBody {
     let identityStoreId: Swift.String?
     let groupId: Swift.String?
     let memberId: IdentitystoreClientTypes.MemberId?
@@ -2272,7 +2272,7 @@ extension GetGroupMembershipIdOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGroupMembershipIdOutput: Swift.Equatable {
+public struct GetGroupMembershipIdOutput {
     /// The globally unique identifier for the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -2290,7 +2290,7 @@ public struct GetGroupMembershipIdOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupMembershipIdOutputBody: Swift.Equatable {
+struct GetGroupMembershipIdOutputBody {
     let membershipId: Swift.String?
     let identityStoreId: Swift.String?
 }
@@ -2348,7 +2348,7 @@ extension GetUserIdInput {
     }
 }
 
-public struct GetUserIdInput: Swift.Equatable {
+public struct GetUserIdInput {
     /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid paths are userName and emails.value.
     /// This member is required.
     public var alternateIdentifier: IdentitystoreClientTypes.AlternateIdentifier?
@@ -2366,7 +2366,7 @@ public struct GetUserIdInput: Swift.Equatable {
     }
 }
 
-struct GetUserIdInputBody: Swift.Equatable {
+struct GetUserIdInputBody {
     let identityStoreId: Swift.String?
     let alternateIdentifier: IdentitystoreClientTypes.AlternateIdentifier?
 }
@@ -2400,7 +2400,7 @@ extension GetUserIdOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUserIdOutput: Swift.Equatable {
+public struct GetUserIdOutput {
     /// The globally unique identifier for the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -2418,7 +2418,7 @@ public struct GetUserIdOutput: Swift.Equatable {
     }
 }
 
-struct GetUserIdOutputBody: Swift.Equatable {
+struct GetUserIdOutputBody {
     let userId: Swift.String?
     let identityStoreId: Swift.String?
 }
@@ -2514,7 +2514,7 @@ extension IdentitystoreClientTypes.Group: Swift.CustomDebugStringConvertible {
 
 extension IdentitystoreClientTypes {
     /// A group object that contains the metadata and attributes for a specified group.
-    public struct Group: Swift.Equatable {
+    public struct Group {
         /// A string containing a description of the specified group.
         public var description: Swift.String?
         /// The display name value for the group. The length limit is 1,024 characters. This value can consist of letters, accented characters, symbols, numbers, punctuation, tab, new line, carriage return, space, and nonbreaking space in this attribute. This value is specified at the time the group is created and stored as an attribute of the group object in the identity store.
@@ -2585,7 +2585,7 @@ extension IdentitystoreClientTypes.GroupMembership: Swift.Codable {
 
 extension IdentitystoreClientTypes {
     /// Contains the identifiers for a group, a group member, and a GroupMembership object in the identity store.
-    public struct GroupMembership: Swift.Equatable {
+    public struct GroupMembership {
         /// The identifier for a group in the identity store.
         public var groupId: Swift.String?
         /// The globally unique identifier for the identity store.
@@ -2650,7 +2650,7 @@ extension IdentitystoreClientTypes.GroupMembershipExistenceResult: Swift.CustomD
 
 extension IdentitystoreClientTypes {
     /// Indicates whether a resource is a member of a group in the identity store.
-    public struct GroupMembershipExistenceResult: Swift.Equatable {
+    public struct GroupMembershipExistenceResult {
         /// The identifier for a group in the identity store.
         public var groupId: Swift.String?
         /// An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
@@ -2728,7 +2728,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -2779,7 +2779,7 @@ extension IsMemberInGroupsInput {
     }
 }
 
-public struct IsMemberInGroupsInput: Swift.Equatable {
+public struct IsMemberInGroupsInput {
     /// A list of identifiers for groups in the identity store.
     /// This member is required.
     public var groupIds: [Swift.String]?
@@ -2802,7 +2802,7 @@ public struct IsMemberInGroupsInput: Swift.Equatable {
     }
 }
 
-struct IsMemberInGroupsInputBody: Swift.Equatable {
+struct IsMemberInGroupsInputBody {
     let identityStoreId: Swift.String?
     let memberId: IdentitystoreClientTypes.MemberId?
     let groupIds: [Swift.String]?
@@ -2847,7 +2847,7 @@ extension IsMemberInGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct IsMemberInGroupsOutput: Swift.Equatable {
+public struct IsMemberInGroupsOutput {
     /// A list containing the results of membership existence checks.
     /// This member is required.
     public var results: [IdentitystoreClientTypes.GroupMembershipExistenceResult]?
@@ -2860,7 +2860,7 @@ public struct IsMemberInGroupsOutput: Swift.Equatable {
     }
 }
 
-struct IsMemberInGroupsOutputBody: Swift.Equatable {
+struct IsMemberInGroupsOutputBody {
     let results: [IdentitystoreClientTypes.GroupMembershipExistenceResult]?
 }
 
@@ -2931,7 +2931,7 @@ extension ListGroupMembershipsForMemberInput {
     }
 }
 
-public struct ListGroupMembershipsForMemberInput: Swift.Equatable {
+public struct ListGroupMembershipsForMemberInput {
     /// The globally unique identifier for the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -2957,7 +2957,7 @@ public struct ListGroupMembershipsForMemberInput: Swift.Equatable {
     }
 }
 
-struct ListGroupMembershipsForMemberInputBody: Swift.Equatable {
+struct ListGroupMembershipsForMemberInputBody {
     let identityStoreId: Swift.String?
     let memberId: IdentitystoreClientTypes.MemberId?
     let maxResults: Swift.Int?
@@ -2999,7 +2999,7 @@ extension ListGroupMembershipsForMemberOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListGroupMembershipsForMemberOutput: Swift.Equatable {
+public struct ListGroupMembershipsForMemberOutput {
     /// A list of GroupMembership objects in the group for a specified member.
     /// This member is required.
     public var groupMemberships: [IdentitystoreClientTypes.GroupMembership]?
@@ -3016,7 +3016,7 @@ public struct ListGroupMembershipsForMemberOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupMembershipsForMemberOutputBody: Swift.Equatable {
+struct ListGroupMembershipsForMemberOutputBody {
     let groupMemberships: [IdentitystoreClientTypes.GroupMembership]?
     let nextToken: Swift.String?
 }
@@ -3091,7 +3091,7 @@ extension ListGroupMembershipsInput {
     }
 }
 
-public struct ListGroupMembershipsInput: Swift.Equatable {
+public struct ListGroupMembershipsInput {
     /// The identifier for a group in the identity store.
     /// This member is required.
     public var groupId: Swift.String?
@@ -3117,7 +3117,7 @@ public struct ListGroupMembershipsInput: Swift.Equatable {
     }
 }
 
-struct ListGroupMembershipsInputBody: Swift.Equatable {
+struct ListGroupMembershipsInputBody {
     let identityStoreId: Swift.String?
     let groupId: Swift.String?
     let maxResults: Swift.Int?
@@ -3159,7 +3159,7 @@ extension ListGroupMembershipsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupMembershipsOutput: Swift.Equatable {
+public struct ListGroupMembershipsOutput {
     /// A list of GroupMembership objects in the group.
     /// This member is required.
     public var groupMemberships: [IdentitystoreClientTypes.GroupMembership]?
@@ -3176,7 +3176,7 @@ public struct ListGroupMembershipsOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupMembershipsOutputBody: Swift.Equatable {
+struct ListGroupMembershipsOutputBody {
     let groupMemberships: [IdentitystoreClientTypes.GroupMembership]?
     let nextToken: Swift.String?
 }
@@ -3254,7 +3254,7 @@ extension ListGroupsInput {
     }
 }
 
-public struct ListGroupsInput: Swift.Equatable {
+public struct ListGroupsInput {
     /// A list of Filter objects, which is used in the ListUsers and ListGroups requests.
     @available(*, deprecated, message: "Using filters with ListGroups API is deprecated, please use GetGroupId API instead.")
     public var filters: [IdentitystoreClientTypes.Filter]?
@@ -3280,7 +3280,7 @@ public struct ListGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListGroupsInputBody: Swift.Equatable {
+struct ListGroupsInputBody {
     let identityStoreId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3331,7 +3331,7 @@ extension ListGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupsOutput: Swift.Equatable {
+public struct ListGroupsOutput {
     /// A list of Group objects in the identity store.
     /// This member is required.
     public var groups: [IdentitystoreClientTypes.Group]?
@@ -3348,7 +3348,7 @@ public struct ListGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupsOutputBody: Swift.Equatable {
+struct ListGroupsOutputBody {
     let groups: [IdentitystoreClientTypes.Group]?
     let nextToken: Swift.String?
 }
@@ -3426,7 +3426,7 @@ extension ListUsersInput {
     }
 }
 
-public struct ListUsersInput: Swift.Equatable {
+public struct ListUsersInput {
     /// A list of Filter objects, which is used in the ListUsers and ListGroups requests.
     @available(*, deprecated, message: "Using filters with ListUsers API is deprecated, please use GetGroupId API instead.")
     public var filters: [IdentitystoreClientTypes.Filter]?
@@ -3452,7 +3452,7 @@ public struct ListUsersInput: Swift.Equatable {
     }
 }
 
-struct ListUsersInputBody: Swift.Equatable {
+struct ListUsersInputBody {
     let identityStoreId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3503,7 +3503,7 @@ extension ListUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUsersOutput: Swift.Equatable {
+public struct ListUsersOutput {
     /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
     public var nextToken: Swift.String?
     /// A list of User objects in the identity store.
@@ -3520,7 +3520,7 @@ public struct ListUsersOutput: Swift.Equatable {
     }
 }
 
-struct ListUsersOutputBody: Swift.Equatable {
+struct ListUsersOutputBody {
     let users: [IdentitystoreClientTypes.User]?
     let nextToken: Swift.String?
 }
@@ -3592,7 +3592,7 @@ extension IdentitystoreClientTypes.MemberId: Swift.Codable {
 
 extension IdentitystoreClientTypes {
     /// An object containing the identifier of a group member.
-    public enum MemberId: Swift.Equatable {
+    public enum MemberId {
         /// An object containing the identifiers of resources that can be members.
         case userid(Swift.String)
         case sdkUnknown(Swift.String)
@@ -3656,7 +3656,7 @@ extension IdentitystoreClientTypes.Name: Swift.CustomDebugStringConvertible {
 
 extension IdentitystoreClientTypes {
     /// The full name of the user.
-    public struct Name: Swift.Equatable {
+    public struct Name {
         /// The family name of the user.
         public var familyName: Swift.String?
         /// A string containing a formatted version of the name for display.
@@ -3728,7 +3728,7 @@ extension IdentitystoreClientTypes.PhoneNumber: Swift.CustomDebugStringConvertib
 
 extension IdentitystoreClientTypes {
     /// The phone number associated with the user.
-    public struct PhoneNumber: Swift.Equatable {
+    public struct PhoneNumber {
         /// A Boolean value representing whether this is the primary phone number for the associated resource.
         public var primary: Swift.Bool
         /// A string representing the type of a phone number. For example, "Mobile."
@@ -3807,7 +3807,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let resourceType: IdentitystoreClientTypes.ResourceType?
     let resourceId: Swift.String?
     let message: Swift.String?
@@ -3918,7 +3918,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -3992,7 +3992,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -4039,7 +4039,7 @@ extension IdentitystoreClientTypes.UniqueAttribute: Swift.Codable {
 
 extension IdentitystoreClientTypes {
     /// An entity attribute that's unique to a specific entity.
-    public struct UniqueAttribute: Swift.Equatable {
+    public struct UniqueAttribute {
         /// A string representation of the path to a given attribute or sub-attribute. Supports JMESPath.
         /// This member is required.
         public var attributePath: Swift.String?
@@ -4090,7 +4090,7 @@ extension UpdateGroupInput {
     }
 }
 
-public struct UpdateGroupInput: Swift.Equatable {
+public struct UpdateGroupInput {
     /// The identifier for a group in the identity store.
     /// This member is required.
     public var groupId: Swift.String?
@@ -4113,7 +4113,7 @@ public struct UpdateGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupInputBody: Swift.Equatable {
+struct UpdateGroupInputBody {
     let identityStoreId: Swift.String?
     let groupId: Swift.String?
     let operations: [IdentitystoreClientTypes.AttributeOperation]?
@@ -4151,7 +4151,7 @@ extension UpdateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGroupOutput: Swift.Equatable {
+public struct UpdateGroupOutput {
 
     public init() { }
 }
@@ -4203,7 +4203,7 @@ extension UpdateUserInput {
     }
 }
 
-public struct UpdateUserInput: Swift.Equatable {
+public struct UpdateUserInput {
     /// The globally unique identifier for the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -4226,7 +4226,7 @@ public struct UpdateUserInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserInputBody: Swift.Equatable {
+struct UpdateUserInputBody {
     let identityStoreId: Swift.String?
     let userId: Swift.String?
     let operations: [IdentitystoreClientTypes.AttributeOperation]?
@@ -4264,7 +4264,7 @@ extension UpdateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserOutput: Swift.Equatable {
+public struct UpdateUserOutput {
 
     public init() { }
 }
@@ -4449,7 +4449,7 @@ extension IdentitystoreClientTypes.User: Swift.CustomDebugStringConvertible {
 
 extension IdentitystoreClientTypes {
     /// A user object that contains the metadata and attributes for a specified user.
-    public struct User: Swift.Equatable {
+    public struct User {
         /// A list of Address objects containing addresses associated with the user.
         public var addresses: [IdentitystoreClientTypes.Address]?
         /// A string containing the name of the user that is formatted for display when the user is referenced. For example, "John Doe."
@@ -4570,7 +4570,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }

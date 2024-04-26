@@ -55,7 +55,7 @@ extension AppConfigClientTypes {
     /// * ON_DEPLOYMENT_COMPLETE
     ///
     /// * ON_DEPLOYMENT_ROLLED_BACK
-    public struct Action: Swift.Equatable {
+    public struct Action {
         /// Information about the action.
         public var description: Swift.String?
         /// The action name.
@@ -138,7 +138,7 @@ extension AppConfigClientTypes.ActionInvocation: Swift.Codable {
 
 extension AppConfigClientTypes {
     /// An extension that was invoked as part of a deployment event.
-    public struct ActionInvocation: Swift.Equatable {
+    public struct ActionInvocation {
         /// The name of the action.
         public var actionName: Swift.String?
         /// The error code when an extension invocation fails.
@@ -257,7 +257,7 @@ extension AppConfigClientTypes.Application: Swift.Codable {
 }
 
 extension AppConfigClientTypes {
-    public struct Application: Swift.Equatable {
+    public struct Application {
         /// The description of the application.
         public var description: Swift.String?
         /// The application ID.
@@ -330,7 +330,7 @@ extension AppConfigClientTypes.AppliedExtension: Swift.Codable {
 
 extension AppConfigClientTypes {
     /// An extension that was invoked during a deployment.
-    public struct AppliedExtension: Swift.Equatable {
+    public struct AppliedExtension {
         /// The system-generated ID for the association.
         public var extensionAssociationId: Swift.String?
         /// The system-generated ID of the extension.
@@ -397,7 +397,7 @@ extension AppConfigClientTypes.BadRequestDetails: Swift.Codable {
 
 extension AppConfigClientTypes {
     /// Detailed information about the input that failed to satisfy the constraints specified by a call.
-    public enum BadRequestDetails: Swift.Equatable {
+    public enum BadRequestDetails {
         /// Detailed information about the bad request exception error when creating a hosted configuration version.
         case invalidconfiguration([AppConfigClientTypes.InvalidConfigurationDetail])
         case sdkUnknown(Swift.String)
@@ -455,7 +455,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
     let reason: AppConfigClientTypes.BadRequestReason?
     let details: AppConfigClientTypes.BadRequestDetails?
@@ -600,7 +600,7 @@ extension AppConfigClientTypes.ConfigurationProfileSummary: Swift.Codable {
 
 extension AppConfigClientTypes {
     /// A summary of a configuration profile.
-    public struct ConfigurationProfileSummary: Swift.Equatable {
+    public struct ConfigurationProfileSummary {
         /// The application ID.
         public var applicationId: Swift.String?
         /// The ID of the configuration profile.
@@ -674,7 +674,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -721,7 +721,7 @@ extension CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// A description of the application.
     public var description: Swift.String?
     /// A name for the application.
@@ -742,7 +742,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInputBody: Swift.Equatable {
+struct CreateApplicationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -791,7 +791,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// The description of the application.
     public var description: Swift.String?
     /// The application ID.
@@ -811,7 +811,7 @@ public struct CreateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationOutputBody: Swift.Equatable {
+struct CreateApplicationOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -905,7 +905,7 @@ extension CreateConfigurationProfileInput {
     }
 }
 
-public struct CreateConfigurationProfileInput: Swift.Equatable {
+public struct CreateConfigurationProfileInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -965,7 +965,7 @@ public struct CreateConfigurationProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationProfileInputBody: Swift.Equatable {
+struct CreateConfigurationProfileInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let locationUri: Swift.String?
@@ -1057,7 +1057,7 @@ extension CreateConfigurationProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConfigurationProfileOutput: Swift.Equatable {
+public struct CreateConfigurationProfileOutput {
     /// The application ID.
     public var applicationId: Swift.String?
     /// The configuration profile description.
@@ -1106,7 +1106,7 @@ public struct CreateConfigurationProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationProfileOutputBody: Swift.Equatable {
+struct CreateConfigurationProfileOutputBody {
     let applicationId: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -1232,7 +1232,7 @@ extension CreateDeploymentStrategyInput {
     }
 }
 
-public struct CreateDeploymentStrategyInput: Swift.Equatable {
+public struct CreateDeploymentStrategyInput {
     /// Total amount of time for a deployment to last.
     /// This member is required.
     public var deploymentDurationInMinutes: Swift.Int?
@@ -1278,7 +1278,7 @@ public struct CreateDeploymentStrategyInput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentStrategyInputBody: Swift.Equatable {
+struct CreateDeploymentStrategyInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let deploymentDurationInMinutes: Swift.Int?
@@ -1357,7 +1357,7 @@ extension CreateDeploymentStrategyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDeploymentStrategyOutput: Swift.Equatable {
+public struct CreateDeploymentStrategyOutput {
     /// Total amount of time the deployment lasted.
     public var deploymentDurationInMinutes: Swift.Int
     /// The description of the deployment strategy.
@@ -1397,7 +1397,7 @@ public struct CreateDeploymentStrategyOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentStrategyOutputBody: Swift.Equatable {
+struct CreateDeploymentStrategyOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -1495,7 +1495,7 @@ extension CreateEnvironmentInput {
     }
 }
 
-public struct CreateEnvironmentInput: Swift.Equatable {
+public struct CreateEnvironmentInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -1525,7 +1525,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentInputBody: Swift.Equatable {
+struct CreateEnvironmentInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let monitors: [AppConfigClientTypes.Monitor]?
@@ -1593,7 +1593,7 @@ extension CreateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEnvironmentOutput: Swift.Equatable {
+public struct CreateEnvironmentOutput {
     /// The application ID.
     public var applicationId: Swift.String?
     /// The description of the environment.
@@ -1625,7 +1625,7 @@ public struct CreateEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentOutputBody: Swift.Equatable {
+struct CreateEnvironmentOutputBody {
     let applicationId: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -1726,7 +1726,7 @@ extension CreateExtensionAssociationInput {
     }
 }
 
-public struct CreateExtensionAssociationInput: Swift.Equatable {
+public struct CreateExtensionAssociationInput {
     /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
     /// This member is required.
     public var extensionIdentifier: Swift.String?
@@ -1756,7 +1756,7 @@ public struct CreateExtensionAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateExtensionAssociationInputBody: Swift.Equatable {
+struct CreateExtensionAssociationInputBody {
     let extensionIdentifier: Swift.String?
     let extensionVersionNumber: Swift.Int?
     let resourceIdentifier: Swift.String?
@@ -1828,7 +1828,7 @@ extension CreateExtensionAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateExtensionAssociationOutput: Swift.Equatable {
+public struct CreateExtensionAssociationOutput {
     /// The system-generated Amazon Resource Name (ARN) for the extension.
     public var arn: Swift.String?
     /// The ARN of the extension defined in the association.
@@ -1860,7 +1860,7 @@ public struct CreateExtensionAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateExtensionAssociationOutputBody: Swift.Equatable {
+struct CreateExtensionAssociationOutputBody {
     let id: Swift.String?
     let extensionArn: Swift.String?
     let resourceArn: Swift.String?
@@ -1978,7 +1978,7 @@ extension CreateExtensionInput {
     }
 }
 
-public struct CreateExtensionInput: Swift.Equatable {
+public struct CreateExtensionInput {
     /// The actions defined in the extension.
     /// This member is required.
     public var actions: [Swift.String:[AppConfigClientTypes.Action]]?
@@ -2012,7 +2012,7 @@ public struct CreateExtensionInput: Swift.Equatable {
     }
 }
 
-struct CreateExtensionInputBody: Swift.Equatable {
+struct CreateExtensionInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let actions: [Swift.String:[AppConfigClientTypes.Action]]?
@@ -2102,7 +2102,7 @@ extension CreateExtensionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateExtensionOutput: Swift.Equatable {
+public struct CreateExtensionOutput {
     /// The actions defined in the extension.
     public var actions: [Swift.String:[AppConfigClientTypes.Action]]?
     /// The system-generated Amazon Resource Name (ARN) for the extension.
@@ -2138,7 +2138,7 @@ public struct CreateExtensionOutput: Swift.Equatable {
     }
 }
 
-struct CreateExtensionOutputBody: Swift.Equatable {
+struct CreateExtensionOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let versionNumber: Swift.Int
@@ -2268,7 +2268,7 @@ extension CreateHostedConfigurationVersionInput {
     }
 }
 
-public struct CreateHostedConfigurationVersionInput: Swift.Equatable {
+public struct CreateHostedConfigurationVersionInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2308,7 +2308,7 @@ public struct CreateHostedConfigurationVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateHostedConfigurationVersionInputBody: Swift.Equatable {
+struct CreateHostedConfigurationVersionInputBody {
     let content: ClientRuntime.Data?
 }
 
@@ -2377,7 +2377,7 @@ extension CreateHostedConfigurationVersionOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateHostedConfigurationVersionOutput: Swift.Equatable {
+public struct CreateHostedConfigurationVersionOutput {
     /// The application ID.
     public var applicationId: Swift.String?
     /// The configuration profile ID.
@@ -2417,7 +2417,7 @@ public struct CreateHostedConfigurationVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateHostedConfigurationVersionOutputBody: Swift.Equatable {
+struct CreateHostedConfigurationVersionOutputBody {
     let content: ClientRuntime.Data?
 }
 
@@ -2459,7 +2459,7 @@ extension DeleteApplicationInput {
     }
 }
 
-public struct DeleteApplicationInput: Swift.Equatable {
+public struct DeleteApplicationInput {
     /// The ID of the application to delete.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2472,7 +2472,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationInputBody: Swift.Equatable {
+struct DeleteApplicationInputBody {
 }
 
 extension DeleteApplicationInputBody: Swift.Decodable {
@@ -2486,7 +2486,7 @@ extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApplicationOutput: Swift.Equatable {
+public struct DeleteApplicationOutput {
 
     public init() { }
 }
@@ -2517,7 +2517,7 @@ extension DeleteConfigurationProfileInput {
     }
 }
 
-public struct DeleteConfigurationProfileInput: Swift.Equatable {
+public struct DeleteConfigurationProfileInput {
     /// The application ID that includes the configuration profile you want to delete.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2535,7 +2535,7 @@ public struct DeleteConfigurationProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigurationProfileInputBody: Swift.Equatable {
+struct DeleteConfigurationProfileInputBody {
 }
 
 extension DeleteConfigurationProfileInputBody: Swift.Decodable {
@@ -2549,7 +2549,7 @@ extension DeleteConfigurationProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConfigurationProfileOutput: Swift.Equatable {
+public struct DeleteConfigurationProfileOutput {
 
     public init() { }
 }
@@ -2578,7 +2578,7 @@ extension DeleteDeploymentStrategyInput {
     }
 }
 
-public struct DeleteDeploymentStrategyInput: Swift.Equatable {
+public struct DeleteDeploymentStrategyInput {
     /// The ID of the deployment strategy you want to delete.
     /// This member is required.
     public var deploymentStrategyId: Swift.String?
@@ -2591,7 +2591,7 @@ public struct DeleteDeploymentStrategyInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeploymentStrategyInputBody: Swift.Equatable {
+struct DeleteDeploymentStrategyInputBody {
 }
 
 extension DeleteDeploymentStrategyInputBody: Swift.Decodable {
@@ -2605,7 +2605,7 @@ extension DeleteDeploymentStrategyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeploymentStrategyOutput: Swift.Equatable {
+public struct DeleteDeploymentStrategyOutput {
 
     public init() { }
 }
@@ -2636,7 +2636,7 @@ extension DeleteEnvironmentInput {
     }
 }
 
-public struct DeleteEnvironmentInput: Swift.Equatable {
+public struct DeleteEnvironmentInput {
     /// The application ID that includes the environment that you want to delete.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2654,7 +2654,7 @@ public struct DeleteEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentInputBody: Swift.Equatable {
+struct DeleteEnvironmentInputBody {
 }
 
 extension DeleteEnvironmentInputBody: Swift.Decodable {
@@ -2668,7 +2668,7 @@ extension DeleteEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEnvironmentOutput: Swift.Equatable {
+public struct DeleteEnvironmentOutput {
 
     public init() { }
 }
@@ -2697,7 +2697,7 @@ extension DeleteExtensionAssociationInput {
     }
 }
 
-public struct DeleteExtensionAssociationInput: Swift.Equatable {
+public struct DeleteExtensionAssociationInput {
     /// The ID of the extension association to delete.
     /// This member is required.
     public var extensionAssociationId: Swift.String?
@@ -2710,7 +2710,7 @@ public struct DeleteExtensionAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteExtensionAssociationInputBody: Swift.Equatable {
+struct DeleteExtensionAssociationInputBody {
 }
 
 extension DeleteExtensionAssociationInputBody: Swift.Decodable {
@@ -2724,7 +2724,7 @@ extension DeleteExtensionAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteExtensionAssociationOutput: Swift.Equatable {
+public struct DeleteExtensionAssociationOutput {
 
     public init() { }
 }
@@ -2764,7 +2764,7 @@ extension DeleteExtensionInput {
     }
 }
 
-public struct DeleteExtensionInput: Swift.Equatable {
+public struct DeleteExtensionInput {
     /// The name, ID, or Amazon Resource Name (ARN) of the extension you want to delete.
     /// This member is required.
     public var extensionIdentifier: Swift.String?
@@ -2781,7 +2781,7 @@ public struct DeleteExtensionInput: Swift.Equatable {
     }
 }
 
-struct DeleteExtensionInputBody: Swift.Equatable {
+struct DeleteExtensionInputBody {
 }
 
 extension DeleteExtensionInputBody: Swift.Decodable {
@@ -2795,7 +2795,7 @@ extension DeleteExtensionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteExtensionOutput: Swift.Equatable {
+public struct DeleteExtensionOutput {
 
     public init() { }
 }
@@ -2829,7 +2829,7 @@ extension DeleteHostedConfigurationVersionInput {
     }
 }
 
-public struct DeleteHostedConfigurationVersionInput: Swift.Equatable {
+public struct DeleteHostedConfigurationVersionInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2852,7 +2852,7 @@ public struct DeleteHostedConfigurationVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteHostedConfigurationVersionInputBody: Swift.Equatable {
+struct DeleteHostedConfigurationVersionInputBody {
 }
 
 extension DeleteHostedConfigurationVersionInputBody: Swift.Decodable {
@@ -2866,7 +2866,7 @@ extension DeleteHostedConfigurationVersionOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteHostedConfigurationVersionOutput: Swift.Equatable {
+public struct DeleteHostedConfigurationVersionOutput {
 
     public init() { }
 }
@@ -2941,7 +2941,7 @@ extension AppConfigClientTypes.DeploymentEvent: Swift.Codable {
 
 extension AppConfigClientTypes {
     /// An object that describes a deployment event.
-    public struct DeploymentEvent: Swift.Equatable {
+    public struct DeploymentEvent {
         /// The list of extensions that were invoked as part of the deployment.
         public var actionInvocations: [AppConfigClientTypes.ActionInvocation]?
         /// A description of the deployment event. Descriptions include, but are not limited to, the following:
@@ -3127,7 +3127,7 @@ extension AppConfigClientTypes.DeploymentStrategy: Swift.Codable {
 }
 
 extension AppConfigClientTypes {
-    public struct DeploymentStrategy: Swift.Equatable {
+    public struct DeploymentStrategy {
         /// Total amount of time the deployment lasted.
         public var deploymentDurationInMinutes: Swift.Int
         /// The description of the deployment strategy.
@@ -3256,7 +3256,7 @@ extension AppConfigClientTypes.DeploymentSummary: Swift.Codable {
 
 extension AppConfigClientTypes {
     /// Information about the deployment.
-    public struct DeploymentSummary: Swift.Equatable {
+    public struct DeploymentSummary {
         /// Time the deployment completed.
         public var completedAt: ClientRuntime.Date?
         /// The name of the configuration.
@@ -3376,7 +3376,7 @@ extension AppConfigClientTypes.Environment: Swift.Codable {
 }
 
 extension AppConfigClientTypes {
-    public struct Environment: Swift.Equatable {
+    public struct Environment {
         /// The application ID.
         public var applicationId: Swift.String?
         /// The description of the environment.
@@ -3481,7 +3481,7 @@ extension AppConfigClientTypes.ExtensionAssociationSummary: Swift.Codable {
 
 extension AppConfigClientTypes {
     /// Information about an association between an extension and an AppConfig resource such as an application, environment, or configuration profile. Call GetExtensionAssociation to get more information about an association.
-    public struct ExtensionAssociationSummary: Swift.Equatable {
+    public struct ExtensionAssociationSummary {
         /// The system-generated Amazon Resource Name (ARN) for the extension.
         public var extensionArn: Swift.String?
         /// The extension association ID. This ID is used to call other ExtensionAssociation API actions such as GetExtensionAssociation or DeleteExtensionAssociation.
@@ -3548,7 +3548,7 @@ extension AppConfigClientTypes.ExtensionSummary: Swift.Codable {
 
 extension AppConfigClientTypes {
     /// Information about an extension. Call GetExtension to get more information about an extension.
-    public struct ExtensionSummary: Swift.Equatable {
+    public struct ExtensionSummary {
         /// The system-generated Amazon Resource Name (ARN) for the extension.
         public var arn: Swift.String?
         /// Information about the extension.
@@ -3588,7 +3588,7 @@ extension GetApplicationInput {
     }
 }
 
-public struct GetApplicationInput: Swift.Equatable {
+public struct GetApplicationInput {
     /// The ID of the application you want to get.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3601,7 +3601,7 @@ public struct GetApplicationInput: Swift.Equatable {
     }
 }
 
-struct GetApplicationInputBody: Swift.Equatable {
+struct GetApplicationInputBody {
 }
 
 extension GetApplicationInputBody: Swift.Decodable {
@@ -3626,7 +3626,7 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApplicationOutput: Swift.Equatable {
+public struct GetApplicationOutput {
     /// The description of the application.
     public var description: Swift.String?
     /// The application ID.
@@ -3646,7 +3646,7 @@ public struct GetApplicationOutput: Swift.Equatable {
     }
 }
 
-struct GetApplicationOutputBody: Swift.Equatable {
+struct GetApplicationOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -3717,7 +3717,7 @@ extension GetConfigurationInput {
     }
 }
 
-public struct GetConfigurationInput: Swift.Equatable {
+public struct GetConfigurationInput {
     /// The application to get. Specify either the application name or the application ID.
     /// This member is required.
     public var application: Swift.String?
@@ -3749,7 +3749,7 @@ public struct GetConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationInputBody: Swift.Equatable {
+struct GetConfigurationInputBody {
 }
 
 extension GetConfigurationInputBody: Swift.Decodable {
@@ -3786,7 +3786,7 @@ extension GetConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConfigurationOutput: Swift.Equatable {
+public struct GetConfigurationOutput {
     /// The configuration version.
     public var configurationVersion: Swift.String?
     /// The content of the configuration or the configuration data. The Content attribute only contains data if the system finds new or updated configuration data. If there is no new or updated data and ClientConfigurationVersion matches the version of the current configuration, AppConfig returns a 204 No Content HTTP response code and the Content value will be empty.
@@ -3806,7 +3806,7 @@ public struct GetConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationOutputBody: Swift.Equatable {
+struct GetConfigurationOutputBody {
     let content: ClientRuntime.Data?
 }
 
@@ -3848,7 +3848,7 @@ extension GetConfigurationProfileInput {
     }
 }
 
-public struct GetConfigurationProfileInput: Swift.Equatable {
+public struct GetConfigurationProfileInput {
     /// The ID of the application that includes the configuration profile you want to get.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3866,7 +3866,7 @@ public struct GetConfigurationProfileInput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationProfileInputBody: Swift.Equatable {
+struct GetConfigurationProfileInputBody {
 }
 
 extension GetConfigurationProfileInputBody: Swift.Decodable {
@@ -3905,7 +3905,7 @@ extension GetConfigurationProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConfigurationProfileOutput: Swift.Equatable {
+public struct GetConfigurationProfileOutput {
     /// The application ID.
     public var applicationId: Swift.String?
     /// The configuration profile description.
@@ -3954,7 +3954,7 @@ public struct GetConfigurationProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationProfileOutputBody: Swift.Equatable {
+struct GetConfigurationProfileOutputBody {
     let applicationId: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -4044,7 +4044,7 @@ extension GetDeploymentInput {
     }
 }
 
-public struct GetDeploymentInput: Swift.Equatable {
+public struct GetDeploymentInput {
     /// The ID of the application that includes the deployment you want to get.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4067,7 +4067,7 @@ public struct GetDeploymentInput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentInputBody: Swift.Equatable {
+struct GetDeploymentInputBody {
 }
 
 extension GetDeploymentInputBody: Swift.Decodable {
@@ -4130,7 +4130,7 @@ extension GetDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeploymentOutput: Swift.Equatable {
+public struct GetDeploymentOutput {
     /// The ID of the application that was deployed.
     public var applicationId: Swift.String?
     /// A list of extensions that were processed as part of the deployment. The extensions that were previously associated to the configuration profile, environment, or the application when StartDeployment was called.
@@ -4226,7 +4226,7 @@ public struct GetDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentOutputBody: Swift.Equatable {
+struct GetDeploymentOutputBody {
     let applicationId: Swift.String?
     let environmentId: Swift.String?
     let deploymentStrategyId: Swift.String?
@@ -4367,7 +4367,7 @@ extension GetDeploymentStrategyInput {
     }
 }
 
-public struct GetDeploymentStrategyInput: Swift.Equatable {
+public struct GetDeploymentStrategyInput {
     /// The ID of the deployment strategy to get.
     /// This member is required.
     public var deploymentStrategyId: Swift.String?
@@ -4380,7 +4380,7 @@ public struct GetDeploymentStrategyInput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentStrategyInputBody: Swift.Equatable {
+struct GetDeploymentStrategyInputBody {
 }
 
 extension GetDeploymentStrategyInputBody: Swift.Decodable {
@@ -4415,7 +4415,7 @@ extension GetDeploymentStrategyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeploymentStrategyOutput: Swift.Equatable {
+public struct GetDeploymentStrategyOutput {
     /// Total amount of time the deployment lasted.
     public var deploymentDurationInMinutes: Swift.Int
     /// The description of the deployment strategy.
@@ -4455,7 +4455,7 @@ public struct GetDeploymentStrategyOutput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentStrategyOutputBody: Swift.Equatable {
+struct GetDeploymentStrategyOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -4525,7 +4525,7 @@ extension GetEnvironmentInput {
     }
 }
 
-public struct GetEnvironmentInput: Swift.Equatable {
+public struct GetEnvironmentInput {
     /// The ID of the application that includes the environment you want to get.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4543,7 +4543,7 @@ public struct GetEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentInputBody: Swift.Equatable {
+struct GetEnvironmentInputBody {
 }
 
 extension GetEnvironmentInputBody: Swift.Decodable {
@@ -4574,7 +4574,7 @@ extension GetEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnvironmentOutput: Swift.Equatable {
+public struct GetEnvironmentOutput {
     /// The application ID.
     public var applicationId: Swift.String?
     /// The description of the environment.
@@ -4606,7 +4606,7 @@ public struct GetEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentOutputBody: Swift.Equatable {
+struct GetEnvironmentOutputBody {
     let applicationId: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -4674,7 +4674,7 @@ extension GetExtensionAssociationInput {
     }
 }
 
-public struct GetExtensionAssociationInput: Swift.Equatable {
+public struct GetExtensionAssociationInput {
     /// The extension association ID to get.
     /// This member is required.
     public var extensionAssociationId: Swift.String?
@@ -4687,7 +4687,7 @@ public struct GetExtensionAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetExtensionAssociationInputBody: Swift.Equatable {
+struct GetExtensionAssociationInputBody {
 }
 
 extension GetExtensionAssociationInputBody: Swift.Decodable {
@@ -4718,7 +4718,7 @@ extension GetExtensionAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExtensionAssociationOutput: Swift.Equatable {
+public struct GetExtensionAssociationOutput {
     /// The system-generated Amazon Resource Name (ARN) for the extension.
     public var arn: Swift.String?
     /// The ARN of the extension defined in the association.
@@ -4750,7 +4750,7 @@ public struct GetExtensionAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetExtensionAssociationOutputBody: Swift.Equatable {
+struct GetExtensionAssociationOutputBody {
     let id: Swift.String?
     let extensionArn: Swift.String?
     let resourceArn: Swift.String?
@@ -4830,7 +4830,7 @@ extension GetExtensionInput {
     }
 }
 
-public struct GetExtensionInput: Swift.Equatable {
+public struct GetExtensionInput {
     /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
     /// This member is required.
     public var extensionIdentifier: Swift.String?
@@ -4847,7 +4847,7 @@ public struct GetExtensionInput: Swift.Equatable {
     }
 }
 
-struct GetExtensionInputBody: Swift.Equatable {
+struct GetExtensionInputBody {
 }
 
 extension GetExtensionInputBody: Swift.Decodable {
@@ -4880,7 +4880,7 @@ extension GetExtensionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExtensionOutput: Swift.Equatable {
+public struct GetExtensionOutput {
     /// The actions defined in the extension.
     public var actions: [Swift.String:[AppConfigClientTypes.Action]]?
     /// The system-generated Amazon Resource Name (ARN) for the extension.
@@ -4916,7 +4916,7 @@ public struct GetExtensionOutput: Swift.Equatable {
     }
 }
 
-struct GetExtensionOutputBody: Swift.Equatable {
+struct GetExtensionOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let versionNumber: Swift.Int
@@ -5010,7 +5010,7 @@ extension GetHostedConfigurationVersionInput {
     }
 }
 
-public struct GetHostedConfigurationVersionInput: Swift.Equatable {
+public struct GetHostedConfigurationVersionInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5033,7 +5033,7 @@ public struct GetHostedConfigurationVersionInput: Swift.Equatable {
     }
 }
 
-struct GetHostedConfigurationVersionInputBody: Swift.Equatable {
+struct GetHostedConfigurationVersionInputBody {
 }
 
 extension GetHostedConfigurationVersionInputBody: Swift.Decodable {
@@ -5095,7 +5095,7 @@ extension GetHostedConfigurationVersionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetHostedConfigurationVersionOutput: Swift.Equatable {
+public struct GetHostedConfigurationVersionOutput {
     /// The application ID.
     public var applicationId: Swift.String?
     /// The configuration profile ID.
@@ -5135,7 +5135,7 @@ public struct GetHostedConfigurationVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetHostedConfigurationVersionOutputBody: Swift.Equatable {
+struct GetHostedConfigurationVersionOutputBody {
     let content: ClientRuntime.Data?
 }
 
@@ -5253,7 +5253,7 @@ extension AppConfigClientTypes.HostedConfigurationVersionSummary: Swift.Codable 
 
 extension AppConfigClientTypes {
     /// Information about the configuration.
-    public struct HostedConfigurationVersionSummary: Swift.Equatable {
+    public struct HostedConfigurationVersionSummary {
         /// The application ID.
         public var applicationId: Swift.String?
         /// The configuration profile ID.
@@ -5330,7 +5330,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -5391,7 +5391,7 @@ extension AppConfigClientTypes.InvalidConfigurationDetail: Swift.Codable {
 
 extension AppConfigClientTypes {
     /// Detailed information about the bad request exception error when creating a hosted configuration version.
-    public struct InvalidConfigurationDetail: Swift.Equatable {
+    public struct InvalidConfigurationDetail {
         /// The invalid or out-of-range validation constraint in your JSON schema that failed validation.
         public var constraint: Swift.String?
         /// Location of the validation constraint in the configuration JSON schema that failed validation.
@@ -5444,7 +5444,7 @@ extension ListApplicationsInput {
     }
 }
 
-public struct ListApplicationsInput: Swift.Equatable {
+public struct ListApplicationsInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Next token is a pagination token generated by AppConfig to describe what page the previous List call ended on. For the first List request, the nextToken should not be set. On subsequent calls, the nextToken parameter should be set to the previous responses nextToken value. Use this token to get the next set of results.
@@ -5460,7 +5460,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsInputBody: Swift.Equatable {
+struct ListApplicationsInputBody {
 }
 
 extension ListApplicationsInputBody: Swift.Decodable {
@@ -5483,7 +5483,7 @@ extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationsOutput: Swift.Equatable {
+public struct ListApplicationsOutput {
     /// The elements from this collection.
     public var items: [AppConfigClientTypes.Application]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -5499,7 +5499,7 @@ public struct ListApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsOutputBody: Swift.Equatable {
+struct ListApplicationsOutputBody {
     let items: [AppConfigClientTypes.Application]?
     let nextToken: Swift.String?
 }
@@ -5570,7 +5570,7 @@ extension ListConfigurationProfilesInput {
     }
 }
 
-public struct ListConfigurationProfilesInput: Swift.Equatable {
+public struct ListConfigurationProfilesInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5595,7 +5595,7 @@ public struct ListConfigurationProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationProfilesInputBody: Swift.Equatable {
+struct ListConfigurationProfilesInputBody {
 }
 
 extension ListConfigurationProfilesInputBody: Swift.Decodable {
@@ -5618,7 +5618,7 @@ extension ListConfigurationProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConfigurationProfilesOutput: Swift.Equatable {
+public struct ListConfigurationProfilesOutput {
     /// The elements from this collection.
     public var items: [AppConfigClientTypes.ConfigurationProfileSummary]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -5634,7 +5634,7 @@ public struct ListConfigurationProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationProfilesOutputBody: Swift.Equatable {
+struct ListConfigurationProfilesOutputBody {
     let items: [AppConfigClientTypes.ConfigurationProfileSummary]?
     let nextToken: Swift.String?
 }
@@ -5699,7 +5699,7 @@ extension ListDeploymentStrategiesInput {
     }
 }
 
-public struct ListDeploymentStrategiesInput: Swift.Equatable {
+public struct ListDeploymentStrategiesInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
@@ -5715,7 +5715,7 @@ public struct ListDeploymentStrategiesInput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentStrategiesInputBody: Swift.Equatable {
+struct ListDeploymentStrategiesInputBody {
 }
 
 extension ListDeploymentStrategiesInputBody: Swift.Decodable {
@@ -5738,7 +5738,7 @@ extension ListDeploymentStrategiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeploymentStrategiesOutput: Swift.Equatable {
+public struct ListDeploymentStrategiesOutput {
     /// The elements from this collection.
     public var items: [AppConfigClientTypes.DeploymentStrategy]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -5754,7 +5754,7 @@ public struct ListDeploymentStrategiesOutput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentStrategiesOutputBody: Swift.Equatable {
+struct ListDeploymentStrategiesOutputBody {
     let items: [AppConfigClientTypes.DeploymentStrategy]?
     let nextToken: Swift.String?
 }
@@ -5824,7 +5824,7 @@ extension ListDeploymentsInput {
     }
 }
 
-public struct ListDeploymentsInput: Swift.Equatable {
+public struct ListDeploymentsInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5850,7 +5850,7 @@ public struct ListDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsInputBody: Swift.Equatable {
+struct ListDeploymentsInputBody {
 }
 
 extension ListDeploymentsInputBody: Swift.Decodable {
@@ -5873,7 +5873,7 @@ extension ListDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeploymentsOutput: Swift.Equatable {
+public struct ListDeploymentsOutput {
     /// The elements from this collection.
     public var items: [AppConfigClientTypes.DeploymentSummary]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -5889,7 +5889,7 @@ public struct ListDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsOutputBody: Swift.Equatable {
+struct ListDeploymentsOutputBody {
     let items: [AppConfigClientTypes.DeploymentSummary]?
     let nextToken: Swift.String?
 }
@@ -5957,7 +5957,7 @@ extension ListEnvironmentsInput {
     }
 }
 
-public struct ListEnvironmentsInput: Swift.Equatable {
+public struct ListEnvironmentsInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5978,7 +5978,7 @@ public struct ListEnvironmentsInput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsInputBody: Swift.Equatable {
+struct ListEnvironmentsInputBody {
 }
 
 extension ListEnvironmentsInputBody: Swift.Decodable {
@@ -6001,7 +6001,7 @@ extension ListEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnvironmentsOutput: Swift.Equatable {
+public struct ListEnvironmentsOutput {
     /// The elements from this collection.
     public var items: [AppConfigClientTypes.Environment]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -6017,7 +6017,7 @@ public struct ListEnvironmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsOutputBody: Swift.Equatable {
+struct ListEnvironmentsOutputBody {
     let items: [AppConfigClientTypes.Environment]?
     let nextToken: Swift.String?
 }
@@ -6094,7 +6094,7 @@ extension ListExtensionAssociationsInput {
     }
 }
 
-public struct ListExtensionAssociationsInput: Swift.Equatable {
+public struct ListExtensionAssociationsInput {
     /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
     public var extensionIdentifier: Swift.String?
     /// The version number for the extension defined in the association.
@@ -6122,7 +6122,7 @@ public struct ListExtensionAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListExtensionAssociationsInputBody: Swift.Equatable {
+struct ListExtensionAssociationsInputBody {
 }
 
 extension ListExtensionAssociationsInputBody: Swift.Decodable {
@@ -6145,7 +6145,7 @@ extension ListExtensionAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExtensionAssociationsOutput: Swift.Equatable {
+public struct ListExtensionAssociationsOutput {
     /// The list of extension associations. Each item represents an extension association to an application, environment, or configuration profile.
     public var items: [AppConfigClientTypes.ExtensionAssociationSummary]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -6161,7 +6161,7 @@ public struct ListExtensionAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListExtensionAssociationsOutputBody: Swift.Equatable {
+struct ListExtensionAssociationsOutputBody {
     let items: [AppConfigClientTypes.ExtensionAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -6229,7 +6229,7 @@ extension ListExtensionsInput {
     }
 }
 
-public struct ListExtensionsInput: Swift.Equatable {
+public struct ListExtensionsInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// The extension name.
@@ -6249,7 +6249,7 @@ public struct ListExtensionsInput: Swift.Equatable {
     }
 }
 
-struct ListExtensionsInputBody: Swift.Equatable {
+struct ListExtensionsInputBody {
 }
 
 extension ListExtensionsInputBody: Swift.Decodable {
@@ -6272,7 +6272,7 @@ extension ListExtensionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExtensionsOutput: Swift.Equatable {
+public struct ListExtensionsOutput {
     /// The list of available extensions. The list includes Amazon Web Services authored and user-created extensions.
     public var items: [AppConfigClientTypes.ExtensionSummary]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -6288,7 +6288,7 @@ public struct ListExtensionsOutput: Swift.Equatable {
     }
 }
 
-struct ListExtensionsOutputBody: Swift.Equatable {
+struct ListExtensionsOutputBody {
     let items: [AppConfigClientTypes.ExtensionSummary]?
     let nextToken: Swift.String?
 }
@@ -6362,7 +6362,7 @@ extension ListHostedConfigurationVersionsInput {
     }
 }
 
-public struct ListHostedConfigurationVersionsInput: Swift.Equatable {
+public struct ListHostedConfigurationVersionsInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -6392,7 +6392,7 @@ public struct ListHostedConfigurationVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListHostedConfigurationVersionsInputBody: Swift.Equatable {
+struct ListHostedConfigurationVersionsInputBody {
 }
 
 extension ListHostedConfigurationVersionsInputBody: Swift.Decodable {
@@ -6415,7 +6415,7 @@ extension ListHostedConfigurationVersionsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListHostedConfigurationVersionsOutput: Swift.Equatable {
+public struct ListHostedConfigurationVersionsOutput {
     /// The elements from this collection.
     public var items: [AppConfigClientTypes.HostedConfigurationVersionSummary]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -6431,7 +6431,7 @@ public struct ListHostedConfigurationVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListHostedConfigurationVersionsOutputBody: Swift.Equatable {
+struct ListHostedConfigurationVersionsOutputBody {
     let items: [AppConfigClientTypes.HostedConfigurationVersionSummary]?
     let nextToken: Swift.String?
 }
@@ -6483,7 +6483,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The resource ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6496,7 +6496,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -6517,7 +6517,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Metadata to assign to AppConfig resources. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
     public var tags: [Swift.String:Swift.String]?
 
@@ -6529,7 +6529,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6594,7 +6594,7 @@ extension AppConfigClientTypes.Monitor: Swift.Codable {
 
 extension AppConfigClientTypes {
     /// Amazon CloudWatch alarms to monitor during the deployment process.
-    public struct Monitor: Swift.Equatable {
+    public struct Monitor {
         /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
         /// This member is required.
         public var alarmArn: Swift.String?
@@ -6646,7 +6646,7 @@ extension AppConfigClientTypes.Parameter: Swift.Codable {
 
 extension AppConfigClientTypes {
     /// A value such as an Amazon Resource Name (ARN) or an Amazon Simple Notification Service topic entered in an extension when invoked. Parameter values are specified in an extension association. For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
-    public struct Parameter: Swift.Equatable {
+    public struct Parameter {
         /// Information about the parameter.
         public var description: Swift.String?
         /// Indicates whether this parameter's value can be supplied at the extension's action point instead of during extension association. Dynamic parameters can't be marked Required.
@@ -6722,7 +6722,7 @@ public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct PayloadTooLargeExceptionBody: Swift.Equatable {
+struct PayloadTooLargeExceptionBody {
     let message: Swift.String?
     let measure: AppConfigClientTypes.BytesMeasure?
     let limit: Swift.Float
@@ -6826,7 +6826,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -6885,7 +6885,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -6957,7 +6957,7 @@ extension StartDeploymentInput {
     }
 }
 
-public struct StartDeploymentInput: Swift.Equatable {
+public struct StartDeploymentInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7006,7 +7006,7 @@ public struct StartDeploymentInput: Swift.Equatable {
     }
 }
 
-struct StartDeploymentInputBody: Swift.Equatable {
+struct StartDeploymentInputBody {
     let deploymentStrategyId: Swift.String?
     let configurationProfileId: Swift.String?
     let configurationVersion: Swift.String?
@@ -7118,7 +7118,7 @@ extension StartDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDeploymentOutput: Swift.Equatable {
+public struct StartDeploymentOutput {
     /// The ID of the application that was deployed.
     public var applicationId: Swift.String?
     /// A list of extensions that were processed as part of the deployment. The extensions that were previously associated to the configuration profile, environment, or the application when StartDeployment was called.
@@ -7214,7 +7214,7 @@ public struct StartDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct StartDeploymentOutputBody: Swift.Equatable {
+struct StartDeploymentOutputBody {
     let applicationId: Swift.String?
     let environmentId: Swift.String?
     let deploymentStrategyId: Swift.String?
@@ -7362,7 +7362,7 @@ extension StopDeploymentInput {
     }
 }
 
-public struct StopDeploymentInput: Swift.Equatable {
+public struct StopDeploymentInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7385,7 +7385,7 @@ public struct StopDeploymentInput: Swift.Equatable {
     }
 }
 
-struct StopDeploymentInputBody: Swift.Equatable {
+struct StopDeploymentInputBody {
 }
 
 extension StopDeploymentInputBody: Swift.Decodable {
@@ -7448,7 +7448,7 @@ extension StopDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopDeploymentOutput: Swift.Equatable {
+public struct StopDeploymentOutput {
     /// The ID of the application that was deployed.
     public var applicationId: Swift.String?
     /// A list of extensions that were processed as part of the deployment. The extensions that were previously associated to the configuration profile, environment, or the application when StartDeployment was called.
@@ -7544,7 +7544,7 @@ public struct StopDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct StopDeploymentOutputBody: Swift.Equatable {
+struct StopDeploymentOutputBody {
     let applicationId: Swift.String?
     let environmentId: Swift.String?
     let deploymentStrategyId: Swift.String?
@@ -7701,7 +7701,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource for which to retrieve tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7719,7 +7719,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -7749,7 +7749,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -7831,7 +7831,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource for which to remove tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7849,7 +7849,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -7863,7 +7863,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -7908,7 +7908,7 @@ extension UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7929,7 +7929,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationInputBody: Swift.Equatable {
+struct UpdateApplicationInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -7965,7 +7965,7 @@ extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
     /// The description of the application.
     public var description: Swift.String?
     /// The application ID.
@@ -7985,7 +7985,7 @@ public struct UpdateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationOutputBody: Swift.Equatable {
+struct UpdateApplicationOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -8067,7 +8067,7 @@ extension UpdateConfigurationProfileInput {
     }
 }
 
-public struct UpdateConfigurationProfileInput: Swift.Equatable {
+public struct UpdateConfigurationProfileInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8105,7 +8105,7 @@ public struct UpdateConfigurationProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfigurationProfileInputBody: Swift.Equatable {
+struct UpdateConfigurationProfileInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let retrievalRoleArn: Swift.String?
@@ -8176,7 +8176,7 @@ extension UpdateConfigurationProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConfigurationProfileOutput: Swift.Equatable {
+public struct UpdateConfigurationProfileOutput {
     /// The application ID.
     public var applicationId: Swift.String?
     /// The configuration profile description.
@@ -8225,7 +8225,7 @@ public struct UpdateConfigurationProfileOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConfigurationProfileOutputBody: Swift.Equatable {
+struct UpdateConfigurationProfileOutputBody {
     let applicationId: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -8338,7 +8338,7 @@ extension UpdateDeploymentStrategyInput {
     }
 }
 
-public struct UpdateDeploymentStrategyInput: Swift.Equatable {
+public struct UpdateDeploymentStrategyInput {
     /// Total amount of time for a deployment to last.
     public var deploymentDurationInMinutes: Swift.Int?
     /// The deployment strategy ID.
@@ -8374,7 +8374,7 @@ public struct UpdateDeploymentStrategyInput: Swift.Equatable {
     }
 }
 
-struct UpdateDeploymentStrategyInputBody: Swift.Equatable {
+struct UpdateDeploymentStrategyInputBody {
     let description: Swift.String?
     let deploymentDurationInMinutes: Swift.Int?
     let finalBakeTimeInMinutes: Swift.Int?
@@ -8432,7 +8432,7 @@ extension UpdateDeploymentStrategyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDeploymentStrategyOutput: Swift.Equatable {
+public struct UpdateDeploymentStrategyOutput {
     /// Total amount of time the deployment lasted.
     public var deploymentDurationInMinutes: Swift.Int
     /// The description of the deployment strategy.
@@ -8472,7 +8472,7 @@ public struct UpdateDeploymentStrategyOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDeploymentStrategyOutputBody: Swift.Equatable {
+struct UpdateDeploymentStrategyOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -8566,7 +8566,7 @@ extension UpdateEnvironmentInput {
     }
 }
 
-public struct UpdateEnvironmentInput: Swift.Equatable {
+public struct UpdateEnvironmentInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8596,7 +8596,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentInputBody: Swift.Equatable {
+struct UpdateEnvironmentInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let monitors: [AppConfigClientTypes.Monitor]?
@@ -8651,7 +8651,7 @@ extension UpdateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnvironmentOutput: Swift.Equatable {
+public struct UpdateEnvironmentOutput {
     /// The application ID.
     public var applicationId: Swift.String?
     /// The description of the environment.
@@ -8683,7 +8683,7 @@ public struct UpdateEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentOutputBody: Swift.Equatable {
+struct UpdateEnvironmentOutputBody {
     let applicationId: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -8767,7 +8767,7 @@ extension UpdateExtensionAssociationInput {
     }
 }
 
-public struct UpdateExtensionAssociationInput: Swift.Equatable {
+public struct UpdateExtensionAssociationInput {
     /// The system-generated ID for the association.
     /// This member is required.
     public var extensionAssociationId: Swift.String?
@@ -8784,7 +8784,7 @@ public struct UpdateExtensionAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdateExtensionAssociationInputBody: Swift.Equatable {
+struct UpdateExtensionAssociationInputBody {
     let parameters: [Swift.String:Swift.String]?
 }
 
@@ -8831,7 +8831,7 @@ extension UpdateExtensionAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateExtensionAssociationOutput: Swift.Equatable {
+public struct UpdateExtensionAssociationOutput {
     /// The system-generated Amazon Resource Name (ARN) for the extension.
     public var arn: Swift.String?
     /// The ARN of the extension defined in the association.
@@ -8863,7 +8863,7 @@ public struct UpdateExtensionAssociationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateExtensionAssociationOutputBody: Swift.Equatable {
+struct UpdateExtensionAssociationOutputBody {
     let id: Swift.String?
     let extensionArn: Swift.String?
     let resourceArn: Swift.String?
@@ -8965,7 +8965,7 @@ extension UpdateExtensionInput {
     }
 }
 
-public struct UpdateExtensionInput: Swift.Equatable {
+public struct UpdateExtensionInput {
     /// The actions defined in the extension.
     public var actions: [Swift.String:[AppConfigClientTypes.Action]]?
     /// Information about the extension.
@@ -8994,7 +8994,7 @@ public struct UpdateExtensionInput: Swift.Equatable {
     }
 }
 
-struct UpdateExtensionInputBody: Swift.Equatable {
+struct UpdateExtensionInputBody {
     let description: Swift.String?
     let actions: [Swift.String:[AppConfigClientTypes.Action]]?
     let parameters: [Swift.String:AppConfigClientTypes.Parameter]?
@@ -9071,7 +9071,7 @@ extension UpdateExtensionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateExtensionOutput: Swift.Equatable {
+public struct UpdateExtensionOutput {
     /// The actions defined in the extension.
     public var actions: [Swift.String:[AppConfigClientTypes.Action]]?
     /// The system-generated Amazon Resource Name (ARN) for the extension.
@@ -9107,7 +9107,7 @@ public struct UpdateExtensionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateExtensionOutputBody: Swift.Equatable {
+struct UpdateExtensionOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let versionNumber: Swift.Int
@@ -9213,7 +9213,7 @@ extension ValidateConfigurationInput {
     }
 }
 
-public struct ValidateConfigurationInput: Swift.Equatable {
+public struct ValidateConfigurationInput {
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -9236,7 +9236,7 @@ public struct ValidateConfigurationInput: Swift.Equatable {
     }
 }
 
-struct ValidateConfigurationInputBody: Swift.Equatable {
+struct ValidateConfigurationInputBody {
 }
 
 extension ValidateConfigurationInputBody: Swift.Decodable {
@@ -9250,7 +9250,7 @@ extension ValidateConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ValidateConfigurationOutput: Swift.Equatable {
+public struct ValidateConfigurationOutput {
 
     public init() { }
 }
@@ -9300,7 +9300,7 @@ extension AppConfigClientTypes.Validator: Swift.CustomDebugStringConvertible {
 
 extension AppConfigClientTypes {
     /// A validator provides a syntactic or semantic check to ensure the configuration that you want to deploy functions as intended. To validate your application configuration data, you provide a schema or an Amazon Web Services Lambda function that runs against the configuration. The configuration deployment or update can only proceed when the configuration data is valid.
-    public struct Validator: Swift.Equatable {
+    public struct Validator {
         /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an Lambda function.
         /// This member is required.
         public var content: Swift.String?

@@ -384,7 +384,7 @@ extension SMSClientTypes.AppSummary: Swift.Codable {
 
 extension SMSClientTypes {
     /// Information about the application.
-    public struct AppSummary: Swift.Equatable {
+    public struct AppSummary {
         /// The unique ID of the application.
         public var appId: Swift.String?
         /// The creation time of the application.
@@ -509,7 +509,7 @@ extension SMSClientTypes.AppValidationConfiguration: Swift.Codable {
 
 extension SMSClientTypes {
     /// Configuration for validating an application.
-    public struct AppValidationConfiguration: Swift.Equatable {
+    public struct AppValidationConfiguration {
         /// The validation strategy.
         public var appValidationStrategy: SMSClientTypes.AppValidationStrategy?
         /// The name of the configuration.
@@ -556,7 +556,7 @@ extension SMSClientTypes.AppValidationOutput: Swift.Codable {
 
 extension SMSClientTypes {
     /// Output from validating an application.
-    public struct AppValidationOutput: Swift.Equatable {
+    public struct AppValidationOutput {
         /// Output from using SSM to validate the application.
         public var ssmOutput: SMSClientTypes.SSMOutput?
 
@@ -686,7 +686,7 @@ extension SMSClientTypes.Connector: Swift.Codable {
 
 extension SMSClientTypes {
     /// Represents a connector.
-    public struct Connector: Swift.Equatable {
+    public struct Connector {
         /// The time the connector was associated.
         public var associatedOn: ClientRuntime.Date?
         /// The capabilities of the connector.
@@ -855,7 +855,7 @@ extension CreateAppInput {
     }
 }
 
-public struct CreateAppInput: Swift.Equatable {
+public struct CreateAppInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of application creation.
     public var clientToken: Swift.String?
     /// The description of the new application
@@ -887,7 +887,7 @@ public struct CreateAppInput: Swift.Equatable {
     }
 }
 
-struct CreateAppInputBody: Swift.Equatable {
+struct CreateAppInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let roleName: Swift.String?
@@ -957,7 +957,7 @@ extension CreateAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppOutput: Swift.Equatable {
+public struct CreateAppOutput {
     /// A summary description of the application.
     public var appSummary: SMSClientTypes.AppSummary?
     /// The server groups included in the application.
@@ -977,7 +977,7 @@ public struct CreateAppOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppOutputBody: Swift.Equatable {
+struct CreateAppOutputBody {
     let appSummary: SMSClientTypes.AppSummary?
     let serverGroups: [SMSClientTypes.ServerGroup]?
     let tags: [SMSClientTypes.Tag]?
@@ -1090,7 +1090,7 @@ extension CreateReplicationJobInput {
     }
 }
 
-public struct CreateReplicationJobInput: Swift.Equatable {
+public struct CreateReplicationJobInput {
     /// The description of the replication job.
     public var description: Swift.String?
     /// Indicates whether the replication job produces encrypted AMIs.
@@ -1151,7 +1151,7 @@ public struct CreateReplicationJobInput: Swift.Equatable {
     }
 }
 
-struct CreateReplicationJobInputBody: Swift.Equatable {
+struct CreateReplicationJobInputBody {
     let serverId: Swift.String?
     let seedReplicationTime: ClientRuntime.Date?
     let frequency: Swift.Int?
@@ -1215,7 +1215,7 @@ extension CreateReplicationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateReplicationJobOutput: Swift.Equatable {
+public struct CreateReplicationJobOutput {
     /// The unique identifier of the replication job.
     public var replicationJobId: Swift.String?
 
@@ -1227,7 +1227,7 @@ public struct CreateReplicationJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateReplicationJobOutputBody: Swift.Equatable {
+struct CreateReplicationJobOutputBody {
     let replicationJobId: Swift.String?
 }
 
@@ -1290,7 +1290,7 @@ extension DeleteAppInput {
     }
 }
 
-public struct DeleteAppInput: Swift.Equatable {
+public struct DeleteAppInput {
     /// The ID of the application.
     public var appId: Swift.String?
     /// Indicates whether to stop all replication jobs corresponding to the servers in the application while deleting the application.
@@ -1310,7 +1310,7 @@ public struct DeleteAppInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppInputBody: Swift.Equatable {
+struct DeleteAppInputBody {
     let appId: Swift.String?
     let forceStopAppReplication: Swift.Bool?
     let forceTerminateApp: Swift.Bool?
@@ -1354,7 +1354,7 @@ extension DeleteAppLaunchConfigurationInput {
     }
 }
 
-public struct DeleteAppLaunchConfigurationInput: Swift.Equatable {
+public struct DeleteAppLaunchConfigurationInput {
     /// The ID of the application.
     public var appId: Swift.String?
 
@@ -1366,7 +1366,7 @@ public struct DeleteAppLaunchConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppLaunchConfigurationInputBody: Swift.Equatable {
+struct DeleteAppLaunchConfigurationInputBody {
     let appId: Swift.String?
 }
 
@@ -1387,7 +1387,7 @@ extension DeleteAppLaunchConfigurationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteAppLaunchConfigurationOutput: Swift.Equatable {
+public struct DeleteAppLaunchConfigurationOutput {
 
     public init() { }
 }
@@ -1412,7 +1412,7 @@ extension DeleteAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppOutput: Swift.Equatable {
+public struct DeleteAppOutput {
 
     public init() { }
 }
@@ -1452,7 +1452,7 @@ extension DeleteAppReplicationConfigurationInput {
     }
 }
 
-public struct DeleteAppReplicationConfigurationInput: Swift.Equatable {
+public struct DeleteAppReplicationConfigurationInput {
     /// The ID of the application.
     public var appId: Swift.String?
 
@@ -1464,7 +1464,7 @@ public struct DeleteAppReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppReplicationConfigurationInputBody: Swift.Equatable {
+struct DeleteAppReplicationConfigurationInputBody {
     let appId: Swift.String?
 }
 
@@ -1485,7 +1485,7 @@ extension DeleteAppReplicationConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DeleteAppReplicationConfigurationOutput: Swift.Equatable {
+public struct DeleteAppReplicationConfigurationOutput {
 
     public init() { }
 }
@@ -1525,7 +1525,7 @@ extension DeleteAppValidationConfigurationInput {
     }
 }
 
-public struct DeleteAppValidationConfigurationInput: Swift.Equatable {
+public struct DeleteAppValidationConfigurationInput {
     /// The ID of the application.
     /// This member is required.
     public var appId: Swift.String?
@@ -1538,7 +1538,7 @@ public struct DeleteAppValidationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppValidationConfigurationInputBody: Swift.Equatable {
+struct DeleteAppValidationConfigurationInputBody {
     let appId: Swift.String?
 }
 
@@ -1559,7 +1559,7 @@ extension DeleteAppValidationConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteAppValidationConfigurationOutput: Swift.Equatable {
+public struct DeleteAppValidationConfigurationOutput {
 
     public init() { }
 }
@@ -1599,7 +1599,7 @@ extension DeleteReplicationJobInput {
     }
 }
 
-public struct DeleteReplicationJobInput: Swift.Equatable {
+public struct DeleteReplicationJobInput {
     /// The ID of the replication job.
     /// This member is required.
     public var replicationJobId: Swift.String?
@@ -1612,7 +1612,7 @@ public struct DeleteReplicationJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteReplicationJobInputBody: Swift.Equatable {
+struct DeleteReplicationJobInputBody {
     let replicationJobId: Swift.String?
 }
 
@@ -1633,7 +1633,7 @@ extension DeleteReplicationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteReplicationJobOutput: Swift.Equatable {
+public struct DeleteReplicationJobOutput {
 
     public init() { }
 }
@@ -1668,12 +1668,12 @@ extension DeleteServerCatalogInput {
     }
 }
 
-public struct DeleteServerCatalogInput: Swift.Equatable {
+public struct DeleteServerCatalogInput {
 
     public init() { }
 }
 
-struct DeleteServerCatalogInputBody: Swift.Equatable {
+struct DeleteServerCatalogInputBody {
 }
 
 extension DeleteServerCatalogInputBody: Swift.Decodable {
@@ -1687,7 +1687,7 @@ extension DeleteServerCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteServerCatalogOutput: Swift.Equatable {
+public struct DeleteServerCatalogOutput {
 
     public init() { }
 }
@@ -1726,7 +1726,7 @@ extension DisassociateConnectorInput {
     }
 }
 
-public struct DisassociateConnectorInput: Swift.Equatable {
+public struct DisassociateConnectorInput {
     /// The ID of the connector.
     /// This member is required.
     public var connectorId: Swift.String?
@@ -1739,7 +1739,7 @@ public struct DisassociateConnectorInput: Swift.Equatable {
     }
 }
 
-struct DisassociateConnectorInputBody: Swift.Equatable {
+struct DisassociateConnectorInputBody {
     let connectorId: Swift.String?
 }
 
@@ -1760,7 +1760,7 @@ extension DisassociateConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateConnectorOutput: Swift.Equatable {
+public struct DisassociateConnectorOutput {
 
     public init() { }
 }
@@ -1818,7 +1818,7 @@ public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct DryRunOperationExceptionBody: Swift.Equatable {
+struct DryRunOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1858,7 +1858,7 @@ extension GenerateChangeSetInput {
     }
 }
 
-public struct GenerateChangeSetInput: Swift.Equatable {
+public struct GenerateChangeSetInput {
     /// The ID of the application associated with the change set.
     public var appId: Swift.String?
     /// The format for the change set.
@@ -1874,7 +1874,7 @@ public struct GenerateChangeSetInput: Swift.Equatable {
     }
 }
 
-struct GenerateChangeSetInputBody: Swift.Equatable {
+struct GenerateChangeSetInputBody {
     let appId: Swift.String?
     let changesetFormat: SMSClientTypes.OutputFormat?
 }
@@ -1906,7 +1906,7 @@ extension GenerateChangeSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateChangeSetOutput: Swift.Equatable {
+public struct GenerateChangeSetOutput {
     /// The location of the Amazon S3 object.
     public var s3Location: SMSClientTypes.S3Location?
 
@@ -1918,7 +1918,7 @@ public struct GenerateChangeSetOutput: Swift.Equatable {
     }
 }
 
-struct GenerateChangeSetOutputBody: Swift.Equatable {
+struct GenerateChangeSetOutputBody {
     let s3Location: SMSClientTypes.S3Location?
 }
 
@@ -1973,7 +1973,7 @@ extension GenerateTemplateInput {
     }
 }
 
-public struct GenerateTemplateInput: Swift.Equatable {
+public struct GenerateTemplateInput {
     /// The ID of the application associated with the CloudFormation template.
     public var appId: Swift.String?
     /// The format for generating the CloudFormation template.
@@ -1989,7 +1989,7 @@ public struct GenerateTemplateInput: Swift.Equatable {
     }
 }
 
-struct GenerateTemplateInputBody: Swift.Equatable {
+struct GenerateTemplateInputBody {
     let appId: Swift.String?
     let templateFormat: SMSClientTypes.OutputFormat?
 }
@@ -2021,7 +2021,7 @@ extension GenerateTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateTemplateOutput: Swift.Equatable {
+public struct GenerateTemplateOutput {
     /// The location of the Amazon S3 object.
     public var s3Location: SMSClientTypes.S3Location?
 
@@ -2033,7 +2033,7 @@ public struct GenerateTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GenerateTemplateOutputBody: Swift.Equatable {
+struct GenerateTemplateOutputBody {
     let s3Location: SMSClientTypes.S3Location?
 }
 
@@ -2084,7 +2084,7 @@ extension GetAppInput {
     }
 }
 
-public struct GetAppInput: Swift.Equatable {
+public struct GetAppInput {
     /// The ID of the application.
     public var appId: Swift.String?
 
@@ -2096,7 +2096,7 @@ public struct GetAppInput: Swift.Equatable {
     }
 }
 
-struct GetAppInputBody: Swift.Equatable {
+struct GetAppInputBody {
     let appId: Swift.String?
 }
 
@@ -2132,7 +2132,7 @@ extension GetAppLaunchConfigurationInput {
     }
 }
 
-public struct GetAppLaunchConfigurationInput: Swift.Equatable {
+public struct GetAppLaunchConfigurationInput {
     /// The ID of the application.
     public var appId: Swift.String?
 
@@ -2144,7 +2144,7 @@ public struct GetAppLaunchConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetAppLaunchConfigurationInputBody: Swift.Equatable {
+struct GetAppLaunchConfigurationInputBody {
     let appId: Swift.String?
 }
 
@@ -2178,7 +2178,7 @@ extension GetAppLaunchConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAppLaunchConfigurationOutput: Swift.Equatable {
+public struct GetAppLaunchConfigurationOutput {
     /// The ID of the application.
     public var appId: Swift.String?
     /// Indicates whether the application is configured to launch automatically after replication is complete.
@@ -2202,7 +2202,7 @@ public struct GetAppLaunchConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetAppLaunchConfigurationOutputBody: Swift.Equatable {
+struct GetAppLaunchConfigurationOutputBody {
     let appId: Swift.String?
     let roleName: Swift.String?
     let autoLaunch: Swift.Bool?
@@ -2270,7 +2270,7 @@ extension GetAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAppOutput: Swift.Equatable {
+public struct GetAppOutput {
     /// Information about the application.
     public var appSummary: SMSClientTypes.AppSummary?
     /// The server groups that belong to the application.
@@ -2290,7 +2290,7 @@ public struct GetAppOutput: Swift.Equatable {
     }
 }
 
-struct GetAppOutputBody: Swift.Equatable {
+struct GetAppOutputBody {
     let appSummary: SMSClientTypes.AppSummary?
     let serverGroups: [SMSClientTypes.ServerGroup]?
     let tags: [SMSClientTypes.Tag]?
@@ -2367,7 +2367,7 @@ extension GetAppReplicationConfigurationInput {
     }
 }
 
-public struct GetAppReplicationConfigurationInput: Swift.Equatable {
+public struct GetAppReplicationConfigurationInput {
     /// The ID of the application.
     public var appId: Swift.String?
 
@@ -2379,7 +2379,7 @@ public struct GetAppReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetAppReplicationConfigurationInputBody: Swift.Equatable {
+struct GetAppReplicationConfigurationInputBody {
     let appId: Swift.String?
 }
 
@@ -2407,7 +2407,7 @@ extension GetAppReplicationConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetAppReplicationConfigurationOutput: Swift.Equatable {
+public struct GetAppReplicationConfigurationOutput {
     /// The replication configurations associated with server groups in this application.
     public var serverGroupReplicationConfigurations: [SMSClientTypes.ServerGroupReplicationConfiguration]?
 
@@ -2419,7 +2419,7 @@ public struct GetAppReplicationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetAppReplicationConfigurationOutputBody: Swift.Equatable {
+struct GetAppReplicationConfigurationOutputBody {
     let serverGroupReplicationConfigurations: [SMSClientTypes.ServerGroupReplicationConfiguration]?
 }
 
@@ -2479,7 +2479,7 @@ extension GetAppValidationConfigurationInput {
     }
 }
 
-public struct GetAppValidationConfigurationInput: Swift.Equatable {
+public struct GetAppValidationConfigurationInput {
     /// The ID of the application.
     /// This member is required.
     public var appId: Swift.String?
@@ -2492,7 +2492,7 @@ public struct GetAppValidationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetAppValidationConfigurationInputBody: Swift.Equatable {
+struct GetAppValidationConfigurationInputBody {
     let appId: Swift.String?
 }
 
@@ -2522,7 +2522,7 @@ extension GetAppValidationConfigurationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetAppValidationConfigurationOutput: Swift.Equatable {
+public struct GetAppValidationConfigurationOutput {
     /// The configuration for application validation.
     public var appValidationConfigurations: [SMSClientTypes.AppValidationConfiguration]?
     /// The configuration for instance validation.
@@ -2538,7 +2538,7 @@ public struct GetAppValidationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetAppValidationConfigurationOutputBody: Swift.Equatable {
+struct GetAppValidationConfigurationOutputBody {
     let appValidationConfigurations: [SMSClientTypes.AppValidationConfiguration]?
     let serverGroupValidationConfigurations: [SMSClientTypes.ServerGroupValidationConfiguration]?
 }
@@ -2611,7 +2611,7 @@ extension GetAppValidationOutputInput {
     }
 }
 
-public struct GetAppValidationOutputInput: Swift.Equatable {
+public struct GetAppValidationOutputInput {
     /// The ID of the application.
     /// This member is required.
     public var appId: Swift.String?
@@ -2624,7 +2624,7 @@ public struct GetAppValidationOutputInput: Swift.Equatable {
     }
 }
 
-struct GetAppValidationOutputInputBody: Swift.Equatable {
+struct GetAppValidationOutputInputBody {
     let appId: Swift.String?
 }
 
@@ -2652,7 +2652,7 @@ extension GetAppValidationOutputOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAppValidationOutputOutput: Swift.Equatable {
+public struct GetAppValidationOutputOutput {
     /// The validation output.
     public var validationOutputList: [SMSClientTypes.ValidationOutput]?
 
@@ -2664,7 +2664,7 @@ public struct GetAppValidationOutputOutput: Swift.Equatable {
     }
 }
 
-struct GetAppValidationOutputOutputBody: Swift.Equatable {
+struct GetAppValidationOutputOutputBody {
     let validationOutputList: [SMSClientTypes.ValidationOutput]?
 }
 
@@ -2728,7 +2728,7 @@ extension GetConnectorsInput {
     }
 }
 
-public struct GetConnectorsInput: Swift.Equatable {
+public struct GetConnectorsInput {
     /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -2744,7 +2744,7 @@ public struct GetConnectorsInput: Swift.Equatable {
     }
 }
 
-struct GetConnectorsInputBody: Swift.Equatable {
+struct GetConnectorsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2778,7 +2778,7 @@ extension GetConnectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectorsOutput: Swift.Equatable {
+public struct GetConnectorsOutput {
     /// Information about the registered connectors.
     public var connectorList: [SMSClientTypes.Connector]?
     /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -2794,7 +2794,7 @@ public struct GetConnectorsOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectorsOutputBody: Swift.Equatable {
+struct GetConnectorsOutputBody {
     let connectorList: [SMSClientTypes.Connector]?
     let nextToken: Swift.String?
 }
@@ -2862,7 +2862,7 @@ extension GetReplicationJobsInput {
     }
 }
 
-public struct GetReplicationJobsInput: Swift.Equatable {
+public struct GetReplicationJobsInput {
     /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -2882,7 +2882,7 @@ public struct GetReplicationJobsInput: Swift.Equatable {
     }
 }
 
-struct GetReplicationJobsInputBody: Swift.Equatable {
+struct GetReplicationJobsInputBody {
     let replicationJobId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2920,7 +2920,7 @@ extension GetReplicationJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReplicationJobsOutput: Swift.Equatable {
+public struct GetReplicationJobsOutput {
     /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the replication jobs.
@@ -2936,7 +2936,7 @@ public struct GetReplicationJobsOutput: Swift.Equatable {
     }
 }
 
-struct GetReplicationJobsOutputBody: Swift.Equatable {
+struct GetReplicationJobsOutputBody {
     let replicationJobList: [SMSClientTypes.ReplicationJob]?
     let nextToken: Swift.String?
 }
@@ -3006,7 +3006,7 @@ extension GetReplicationRunsInput {
     }
 }
 
-public struct GetReplicationRunsInput: Swift.Equatable {
+public struct GetReplicationRunsInput {
     /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -3027,7 +3027,7 @@ public struct GetReplicationRunsInput: Swift.Equatable {
     }
 }
 
-struct GetReplicationRunsInputBody: Swift.Equatable {
+struct GetReplicationRunsInputBody {
     let replicationJobId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3067,7 +3067,7 @@ extension GetReplicationRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReplicationRunsOutput: Swift.Equatable {
+public struct GetReplicationRunsOutput {
     /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the replication job.
@@ -3087,7 +3087,7 @@ public struct GetReplicationRunsOutput: Swift.Equatable {
     }
 }
 
-struct GetReplicationRunsOutputBody: Swift.Equatable {
+struct GetReplicationRunsOutputBody {
     let replicationJob: SMSClientTypes.ReplicationJob?
     let replicationRunList: [SMSClientTypes.ReplicationRun]?
     let nextToken: Swift.String?
@@ -3164,7 +3164,7 @@ extension GetServersInput {
     }
 }
 
-public struct GetServersInput: Swift.Equatable {
+public struct GetServersInput {
     /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -3184,7 +3184,7 @@ public struct GetServersInput: Swift.Equatable {
     }
 }
 
-struct GetServersInputBody: Swift.Equatable {
+struct GetServersInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let vmServerAddressList: [SMSClientTypes.VmServerAddress]?
@@ -3235,7 +3235,7 @@ extension GetServersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServersOutput: Swift.Equatable {
+public struct GetServersOutput {
     /// The time when the server was last modified.
     public var lastModifiedOn: ClientRuntime.Date?
     /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -3259,7 +3259,7 @@ public struct GetServersOutput: Swift.Equatable {
     }
 }
 
-struct GetServersOutputBody: Swift.Equatable {
+struct GetServersOutputBody {
     let lastModifiedOn: ClientRuntime.Date?
     let serverCatalogStatus: SMSClientTypes.ServerCatalogStatus?
     let serverList: [SMSClientTypes.Server]?
@@ -3330,7 +3330,7 @@ extension ImportAppCatalogInput {
     }
 }
 
-public struct ImportAppCatalogInput: Swift.Equatable {
+public struct ImportAppCatalogInput {
     /// The name of the service role. If you omit this parameter, we create a service-linked role for Migration Hub in your account. Otherwise, the role that you provide must have the [policy and trust policy](https://docs.aws.amazon.com/migrationhub/latest/ug/new-customer-setup.html#sms-managed) described in the Migration Hub User Guide.
     public var roleName: Swift.String?
 
@@ -3342,7 +3342,7 @@ public struct ImportAppCatalogInput: Swift.Equatable {
     }
 }
 
-struct ImportAppCatalogInputBody: Swift.Equatable {
+struct ImportAppCatalogInputBody {
     let roleName: Swift.String?
 }
 
@@ -3363,7 +3363,7 @@ extension ImportAppCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportAppCatalogOutput: Swift.Equatable {
+public struct ImportAppCatalogOutput {
 
     public init() { }
 }
@@ -3398,12 +3398,12 @@ extension ImportServerCatalogInput {
     }
 }
 
-public struct ImportServerCatalogInput: Swift.Equatable {
+public struct ImportServerCatalogInput {
 
     public init() { }
 }
 
-struct ImportServerCatalogInputBody: Swift.Equatable {
+struct ImportServerCatalogInputBody {
 }
 
 extension ImportServerCatalogInputBody: Swift.Decodable {
@@ -3417,7 +3417,7 @@ extension ImportServerCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportServerCatalogOutput: Swift.Equatable {
+public struct ImportServerCatalogOutput {
 
     public init() { }
 }
@@ -3476,7 +3476,7 @@ public struct InternalError: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-struct InternalErrorBody: Swift.Equatable {
+struct InternalErrorBody {
     let message: Swift.String?
 }
 
@@ -3531,7 +3531,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -3567,7 +3567,7 @@ extension LaunchAppInput {
     }
 }
 
-public struct LaunchAppInput: Swift.Equatable {
+public struct LaunchAppInput {
     /// The ID of the application.
     public var appId: Swift.String?
 
@@ -3579,7 +3579,7 @@ public struct LaunchAppInput: Swift.Equatable {
     }
 }
 
-struct LaunchAppInputBody: Swift.Equatable {
+struct LaunchAppInputBody {
     let appId: Swift.String?
 }
 
@@ -3600,7 +3600,7 @@ extension LaunchAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct LaunchAppOutput: Swift.Equatable {
+public struct LaunchAppOutput {
 
     public init() { }
 }
@@ -3653,7 +3653,7 @@ extension SMSClientTypes.LaunchDetails: Swift.Codable {
 
 extension SMSClientTypes {
     /// Details about the latest launch of an application.
-    public struct LaunchDetails: Swift.Equatable {
+    public struct LaunchDetails {
         /// The latest time that this application was launched successfully.
         public var latestLaunchTime: ClientRuntime.Date?
         /// The ID of the latest stack launched for this application.
@@ -3738,7 +3738,7 @@ extension ListAppsInput {
     }
 }
 
-public struct ListAppsInput: Swift.Equatable {
+public struct ListAppsInput {
     /// The unique application IDs.
     public var appIds: [Swift.String]?
     /// The maximum number of results to return in a single call. The default value is 100. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -3758,7 +3758,7 @@ public struct ListAppsInput: Swift.Equatable {
     }
 }
 
-struct ListAppsInputBody: Swift.Equatable {
+struct ListAppsInputBody {
     let appIds: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3805,7 +3805,7 @@ extension ListAppsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppsOutput: Swift.Equatable {
+public struct ListAppsOutput {
     /// The application summaries.
     public var apps: [SMSClientTypes.AppSummary]?
     /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -3821,7 +3821,7 @@ public struct ListAppsOutput: Swift.Equatable {
     }
 }
 
-struct ListAppsOutputBody: Swift.Equatable {
+struct ListAppsOutputBody {
     let apps: [SMSClientTypes.AppSummary]?
     let nextToken: Swift.String?
 }
@@ -3904,7 +3904,7 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct MissingRequiredParameterExceptionBody: Swift.Equatable {
+struct MissingRequiredParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -3959,7 +3959,7 @@ public struct NoConnectorsAvailableException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct NoConnectorsAvailableExceptionBody: Swift.Equatable {
+struct NoConnectorsAvailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -4008,7 +4008,7 @@ extension SMSClientTypes.NotificationContext: Swift.Codable {
 
 extension SMSClientTypes {
     /// Contains the status of validating an application.
-    public struct NotificationContext: Swift.Equatable {
+    public struct NotificationContext {
         /// The status of the validation.
         public var status: SMSClientTypes.ValidationStatus?
         /// The status message.
@@ -4054,7 +4054,7 @@ extension NotifyAppValidationOutputInput {
     }
 }
 
-public struct NotifyAppValidationOutputInput: Swift.Equatable {
+public struct NotifyAppValidationOutputInput {
     /// The ID of the application.
     /// This member is required.
     public var appId: Swift.String?
@@ -4071,7 +4071,7 @@ public struct NotifyAppValidationOutputInput: Swift.Equatable {
     }
 }
 
-struct NotifyAppValidationOutputInputBody: Swift.Equatable {
+struct NotifyAppValidationOutputInputBody {
     let appId: Swift.String?
     let notificationContext: SMSClientTypes.NotificationContext?
 }
@@ -4096,7 +4096,7 @@ extension NotifyAppValidationOutputOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct NotifyAppValidationOutputOutput: Swift.Equatable {
+public struct NotifyAppValidationOutputOutput {
 
     public init() { }
 }
@@ -4155,7 +4155,7 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct OperationNotPermittedExceptionBody: Swift.Equatable {
+struct OperationNotPermittedExceptionBody {
     let message: Swift.String?
 }
 
@@ -4238,7 +4238,7 @@ extension PutAppLaunchConfigurationInput {
     }
 }
 
-public struct PutAppLaunchConfigurationInput: Swift.Equatable {
+public struct PutAppLaunchConfigurationInput {
     /// The ID of the application.
     public var appId: Swift.String?
     /// Indicates whether the application is configured to launch automatically after replication is complete.
@@ -4262,7 +4262,7 @@ public struct PutAppLaunchConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutAppLaunchConfigurationInputBody: Swift.Equatable {
+struct PutAppLaunchConfigurationInputBody {
     let appId: Swift.String?
     let roleName: Swift.String?
     let autoLaunch: Swift.Bool?
@@ -4304,7 +4304,7 @@ extension PutAppLaunchConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAppLaunchConfigurationOutput: Swift.Equatable {
+public struct PutAppLaunchConfigurationOutput {
 
     public init() { }
 }
@@ -4351,7 +4351,7 @@ extension PutAppReplicationConfigurationInput {
     }
 }
 
-public struct PutAppReplicationConfigurationInput: Swift.Equatable {
+public struct PutAppReplicationConfigurationInput {
     /// The ID of the application.
     public var appId: Swift.String?
     /// Information about the replication configurations for server groups in the application.
@@ -4367,7 +4367,7 @@ public struct PutAppReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutAppReplicationConfigurationInputBody: Swift.Equatable {
+struct PutAppReplicationConfigurationInputBody {
     let appId: Swift.String?
     let serverGroupReplicationConfigurations: [SMSClientTypes.ServerGroupReplicationConfiguration]?
 }
@@ -4401,7 +4401,7 @@ extension PutAppReplicationConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct PutAppReplicationConfigurationOutput: Swift.Equatable {
+public struct PutAppReplicationConfigurationOutput {
 
     public init() { }
 }
@@ -4455,7 +4455,7 @@ extension PutAppValidationConfigurationInput {
     }
 }
 
-public struct PutAppValidationConfigurationInput: Swift.Equatable {
+public struct PutAppValidationConfigurationInput {
     /// The ID of the application.
     /// This member is required.
     public var appId: Swift.String?
@@ -4476,7 +4476,7 @@ public struct PutAppValidationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutAppValidationConfigurationInputBody: Swift.Equatable {
+struct PutAppValidationConfigurationInputBody {
     let appId: Swift.String?
     let appValidationConfigurations: [SMSClientTypes.AppValidationConfiguration]?
     let serverGroupValidationConfigurations: [SMSClientTypes.ServerGroupValidationConfiguration]?
@@ -4523,7 +4523,7 @@ extension PutAppValidationConfigurationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct PutAppValidationConfigurationOutput: Swift.Equatable {
+public struct PutAppValidationConfigurationOutput {
 
     public init() { }
 }
@@ -4678,7 +4678,7 @@ extension SMSClientTypes.ReplicationJob: Swift.Codable {
 
 extension SMSClientTypes {
     /// Represents a replication job.
-    public struct ReplicationJob: Swift.Equatable {
+    public struct ReplicationJob {
         /// The description of the replication job.
         public var description: Swift.String?
         /// Indicates whether the replication job should produce encrypted AMIs.
@@ -4810,7 +4810,7 @@ public struct ReplicationJobAlreadyExistsException: ClientRuntime.ModeledError, 
     }
 }
 
-struct ReplicationJobAlreadyExistsExceptionBody: Swift.Equatable {
+struct ReplicationJobAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4865,7 +4865,7 @@ public struct ReplicationJobNotFoundException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ReplicationJobNotFoundExceptionBody: Swift.Equatable {
+struct ReplicationJobNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5012,7 +5012,7 @@ extension SMSClientTypes.ReplicationRun: Swift.Codable {
 
 extension SMSClientTypes {
     /// Represents a replication run.
-    public struct ReplicationRun: Swift.Equatable {
+    public struct ReplicationRun {
         /// The ID of the Amazon Machine Image (AMI) from the replication run.
         public var amiId: Swift.String?
         /// The completion time of the last replication run.
@@ -5116,7 +5116,7 @@ public struct ReplicationRunLimitExceededException: ClientRuntime.ModeledError, 
     }
 }
 
-struct ReplicationRunLimitExceededExceptionBody: Swift.Equatable {
+struct ReplicationRunLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5159,7 +5159,7 @@ extension SMSClientTypes.ReplicationRunStageDetails: Swift.Codable {
 
 extension SMSClientTypes {
     /// Details of the current stage of a replication run.
-    public struct ReplicationRunStageDetails: Swift.Equatable {
+    public struct ReplicationRunStageDetails {
         /// The current stage of a replication run.
         public var stage: Swift.String?
         /// The progress of the current stage of a replication run.
@@ -5283,7 +5283,7 @@ extension SMSClientTypes.S3Location: Swift.Codable {
 
 extension SMSClientTypes {
     /// Location of an Amazon S3 object.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// The Amazon S3 bucket name.
         public var bucket: Swift.String?
         /// The Amazon S3 bucket key.
@@ -5324,7 +5324,7 @@ extension SMSClientTypes.SSMOutput: Swift.Codable {
 
 extension SMSClientTypes {
     /// Contains the location of validation output.
-    public struct SSMOutput: Swift.Equatable {
+    public struct SSMOutput {
         /// Location of an Amazon S3 object.
         public var s3Location: SMSClientTypes.S3Location?
 
@@ -5389,7 +5389,7 @@ extension SMSClientTypes.SSMValidationParameters: Swift.Codable {
 
 extension SMSClientTypes {
     /// Contains validation parameters.
-    public struct SSMValidationParameters: Swift.Equatable {
+    public struct SSMValidationParameters {
         /// The command to run the validation script.
         public var command: Swift.String?
         /// The timeout interval, in seconds.
@@ -5500,7 +5500,7 @@ extension SMSClientTypes.Server: Swift.Codable {
 
 extension SMSClientTypes {
     /// Represents a server.
-    public struct Server: Swift.Equatable {
+    public struct Server {
         /// The ID of the replication job.
         public var replicationJobId: Swift.String?
         /// Indicates whether the replication job is deleted or failed.
@@ -5569,7 +5569,7 @@ public struct ServerCannotBeReplicatedException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct ServerCannotBeReplicatedExceptionBody: Swift.Equatable {
+struct ServerCannotBeReplicatedExceptionBody {
     let message: Swift.String?
 }
 
@@ -5671,7 +5671,7 @@ extension SMSClientTypes.ServerGroup: Swift.Codable {
 
 extension SMSClientTypes {
     /// Logical grouping of servers.
-    public struct ServerGroup: Swift.Equatable {
+    public struct ServerGroup {
         /// The name of a server group.
         public var name: Swift.String?
         /// The ID of a server group.
@@ -5738,7 +5738,7 @@ extension SMSClientTypes.ServerGroupLaunchConfiguration: Swift.Codable {
 
 extension SMSClientTypes {
     /// Launch configuration for a server group.
-    public struct ServerGroupLaunchConfiguration: Swift.Equatable {
+    public struct ServerGroupLaunchConfiguration {
         /// The launch order of servers in the server group.
         public var launchOrder: Swift.Int?
         /// The ID of the server group with which the launch configuration is associated.
@@ -5799,7 +5799,7 @@ extension SMSClientTypes.ServerGroupReplicationConfiguration: Swift.Codable {
 
 extension SMSClientTypes {
     /// Replication configuration for a server group.
-    public struct ServerGroupReplicationConfiguration: Swift.Equatable {
+    public struct ServerGroupReplicationConfiguration {
         /// The ID of the server group with which this replication configuration is associated.
         public var serverGroupId: Swift.String?
         /// The replication configuration for servers in the server group.
@@ -5856,7 +5856,7 @@ extension SMSClientTypes.ServerGroupValidationConfiguration: Swift.Codable {
 
 extension SMSClientTypes {
     /// Configuration for validating an instance.
-    public struct ServerGroupValidationConfiguration: Swift.Equatable {
+    public struct ServerGroupValidationConfiguration {
         /// The ID of the server group.
         public var serverGroupId: Swift.String?
         /// The validation configuration.
@@ -5961,7 +5961,7 @@ extension SMSClientTypes.ServerLaunchConfiguration: Swift.Codable {
 
 extension SMSClientTypes {
     /// Launch configuration for a server.
-    public struct ServerLaunchConfiguration: Swift.Equatable {
+    public struct ServerLaunchConfiguration {
         /// Indicates whether a publicly accessible IP address is created when launching the server.
         public var associatePublicIpAddress: Swift.Bool?
         /// Location of an Amazon S3 object.
@@ -6046,7 +6046,7 @@ extension SMSClientTypes.ServerReplicationConfiguration: Swift.Codable {
 
 extension SMSClientTypes {
     /// Replication configuration of a server.
-    public struct ServerReplicationConfiguration: Swift.Equatable {
+    public struct ServerReplicationConfiguration {
         /// The ID of the server with which this replication configuration is associated.
         public var server: SMSClientTypes.Server?
         /// The parameters for replicating the server.
@@ -6121,7 +6121,7 @@ extension SMSClientTypes.ServerReplicationParameters: Swift.Codable {
 
 extension SMSClientTypes {
     /// The replication parameters for replicating a server.
-    public struct ServerReplicationParameters: Swift.Equatable {
+    public struct ServerReplicationParameters {
         /// Indicates whether the replication job produces encrypted AMIs.
         public var encrypted: Swift.Bool?
         /// The frequency of creating replication jobs for the server.
@@ -6244,7 +6244,7 @@ extension SMSClientTypes.ServerValidationConfiguration: Swift.Codable {
 
 extension SMSClientTypes {
     /// Configuration for validating an instance.
-    public struct ServerValidationConfiguration: Swift.Equatable {
+    public struct ServerValidationConfiguration {
         /// The name of the configuration.
         public var name: Swift.String?
         /// Represents a server.
@@ -6295,7 +6295,7 @@ extension SMSClientTypes.ServerValidationOutput: Swift.Codable {
 
 extension SMSClientTypes {
     /// Contains output from validating an instance.
-    public struct ServerValidationOutput: Swift.Equatable {
+    public struct ServerValidationOutput {
         /// Represents a server.
         public var server: SMSClientTypes.Server?
 
@@ -6359,7 +6359,7 @@ extension SMSClientTypes.Source: Swift.Codable {
 
 extension SMSClientTypes {
     /// Contains the location of a validation script.
-    public struct Source: Swift.Equatable {
+    public struct Source {
         /// Location of an Amazon S3 object.
         public var s3Location: SMSClientTypes.S3Location?
 
@@ -6393,7 +6393,7 @@ extension StartAppReplicationInput {
     }
 }
 
-public struct StartAppReplicationInput: Swift.Equatable {
+public struct StartAppReplicationInput {
     /// The ID of the application.
     public var appId: Swift.String?
 
@@ -6405,7 +6405,7 @@ public struct StartAppReplicationInput: Swift.Equatable {
     }
 }
 
-struct StartAppReplicationInputBody: Swift.Equatable {
+struct StartAppReplicationInputBody {
     let appId: Swift.String?
 }
 
@@ -6426,7 +6426,7 @@ extension StartAppReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartAppReplicationOutput: Swift.Equatable {
+public struct StartAppReplicationOutput {
 
     public init() { }
 }
@@ -6470,7 +6470,7 @@ extension StartOnDemandAppReplicationInput {
     }
 }
 
-public struct StartOnDemandAppReplicationInput: Swift.Equatable {
+public struct StartOnDemandAppReplicationInput {
     /// The ID of the application.
     /// This member is required.
     public var appId: Swift.String?
@@ -6487,7 +6487,7 @@ public struct StartOnDemandAppReplicationInput: Swift.Equatable {
     }
 }
 
-struct StartOnDemandAppReplicationInputBody: Swift.Equatable {
+struct StartOnDemandAppReplicationInputBody {
     let appId: Swift.String?
     let description: Swift.String?
 }
@@ -6512,7 +6512,7 @@ extension StartOnDemandAppReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartOnDemandAppReplicationOutput: Swift.Equatable {
+public struct StartOnDemandAppReplicationOutput {
 
     public init() { }
 }
@@ -6556,7 +6556,7 @@ extension StartOnDemandReplicationRunInput {
     }
 }
 
-public struct StartOnDemandReplicationRunInput: Swift.Equatable {
+public struct StartOnDemandReplicationRunInput {
     /// The description of the replication run.
     public var description: Swift.String?
     /// The ID of the replication job.
@@ -6573,7 +6573,7 @@ public struct StartOnDemandReplicationRunInput: Swift.Equatable {
     }
 }
 
-struct StartOnDemandReplicationRunInputBody: Swift.Equatable {
+struct StartOnDemandReplicationRunInputBody {
     let replicationJobId: Swift.String?
     let description: Swift.String?
 }
@@ -6605,7 +6605,7 @@ extension StartOnDemandReplicationRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartOnDemandReplicationRunOutput: Swift.Equatable {
+public struct StartOnDemandReplicationRunOutput {
     /// The ID of the replication run.
     public var replicationRunId: Swift.String?
 
@@ -6617,7 +6617,7 @@ public struct StartOnDemandReplicationRunOutput: Swift.Equatable {
     }
 }
 
-struct StartOnDemandReplicationRunOutputBody: Swift.Equatable {
+struct StartOnDemandReplicationRunOutputBody {
     let replicationRunId: Swift.String?
 }
 
@@ -6669,7 +6669,7 @@ extension StopAppReplicationInput {
     }
 }
 
-public struct StopAppReplicationInput: Swift.Equatable {
+public struct StopAppReplicationInput {
     /// The ID of the application.
     public var appId: Swift.String?
 
@@ -6681,7 +6681,7 @@ public struct StopAppReplicationInput: Swift.Equatable {
     }
 }
 
-struct StopAppReplicationInputBody: Swift.Equatable {
+struct StopAppReplicationInputBody {
     let appId: Swift.String?
 }
 
@@ -6702,7 +6702,7 @@ extension StopAppReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopAppReplicationOutput: Swift.Equatable {
+public struct StopAppReplicationOutput {
 
     public init() { }
 }
@@ -6749,7 +6749,7 @@ extension SMSClientTypes.Tag: Swift.Codable {
 
 extension SMSClientTypes {
     /// Key/value pair that can be assigned to an application.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag key.
         public var key: Swift.String?
         /// The tag value.
@@ -6808,7 +6808,7 @@ extension TerminateAppInput {
     }
 }
 
-public struct TerminateAppInput: Swift.Equatable {
+public struct TerminateAppInput {
     /// The ID of the application.
     public var appId: Swift.String?
 
@@ -6820,7 +6820,7 @@ public struct TerminateAppInput: Swift.Equatable {
     }
 }
 
-struct TerminateAppInputBody: Swift.Equatable {
+struct TerminateAppInputBody {
     let appId: Swift.String?
 }
 
@@ -6841,7 +6841,7 @@ extension TerminateAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TerminateAppOutput: Swift.Equatable {
+public struct TerminateAppOutput {
 
     public init() { }
 }
@@ -6900,7 +6900,7 @@ public struct UnauthorizedOperationException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct UnauthorizedOperationExceptionBody: Swift.Equatable {
+struct UnauthorizedOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -6962,7 +6962,7 @@ extension UpdateAppInput {
     }
 }
 
-public struct UpdateAppInput: Swift.Equatable {
+public struct UpdateAppInput {
     /// The ID of the application.
     public var appId: Swift.String?
     /// The new description of the application.
@@ -6994,7 +6994,7 @@ public struct UpdateAppInput: Swift.Equatable {
     }
 }
 
-struct UpdateAppInputBody: Swift.Equatable {
+struct UpdateAppInputBody {
     let appId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -7064,7 +7064,7 @@ extension UpdateAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAppOutput: Swift.Equatable {
+public struct UpdateAppOutput {
     /// A summary description of the application.
     public var appSummary: SMSClientTypes.AppSummary?
     /// The updated server groups in the application.
@@ -7084,7 +7084,7 @@ public struct UpdateAppOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAppOutputBody: Swift.Equatable {
+struct UpdateAppOutputBody {
     let appSummary: SMSClientTypes.AppSummary?
     let serverGroups: [SMSClientTypes.ServerGroup]?
     let tags: [SMSClientTypes.Tag]?
@@ -7193,7 +7193,7 @@ extension UpdateReplicationJobInput {
     }
 }
 
-public struct UpdateReplicationJobInput: Swift.Equatable {
+public struct UpdateReplicationJobInput {
     /// The description of the replication job.
     public var description: Swift.String?
     /// When true, the replication job produces encrypted AMIs. For more information, KmsKeyId.
@@ -7249,7 +7249,7 @@ public struct UpdateReplicationJobInput: Swift.Equatable {
     }
 }
 
-struct UpdateReplicationJobInputBody: Swift.Equatable {
+struct UpdateReplicationJobInputBody {
     let replicationJobId: Swift.String?
     let frequency: Swift.Int?
     let nextReplicationRunStartTime: ClientRuntime.Date?
@@ -7302,7 +7302,7 @@ extension UpdateReplicationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateReplicationJobOutput: Swift.Equatable {
+public struct UpdateReplicationJobOutput {
 
     public init() { }
 }
@@ -7346,7 +7346,7 @@ extension SMSClientTypes.UserData: Swift.Codable {
 
 extension SMSClientTypes {
     /// A script that runs on first launch of an Amazon EC2 instance. Used for configuring the server during launch.
-    public struct UserData: Swift.Equatable {
+    public struct UserData {
         /// Amazon S3 location of the user-data script.
         public var s3Location: SMSClientTypes.S3Location?
 
@@ -7387,7 +7387,7 @@ extension SMSClientTypes.UserDataValidationParameters: Swift.Codable {
 
 extension SMSClientTypes {
     /// Contains validation parameters.
-    public struct UserDataValidationParameters: Swift.Equatable {
+    public struct UserDataValidationParameters {
         /// The type of validation script.
         public var scriptType: SMSClientTypes.ScriptType?
         /// The location of the validation script.
@@ -7462,7 +7462,7 @@ extension SMSClientTypes.ValidationOutput: Swift.Codable {
 
 extension SMSClientTypes {
     /// Contains validation output.
-    public struct ValidationOutput: Swift.Equatable {
+    public struct ValidationOutput {
         /// The output from validating an application.
         public var appValidationOutput: SMSClientTypes.AppValidationOutput?
         /// The latest time that the validation was performed.
@@ -7621,7 +7621,7 @@ extension SMSClientTypes.VmServer: Swift.Codable {
 
 extension SMSClientTypes {
     /// Represents a VM server.
-    public struct VmServer: Swift.Equatable {
+    public struct VmServer {
         /// The name of the VM manager.
         public var vmManagerName: Swift.String?
         /// The type of VM management product.
@@ -7678,7 +7678,7 @@ extension SMSClientTypes.VmServerAddress: Swift.Codable {
 
 extension SMSClientTypes {
     /// Represents a VM server location.
-    public struct VmServerAddress: Swift.Equatable {
+    public struct VmServerAddress {
         /// The ID of the VM.
         public var vmId: Swift.String?
         /// The ID of the VM manager.

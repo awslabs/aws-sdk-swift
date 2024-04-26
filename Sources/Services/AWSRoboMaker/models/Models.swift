@@ -60,7 +60,7 @@ extension BatchDeleteWorldsInput {
     }
 }
 
-public struct BatchDeleteWorldsInput: Swift.Equatable {
+public struct BatchDeleteWorldsInput {
     /// A list of Amazon Resource Names (arns) that correspond to worlds to delete.
     /// This member is required.
     public var worlds: [Swift.String]?
@@ -73,7 +73,7 @@ public struct BatchDeleteWorldsInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteWorldsInputBody: Swift.Equatable {
+struct BatchDeleteWorldsInputBody {
     let worlds: [Swift.String]?
 }
 
@@ -110,7 +110,7 @@ extension BatchDeleteWorldsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteWorldsOutput: Swift.Equatable {
+public struct BatchDeleteWorldsOutput {
     /// A list of unprocessed worlds associated with the call. These worlds were not deleted.
     public var unprocessedWorlds: [Swift.String]?
 
@@ -122,7 +122,7 @@ public struct BatchDeleteWorldsOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteWorldsOutputBody: Swift.Equatable {
+struct BatchDeleteWorldsOutputBody {
     let unprocessedWorlds: [Swift.String]?
 }
 
@@ -183,7 +183,7 @@ extension BatchDescribeSimulationJobInput {
     }
 }
 
-public struct BatchDescribeSimulationJobInput: Swift.Equatable {
+public struct BatchDescribeSimulationJobInput {
     /// A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
     /// This member is required.
     public var jobs: [Swift.String]?
@@ -196,7 +196,7 @@ public struct BatchDescribeSimulationJobInput: Swift.Equatable {
     }
 }
 
-struct BatchDescribeSimulationJobInputBody: Swift.Equatable {
+struct BatchDescribeSimulationJobInputBody {
     let jobs: [Swift.String]?
 }
 
@@ -235,7 +235,7 @@ extension BatchDescribeSimulationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDescribeSimulationJobOutput: Swift.Equatable {
+public struct BatchDescribeSimulationJobOutput {
     /// A list of simulation jobs.
     public var jobs: [RoboMakerClientTypes.SimulationJob]?
     /// A list of unprocessed simulation job Amazon Resource Names (ARNs).
@@ -251,7 +251,7 @@ public struct BatchDescribeSimulationJobOutput: Swift.Equatable {
     }
 }
 
-struct BatchDescribeSimulationJobOutputBody: Swift.Equatable {
+struct BatchDescribeSimulationJobOutputBody {
     let jobs: [RoboMakerClientTypes.SimulationJob]?
     let unprocessedJobs: [Swift.String]?
 }
@@ -330,7 +330,7 @@ extension RoboMakerClientTypes.BatchPolicy: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about the batch policy.
-    public struct BatchPolicy: Swift.Equatable {
+    public struct BatchPolicy {
         /// The number of active simulation jobs create as part of the batch that can be in an active state at the same time. Active states include: Pending,Preparing, Running, Restarting, RunningFailed and Terminating. All other states are terminal states.
         public var maxConcurrency: Swift.Int?
         /// The amount of time, in seconds, to wait for the batch to complete. If a batch times out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), they will be moved to the failed list and the batch status will be Failed. If the pending requests were failing for any other reason, the failed pending requests will be moved to the failed list and the batch status will be TimedOut.
@@ -369,7 +369,7 @@ extension CancelDeploymentJobInput {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CancelDeploymentJobInput: Swift.Equatable {
+public struct CancelDeploymentJobInput {
     /// The deployment job ARN to cancel.
     /// This member is required.
     public var job: Swift.String?
@@ -382,7 +382,7 @@ public struct CancelDeploymentJobInput: Swift.Equatable {
     }
 }
 
-struct CancelDeploymentJobInputBody: Swift.Equatable {
+struct CancelDeploymentJobInputBody {
     let job: Swift.String?
 }
 
@@ -404,7 +404,7 @@ extension CancelDeploymentJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CancelDeploymentJobOutput: Swift.Equatable {
+public struct CancelDeploymentJobOutput {
 
     public init() { }
 }
@@ -443,7 +443,7 @@ extension CancelSimulationJobBatchInput {
     }
 }
 
-public struct CancelSimulationJobBatchInput: Swift.Equatable {
+public struct CancelSimulationJobBatchInput {
     /// The id of the batch to cancel.
     /// This member is required.
     public var batch: Swift.String?
@@ -456,7 +456,7 @@ public struct CancelSimulationJobBatchInput: Swift.Equatable {
     }
 }
 
-struct CancelSimulationJobBatchInputBody: Swift.Equatable {
+struct CancelSimulationJobBatchInputBody {
     let batch: Swift.String?
 }
 
@@ -477,7 +477,7 @@ extension CancelSimulationJobBatchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelSimulationJobBatchOutput: Swift.Equatable {
+public struct CancelSimulationJobBatchOutput {
 
     public init() { }
 }
@@ -516,7 +516,7 @@ extension CancelSimulationJobInput {
     }
 }
 
-public struct CancelSimulationJobInput: Swift.Equatable {
+public struct CancelSimulationJobInput {
     /// The simulation job ARN to cancel.
     /// This member is required.
     public var job: Swift.String?
@@ -529,7 +529,7 @@ public struct CancelSimulationJobInput: Swift.Equatable {
     }
 }
 
-struct CancelSimulationJobInputBody: Swift.Equatable {
+struct CancelSimulationJobInputBody {
     let job: Swift.String?
 }
 
@@ -550,7 +550,7 @@ extension CancelSimulationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelSimulationJobOutput: Swift.Equatable {
+public struct CancelSimulationJobOutput {
 
     public init() { }
 }
@@ -589,7 +589,7 @@ extension CancelWorldExportJobInput {
     }
 }
 
-public struct CancelWorldExportJobInput: Swift.Equatable {
+public struct CancelWorldExportJobInput {
     /// The Amazon Resource Name (arn) of the world export job to cancel.
     /// This member is required.
     public var job: Swift.String?
@@ -602,7 +602,7 @@ public struct CancelWorldExportJobInput: Swift.Equatable {
     }
 }
 
-struct CancelWorldExportJobInputBody: Swift.Equatable {
+struct CancelWorldExportJobInputBody {
     let job: Swift.String?
 }
 
@@ -623,7 +623,7 @@ extension CancelWorldExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelWorldExportJobOutput: Swift.Equatable {
+public struct CancelWorldExportJobOutput {
 
     public init() { }
 }
@@ -662,7 +662,7 @@ extension CancelWorldGenerationJobInput {
     }
 }
 
-public struct CancelWorldGenerationJobInput: Swift.Equatable {
+public struct CancelWorldGenerationJobInput {
     /// The Amazon Resource Name (arn) of the world generator job to cancel.
     /// This member is required.
     public var job: Swift.String?
@@ -675,7 +675,7 @@ public struct CancelWorldGenerationJobInput: Swift.Equatable {
     }
 }
 
-struct CancelWorldGenerationJobInputBody: Swift.Equatable {
+struct CancelWorldGenerationJobInputBody {
     let job: Swift.String?
 }
 
@@ -696,7 +696,7 @@ extension CancelWorldGenerationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelWorldGenerationJobOutput: Swift.Equatable {
+public struct CancelWorldGenerationJobOutput {
 
     public init() { }
 }
@@ -748,7 +748,7 @@ extension RoboMakerClientTypes.Compute: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Compute information for the simulation job.
-    public struct Compute: Swift.Equatable {
+    public struct Compute {
         /// Compute type information for the simulation job.
         public var computeType: RoboMakerClientTypes.ComputeType?
         /// Compute GPU unit limit for the simulation job. It is the same as the number of GPUs allocated to the SimulationJob.
@@ -803,7 +803,7 @@ extension RoboMakerClientTypes.ComputeResponse: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Compute information for the simulation job
-    public struct ComputeResponse: Swift.Equatable {
+    public struct ComputeResponse {
         /// Compute type response information for the simulation job.
         public var computeType: RoboMakerClientTypes.ComputeType?
         /// Compute GPU unit limit for the simulation job. It is the same as the number of GPUs allocated to the SimulationJob.
@@ -896,7 +896,7 @@ public struct ConcurrentDeploymentException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ConcurrentDeploymentExceptionBody: Swift.Equatable {
+struct ConcurrentDeploymentExceptionBody {
     let message: Swift.String?
 }
 
@@ -955,7 +955,7 @@ extension CreateDeploymentJobInput {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CreateDeploymentJobInput: Swift.Equatable {
+public struct CreateDeploymentJobInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -986,7 +986,7 @@ public struct CreateDeploymentJobInput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentJobInputBody: Swift.Equatable {
+struct CreateDeploymentJobInputBody {
     let deploymentConfig: RoboMakerClientTypes.DeploymentConfig?
     let clientRequestToken: Swift.String?
     let fleet: Swift.String?
@@ -1065,7 +1065,7 @@ extension CreateDeploymentJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CreateDeploymentJobOutput: Swift.Equatable {
+public struct CreateDeploymentJobOutput {
     /// The Amazon Resource Name (ARN) of the deployment job.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -1109,7 +1109,7 @@ public struct CreateDeploymentJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentJobOutputBody: Swift.Equatable {
+struct CreateDeploymentJobOutputBody {
     let arn: Swift.String?
     let fleet: Swift.String?
     let status: RoboMakerClientTypes.DeploymentStatus?
@@ -1220,7 +1220,7 @@ extension CreateFleetInput {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CreateFleetInput: Swift.Equatable {
+public struct CreateFleetInput {
     /// The name of the fleet.
     /// This member is required.
     public var name: Swift.String?
@@ -1237,7 +1237,7 @@ public struct CreateFleetInput: Swift.Equatable {
     }
 }
 
-struct CreateFleetInputBody: Swift.Equatable {
+struct CreateFleetInputBody {
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1285,7 +1285,7 @@ extension CreateFleetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CreateFleetOutput: Swift.Equatable {
+public struct CreateFleetOutput {
     /// The Amazon Resource Name (ARN) of the fleet.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -1309,7 +1309,7 @@ public struct CreateFleetOutput: Swift.Equatable {
     }
 }
 
-struct CreateFleetOutputBody: Swift.Equatable {
+struct CreateFleetOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -1402,7 +1402,7 @@ extension CreateRobotApplicationInput {
     }
 }
 
-public struct CreateRobotApplicationInput: Swift.Equatable {
+public struct CreateRobotApplicationInput {
     /// The object that contains that URI of the Docker image that you use for your robot application.
     public var environment: RoboMakerClientTypes.Environment?
     /// The name of the robot application.
@@ -1432,7 +1432,7 @@ public struct CreateRobotApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateRobotApplicationInputBody: Swift.Equatable {
+struct CreateRobotApplicationInputBody {
     let name: Swift.String?
     let sources: [RoboMakerClientTypes.SourceConfig]?
     let robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
@@ -1510,7 +1510,7 @@ extension CreateRobotApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRobotApplicationOutput: Swift.Equatable {
+public struct CreateRobotApplicationOutput {
     /// The Amazon Resource Name (ARN) of the robot application.
     public var arn: Swift.String?
     /// An object that contains the Docker image URI used to a create your robot application.
@@ -1554,7 +1554,7 @@ public struct CreateRobotApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateRobotApplicationOutputBody: Swift.Equatable {
+struct CreateRobotApplicationOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -1671,7 +1671,7 @@ extension CreateRobotApplicationVersionInput {
     }
 }
 
-public struct CreateRobotApplicationVersionInput: Swift.Equatable {
+public struct CreateRobotApplicationVersionInput {
     /// The application information for the robot application.
     /// This member is required.
     public var application: Swift.String?
@@ -1696,7 +1696,7 @@ public struct CreateRobotApplicationVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateRobotApplicationVersionInputBody: Swift.Equatable {
+struct CreateRobotApplicationVersionInputBody {
     let application: Swift.String?
     let currentRevisionId: Swift.String?
     let s3Etags: [Swift.String]?
@@ -1759,7 +1759,7 @@ extension CreateRobotApplicationVersionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateRobotApplicationVersionOutput: Swift.Equatable {
+public struct CreateRobotApplicationVersionOutput {
     /// The Amazon Resource Name (ARN) of the robot application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI used to create your robot application.
@@ -1799,7 +1799,7 @@ public struct CreateRobotApplicationVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateRobotApplicationVersionOutputBody: Swift.Equatable {
+struct CreateRobotApplicationVersionOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -1903,7 +1903,7 @@ extension CreateRobotInput {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CreateRobotInput: Swift.Equatable {
+public struct CreateRobotInput {
     /// The target architecture of the robot.
     /// This member is required.
     public var architecture: RoboMakerClientTypes.Architecture?
@@ -1930,7 +1930,7 @@ public struct CreateRobotInput: Swift.Equatable {
     }
 }
 
-struct CreateRobotInputBody: Swift.Equatable {
+struct CreateRobotInputBody {
     let name: Swift.String?
     let architecture: RoboMakerClientTypes.Architecture?
     let greengrassGroupId: Swift.String?
@@ -1990,7 +1990,7 @@ extension CreateRobotOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct CreateRobotOutput: Swift.Equatable {
+public struct CreateRobotOutput {
     /// The target architecture of the robot.
     public var architecture: RoboMakerClientTypes.Architecture?
     /// The Amazon Resource Name (ARN) of the robot.
@@ -2022,7 +2022,7 @@ public struct CreateRobotOutput: Swift.Equatable {
     }
 }
 
-struct CreateRobotOutputBody: Swift.Equatable {
+struct CreateRobotOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -2132,7 +2132,7 @@ extension CreateSimulationApplicationInput {
     }
 }
 
-public struct CreateSimulationApplicationInput: Swift.Equatable {
+public struct CreateSimulationApplicationInput {
     /// The object that contains the Docker image URI used to create your simulation application.
     public var environment: RoboMakerClientTypes.Environment?
     /// The name of the simulation application.
@@ -2171,7 +2171,7 @@ public struct CreateSimulationApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateSimulationApplicationInputBody: Swift.Equatable {
+struct CreateSimulationApplicationInputBody {
     let name: Swift.String?
     let sources: [RoboMakerClientTypes.SourceConfig]?
     let simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite?
@@ -2261,7 +2261,7 @@ extension CreateSimulationApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSimulationApplicationOutput: Swift.Equatable {
+public struct CreateSimulationApplicationOutput {
     /// The Amazon Resource Name (ARN) of the simulation application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI that you used to create your simulation application.
@@ -2313,7 +2313,7 @@ public struct CreateSimulationApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateSimulationApplicationOutputBody: Swift.Equatable {
+struct CreateSimulationApplicationOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -2438,7 +2438,7 @@ extension CreateSimulationApplicationVersionInput {
     }
 }
 
-public struct CreateSimulationApplicationVersionInput: Swift.Equatable {
+public struct CreateSimulationApplicationVersionInput {
     /// The application information for the simulation application.
     /// This member is required.
     public var application: Swift.String?
@@ -2463,7 +2463,7 @@ public struct CreateSimulationApplicationVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateSimulationApplicationVersionInputBody: Swift.Equatable {
+struct CreateSimulationApplicationVersionInputBody {
     let application: Swift.String?
     let currentRevisionId: Swift.String?
     let s3Etags: [Swift.String]?
@@ -2530,7 +2530,7 @@ extension CreateSimulationApplicationVersionOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct CreateSimulationApplicationVersionOutput: Swift.Equatable {
+public struct CreateSimulationApplicationVersionOutput {
     /// The Amazon Resource Name (ARN) of the simulation application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI used to create the simulation application.
@@ -2578,7 +2578,7 @@ public struct CreateSimulationApplicationVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateSimulationApplicationVersionOutputBody: Swift.Equatable {
+struct CreateSimulationApplicationVersionOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -2730,7 +2730,7 @@ extension CreateSimulationJobInput {
     }
 }
 
-public struct CreateSimulationJobInput: Swift.Equatable {
+public struct CreateSimulationJobInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// Compute information for the simulation job.
@@ -2788,7 +2788,7 @@ public struct CreateSimulationJobInput: Swift.Equatable {
     }
 }
 
-struct CreateSimulationJobInputBody: Swift.Equatable {
+struct CreateSimulationJobInputBody {
     let clientRequestToken: Swift.String?
     let outputLocation: RoboMakerClientTypes.OutputLocation?
     let loggingConfig: RoboMakerClientTypes.LoggingConfig?
@@ -2930,7 +2930,7 @@ extension CreateSimulationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSimulationJobOutput: Swift.Equatable {
+public struct CreateSimulationJobOutput {
     /// The Amazon Resource Name (ARN) of the simulation job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -3010,7 +3010,7 @@ public struct CreateSimulationJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateSimulationJobOutputBody: Swift.Equatable {
+struct CreateSimulationJobOutputBody {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.SimulationJobStatus?
     let lastStartedAt: ClientRuntime.Date?
@@ -3189,7 +3189,7 @@ extension CreateWorldExportJobInput {
     }
 }
 
-public struct CreateWorldExportJobInput: Swift.Equatable {
+public struct CreateWorldExportJobInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The IAM role that the world export process uses to access the Amazon S3 bucket and put the export.
@@ -3220,7 +3220,7 @@ public struct CreateWorldExportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateWorldExportJobInputBody: Swift.Equatable {
+struct CreateWorldExportJobInputBody {
     let clientRequestToken: Swift.String?
     let worlds: [Swift.String]?
     let outputLocation: RoboMakerClientTypes.OutputLocation?
@@ -3296,7 +3296,7 @@ extension CreateWorldExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorldExportJobOutput: Swift.Equatable {
+public struct CreateWorldExportJobOutput {
     /// The Amazon Resource Name (ARN) of the world export job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -3336,7 +3336,7 @@ public struct CreateWorldExportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorldExportJobOutputBody: Swift.Equatable {
+struct CreateWorldExportJobOutputBody {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.WorldExportJobStatus?
     let createdAt: ClientRuntime.Date?
@@ -3447,7 +3447,7 @@ extension CreateWorldGenerationJobInput {
     }
 }
 
-public struct CreateWorldGenerationJobInput: Swift.Equatable {
+public struct CreateWorldGenerationJobInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// A map that contains tag keys and tag values that are attached to the world generator job.
@@ -3477,7 +3477,7 @@ public struct CreateWorldGenerationJobInput: Swift.Equatable {
     }
 }
 
-struct CreateWorldGenerationJobInputBody: Swift.Equatable {
+struct CreateWorldGenerationJobInputBody {
     let clientRequestToken: Swift.String?
     let template: Swift.String?
     let worldCount: RoboMakerClientTypes.WorldCount?
@@ -3555,7 +3555,7 @@ extension CreateWorldGenerationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorldGenerationJobOutput: Swift.Equatable {
+public struct CreateWorldGenerationJobOutput {
     /// The Amazon Resource Name (ARN) of the world generator job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -3599,7 +3599,7 @@ public struct CreateWorldGenerationJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorldGenerationJobOutputBody: Swift.Equatable {
+struct CreateWorldGenerationJobOutputBody {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.WorldGenerationJobStatus?
     let createdAt: ClientRuntime.Date?
@@ -3721,7 +3721,7 @@ extension CreateWorldTemplateInput {
     }
 }
 
-public struct CreateWorldTemplateInput: Swift.Equatable {
+public struct CreateWorldTemplateInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The name of the world template.
@@ -3749,7 +3749,7 @@ public struct CreateWorldTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateWorldTemplateInputBody: Swift.Equatable {
+struct CreateWorldTemplateInputBody {
     let clientRequestToken: Swift.String?
     let name: Swift.String?
     let templateBody: Swift.String?
@@ -3810,7 +3810,7 @@ extension CreateWorldTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorldTemplateOutput: Swift.Equatable {
+public struct CreateWorldTemplateOutput {
     /// The Amazon Resource Name (ARN) of the world template.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -3838,7 +3838,7 @@ public struct CreateWorldTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorldTemplateOutputBody: Swift.Equatable {
+struct CreateWorldTemplateOutputBody {
     let arn: Swift.String?
     let clientRequestToken: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -3952,7 +3952,7 @@ extension RoboMakerClientTypes.DataSource: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a data source.
-    public struct DataSource: Swift.Equatable {
+    public struct DataSource {
         /// The location where your files are mounted in the container image. If you've specified the type of the data source as an Archive, you must provide an Amazon S3 object key to your archive. The object key must point to either a .zip or .tar.gz file. If you've specified the type of the data source as a Prefix, you provide the Amazon S3 prefix that points to the files that you are using for your data source. If you've specified the type of the data source as a File, you provide the Amazon S3 path to the file that you're using as your data source.
         public var destination: Swift.String?
         /// The name of the data source.
@@ -4039,7 +4039,7 @@ extension RoboMakerClientTypes.DataSourceConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a data source.
-    public struct DataSourceConfig: Swift.Equatable {
+    public struct DataSourceConfig {
         /// The location where your files are mounted in the container image. If you've specified the type of the data source as an Archive, you must provide an Amazon S3 object key to your archive. The object key must point to either a .zip or .tar.gz file. If you've specified the type of the data source as a Prefix, you provide the Amazon S3 prefix that points to the files that you are using for your data source. If you've specified the type of the data source as a File, you provide the Amazon S3 path to the file that you're using as your data source.
         public var destination: Swift.String?
         /// The name of the data source.
@@ -4128,7 +4128,7 @@ extension DeleteFleetInput {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DeleteFleetInput: Swift.Equatable {
+public struct DeleteFleetInput {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var fleet: Swift.String?
@@ -4141,7 +4141,7 @@ public struct DeleteFleetInput: Swift.Equatable {
     }
 }
 
-struct DeleteFleetInputBody: Swift.Equatable {
+struct DeleteFleetInputBody {
     let fleet: Swift.String?
 }
 
@@ -4163,7 +4163,7 @@ extension DeleteFleetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DeleteFleetOutput: Swift.Equatable {
+public struct DeleteFleetOutput {
 
     public init() { }
 }
@@ -4205,7 +4205,7 @@ extension DeleteRobotApplicationInput {
     }
 }
 
-public struct DeleteRobotApplicationInput: Swift.Equatable {
+public struct DeleteRobotApplicationInput {
     /// The Amazon Resource Name (ARN) of the the robot application.
     /// This member is required.
     public var application: Swift.String?
@@ -4222,7 +4222,7 @@ public struct DeleteRobotApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteRobotApplicationInputBody: Swift.Equatable {
+struct DeleteRobotApplicationInputBody {
     let application: Swift.String?
     let applicationVersion: Swift.String?
 }
@@ -4247,7 +4247,7 @@ extension DeleteRobotApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRobotApplicationOutput: Swift.Equatable {
+public struct DeleteRobotApplicationOutput {
 
     public init() { }
 }
@@ -4286,7 +4286,7 @@ extension DeleteRobotInput {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DeleteRobotInput: Swift.Equatable {
+public struct DeleteRobotInput {
     /// The Amazon Resource Name (ARN) of the robot.
     /// This member is required.
     public var robot: Swift.String?
@@ -4299,7 +4299,7 @@ public struct DeleteRobotInput: Swift.Equatable {
     }
 }
 
-struct DeleteRobotInputBody: Swift.Equatable {
+struct DeleteRobotInputBody {
     let robot: Swift.String?
 }
 
@@ -4321,7 +4321,7 @@ extension DeleteRobotOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DeleteRobotOutput: Swift.Equatable {
+public struct DeleteRobotOutput {
 
     public init() { }
 }
@@ -4363,7 +4363,7 @@ extension DeleteSimulationApplicationInput {
     }
 }
 
-public struct DeleteSimulationApplicationInput: Swift.Equatable {
+public struct DeleteSimulationApplicationInput {
     /// The application information for the simulation application to delete.
     /// This member is required.
     public var application: Swift.String?
@@ -4380,7 +4380,7 @@ public struct DeleteSimulationApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteSimulationApplicationInputBody: Swift.Equatable {
+struct DeleteSimulationApplicationInputBody {
     let application: Swift.String?
     let applicationVersion: Swift.String?
 }
@@ -4405,7 +4405,7 @@ extension DeleteSimulationApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSimulationApplicationOutput: Swift.Equatable {
+public struct DeleteSimulationApplicationOutput {
 
     public init() { }
 }
@@ -4443,7 +4443,7 @@ extension DeleteWorldTemplateInput {
     }
 }
 
-public struct DeleteWorldTemplateInput: Swift.Equatable {
+public struct DeleteWorldTemplateInput {
     /// The Amazon Resource Name (arn) of the world template you want to delete.
     /// This member is required.
     public var template: Swift.String?
@@ -4456,7 +4456,7 @@ public struct DeleteWorldTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorldTemplateInputBody: Swift.Equatable {
+struct DeleteWorldTemplateInputBody {
     let template: Swift.String?
 }
 
@@ -4477,7 +4477,7 @@ extension DeleteWorldTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorldTemplateOutput: Swift.Equatable {
+public struct DeleteWorldTemplateOutput {
 
     public init() { }
 }
@@ -4529,7 +4529,7 @@ extension RoboMakerClientTypes.DeploymentApplicationConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a deployment application configuration.
-    public struct DeploymentApplicationConfig: Swift.Equatable {
+    public struct DeploymentApplicationConfig {
         /// The Amazon Resource Name (ARN) of the robot application.
         /// This member is required.
         public var application: Swift.String?
@@ -4593,7 +4593,7 @@ extension RoboMakerClientTypes.DeploymentConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a deployment configuration.
-    public struct DeploymentConfig: Swift.Equatable {
+    public struct DeploymentConfig {
         /// The percentage of robots receiving the deployment at the same time.
         public var concurrentDeploymentPercentage: Swift.Int?
         /// The download condition file.
@@ -4694,7 +4694,7 @@ extension RoboMakerClientTypes.DeploymentJob: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a deployment job.
-    public struct DeploymentJob: Swift.Equatable {
+    public struct DeploymentJob {
         /// The Amazon Resource Name (ARN) of the deployment job.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the deployment job was created.
@@ -4891,7 +4891,7 @@ extension RoboMakerClientTypes.DeploymentLaunchConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Configuration information for a deployment launch.
-    public struct DeploymentLaunchConfig: Swift.Equatable {
+    public struct DeploymentLaunchConfig {
         /// An array of key/value pairs specifying environment variables for the robot application
         public var environmentVariables: [Swift.String:Swift.String]?
         /// The launch file name.
@@ -4992,7 +4992,7 @@ extension DeregisterRobotInput {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DeregisterRobotInput: Swift.Equatable {
+public struct DeregisterRobotInput {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var fleet: Swift.String?
@@ -5010,7 +5010,7 @@ public struct DeregisterRobotInput: Swift.Equatable {
     }
 }
 
-struct DeregisterRobotInputBody: Swift.Equatable {
+struct DeregisterRobotInputBody {
     let fleet: Swift.String?
     let robot: Swift.String?
 }
@@ -5045,7 +5045,7 @@ extension DeregisterRobotOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DeregisterRobotOutput: Swift.Equatable {
+public struct DeregisterRobotOutput {
     /// The Amazon Resource Name (ARN) of the fleet.
     public var fleet: Swift.String?
     /// The Amazon Resource Name (ARN) of the robot.
@@ -5061,7 +5061,7 @@ public struct DeregisterRobotOutput: Swift.Equatable {
     }
 }
 
-struct DeregisterRobotOutputBody: Swift.Equatable {
+struct DeregisterRobotOutputBody {
     let fleet: Swift.String?
     let robot: Swift.String?
 }
@@ -5116,7 +5116,7 @@ extension DescribeDeploymentJobInput {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DescribeDeploymentJobInput: Swift.Equatable {
+public struct DescribeDeploymentJobInput {
     /// The Amazon Resource Name (ARN) of the deployment job.
     /// This member is required.
     public var job: Swift.String?
@@ -5129,7 +5129,7 @@ public struct DescribeDeploymentJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeDeploymentJobInputBody: Swift.Equatable {
+struct DescribeDeploymentJobInputBody {
     let job: Swift.String?
 }
 
@@ -5176,7 +5176,7 @@ extension DescribeDeploymentJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DescribeDeploymentJobOutput: Swift.Equatable {
+public struct DescribeDeploymentJobOutput {
     /// The Amazon Resource Name (ARN) of the deployment job.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the deployment job was created.
@@ -5224,7 +5224,7 @@ public struct DescribeDeploymentJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDeploymentJobOutputBody: Swift.Equatable {
+struct DescribeDeploymentJobOutputBody {
     let arn: Swift.String?
     let fleet: Swift.String?
     let status: RoboMakerClientTypes.DeploymentStatus?
@@ -5338,7 +5338,7 @@ extension DescribeFleetInput {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DescribeFleetInput: Swift.Equatable {
+public struct DescribeFleetInput {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var fleet: Swift.String?
@@ -5351,7 +5351,7 @@ public struct DescribeFleetInput: Swift.Equatable {
     }
 }
 
-struct DescribeFleetInputBody: Swift.Equatable {
+struct DescribeFleetInputBody {
     let fleet: Swift.String?
 }
 
@@ -5394,7 +5394,7 @@ extension DescribeFleetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DescribeFleetOutput: Swift.Equatable {
+public struct DescribeFleetOutput {
     /// The Amazon Resource Name (ARN) of the fleet.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -5434,7 +5434,7 @@ public struct DescribeFleetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFleetOutputBody: Swift.Equatable {
+struct DescribeFleetOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let robots: [RoboMakerClientTypes.Robot]?
@@ -5534,7 +5534,7 @@ extension DescribeRobotApplicationInput {
     }
 }
 
-public struct DescribeRobotApplicationInput: Swift.Equatable {
+public struct DescribeRobotApplicationInput {
     /// The Amazon Resource Name (ARN) of the robot application.
     /// This member is required.
     public var application: Swift.String?
@@ -5551,7 +5551,7 @@ public struct DescribeRobotApplicationInput: Swift.Equatable {
     }
 }
 
-struct DescribeRobotApplicationInputBody: Swift.Equatable {
+struct DescribeRobotApplicationInputBody {
     let application: Swift.String?
     let applicationVersion: Swift.String?
 }
@@ -5601,7 +5601,7 @@ extension DescribeRobotApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRobotApplicationOutput: Swift.Equatable {
+public struct DescribeRobotApplicationOutput {
     /// The Amazon Resource Name (ARN) of the robot application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI used to create the robot application.
@@ -5649,7 +5649,7 @@ public struct DescribeRobotApplicationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRobotApplicationOutputBody: Swift.Equatable {
+struct DescribeRobotApplicationOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -5754,7 +5754,7 @@ extension DescribeRobotInput {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DescribeRobotInput: Swift.Equatable {
+public struct DescribeRobotInput {
     /// The Amazon Resource Name (ARN) of the robot to be described.
     /// This member is required.
     public var robot: Swift.String?
@@ -5767,7 +5767,7 @@ public struct DescribeRobotInput: Swift.Equatable {
     }
 }
 
-struct DescribeRobotInputBody: Swift.Equatable {
+struct DescribeRobotInputBody {
     let robot: Swift.String?
 }
 
@@ -5814,7 +5814,7 @@ extension DescribeRobotOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct DescribeRobotOutput: Swift.Equatable {
+public struct DescribeRobotOutput {
     /// The target architecture of the robot application.
     public var architecture: RoboMakerClientTypes.Architecture?
     /// The Amazon Resource Name (ARN) of the robot.
@@ -5862,7 +5862,7 @@ public struct DescribeRobotOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRobotOutputBody: Swift.Equatable {
+struct DescribeRobotOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let fleetArn: Swift.String?
@@ -5961,7 +5961,7 @@ extension DescribeSimulationApplicationInput {
     }
 }
 
-public struct DescribeSimulationApplicationInput: Swift.Equatable {
+public struct DescribeSimulationApplicationInput {
     /// The application information for the simulation application.
     /// This member is required.
     public var application: Swift.String?
@@ -5978,7 +5978,7 @@ public struct DescribeSimulationApplicationInput: Swift.Equatable {
     }
 }
 
-struct DescribeSimulationApplicationInputBody: Swift.Equatable {
+struct DescribeSimulationApplicationInputBody {
     let application: Swift.String?
     let applicationVersion: Swift.String?
 }
@@ -6032,7 +6032,7 @@ extension DescribeSimulationApplicationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeSimulationApplicationOutput: Swift.Equatable {
+public struct DescribeSimulationApplicationOutput {
     /// The Amazon Resource Name (ARN) of the robot simulation application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI used to create the simulation application.
@@ -6088,7 +6088,7 @@ public struct DescribeSimulationApplicationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSimulationApplicationOutputBody: Swift.Equatable {
+struct DescribeSimulationApplicationOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -6200,7 +6200,7 @@ extension DescribeSimulationJobBatchInput {
     }
 }
 
-public struct DescribeSimulationJobBatchInput: Swift.Equatable {
+public struct DescribeSimulationJobBatchInput {
     /// The id of the batch to describe.
     /// This member is required.
     public var batch: Swift.String?
@@ -6213,7 +6213,7 @@ public struct DescribeSimulationJobBatchInput: Swift.Equatable {
     }
 }
 
-struct DescribeSimulationJobBatchInputBody: Swift.Equatable {
+struct DescribeSimulationJobBatchInputBody {
     let batch: Swift.String?
 }
 
@@ -6263,7 +6263,7 @@ extension DescribeSimulationJobBatchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSimulationJobBatchOutput: Swift.Equatable {
+public struct DescribeSimulationJobBatchOutput {
     /// The Amazon Resource Name (ARN) of the batch.
     public var arn: Swift.String?
     /// The batch policy.
@@ -6319,7 +6319,7 @@ public struct DescribeSimulationJobBatchOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSimulationJobBatchOutputBody: Swift.Equatable {
+struct DescribeSimulationJobBatchOutputBody {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.SimulationJobBatchStatus?
     let lastUpdatedAt: ClientRuntime.Date?
@@ -6448,7 +6448,7 @@ extension DescribeSimulationJobInput {
     }
 }
 
-public struct DescribeSimulationJobInput: Swift.Equatable {
+public struct DescribeSimulationJobInput {
     /// The Amazon Resource Name (ARN) of the simulation job to be described.
     /// This member is required.
     public var job: Swift.String?
@@ -6461,7 +6461,7 @@ public struct DescribeSimulationJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeSimulationJobInputBody: Swift.Equatable {
+struct DescribeSimulationJobInputBody {
     let job: Swift.String?
 }
 
@@ -6529,7 +6529,7 @@ extension DescribeSimulationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSimulationJobOutput: Swift.Equatable {
+public struct DescribeSimulationJobOutput {
     /// The Amazon Resource Name (ARN) of the simulation job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -6621,7 +6621,7 @@ public struct DescribeSimulationJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSimulationJobOutputBody: Swift.Equatable {
+struct DescribeSimulationJobOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let status: RoboMakerClientTypes.SimulationJobStatus?
@@ -6787,7 +6787,7 @@ extension DescribeWorldExportJobInput {
     }
 }
 
-public struct DescribeWorldExportJobInput: Swift.Equatable {
+public struct DescribeWorldExportJobInput {
     /// The Amazon Resource Name (arn) of the world export job to describe.
     /// This member is required.
     public var job: Swift.String?
@@ -6800,7 +6800,7 @@ public struct DescribeWorldExportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorldExportJobInputBody: Swift.Equatable {
+struct DescribeWorldExportJobInputBody {
     let job: Swift.String?
 }
 
@@ -6846,7 +6846,7 @@ extension DescribeWorldExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorldExportJobOutput: Swift.Equatable {
+public struct DescribeWorldExportJobOutput {
     /// The Amazon Resource Name (ARN) of the world export job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -6894,7 +6894,7 @@ public struct DescribeWorldExportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorldExportJobOutputBody: Swift.Equatable {
+struct DescribeWorldExportJobOutputBody {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.WorldExportJobStatus?
     let createdAt: ClientRuntime.Date?
@@ -6998,7 +6998,7 @@ extension DescribeWorldGenerationJobInput {
     }
 }
 
-public struct DescribeWorldGenerationJobInput: Swift.Equatable {
+public struct DescribeWorldGenerationJobInput {
     /// The Amazon Resource Name (arn) of the world generation job to describe.
     /// This member is required.
     public var job: Swift.String?
@@ -7011,7 +7011,7 @@ public struct DescribeWorldGenerationJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorldGenerationJobInputBody: Swift.Equatable {
+struct DescribeWorldGenerationJobInputBody {
     let job: Swift.String?
 }
 
@@ -7059,7 +7059,7 @@ extension DescribeWorldGenerationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorldGenerationJobOutput: Swift.Equatable {
+public struct DescribeWorldGenerationJobOutput {
     /// The Amazon Resource Name (ARN) of the world generation job.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -7111,7 +7111,7 @@ public struct DescribeWorldGenerationJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorldGenerationJobOutputBody: Swift.Equatable {
+struct DescribeWorldGenerationJobOutputBody {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.WorldGenerationJobStatus?
     let createdAt: ClientRuntime.Date?
@@ -7219,7 +7219,7 @@ extension DescribeWorldInput {
     }
 }
 
-public struct DescribeWorldInput: Swift.Equatable {
+public struct DescribeWorldInput {
     /// The Amazon Resource Name (arn) of the world you want to describe.
     /// This member is required.
     public var world: Swift.String?
@@ -7232,7 +7232,7 @@ public struct DescribeWorldInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorldInputBody: Swift.Equatable {
+struct DescribeWorldInputBody {
     let world: Swift.String?
 }
 
@@ -7270,7 +7270,7 @@ extension DescribeWorldOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorldOutput: Swift.Equatable {
+public struct DescribeWorldOutput {
     /// The Amazon Resource Name (arn) of the world.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the world was created.
@@ -7302,7 +7302,7 @@ public struct DescribeWorldOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorldOutputBody: Swift.Equatable {
+struct DescribeWorldOutputBody {
     let arn: Swift.String?
     let generationJob: Swift.String?
     let template: Swift.String?
@@ -7381,7 +7381,7 @@ extension DescribeWorldTemplateInput {
     }
 }
 
-public struct DescribeWorldTemplateInput: Swift.Equatable {
+public struct DescribeWorldTemplateInput {
     /// The Amazon Resource Name (arn) of the world template you want to describe.
     /// This member is required.
     public var template: Swift.String?
@@ -7394,7 +7394,7 @@ public struct DescribeWorldTemplateInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorldTemplateInputBody: Swift.Equatable {
+struct DescribeWorldTemplateInputBody {
     let template: Swift.String?
 }
 
@@ -7434,7 +7434,7 @@ extension DescribeWorldTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorldTemplateOutput: Swift.Equatable {
+public struct DescribeWorldTemplateOutput {
     /// The Amazon Resource Name (ARN) of the world template.
     public var arn: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -7470,7 +7470,7 @@ public struct DescribeWorldTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorldTemplateOutputBody: Swift.Equatable {
+struct DescribeWorldTemplateOutputBody {
     let arn: Swift.String?
     let clientRequestToken: Swift.String?
     let name: Swift.String?
@@ -7554,7 +7554,7 @@ extension RoboMakerClientTypes.Environment: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// The object that contains the Docker image URI for either your robot or simulation applications.
-    public struct Environment: Swift.Equatable {
+    public struct Environment {
         /// The Docker image URI for either your robot or simulation applications.
         public var uri: Swift.String?
 
@@ -7639,7 +7639,7 @@ extension RoboMakerClientTypes.FailedCreateSimulationJobRequest: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a failed create simulation job request.
-    public struct FailedCreateSimulationJobRequest: Swift.Equatable {
+    public struct FailedCreateSimulationJobRequest {
         /// The time, in milliseconds since the epoch, when the simulation job batch failed.
         public var failedAt: ClientRuntime.Date?
         /// The failure code.
@@ -7736,7 +7736,7 @@ extension RoboMakerClientTypes.FailureSummary: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about worlds that failed.
-    public struct FailureSummary: Swift.Equatable {
+    public struct FailureSummary {
         /// The worlds that failed.
         public var failures: [RoboMakerClientTypes.WorldFailure]?
         /// The total number of failures.
@@ -7793,7 +7793,7 @@ extension RoboMakerClientTypes.Filter: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a filter.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The name of the filter.
         public var name: Swift.String?
         /// A list of values.
@@ -7856,7 +7856,7 @@ extension RoboMakerClientTypes.FinishedWorldsSummary: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about worlds that finished.
-    public struct FinishedWorldsSummary: Swift.Equatable {
+    public struct FinishedWorldsSummary {
         /// Information about worlds that failed.
         public var failureSummary: RoboMakerClientTypes.FailureSummary?
         /// The total number of finished worlds.
@@ -7929,7 +7929,7 @@ extension RoboMakerClientTypes.Fleet: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a fleet.
-    public struct Fleet: Swift.Equatable {
+    public struct Fleet {
         /// The Amazon Resource Name (ARN) of the fleet.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -7987,7 +7987,7 @@ extension GetWorldTemplateBodyInput {
     }
 }
 
-public struct GetWorldTemplateBodyInput: Swift.Equatable {
+public struct GetWorldTemplateBodyInput {
     /// The Amazon Resource Name (arn) of the world generator job.
     public var generationJob: Swift.String?
     /// The Amazon Resource Name (arn) of the world template.
@@ -8003,7 +8003,7 @@ public struct GetWorldTemplateBodyInput: Swift.Equatable {
     }
 }
 
-struct GetWorldTemplateBodyInputBody: Swift.Equatable {
+struct GetWorldTemplateBodyInputBody {
     let template: Swift.String?
     let generationJob: Swift.String?
 }
@@ -8035,7 +8035,7 @@ extension GetWorldTemplateBodyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorldTemplateBodyOutput: Swift.Equatable {
+public struct GetWorldTemplateBodyOutput {
     /// The world template body.
     public var templateBody: Swift.String?
 
@@ -8047,7 +8047,7 @@ public struct GetWorldTemplateBodyOutput: Swift.Equatable {
     }
 }
 
-struct GetWorldTemplateBodyOutputBody: Swift.Equatable {
+struct GetWorldTemplateBodyOutputBody {
     let templateBody: Swift.String?
 }
 
@@ -8116,7 +8116,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
     }
 }
 
-struct IdempotentParameterMismatchExceptionBody: Swift.Equatable {
+struct IdempotentParameterMismatchExceptionBody {
     let message: Swift.String?
 }
 
@@ -8171,7 +8171,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -8226,7 +8226,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -8317,7 +8317,7 @@ extension RoboMakerClientTypes.LaunchConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a launch configuration.
-    public struct LaunchConfig: Swift.Equatable {
+    public struct LaunchConfig {
         /// If you've specified General as the value for your RobotSoftwareSuite, you can use this field to specify a list of commands for your container image. If you've specified SimulationRuntime as the value for your SimulationSoftwareSuite, you can use this field to specify a list of commands for your container image.
         public var command: [Swift.String]?
         /// The environment variables for the application launch.
@@ -8390,7 +8390,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -8438,7 +8438,7 @@ extension ListDeploymentJobsInput {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct ListDeploymentJobsInput: Swift.Equatable {
+public struct ListDeploymentJobsInput {
     /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status InProgress or the status Pending.
     public var filters: [RoboMakerClientTypes.Filter]?
     /// When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListDeploymentJobs returns up to 200 results and a nextToken value if applicable.
@@ -8458,7 +8458,7 @@ public struct ListDeploymentJobsInput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentJobsInputBody: Swift.Equatable {
+struct ListDeploymentJobsInputBody {
     let filters: [RoboMakerClientTypes.Filter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8506,7 +8506,7 @@ extension ListDeploymentJobsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct ListDeploymentJobsOutput: Swift.Equatable {
+public struct ListDeploymentJobsOutput {
     /// A list of deployment jobs that meet the criteria of the request.
     public var deploymentJobs: [RoboMakerClientTypes.DeploymentJob]?
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListDeploymentJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -8522,7 +8522,7 @@ public struct ListDeploymentJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentJobsOutputBody: Swift.Equatable {
+struct ListDeploymentJobsOutputBody {
     let deploymentJobs: [RoboMakerClientTypes.DeploymentJob]?
     let nextToken: Swift.String?
 }
@@ -8597,7 +8597,7 @@ extension ListFleetsInput {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct ListFleetsInput: Swift.Equatable {
+public struct ListFleetsInput {
     /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
     public var filters: [RoboMakerClientTypes.Filter]?
     /// When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListFleets returns up to 200 results and a nextToken value if applicable.
@@ -8617,7 +8617,7 @@ public struct ListFleetsInput: Swift.Equatable {
     }
 }
 
-struct ListFleetsInputBody: Swift.Equatable {
+struct ListFleetsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [RoboMakerClientTypes.Filter]?
@@ -8665,7 +8665,7 @@ extension ListFleetsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct ListFleetsOutput: Swift.Equatable {
+public struct ListFleetsOutput {
     /// A list of fleet details meeting the request criteria.
     public var fleetDetails: [RoboMakerClientTypes.Fleet]?
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListFleets again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -8681,7 +8681,7 @@ public struct ListFleetsOutput: Swift.Equatable {
     }
 }
 
-struct ListFleetsOutputBody: Swift.Equatable {
+struct ListFleetsOutputBody {
     let fleetDetails: [RoboMakerClientTypes.Fleet]?
     let nextToken: Swift.String?
 }
@@ -8759,7 +8759,7 @@ extension ListRobotApplicationsInput {
     }
 }
 
-public struct ListRobotApplicationsInput: Swift.Equatable {
+public struct ListRobotApplicationsInput {
     /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
     public var filters: [RoboMakerClientTypes.Filter]?
     /// When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobotApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable.
@@ -8783,7 +8783,7 @@ public struct ListRobotApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListRobotApplicationsInputBody: Swift.Equatable {
+struct ListRobotApplicationsInputBody {
     let versionQualifier: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8834,7 +8834,7 @@ extension ListRobotApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRobotApplicationsOutput: Swift.Equatable {
+public struct ListRobotApplicationsOutput {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobotApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// A list of robot application summaries that meet the criteria of the request.
@@ -8850,7 +8850,7 @@ public struct ListRobotApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListRobotApplicationsOutputBody: Swift.Equatable {
+struct ListRobotApplicationsOutputBody {
     let robotApplicationSummaries: [RoboMakerClientTypes.RobotApplicationSummary]?
     let nextToken: Swift.String?
 }
@@ -8924,7 +8924,7 @@ extension ListRobotsInput {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct ListRobotsInput: Swift.Equatable {
+public struct ListRobotsInput {
     /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Registered or the status Available.
     public var filters: [RoboMakerClientTypes.Filter]?
     /// When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListRobots returns up to 200 results and a nextToken value if applicable.
@@ -8944,7 +8944,7 @@ public struct ListRobotsInput: Swift.Equatable {
     }
 }
 
-struct ListRobotsInputBody: Swift.Equatable {
+struct ListRobotsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [RoboMakerClientTypes.Filter]?
@@ -8992,7 +8992,7 @@ extension ListRobotsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct ListRobotsOutput: Swift.Equatable {
+public struct ListRobotsOutput {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobots again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// A list of robots that meet the criteria of the request.
@@ -9008,7 +9008,7 @@ public struct ListRobotsOutput: Swift.Equatable {
     }
 }
 
-struct ListRobotsOutputBody: Swift.Equatable {
+struct ListRobotsOutputBody {
     let robots: [RoboMakerClientTypes.Robot]?
     let nextToken: Swift.String?
 }
@@ -9086,7 +9086,7 @@ extension ListSimulationApplicationsInput {
     }
 }
 
-public struct ListSimulationApplicationsInput: Swift.Equatable {
+public struct ListSimulationApplicationsInput {
     /// Optional list of filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
     public var filters: [RoboMakerClientTypes.Filter]?
     /// When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable.
@@ -9110,7 +9110,7 @@ public struct ListSimulationApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListSimulationApplicationsInputBody: Swift.Equatable {
+struct ListSimulationApplicationsInputBody {
     let versionQualifier: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9161,7 +9161,7 @@ extension ListSimulationApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSimulationApplicationsOutput: Swift.Equatable {
+public struct ListSimulationApplicationsOutput {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// A list of simulation application summaries that meet the criteria of the request.
@@ -9177,7 +9177,7 @@ public struct ListSimulationApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListSimulationApplicationsOutputBody: Swift.Equatable {
+struct ListSimulationApplicationsOutputBody {
     let simulationApplicationSummaries: [RoboMakerClientTypes.SimulationApplicationSummary]?
     let nextToken: Swift.String?
 }
@@ -9250,7 +9250,7 @@ extension ListSimulationJobBatchesInput {
     }
 }
 
-public struct ListSimulationJobBatchesInput: Swift.Equatable {
+public struct ListSimulationJobBatchesInput {
     /// Optional filters to limit results.
     public var filters: [RoboMakerClientTypes.Filter]?
     /// When this parameter is used, ListSimulationJobBatches only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobBatches request with the returned nextToken value.
@@ -9270,7 +9270,7 @@ public struct ListSimulationJobBatchesInput: Swift.Equatable {
     }
 }
 
-struct ListSimulationJobBatchesInputBody: Swift.Equatable {
+struct ListSimulationJobBatchesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [RoboMakerClientTypes.Filter]?
@@ -9317,7 +9317,7 @@ extension ListSimulationJobBatchesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSimulationJobBatchesOutput: Swift.Equatable {
+public struct ListSimulationJobBatchesOutput {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobBatches again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// A list of simulation job batch summaries.
@@ -9333,7 +9333,7 @@ public struct ListSimulationJobBatchesOutput: Swift.Equatable {
     }
 }
 
-struct ListSimulationJobBatchesOutputBody: Swift.Equatable {
+struct ListSimulationJobBatchesOutputBody {
     let simulationJobBatchSummaries: [RoboMakerClientTypes.SimulationJobBatchSummary]?
     let nextToken: Swift.String?
 }
@@ -9405,7 +9405,7 @@ extension ListSimulationJobsInput {
     }
 }
 
-public struct ListSimulationJobsInput: Swift.Equatable {
+public struct ListSimulationJobsInput {
     /// Optional filters to limit results. The filter names status and simulationApplicationName and robotApplicationName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Preparing or the status Running.
     public var filters: [RoboMakerClientTypes.Filter]?
     /// When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListSimulationJobs returns up to 1000 results and a nextToken value if applicable.
@@ -9425,7 +9425,7 @@ public struct ListSimulationJobsInput: Swift.Equatable {
     }
 }
 
-struct ListSimulationJobsInputBody: Swift.Equatable {
+struct ListSimulationJobsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [RoboMakerClientTypes.Filter]?
@@ -9472,7 +9472,7 @@ extension ListSimulationJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSimulationJobsOutput: Swift.Equatable {
+public struct ListSimulationJobsOutput {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// A list of simulation job summaries that meet the criteria of the request.
@@ -9489,7 +9489,7 @@ public struct ListSimulationJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListSimulationJobsOutputBody: Swift.Equatable {
+struct ListSimulationJobsOutputBody {
     let simulationJobSummaries: [RoboMakerClientTypes.SimulationJobSummary]?
     let nextToken: Swift.String?
 }
@@ -9541,7 +9541,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9554,7 +9554,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -9575,7 +9575,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of all tags added to the specified resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -9587,7 +9587,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -9657,7 +9657,7 @@ extension ListWorldExportJobsInput {
     }
 }
 
-public struct ListWorldExportJobsInput: Swift.Equatable {
+public struct ListWorldExportJobsInput {
     /// Optional filters to limit results. You can use generationJobId and templateId.
     public var filters: [RoboMakerClientTypes.Filter]?
     /// When this parameter is used, ListWorldExportJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldExportJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldExportJobs returns up to 100 results and a nextToken value if applicable.
@@ -9677,7 +9677,7 @@ public struct ListWorldExportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListWorldExportJobsInputBody: Swift.Equatable {
+struct ListWorldExportJobsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [RoboMakerClientTypes.Filter]?
@@ -9724,7 +9724,7 @@ extension ListWorldExportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorldExportJobsOutput: Swift.Equatable {
+public struct ListWorldExportJobsOutput {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldExportJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// Summary information for world export jobs.
@@ -9741,7 +9741,7 @@ public struct ListWorldExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorldExportJobsOutputBody: Swift.Equatable {
+struct ListWorldExportJobsOutputBody {
     let worldExportJobSummaries: [RoboMakerClientTypes.WorldExportJobSummary]?
     let nextToken: Swift.String?
 }
@@ -9814,7 +9814,7 @@ extension ListWorldGenerationJobsInput {
     }
 }
 
-public struct ListWorldGenerationJobsInput: Swift.Equatable {
+public struct ListWorldGenerationJobsInput {
     /// Optional filters to limit results. You can use status and templateId.
     public var filters: [RoboMakerClientTypes.Filter]?
     /// When this parameter is used, ListWorldGeneratorJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldGeneratorJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldGeneratorJobs returns up to 100 results and a nextToken value if applicable.
@@ -9834,7 +9834,7 @@ public struct ListWorldGenerationJobsInput: Swift.Equatable {
     }
 }
 
-struct ListWorldGenerationJobsInputBody: Swift.Equatable {
+struct ListWorldGenerationJobsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [RoboMakerClientTypes.Filter]?
@@ -9881,7 +9881,7 @@ extension ListWorldGenerationJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorldGenerationJobsOutput: Swift.Equatable {
+public struct ListWorldGenerationJobsOutput {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldGeneratorJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// Summary information for world generator jobs.
@@ -9898,7 +9898,7 @@ public struct ListWorldGenerationJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorldGenerationJobsOutputBody: Swift.Equatable {
+struct ListWorldGenerationJobsOutputBody {
     let worldGenerationJobSummaries: [RoboMakerClientTypes.WorldGenerationJobSummary]?
     let nextToken: Swift.String?
 }
@@ -9964,7 +9964,7 @@ extension ListWorldTemplatesInput {
     }
 }
 
-public struct ListWorldTemplatesInput: Swift.Equatable {
+public struct ListWorldTemplatesInput {
     /// When this parameter is used, ListWorldTemplates only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldTemplates request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldTemplates returns up to 100 results and a nextToken value if applicable.
     public var maxResults: Swift.Int?
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldTemplates again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -9980,7 +9980,7 @@ public struct ListWorldTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListWorldTemplatesInputBody: Swift.Equatable {
+struct ListWorldTemplatesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -10014,7 +10014,7 @@ extension ListWorldTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorldTemplatesOutput: Swift.Equatable {
+public struct ListWorldTemplatesOutput {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldTemplates again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// Summary information for templates.
@@ -10030,7 +10030,7 @@ public struct ListWorldTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListWorldTemplatesOutputBody: Swift.Equatable {
+struct ListWorldTemplatesOutputBody {
     let templateSummaries: [RoboMakerClientTypes.TemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -10103,7 +10103,7 @@ extension ListWorldsInput {
     }
 }
 
-public struct ListWorldsInput: Swift.Equatable {
+public struct ListWorldsInput {
     /// Optional filters to limit results. You can use status.
     public var filters: [RoboMakerClientTypes.Filter]?
     /// When this parameter is used, ListWorlds only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorlds request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorlds returns up to 100 results and a nextToken value if applicable.
@@ -10123,7 +10123,7 @@ public struct ListWorldsInput: Swift.Equatable {
     }
 }
 
-struct ListWorldsInputBody: Swift.Equatable {
+struct ListWorldsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [RoboMakerClientTypes.Filter]?
@@ -10170,7 +10170,7 @@ extension ListWorldsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorldsOutput: Swift.Equatable {
+public struct ListWorldsOutput {
     /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorlds again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// Summary information for worlds.
@@ -10186,7 +10186,7 @@ public struct ListWorldsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorldsOutputBody: Swift.Equatable {
+struct ListWorldsOutputBody {
     let worldSummaries: [RoboMakerClientTypes.WorldSummary]?
     let nextToken: Swift.String?
 }
@@ -10249,7 +10249,7 @@ extension RoboMakerClientTypes.LoggingConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// The logging configuration.
-    public struct LoggingConfig: Swift.Equatable {
+    public struct LoggingConfig {
         /// A boolean indicating whether to record all ROS topics. This API is no longer supported and will throw an error if used.
         @available(*, deprecated, message: "AWS RoboMaker is ending support for ROS software suite. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/software-support-policy.html.")
         public var recordAllRosTopics: Swift.Bool?
@@ -10297,7 +10297,7 @@ extension RoboMakerClientTypes.NetworkInterface: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Describes a network interface.
-    public struct NetworkInterface: Swift.Equatable {
+    public struct NetworkInterface {
         /// The ID of the network interface.
         public var networkInterfaceId: Swift.String?
         /// The IPv4 address of the network interface within the subnet.
@@ -10346,7 +10346,7 @@ extension RoboMakerClientTypes.OutputLocation: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// The output location.
-    public struct OutputLocation: Swift.Equatable {
+    public struct OutputLocation {
         /// The S3 bucket for output.
         public var s3Bucket: Swift.String?
         /// The S3 folder in the s3Bucket where output files will be placed.
@@ -10397,7 +10397,7 @@ extension RoboMakerClientTypes.PortForwardingConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Configuration information for port forwarding.
-    public struct PortForwardingConfig: Swift.Equatable {
+    public struct PortForwardingConfig {
         /// The port mappings for the configuration.
         public var portMappings: [RoboMakerClientTypes.PortMapping]?
 
@@ -10444,7 +10444,7 @@ extension RoboMakerClientTypes.PortMapping: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// An object representing a port mapping.
-    public struct PortMapping: Swift.Equatable {
+    public struct PortMapping {
         /// The port number on the application.
         /// This member is required.
         public var applicationPort: Swift.Int?
@@ -10507,7 +10507,7 @@ extension RoboMakerClientTypes.ProgressDetail: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about the progress of a deployment job.
-    public struct ProgressDetail: Swift.Equatable {
+    public struct ProgressDetail {
         /// The current progress status. Validating Validating the deployment. DownloadingExtracting Downloading and extracting the bundle on the robot. ExecutingPreLaunch Executing pre-launch script(s) if provided. Launching Launching the robot application. ExecutingPostLaunch Executing post-launch script(s) if provided. Finished Deployment is complete.
         public var currentProgress: RoboMakerClientTypes.RobotDeploymentStep?
         /// Estimated amount of time in seconds remaining in the step. This currently only applies to the Downloading/Extracting step of the deployment. It is empty for other steps.
@@ -10558,7 +10558,7 @@ extension RegisterRobotInput {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct RegisterRobotInput: Swift.Equatable {
+public struct RegisterRobotInput {
     /// The Amazon Resource Name (ARN) of the fleet.
     /// This member is required.
     public var fleet: Swift.String?
@@ -10576,7 +10576,7 @@ public struct RegisterRobotInput: Swift.Equatable {
     }
 }
 
-struct RegisterRobotInputBody: Swift.Equatable {
+struct RegisterRobotInputBody {
     let fleet: Swift.String?
     let robot: Swift.String?
 }
@@ -10611,7 +10611,7 @@ extension RegisterRobotOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct RegisterRobotOutput: Swift.Equatable {
+public struct RegisterRobotOutput {
     /// The Amazon Resource Name (ARN) of the fleet that the robot will join.
     public var fleet: Swift.String?
     /// Information about the robot registration.
@@ -10627,7 +10627,7 @@ public struct RegisterRobotOutput: Swift.Equatable {
     }
 }
 
-struct RegisterRobotOutputBody: Swift.Equatable {
+struct RegisterRobotOutputBody {
     let fleet: Swift.String?
     let robot: Swift.String?
 }
@@ -10689,7 +10689,7 @@ extension RoboMakerClientTypes.RenderingEngine: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a rendering engine.
-    public struct RenderingEngine: Swift.Equatable {
+    public struct RenderingEngine {
         /// The name of the rendering engine.
         public var name: RoboMakerClientTypes.RenderingEngineType?
         /// The version of the rendering engine.
@@ -10775,7 +10775,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -10830,7 +10830,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -10866,7 +10866,7 @@ extension RestartSimulationJobInput {
     }
 }
 
-public struct RestartSimulationJobInput: Swift.Equatable {
+public struct RestartSimulationJobInput {
     /// The Amazon Resource Name (ARN) of the simulation job.
     /// This member is required.
     public var job: Swift.String?
@@ -10879,7 +10879,7 @@ public struct RestartSimulationJobInput: Swift.Equatable {
     }
 }
 
-struct RestartSimulationJobInputBody: Swift.Equatable {
+struct RestartSimulationJobInputBody {
     let job: Swift.String?
 }
 
@@ -10900,7 +10900,7 @@ extension RestartSimulationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestartSimulationJobOutput: Swift.Equatable {
+public struct RestartSimulationJobOutput {
 
     public init() { }
 }
@@ -10991,7 +10991,7 @@ extension RoboMakerClientTypes.Robot: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a robot.
-    public struct Robot: Swift.Equatable {
+    public struct Robot {
         /// The architecture of the robot.
         public var architecture: RoboMakerClientTypes.Architecture?
         /// The Amazon Resource Name (ARN) of the robot.
@@ -11118,7 +11118,7 @@ extension RoboMakerClientTypes.RobotApplicationConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Application configuration information for a robot.
-    public struct RobotApplicationConfig: Swift.Equatable {
+    public struct RobotApplicationConfig {
         /// The application information for the robot application.
         /// This member is required.
         public var application: Swift.String?
@@ -11205,7 +11205,7 @@ extension RoboMakerClientTypes.RobotApplicationSummary: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Summary information for a robot application.
-    public struct RobotApplicationSummary: Swift.Equatable {
+    public struct RobotApplicationSummary {
         /// The Amazon Resource Name (ARN) of the robot.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
@@ -11292,7 +11292,7 @@ extension RoboMakerClientTypes.RobotDeployment: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a robot deployment.
-    public struct RobotDeployment: Swift.Equatable {
+    public struct RobotDeployment {
         /// The robot deployment Amazon Resource Name (ARN).
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the deployment finished.
@@ -11404,7 +11404,7 @@ extension RoboMakerClientTypes.RobotSoftwareSuite: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a robot software suite (ROS distribution).
-    public struct RobotSoftwareSuite: Swift.Equatable {
+    public struct RobotSoftwareSuite {
         /// The name of the robot software suite (ROS distribution).
         public var name: RoboMakerClientTypes.RobotSoftwareSuiteType?
         /// The version of the robot software suite (ROS distribution).
@@ -11569,7 +11569,7 @@ extension RoboMakerClientTypes.S3KeyOutput: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about S3 keys.
-    public struct S3KeyOutput: Swift.Equatable {
+    public struct S3KeyOutput {
         /// The etag for the object.
         public var etag: Swift.String?
         /// The S3 key.
@@ -11620,7 +11620,7 @@ extension RoboMakerClientTypes.S3Object: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about an S3 object.
-    public struct S3Object: Swift.Equatable {
+    public struct S3Object {
         /// The bucket containing the object.
         /// This member is required.
         public var bucket: Swift.String?
@@ -11683,7 +11683,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -11798,7 +11798,7 @@ extension RoboMakerClientTypes.SimulationApplicationConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a simulation application configuration.
-    public struct SimulationApplicationConfig: Swift.Equatable {
+    public struct SimulationApplicationConfig {
         /// The application information for the simulation application.
         /// This member is required.
         public var application: Swift.String?
@@ -11895,7 +11895,7 @@ extension RoboMakerClientTypes.SimulationApplicationSummary: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Summary information for a simulation application.
-    public struct SimulationApplicationSummary: Swift.Equatable {
+    public struct SimulationApplicationSummary {
         /// The Amazon Resource Name (ARN) of the simulation application.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
@@ -12118,7 +12118,7 @@ extension RoboMakerClientTypes.SimulationJob: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a simulation job.
-    public struct SimulationJob: Swift.Equatable {
+    public struct SimulationJob {
         /// The Amazon Resource Name (ARN) of the simulation job.
         public var arn: Swift.String?
         /// A unique identifier for this SimulationJob request.
@@ -12351,7 +12351,7 @@ extension RoboMakerClientTypes.SimulationJobBatchSummary: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a simulation job batch.
-    public struct SimulationJobBatchSummary: Swift.Equatable {
+    public struct SimulationJobBatchSummary {
         /// The Amazon Resource Name (ARN) of the batch.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the simulation job batch was created.
@@ -12643,7 +12643,7 @@ extension RoboMakerClientTypes.SimulationJobRequest: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a simulation job request.
-    public struct SimulationJobRequest: Swift.Equatable {
+    public struct SimulationJobRequest {
         /// Compute information for the simulation job
         public var compute: RoboMakerClientTypes.Compute?
         /// Specify data sources to mount read-only files from S3 into your simulation. These files are available under /opt/robomaker/datasources/data_source_name. There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.
@@ -12857,7 +12857,7 @@ extension RoboMakerClientTypes.SimulationJobSummary: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Summary information for a simulation job.
-    public struct SimulationJobSummary: Swift.Equatable {
+    public struct SimulationJobSummary {
         /// The Amazon Resource Name (ARN) of the simulation job.
         public var arn: Swift.String?
         /// The compute type for the simulation job summary.
@@ -12926,7 +12926,7 @@ extension RoboMakerClientTypes.SimulationSoftwareSuite: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a simulation software suite.
-    public struct SimulationSoftwareSuite: Swift.Equatable {
+    public struct SimulationSoftwareSuite {
         /// The name of the simulation software suite.
         public var name: RoboMakerClientTypes.SimulationSoftwareSuiteType?
         /// The version of the simulation software suite.
@@ -13018,7 +13018,7 @@ extension RoboMakerClientTypes.Source: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a source.
-    public struct Source: Swift.Equatable {
+    public struct Source {
         /// The taget processor architecture for the application.
         public var architecture: RoboMakerClientTypes.Architecture?
         /// A hash of the object specified by s3Bucket and s3Key.
@@ -13077,7 +13077,7 @@ extension RoboMakerClientTypes.SourceConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a source configuration.
-    public struct SourceConfig: Swift.Equatable {
+    public struct SourceConfig {
         /// The target processor architecture for the application.
         public var architecture: RoboMakerClientTypes.Architecture?
         /// The Amazon S3 bucket name.
@@ -13137,7 +13137,7 @@ extension StartSimulationJobBatchInput {
     }
 }
 
-public struct StartSimulationJobBatchInput: Swift.Equatable {
+public struct StartSimulationJobBatchInput {
     /// The batch policy.
     public var batchPolicy: RoboMakerClientTypes.BatchPolicy?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -13162,7 +13162,7 @@ public struct StartSimulationJobBatchInput: Swift.Equatable {
     }
 }
 
-struct StartSimulationJobBatchInputBody: Swift.Equatable {
+struct StartSimulationJobBatchInputBody {
     let clientRequestToken: Swift.String?
     let batchPolicy: RoboMakerClientTypes.BatchPolicy?
     let createSimulationJobRequests: [RoboMakerClientTypes.SimulationJobRequest]?
@@ -13240,7 +13240,7 @@ extension StartSimulationJobBatchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSimulationJobBatchOutput: Swift.Equatable {
+public struct StartSimulationJobBatchOutput {
     /// The Amazon Resource Name (arn) of the batch.
     public var arn: Swift.String?
     /// The batch policy.
@@ -13292,7 +13292,7 @@ public struct StartSimulationJobBatchOutput: Swift.Equatable {
     }
 }
 
-struct StartSimulationJobBatchOutputBody: Swift.Equatable {
+struct StartSimulationJobBatchOutputBody {
     let arn: Swift.String?
     let status: RoboMakerClientTypes.SimulationJobBatchStatus?
     let createdAt: ClientRuntime.Date?
@@ -13424,7 +13424,7 @@ extension SyncDeploymentJobInput {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct SyncDeploymentJobInput: Swift.Equatable {
+public struct SyncDeploymentJobInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -13442,7 +13442,7 @@ public struct SyncDeploymentJobInput: Swift.Equatable {
     }
 }
 
-struct SyncDeploymentJobInputBody: Swift.Equatable {
+struct SyncDeploymentJobInputBody {
     let clientRequestToken: Swift.String?
     let fleet: Swift.String?
 }
@@ -13489,7 +13489,7 @@ extension SyncDeploymentJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
-public struct SyncDeploymentJobOutput: Swift.Equatable {
+public struct SyncDeploymentJobOutput {
     /// The Amazon Resource Name (ARN) of the synchronization request.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -13529,7 +13529,7 @@ public struct SyncDeploymentJobOutput: Swift.Equatable {
     }
 }
 
-struct SyncDeploymentJobOutputBody: Swift.Equatable {
+struct SyncDeploymentJobOutputBody {
     let arn: Swift.String?
     let fleet: Swift.String?
     let status: RoboMakerClientTypes.DeploymentStatus?
@@ -13625,7 +13625,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are tagging.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13643,7 +13643,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -13673,7 +13673,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -13719,7 +13719,7 @@ extension RoboMakerClientTypes.TemplateLocation: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a template location.
-    public struct TemplateLocation: Swift.Equatable {
+    public struct TemplateLocation {
         /// The Amazon S3 bucket name.
         /// This member is required.
         public var s3Bucket: Swift.String?
@@ -13784,7 +13784,7 @@ extension RoboMakerClientTypes.TemplateSummary: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Summary information for a template.
-    public struct TemplateSummary: Swift.Equatable {
+    public struct TemplateSummary {
         /// The Amazon Resource Name (ARN) of the template.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the template was created.
@@ -13853,7 +13853,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -13914,7 +13914,7 @@ extension RoboMakerClientTypes.Tool: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a tool. Tools are used in a simulation job.
-    public struct Tool: Swift.Equatable {
+    public struct Tool {
         /// Command-line arguments for the tool. It must include the tool executable name.
         /// This member is required.
         public var command: Swift.String?
@@ -13972,7 +13972,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are removing tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13990,7 +13990,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -14004,7 +14004,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -14062,7 +14062,7 @@ extension UpdateRobotApplicationInput {
     }
 }
 
-public struct UpdateRobotApplicationInput: Swift.Equatable {
+public struct UpdateRobotApplicationInput {
     /// The application information for the robot application.
     /// This member is required.
     public var application: Swift.String?
@@ -14092,7 +14092,7 @@ public struct UpdateRobotApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateRobotApplicationInputBody: Swift.Equatable {
+struct UpdateRobotApplicationInputBody {
     let application: Swift.String?
     let sources: [RoboMakerClientTypes.SourceConfig]?
     let robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite?
@@ -14159,7 +14159,7 @@ extension UpdateRobotApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRobotApplicationOutput: Swift.Equatable {
+public struct UpdateRobotApplicationOutput {
     /// The Amazon Resource Name (ARN) of the updated robot application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI for your robot application.
@@ -14199,7 +14199,7 @@ public struct UpdateRobotApplicationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRobotApplicationOutputBody: Swift.Equatable {
+struct UpdateRobotApplicationOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -14314,7 +14314,7 @@ extension UpdateSimulationApplicationInput {
     }
 }
 
-public struct UpdateSimulationApplicationInput: Swift.Equatable {
+public struct UpdateSimulationApplicationInput {
     /// The application information for the simulation application.
     /// This member is required.
     public var application: Swift.String?
@@ -14353,7 +14353,7 @@ public struct UpdateSimulationApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateSimulationApplicationInputBody: Swift.Equatable {
+struct UpdateSimulationApplicationInputBody {
     let application: Swift.String?
     let sources: [RoboMakerClientTypes.SourceConfig]?
     let simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite?
@@ -14432,7 +14432,7 @@ extension UpdateSimulationApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSimulationApplicationOutput: Swift.Equatable {
+public struct UpdateSimulationApplicationOutput {
     /// The Amazon Resource Name (ARN) of the updated simulation application.
     public var arn: Swift.String?
     /// The object that contains the Docker image URI used for your simulation application.
@@ -14480,7 +14480,7 @@ public struct UpdateSimulationApplicationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSimulationApplicationOutputBody: Swift.Equatable {
+struct UpdateSimulationApplicationOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let version: Swift.String?
@@ -14588,7 +14588,7 @@ extension UpdateWorldTemplateInput {
     }
 }
 
-public struct UpdateWorldTemplateInput: Swift.Equatable {
+public struct UpdateWorldTemplateInput {
     /// The name of the template.
     public var name: Swift.String?
     /// The Amazon Resource Name (arn) of the world template to update.
@@ -14613,7 +14613,7 @@ public struct UpdateWorldTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorldTemplateInputBody: Swift.Equatable {
+struct UpdateWorldTemplateInputBody {
     let template: Swift.String?
     let name: Swift.String?
     let templateBody: Swift.String?
@@ -14659,7 +14659,7 @@ extension UpdateWorldTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorldTemplateOutput: Swift.Equatable {
+public struct UpdateWorldTemplateOutput {
     /// The Amazon Resource Name (arn) of the world template.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the world template was created.
@@ -14683,7 +14683,7 @@ public struct UpdateWorldTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorldTemplateOutputBody: Swift.Equatable {
+struct UpdateWorldTemplateOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -14790,7 +14790,7 @@ extension RoboMakerClientTypes.UploadConfiguration: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Provides upload configuration information. Files are uploaded from the simulation job to a location you specify.
-    public struct UploadConfiguration: Swift.Equatable {
+    public struct UploadConfiguration {
         /// A prefix that specifies where files will be uploaded in Amazon S3. It is appended to the simulation output location to determine the final path. For example, if your simulation output location is s3://my-bucket and your upload configuration name is robot-test, your files will be uploaded to s3://my-bucket///robot-test.
         /// This member is required.
         public var name: Swift.String?
@@ -14872,7 +14872,7 @@ extension RoboMakerClientTypes.VPCConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and two subnet IDs.
-    public struct VPCConfig: Swift.Equatable {
+    public struct VPCConfig {
         /// A boolean indicating whether to assign a public IP address.
         public var assignPublicIp: Swift.Bool
         /// A list of one or more security groups IDs in your VPC.
@@ -14958,7 +14958,7 @@ extension RoboMakerClientTypes.VPCConfigResponse: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// VPC configuration associated with your simulation job.
-    public struct VPCConfigResponse: Swift.Equatable {
+    public struct VPCConfigResponse {
         /// A boolean indicating if a public IP was assigned.
         public var assignPublicIp: Swift.Bool
         /// A list of security group IDs associated with the simulation job.
@@ -15005,7 +15005,7 @@ extension RoboMakerClientTypes.WorldConfig: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Configuration information for a world.
-    public struct WorldConfig: Swift.Equatable {
+    public struct WorldConfig {
         /// The world generated by Simulation WorldForge.
         public var world: Swift.String?
 
@@ -15046,7 +15046,7 @@ extension RoboMakerClientTypes.WorldCount: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// The number of worlds that will be created. You can configure the number of unique floorplans and the number of unique interiors for each floor plan. For example, if you want 1 world with 20 unique interiors, you set floorplanCount = 1 and interiorCountPerFloorplan = 20. This will result in 20 worlds (floorplanCount * interiorCountPerFloorplan). If you set floorplanCount = 4 and interiorCountPerFloorplan = 5, there will be 20 worlds with 5 unique floor plans.
-    public struct WorldCount: Swift.Equatable {
+    public struct WorldCount {
         /// The number of unique floorplans.
         public var floorplanCount: Swift.Int?
         /// The number of unique interiors per floorplan.
@@ -15209,7 +15209,7 @@ extension RoboMakerClientTypes.WorldExportJobSummary: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a world export job.
-    public struct WorldExportJobSummary: Swift.Equatable {
+    public struct WorldExportJobSummary {
         /// The Amazon Resource Name (ARN) of the world export job.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the world export job was created.
@@ -15272,7 +15272,7 @@ extension RoboMakerClientTypes.WorldFailure: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a failed world.
-    public struct WorldFailure: Swift.Equatable {
+    public struct WorldFailure {
         /// The failure code of the world export job if it failed: InternalServiceError Internal service error. LimitExceeded The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed. ResourceNotFound The specified resource could not be found. RequestThrottled The request was throttled. InvalidInput An input parameter in the request is not valid.
         public var failureCode: RoboMakerClientTypes.WorldGenerationJobErrorCode?
         /// The number of failed worlds.
@@ -15442,7 +15442,7 @@ extension RoboMakerClientTypes.WorldGenerationJobSummary: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a world generator job.
-    public struct WorldGenerationJobSummary: Swift.Equatable {
+    public struct WorldGenerationJobSummary {
         /// The Amazon Resource Name (ARN) of the world generator job.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the world generator job was created.
@@ -15519,7 +15519,7 @@ extension RoboMakerClientTypes.WorldSummary: Swift.Codable {
 
 extension RoboMakerClientTypes {
     /// Information about a world.
-    public struct WorldSummary: Swift.Equatable {
+    public struct WorldSummary {
         /// The Amazon Resource Name (ARN) of the world.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the world was created.

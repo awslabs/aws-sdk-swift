@@ -52,7 +52,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -103,7 +103,7 @@ extension RekognitionClientTypes.AgeRange: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Structure containing the estimated age range, in years, for a face. Amazon Rekognition estimates an age range for faces detected in the input image. Estimated age ranges can overlap. A face of a 5-year-old might have an estimated range of 4-6, while the face of a 6-year-old might have an estimated range of 4-8.
-    public struct AgeRange: Swift.Equatable {
+    public struct AgeRange {
         /// The highest estimated age.
         public var high: Swift.Int?
         /// The lowest estimated age.
@@ -142,7 +142,7 @@ extension RekognitionClientTypes.Asset: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Assets are the images that you use to train and evaluate a model version. Assets can also contain validation information that you use to debug a failed model training.
-    public struct Asset: Swift.Equatable {
+    public struct Asset {
         /// The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest file.
         public var groundTruthManifest: RekognitionClientTypes.GroundTruthManifest?
 
@@ -195,7 +195,7 @@ extension AssociateFacesInput {
     }
 }
 
-public struct AssociateFacesInput: Swift.Equatable {
+public struct AssociateFacesInput {
     /// Idempotent token used to identify the request to AssociateFaces. If you use the same token with multiple AssociateFaces requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
     public var clientRequestToken: Swift.String?
     /// The ID of an existing collection containing the UserID.
@@ -226,7 +226,7 @@ public struct AssociateFacesInput: Swift.Equatable {
     }
 }
 
-struct AssociateFacesInputBody: Swift.Equatable {
+struct AssociateFacesInputBody {
     let collectionId: Swift.String?
     let userId: Swift.String?
     let faceIds: [Swift.String]?
@@ -283,7 +283,7 @@ extension AssociateFacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateFacesOutput: Swift.Equatable {
+public struct AssociateFacesOutput {
     /// An array of AssociatedFace objects containing FaceIDs that have been successfully associated with the UserID. Returned if the AssociateFaces action is successful.
     public var associatedFaces: [RekognitionClientTypes.AssociatedFace]?
     /// An array of UnsuccessfulAssociation objects containing FaceIDs that are not successfully associated along with the reasons. Returned if the AssociateFaces action is successful.
@@ -303,7 +303,7 @@ public struct AssociateFacesOutput: Swift.Equatable {
     }
 }
 
-struct AssociateFacesOutputBody: Swift.Equatable {
+struct AssociateFacesOutputBody {
     let associatedFaces: [RekognitionClientTypes.AssociatedFace]?
     let unsuccessfulFaceAssociations: [RekognitionClientTypes.UnsuccessfulFaceAssociation]?
     let userStatus: RekognitionClientTypes.UserStatus?
@@ -385,7 +385,7 @@ extension RekognitionClientTypes.AssociatedFace: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides face metadata for the faces that are associated to a specific UserID.
-    public struct AssociatedFace: Swift.Equatable {
+    public struct AssociatedFace {
         /// Unique identifier assigned to the face.
         public var faceId: Swift.String?
 
@@ -506,7 +506,7 @@ extension RekognitionClientTypes.AudioMetadata: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Metadata information about an audio stream. An array of AudioMetadata objects for the audio streams found in a stored video is returned by [GetSegmentDetection].
-    public struct AudioMetadata: Swift.Equatable {
+    public struct AudioMetadata {
         /// The audio codec used to encode or decode the audio stream.
         public var codec: Swift.String?
         /// The duration of the audio stream in milliseconds.
@@ -570,7 +570,7 @@ extension RekognitionClientTypes.AuditImage: Swift.CustomDebugStringConvertible 
 
 extension RekognitionClientTypes {
     /// An image that is picked from the Face Liveness video and returned for audit trail purposes, returned as Base64-encoded bytes.
-    public struct AuditImage: Swift.Equatable {
+    public struct AuditImage {
         /// Identifies the bounding box around the label, face, text, object of interest, or personal protective equipment. The left (x-coordinate) and top (y-coordinate) are coordinates representing the top and left sides of the bounding box. Note that the upper-left corner of the image is the origin (0,0). The top and left values returned are ratios of the overall image size. For example, if the input image is 700x200 pixels, and the top-left coordinate of the bounding box is 350x50 pixels, the API returns a left value of 0.5 (350/700) and a top value of 0.25 (50/200). The width and height values represent the dimensions of the bounding box as a ratio of the overall image dimension. For example, if the input image is 700x200 pixels, and the bounding box width is 70 pixels, the width returned is 0.1. The bounding box coordinates can have negative values. For example, if Amazon Rekognition is able to detect a face that is at the image edge and is only partially visible, the service can return coordinates that are outside the image bounds and, depending on the image edge, you might get negative values or values greater than 1 for the left or top values.
         public var boundingBox: RekognitionClientTypes.BoundingBox?
         /// The Base64-encoded bytes representing an image selected from the Face Liveness video and returned for audit purposes.
@@ -619,7 +619,7 @@ extension RekognitionClientTypes.Beard: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Indicates whether or not the face has a beard, and the confidence level in the determination.
-    public struct Beard: Swift.Equatable {
+    public struct Beard {
         /// Level of confidence in the determination.
         public var confidence: Swift.Float?
         /// Boolean value that indicates whether the face has beard or not.
@@ -664,7 +664,7 @@ extension RekognitionClientTypes.BlackFrame: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A filter that allows you to control the black frame detection by specifying the black levels and pixel coverage of black pixels in a frame. As videos can come from multiple sources, formats, and time periods, they may contain different standards and varying noise levels for black frames that need to be accounted for. For more information, see [StartSegmentDetection].
-    public struct BlackFrame: Swift.Equatable {
+    public struct BlackFrame {
         /// A threshold used to determine the maximum luminance value for a pixel to be considered black. In a full color range video, luminance values range from 0-255. A pixel value of 0 is pure black, and the most strict filter. The maximum black pixel value is computed as follows: max_black_pixel_value = minimum_luminance + MaxPixelThreshold *luminance_range. For example, for a full range video with BlackPixelThreshold = 0.1, max_black_pixel_value is 0 + 0.1 * (255-0) = 25.5. The default value of MaxPixelThreshold is 0.2, which maps to a max_black_pixel_value of 51 for a full range video. You can lower this threshold to be more strict on black levels.
         public var maxPixelThreshold: Swift.Float?
         /// The minimum percentage of pixels in a frame that need to have a luminance below the max_black_pixel_value for a frame to be considered a black frame. Luminance is calculated using the BT.709 matrix. The default value is 99, which means at least 99% of all pixels in the frame are black pixels as per the MaxPixelThreshold set. You can reduce this value to allow more noise on the black frame.
@@ -759,7 +759,7 @@ extension RekognitionClientTypes.BoundingBox: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Identifies the bounding box around the label, face, text, object of interest, or personal protective equipment. The left (x-coordinate) and top (y-coordinate) are coordinates representing the top and left sides of the bounding box. Note that the upper-left corner of the image is the origin (0,0). The top and left values returned are ratios of the overall image size. For example, if the input image is 700x200 pixels, and the top-left coordinate of the bounding box is 350x50 pixels, the API returns a left value of 0.5 (350/700) and a top value of 0.25 (50/200). The width and height values represent the dimensions of the bounding box as a ratio of the overall image dimension. For example, if the input image is 700x200 pixels, and the bounding box width is 70 pixels, the width returned is 0.1. The bounding box coordinates can have negative values. For example, if Amazon Rekognition is able to detect a face that is at the image edge and is only partially visible, the service can return coordinates that are outside the image bounds and, depending on the image edge, you might get negative values or values greater than 1 for the left or top values.
-    public struct BoundingBox: Swift.Equatable {
+    public struct BoundingBox {
         /// Height of the bounding box as a ratio of the overall image height.
         public var height: Swift.Float?
         /// Left coordinate of the bounding box as a ratio of overall image width.
@@ -848,7 +848,7 @@ extension RekognitionClientTypes.Celebrity: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides information about a celebrity recognized by the [RecognizeCelebrities] operation.
-    public struct Celebrity: Swift.Equatable {
+    public struct Celebrity {
         /// Provides information about the celebrity's face, such as its location on the image.
         public var face: RekognitionClientTypes.ComparedFace?
         /// A unique identifier for the celebrity.
@@ -951,7 +951,7 @@ extension RekognitionClientTypes.CelebrityDetail: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about a recognized celebrity.
-    public struct CelebrityDetail: Swift.Equatable {
+    public struct CelebrityDetail {
         /// Bounding box around the body of a celebrity.
         public var boundingBox: RekognitionClientTypes.BoundingBox?
         /// The confidence, in percentage, that Amazon Rekognition has that the recognized face is the celebrity.
@@ -1016,7 +1016,7 @@ extension RekognitionClientTypes.CelebrityRecognition: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about a detected celebrity and the time the celebrity was detected in a stored video. For more information, see GetCelebrityRecognition in the Amazon Rekognition Developer Guide.
-    public struct CelebrityRecognition: Swift.Equatable {
+    public struct CelebrityRecognition {
         /// Information about a recognized celebrity.
         public var celebrity: RekognitionClientTypes.CelebrityDetail?
         /// The time, in milliseconds from the start of the video, that the celebrity was recognized. Note that Timestamp is not guaranteed to be accurate to the individual frame where the celebrity first appears.
@@ -1098,7 +1098,7 @@ extension CompareFacesInput {
     }
 }
 
-public struct CompareFacesInput: Swift.Equatable {
+public struct CompareFacesInput {
     /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't compared. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The default value is NONE. To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
     public var qualityFilter: RekognitionClientTypes.QualityFilter?
     /// The minimum level of confidence in the face matches that a match must meet to be included in the FaceMatches array.
@@ -1124,7 +1124,7 @@ public struct CompareFacesInput: Swift.Equatable {
     }
 }
 
-struct CompareFacesInputBody: Swift.Equatable {
+struct CompareFacesInputBody {
     let sourceImage: RekognitionClientTypes.Image?
     let targetImage: RekognitionClientTypes.Image?
     let similarityThreshold: Swift.Float?
@@ -1179,7 +1179,7 @@ extension RekognitionClientTypes.CompareFacesMatch: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides information about a face in a target image that matches the source image face analyzed by CompareFaces. The Face property contains the bounding box of the face in the target image. The Similarity property is the confidence that the source image face matches the face in the bounding box.
-    public struct CompareFacesMatch: Swift.Equatable {
+    public struct CompareFacesMatch {
         /// Provides face metadata (bounding box and confidence that the bounding box actually contains a face).
         public var face: RekognitionClientTypes.ComparedFace?
         /// Level of confidence that the faces match.
@@ -1217,7 +1217,7 @@ extension CompareFacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CompareFacesOutput: Swift.Equatable {
+public struct CompareFacesOutput {
     /// An array of faces in the target image that match the source image face. Each CompareFacesMatch object provides the bounding box, the confidence level that the bounding box contains a face, and the similarity score for the face in the bounding box and the face in the source image.
     public var faceMatches: [RekognitionClientTypes.CompareFacesMatch]?
     /// The face in the source image that was used for comparison.
@@ -1245,7 +1245,7 @@ public struct CompareFacesOutput: Swift.Equatable {
     }
 }
 
-struct CompareFacesOutputBody: Swift.Equatable {
+struct CompareFacesOutputBody {
     let sourceImageFace: RekognitionClientTypes.ComparedSourceImageFace?
     let faceMatches: [RekognitionClientTypes.CompareFacesMatch]?
     let unmatchedFaces: [RekognitionClientTypes.ComparedFace]?
@@ -1394,7 +1394,7 @@ extension RekognitionClientTypes.ComparedFace: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides face metadata for target image faces that are analyzed by CompareFaces and RecognizeCelebrities.
-    public struct ComparedFace: Swift.Equatable {
+    public struct ComparedFace {
         /// Bounding box of the face.
         public var boundingBox: RekognitionClientTypes.BoundingBox?
         /// Level of confidence that what the bounding box contains is a face.
@@ -1459,7 +1459,7 @@ extension RekognitionClientTypes.ComparedSourceImageFace: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Type that describes the face Amazon Rekognition chose to compare with the faces in the target. This contains a bounding box for the selected face and confidence level that the bounding box contains a face. Note that Amazon Rekognition selects the largest face in the source image for this comparison.
-    public struct ComparedSourceImageFace: Swift.Equatable {
+    public struct ComparedSourceImageFace {
         /// Bounding box of the face.
         public var boundingBox: RekognitionClientTypes.BoundingBox?
         /// Confidence level that the selected bounding box contains a face.
@@ -1527,7 +1527,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -1590,7 +1590,7 @@ extension RekognitionClientTypes.ConnectedHomeSettings: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Label detection settings to use on a streaming video. Defining the settings is required in the request parameter for [CreateStreamProcessor]. Including this setting in the CreateStreamProcessor request enables you to use the stream processor for label detection. You can then select what you want the stream processor to detect, such as people or pets. When the stream processor has started, one notification is sent for each object class specified. For example, if packages and pets are selected, one SNS notification is published the first time a package is detected and one SNS notification is published the first time a pet is detected, as well as an end-of-session summary.
-    public struct ConnectedHomeSettings: Swift.Equatable {
+    public struct ConnectedHomeSettings {
         /// Specifies what you want to detect in the video, such as people, packages, or pets. The current valid labels you can include in this list are: "PERSON", "PET", "PACKAGE", and "ALL".
         /// This member is required.
         public var labels: [Swift.String]?
@@ -1648,7 +1648,7 @@ extension RekognitionClientTypes.ConnectedHomeSettingsForUpdate: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The label detection settings you want to use in your stream processor. This includes the labels you want the stream processor to detect and the minimum confidence level allowed to label objects.
-    public struct ConnectedHomeSettingsForUpdate: Swift.Equatable {
+    public struct ConnectedHomeSettingsForUpdate {
         /// Specifies what you want to detect in the video, such as people, packages, or pets. The current valid labels you can include in this list are: "PERSON", "PET", "PACKAGE", and "ALL".
         public var labels: [Swift.String]?
         /// The minimum confidence required to label an object in the video.
@@ -1793,7 +1793,7 @@ extension RekognitionClientTypes.ContentModerationDetection: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about an inappropriate, unwanted, or offensive content label detection in a stored video.
-    public struct ContentModerationDetection: Swift.Equatable {
+    public struct ContentModerationDetection {
         /// A list of predicted results for the type of content an image contains. For example, the image content might be from animation, sports, or a video game.
         public var contentTypes: [RekognitionClientTypes.ContentType]?
         /// The time duration of a segment in milliseconds, I.e. time elapsed from StartTimestampMillis to EndTimestampMillis.
@@ -1886,7 +1886,7 @@ extension RekognitionClientTypes.ContentType: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains information regarding the confidence and name of a detected content type.
-    public struct ContentType: Swift.Equatable {
+    public struct ContentType {
         /// The confidence level of the label given
         public var confidence: Swift.Float?
         /// The name of the label
@@ -1951,7 +1951,7 @@ extension CopyProjectVersionInput {
     }
 }
 
-public struct CopyProjectVersionInput: Swift.Equatable {
+public struct CopyProjectVersionInput {
     /// The ARN of the project in the trusted AWS account that you want to copy the model version to.
     /// This member is required.
     public var destinationProjectArn: Swift.String?
@@ -2003,7 +2003,7 @@ public struct CopyProjectVersionInput: Swift.Equatable {
     }
 }
 
-struct CopyProjectVersionInputBody: Swift.Equatable {
+struct CopyProjectVersionInputBody {
     let sourceProjectArn: Swift.String?
     let sourceProjectVersionArn: Swift.String?
     let destinationProjectArn: Swift.String?
@@ -2064,7 +2064,7 @@ extension CopyProjectVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopyProjectVersionOutput: Swift.Equatable {
+public struct CopyProjectVersionOutput {
     /// The ARN of the copied model version in the destination project.
     public var projectVersionArn: Swift.String?
 
@@ -2076,7 +2076,7 @@ public struct CopyProjectVersionOutput: Swift.Equatable {
     }
 }
 
-struct CopyProjectVersionOutputBody: Swift.Equatable {
+struct CopyProjectVersionOutputBody {
     let projectVersionArn: Swift.String?
 }
 
@@ -2138,7 +2138,7 @@ extension RekognitionClientTypes.CoversBodyPart: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about an item of Personal Protective Equipment covering a corresponding body part. For more information, see [DetectProtectiveEquipment].
-    public struct CoversBodyPart: Swift.Equatable {
+    public struct CoversBodyPart {
         /// The confidence that Amazon Rekognition has in the value of Value.
         public var confidence: Swift.Float?
         /// True if the PPE covers the corresponding body part, otherwise false.
@@ -2183,7 +2183,7 @@ extension CreateCollectionInput {
     }
 }
 
-public struct CreateCollectionInput: Swift.Equatable {
+public struct CreateCollectionInput {
     /// ID for the collection that you are creating.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -2200,7 +2200,7 @@ public struct CreateCollectionInput: Swift.Equatable {
     }
 }
 
-struct CreateCollectionInputBody: Swift.Equatable {
+struct CreateCollectionInputBody {
     let collectionId: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2245,7 +2245,7 @@ extension CreateCollectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCollectionOutput: Swift.Equatable {
+public struct CreateCollectionOutput {
     /// Amazon Resource Name (ARN) of the collection. You can use this to manage permissions on your resources.
     public var collectionArn: Swift.String?
     /// Version number of the face detection model associated with the collection you are creating.
@@ -2265,7 +2265,7 @@ public struct CreateCollectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateCollectionOutputBody: Swift.Equatable {
+struct CreateCollectionOutputBody {
     let statusCode: Swift.Int?
     let collectionArn: Swift.String?
     let faceModelVersion: Swift.String?
@@ -2334,7 +2334,7 @@ extension CreateDatasetInput {
     }
 }
 
-public struct CreateDatasetInput: Swift.Equatable {
+public struct CreateDatasetInput {
     /// The source files for the dataset. You can specify the ARN of an existing dataset or specify the Amazon S3 bucket location of an Amazon Sagemaker format manifest file. If you don't specify datasetSource, an empty dataset is created. To add labeled images to the dataset, You can use the console or call [UpdateDatasetEntries].
     public var datasetSource: RekognitionClientTypes.DatasetSource?
     /// The type of the dataset. Specify TRAIN to create a training dataset. Specify TEST to create a test dataset.
@@ -2356,7 +2356,7 @@ public struct CreateDatasetInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetInputBody: Swift.Equatable {
+struct CreateDatasetInputBody {
     let datasetSource: RekognitionClientTypes.DatasetSource?
     let datasetType: RekognitionClientTypes.DatasetType?
     let projectArn: Swift.String?
@@ -2392,7 +2392,7 @@ extension CreateDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetOutput: Swift.Equatable {
+public struct CreateDatasetOutput {
     /// The ARN of the created Amazon Rekognition Custom Labels dataset.
     public var datasetArn: Swift.String?
 
@@ -2404,7 +2404,7 @@ public struct CreateDatasetOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetOutputBody: Swift.Equatable {
+struct CreateDatasetOutputBody {
     let datasetArn: Swift.String?
 }
 
@@ -2467,7 +2467,7 @@ extension CreateFaceLivenessSessionInput {
     }
 }
 
-public struct CreateFaceLivenessSessionInput: Swift.Equatable {
+public struct CreateFaceLivenessSessionInput {
     /// Idempotent token is used to recognize the Face Liveness request. If the same token is used with multiple CreateFaceLivenessSession requests, the same session is returned. This token is employed to avoid unintentionally creating the same session multiple times.
     public var clientRequestToken: Swift.String?
     /// The identifier for your AWS Key Management Service key (AWS KMS key). Used to encrypt audit images and reference images.
@@ -2487,7 +2487,7 @@ public struct CreateFaceLivenessSessionInput: Swift.Equatable {
     }
 }
 
-struct CreateFaceLivenessSessionInputBody: Swift.Equatable {
+struct CreateFaceLivenessSessionInputBody {
     let kmsKeyId: Swift.String?
     let settings: RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings?
     let clientRequestToken: Swift.String?
@@ -2523,7 +2523,7 @@ extension CreateFaceLivenessSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFaceLivenessSessionOutput: Swift.Equatable {
+public struct CreateFaceLivenessSessionOutput {
     /// A unique 128-bit UUID identifying a Face Liveness session. A new sessionID must be used for every Face Liveness check. If a given sessionID is used for subsequent Face Liveness checks, the checks will fail. Additionally, a SessionId expires 3 minutes after it's sent, making all Liveness data associated with the session (e.g., sessionID, reference image, audit images, etc.) unavailable.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -2536,7 +2536,7 @@ public struct CreateFaceLivenessSessionOutput: Swift.Equatable {
     }
 }
 
-struct CreateFaceLivenessSessionOutputBody: Swift.Equatable {
+struct CreateFaceLivenessSessionOutputBody {
     let sessionId: Swift.String?
 }
 
@@ -2594,7 +2594,7 @@ extension RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings: Swift
 
 extension RekognitionClientTypes {
     /// A session settings object. It contains settings for the operation to be performed. It accepts arguments for OutputConfig and AuditImagesLimit.
-    public struct CreateFaceLivenessSessionRequestSettings: Swift.Equatable {
+    public struct CreateFaceLivenessSessionRequestSettings {
         /// Number of audit images to be returned back. Takes an integer between 0-4. Any integer less than 0 will return 0, any integer above 4 will return 4 images in the response. By default, it is set to 0. The limit is best effort and is based on the actual duration of the selfie-video.
         public var auditImagesLimit: Swift.Int?
         /// Can specify the location of an Amazon S3 bucket, where reference and audit images will be stored. Note that the Amazon S3 bucket must be located in the caller's AWS account and in the same region as the Face Liveness end-point. Additionally, the Amazon S3 object keys are auto-generated by the Face Liveness system. Requires that the caller has the s3:PutObject permission on the Amazon S3 bucket.
@@ -2640,7 +2640,7 @@ extension CreateProjectInput {
     }
 }
 
-public struct CreateProjectInput: Swift.Equatable {
+public struct CreateProjectInput {
     /// Specifies whether automatic retraining should be attempted for the versions of the project. Automatic retraining is done as a best effort. Required argument for Content Moderation. Applicable only to adapters.
     public var autoUpdate: RekognitionClientTypes.ProjectAutoUpdate?
     /// Specifies feature that is being customized. If no value is provided CUSTOM_LABELS is used as a default.
@@ -2661,7 +2661,7 @@ public struct CreateProjectInput: Swift.Equatable {
     }
 }
 
-struct CreateProjectInputBody: Swift.Equatable {
+struct CreateProjectInputBody {
     let projectName: Swift.String?
     let feature: RekognitionClientTypes.CustomizationFeature?
     let autoUpdate: RekognitionClientTypes.ProjectAutoUpdate?
@@ -2697,7 +2697,7 @@ extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProjectOutput: Swift.Equatable {
+public struct CreateProjectOutput {
     /// The Amazon Resource Name (ARN) of the new project. You can use the ARN to configure IAM access to the project.
     public var projectArn: Swift.String?
 
@@ -2709,7 +2709,7 @@ public struct CreateProjectOutput: Swift.Equatable {
     }
 }
 
-struct CreateProjectOutputBody: Swift.Equatable {
+struct CreateProjectOutputBody {
     let projectArn: Swift.String?
 }
 
@@ -2797,7 +2797,7 @@ extension CreateProjectVersionInput {
     }
 }
 
-public struct CreateProjectVersionInput: Swift.Equatable {
+public struct CreateProjectVersionInput {
     /// Feature-specific configuration of the training job. If the job configuration does not match the feature type associated with the project, an InvalidParameterException is returned.
     public var featureConfig: RekognitionClientTypes.CustomizationFeatureConfig?
     /// The identifier for your AWS Key Management Service key (AWS KMS key). You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt training images, test images, and manifest files copied into the service for the project version. Your source images are unaffected. The key is also used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig). If you choose to use your own KMS key, you need the following permissions on the KMS key.
@@ -2855,7 +2855,7 @@ public struct CreateProjectVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateProjectVersionInputBody: Swift.Equatable {
+struct CreateProjectVersionInputBody {
     let projectArn: Swift.String?
     let versionName: Swift.String?
     let outputConfig: RekognitionClientTypes.OutputConfig?
@@ -2924,7 +2924,7 @@ extension CreateProjectVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProjectVersionOutput: Swift.Equatable {
+public struct CreateProjectVersionOutput {
     /// The ARN of the model or the project version that was created. Use DescribeProjectVersion to get the current status of the training operation.
     public var projectVersionArn: Swift.String?
 
@@ -2936,7 +2936,7 @@ public struct CreateProjectVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateProjectVersionOutputBody: Swift.Equatable {
+struct CreateProjectVersionOutputBody {
     let projectVersionArn: Swift.String?
 }
 
@@ -3033,7 +3033,7 @@ extension CreateStreamProcessorInput {
     }
 }
 
-public struct CreateStreamProcessorInput: Swift.Equatable {
+public struct CreateStreamProcessorInput {
     /// Shows whether you are sharing data with Rekognition to improve model performance. You can choose this option at the account level or on a per-stream basis. Note that if you opt out at the account level this setting is ignored on individual streams.
     public var dataSharingPreference: RekognitionClientTypes.StreamProcessorDataSharingPreference?
     /// Kinesis video stream stream that provides the source streaming video. If you are using the AWS CLI, the parameter name is StreamProcessorInput. This is required for both face search and label detection stream processors.
@@ -3086,7 +3086,7 @@ public struct CreateStreamProcessorInput: Swift.Equatable {
     }
 }
 
-struct CreateStreamProcessorInputBody: Swift.Equatable {
+struct CreateStreamProcessorInputBody {
     let input: RekognitionClientTypes.StreamProcessorInput?
     let output: RekognitionClientTypes.StreamProcessorOutput?
     let name: Swift.String?
@@ -3168,7 +3168,7 @@ extension CreateStreamProcessorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateStreamProcessorOutput: Swift.Equatable {
+public struct CreateStreamProcessorOutput {
     /// Amazon Resource Number for the newly created stream processor.
     public var streamProcessorArn: Swift.String?
 
@@ -3180,7 +3180,7 @@ public struct CreateStreamProcessorOutput: Swift.Equatable {
     }
 }
 
-struct CreateStreamProcessorOutputBody: Swift.Equatable {
+struct CreateStreamProcessorOutputBody {
     let streamProcessorArn: Swift.String?
 }
 
@@ -3242,7 +3242,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// Idempotent token used to identify the request to CreateUser. If you use the same token with multiple CreateUser requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
     public var clientRequestToken: Swift.String?
     /// The ID of an existing collection to which the new UserID needs to be created.
@@ -3264,7 +3264,7 @@ public struct CreateUserInput: Swift.Equatable {
     }
 }
 
-struct CreateUserInputBody: Swift.Equatable {
+struct CreateUserInputBody {
     let collectionId: Swift.String?
     let userId: Swift.String?
     let clientRequestToken: Swift.String?
@@ -3293,7 +3293,7 @@ extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
 
     public init() { }
 }
@@ -3350,7 +3350,7 @@ extension RekognitionClientTypes.CustomLabel: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A custom label detected in an image by a call to [DetectCustomLabels].
-    public struct CustomLabel: Swift.Equatable {
+    public struct CustomLabel {
         /// The confidence that the model has in the detection of the custom label. The range is 0-100. A higher value indicates a higher confidence.
         public var confidence: Swift.Float?
         /// The location of the detected object on the image that corresponds to the custom label. Includes an axis aligned coarse bounding box surrounding the object and a finer grain polygon for more accurate spatial information.
@@ -3425,7 +3425,7 @@ extension RekognitionClientTypes.CustomizationFeatureConfig: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Feature specific configuration for the training job. Configuration provided for the job must match the feature type parameter associated with project. If configuration and feature type do not match an InvalidParameterException is returned.
-    public struct CustomizationFeatureConfig: Swift.Equatable {
+    public struct CustomizationFeatureConfig {
         /// Configuration options for Custom Moderation training.
         public var contentModeration: RekognitionClientTypes.CustomizationFeatureContentModerationConfig?
 
@@ -3460,7 +3460,7 @@ extension RekognitionClientTypes.CustomizationFeatureContentModerationConfig: Sw
 
 extension RekognitionClientTypes {
     /// Configuration options for Content Moderation training.
-    public struct CustomizationFeatureContentModerationConfig: Swift.Equatable {
+    public struct CustomizationFeatureContentModerationConfig {
         /// The confidence level you plan to use to identify if unsafe content is present during inference.
         public var confidenceThreshold: Swift.Float?
 
@@ -3495,7 +3495,7 @@ extension RekognitionClientTypes.DatasetChanges: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Describes updates or additions to a dataset. A Single update or addition is an entry (JSON Line) that provides information about a single image. To update an existing entry, you match the source-ref field of the update entry with the source-ref filed of the entry that you want to update. If the source-ref field doesn't match an existing entry, the entry is added to dataset as a new entry.
-    public struct DatasetChanges: Swift.Equatable {
+    public struct DatasetChanges {
         /// A Base64-encoded binary data object containing one or JSON lines that either update the dataset or are additions to the dataset. You change a dataset by calling [UpdateDatasetEntries]. If you are using an AWS SDK to call UpdateDatasetEntries, you don't need to encode Changes as the SDK encodes the data for you. For example JSON lines, see Image-Level labels in manifest files and and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide.
         /// This member is required.
         public var groundTruth: ClientRuntime.Data?
@@ -3561,7 +3561,7 @@ extension RekognitionClientTypes.DatasetDescription: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A description for a dataset. For more information, see [DescribeDataset]. The status fields Status, StatusMessage, and StatusMessageCode reflect the last operation on the dataset.
-    public struct DatasetDescription: Swift.Equatable {
+    public struct DatasetDescription {
         /// The Unix timestamp for the time and date that the dataset was created.
         public var creationTimestamp: ClientRuntime.Date?
         /// The status message code for the dataset.
@@ -3622,7 +3622,7 @@ extension RekognitionClientTypes.DatasetLabelDescription: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Describes a dataset label. For more information, see [ListDatasetLabels].
-    public struct DatasetLabelDescription: Swift.Equatable {
+    public struct DatasetLabelDescription {
         /// The name of the label.
         public var labelName: Swift.String?
         /// Statistics about the label.
@@ -3667,7 +3667,7 @@ extension RekognitionClientTypes.DatasetLabelStats: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Statistics about a label used in a dataset. For more information, see [DatasetLabelDescription].
-    public struct DatasetLabelStats: Swift.Equatable {
+    public struct DatasetLabelStats {
         /// The total number of images that have the label assigned to a bounding box.
         public var boundingBoxCount: Swift.Int?
         /// The total number of images that use the label.
@@ -3736,7 +3736,7 @@ extension RekognitionClientTypes.DatasetMetadata: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Summary information for an Amazon Rekognition Custom Labels dataset. For more information, see [ProjectDescription].
-    public struct DatasetMetadata: Swift.Equatable {
+    public struct DatasetMetadata {
         /// The Unix timestamp for the date and time that the dataset was created.
         public var creationTimestamp: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) for the dataset.
@@ -3797,7 +3797,7 @@ extension RekognitionClientTypes.DatasetSource: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The source that Amazon Rekognition Custom Labels uses to create a dataset. To use an Amazon Sagemaker format manifest file, specify the S3 bucket location in the GroundTruthManifest field. The S3 bucket must be in your AWS account. To create a copy of an existing dataset, specify the Amazon Resource Name (ARN) of an existing dataset in DatasetArn. You need to specify a value for DatasetArn or GroundTruthManifest, but not both. if you supply both values, or if you don't specify any values, an InvalidParameterException exception occurs. For more information, see [CreateDataset].
-    public struct DatasetSource: Swift.Equatable {
+    public struct DatasetSource {
         /// The ARN of an Amazon Rekognition Custom Labels dataset that you want to copy.
         public var datasetArn: Swift.String?
         /// The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest file.
@@ -3854,7 +3854,7 @@ extension RekognitionClientTypes.DatasetStats: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides statistics about a dataset. For more information, see [DescribeDataset].
-    public struct DatasetStats: Swift.Equatable {
+    public struct DatasetStats {
         /// The total number of entries that contain at least one error.
         public var errorEntries: Swift.Int?
         /// The total number of images in the dataset that have labels.
@@ -4014,7 +4014,7 @@ extension DeleteCollectionInput {
     }
 }
 
-public struct DeleteCollectionInput: Swift.Equatable {
+public struct DeleteCollectionInput {
     /// ID of the collection to delete.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -4027,7 +4027,7 @@ public struct DeleteCollectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteCollectionInputBody: Swift.Equatable {
+struct DeleteCollectionInputBody {
     let collectionId: Swift.String?
 }
 
@@ -4055,7 +4055,7 @@ extension DeleteCollectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCollectionOutput: Swift.Equatable {
+public struct DeleteCollectionOutput {
     /// HTTP status code that indicates the result of the operation.
     public var statusCode: Swift.Int?
 
@@ -4067,7 +4067,7 @@ public struct DeleteCollectionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCollectionOutputBody: Swift.Equatable {
+struct DeleteCollectionOutputBody {
     let statusCode: Swift.Int?
 }
 
@@ -4119,7 +4119,7 @@ extension DeleteDatasetInput {
     }
 }
 
-public struct DeleteDatasetInput: Swift.Equatable {
+public struct DeleteDatasetInput {
     /// The ARN of the Amazon Rekognition Custom Labels dataset that you want to delete.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -4132,7 +4132,7 @@ public struct DeleteDatasetInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetInputBody: Swift.Equatable {
+struct DeleteDatasetInputBody {
     let datasetArn: Swift.String?
 }
 
@@ -4153,7 +4153,7 @@ extension DeleteDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatasetOutput: Swift.Equatable {
+public struct DeleteDatasetOutput {
 
     public init() { }
 }
@@ -4203,7 +4203,7 @@ extension DeleteFacesInput {
     }
 }
 
-public struct DeleteFacesInput: Swift.Equatable {
+public struct DeleteFacesInput {
     /// Collection from which to remove the specific faces.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -4221,7 +4221,7 @@ public struct DeleteFacesInput: Swift.Equatable {
     }
 }
 
-struct DeleteFacesInputBody: Swift.Equatable {
+struct DeleteFacesInputBody {
     let collectionId: Swift.String?
     let faceIds: [Swift.String]?
 }
@@ -4264,7 +4264,7 @@ extension DeleteFacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFacesOutput: Swift.Equatable {
+public struct DeleteFacesOutput {
     /// An array of strings (face IDs) of the faces that were deleted.
     public var deletedFaces: [Swift.String]?
     /// An array of any faces that weren't deleted.
@@ -4280,7 +4280,7 @@ public struct DeleteFacesOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFacesOutputBody: Swift.Equatable {
+struct DeleteFacesOutputBody {
     let deletedFaces: [Swift.String]?
     let unsuccessfulFaceDeletions: [RekognitionClientTypes.UnsuccessfulFaceDeletion]?
 }
@@ -4354,7 +4354,7 @@ extension DeleteProjectInput {
     }
 }
 
-public struct DeleteProjectInput: Swift.Equatable {
+public struct DeleteProjectInput {
     /// The Amazon Resource Name (ARN) of the project that you want to delete.
     /// This member is required.
     public var projectArn: Swift.String?
@@ -4367,7 +4367,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectInputBody: Swift.Equatable {
+struct DeleteProjectInputBody {
     let projectArn: Swift.String?
 }
 
@@ -4395,7 +4395,7 @@ extension DeleteProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProjectOutput: Swift.Equatable {
+public struct DeleteProjectOutput {
     /// The current status of the delete project operation.
     public var status: RekognitionClientTypes.ProjectStatus?
 
@@ -4407,7 +4407,7 @@ public struct DeleteProjectOutput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectOutputBody: Swift.Equatable {
+struct DeleteProjectOutputBody {
     let status: RekognitionClientTypes.ProjectStatus?
 }
 
@@ -4468,7 +4468,7 @@ extension DeleteProjectPolicyInput {
     }
 }
 
-public struct DeleteProjectPolicyInput: Swift.Equatable {
+public struct DeleteProjectPolicyInput {
     /// The name of the policy that you want to delete.
     /// This member is required.
     public var policyName: Swift.String?
@@ -4490,7 +4490,7 @@ public struct DeleteProjectPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectPolicyInputBody: Swift.Equatable {
+struct DeleteProjectPolicyInputBody {
     let projectArn: Swift.String?
     let policyName: Swift.String?
     let policyRevisionId: Swift.String?
@@ -4519,7 +4519,7 @@ extension DeleteProjectPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProjectPolicyOutput: Swift.Equatable {
+public struct DeleteProjectPolicyOutput {
 
     public init() { }
 }
@@ -4561,7 +4561,7 @@ extension DeleteProjectVersionInput {
     }
 }
 
-public struct DeleteProjectVersionInput: Swift.Equatable {
+public struct DeleteProjectVersionInput {
     /// The Amazon Resource Name (ARN) of the project version that you want to delete.
     /// This member is required.
     public var projectVersionArn: Swift.String?
@@ -4574,7 +4574,7 @@ public struct DeleteProjectVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectVersionInputBody: Swift.Equatable {
+struct DeleteProjectVersionInputBody {
     let projectVersionArn: Swift.String?
 }
 
@@ -4602,7 +4602,7 @@ extension DeleteProjectVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProjectVersionOutput: Swift.Equatable {
+public struct DeleteProjectVersionOutput {
     /// The status of the deletion operation.
     public var status: RekognitionClientTypes.ProjectVersionStatus?
 
@@ -4614,7 +4614,7 @@ public struct DeleteProjectVersionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectVersionOutputBody: Swift.Equatable {
+struct DeleteProjectVersionOutputBody {
     let status: RekognitionClientTypes.ProjectVersionStatus?
 }
 
@@ -4667,7 +4667,7 @@ extension DeleteStreamProcessorInput {
     }
 }
 
-public struct DeleteStreamProcessorInput: Swift.Equatable {
+public struct DeleteStreamProcessorInput {
     /// The name of the stream processor you want to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -4680,7 +4680,7 @@ public struct DeleteStreamProcessorInput: Swift.Equatable {
     }
 }
 
-struct DeleteStreamProcessorInputBody: Swift.Equatable {
+struct DeleteStreamProcessorInputBody {
     let name: Swift.String?
 }
 
@@ -4701,7 +4701,7 @@ extension DeleteStreamProcessorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteStreamProcessorOutput: Swift.Equatable {
+public struct DeleteStreamProcessorOutput {
 
     public init() { }
 }
@@ -4751,7 +4751,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// Idempotent token used to identify the request to DeleteUser. If you use the same token with multiple DeleteUser requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
     public var clientRequestToken: Swift.String?
     /// The ID of an existing collection from which the UserID needs to be deleted.
@@ -4773,7 +4773,7 @@ public struct DeleteUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserInputBody: Swift.Equatable {
+struct DeleteUserInputBody {
     let collectionId: Swift.String?
     let userId: Swift.String?
     let clientRequestToken: Swift.String?
@@ -4802,7 +4802,7 @@ extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
 
     public init() { }
 }
@@ -4845,7 +4845,7 @@ extension DescribeCollectionInput {
     }
 }
 
-public struct DescribeCollectionInput: Swift.Equatable {
+public struct DescribeCollectionInput {
     /// The ID of the collection to describe.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -4858,7 +4858,7 @@ public struct DescribeCollectionInput: Swift.Equatable {
     }
 }
 
-struct DescribeCollectionInputBody: Swift.Equatable {
+struct DescribeCollectionInputBody {
     let collectionId: Swift.String?
 }
 
@@ -4894,7 +4894,7 @@ extension DescribeCollectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCollectionOutput: Swift.Equatable {
+public struct DescribeCollectionOutput {
     /// The Amazon Resource Name (ARN) of the collection.
     public var collectionARN: Swift.String?
     /// The number of milliseconds since the Unix epoch time until the creation of the collection. The Unix epoch time is 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970.
@@ -4922,7 +4922,7 @@ public struct DescribeCollectionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCollectionOutputBody: Swift.Equatable {
+struct DescribeCollectionOutputBody {
     let faceCount: Swift.Int?
     let faceModelVersion: Swift.String?
     let collectionARN: Swift.String?
@@ -4990,7 +4990,7 @@ extension DescribeDatasetInput {
     }
 }
 
-public struct DescribeDatasetInput: Swift.Equatable {
+public struct DescribeDatasetInput {
     /// The Amazon Resource Name (ARN) of the dataset that you want to describe.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -5003,7 +5003,7 @@ public struct DescribeDatasetInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetInputBody: Swift.Equatable {
+struct DescribeDatasetInputBody {
     let datasetArn: Swift.String?
 }
 
@@ -5031,7 +5031,7 @@ extension DescribeDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatasetOutput: Swift.Equatable {
+public struct DescribeDatasetOutput {
     /// The description for the dataset.
     public var datasetDescription: RekognitionClientTypes.DatasetDescription?
 
@@ -5043,7 +5043,7 @@ public struct DescribeDatasetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetOutputBody: Swift.Equatable {
+struct DescribeDatasetOutputBody {
     let datasetDescription: RekognitionClientTypes.DatasetDescription?
 }
 
@@ -5110,7 +5110,7 @@ extension DescribeProjectVersionsInput {
     }
 }
 
-public struct DescribeProjectVersionsInput: Swift.Equatable {
+public struct DescribeProjectVersionsInput {
     /// The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
     public var maxResults: Swift.Int?
     /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
@@ -5135,7 +5135,7 @@ public struct DescribeProjectVersionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectVersionsInputBody: Swift.Equatable {
+struct DescribeProjectVersionsInputBody {
     let projectArn: Swift.String?
     let versionNames: [Swift.String]?
     let nextToken: Swift.String?
@@ -5186,7 +5186,7 @@ extension DescribeProjectVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProjectVersionsOutput: Swift.Equatable {
+public struct DescribeProjectVersionsOutput {
     /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of project version descriptions. The list is sorted by the creation date and time of the project versions, latest to earliest.
@@ -5202,7 +5202,7 @@ public struct DescribeProjectVersionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectVersionsOutputBody: Swift.Equatable {
+struct DescribeProjectVersionsOutputBody {
     let projectVersionDescriptions: [RekognitionClientTypes.ProjectVersionDescription]?
     let nextToken: Swift.String?
 }
@@ -5286,7 +5286,7 @@ extension DescribeProjectsInput {
     }
 }
 
-public struct DescribeProjectsInput: Swift.Equatable {
+public struct DescribeProjectsInput {
     /// Specifies the type of customization to filter projects by. If no value is specified, CUSTOM_LABELS is used as a default.
     public var features: [RekognitionClientTypes.CustomizationFeature]?
     /// The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
@@ -5310,7 +5310,7 @@ public struct DescribeProjectsInput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectsInputBody: Swift.Equatable {
+struct DescribeProjectsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let projectNames: [Swift.String]?
@@ -5370,7 +5370,7 @@ extension DescribeProjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProjectsOutput: Swift.Equatable {
+public struct DescribeProjectsOutput {
     /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of project descriptions. The list is sorted by the date and time the projects are created.
@@ -5386,7 +5386,7 @@ public struct DescribeProjectsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectsOutputBody: Swift.Equatable {
+struct DescribeProjectsOutputBody {
     let projectDescriptions: [RekognitionClientTypes.ProjectDescription]?
     let nextToken: Swift.String?
 }
@@ -5451,7 +5451,7 @@ extension DescribeStreamProcessorInput {
     }
 }
 
-public struct DescribeStreamProcessorInput: Swift.Equatable {
+public struct DescribeStreamProcessorInput {
     /// Name of the stream processor for which you want information.
     /// This member is required.
     public var name: Swift.String?
@@ -5464,7 +5464,7 @@ public struct DescribeStreamProcessorInput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamProcessorInputBody: Swift.Equatable {
+struct DescribeStreamProcessorInputBody {
     let name: Swift.String?
 }
 
@@ -5518,7 +5518,7 @@ extension DescribeStreamProcessorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeStreamProcessorOutput: Swift.Equatable {
+public struct DescribeStreamProcessorOutput {
     /// Date and time the stream processor was created
     public var creationTimestamp: ClientRuntime.Date?
     /// Shows whether you are sharing data with Rekognition to improve model performance. You can choose this option at the account level or on a per-stream basis. Note that if you opt out at the account level this setting is ignored on individual streams.
@@ -5582,7 +5582,7 @@ public struct DescribeStreamProcessorOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamProcessorOutputBody: Swift.Equatable {
+struct DescribeStreamProcessorOutputBody {
     let name: Swift.String?
     let streamProcessorArn: Swift.String?
     let status: RekognitionClientTypes.StreamProcessorStatus?
@@ -5707,7 +5707,7 @@ extension DetectCustomLabelsInput {
     }
 }
 
-public struct DetectCustomLabelsInput: Swift.Equatable {
+public struct DetectCustomLabelsInput {
     /// Provides the input image either as bytes or an S3 object. You pass image bytes to an Amazon Rekognition API operation by using the Bytes property. For example, you would use the Bytes property to pass an image loaded from a local file system. Image bytes passed by using the Bytes property must be base64-encoded. Your code may not need to encode image bytes if you are using an AWS SDK to call Amazon Rekognition API operations. For more information, see Analyzing an Image Loaded from a Local File System in the Amazon Rekognition Developer Guide. You pass images stored in an S3 bucket to an Amazon Rekognition API operation by using the S3Object property. Images stored in an S3 bucket do not need to be base64-encoded. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes using the Bytes property is not supported. You must first upload the image to an Amazon S3 bucket and then call the operation using the S3Object property. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
     /// This member is required.
     public var image: RekognitionClientTypes.Image?
@@ -5733,7 +5733,7 @@ public struct DetectCustomLabelsInput: Swift.Equatable {
     }
 }
 
-struct DetectCustomLabelsInputBody: Swift.Equatable {
+struct DetectCustomLabelsInputBody {
     let projectVersionArn: Swift.String?
     let image: RekognitionClientTypes.Image?
     let maxResults: Swift.Int?
@@ -5773,7 +5773,7 @@ extension DetectCustomLabelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectCustomLabelsOutput: Swift.Equatable {
+public struct DetectCustomLabelsOutput {
     /// An array of custom labels detected in the input image.
     public var customLabels: [RekognitionClientTypes.CustomLabel]?
 
@@ -5785,7 +5785,7 @@ public struct DetectCustomLabelsOutput: Swift.Equatable {
     }
 }
 
-struct DetectCustomLabelsOutputBody: Swift.Equatable {
+struct DetectCustomLabelsOutputBody {
     let customLabels: [RekognitionClientTypes.CustomLabel]?
 }
 
@@ -5858,7 +5858,7 @@ extension DetectFacesInput {
     }
 }
 
-public struct DetectFacesInput: Swift.Equatable {
+public struct DetectFacesInput {
     /// An array of facial attributes you want to be returned. A DEFAULT subset of facial attributes - BoundingBox, Confidence, Pose, Quality, and Landmarks - will always be returned. You can request for specific facial attributes (in addition to the default list) - by using ["DEFAULT", "FACE_OCCLUDED"] or just ["FACE_OCCLUDED"]. You can request for all facial attributes by using ["ALL"]. Requesting more attributes may increase response time. If you provide both, ["ALL", "DEFAULT"], the service uses a logical "AND" operator to determine which attributes to return (in this case, all attributes). Note that while the FaceOccluded and EyeDirection attributes are supported when using DetectFaces, they aren't supported when analyzing videos with StartFaceDetection and GetFaceDetection.
     public var attributes: [RekognitionClientTypes.Attribute]?
     /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
@@ -5875,7 +5875,7 @@ public struct DetectFacesInput: Swift.Equatable {
     }
 }
 
-struct DetectFacesInputBody: Swift.Equatable {
+struct DetectFacesInputBody {
     let image: RekognitionClientTypes.Image?
     let attributes: [RekognitionClientTypes.Attribute]?
 }
@@ -5918,7 +5918,7 @@ extension DetectFacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectFacesOutput: Swift.Equatable {
+public struct DetectFacesOutput {
     /// Details of each face found in the image.
     public var faceDetails: [RekognitionClientTypes.FaceDetail]?
     /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
@@ -5934,7 +5934,7 @@ public struct DetectFacesOutput: Swift.Equatable {
     }
 }
 
-struct DetectFacesOutputBody: Swift.Equatable {
+struct DetectFacesOutputBody {
     let faceDetails: [RekognitionClientTypes.FaceDetail]?
     let orientationCorrection: RekognitionClientTypes.OrientationCorrection?
 }
@@ -6052,7 +6052,7 @@ extension RekognitionClientTypes.DetectLabelsImageBackground: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The background of the image with regard to image quality and dominant colors.
-    public struct DetectLabelsImageBackground: Swift.Equatable {
+    public struct DetectLabelsImageBackground {
         /// The dominant colors found in the background of an image, defined with RGB values, CSS color name, simplified color name, and PixelPercentage (the percentage of image pixels that have a particular color).
         public var dominantColors: [RekognitionClientTypes.DominantColor]?
         /// The quality of the image background as defined by brightness and sharpness.
@@ -6109,7 +6109,7 @@ extension RekognitionClientTypes.DetectLabelsImageForeground: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The foreground of the image with regard to image quality and dominant colors.
-    public struct DetectLabelsImageForeground: Swift.Equatable {
+    public struct DetectLabelsImageForeground {
         /// The dominant colors found in the foreground of an image, defined with RGB values, CSS color name, simplified color name, and PixelPercentage (the percentage of image pixels that have a particular color).
         public var dominantColors: [RekognitionClientTypes.DominantColor]?
         /// The quality of the image foreground as defined by brightness and sharpness.
@@ -6178,7 +6178,7 @@ extension RekognitionClientTypes.DetectLabelsImageProperties: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about the quality and dominant colors of an input image. Quality and color information is returned for the entire image, foreground, and background.
-    public struct DetectLabelsImageProperties: Swift.Equatable {
+    public struct DetectLabelsImageProperties {
         /// Information about the properties of an image’s background, including the background’s quality and dominant colors, including the quality and dominant colors of the image.
         public var background: RekognitionClientTypes.DetectLabelsImageBackground?
         /// Information about the dominant colors found in an image, described with RGB values, CSS color name, simplified color name, and PixelPercentage (the percentage of image pixels that have a particular color).
@@ -6225,7 +6225,7 @@ extension RekognitionClientTypes.DetectLabelsImagePropertiesSettings: Swift.Coda
 
 extension RekognitionClientTypes {
     /// Settings for the IMAGE_PROPERTIES feature type.
-    public struct DetectLabelsImagePropertiesSettings: Swift.Equatable {
+    public struct DetectLabelsImagePropertiesSettings {
         /// The maximum number of dominant colors to return when detecting labels in an image. The default value is 10.
         public var maxDominantColors: Swift.Int
 
@@ -6272,7 +6272,7 @@ extension RekognitionClientTypes.DetectLabelsImageQuality: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The quality of an image provided for label detection, with regard to brightness, sharpness, and contrast.
-    public struct DetectLabelsImageQuality: Swift.Equatable {
+    public struct DetectLabelsImageQuality {
         /// The brightness of an image provided for label detection.
         public var brightness: Swift.Float?
         /// The contrast of an image provided for label detection.
@@ -6333,7 +6333,7 @@ extension DetectLabelsInput {
     }
 }
 
-public struct DetectLabelsInput: Swift.Equatable {
+public struct DetectLabelsInput {
     /// A list of the types of analysis to perform. Specifying GENERAL_LABELS uses the label detection feature, while specifying IMAGE_PROPERTIES returns information regarding image color and quality. If no option is specified GENERAL_LABELS is used by default.
     public var features: [RekognitionClientTypes.DetectLabelsFeatureName]?
     /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. Images stored in an S3 Bucket do not need to be base64-encoded. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
@@ -6362,7 +6362,7 @@ public struct DetectLabelsInput: Swift.Equatable {
     }
 }
 
-struct DetectLabelsInputBody: Swift.Equatable {
+struct DetectLabelsInputBody {
     let image: RekognitionClientTypes.Image?
     let maxLabels: Swift.Int?
     let minConfidence: Swift.Float?
@@ -6421,7 +6421,7 @@ extension DetectLabelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectLabelsOutput: Swift.Equatable {
+public struct DetectLabelsOutput {
     /// Information about the properties of the input image, such as brightness, sharpness, contrast, and dominant colors.
     public var imageProperties: RekognitionClientTypes.DetectLabelsImageProperties?
     /// Version number of the label detection model that was used to detect labels.
@@ -6445,7 +6445,7 @@ public struct DetectLabelsOutput: Swift.Equatable {
     }
 }
 
-struct DetectLabelsOutputBody: Swift.Equatable {
+struct DetectLabelsOutputBody {
     let labels: [RekognitionClientTypes.Label]?
     let orientationCorrection: RekognitionClientTypes.OrientationCorrection?
     let labelModelVersion: Swift.String?
@@ -6527,7 +6527,7 @@ extension RekognitionClientTypes.DetectLabelsSettings: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Settings for the DetectLabels request. Settings can include filters for both GENERAL_LABELS and IMAGE_PROPERTIES. GENERAL_LABELS filters can be inclusive or exclusive and applied to individual labels or label categories. IMAGE_PROPERTIES filters allow specification of a maximum number of dominant colors.
-    public struct DetectLabelsSettings: Swift.Equatable {
+    public struct DetectLabelsSettings {
         /// Contains the specified filters for GENERAL_LABELS.
         public var generalLabels: RekognitionClientTypes.GeneralLabelsSettings?
         /// Contains the chosen number of maximum dominant colors in an image.
@@ -6577,7 +6577,7 @@ extension DetectModerationLabelsInput {
     }
 }
 
-public struct DetectModerationLabelsInput: Swift.Equatable {
+public struct DetectModerationLabelsInput {
     /// Sets up the configuration for human evaluation, including the FlowDefinition the image will be sent to.
     public var humanLoopConfig: RekognitionClientTypes.HumanLoopConfig?
     /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
@@ -6602,7 +6602,7 @@ public struct DetectModerationLabelsInput: Swift.Equatable {
     }
 }
 
-struct DetectModerationLabelsInputBody: Swift.Equatable {
+struct DetectModerationLabelsInputBody {
     let image: RekognitionClientTypes.Image?
     let minConfidence: Swift.Float?
     let humanLoopConfig: RekognitionClientTypes.HumanLoopConfig?
@@ -6650,7 +6650,7 @@ extension DetectModerationLabelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectModerationLabelsOutput: Swift.Equatable {
+public struct DetectModerationLabelsOutput {
     /// A list of predicted results for the type of content an image contains. For example, the image content might be from animation, sports, or a video game.
     public var contentTypes: [RekognitionClientTypes.ContentType]?
     /// Shows the results of the human in the loop evaluation.
@@ -6678,7 +6678,7 @@ public struct DetectModerationLabelsOutput: Swift.Equatable {
     }
 }
 
-struct DetectModerationLabelsOutputBody: Swift.Equatable {
+struct DetectModerationLabelsOutputBody {
     let moderationLabels: [RekognitionClientTypes.ModerationLabel]?
     let moderationModelVersion: Swift.String?
     let humanLoopActivationOutput: RekognitionClientTypes.HumanLoopActivationOutput?
@@ -6773,7 +6773,7 @@ extension DetectProtectiveEquipmentInput {
     }
 }
 
-public struct DetectProtectiveEquipmentInput: Swift.Equatable {
+public struct DetectProtectiveEquipmentInput {
     /// The image in which you want to detect PPE on detected persons. The image can be passed as image bytes or you can reference an image stored in an Amazon S3 bucket.
     /// This member is required.
     public var image: RekognitionClientTypes.Image?
@@ -6790,7 +6790,7 @@ public struct DetectProtectiveEquipmentInput: Swift.Equatable {
     }
 }
 
-struct DetectProtectiveEquipmentInputBody: Swift.Equatable {
+struct DetectProtectiveEquipmentInputBody {
     let image: RekognitionClientTypes.Image?
     let summarizationAttributes: RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes?
 }
@@ -6826,7 +6826,7 @@ extension DetectProtectiveEquipmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectProtectiveEquipmentOutput: Swift.Equatable {
+public struct DetectProtectiveEquipmentOutput {
     /// An array of persons detected in the image (including persons not wearing PPE).
     public var persons: [RekognitionClientTypes.ProtectiveEquipmentPerson]?
     /// The version number of the PPE detection model used to detect PPE in the image.
@@ -6846,7 +6846,7 @@ public struct DetectProtectiveEquipmentOutput: Swift.Equatable {
     }
 }
 
-struct DetectProtectiveEquipmentOutputBody: Swift.Equatable {
+struct DetectProtectiveEquipmentOutputBody {
     let protectiveEquipmentModelVersion: Swift.String?
     let persons: [RekognitionClientTypes.ProtectiveEquipmentPerson]?
     let summary: RekognitionClientTypes.ProtectiveEquipmentSummary?
@@ -6936,7 +6936,7 @@ extension RekognitionClientTypes.DetectTextFilters: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A set of optional parameters that you can use to set the criteria that the text must meet to be included in your response. WordFilter looks at a word’s height, width, and minimum confidence. RegionOfInterest lets you set a specific region of the image to look for text in.
-    public struct DetectTextFilters: Swift.Equatable {
+    public struct DetectTextFilters {
         /// A Filter focusing on a certain area of the image. Uses a BoundingBox object to set the region of the image.
         public var regionsOfInterest: [RekognitionClientTypes.RegionOfInterest]?
         /// A set of parameters that allow you to filter out certain results from your returned results.
@@ -6978,7 +6978,7 @@ extension DetectTextInput {
     }
 }
 
-public struct DetectTextInput: Swift.Equatable {
+public struct DetectTextInput {
     /// Optional parameters that let you set the criteria that the text must meet to be included in your response.
     public var filters: RekognitionClientTypes.DetectTextFilters?
     /// The input image as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Rekognition operations, you can't pass image bytes. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
@@ -6995,7 +6995,7 @@ public struct DetectTextInput: Swift.Equatable {
     }
 }
 
-struct DetectTextInputBody: Swift.Equatable {
+struct DetectTextInputBody {
     let image: RekognitionClientTypes.Image?
     let filters: RekognitionClientTypes.DetectTextFilters?
 }
@@ -7029,7 +7029,7 @@ extension DetectTextOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectTextOutput: Swift.Equatable {
+public struct DetectTextOutput {
     /// An array of text that was detected in the input image.
     public var textDetections: [RekognitionClientTypes.TextDetection]?
     /// The model version used to detect text.
@@ -7045,7 +7045,7 @@ public struct DetectTextOutput: Swift.Equatable {
     }
 }
 
-struct DetectTextOutputBody: Swift.Equatable {
+struct DetectTextOutputBody {
     let textDetections: [RekognitionClientTypes.TextDetection]?
     let textModelVersion: Swift.String?
 }
@@ -7125,7 +7125,7 @@ extension RekognitionClientTypes.DetectionFilter: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A set of parameters that allow you to filter out certain results from your returned results.
-    public struct DetectionFilter: Swift.Equatable {
+    public struct DetectionFilter {
         /// Sets the minimum height of the word bounding box. Words with bounding box heights lesser than this value will be excluded from the result. Value is relative to the video frame height.
         public var minBoundingBoxHeight: Swift.Float?
         /// Sets the minimum width of the word bounding box. Words with bounding boxes widths lesser than this value will be excluded from the result. Value is relative to the video frame width.
@@ -7182,7 +7182,7 @@ extension DisassociateFacesInput {
     }
 }
 
-public struct DisassociateFacesInput: Swift.Equatable {
+public struct DisassociateFacesInput {
     /// Idempotent token used to identify the request to DisassociateFaces. If you use the same token with multiple DisassociateFaces requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
     public var clientRequestToken: Swift.String?
     /// The ID of an existing collection containing the UserID.
@@ -7209,7 +7209,7 @@ public struct DisassociateFacesInput: Swift.Equatable {
     }
 }
 
-struct DisassociateFacesInputBody: Swift.Equatable {
+struct DisassociateFacesInputBody {
     let collectionId: Swift.String?
     let userId: Swift.String?
     let clientRequestToken: Swift.String?
@@ -7262,7 +7262,7 @@ extension DisassociateFacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateFacesOutput: Swift.Equatable {
+public struct DisassociateFacesOutput {
     /// An array of DissociatedFace objects containing FaceIds that are successfully disassociated with the UserID is returned. Returned if the DisassociatedFaces action is successful.
     public var disassociatedFaces: [RekognitionClientTypes.DisassociatedFace]?
     /// An array of UnsuccessfulDisassociation objects containing FaceIds that are not successfully associated, along with the reasons for the failure to associate. Returned if the DisassociateFaces action is successful.
@@ -7282,7 +7282,7 @@ public struct DisassociateFacesOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateFacesOutputBody: Swift.Equatable {
+struct DisassociateFacesOutputBody {
     let disassociatedFaces: [RekognitionClientTypes.DisassociatedFace]?
     let unsuccessfulFaceDisassociations: [RekognitionClientTypes.UnsuccessfulFaceDisassociation]?
     let userStatus: RekognitionClientTypes.UserStatus?
@@ -7363,7 +7363,7 @@ extension RekognitionClientTypes.DisassociatedFace: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides face metadata for the faces that are disassociated from a specific UserID.
-    public struct DisassociatedFace: Swift.Equatable {
+    public struct DisassociatedFace {
         /// Unique identifier assigned to the face.
         public var faceId: Swift.String?
 
@@ -7398,7 +7398,7 @@ extension RekognitionClientTypes.DistributeDataset: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A training dataset or a test dataset used in a dataset distribution operation. For more information, see [DistributeDatasetEntries].
-    public struct DistributeDataset: Swift.Equatable {
+    public struct DistributeDataset {
         /// The Amazon Resource Name (ARN) of the dataset that you want to use.
         /// This member is required.
         public var arn: Swift.String?
@@ -7436,7 +7436,7 @@ extension DistributeDatasetEntriesInput {
     }
 }
 
-public struct DistributeDatasetEntriesInput: Swift.Equatable {
+public struct DistributeDatasetEntriesInput {
     /// The ARNS for the training dataset and test dataset that you want to use. The datasets must belong to the same project. The test dataset must be empty.
     /// This member is required.
     public var datasets: [RekognitionClientTypes.DistributeDataset]?
@@ -7449,7 +7449,7 @@ public struct DistributeDatasetEntriesInput: Swift.Equatable {
     }
 }
 
-struct DistributeDatasetEntriesInputBody: Swift.Equatable {
+struct DistributeDatasetEntriesInputBody {
     let datasets: [RekognitionClientTypes.DistributeDataset]?
 }
 
@@ -7479,7 +7479,7 @@ extension DistributeDatasetEntriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DistributeDatasetEntriesOutput: Swift.Equatable {
+public struct DistributeDatasetEntriesOutput {
 
     public init() { }
 }
@@ -7558,7 +7558,7 @@ extension RekognitionClientTypes.DominantColor: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A description of the dominant colors in an image.
-    public struct DominantColor: Swift.Equatable {
+    public struct DominantColor {
         /// The Blue RGB value for a dominant color.
         public var blue: Swift.Int?
         /// The CSS color name of a dominant color.
@@ -7623,7 +7623,7 @@ extension RekognitionClientTypes.Emotion: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The emotions that appear to be expressed on the face, and the confidence level in the determination. The API is only making a determination of the physical appearance of a person's face. It is not a determination of the person’s internal emotional state and should not be used in such a way. For example, a person pretending to have a sad face might not be sad emotionally.
-    public struct Emotion: Swift.Equatable {
+    public struct Emotion {
         /// Level of confidence in the determination.
         public var confidence: Swift.Float?
         /// Type of emotion detected.
@@ -7733,7 +7733,7 @@ extension RekognitionClientTypes.EquipmentDetection: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about an item of Personal Protective Equipment (PPE) detected by [DetectProtectiveEquipment]. For more information, see [DetectProtectiveEquipment].
-    public struct EquipmentDetection: Swift.Equatable {
+    public struct EquipmentDetection {
         /// A bounding box surrounding the item of detected PPE.
         public var boundingBox: RekognitionClientTypes.BoundingBox?
         /// The confidence that Amazon Rekognition has that the bounding box (BoundingBox) contains an item of PPE.
@@ -7786,7 +7786,7 @@ extension RekognitionClientTypes.EvaluationResult: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The evaluation results for the training of a model.
-    public struct EvaluationResult: Swift.Equatable {
+    public struct EvaluationResult {
         /// The F1 score for the evaluation of all labels. The F1 score metric evaluates the overall precision and recall performance of the model as a single value. A higher value indicates better precision and recall performance. A lower score indicates that precision, recall, or both are performing poorly.
         public var f1Score: Swift.Float?
         /// The S3 bucket that contains the training summary.
@@ -7837,7 +7837,7 @@ extension RekognitionClientTypes.EyeDirection: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Indicates the direction the eyes are gazing in (independent of the head pose) as determined by its pitch and yaw.
-    public struct EyeDirection: Swift.Equatable {
+    public struct EyeDirection {
         /// The confidence that the service has in its predicted eye direction.
         public var confidence: Swift.Float?
         /// Value representing eye direction on the pitch axis.
@@ -7886,7 +7886,7 @@ extension RekognitionClientTypes.EyeOpen: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Indicates whether or not the eyes on the face are open, and the confidence level in the determination.
-    public struct EyeOpen: Swift.Equatable {
+    public struct EyeOpen {
         /// Level of confidence in the determination.
         public var confidence: Swift.Float?
         /// Boolean value that indicates whether the eyes on the face are open.
@@ -7931,7 +7931,7 @@ extension RekognitionClientTypes.Eyeglasses: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Indicates whether or not the face is wearing eye glasses, and the confidence level in the determination.
-    public struct Eyeglasses: Swift.Equatable {
+    public struct Eyeglasses {
         /// Level of confidence in the determination.
         public var confidence: Swift.Float?
         /// Boolean value that indicates whether the face is wearing eye glasses or not.
@@ -8006,7 +8006,7 @@ extension RekognitionClientTypes.Face: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Describes the face properties such as the bounding box, face ID, image ID of the input image, and external image ID that you assigned.
-    public struct Face: Swift.Equatable {
+    public struct Face {
         /// Bounding box of the face.
         public var boundingBox: RekognitionClientTypes.BoundingBox?
         /// Confidence level that the bounding box contains a face (and not a different object such as a tree).
@@ -8226,7 +8226,7 @@ extension RekognitionClientTypes {
     ///
     ///
     /// The Amazon Rekognition Image [DetectFaces] and [IndexFaces] operations can return all facial attributes. To specify which attributes to return, use the Attributes input parameter for DetectFaces. For IndexFaces, use the DetectAttributes input parameter.
-    public struct FaceDetail: Swift.Equatable {
+    public struct FaceDetail {
         /// The estimated age range, in years, for the face. Low represents the lowest estimated age and High represents the highest estimated age.
         public var ageRange: RekognitionClientTypes.AgeRange?
         /// Indicates whether or not the face has a beard, and the confidence level in the determination.
@@ -8331,7 +8331,7 @@ extension RekognitionClientTypes.FaceDetection: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about a face detected in a video analysis request and the time the face was detected in the video.
-    public struct FaceDetection: Swift.Equatable {
+    public struct FaceDetection {
         /// The face properties for the detected face.
         public var face: RekognitionClientTypes.FaceDetail?
         /// Time, in milliseconds from the start of the video, that the face was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the face first appears.
@@ -8376,7 +8376,7 @@ extension RekognitionClientTypes.FaceMatch: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides face metadata. In addition, it also provides the confidence in the match of this face with the input face.
-    public struct FaceMatch: Swift.Equatable {
+    public struct FaceMatch {
         /// Describes the face properties such as the bounding box, face ID, image ID of the source image, and external image ID that you assigned.
         public var face: RekognitionClientTypes.Face?
         /// Confidence in the match of this face with the input face.
@@ -8421,7 +8421,7 @@ extension RekognitionClientTypes.FaceOccluded: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// FaceOccluded should return "true" with a high confidence score if a detected face’s eyes, nose, and mouth are partially captured or if they are covered by masks, dark sunglasses, cell phones, hands, or other objects. FaceOccluded should return "false" with a high confidence score if common occurrences that do not impact face verification are detected, such as eye glasses, lightly tinted sunglasses, strands of hair, and others. You can use FaceOccluded to determine if an obstruction on a face negatively impacts using the image for face matching.
-    public struct FaceOccluded: Swift.Equatable {
+    public struct FaceOccluded {
         /// The confidence that the service has detected the presence of a face occlusion.
         public var confidence: Swift.Float?
         /// True if a detected face’s eyes, nose, and mouth are partially captured or if they are covered by masks, dark sunglasses, cell phones, hands, or other objects. False if common occurrences that do not impact face verification are detected, such as eye glasses, lightly tinted sunglasses, strands of hair, and others.
@@ -8466,7 +8466,7 @@ extension RekognitionClientTypes.FaceRecord: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Object containing both the face metadata (stored in the backend database), and facial attributes that are detected but aren't stored in the database.
-    public struct FaceRecord: Swift.Equatable {
+    public struct FaceRecord {
         /// Describes the face properties such as the bounding box, face ID, image ID of the input image, and external image ID that you assigned.
         public var face: RekognitionClientTypes.Face?
         /// Structure containing attributes of the face that the algorithm detected.
@@ -8511,7 +8511,7 @@ extension RekognitionClientTypes.FaceSearchSettings: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Input face recognition parameters for an Amazon Rekognition stream processor. Includes the collection to use for face recognition and the face attributes to detect. Defining the settings is required in the request parameter for [CreateStreamProcessor].
-    public struct FaceSearchSettings: Swift.Equatable {
+    public struct FaceSearchSettings {
         /// The ID of a collection that contains faces that you want to search for.
         public var collectionId: Swift.String?
         /// Minimum face match confidence score that must be met to return a result for a recognized face. The default is 80. 0 is the lowest confidence. 100 is the highest confidence. Values between 0 and 100 are accepted, and values lower than 80 are set to 80.
@@ -8588,7 +8588,7 @@ extension RekognitionClientTypes.Gender: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The predicted gender of a detected face. Amazon Rekognition makes gender binary (male/female) predictions based on the physical appearance of a face in a particular image. This kind of prediction is not designed to categorize a person’s gender identity, and you shouldn't use Amazon Rekognition to make such a determination. For example, a male actor wearing a long-haired wig and earrings for a role might be predicted as female. Using Amazon Rekognition to make gender binary predictions is best suited for use cases where aggregate gender distribution statistics need to be analyzed without identifying specific users. For example, the percentage of female users compared to male users on a social media platform. We don't recommend using gender binary predictions to make decisions that impact an individual's rights, privacy, or access to services.
-    public struct Gender: Swift.Equatable {
+    public struct Gender {
         /// Level of confidence in the prediction.
         public var confidence: Swift.Float?
         /// The predicted gender of the face.
@@ -8725,7 +8725,7 @@ extension RekognitionClientTypes.GeneralLabelsSettings: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains filters for the object labels returned by DetectLabels. Filters can be inclusive, exclusive, or a combination of both and can be applied to individual labels or entire label categories. To see a list of label categories, see [Detecting Labels](https://docs.aws.amazon.com/rekognition/latest/dg/labels.html).
-    public struct GeneralLabelsSettings: Swift.Equatable {
+    public struct GeneralLabelsSettings {
         /// The label categories that should be excluded from the return from DetectLabels.
         public var labelCategoryExclusionFilters: [Swift.String]?
         /// The label categories that should be included in the return from DetectLabels.
@@ -8790,7 +8790,7 @@ extension RekognitionClientTypes.Geometry: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about where an object ([DetectCustomLabels]) or text ([DetectText]) is located on an image.
-    public struct Geometry: Swift.Equatable {
+    public struct Geometry {
         /// An axis-aligned coarse representation of the detected item's location on the image.
         public var boundingBox: RekognitionClientTypes.BoundingBox?
         /// Within the bounding box, a fine-grained polygon around the detected item.
@@ -8828,7 +8828,7 @@ extension GetCelebrityInfoInput {
     }
 }
 
-public struct GetCelebrityInfoInput: Swift.Equatable {
+public struct GetCelebrityInfoInput {
     /// The ID for the celebrity. You get the celebrity ID from a call to the [RecognizeCelebrities] operation, which recognizes celebrities in an image.
     /// This member is required.
     public var id: Swift.String?
@@ -8841,7 +8841,7 @@ public struct GetCelebrityInfoInput: Swift.Equatable {
     }
 }
 
-struct GetCelebrityInfoInputBody: Swift.Equatable {
+struct GetCelebrityInfoInputBody {
     let id: Swift.String?
 }
 
@@ -8873,7 +8873,7 @@ extension GetCelebrityInfoOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCelebrityInfoOutput: Swift.Equatable {
+public struct GetCelebrityInfoOutput {
     /// Retrieves the known gender for the celebrity.
     public var knownGender: RekognitionClientTypes.KnownGender?
     /// The name of the celebrity.
@@ -8893,7 +8893,7 @@ public struct GetCelebrityInfoOutput: Swift.Equatable {
     }
 }
 
-struct GetCelebrityInfoOutputBody: Swift.Equatable {
+struct GetCelebrityInfoOutputBody {
     let urls: [Swift.String]?
     let name: Swift.String?
     let knownGender: RekognitionClientTypes.KnownGender?
@@ -8974,7 +8974,7 @@ extension GetCelebrityRecognitionInput {
     }
 }
 
-public struct GetCelebrityRecognitionInput: Swift.Equatable {
+public struct GetCelebrityRecognitionInput {
     /// Job identifier for the required celebrity recognition analysis. You can get the job identifer from a call to StartCelebrityRecognition.
     /// This member is required.
     public var jobId: Swift.String?
@@ -8999,7 +8999,7 @@ public struct GetCelebrityRecognitionInput: Swift.Equatable {
     }
 }
 
-struct GetCelebrityRecognitionInputBody: Swift.Equatable {
+struct GetCelebrityRecognitionInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9053,7 +9053,7 @@ extension GetCelebrityRecognitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCelebrityRecognitionOutput: Swift.Equatable {
+public struct GetCelebrityRecognitionOutput {
     /// Array of celebrities recognized in the video.
     public var celebrities: [RekognitionClientTypes.CelebrityRecognition]?
     /// Job identifier for the celebrity recognition operation for which you want to obtain results. The job identifer is returned by an initial call to StartCelebrityRecognition.
@@ -9093,7 +9093,7 @@ public struct GetCelebrityRecognitionOutput: Swift.Equatable {
     }
 }
 
-struct GetCelebrityRecognitionOutputBody: Swift.Equatable {
+struct GetCelebrityRecognitionOutputBody {
     let jobStatus: RekognitionClientTypes.VideoJobStatus?
     let statusMessage: Swift.String?
     let videoMetadata: RekognitionClientTypes.VideoMetadata?
@@ -9199,7 +9199,7 @@ extension GetContentModerationInput {
     }
 }
 
-public struct GetContentModerationInput: Swift.Equatable {
+public struct GetContentModerationInput {
     /// Defines how to aggregate results of the StartContentModeration request. Default aggregation option is TIMESTAMPS. SEGMENTS mode aggregates moderation labels over time.
     public var aggregateBy: RekognitionClientTypes.ContentModerationAggregateBy?
     /// The identifier for the inappropriate, unwanted, or offensive content moderation job. Use JobId to identify the job in a subsequent call to GetContentModeration.
@@ -9228,7 +9228,7 @@ public struct GetContentModerationInput: Swift.Equatable {
     }
 }
 
-struct GetContentModerationInputBody: Swift.Equatable {
+struct GetContentModerationInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9290,7 +9290,7 @@ extension GetContentModerationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContentModerationOutput: Swift.Equatable {
+public struct GetContentModerationOutput {
     /// Information about the paramters used when getting a response. Includes information on aggregation and sorting methods.
     public var getRequestMetadata: RekognitionClientTypes.GetContentModerationRequestMetadata?
     /// Job identifier for the content moderation operation for which you want to obtain results. The job identifer is returned by an initial call to StartContentModeration.
@@ -9338,7 +9338,7 @@ public struct GetContentModerationOutput: Swift.Equatable {
     }
 }
 
-struct GetContentModerationOutputBody: Swift.Equatable {
+struct GetContentModerationOutputBody {
     let jobStatus: RekognitionClientTypes.VideoJobStatus?
     let statusMessage: Swift.String?
     let videoMetadata: RekognitionClientTypes.VideoMetadata?
@@ -9443,7 +9443,7 @@ extension RekognitionClientTypes.GetContentModerationRequestMetadata: Swift.Coda
 
 extension RekognitionClientTypes {
     /// Contains metadata about a content moderation request, including the SortBy and AggregateBy options.
-    public struct GetContentModerationRequestMetadata: Swift.Equatable {
+    public struct GetContentModerationRequestMetadata {
         /// The aggregation method chosen for a GetContentModeration request.
         public var aggregateBy: RekognitionClientTypes.ContentModerationAggregateBy?
         /// The sorting method chosen for a GetContentModeration request.
@@ -9489,7 +9489,7 @@ extension GetFaceDetectionInput {
     }
 }
 
-public struct GetFaceDetectionInput: Swift.Equatable {
+public struct GetFaceDetectionInput {
     /// Unique identifier for the face detection job. The JobId is returned from StartFaceDetection.
     /// This member is required.
     public var jobId: Swift.String?
@@ -9510,7 +9510,7 @@ public struct GetFaceDetectionInput: Swift.Equatable {
     }
 }
 
-struct GetFaceDetectionInputBody: Swift.Equatable {
+struct GetFaceDetectionInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9560,7 +9560,7 @@ extension GetFaceDetectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFaceDetectionOutput: Swift.Equatable {
+public struct GetFaceDetectionOutput {
     /// An array of faces detected in the video. Each element contains a detected face's details and the time, in milliseconds from the start of the video, the face was detected.
     public var faces: [RekognitionClientTypes.FaceDetection]?
     /// Job identifier for the face detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartFaceDetection.
@@ -9600,7 +9600,7 @@ public struct GetFaceDetectionOutput: Swift.Equatable {
     }
 }
 
-struct GetFaceDetectionOutputBody: Swift.Equatable {
+struct GetFaceDetectionOutputBody {
     let jobStatus: RekognitionClientTypes.VideoJobStatus?
     let statusMessage: Swift.String?
     let videoMetadata: RekognitionClientTypes.VideoMetadata?
@@ -9690,7 +9690,7 @@ extension GetFaceLivenessSessionResultsInput {
     }
 }
 
-public struct GetFaceLivenessSessionResultsInput: Swift.Equatable {
+public struct GetFaceLivenessSessionResultsInput {
     /// A unique 128-bit UUID. This is used to uniquely identify the session and also acts as an idempotency token for all operations associated with the session.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -9703,7 +9703,7 @@ public struct GetFaceLivenessSessionResultsInput: Swift.Equatable {
     }
 }
 
-struct GetFaceLivenessSessionResultsInputBody: Swift.Equatable {
+struct GetFaceLivenessSessionResultsInputBody {
     let sessionId: Swift.String?
 }
 
@@ -9739,7 +9739,7 @@ extension GetFaceLivenessSessionResultsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetFaceLivenessSessionResultsOutput: Swift.Equatable {
+public struct GetFaceLivenessSessionResultsOutput {
     /// A set of images from the Face Liveness video that can be used for audit purposes. It includes a bounding box of the face and the Base64-encoded bytes that return an image. If the CreateFaceLivenessSession request included an OutputConfig argument, the image will be uploaded to an S3Object specified in the output configuration. If no Amazon S3 bucket is defined, raw bytes are sent instead.
     public var auditImages: [RekognitionClientTypes.AuditImage]?
     /// Probabalistic confidence score for if the person in the given video was live, represented as a float value between 0 to 100.
@@ -9769,7 +9769,7 @@ public struct GetFaceLivenessSessionResultsOutput: Swift.Equatable {
     }
 }
 
-struct GetFaceLivenessSessionResultsOutputBody: Swift.Equatable {
+struct GetFaceLivenessSessionResultsOutputBody {
     let sessionId: Swift.String?
     let status: RekognitionClientTypes.LivenessSessionStatus?
     let confidence: Swift.Float?
@@ -9858,7 +9858,7 @@ extension GetFaceSearchInput {
     }
 }
 
-public struct GetFaceSearchInput: Swift.Equatable {
+public struct GetFaceSearchInput {
     /// The job identifer for the search request. You get the job identifier from an initial call to StartFaceSearch.
     /// This member is required.
     public var jobId: Swift.String?
@@ -9883,7 +9883,7 @@ public struct GetFaceSearchInput: Swift.Equatable {
     }
 }
 
-struct GetFaceSearchInputBody: Swift.Equatable {
+struct GetFaceSearchInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9937,7 +9937,7 @@ extension GetFaceSearchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFaceSearchOutput: Swift.Equatable {
+public struct GetFaceSearchOutput {
     /// Job identifier for the face search operation for which you want to obtain results. The job identifer is returned by an initial call to StartFaceSearch.
     public var jobId: Swift.String?
     /// The current status of the face search job.
@@ -9977,7 +9977,7 @@ public struct GetFaceSearchOutput: Swift.Equatable {
     }
 }
 
-struct GetFaceSearchOutputBody: Swift.Equatable {
+struct GetFaceSearchOutputBody {
     let jobStatus: RekognitionClientTypes.VideoJobStatus?
     let statusMessage: Swift.String?
     let nextToken: Swift.String?
@@ -10083,7 +10083,7 @@ extension GetLabelDetectionInput {
     }
 }
 
-public struct GetLabelDetectionInput: Swift.Equatable {
+public struct GetLabelDetectionInput {
     /// Defines how to aggregate the returned results. Results can be aggregated by timestamps or segments.
     public var aggregateBy: RekognitionClientTypes.LabelDetectionAggregateBy?
     /// Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartlabelDetection.
@@ -10112,7 +10112,7 @@ public struct GetLabelDetectionInput: Swift.Equatable {
     }
 }
 
-struct GetLabelDetectionInputBody: Swift.Equatable {
+struct GetLabelDetectionInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -10174,7 +10174,7 @@ extension GetLabelDetectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLabelDetectionOutput: Swift.Equatable {
+public struct GetLabelDetectionOutput {
     /// Information about the paramters used when getting a response. Includes information on aggregation and sorting methods.
     public var getRequestMetadata: RekognitionClientTypes.GetLabelDetectionRequestMetadata?
     /// Job identifier for the label detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartLabelDetection.
@@ -10222,7 +10222,7 @@ public struct GetLabelDetectionOutput: Swift.Equatable {
     }
 }
 
-struct GetLabelDetectionOutputBody: Swift.Equatable {
+struct GetLabelDetectionOutputBody {
     let jobStatus: RekognitionClientTypes.VideoJobStatus?
     let statusMessage: Swift.String?
     let videoMetadata: RekognitionClientTypes.VideoMetadata?
@@ -10327,7 +10327,7 @@ extension RekognitionClientTypes.GetLabelDetectionRequestMetadata: Swift.Codable
 
 extension RekognitionClientTypes {
     /// Contains metadata about a label detection request, including the SortBy and AggregateBy options.
-    public struct GetLabelDetectionRequestMetadata: Swift.Equatable {
+    public struct GetLabelDetectionRequestMetadata {
         /// The aggregation method chosen for a GetLabelDetection request.
         public var aggregateBy: RekognitionClientTypes.LabelDetectionAggregateBy?
         /// The sorting method chosen for a GetLabelDetection request.
@@ -10365,7 +10365,7 @@ extension GetMediaAnalysisJobInput {
     }
 }
 
-public struct GetMediaAnalysisJobInput: Swift.Equatable {
+public struct GetMediaAnalysisJobInput {
     /// Unique identifier for the media analysis job for which you want to retrieve results.
     /// This member is required.
     public var jobId: Swift.String?
@@ -10378,7 +10378,7 @@ public struct GetMediaAnalysisJobInput: Swift.Equatable {
     }
 }
 
-struct GetMediaAnalysisJobInputBody: Swift.Equatable {
+struct GetMediaAnalysisJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -10428,7 +10428,7 @@ extension GetMediaAnalysisJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMediaAnalysisJobOutput: Swift.Equatable {
+public struct GetMediaAnalysisJobOutput {
     /// The Unix date and time when the job finished.
     public var completionTimestamp: ClientRuntime.Date?
     /// The Unix date and time when the job was started.
@@ -10490,7 +10490,7 @@ public struct GetMediaAnalysisJobOutput: Swift.Equatable {
     }
 }
 
-struct GetMediaAnalysisJobOutputBody: Swift.Equatable {
+struct GetMediaAnalysisJobOutputBody {
     let jobId: Swift.String?
     let jobName: Swift.String?
     let operationsConfig: RekognitionClientTypes.MediaAnalysisOperationsConfig?
@@ -10598,7 +10598,7 @@ extension GetPersonTrackingInput {
     }
 }
 
-public struct GetPersonTrackingInput: Swift.Equatable {
+public struct GetPersonTrackingInput {
     /// The identifier for a job that tracks persons in a video. You get the JobId from a call to StartPersonTracking.
     /// This member is required.
     public var jobId: Swift.String?
@@ -10623,7 +10623,7 @@ public struct GetPersonTrackingInput: Swift.Equatable {
     }
 }
 
-struct GetPersonTrackingInputBody: Swift.Equatable {
+struct GetPersonTrackingInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -10677,7 +10677,7 @@ extension GetPersonTrackingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPersonTrackingOutput: Swift.Equatable {
+public struct GetPersonTrackingOutput {
     /// Job identifier for the person tracking operation for which you want to obtain results. The job identifer is returned by an initial call to StartPersonTracking.
     public var jobId: Swift.String?
     /// The current status of the person tracking job.
@@ -10717,7 +10717,7 @@ public struct GetPersonTrackingOutput: Swift.Equatable {
     }
 }
 
-struct GetPersonTrackingOutputBody: Swift.Equatable {
+struct GetPersonTrackingOutputBody {
     let jobStatus: RekognitionClientTypes.VideoJobStatus?
     let statusMessage: Swift.String?
     let videoMetadata: RekognitionClientTypes.VideoMetadata?
@@ -10815,7 +10815,7 @@ extension GetSegmentDetectionInput {
     }
 }
 
-public struct GetSegmentDetectionInput: Swift.Equatable {
+public struct GetSegmentDetectionInput {
     /// Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartSegmentDetection.
     /// This member is required.
     public var jobId: Swift.String?
@@ -10836,7 +10836,7 @@ public struct GetSegmentDetectionInput: Swift.Equatable {
     }
 }
 
-struct GetSegmentDetectionInputBody: Swift.Equatable {
+struct GetSegmentDetectionInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -10890,7 +10890,7 @@ extension GetSegmentDetectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSegmentDetectionOutput: Swift.Equatable {
+public struct GetSegmentDetectionOutput {
     /// An array of objects. There can be multiple audio streams. Each AudioMetadata object contains metadata for a single audio stream. Audio information in an AudioMetadata objects includes the audio codec, the number of audio channels, the duration of the audio stream, and the sample rate. Audio metadata is returned in each page of information returned by GetSegmentDetection.
     public var audioMetadata: [RekognitionClientTypes.AudioMetadata]?
     /// Job identifier for the segment detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartSegmentDetection.
@@ -10938,7 +10938,7 @@ public struct GetSegmentDetectionOutput: Swift.Equatable {
     }
 }
 
-struct GetSegmentDetectionOutputBody: Swift.Equatable {
+struct GetSegmentDetectionOutputBody {
     let jobStatus: RekognitionClientTypes.VideoJobStatus?
     let statusMessage: Swift.String?
     let videoMetadata: [RekognitionClientTypes.VideoMetadata]?
@@ -11071,7 +11071,7 @@ extension GetTextDetectionInput {
     }
 }
 
-public struct GetTextDetectionInput: Swift.Equatable {
+public struct GetTextDetectionInput {
     /// Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartTextDetection.
     /// This member is required.
     public var jobId: Swift.String?
@@ -11092,7 +11092,7 @@ public struct GetTextDetectionInput: Swift.Equatable {
     }
 }
 
-struct GetTextDetectionInputBody: Swift.Equatable {
+struct GetTextDetectionInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -11144,7 +11144,7 @@ extension GetTextDetectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTextDetectionOutput: Swift.Equatable {
+public struct GetTextDetectionOutput {
     /// Job identifier for the text detection operation for which you want to obtain results. The job identifer is returned by an initial call to StartTextDetection.
     public var jobId: Swift.String?
     /// Current status of the text detection job.
@@ -11188,7 +11188,7 @@ public struct GetTextDetectionOutput: Swift.Equatable {
     }
 }
 
-struct GetTextDetectionOutputBody: Swift.Equatable {
+struct GetTextDetectionOutputBody {
     let jobStatus: RekognitionClientTypes.VideoJobStatus?
     let statusMessage: Swift.String?
     let videoMetadata: RekognitionClientTypes.VideoMetadata?
@@ -11283,7 +11283,7 @@ extension RekognitionClientTypes.GroundTruthManifest: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest file.
-    public struct GroundTruthManifest: Swift.Equatable {
+    public struct GroundTruthManifest {
         /// Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
         public var s3Object: RekognitionClientTypes.S3Object?
 
@@ -11342,7 +11342,7 @@ extension RekognitionClientTypes.HumanLoopActivationOutput: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Shows the results of the human in the loop evaluation. If there is no HumanLoopArn, the input did not trigger human review.
-    public struct HumanLoopActivationOutput: Swift.Equatable {
+    public struct HumanLoopActivationOutput {
         /// Shows the result of condition evaluations, including those conditions which activated a human review.
         public var humanLoopActivationConditionsEvaluationResults: Swift.String?
         /// Shows if and why human review was needed.
@@ -11397,7 +11397,7 @@ extension RekognitionClientTypes.HumanLoopConfig: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Sets up the flow definition the image will be sent to if one of the conditions is met. You can also set certain attributes of the image before review.
-    public struct HumanLoopConfig: Swift.Equatable {
+    public struct HumanLoopConfig {
         /// Sets attributes of the input data.
         public var dataAttributes: RekognitionClientTypes.HumanLoopDataAttributes?
         /// The Amazon Resource Name (ARN) of the flow definition. You can create a flow definition by using the Amazon Sagemaker [CreateFlowDefinition](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateFlowDefinition.html) Operation.
@@ -11454,7 +11454,7 @@ extension RekognitionClientTypes.HumanLoopDataAttributes: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Allows you to set attributes of the image. Currently, you can declare an image as free of personally identifiable information.
-    public struct HumanLoopDataAttributes: Swift.Equatable {
+    public struct HumanLoopDataAttributes {
         /// Sets whether the input image is free of personally identifiable information.
         public var contentClassifiers: [RekognitionClientTypes.ContentClassifier]?
 
@@ -11536,7 +11536,7 @@ public struct HumanLoopQuotaExceededException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct HumanLoopQuotaExceededExceptionBody: Swift.Equatable {
+struct HumanLoopQuotaExceededExceptionBody {
     let resourceType: Swift.String?
     let quotaCode: Swift.String?
     let serviceCode: Swift.String?
@@ -11622,7 +11622,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
     }
 }
 
-struct IdempotentParameterMismatchExceptionBody: Swift.Equatable {
+struct IdempotentParameterMismatchExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -11673,7 +11673,7 @@ extension RekognitionClientTypes.Image: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides the input image either as bytes or an S3 object. You pass image bytes to an Amazon Rekognition API operation by using the Bytes property. For example, you would use the Bytes property to pass an image loaded from a local file system. Image bytes passed by using the Bytes property must be base64-encoded. Your code may not need to encode image bytes if you are using an AWS SDK to call Amazon Rekognition API operations. For more information, see Analyzing an Image Loaded from a Local File System in the Amazon Rekognition Developer Guide. You pass images stored in an S3 bucket to an Amazon Rekognition API operation by using the S3Object property. Images stored in an S3 bucket do not need to be base64-encoded. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes using the Bytes property is not supported. You must first upload the image to an Amazon S3 bucket and then call the operation using the S3Object property. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
-    public struct Image: Swift.Equatable {
+    public struct Image {
         /// Blob of image bytes up to 5 MBs. Note that the maximum image size you can pass to DetectCustomLabels is 4MB.
         public var bytes: ClientRuntime.Data?
         /// Identifies an S3 object as the image source.
@@ -11718,7 +11718,7 @@ extension RekognitionClientTypes.ImageQuality: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Identifies face image brightness and sharpness.
-    public struct ImageQuality: Swift.Equatable {
+    public struct ImageQuality {
         /// Value representing brightness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a brighter face image.
         public var brightness: Swift.Float?
         /// Value representing sharpness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a sharper face image.
@@ -11786,7 +11786,7 @@ public struct ImageTooLargeException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ImageTooLargeExceptionBody: Swift.Equatable {
+struct ImageTooLargeExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -11853,7 +11853,7 @@ extension IndexFacesInput {
     }
 }
 
-public struct IndexFacesInput: Swift.Equatable {
+public struct IndexFacesInput {
     /// The ID of an existing collection to which you want to add the faces that are detected in the input images.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -11887,7 +11887,7 @@ public struct IndexFacesInput: Swift.Equatable {
     }
 }
 
-struct IndexFacesInputBody: Swift.Equatable {
+struct IndexFacesInputBody {
     let collectionId: Swift.String?
     let image: RekognitionClientTypes.Image?
     let externalImageId: Swift.String?
@@ -11950,7 +11950,7 @@ extension IndexFacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct IndexFacesOutput: Swift.Equatable {
+public struct IndexFacesOutput {
     /// The version number of the face detection model that's associated with the input collection (CollectionId).
     public var faceModelVersion: Swift.String?
     /// An array of faces detected and added to the collection. For more information, see Searching Faces in a Collection in the Amazon Rekognition Developer Guide.
@@ -11981,7 +11981,7 @@ public struct IndexFacesOutput: Swift.Equatable {
     }
 }
 
-struct IndexFacesOutputBody: Swift.Equatable {
+struct IndexFacesOutputBody {
     let faceRecords: [RekognitionClientTypes.FaceRecord]?
     let orientationCorrection: RekognitionClientTypes.OrientationCorrection?
     let faceModelVersion: Swift.String?
@@ -12092,7 +12092,7 @@ extension RekognitionClientTypes.Instance: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// An instance of a label returned by Amazon Rekognition Image ([DetectLabels]) or by Amazon Rekognition Video ([GetLabelDetection]).
-    public struct Instance: Swift.Equatable {
+    public struct Instance {
         /// The position of the label instance on the image.
         public var boundingBox: RekognitionClientTypes.BoundingBox?
         /// The confidence that Amazon Rekognition has in the accuracy of the bounding box.
@@ -12164,7 +12164,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InternalServerErrorBody: Swift.Equatable {
+struct InternalServerErrorBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -12238,7 +12238,7 @@ public struct InvalidImageFormatException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidImageFormatExceptionBody: Swift.Equatable {
+struct InvalidImageFormatExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -12312,7 +12312,7 @@ public struct InvalidManifestException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidManifestExceptionBody: Swift.Equatable {
+struct InvalidManifestExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -12386,7 +12386,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidPaginationTokenExceptionBody: Swift.Equatable {
+struct InvalidPaginationTokenExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -12460,7 +12460,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -12534,7 +12534,7 @@ public struct InvalidPolicyRevisionIdException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InvalidPolicyRevisionIdExceptionBody: Swift.Equatable {
+struct InvalidPolicyRevisionIdExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -12608,7 +12608,7 @@ public struct InvalidS3ObjectException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidS3ObjectExceptionBody: Swift.Equatable {
+struct InvalidS3ObjectExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -12653,7 +12653,7 @@ extension RekognitionClientTypes.KinesisDataStream: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The Kinesis data stream Amazon Rekognition to which the analysis results of a Amazon Rekognition stream processor are streamed. For more information, see CreateStreamProcessor in the Amazon Rekognition Developer Guide.
-    public struct KinesisDataStream: Swift.Equatable {
+    public struct KinesisDataStream {
         /// ARN of the output Amazon Kinesis Data Streams stream.
         public var arn: Swift.String?
 
@@ -12688,7 +12688,7 @@ extension RekognitionClientTypes.KinesisVideoStream: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Kinesis video stream stream that provides the source streaming video for a Amazon Rekognition Video stream processor. For more information, see CreateStreamProcessor in the Amazon Rekognition Developer Guide.
-    public struct KinesisVideoStream: Swift.Equatable {
+    public struct KinesisVideoStream {
         /// ARN of the Kinesis video stream stream that streams the source video.
         public var arn: Swift.String?
 
@@ -12729,7 +12729,7 @@ extension RekognitionClientTypes.KinesisVideoStreamStartSelector: Swift.Codable 
 
 extension RekognitionClientTypes {
     /// Specifies the starting point in a Kinesis stream to start processing. You can use the producer timestamp or the fragment number. One of either producer timestamp or fragment number is required. If you use the producer timestamp, you must put the time in milliseconds. For more information about fragment numbers, see [Fragment](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html).
-    public struct KinesisVideoStreamStartSelector: Swift.Equatable {
+    public struct KinesisVideoStreamStartSelector {
         /// The unique identifier of the fragment. This value monotonically increases based on the ingestion order.
         public var fragmentNumber: Swift.String?
         /// The timestamp from the producer corresponding to the fragment, in milliseconds, expressed in unix time format.
@@ -12768,7 +12768,7 @@ extension RekognitionClientTypes.KnownGender: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The known gender identity for the celebrity that matches the provided ID. The known gender identity can be Male, Female, Nonbinary, or Unlisted.
-    public struct KnownGender: Swift.Equatable {
+    public struct KnownGender {
         /// A string value of the KnownGender info about the Celebrity.
         public var type: RekognitionClientTypes.KnownGenderType?
 
@@ -12920,7 +12920,7 @@ extension RekognitionClientTypes.Label: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Structure containing details about the detected label, including the name, detected instances, parent labels, and level of confidence.
-    public struct Label: Swift.Equatable {
+    public struct Label {
         /// A list of potential aliases for a given label.
         public var aliases: [RekognitionClientTypes.LabelAlias]?
         /// A list of the categories associated with a given label.
@@ -12975,7 +12975,7 @@ extension RekognitionClientTypes.LabelAlias: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A potential alias of for a given label.
-    public struct LabelAlias: Swift.Equatable {
+    public struct LabelAlias {
         /// The name of an alias for a given label.
         public var name: Swift.String?
 
@@ -13010,7 +13010,7 @@ extension RekognitionClientTypes.LabelCategory: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The category that applies to a given label.
-    public struct LabelCategory: Swift.Equatable {
+    public struct LabelCategory {
         /// The name of a category that applies to a given label.
         public var name: Swift.String?
 
@@ -13069,7 +13069,7 @@ extension RekognitionClientTypes.LabelDetection: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about a label detected in a video analysis request and the time the label was detected in the video.
-    public struct LabelDetection: Swift.Equatable {
+    public struct LabelDetection {
         /// The time duration of a segment in milliseconds, I.e. time elapsed from StartTimestampMillis to EndTimestampMillis.
         public var durationMillis: Swift.Int?
         /// The time in milliseconds defining the end of the timeline segment containing a continuously detected label.
@@ -13181,7 +13181,7 @@ extension RekognitionClientTypes.LabelDetectionSettings: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains the specified filters that should be applied to a list of returned GENERAL_LABELS.
-    public struct LabelDetectionSettings: Swift.Equatable {
+    public struct LabelDetectionSettings {
         /// Contains filters for the object labels returned by DetectLabels. Filters can be inclusive, exclusive, or a combination of both and can be applied to individual labels or entire label categories. To see a list of label categories, see [Detecting Labels](https://docs.aws.amazon.com/rekognition/latest/dg/labels.html).
         public var generalLabels: RekognitionClientTypes.GeneralLabelsSettings?
 
@@ -13260,7 +13260,7 @@ extension RekognitionClientTypes.Landmark: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Indicates the location of the landmark on the face.
-    public struct Landmark: Swift.Equatable {
+    public struct Landmark {
         /// Type of landmark.
         public var type: RekognitionClientTypes.LandmarkType?
         /// The x-coordinate of the landmark expressed as a ratio of the width of the image. The x-coordinate is measured from the left-side of the image. For example, if the image is 700 pixels wide and the x-coordinate of the landmark is at 350 pixels, this value is 0.5.
@@ -13448,7 +13448,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -13496,7 +13496,7 @@ extension ListCollectionsInput {
     }
 }
 
-public struct ListCollectionsInput: Swift.Equatable {
+public struct ListCollectionsInput {
     /// Maximum number of collection IDs to return.
     public var maxResults: Swift.Int?
     /// Pagination token from the previous response.
@@ -13512,7 +13512,7 @@ public struct ListCollectionsInput: Swift.Equatable {
     }
 }
 
-struct ListCollectionsInputBody: Swift.Equatable {
+struct ListCollectionsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -13548,7 +13548,7 @@ extension ListCollectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCollectionsOutput: Swift.Equatable {
+public struct ListCollectionsOutput {
     /// An array of collection IDs.
     public var collectionIds: [Swift.String]?
     /// Version numbers of the face detection models associated with the collections in the array CollectionIds. For example, the value of FaceModelVersions[2] is the version number for the face detection model used by the collection in CollectionId[2].
@@ -13568,7 +13568,7 @@ public struct ListCollectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListCollectionsOutputBody: Swift.Equatable {
+struct ListCollectionsOutputBody {
     let collectionIds: [Swift.String]?
     let nextToken: Swift.String?
     let faceModelVersions: [Swift.String]?
@@ -13674,7 +13674,7 @@ extension ListDatasetEntriesInput {
     }
 }
 
-public struct ListDatasetEntriesInput: Swift.Equatable {
+public struct ListDatasetEntriesInput {
     /// Specifies a label filter for the response. The response includes an entry only if one or more of the labels in ContainsLabels exist in the entry.
     public var containsLabels: [Swift.String]?
     /// The Amazon Resource Name (ARN) for the dataset that you want to use.
@@ -13711,7 +13711,7 @@ public struct ListDatasetEntriesInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetEntriesInputBody: Swift.Equatable {
+struct ListDatasetEntriesInputBody {
     let datasetArn: Swift.String?
     let containsLabels: [Swift.String]?
     let labeled: Swift.Bool?
@@ -13774,7 +13774,7 @@ extension ListDatasetEntriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetEntriesOutput: Swift.Equatable {
+public struct ListDatasetEntriesOutput {
     /// A list of entries (images) in the dataset.
     public var datasetEntries: [Swift.String]?
     /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
@@ -13790,7 +13790,7 @@ public struct ListDatasetEntriesOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetEntriesOutputBody: Swift.Equatable {
+struct ListDatasetEntriesOutputBody {
     let datasetEntries: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -13866,7 +13866,7 @@ extension ListDatasetLabelsInput {
     }
 }
 
-public struct ListDatasetLabelsInput: Swift.Equatable {
+public struct ListDatasetLabelsInput {
     /// The Amazon Resource Name (ARN) of the dataset that you want to use.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -13887,7 +13887,7 @@ public struct ListDatasetLabelsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetLabelsInputBody: Swift.Equatable {
+struct ListDatasetLabelsInputBody {
     let datasetArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -13925,7 +13925,7 @@ extension ListDatasetLabelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetLabelsOutput: Swift.Equatable {
+public struct ListDatasetLabelsOutput {
     /// A list of the labels in the dataset.
     public var datasetLabelDescriptions: [RekognitionClientTypes.DatasetLabelDescription]?
     /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
@@ -13941,7 +13941,7 @@ public struct ListDatasetLabelsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetLabelsOutputBody: Swift.Equatable {
+struct ListDatasetLabelsOutputBody {
     let datasetLabelDescriptions: [RekognitionClientTypes.DatasetLabelDescription]?
     let nextToken: Swift.String?
 }
@@ -14028,7 +14028,7 @@ extension ListFacesInput {
     }
 }
 
-public struct ListFacesInput: Swift.Equatable {
+public struct ListFacesInput {
     /// ID of the collection from which to list the faces.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -14057,7 +14057,7 @@ public struct ListFacesInput: Swift.Equatable {
     }
 }
 
-struct ListFacesInputBody: Swift.Equatable {
+struct ListFacesInputBody {
     let collectionId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -14114,7 +14114,7 @@ extension ListFacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFacesOutput: Swift.Equatable {
+public struct ListFacesOutput {
     /// Version number of the face detection model associated with the input collection (CollectionId).
     public var faceModelVersion: Swift.String?
     /// An array of Face objects.
@@ -14134,7 +14134,7 @@ public struct ListFacesOutput: Swift.Equatable {
     }
 }
 
-struct ListFacesOutputBody: Swift.Equatable {
+struct ListFacesOutputBody {
     let faces: [RekognitionClientTypes.Face]?
     let nextToken: Swift.String?
     let faceModelVersion: Swift.String?
@@ -14208,7 +14208,7 @@ extension ListMediaAnalysisJobsInput {
     }
 }
 
-public struct ListMediaAnalysisJobsInput: Swift.Equatable {
+public struct ListMediaAnalysisJobsInput {
     /// The maximum number of results to return per paginated call. The largest value user can specify is 100. If user specifies a value greater than 100, an InvalidParameterException error occurs. The default value is 100.
     public var maxResults: Swift.Int?
     /// Pagination token, if the previous response was incomplete.
@@ -14224,7 +14224,7 @@ public struct ListMediaAnalysisJobsInput: Swift.Equatable {
     }
 }
 
-struct ListMediaAnalysisJobsInputBody: Swift.Equatable {
+struct ListMediaAnalysisJobsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -14258,7 +14258,7 @@ extension ListMediaAnalysisJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMediaAnalysisJobsOutput: Swift.Equatable {
+public struct ListMediaAnalysisJobsOutput {
     /// Contains a list of all media analysis jobs.
     /// This member is required.
     public var mediaAnalysisJobs: [RekognitionClientTypes.MediaAnalysisJobDescription]?
@@ -14275,7 +14275,7 @@ public struct ListMediaAnalysisJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListMediaAnalysisJobsOutputBody: Swift.Equatable {
+struct ListMediaAnalysisJobsOutputBody {
     let nextToken: Swift.String?
     let mediaAnalysisJobs: [RekognitionClientTypes.MediaAnalysisJobDescription]?
 }
@@ -14348,7 +14348,7 @@ extension ListProjectPoliciesInput {
     }
 }
 
-public struct ListProjectPoliciesInput: Swift.Equatable {
+public struct ListProjectPoliciesInput {
     /// The maximum number of results to return per paginated call. The largest value you can specify is 5. If you specify a value greater than 5, a ValidationException error occurs. The default value is 5.
     public var maxResults: Swift.Int?
     /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
@@ -14369,7 +14369,7 @@ public struct ListProjectPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListProjectPoliciesInputBody: Swift.Equatable {
+struct ListProjectPoliciesInputBody {
     let projectArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -14407,7 +14407,7 @@ extension ListProjectPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProjectPoliciesOutput: Swift.Equatable {
+public struct ListProjectPoliciesOutput {
     /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of project policies.
     public var nextToken: Swift.String?
     /// A list of project policies attached to the project.
@@ -14423,7 +14423,7 @@ public struct ListProjectPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListProjectPoliciesOutputBody: Swift.Equatable {
+struct ListProjectPoliciesOutputBody {
     let projectPolicies: [RekognitionClientTypes.ProjectPolicy]?
     let nextToken: Swift.String?
 }
@@ -14493,7 +14493,7 @@ extension ListStreamProcessorsInput {
     }
 }
 
-public struct ListStreamProcessorsInput: Swift.Equatable {
+public struct ListStreamProcessorsInput {
     /// Maximum number of stream processors you want Amazon Rekognition Video to return in the response. The default is 1000.
     public var maxResults: Swift.Int?
     /// If the previous response was incomplete (because there are more stream processors to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of stream processors.
@@ -14509,7 +14509,7 @@ public struct ListStreamProcessorsInput: Swift.Equatable {
     }
 }
 
-struct ListStreamProcessorsInputBody: Swift.Equatable {
+struct ListStreamProcessorsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -14543,7 +14543,7 @@ extension ListStreamProcessorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStreamProcessorsOutput: Swift.Equatable {
+public struct ListStreamProcessorsOutput {
     /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of stream processors.
     public var nextToken: Swift.String?
     /// List of stream processors that you have created.
@@ -14559,7 +14559,7 @@ public struct ListStreamProcessorsOutput: Swift.Equatable {
     }
 }
 
-struct ListStreamProcessorsOutputBody: Swift.Equatable {
+struct ListStreamProcessorsOutputBody {
     let nextToken: Swift.String?
     let streamProcessors: [RekognitionClientTypes.StreamProcessor]?
 }
@@ -14624,7 +14624,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// Amazon Resource Name (ARN) of the model, collection, or stream processor that contains the tags that you want a list of.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -14637,7 +14637,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -14665,7 +14665,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of key-value tags assigned to the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -14677,7 +14677,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -14746,7 +14746,7 @@ extension ListUsersInput {
     }
 }
 
-public struct ListUsersInput: Swift.Equatable {
+public struct ListUsersInput {
     /// The ID of an existing collection.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -14767,7 +14767,7 @@ public struct ListUsersInput: Swift.Equatable {
     }
 }
 
-struct ListUsersInputBody: Swift.Equatable {
+struct ListUsersInputBody {
     let collectionId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -14805,7 +14805,7 @@ extension ListUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUsersOutput: Swift.Equatable {
+public struct ListUsersOutput {
     /// A pagination token to be used with the subsequent request if the response is truncated.
     public var nextToken: Swift.String?
     /// List of UsersID associated with the specified collection.
@@ -14821,7 +14821,7 @@ public struct ListUsersOutput: Swift.Equatable {
     }
 }
 
-struct ListUsersOutputBody: Swift.Equatable {
+struct ListUsersOutputBody {
     let users: [RekognitionClientTypes.User]?
     let nextToken: Swift.String?
 }
@@ -14894,7 +14894,7 @@ extension RekognitionClientTypes.LivenessOutputConfig: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains settings that specify the location of an Amazon S3 bucket used to store the output of a Face Liveness session. Note that the S3 bucket must be located in the caller's AWS account and in the same region as the Face Liveness end-point. Additionally, the Amazon S3 object keys are auto-generated by the Face Liveness system.
-    public struct LivenessOutputConfig: Swift.Equatable {
+    public struct LivenessOutputConfig {
         /// The path to an AWS Amazon S3 bucket used to store Face Liveness session results.
         /// This member is required.
         public var s3Bucket: Swift.String?
@@ -15004,7 +15004,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct MalformedPolicyDocumentExceptionBody: Swift.Equatable {
+struct MalformedPolicyDocumentExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -15055,7 +15055,7 @@ extension RekognitionClientTypes.MatchedUser: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains metadata for a UserID matched with a given face.
-    public struct MatchedUser: Swift.Equatable {
+    public struct MatchedUser {
         /// A provided ID for the UserID. Unique within the collection.
         public var userId: Swift.String?
         /// The status of the user matched to a provided FaceID.
@@ -15100,7 +15100,7 @@ extension RekognitionClientTypes.MediaAnalysisDetectModerationLabelsConfig: Swif
 
 extension RekognitionClientTypes {
     /// Configuration for Moderation Labels Detection.
-    public struct MediaAnalysisDetectModerationLabelsConfig: Swift.Equatable {
+    public struct MediaAnalysisDetectModerationLabelsConfig {
         /// Specifies the minimum confidence level for the moderation labels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value.
         public var minConfidence: Swift.Float?
         /// Specifies the custom moderation model to be used during the label detection job. If not provided the pre-trained model is used.
@@ -15139,7 +15139,7 @@ extension RekognitionClientTypes.MediaAnalysisInput: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains input information for a media analysis job.
-    public struct MediaAnalysisInput: Swift.Equatable {
+    public struct MediaAnalysisInput {
         /// Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
         /// This member is required.
         public var s3Object: RekognitionClientTypes.S3Object?
@@ -15241,7 +15241,7 @@ extension RekognitionClientTypes.MediaAnalysisJobDescription: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Description for a media analysis job.
-    public struct MediaAnalysisJobDescription: Swift.Equatable {
+    public struct MediaAnalysisJobDescription {
         /// The Unix date and time when the job finished.
         public var completionTimestamp: ClientRuntime.Date?
         /// The Unix date and time when the job was started.
@@ -15385,7 +15385,7 @@ extension RekognitionClientTypes.MediaAnalysisJobFailureDetails: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Details about the error that resulted in failure of the job.
-    public struct MediaAnalysisJobFailureDetails: Swift.Equatable {
+    public struct MediaAnalysisJobFailureDetails {
         /// Error code for the failed job.
         public var code: RekognitionClientTypes.MediaAnalysisJobFailureCode?
         /// Human readable error message.
@@ -15465,7 +15465,7 @@ extension RekognitionClientTypes.MediaAnalysisManifestSummary: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Summary that provides statistics on input manifest and errors identified in the input manifest.
-    public struct MediaAnalysisManifestSummary: Swift.Equatable {
+    public struct MediaAnalysisManifestSummary {
         /// Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
         public var s3Object: RekognitionClientTypes.S3Object?
 
@@ -15500,7 +15500,7 @@ extension RekognitionClientTypes.MediaAnalysisModelVersions: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Object containing information about the model versions of selected features in a given job.
-    public struct MediaAnalysisModelVersions: Swift.Equatable {
+    public struct MediaAnalysisModelVersions {
         /// The Moderation base model version.
         public var moderation: Swift.String?
 
@@ -15535,7 +15535,7 @@ extension RekognitionClientTypes.MediaAnalysisOperationsConfig: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Configuration options for a media analysis job. Configuration is operation-specific.
-    public struct MediaAnalysisOperationsConfig: Swift.Equatable {
+    public struct MediaAnalysisOperationsConfig {
         /// Contains configuration options for a DetectModerationLabels job.
         public var detectModerationLabels: RekognitionClientTypes.MediaAnalysisDetectModerationLabelsConfig?
 
@@ -15576,7 +15576,7 @@ extension RekognitionClientTypes.MediaAnalysisOutputConfig: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Output configuration provided in the job creation request.
-    public struct MediaAnalysisOutputConfig: Swift.Equatable {
+    public struct MediaAnalysisOutputConfig {
         /// Specifies the Amazon S3 bucket to contain the output of the media analysis job.
         /// This member is required.
         public var s3Bucket: Swift.String?
@@ -15622,7 +15622,7 @@ extension RekognitionClientTypes.MediaAnalysisResults: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains the results for a media analysis job created with StartMediaAnalysisJob.
-    public struct MediaAnalysisResults: Swift.Equatable {
+    public struct MediaAnalysisResults {
         /// Information about the model versions for the features selected in a given job.
         public var modelVersions: RekognitionClientTypes.MediaAnalysisModelVersions?
         /// Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
@@ -15679,7 +15679,7 @@ extension RekognitionClientTypes.ModerationLabel: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides information about a single type of inappropriate, unwanted, or offensive content found in an image or video. Each type of moderated content has a label within a hierarchical taxonomy. For more information, see Content moderation in the Amazon Rekognition Developer Guide.
-    public struct ModerationLabel: Swift.Equatable {
+    public struct ModerationLabel {
         /// Specifies the confidence that Amazon Rekognition has that the label has been correctly identified. If you don't specify the MinConfidence parameter in the call to DetectModerationLabels, the operation returns labels with a confidence value greater than or equal to 50 percent.
         public var confidence: Swift.Float?
         /// The label name for the type of unsafe content detected in the image.
@@ -15732,7 +15732,7 @@ extension RekognitionClientTypes.MouthOpen: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Indicates whether or not the mouth on the face is open, and the confidence level in the determination.
-    public struct MouthOpen: Swift.Equatable {
+    public struct MouthOpen {
         /// Level of confidence in the determination.
         public var confidence: Swift.Float?
         /// Boolean value that indicates whether the mouth on the face is open or not.
@@ -15777,7 +15777,7 @@ extension RekognitionClientTypes.Mustache: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Indicates whether or not the face has a mustache, and the confidence level in the determination.
-    public struct Mustache: Swift.Equatable {
+    public struct Mustache {
         /// Level of confidence in the determination.
         public var confidence: Swift.Float?
         /// Boolean value that indicates whether the face has mustache or not.
@@ -15822,7 +15822,7 @@ extension RekognitionClientTypes.NotificationChannel: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The Amazon Simple Notification Service topic to which Amazon Rekognition publishes the completion status of a video analysis operation. For more information, see [Calling Amazon Rekognition Video operations](https://docs.aws.amazon.com/rekognition/latest/dg/api-video.html). Note that the Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using the AmazonRekognitionServiceRole permissions policy to access the topic. For more information, see [Giving access to multiple Amazon SNS topics](https://docs.aws.amazon.com/rekognition/latest/dg/api-video-roles.html#api-video-roles-all-topics).
-    public struct NotificationChannel: Swift.Equatable {
+    public struct NotificationChannel {
         /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -15907,7 +15907,7 @@ extension RekognitionClientTypes.OutputConfig: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The S3 bucket and folder location where training output is placed.
-    public struct OutputConfig: Swift.Equatable {
+    public struct OutputConfig {
         /// The S3 bucket where training output is placed.
         public var s3Bucket: Swift.String?
         /// The prefix applied to the training output files.
@@ -15946,7 +15946,7 @@ extension RekognitionClientTypes.Parent: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A parent label for a label. A label can have 0, 1, or more parents.
-    public struct Parent: Swift.Equatable {
+    public struct Parent {
         /// The name of the parent label.
         public var name: Swift.String?
 
@@ -15993,7 +15993,7 @@ extension RekognitionClientTypes.PersonDetail: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Details about a person detected in a video analysis request.
-    public struct PersonDetail: Swift.Equatable {
+    public struct PersonDetail {
         /// Bounding box around the detected person.
         public var boundingBox: RekognitionClientTypes.BoundingBox?
         /// Face details for the detected person.
@@ -16042,7 +16042,7 @@ extension RekognitionClientTypes.PersonDetection: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Details and path tracking information for a single time a person's path is tracked in a video. Amazon Rekognition operations that track people's paths return an array of PersonDetection objects with elements for each time a person's path is tracked in a video. For more information, see GetPersonTracking in the Amazon Rekognition Developer Guide.
-    public struct PersonDetection: Swift.Equatable {
+    public struct PersonDetection {
         /// Details about a person whose path was tracked in a video.
         public var person: RekognitionClientTypes.PersonDetail?
         /// The time, in milliseconds from the start of the video, that the person's path was tracked. Note that Timestamp is not guaranteed to be accurate to the individual frame where the person's path first appears.
@@ -16105,7 +16105,7 @@ extension RekognitionClientTypes.PersonMatch: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about a person whose face matches a face(s) in an Amazon Rekognition collection. Includes information about the faces in the Amazon Rekognition collection ([FaceMatch]), information about the person ([PersonDetail]), and the time stamp for when the person was detected in a video. An array of PersonMatch objects is returned by [GetFaceSearch].
-    public struct PersonMatch: Swift.Equatable {
+    public struct PersonMatch {
         /// Information about the faces in the input collection that match the face of a person in the video.
         public var faceMatches: [RekognitionClientTypes.FaceMatch]?
         /// Information about the matched person.
@@ -16186,7 +16186,7 @@ extension RekognitionClientTypes.Point: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The X and Y coordinates of a point on an image or video frame. The X and Y values are ratios of the overall image size or video resolution. For example, if an input image is 700x200 and the values are X=0.5 and Y=0.25, then the point is at the (350,50) pixel coordinate on the image. An array of Point objects makes up a Polygon. A Polygon is returned by [DetectText] and by [DetectCustomLabels]Polygon represents a fine-grained polygon around a detected item. For more information, see Geometry in the Amazon Rekognition Developer Guide.
-    public struct Point: Swift.Equatable {
+    public struct Point {
         /// The value of the X coordinate for a point on a Polygon.
         public var x: Swift.Float?
         /// The value of the Y coordinate for a point on a Polygon.
@@ -16237,7 +16237,7 @@ extension RekognitionClientTypes.Pose: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
-    public struct Pose: Swift.Equatable {
+    public struct Pose {
         /// Value representing the face rotation on the pitch axis.
         public var pitch: Swift.Float?
         /// Value representing the face rotation on the roll axis.
@@ -16354,7 +16354,7 @@ extension RekognitionClientTypes.ProjectDescription: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A description of an Amazon Rekognition Custom Labels project. For more information, see [DescribeProjects].
-    public struct ProjectDescription: Swift.Equatable {
+    public struct ProjectDescription {
         /// Indicates whether automatic retraining will be attempted for the versions of the project. Applies only to adapters.
         public var autoUpdate: RekognitionClientTypes.ProjectAutoUpdate?
         /// The Unix timestamp for the date and time that the project was created.
@@ -16439,7 +16439,7 @@ extension RekognitionClientTypes.ProjectPolicy: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Describes a project policy in the response from [ListProjectPolicies].
-    public struct ProjectPolicy: Swift.Equatable {
+    public struct ProjectPolicy {
         /// The Unix datetime for the creation of the project policy.
         public var creationTimestamp: ClientRuntime.Date?
         /// The Unix datetime for when the project policy was last updated.
@@ -16637,7 +16637,7 @@ extension RekognitionClientTypes.ProjectVersionDescription: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A description of a version of a Amazon Rekognition project version.
-    public struct ProjectVersionDescription: Swift.Equatable {
+    public struct ProjectVersionDescription {
         /// The base detection model version used to create the project version.
         public var baseModelVersion: Swift.String?
         /// The duration, in seconds, that you were billed for a successful training of the model version. This value is only returned if the model version has been successfully trained.
@@ -16836,7 +16836,7 @@ extension RekognitionClientTypes.ProtectiveEquipmentBodyPart: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about a body part detected by [DetectProtectiveEquipment] that contains PPE. An array of ProtectiveEquipmentBodyPart objects is returned for each person detected by DetectProtectiveEquipment.
-    public struct ProtectiveEquipmentBodyPart: Swift.Equatable {
+    public struct ProtectiveEquipmentBodyPart {
         /// The confidence that Amazon Rekognition has in the detection accuracy of the detected body part.
         public var confidence: Swift.Float?
         /// An array of Personal Protective Equipment items detected around a body part.
@@ -16909,7 +16909,7 @@ extension RekognitionClientTypes.ProtectiveEquipmentPerson: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A person detected by a call to [DetectProtectiveEquipment]. The API returns all persons detected in the input image in an array of ProtectiveEquipmentPerson objects.
-    public struct ProtectiveEquipmentPerson: Swift.Equatable {
+    public struct ProtectiveEquipmentPerson {
         /// An array of body parts detected on a person's body (including body parts without PPE).
         public var bodyParts: [RekognitionClientTypes.ProtectiveEquipmentBodyPart]?
         /// A bounding box around the detected person.
@@ -16974,7 +16974,7 @@ extension RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes: Swi
 
 extension RekognitionClientTypes {
     /// Specifies summary attributes to return from a call to [DetectProtectiveEquipment]. You can specify which types of PPE to summarize. You can also specify a minimum confidence value for detections. Summary information is returned in the Summary ([ProtectiveEquipmentSummary]) field of the response from DetectProtectiveEquipment. The summary includes which persons in an image were detected wearing the requested types of person protective equipment (PPE), which persons were detected as not wearing PPE, and the persons in which a determination could not be made. For more information, see [ProtectiveEquipmentSummary].
-    public struct ProtectiveEquipmentSummarizationAttributes: Swift.Equatable {
+    public struct ProtectiveEquipmentSummarizationAttributes {
         /// The minimum confidence level for which you want summary information. The confidence level applies to person detection, body part detection, equipment detection, and body part coverage. Amazon Rekognition doesn't return summary information with a confidence than this specified value. There isn't a default value. Specify a MinConfidence value that is between 50-100% as DetectProtectiveEquipment returns predictions only where the detection confidence is between 50% - 100%. If you specify a value that is less than 50%, the results are the same specifying a value of 50%.
         /// This member is required.
         public var minConfidence: Swift.Float?
@@ -17063,7 +17063,7 @@ extension RekognitionClientTypes.ProtectiveEquipmentSummary: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Summary information for required items of personal protective equipment (PPE) detected on persons by a call to [DetectProtectiveEquipment]. You specify the required type of PPE in the SummarizationAttributes ([ProtectiveEquipmentSummarizationAttributes]) input parameter. The summary includes which persons were detected wearing the required personal protective equipment (PersonsWithRequiredEquipment), which persons were detected as not wearing the required PPE (PersonsWithoutRequiredEquipment), and the persons in which a determination could not be made (PersonsIndeterminate). To get a total for each category, use the size of the field array. For example, to find out how many people were detected as wearing the specified PPE, use the size of the PersonsWithRequiredEquipment array. If you want to find out more about a person, such as the location ([BoundingBox]) of the person on the image, use the person ID in each array element. Each person ID matches the ID field of a [ProtectiveEquipmentPerson] object returned in the Persons array by DetectProtectiveEquipment.
-    public struct ProtectiveEquipmentSummary: Swift.Equatable {
+    public struct ProtectiveEquipmentSummary {
         /// An array of IDs for persons where it was not possible to determine if they are wearing personal protective equipment.
         public var personsIndeterminate: [Swift.Int]?
         /// An array of IDs for persons who are wearing detected personal protective equipment.
@@ -17170,7 +17170,7 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
     }
 }
 
-struct ProvisionedThroughputExceededExceptionBody: Swift.Equatable {
+struct ProvisionedThroughputExceededExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -17226,7 +17226,7 @@ extension PutProjectPolicyInput {
     }
 }
 
-public struct PutProjectPolicyInput: Swift.Equatable {
+public struct PutProjectPolicyInput {
     /// A resource policy to add to the model. The policy is a JSON structure that contains one or more statements that define the policy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see [IAM JSON policy reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html).
     /// This member is required.
     public var policyDocument: Swift.String?
@@ -17253,7 +17253,7 @@ public struct PutProjectPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutProjectPolicyInputBody: Swift.Equatable {
+struct PutProjectPolicyInputBody {
     let projectArn: Swift.String?
     let policyName: Swift.String?
     let policyRevisionId: Swift.String?
@@ -17293,7 +17293,7 @@ extension PutProjectPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutProjectPolicyOutput: Swift.Equatable {
+public struct PutProjectPolicyOutput {
     /// The ID of the project policy.
     public var policyRevisionId: Swift.String?
 
@@ -17305,7 +17305,7 @@ public struct PutProjectPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutProjectPolicyOutputBody: Swift.Equatable {
+struct PutProjectPolicyOutputBody {
     let policyRevisionId: Swift.String?
 }
 
@@ -17450,7 +17450,7 @@ extension RecognizeCelebritiesInput {
     }
 }
 
-public struct RecognizeCelebritiesInput: Swift.Equatable {
+public struct RecognizeCelebritiesInput {
     /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
     /// This member is required.
     public var image: RekognitionClientTypes.Image?
@@ -17463,7 +17463,7 @@ public struct RecognizeCelebritiesInput: Swift.Equatable {
     }
 }
 
-struct RecognizeCelebritiesInputBody: Swift.Equatable {
+struct RecognizeCelebritiesInputBody {
     let image: RekognitionClientTypes.Image?
 }
 
@@ -17495,7 +17495,7 @@ extension RecognizeCelebritiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RecognizeCelebritiesOutput: Swift.Equatable {
+public struct RecognizeCelebritiesOutput {
     /// Details about each celebrity found in the image. Amazon Rekognition can detect a maximum of 64 celebrities in an image. Each celebrity object includes the following attributes: Face, Confidence, Emotions, Landmarks, Pose, Quality, Smile, Id, KnownGender, MatchConfidence, Name, Urls.
     public var celebrityFaces: [RekognitionClientTypes.Celebrity]?
     /// Support for estimating image orientation using the the OrientationCorrection field has ceased as of August 2021. Any returned values for this field included in an API response will always be NULL. The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct the orientation. The bounding box coordinates returned in CelebrityFaces and UnrecognizedFaces represent face locations before the image orientation is corrected. If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null. The CelebrityFaces and UnrecognizedFaces bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata.
@@ -17515,7 +17515,7 @@ public struct RecognizeCelebritiesOutput: Swift.Equatable {
     }
 }
 
-struct RecognizeCelebritiesOutputBody: Swift.Equatable {
+struct RecognizeCelebritiesOutputBody {
     let celebrityFaces: [RekognitionClientTypes.Celebrity]?
     let unrecognizedFaces: [RekognitionClientTypes.ComparedFace]?
     let orientationCorrection: RekognitionClientTypes.OrientationCorrection?
@@ -17614,7 +17614,7 @@ extension RekognitionClientTypes.RegionOfInterest: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Specifies a location within the frame that Rekognition checks for objects of interest such as text, labels, or faces. It uses a BoundingBox or Polygon to set a region of the screen. A word, face, or label is included in the region if it is more than half in that region. If there is more than one region, the word, face, or label is compared with all regions of the screen. Any object of interest that is more than half in a region is kept in the results.
-    public struct RegionOfInterest: Swift.Equatable {
+    public struct RegionOfInterest {
         /// The box representing a region of interest on screen.
         public var boundingBox: RekognitionClientTypes.BoundingBox?
         /// Specifies a shape made up of up to 10 Point objects to define a region of interest.
@@ -17684,7 +17684,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -17758,7 +17758,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -17832,7 +17832,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -17906,7 +17906,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotReadyExceptionBody: Swift.Equatable {
+struct ResourceNotReadyExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -17957,7 +17957,7 @@ extension RekognitionClientTypes.S3Destination: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The Amazon S3 bucket location to which Amazon Rekognition publishes the detailed inference results of a video analysis operation. These results include the name of the stream processor resource, the session ID of the stream processing session, and labeled timestamps and bounding boxes for detected labels.
-    public struct S3Destination: Swift.Equatable {
+    public struct S3Destination {
         /// The name of the Amazon S3 bucket you want to associate with the streaming video project. You must be the owner of the Amazon S3 bucket.
         public var bucket: Swift.String?
         /// The prefix value of the location within the bucket that you want the information to be published to. For more information, see [Using prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html).
@@ -18008,7 +18008,7 @@ extension RekognitionClientTypes.S3Object: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
-    public struct S3Object: Swift.Equatable {
+    public struct S3Object {
         /// Name of the S3 bucket.
         public var bucket: Swift.String?
         /// S3 object key name.
@@ -18066,7 +18066,7 @@ extension SearchFacesByImageInput {
     }
 }
 
-public struct SearchFacesByImageInput: Swift.Equatable {
+public struct SearchFacesByImageInput {
     /// ID of the collection to search.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -18096,7 +18096,7 @@ public struct SearchFacesByImageInput: Swift.Equatable {
     }
 }
 
-struct SearchFacesByImageInputBody: Swift.Equatable {
+struct SearchFacesByImageInputBody {
     let collectionId: Swift.String?
     let image: RekognitionClientTypes.Image?
     let maxFaces: Swift.Int?
@@ -18146,7 +18146,7 @@ extension SearchFacesByImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchFacesByImageOutput: Swift.Equatable {
+public struct SearchFacesByImageOutput {
     /// An array of faces that match the input face, along with the confidence in the match.
     public var faceMatches: [RekognitionClientTypes.FaceMatch]?
     /// Version number of the face detection model associated with the input collection (CollectionId).
@@ -18170,7 +18170,7 @@ public struct SearchFacesByImageOutput: Swift.Equatable {
     }
 }
 
-struct SearchFacesByImageOutputBody: Swift.Equatable {
+struct SearchFacesByImageOutputBody {
     let searchedFaceBoundingBox: RekognitionClientTypes.BoundingBox?
     let searchedFaceConfidence: Swift.Float?
     let faceMatches: [RekognitionClientTypes.FaceMatch]?
@@ -18258,7 +18258,7 @@ extension SearchFacesInput {
     }
 }
 
-public struct SearchFacesInput: Swift.Equatable {
+public struct SearchFacesInput {
     /// ID of the collection the face belongs to.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -18284,7 +18284,7 @@ public struct SearchFacesInput: Swift.Equatable {
     }
 }
 
-struct SearchFacesInputBody: Swift.Equatable {
+struct SearchFacesInputBody {
     let collectionId: Swift.String?
     let faceId: Swift.String?
     let maxFaces: Swift.Int?
@@ -18328,7 +18328,7 @@ extension SearchFacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchFacesOutput: Swift.Equatable {
+public struct SearchFacesOutput {
     /// An array of faces that matched the input face, along with the confidence in the match.
     public var faceMatches: [RekognitionClientTypes.FaceMatch]?
     /// Version number of the face detection model associated with the input collection (CollectionId).
@@ -18348,7 +18348,7 @@ public struct SearchFacesOutput: Swift.Equatable {
     }
 }
 
-struct SearchFacesOutputBody: Swift.Equatable {
+struct SearchFacesOutputBody {
     let searchedFaceId: Swift.String?
     let faceMatches: [RekognitionClientTypes.FaceMatch]?
     let faceModelVersion: Swift.String?
@@ -18433,7 +18433,7 @@ extension SearchUsersByImageInput {
     }
 }
 
-public struct SearchUsersByImageInput: Swift.Equatable {
+public struct SearchUsersByImageInput {
     /// The ID of an existing collection containing the UserID.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -18463,7 +18463,7 @@ public struct SearchUsersByImageInput: Swift.Equatable {
     }
 }
 
-struct SearchUsersByImageInputBody: Swift.Equatable {
+struct SearchUsersByImageInputBody {
     let collectionId: Swift.String?
     let image: RekognitionClientTypes.Image?
     let userMatchThreshold: Swift.Float?
@@ -18513,7 +18513,7 @@ extension SearchUsersByImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchUsersByImageOutput: Swift.Equatable {
+public struct SearchUsersByImageOutput {
     /// Version number of the face detection model associated with the input collection CollectionId.
     public var faceModelVersion: Swift.String?
     /// A list of FaceDetail objects containing the BoundingBox for the largest face in image, as well as the confidence in the bounding box, that was searched for matches. If no valid face is detected in the image the response will contain no SearchedFace object.
@@ -18537,7 +18537,7 @@ public struct SearchUsersByImageOutput: Swift.Equatable {
     }
 }
 
-struct SearchUsersByImageOutputBody: Swift.Equatable {
+struct SearchUsersByImageOutputBody {
     let userMatches: [RekognitionClientTypes.UserMatch]?
     let faceModelVersion: Swift.String?
     let searchedFace: RekognitionClientTypes.SearchedFaceDetails?
@@ -18638,7 +18638,7 @@ extension SearchUsersInput {
     }
 }
 
-public struct SearchUsersInput: Swift.Equatable {
+public struct SearchUsersInput {
     /// The ID of an existing collection containing the UserID, used with a UserId or FaceId. If a FaceId is provided, UserId isn’t required to be present in the Collection.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -18667,7 +18667,7 @@ public struct SearchUsersInput: Swift.Equatable {
     }
 }
 
-struct SearchUsersInputBody: Swift.Equatable {
+struct SearchUsersInputBody {
     let collectionId: Swift.String?
     let userId: Swift.String?
     let faceId: Swift.String?
@@ -18717,7 +18717,7 @@ extension SearchUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchUsersOutput: Swift.Equatable {
+public struct SearchUsersOutput {
     /// Version number of the face detection model associated with the input CollectionId.
     public var faceModelVersion: Swift.String?
     /// Contains the ID of a face that was used to search for matches in a collection.
@@ -18741,7 +18741,7 @@ public struct SearchUsersOutput: Swift.Equatable {
     }
 }
 
-struct SearchUsersOutputBody: Swift.Equatable {
+struct SearchUsersOutputBody {
     let userMatches: [RekognitionClientTypes.UserMatch]?
     let faceModelVersion: Swift.String?
     let searchedFace: RekognitionClientTypes.SearchedFace?
@@ -18815,7 +18815,7 @@ extension RekognitionClientTypes.SearchedFace: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides face metadata such as FaceId, BoundingBox, Confidence of the input face used for search.
-    public struct SearchedFace: Swift.Equatable {
+    public struct SearchedFace {
         /// Unique identifier assigned to the face.
         public var faceId: Swift.String?
 
@@ -18850,7 +18850,7 @@ extension RekognitionClientTypes.SearchedFaceDetails: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains data regarding the input face used for a search.
-    public struct SearchedFaceDetails: Swift.Equatable {
+    public struct SearchedFaceDetails {
         /// Structure containing attributes of the face that the algorithm detected. A FaceDetail object contains either the default facial attributes or all facial attributes. The default attributes are BoundingBox, Confidence, Landmarks, Pose, and Quality. [GetFaceDetection] is the only Amazon Rekognition Video stored video operation that can return a FaceDetail object with all attributes. To specify which attributes to return, use the FaceAttributes input parameter for [StartFaceDetection]. The following Amazon Rekognition Video operations return only the default attributes. The corresponding Start operations don't have a FaceAttributes input parameter:
         ///
         /// * GetCelebrityRecognition
@@ -18894,7 +18894,7 @@ extension RekognitionClientTypes.SearchedUser: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains metadata about a User searched for within a collection.
-    public struct SearchedUser: Swift.Equatable {
+    public struct SearchedUser {
         /// A provided ID for the UserID. Unique within the collection.
         public var userId: Swift.String?
 
@@ -18995,7 +18995,7 @@ extension RekognitionClientTypes.SegmentDetection: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A technical cue or shot detection segment detected in a video. An array of SegmentDetection objects containing all segments detected in a stored video is returned by [GetSegmentDetection].
-    public struct SegmentDetection: Swift.Equatable {
+    public struct SegmentDetection {
         /// The duration of a video segment, expressed in frames.
         public var durationFrames: Swift.Int?
         /// The duration of the detected segment in milliseconds.
@@ -19112,7 +19112,7 @@ extension RekognitionClientTypes.SegmentTypeInfo: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about the type of a segment requested in a call to [StartSegmentDetection]. An array of SegmentTypeInfo objects is returned by the response from [GetSegmentDetection].
-    public struct SegmentTypeInfo: Swift.Equatable {
+    public struct SegmentTypeInfo {
         /// The version of the model used to detect segments.
         public var modelVersion: Swift.String?
         /// The type of a segment (technical cue or shot detection).
@@ -19180,7 +19180,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -19254,7 +19254,7 @@ public struct SessionNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct SessionNotFoundExceptionBody: Swift.Equatable {
+struct SessionNotFoundExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -19305,7 +19305,7 @@ extension RekognitionClientTypes.ShotSegment: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about a shot detection segment detected in a video. For more information, see [SegmentDetection].
-    public struct ShotSegment: Swift.Equatable {
+    public struct ShotSegment {
         /// The confidence that Amazon Rekognition Video has in the accuracy of the detected segment.
         public var confidence: Swift.Float?
         /// An Identifier for a shot detection segment detected in a video.
@@ -19350,7 +19350,7 @@ extension RekognitionClientTypes.Smile: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Indicates whether or not the face is smiling, and the confidence level in the determination.
-    public struct Smile: Swift.Equatable {
+    public struct Smile {
         /// Level of confidence in the determination.
         public var confidence: Swift.Float?
         /// Boolean value that indicates whether the face is smiling or not.
@@ -19400,7 +19400,7 @@ extension StartCelebrityRecognitionInput {
     }
 }
 
-public struct StartCelebrityRecognitionInput: Swift.Equatable {
+public struct StartCelebrityRecognitionInput {
     /// Idempotent token used to identify the start request. If you use the same token with multiple StartCelebrityRecognition requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
     public var clientRequestToken: Swift.String?
     /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
@@ -19425,7 +19425,7 @@ public struct StartCelebrityRecognitionInput: Swift.Equatable {
     }
 }
 
-struct StartCelebrityRecognitionInputBody: Swift.Equatable {
+struct StartCelebrityRecognitionInputBody {
     let video: RekognitionClientTypes.Video?
     let clientRequestToken: Swift.String?
     let notificationChannel: RekognitionClientTypes.NotificationChannel?
@@ -19465,7 +19465,7 @@ extension StartCelebrityRecognitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCelebrityRecognitionOutput: Swift.Equatable {
+public struct StartCelebrityRecognitionOutput {
     /// The identifier for the celebrity recognition analysis job. Use JobId to identify the job in a subsequent call to GetCelebrityRecognition.
     public var jobId: Swift.String?
 
@@ -19477,7 +19477,7 @@ public struct StartCelebrityRecognitionOutput: Swift.Equatable {
     }
 }
 
-struct StartCelebrityRecognitionOutputBody: Swift.Equatable {
+struct StartCelebrityRecognitionOutputBody {
     let jobId: Swift.String?
 }
 
@@ -19548,7 +19548,7 @@ extension StartContentModerationInput {
     }
 }
 
-public struct StartContentModerationInput: Swift.Equatable {
+public struct StartContentModerationInput {
     /// Idempotent token used to identify the start request. If you use the same token with multiple StartContentModeration requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
     public var clientRequestToken: Swift.String?
     /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
@@ -19577,7 +19577,7 @@ public struct StartContentModerationInput: Swift.Equatable {
     }
 }
 
-struct StartContentModerationInputBody: Swift.Equatable {
+struct StartContentModerationInputBody {
     let video: RekognitionClientTypes.Video?
     let minConfidence: Swift.Float?
     let clientRequestToken: Swift.String?
@@ -19621,7 +19621,7 @@ extension StartContentModerationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartContentModerationOutput: Swift.Equatable {
+public struct StartContentModerationOutput {
     /// The identifier for the content analysis job. Use JobId to identify the job in a subsequent call to GetContentModeration.
     public var jobId: Swift.String?
 
@@ -19633,7 +19633,7 @@ public struct StartContentModerationOutput: Swift.Equatable {
     }
 }
 
-struct StartContentModerationOutputBody: Swift.Equatable {
+struct StartContentModerationOutputBody {
     let jobId: Swift.String?
 }
 
@@ -19704,7 +19704,7 @@ extension StartFaceDetectionInput {
     }
 }
 
-public struct StartFaceDetectionInput: Swift.Equatable {
+public struct StartFaceDetectionInput {
     /// Idempotent token used to identify the start request. If you use the same token with multiple StartFaceDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
     public var clientRequestToken: Swift.String?
     /// The face attributes you want returned. DEFAULT - The following subset of facial attributes are returned: BoundingBox, Confidence, Pose, Quality and Landmarks. ALL - All facial attributes are returned.
@@ -19733,7 +19733,7 @@ public struct StartFaceDetectionInput: Swift.Equatable {
     }
 }
 
-struct StartFaceDetectionInputBody: Swift.Equatable {
+struct StartFaceDetectionInputBody {
     let video: RekognitionClientTypes.Video?
     let clientRequestToken: Swift.String?
     let notificationChannel: RekognitionClientTypes.NotificationChannel?
@@ -19777,7 +19777,7 @@ extension StartFaceDetectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartFaceDetectionOutput: Swift.Equatable {
+public struct StartFaceDetectionOutput {
     /// The identifier for the face detection job. Use JobId to identify the job in a subsequent call to GetFaceDetection.
     public var jobId: Swift.String?
 
@@ -19789,7 +19789,7 @@ public struct StartFaceDetectionOutput: Swift.Equatable {
     }
 }
 
-struct StartFaceDetectionOutputBody: Swift.Equatable {
+struct StartFaceDetectionOutputBody {
     let jobId: Swift.String?
 }
 
@@ -19864,7 +19864,7 @@ extension StartFaceSearchInput {
     }
 }
 
-public struct StartFaceSearchInput: Swift.Equatable {
+public struct StartFaceSearchInput {
     /// Idempotent token used to identify the start request. If you use the same token with multiple StartFaceSearch requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
     public var clientRequestToken: Swift.String?
     /// ID of the collection that contains the faces you want to search for.
@@ -19898,7 +19898,7 @@ public struct StartFaceSearchInput: Swift.Equatable {
     }
 }
 
-struct StartFaceSearchInputBody: Swift.Equatable {
+struct StartFaceSearchInputBody {
     let video: RekognitionClientTypes.Video?
     let clientRequestToken: Swift.String?
     let faceMatchThreshold: Swift.Float?
@@ -19946,7 +19946,7 @@ extension StartFaceSearchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartFaceSearchOutput: Swift.Equatable {
+public struct StartFaceSearchOutput {
     /// The identifier for the search job. Use JobId to identify the job in a subsequent call to GetFaceSearch.
     public var jobId: Swift.String?
 
@@ -19958,7 +19958,7 @@ public struct StartFaceSearchOutput: Swift.Equatable {
     }
 }
 
-struct StartFaceSearchOutputBody: Swift.Equatable {
+struct StartFaceSearchOutputBody {
     let jobId: Swift.String?
 }
 
@@ -20041,7 +20041,7 @@ extension StartLabelDetectionInput {
     }
 }
 
-public struct StartLabelDetectionInput: Swift.Equatable {
+public struct StartLabelDetectionInput {
     /// Idempotent token used to identify the start request. If you use the same token with multiple StartLabelDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
     public var clientRequestToken: Swift.String?
     /// The features to return after video analysis. You can specify that GENERAL_LABELS are returned.
@@ -20078,7 +20078,7 @@ public struct StartLabelDetectionInput: Swift.Equatable {
     }
 }
 
-struct StartLabelDetectionInputBody: Swift.Equatable {
+struct StartLabelDetectionInputBody {
     let video: RekognitionClientTypes.Video?
     let clientRequestToken: Swift.String?
     let minConfidence: Swift.Float?
@@ -20139,7 +20139,7 @@ extension StartLabelDetectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartLabelDetectionOutput: Swift.Equatable {
+public struct StartLabelDetectionOutput {
     /// The identifier for the label detection job. Use JobId to identify the job in a subsequent call to GetLabelDetection.
     public var jobId: Swift.String?
 
@@ -20151,7 +20151,7 @@ public struct StartLabelDetectionOutput: Swift.Equatable {
     }
 }
 
-struct StartLabelDetectionOutputBody: Swift.Equatable {
+struct StartLabelDetectionOutputBody {
     let jobId: Swift.String?
 }
 
@@ -20226,7 +20226,7 @@ extension StartMediaAnalysisJobInput {
     }
 }
 
-public struct StartMediaAnalysisJobInput: Swift.Equatable {
+public struct StartMediaAnalysisJobInput {
     /// Idempotency token used to prevent the accidental creation of duplicate versions. If you use the same token with multiple StartMediaAnalysisJobRequest requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
     public var clientRequestToken: Swift.String?
     /// Input data to be analyzed by the job.
@@ -20261,7 +20261,7 @@ public struct StartMediaAnalysisJobInput: Swift.Equatable {
     }
 }
 
-struct StartMediaAnalysisJobInputBody: Swift.Equatable {
+struct StartMediaAnalysisJobInputBody {
     let clientRequestToken: Swift.String?
     let jobName: Swift.String?
     let operationsConfig: RekognitionClientTypes.MediaAnalysisOperationsConfig?
@@ -20309,7 +20309,7 @@ extension StartMediaAnalysisJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMediaAnalysisJobOutput: Swift.Equatable {
+public struct StartMediaAnalysisJobOutput {
     /// Identifier for the created job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -20322,7 +20322,7 @@ public struct StartMediaAnalysisJobOutput: Swift.Equatable {
     }
 }
 
-struct StartMediaAnalysisJobOutputBody: Swift.Equatable {
+struct StartMediaAnalysisJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -20391,7 +20391,7 @@ extension StartPersonTrackingInput {
     }
 }
 
-public struct StartPersonTrackingInput: Swift.Equatable {
+public struct StartPersonTrackingInput {
     /// Idempotent token used to identify the start request. If you use the same token with multiple StartPersonTracking requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
     public var clientRequestToken: Swift.String?
     /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
@@ -20416,7 +20416,7 @@ public struct StartPersonTrackingInput: Swift.Equatable {
     }
 }
 
-struct StartPersonTrackingInputBody: Swift.Equatable {
+struct StartPersonTrackingInputBody {
     let video: RekognitionClientTypes.Video?
     let clientRequestToken: Swift.String?
     let notificationChannel: RekognitionClientTypes.NotificationChannel?
@@ -20456,7 +20456,7 @@ extension StartPersonTrackingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartPersonTrackingOutput: Swift.Equatable {
+public struct StartPersonTrackingOutput {
     /// The identifier for the person detection job. Use JobId to identify the job in a subsequent call to GetPersonTracking.
     public var jobId: Swift.String?
 
@@ -20468,7 +20468,7 @@ public struct StartPersonTrackingOutput: Swift.Equatable {
     }
 }
 
-struct StartPersonTrackingOutputBody: Swift.Equatable {
+struct StartPersonTrackingOutputBody {
     let jobId: Swift.String?
 }
 
@@ -20531,7 +20531,7 @@ extension StartProjectVersionInput {
     }
 }
 
-public struct StartProjectVersionInput: Swift.Equatable {
+public struct StartProjectVersionInput {
     /// The maximum number of inference units to use for auto-scaling the model. If you don't specify a value, Amazon Rekognition Custom Labels doesn't auto-scale the model.
     public var maxInferenceUnits: Swift.Int?
     /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing. Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use.
@@ -20553,7 +20553,7 @@ public struct StartProjectVersionInput: Swift.Equatable {
     }
 }
 
-struct StartProjectVersionInputBody: Swift.Equatable {
+struct StartProjectVersionInputBody {
     let projectVersionArn: Swift.String?
     let minInferenceUnits: Swift.Int?
     let maxInferenceUnits: Swift.Int?
@@ -20589,7 +20589,7 @@ extension StartProjectVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartProjectVersionOutput: Swift.Equatable {
+public struct StartProjectVersionOutput {
     /// The current running status of the model.
     public var status: RekognitionClientTypes.ProjectVersionStatus?
 
@@ -20601,7 +20601,7 @@ public struct StartProjectVersionOutput: Swift.Equatable {
     }
 }
 
-struct StartProjectVersionOutputBody: Swift.Equatable {
+struct StartProjectVersionOutputBody {
     let status: RekognitionClientTypes.ProjectVersionStatus?
 }
 
@@ -20662,7 +20662,7 @@ extension RekognitionClientTypes.StartSegmentDetectionFilters: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Filters applied to the technical cue or shot detection segments. For more information, see [StartSegmentDetection].
-    public struct StartSegmentDetectionFilters: Swift.Equatable {
+    public struct StartSegmentDetectionFilters {
         /// Filters that are specific to shot detections.
         public var shotFilter: RekognitionClientTypes.StartShotDetectionFilter?
         /// Filters that are specific to technical cues.
@@ -20723,7 +20723,7 @@ extension StartSegmentDetectionInput {
     }
 }
 
-public struct StartSegmentDetectionInput: Swift.Equatable {
+public struct StartSegmentDetectionInput {
     /// Idempotent token used to identify the start request. If you use the same token with multiple StartSegmentDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
     public var clientRequestToken: Swift.String?
     /// Filters for technical cue or shot detection.
@@ -20757,7 +20757,7 @@ public struct StartSegmentDetectionInput: Swift.Equatable {
     }
 }
 
-struct StartSegmentDetectionInputBody: Swift.Equatable {
+struct StartSegmentDetectionInputBody {
     let video: RekognitionClientTypes.Video?
     let clientRequestToken: Swift.String?
     let notificationChannel: RekognitionClientTypes.NotificationChannel?
@@ -20814,7 +20814,7 @@ extension StartSegmentDetectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSegmentDetectionOutput: Swift.Equatable {
+public struct StartSegmentDetectionOutput {
     /// Unique identifier for the segment detection job. The JobId is returned from StartSegmentDetection.
     public var jobId: Swift.String?
 
@@ -20826,7 +20826,7 @@ public struct StartSegmentDetectionOutput: Swift.Equatable {
     }
 }
 
-struct StartSegmentDetectionOutputBody: Swift.Equatable {
+struct StartSegmentDetectionOutputBody {
     let jobId: Swift.String?
 }
 
@@ -20882,7 +20882,7 @@ extension RekognitionClientTypes.StartShotDetectionFilter: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Filters for the shot detection segments returned by GetSegmentDetection. For more information, see [StartSegmentDetectionFilters].
-    public struct StartShotDetectionFilter: Swift.Equatable {
+    public struct StartShotDetectionFilter {
         /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected segment. Confidence represents how certain Amazon Rekognition is that a segment is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any segments with a confidence level lower than this specified value. If you don't specify MinSegmentConfidence, the GetSegmentDetection returns segments with confidence values greater than or equal to 50 percent.
         public var minSegmentConfidence: Swift.Float?
 
@@ -20924,7 +20924,7 @@ extension StartStreamProcessorInput {
     }
 }
 
-public struct StartStreamProcessorInput: Swift.Equatable {
+public struct StartStreamProcessorInput {
     /// The name of the stream processor to start processing.
     /// This member is required.
     public var name: Swift.String?
@@ -20945,7 +20945,7 @@ public struct StartStreamProcessorInput: Swift.Equatable {
     }
 }
 
-struct StartStreamProcessorInputBody: Swift.Equatable {
+struct StartStreamProcessorInputBody {
     let name: Swift.String?
     let startSelector: RekognitionClientTypes.StreamProcessingStartSelector?
     let stopSelector: RekognitionClientTypes.StreamProcessingStopSelector?
@@ -20981,7 +20981,7 @@ extension StartStreamProcessorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartStreamProcessorOutput: Swift.Equatable {
+public struct StartStreamProcessorOutput {
     /// A unique identifier for the stream processing session.
     public var sessionId: Swift.String?
 
@@ -20993,7 +20993,7 @@ public struct StartStreamProcessorOutput: Swift.Equatable {
     }
 }
 
-struct StartStreamProcessorOutputBody: Swift.Equatable {
+struct StartStreamProcessorOutputBody {
     let sessionId: Swift.String?
 }
 
@@ -21053,7 +21053,7 @@ extension RekognitionClientTypes.StartTechnicalCueDetectionFilter: Swift.Codable
 
 extension RekognitionClientTypes {
     /// Filters for the technical segments returned by [GetSegmentDetection]. For more information, see [StartSegmentDetectionFilters].
-    public struct StartTechnicalCueDetectionFilter: Swift.Equatable {
+    public struct StartTechnicalCueDetectionFilter {
         /// A filter that allows you to control the black frame detection by specifying the black levels and pixel coverage of black pixels in a frame. Videos can come from multiple sources, formats, and time periods, with different standards and varying noise levels for black frames that need to be accounted for.
         public var blackFrame: RekognitionClientTypes.BlackFrame?
         /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected segment. Confidence represents how certain Amazon Rekognition is that a segment is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any segments with a confidence level lower than this specified value. If you don't specify MinSegmentConfidence, GetSegmentDetection returns segments with confidence values greater than or equal to 50 percent.
@@ -21110,7 +21110,7 @@ extension RekognitionClientTypes.StartTextDetectionFilters: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Set of optional parameters that let you set the criteria text must meet to be included in your response. WordFilter looks at a word's height, width and minimum confidence. RegionOfInterest lets you set a specific region of the screen to look for text in.
-    public struct StartTextDetectionFilters: Swift.Equatable {
+    public struct StartTextDetectionFilters {
         /// Filter focusing on a certain area of the frame. Uses a BoundingBox object to set the region of the screen.
         public var regionsOfInterest: [RekognitionClientTypes.RegionOfInterest]?
         /// Filters focusing on qualities of the text, such as confidence or size.
@@ -21164,7 +21164,7 @@ extension StartTextDetectionInput {
     }
 }
 
-public struct StartTextDetectionInput: Swift.Equatable {
+public struct StartTextDetectionInput {
     /// Idempotent token used to identify the start request. If you use the same token with multiple StartTextDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentaly started more than once.
     public var clientRequestToken: Swift.String?
     /// Optional parameters that let you set criteria the text must meet to be included in your response.
@@ -21193,7 +21193,7 @@ public struct StartTextDetectionInput: Swift.Equatable {
     }
 }
 
-struct StartTextDetectionInputBody: Swift.Equatable {
+struct StartTextDetectionInputBody {
     let video: RekognitionClientTypes.Video?
     let clientRequestToken: Swift.String?
     let notificationChannel: RekognitionClientTypes.NotificationChannel?
@@ -21237,7 +21237,7 @@ extension StartTextDetectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartTextDetectionOutput: Swift.Equatable {
+public struct StartTextDetectionOutput {
     /// Identifier for the text detection job. Use JobId to identify the job in a subsequent call to GetTextDetection.
     public var jobId: Swift.String?
 
@@ -21249,7 +21249,7 @@ public struct StartTextDetectionOutput: Swift.Equatable {
     }
 }
 
-struct StartTextDetectionOutputBody: Swift.Equatable {
+struct StartTextDetectionOutputBody {
     let jobId: Swift.String?
 }
 
@@ -21304,7 +21304,7 @@ extension StopProjectVersionInput {
     }
 }
 
-public struct StopProjectVersionInput: Swift.Equatable {
+public struct StopProjectVersionInput {
     /// The Amazon Resource Name (ARN) of the model version that you want to stop. This operation requires permissions to perform the rekognition:StopProjectVersion action.
     /// This member is required.
     public var projectVersionArn: Swift.String?
@@ -21317,7 +21317,7 @@ public struct StopProjectVersionInput: Swift.Equatable {
     }
 }
 
-struct StopProjectVersionInputBody: Swift.Equatable {
+struct StopProjectVersionInputBody {
     let projectVersionArn: Swift.String?
 }
 
@@ -21345,7 +21345,7 @@ extension StopProjectVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopProjectVersionOutput: Swift.Equatable {
+public struct StopProjectVersionOutput {
     /// The current status of the stop operation.
     public var status: RekognitionClientTypes.ProjectVersionStatus?
 
@@ -21357,7 +21357,7 @@ public struct StopProjectVersionOutput: Swift.Equatable {
     }
 }
 
-struct StopProjectVersionOutputBody: Swift.Equatable {
+struct StopProjectVersionOutputBody {
     let status: RekognitionClientTypes.ProjectVersionStatus?
 }
 
@@ -21410,7 +21410,7 @@ extension StopStreamProcessorInput {
     }
 }
 
-public struct StopStreamProcessorInput: Swift.Equatable {
+public struct StopStreamProcessorInput {
     /// The name of a stream processor created by [CreateStreamProcessor].
     /// This member is required.
     public var name: Swift.String?
@@ -21423,7 +21423,7 @@ public struct StopStreamProcessorInput: Swift.Equatable {
     }
 }
 
-struct StopStreamProcessorInputBody: Swift.Equatable {
+struct StopStreamProcessorInputBody {
     let name: Swift.String?
 }
 
@@ -21444,7 +21444,7 @@ extension StopStreamProcessorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopStreamProcessorOutput: Swift.Equatable {
+public struct StopStreamProcessorOutput {
 
     public init() { }
 }
@@ -21487,7 +21487,7 @@ extension RekognitionClientTypes.StreamProcessingStartSelector: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// This is a required parameter for label detection stream processors and should not be used to start a face search stream processor.
-    public struct StreamProcessingStartSelector: Swift.Equatable {
+    public struct StreamProcessingStartSelector {
         /// Specifies the starting point in the stream to start processing. This can be done with a producer timestamp or a fragment number in a Kinesis stream.
         public var kvsStreamStartSelector: RekognitionClientTypes.KinesisVideoStreamStartSelector?
 
@@ -21522,7 +21522,7 @@ extension RekognitionClientTypes.StreamProcessingStopSelector: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Specifies when to stop processing the stream. You can specify a maximum amount of time to process the video.
-    public struct StreamProcessingStopSelector: Swift.Equatable {
+    public struct StreamProcessingStopSelector {
         /// Specifies the maximum amount of time in seconds that you want the stream to be processed. The largest amount of time is 2 minutes. The default is 10 seconds.
         public var maxDurationInSeconds: Swift.Int?
 
@@ -21563,7 +21563,7 @@ extension RekognitionClientTypes.StreamProcessor: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// An object that recognizes faces or labels in a streaming video. An Amazon Rekognition stream processor is created by a call to [CreateStreamProcessor]. The request parameters for CreateStreamProcessor describe the Kinesis video stream source for the streaming video, face recognition parameters, and where to stream the analysis resullts.
-    public struct StreamProcessor: Swift.Equatable {
+    public struct StreamProcessor {
         /// Name of the Amazon Rekognition stream processor.
         public var name: Swift.String?
         /// Current status of the Amazon Rekognition stream processor.
@@ -21602,7 +21602,7 @@ extension RekognitionClientTypes.StreamProcessorDataSharingPreference: Swift.Cod
 
 extension RekognitionClientTypes {
     /// Allows you to opt in or opt out to share data with Rekognition to improve model performance. You can choose this option at the account level or on a per-stream basis. Note that if you opt out at the account level this setting is ignored on individual streams.
-    public struct StreamProcessorDataSharingPreference: Swift.Equatable {
+    public struct StreamProcessorDataSharingPreference {
         /// If this option is set to true, you choose to share data with Rekognition to improve model performance.
         /// This member is required.
         public var optIn: Swift.Bool
@@ -21638,7 +21638,7 @@ extension RekognitionClientTypes.StreamProcessorInput: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about the source streaming video.
-    public struct StreamProcessorInput: Swift.Equatable {
+    public struct StreamProcessorInput {
         /// The Kinesis video stream input stream for the source streaming video.
         public var kinesisVideoStream: RekognitionClientTypes.KinesisVideoStream?
 
@@ -21673,7 +21673,7 @@ extension RekognitionClientTypes.StreamProcessorNotificationChannel: Swift.Codab
 
 extension RekognitionClientTypes {
     /// The Amazon Simple Notification Service topic to which Amazon Rekognition publishes the object detection results and completion status of a video analysis operation. Amazon Rekognition publishes a notification the first time an object of interest or a person is detected in the video stream. For example, if Amazon Rekognition detects a person at second 2, a pet at second 4, and a person again at second 5, Amazon Rekognition sends 2 object class detected notifications, one for a person at second 2 and one for a pet at second 4. Amazon Rekognition also publishes an an end-of-session notification with a summary when the stream processing session is complete.
-    public struct StreamProcessorNotificationChannel: Swift.Equatable {
+    public struct StreamProcessorNotificationChannel {
         /// The Amazon Resource Number (ARN) of the Amazon Amazon Simple Notification Service topic to which Amazon Rekognition posts the completion status.
         /// This member is required.
         public var snsTopicArn: Swift.String?
@@ -21715,7 +21715,7 @@ extension RekognitionClientTypes.StreamProcessorOutput: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about the Amazon Kinesis Data Streams stream to which a Amazon Rekognition Video stream processor streams the results of a video analysis. For more information, see CreateStreamProcessor in the Amazon Rekognition Developer Guide.
-    public struct StreamProcessorOutput: Swift.Equatable {
+    public struct StreamProcessorOutput {
         /// The Amazon Kinesis Data Streams stream to which the Amazon Rekognition stream processor streams the analysis results.
         public var kinesisDataStream: RekognitionClientTypes.KinesisDataStream?
         /// The Amazon S3 bucket location to which Amazon Rekognition publishes the detailed inference results of a video analysis operation.
@@ -21792,7 +21792,7 @@ extension RekognitionClientTypes.StreamProcessorSettings: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Input parameters used in a streaming video analyzed by a Amazon Rekognition stream processor. You can use FaceSearch to recognize faces in a streaming video, or you can use ConnectedHome to detect labels.
-    public struct StreamProcessorSettings: Swift.Equatable {
+    public struct StreamProcessorSettings {
         /// Label detection settings to use on a streaming video. Defining the settings is required in the request parameter for [CreateStreamProcessor]. Including this setting in the CreateStreamProcessor request enables you to use the stream processor for label detection. You can then select what you want the stream processor to detect, such as people or pets. When the stream processor has started, one notification is sent for each object class specified. For example, if packages and pets are selected, one SNS notification is published the first time a package is detected and one SNS notification is published the first time a pet is detected, as well as an end-of-session summary.
         public var connectedHome: RekognitionClientTypes.ConnectedHomeSettings?
         /// Face search settings to use on a streaming video.
@@ -21831,7 +21831,7 @@ extension RekognitionClientTypes.StreamProcessorSettingsForUpdate: Swift.Codable
 
 extension RekognitionClientTypes {
     /// The stream processor settings that you want to update. ConnectedHome settings can be updated to detect different labels with a different minimum confidence.
-    public struct StreamProcessorSettingsForUpdate: Swift.Equatable {
+    public struct StreamProcessorSettingsForUpdate {
         /// The label detection settings you want to use for your stream processor.
         public var connectedHomeForUpdate: RekognitionClientTypes.ConnectedHomeSettingsForUpdate?
 
@@ -21910,7 +21910,7 @@ extension RekognitionClientTypes.Summary: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The S3 bucket that contains the training summary. The training summary includes aggregated evaluation metrics for the entire testing dataset and metrics for each individual label. You get the training summary S3 bucket location by calling [DescribeProjectVersions].
-    public struct Summary: Swift.Equatable {
+    public struct Summary {
         /// Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
         public var s3Object: RekognitionClientTypes.S3Object?
 
@@ -21951,7 +21951,7 @@ extension RekognitionClientTypes.Sunglasses: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Indicates whether or not the face is wearing sunglasses, and the confidence level in the determination.
-    public struct Sunglasses: Swift.Equatable {
+    public struct Sunglasses {
         /// Level of confidence in the determination.
         public var confidence: Swift.Float?
         /// Boolean value that indicates whether the face is wearing sunglasses or not.
@@ -21996,7 +21996,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to assign the tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -22014,7 +22014,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -22048,7 +22048,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -22097,7 +22097,7 @@ extension RekognitionClientTypes.TechnicalCueSegment: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about a technical cue segment. For more information, see [SegmentDetection].
-    public struct TechnicalCueSegment: Swift.Equatable {
+    public struct TechnicalCueSegment {
         /// The confidence that Amazon Rekognition Video has in the accuracy of the detected segment.
         public var confidence: Swift.Float?
         /// The type of the technical cue.
@@ -22201,7 +22201,7 @@ extension RekognitionClientTypes.TestingData: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The dataset used for testing. Optionally, if AutoCreate is set, Amazon Rekognition uses the training dataset to create a test dataset with a temporary split of the training dataset.
-    public struct TestingData: Swift.Equatable {
+    public struct TestingData {
         /// The assets used for testing.
         public var assets: [RekognitionClientTypes.Asset]?
         /// If specified, Rekognition splits training dataset to create a test dataset for the training job.
@@ -22252,7 +22252,7 @@ extension RekognitionClientTypes.TestingDataResult: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Sagemaker Groundtruth format manifest files for the input, output and validation datasets that are used and created during testing.
-    public struct TestingDataResult: Swift.Equatable {
+    public struct TestingDataResult {
         /// The testing dataset that was supplied for training.
         public var input: RekognitionClientTypes.TestingData?
         /// The subset of the dataset that was actually tested. Some images (assets) might not be tested due to file formatting and other issues.
@@ -22325,7 +22325,7 @@ extension RekognitionClientTypes.TextDetection: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about a word or line of text detected by [DetectText]. The DetectedText field contains the text that Amazon Rekognition detected in the image. Every word and line has an identifier (Id). Each word belongs to a line and has a parent identifier (ParentId) that identifies the line of text in which the word appears. The word Id is also an index for the word within a line of words. For more information, see Detecting text in the Amazon Rekognition Developer Guide.
-    public struct TextDetection: Swift.Equatable {
+    public struct TextDetection {
         /// The confidence that Amazon Rekognition has in the accuracy of the detected text and the accuracy of the geometry points around the detected text.
         public var confidence: Swift.Float?
         /// The word or line of text recognized by Amazon Rekognition.
@@ -22386,7 +22386,7 @@ extension RekognitionClientTypes.TextDetectionResult: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about text detected in a video. Incudes the detected text, the time in milliseconds from the start of the video that the text was detected, and where it was detected on the screen.
-    public struct TextDetectionResult: Swift.Equatable {
+    public struct TextDetectionResult {
         /// Details about text detected in a video.
         public var textDetection: RekognitionClientTypes.TextDetection?
         /// The time, in milliseconds from the start of the video, that the text was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the text first appears.
@@ -22486,7 +22486,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?
@@ -22543,7 +22543,7 @@ extension RekognitionClientTypes.TrainingData: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The dataset used for training.
-    public struct TrainingData: Swift.Equatable {
+    public struct TrainingData {
         /// A manifest file that contains references to the training images and ground-truth annotations.
         public var assets: [RekognitionClientTypes.Asset]?
 
@@ -22590,7 +22590,7 @@ extension RekognitionClientTypes.TrainingDataResult: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// The data validation manifest created for the training dataset during model training.
-    public struct TrainingDataResult: Swift.Equatable {
+    public struct TrainingDataResult {
         /// The training data that you supplied.
         public var input: RekognitionClientTypes.TrainingData?
         /// Reference to images (assets) that were actually used during training with trained model predictions.
@@ -22651,7 +22651,7 @@ extension RekognitionClientTypes.UnindexedFace: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// A face that [IndexFaces] detected, but didn't index. Use the Reasons response attribute to determine why a face wasn't indexed.
-    public struct UnindexedFace: Swift.Equatable {
+    public struct UnindexedFace {
         /// The structure that contains attributes of a face that IndexFacesdetected, but didn't index.
         public var faceDetail: RekognitionClientTypes.FaceDetail?
         /// An array of reasons that specify why a face wasn't indexed.
@@ -22720,7 +22720,7 @@ extension RekognitionClientTypes.UnsearchedFace: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Face details inferred from the image but not used for search. The response attribute contains reasons for why a face wasn't used for Search.
-    public struct UnsearchedFace: Swift.Equatable {
+    public struct UnsearchedFace {
         /// Structure containing attributes of the face that the algorithm detected. A FaceDetail object contains either the default facial attributes or all facial attributes. The default attributes are BoundingBox, Confidence, Landmarks, Pose, and Quality. [GetFaceDetection] is the only Amazon Rekognition Video stored video operation that can return a FaceDetail object with all attributes. To specify which attributes to return, use the FaceAttributes input parameter for [StartFaceDetection]. The following Amazon Rekognition Video operations return only the default attributes. The corresponding Start operations don't have a FaceAttributes input parameter:
         ///
         /// * GetCelebrityRecognition
@@ -22848,7 +22848,7 @@ extension RekognitionClientTypes.UnsuccessfulFaceAssociation: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains metadata like FaceId, UserID, and Reasons, for a face that was unsuccessfully associated.
-    public struct UnsuccessfulFaceAssociation: Swift.Equatable {
+    public struct UnsuccessfulFaceAssociation {
         /// Match confidence with the UserID, provides information regarding if a face association was unsuccessful because it didn't meet UserMatchThreshold.
         public var confidence: Swift.Float?
         /// A unique identifier assigned to the face.
@@ -22954,7 +22954,7 @@ extension RekognitionClientTypes.UnsuccessfulFaceDeletion: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains metadata like FaceId, UserID, and Reasons, for a face that was unsuccessfully deleted.
-    public struct UnsuccessfulFaceDeletion: Swift.Equatable {
+    public struct UnsuccessfulFaceDeletion {
         /// A unique identifier assigned to the face.
         public var faceId: Swift.String?
         /// The reason why the deletion was unsuccessful.
@@ -23053,7 +23053,7 @@ extension RekognitionClientTypes.UnsuccessfulFaceDisassociation: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains metadata like FaceId, UserID, and Reasons, for a face that was unsuccessfully disassociated.
-    public struct UnsuccessfulFaceDisassociation: Swift.Equatable {
+    public struct UnsuccessfulFaceDisassociation {
         /// A unique identifier assigned to the face.
         public var faceId: Swift.String?
         /// The reason why the deletion was unsuccessful.
@@ -23134,7 +23134,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to remove the tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -23152,7 +23152,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -23186,7 +23186,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -23231,7 +23231,7 @@ extension UpdateDatasetEntriesInput {
     }
 }
 
-public struct UpdateDatasetEntriesInput: Swift.Equatable {
+public struct UpdateDatasetEntriesInput {
     /// The changes that you want to make to the dataset.
     /// This member is required.
     public var changes: RekognitionClientTypes.DatasetChanges?
@@ -23249,7 +23249,7 @@ public struct UpdateDatasetEntriesInput: Swift.Equatable {
     }
 }
 
-struct UpdateDatasetEntriesInputBody: Swift.Equatable {
+struct UpdateDatasetEntriesInputBody {
     let datasetArn: Swift.String?
     let changes: RekognitionClientTypes.DatasetChanges?
 }
@@ -23274,7 +23274,7 @@ extension UpdateDatasetEntriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDatasetEntriesOutput: Swift.Equatable {
+public struct UpdateDatasetEntriesOutput {
 
     public init() { }
 }
@@ -23339,7 +23339,7 @@ extension UpdateStreamProcessorInput {
     }
 }
 
-public struct UpdateStreamProcessorInput: Swift.Equatable {
+public struct UpdateStreamProcessorInput {
     /// Shows whether you are sharing data with Rekognition to improve model performance. You can choose this option at the account level or on a per-stream basis. Note that if you opt out at the account level this setting is ignored on individual streams.
     public var dataSharingPreferenceForUpdate: RekognitionClientTypes.StreamProcessorDataSharingPreference?
     /// Name of the stream processor that you want to update.
@@ -23368,7 +23368,7 @@ public struct UpdateStreamProcessorInput: Swift.Equatable {
     }
 }
 
-struct UpdateStreamProcessorInputBody: Swift.Equatable {
+struct UpdateStreamProcessorInputBody {
     let name: Swift.String?
     let settingsForUpdate: RekognitionClientTypes.StreamProcessorSettingsForUpdate?
     let regionsOfInterestForUpdate: [RekognitionClientTypes.RegionOfInterest]?
@@ -23423,7 +23423,7 @@ extension UpdateStreamProcessorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateStreamProcessorOutput: Swift.Equatable {
+public struct UpdateStreamProcessorOutput {
 
     public init() { }
 }
@@ -23472,7 +23472,7 @@ extension RekognitionClientTypes.User: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Metadata of the user stored in a collection.
-    public struct User: Swift.Equatable {
+    public struct User {
         /// A provided ID for the User. Unique within the collection.
         public var userId: Swift.String?
         /// Communicates if the UserID has been updated with latest set of faces to be associated with the UserID.
@@ -23517,7 +23517,7 @@ extension RekognitionClientTypes.UserMatch: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Provides UserID metadata along with the confidence in the match of this UserID with the input face.
-    public struct UserMatch: Swift.Equatable {
+    public struct UserMatch {
         /// Describes the UserID metadata.
         public var similarity: Swift.Float?
         /// Confidence in the match of this UserID with the input face.
@@ -23606,7 +23606,7 @@ extension RekognitionClientTypes.ValidationData: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Contains the Amazon S3 bucket location of the validation data for a model training job. The validation data includes error information for individual JSON Lines in the dataset. For more information, see Debugging a Failed Model Training in the Amazon Rekognition Custom Labels Developer Guide. You get the ValidationData object for the training dataset ([TrainingDataResult]) and the test dataset ([TestingDataResult]) by calling [DescribeProjectVersions]. The assets array contains a single [Asset] object. The [GroundTruthManifest] field of the Asset object contains the S3 bucket location of the validation data.
-    public struct ValidationData: Swift.Equatable {
+    public struct ValidationData {
         /// The assets that comprise the validation data.
         public var assets: [RekognitionClientTypes.Asset]?
 
@@ -23641,7 +23641,7 @@ extension RekognitionClientTypes.Video: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start operations such as [StartLabelDetection] use Video to specify a video for analysis. The supported file formats are .mp4, .mov and .avi.
-    public struct Video: Swift.Equatable {
+    public struct Video {
         /// The Amazon S3 bucket name and file name for the video.
         public var s3Object: RekognitionClientTypes.S3Object?
 
@@ -23779,7 +23779,7 @@ extension RekognitionClientTypes.VideoMetadata: Swift.Codable {
 
 extension RekognitionClientTypes {
     /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition video operation.
-    public struct VideoMetadata: Swift.Equatable {
+    public struct VideoMetadata {
         /// Type of compression used in the analyzed video.
         public var codec: Swift.String?
         /// A description of the range of luminance values in a video, either LIMITED (16 to 235) or FULL (0 to 255).
@@ -23867,7 +23867,7 @@ public struct VideoTooLargeException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct VideoTooLargeExceptionBody: Swift.Equatable {
+struct VideoTooLargeExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let logref: Swift.String?

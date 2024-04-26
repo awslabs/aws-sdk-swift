@@ -47,7 +47,7 @@ extension LexRuntimeClientTypes.ActiveContext: Swift.Codable {
 
 extension LexRuntimeClientTypes {
     /// A context is a variable that contains information about the current state of the conversation between a user and Amazon Lex. Context can be set automatically by Amazon Lex when an intent is fulfilled, or it can be set at runtime using the PutContent, PutText, or PutSession operation.
-    public struct ActiveContext: Swift.Equatable {
+    public struct ActiveContext {
         /// The name of the context.
         /// This member is required.
         public var name: Swift.String?
@@ -99,7 +99,7 @@ extension LexRuntimeClientTypes.ActiveContextTimeToLive: Swift.Codable {
 
 extension LexRuntimeClientTypes {
     /// The length of time or number of turns that a context remains active.
-    public struct ActiveContextTimeToLive: Swift.Equatable {
+    public struct ActiveContextTimeToLive {
         /// The number of seconds that the context should be active after it is first sent in a PostContent or PostText response. You can set the value between 5 and 86,400 seconds (24 hours).
         public var timeToLiveInSeconds: Swift.Int?
         /// The number of conversation turns that the context should be active. A conversation turn is one PostContent or PostText request and the corresponding response from Amazon Lex.
@@ -156,7 +156,7 @@ public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadGatewayExceptionBody: Swift.Equatable {
+struct BadGatewayExceptionBody {
     let message: Swift.String?
 }
 
@@ -211,7 +211,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -254,7 +254,7 @@ extension LexRuntimeClientTypes.Button: Swift.Codable {
 
 extension LexRuntimeClientTypes {
     /// Represents an option to be shown on the client platform (Facebook, Slack, etc.)
-    public struct Button: Swift.Equatable {
+    public struct Button {
         /// Text that is visible to the user on the button.
         /// This member is required.
         public var text: Swift.String?
@@ -348,7 +348,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -409,7 +409,7 @@ extension DeleteSessionInput {
     }
 }
 
-public struct DeleteSessionInput: Swift.Equatable {
+public struct DeleteSessionInput {
     /// The alias in use for the bot that contains the session data.
     /// This member is required.
     public var botAlias: Swift.String?
@@ -432,7 +432,7 @@ public struct DeleteSessionInput: Swift.Equatable {
     }
 }
 
-struct DeleteSessionInputBody: Swift.Equatable {
+struct DeleteSessionInputBody {
 }
 
 extension DeleteSessionInputBody: Swift.Decodable {
@@ -459,7 +459,7 @@ extension DeleteSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSessionOutput: Swift.Equatable {
+public struct DeleteSessionOutput {
     /// The alias in use for the bot associated with the session data.
     public var botAlias: Swift.String?
     /// The name of the bot associated with the session data.
@@ -483,7 +483,7 @@ public struct DeleteSessionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSessionOutputBody: Swift.Equatable {
+struct DeleteSessionOutputBody {
     let botName: Swift.String?
     let botAlias: Swift.String?
     let userId: Swift.String?
@@ -571,7 +571,7 @@ public struct DependencyFailedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct DependencyFailedExceptionBody: Swift.Equatable {
+struct DependencyFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -661,7 +661,7 @@ extension LexRuntimeClientTypes.DialogAction: Swift.CustomDebugStringConvertible
 
 extension LexRuntimeClientTypes {
     /// Describes the next action that the bot should take in its interaction with the user and provides information about the context in which the action takes place. Use the DialogAction data type to set the interaction to a specific state, or to return the interaction to a previous state.
-    public struct DialogAction: Swift.Equatable {
+    public struct DialogAction {
         /// The fulfillment state of the intent. The possible values are:
         ///
         /// * Failed - The Lambda function associated with the intent failed to fulfill the intent.
@@ -899,7 +899,7 @@ extension LexRuntimeClientTypes.GenericAttachment: Swift.Codable {
 
 extension LexRuntimeClientTypes {
     /// Represents an option rendered to the user when a prompt is shown. It could be an image, a button, a link, or text.
-    public struct GenericAttachment: Swift.Equatable {
+    public struct GenericAttachment {
         /// The URL of an attachment to the response card.
         public var attachmentLinkUrl: Swift.String?
         /// The list of options to show to the user.
@@ -957,7 +957,7 @@ extension GetSessionInput {
     }
 }
 
-public struct GetSessionInput: Swift.Equatable {
+public struct GetSessionInput {
     /// The alias in use for the bot that contains the session data.
     /// This member is required.
     public var botAlias: Swift.String?
@@ -984,7 +984,7 @@ public struct GetSessionInput: Swift.Equatable {
     }
 }
 
-struct GetSessionInputBody: Swift.Equatable {
+struct GetSessionInputBody {
 }
 
 extension GetSessionInputBody: Swift.Decodable {
@@ -1018,7 +1018,7 @@ extension GetSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionOutput: Swift.Equatable {
+public struct GetSessionOutput {
     /// A list of active contexts for the session. A context can be set when an intent is fulfilled or by calling the PostContent, PostText, or PutSession operation. You can use a context to control the intents that can follow up an intent, or to modify the operation of your application.
     public var activeContexts: [LexRuntimeClientTypes.ActiveContext]?
     /// Describes the current state of the bot.
@@ -1046,7 +1046,7 @@ public struct GetSessionOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionOutputBody: Swift.Equatable {
+struct GetSessionOutputBody {
     let recentIntentSummaryView: [LexRuntimeClientTypes.IntentSummary]?
     let sessionAttributes: [Swift.String:Swift.String]?
     let sessionId: Swift.String?
@@ -1140,7 +1140,7 @@ extension LexRuntimeClientTypes.IntentConfidence: Swift.Codable {
 
 extension LexRuntimeClientTypes {
     /// Provides a score that indicates the confidence that Amazon Lex has that an intent is the one that satisfies the user's intent.
-    public struct IntentConfidence: Swift.Equatable {
+    public struct IntentConfidence {
         /// A score that indicates how confident Amazon Lex is that an intent satisfies the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate higher confidence.
         public var score: Swift.Double
 
@@ -1228,7 +1228,7 @@ extension LexRuntimeClientTypes.IntentSummary: Swift.CustomDebugStringConvertibl
 
 extension LexRuntimeClientTypes {
     /// Provides information about the state of an intent. You can use this information to get the current state of an intent so that you can process the intent, or so that you can return the intent to its previous state.
-    public struct IntentSummary: Swift.Equatable {
+    public struct IntentSummary {
         /// A user-defined label that identifies a particular intent. You can use this label to return to a previous intent. Use the checkpointLabelFilter parameter of the GetSessionRequest operation to filter the intents returned by the operation to those with only the specified label.
         public var checkpointLabel: Swift.String?
         /// The status of the intent after the user responds to the confirmation prompt. If the user confirms the intent, Amazon Lex sets this field to Confirmed. If the user denies the intent, Amazon Lex sets this value to Denied. The possible values are:
@@ -1326,7 +1326,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -1391,7 +1391,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1446,7 +1446,7 @@ public struct LoopDetectedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct LoopDetectedExceptionBody: Swift.Equatable {
+struct LoopDetectedExceptionBody {
     let message: Swift.String?
 }
 
@@ -1539,7 +1539,7 @@ public struct NotAcceptableException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct NotAcceptableExceptionBody: Swift.Equatable {
+struct NotAcceptableExceptionBody {
     let message: Swift.String?
 }
 
@@ -1594,7 +1594,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1679,7 +1679,7 @@ extension PostContentInput {
     }
 }
 
-public struct PostContentInput: Swift.Equatable {
+public struct PostContentInput {
     /// You pass this value as the Accept HTTP header. The message Amazon Lex returns in the response can be either text or speech based on the Accept HTTP header value in the request.
     ///
     /// * If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.
@@ -1776,7 +1776,7 @@ public struct PostContentInput: Swift.Equatable {
     }
 }
 
-struct PostContentInputBody: Swift.Equatable {
+struct PostContentInputBody {
     let inputStream: ClientRuntime.ByteStream?
 }
 
@@ -1895,7 +1895,7 @@ extension PostContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PostContentOutput: Swift.Equatable {
+public struct PostContentOutput {
     /// A list of active contexts for the session. A context can be set when an intent is fulfilled or by calling the PostContent, PostText, or PutSession operation. You can use a context to control the intents that can follow up an intent, or to modify the operation of your application.
     public var activeContexts: Swift.String?
     /// One to four alternative intents that may be applicable to the user's intent. Each alternative includes a score that indicates how confident Amazon Lex is that the intent matches the user's intent. The intents are sorted by the confidence score.
@@ -1997,7 +1997,7 @@ public struct PostContentOutput: Swift.Equatable {
     }
 }
 
-struct PostContentOutputBody: Swift.Equatable {
+struct PostContentOutputBody {
     let audioStream: ClientRuntime.ByteStream?
 }
 
@@ -2089,7 +2089,7 @@ extension PostTextInput {
     }
 }
 
-public struct PostTextInput: Swift.Equatable {
+public struct PostTextInput {
     /// A list of contexts active for the request. A context can be activated when a previous intent is fulfilled, or by including the context in the request, If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared.
     public var activeContexts: [LexRuntimeClientTypes.ActiveContext]?
     /// The alias of the Amazon Lex bot.
@@ -2137,7 +2137,7 @@ public struct PostTextInput: Swift.Equatable {
     }
 }
 
-struct PostTextInputBody: Swift.Equatable {
+struct PostTextInputBody {
     let sessionAttributes: [Swift.String:Swift.String]?
     let requestAttributes: [Swift.String:Swift.String]?
     let inputText: Swift.String?
@@ -2235,7 +2235,7 @@ extension PostTextOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PostTextOutput: Swift.Equatable {
+public struct PostTextOutput {
     /// A list of active contexts for the session. A context can be set when an intent is fulfilled or by calling the PostContent, PostText, or PutSession operation. You can use a context to control the intents that can follow up an intent, or to modify the operation of your application.
     public var activeContexts: [LexRuntimeClientTypes.ActiveContext]?
     /// One to four alternative intents that may be applicable to the user's intent. Each alternative includes a score that indicates how confident Amazon Lex is that the intent matches the user's intent. The intents are sorted by the confidence score.
@@ -2319,7 +2319,7 @@ public struct PostTextOutput: Swift.Equatable {
     }
 }
 
-struct PostTextOutputBody: Swift.Equatable {
+struct PostTextOutputBody {
     let intentName: Swift.String?
     let nluIntentConfidence: LexRuntimeClientTypes.IntentConfidence?
     let alternativeIntents: [LexRuntimeClientTypes.PredictedIntent]?
@@ -2491,7 +2491,7 @@ extension LexRuntimeClientTypes.PredictedIntent: Swift.CustomDebugStringConverti
 
 extension LexRuntimeClientTypes {
     /// An intent that Amazon Lex suggests satisfies the user's intent. Includes the name of the intent, the confidence that Amazon Lex has that the user's intent is satisfied, and the slots defined for the intent.
-    public struct PredictedIntent: Swift.Equatable {
+    public struct PredictedIntent {
         /// The name of the intent that Amazon Lex suggests satisfies the user's intent.
         public var intentName: Swift.String?
         /// Indicates how confident Amazon Lex is that an intent satisfies the user's intent.
@@ -2579,7 +2579,7 @@ extension PutSessionInput {
     }
 }
 
-public struct PutSessionInput: Swift.Equatable {
+public struct PutSessionInput {
     /// The message that Amazon Lex returns in the response can be either text or speech based depending on the value of this field.
     ///
     /// * If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.
@@ -2649,7 +2649,7 @@ public struct PutSessionInput: Swift.Equatable {
     }
 }
 
-struct PutSessionInputBody: Swift.Equatable {
+struct PutSessionInputBody {
     let sessionAttributes: [Swift.String:Swift.String]?
     let dialogAction: LexRuntimeClientTypes.DialogAction?
     let recentIntentSummaryView: [LexRuntimeClientTypes.IntentSummary]?
@@ -2777,7 +2777,7 @@ extension PutSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSessionOutput: Swift.Equatable {
+public struct PutSessionOutput {
     /// A list of active contexts for the session.
     public var activeContexts: Swift.String?
     /// The audio version of the message to convey to the user.
@@ -2852,7 +2852,7 @@ public struct PutSessionOutput: Swift.Equatable {
     }
 }
 
-struct PutSessionOutputBody: Swift.Equatable {
+struct PutSessionOutputBody {
     let audioStream: ClientRuntime.ByteStream?
 }
 
@@ -2925,7 +2925,7 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct RequestTimeoutExceptionBody: Swift.Equatable {
+struct RequestTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -2986,7 +2986,7 @@ extension LexRuntimeClientTypes.ResponseCard: Swift.Codable {
 
 extension LexRuntimeClientTypes {
     /// If you configure a response card when creating your bots, Amazon Lex substitutes the session attributes and slot values that are available, and then returns it. The response card can also come from a Lambda function ( dialogCodeHook and fulfillmentActivity on an intent).
-    public struct ResponseCard: Swift.Equatable {
+    public struct ResponseCard {
         /// The content type of the response.
         public var contentType: LexRuntimeClientTypes.ContentType?
         /// An array of attachment objects representing options.
@@ -3035,7 +3035,7 @@ extension LexRuntimeClientTypes.SentimentResponse: Swift.Codable {
 
 extension LexRuntimeClientTypes {
     /// The sentiment expressed in an utterance. When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field structure contains the result of the analysis.
-    public struct SentimentResponse: Swift.Equatable {
+    public struct SentimentResponse {
         /// The inferred sentiment that Amazon Comprehend has the highest confidence in.
         public var sentimentLabel: Swift.String?
         /// The likelihood that the sentiment was correctly inferred.
@@ -3092,7 +3092,7 @@ public struct UnsupportedMediaTypeException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedMediaTypeExceptionBody: Swift.Equatable {
+struct UnsupportedMediaTypeExceptionBody {
     let message: Swift.String?
 }
 

@@ -29,7 +29,7 @@ extension SSMClientTypes.AccountSharingInfo: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information includes the Amazon Web Services account ID where the current document is shared and the version shared with that account.
-    public struct AccountSharingInfo: Swift.Equatable {
+    public struct AccountSharingInfo {
         /// The Amazon Web Services account ID where the current document is shared.
         public var accountId: Swift.String?
         /// The version of the current document shared with the account.
@@ -134,7 +134,7 @@ extension SSMClientTypes.Activation: Swift.Codable {
 
 extension SSMClientTypes {
     /// An activation registers one or more on-premises servers or virtual machines (VMs) with Amazon Web Services so that you can configure those servers or VMs using Run Command. A server or VM that has been registered with Amazon Web Services Systems Manager is called a managed node.
-    public struct Activation: Swift.Equatable {
+    public struct Activation {
         /// The ID created by Systems Manager when you submitted the activation.
         public var activationId: Swift.String?
         /// The date the activation was created.
@@ -215,7 +215,7 @@ extension AddTagsToResourceInput {
     }
 }
 
-public struct AddTagsToResourceInput: Swift.Equatable {
+public struct AddTagsToResourceInput {
     /// The resource ID you want to tag. Use the ID of the resource. Here are some examples: MaintenanceWindow: mw-012345abcdePatchBaseline: pb-012345abcdeAutomation: example-c160-4567-8519-012345abcdeOpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource. If you're tagging a shared document, you must use the full ARN of the document. ManagedInstance: mi-012345abcde The ManagedInstance type for this API operation is only for on-premises managed nodes. You must specify the name of the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -238,7 +238,7 @@ public struct AddTagsToResourceInput: Swift.Equatable {
     }
 }
 
-struct AddTagsToResourceInputBody: Swift.Equatable {
+struct AddTagsToResourceInputBody {
     let resourceType: SSMClientTypes.ResourceTypeForTagging?
     let resourceId: Swift.String?
     let tags: [SSMClientTypes.Tag]?
@@ -276,7 +276,7 @@ extension AddTagsToResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddTagsToResourceOutput: Swift.Equatable {
+public struct AddTagsToResourceOutput {
 
     public init() { }
 }
@@ -317,7 +317,7 @@ extension SSMClientTypes.Alarm: Swift.Codable {
 
 extension SSMClientTypes {
     /// A CloudWatch alarm you apply to an automation or command.
-    public struct Alarm: Swift.Equatable {
+    public struct Alarm {
         /// The name of your CloudWatch alarm.
         /// This member is required.
         public var name: Swift.String?
@@ -371,7 +371,7 @@ extension SSMClientTypes.AlarmConfiguration: Swift.Codable {
 
 extension SSMClientTypes {
     /// The details for the CloudWatch alarm you want to apply to an automation or command.
-    public struct AlarmConfiguration: Swift.Equatable {
+    public struct AlarmConfiguration {
         /// The name of the CloudWatch alarm specified in the configuration.
         /// This member is required.
         public var alarms: [SSMClientTypes.Alarm]?
@@ -417,7 +417,7 @@ extension SSMClientTypes.AlarmStateInformation: Swift.Codable {
 
 extension SSMClientTypes {
     /// The details about the state of your CloudWatch alarm.
-    public struct AlarmStateInformation: Swift.Equatable {
+    public struct AlarmStateInformation {
         /// The name of your CloudWatch alarm.
         /// This member is required.
         public var name: Swift.String?
@@ -476,7 +476,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct AlreadyExistsExceptionBody: Swift.Equatable {
+struct AlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -524,7 +524,7 @@ extension AssociateOpsItemRelatedItemInput {
     }
 }
 
-public struct AssociateOpsItemRelatedItemInput: Swift.Equatable {
+public struct AssociateOpsItemRelatedItemInput {
     /// The type of association that you want to create between an OpsItem and a resource. OpsCenter supports IsParentOf and RelatesTo association types.
     /// This member is required.
     public var associationType: Swift.String?
@@ -552,7 +552,7 @@ public struct AssociateOpsItemRelatedItemInput: Swift.Equatable {
     }
 }
 
-struct AssociateOpsItemRelatedItemInputBody: Swift.Equatable {
+struct AssociateOpsItemRelatedItemInputBody {
     let opsItemId: Swift.String?
     let associationType: Swift.String?
     let resourceType: Swift.String?
@@ -592,7 +592,7 @@ extension AssociateOpsItemRelatedItemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateOpsItemRelatedItemOutput: Swift.Equatable {
+public struct AssociateOpsItemRelatedItemOutput {
     /// The association ID.
     public var associationId: Swift.String?
 
@@ -604,7 +604,7 @@ public struct AssociateOpsItemRelatedItemOutput: Swift.Equatable {
     }
 }
 
-struct AssociateOpsItemRelatedItemOutputBody: Swift.Equatable {
+struct AssociateOpsItemRelatedItemOutputBody {
     let associationId: Swift.String?
 }
 
@@ -796,7 +796,7 @@ extension SSMClientTypes.Association: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes an association of a Amazon Web Services Systems Manager document (SSM document) and a managed node.
-    public struct Association: Swift.Equatable {
+    public struct Association {
         /// The ID created by the system when you create an association. An association is a binding between a document and a set of targets with a schedule.
         public var associationId: Swift.String?
         /// The association name.
@@ -1218,7 +1218,7 @@ extension SSMClientTypes.AssociationDescription: Swift.CustomDebugStringConverti
 
 extension SSMClientTypes {
     /// Describes the parameters for a document.
-    public struct AssociationDescription: Swift.Equatable {
+    public struct AssociationDescription {
         /// The details for the CloudWatch alarm you want to apply to an automation or command.
         public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
         /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
@@ -1383,7 +1383,7 @@ public struct AssociationDoesNotExist: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct AssociationDoesNotExistBody: Swift.Equatable {
+struct AssociationDoesNotExistBody {
     let message: Swift.String?
 }
 
@@ -1486,7 +1486,7 @@ extension SSMClientTypes.AssociationExecution: Swift.Codable {
 
 extension SSMClientTypes {
     /// Includes information about the specified association.
-    public struct AssociationExecution: Swift.Equatable {
+    public struct AssociationExecution {
         /// The details for the CloudWatch alarm you want to apply to an automation or command.
         public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
         /// The association ID.
@@ -1575,7 +1575,7 @@ public struct AssociationExecutionDoesNotExist: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct AssociationExecutionDoesNotExistBody: Swift.Equatable {
+struct AssociationExecutionDoesNotExistBody {
     let message: Swift.String?
 }
 
@@ -1624,7 +1624,7 @@ extension SSMClientTypes.AssociationExecutionFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Filters used in the request.
-    public struct AssociationExecutionFilter: Swift.Equatable {
+    public struct AssociationExecutionFilter {
         /// The key value used in the request.
         /// This member is required.
         public var key: SSMClientTypes.AssociationExecutionFilterKey?
@@ -1753,7 +1753,7 @@ extension SSMClientTypes.AssociationExecutionTarget: Swift.Codable {
 
 extension SSMClientTypes {
     /// Includes information about the specified association execution.
-    public struct AssociationExecutionTarget: Swift.Equatable {
+    public struct AssociationExecutionTarget {
         /// The association ID.
         public var associationId: Swift.String?
         /// The association version.
@@ -1826,7 +1826,7 @@ extension SSMClientTypes.AssociationExecutionTargetsFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Filters for the association execution.
-    public struct AssociationExecutionTargetsFilter: Swift.Equatable {
+    public struct AssociationExecutionTargetsFilter {
         /// The key value used in the request.
         /// This member is required.
         public var key: SSMClientTypes.AssociationExecutionTargetsFilterKey?
@@ -1908,7 +1908,7 @@ extension SSMClientTypes.AssociationFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes a filter.
-    public struct AssociationFilter: Swift.Equatable {
+    public struct AssociationFilter {
         /// The name of the filter. InstanceId has been deprecated.
         /// This member is required.
         public var key: SSMClientTypes.AssociationFilterKey?
@@ -2079,7 +2079,7 @@ extension SSMClientTypes.AssociationOverview: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about the association.
-    public struct AssociationOverview: Swift.Equatable {
+    public struct AssociationOverview {
         /// Returns the number of targets for the association status. For example, if you created an association with two managed nodes, and one of them was successful, this would return the count of managed nodes by status.
         public var associationStatusAggregatedCount: [Swift.String:Swift.Int]?
         /// A detailed status of the association.
@@ -2140,7 +2140,7 @@ extension SSMClientTypes.AssociationStatus: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes an association status.
-    public struct AssociationStatus: Swift.Equatable {
+    public struct AssociationStatus {
         /// A user-defined string.
         public var additionalInfo: Swift.String?
         /// The date when the status changed.
@@ -2468,7 +2468,7 @@ extension SSMClientTypes.AssociationVersionInfo: Swift.CustomDebugStringConverti
 
 extension SSMClientTypes {
     /// Information about the association version.
-    public struct AssociationVersionInfo: Swift.Equatable {
+    public struct AssociationVersionInfo {
         /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
         public var applyOnlyAtCronInterval: Swift.Bool
         /// The ID created by the system when the association was created.
@@ -2597,7 +2597,7 @@ public struct AssociationVersionLimitExceeded: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct AssociationVersionLimitExceededBody: Swift.Equatable {
+struct AssociationVersionLimitExceededBody {
     let message: Swift.String?
 }
 
@@ -2658,7 +2658,7 @@ extension SSMClientTypes.AttachmentContent: Swift.Codable {
 
 extension SSMClientTypes {
     /// A structure that includes attributes that describe a document attachment.
-    public struct AttachmentContent: Swift.Equatable {
+    public struct AttachmentContent {
         /// The cryptographic hash value of the document content.
         public var hash: Swift.String?
         /// The hash algorithm used to calculate the hash value.
@@ -2738,7 +2738,7 @@ extension SSMClientTypes.AttachmentInformation: Swift.Codable {
 
 extension SSMClientTypes {
     /// An attribute of an attachment, such as the attachment name.
-    public struct AttachmentInformation: Swift.Equatable {
+    public struct AttachmentInformation {
         /// The name of the attachment.
         public var name: Swift.String?
 
@@ -2797,7 +2797,7 @@ extension SSMClientTypes.AttachmentsSource: Swift.Codable {
 
 extension SSMClientTypes {
     /// Identifying information about a document attachment, including the file name and a key-value pair that identifies the location of an attachment to a document.
-    public struct AttachmentsSource: Swift.Equatable {
+    public struct AttachmentsSource {
         /// The key of a key-value pair that identifies the location of an attachment to a document.
         public var key: SSMClientTypes.AttachmentsSourceKey?
         /// The name of the document attachment file.
@@ -2899,7 +2899,7 @@ public struct AutomationDefinitionNotApprovedException: ClientRuntime.ModeledErr
     }
 }
 
-struct AutomationDefinitionNotApprovedExceptionBody: Swift.Equatable {
+struct AutomationDefinitionNotApprovedExceptionBody {
     let message: Swift.String?
 }
 
@@ -2954,7 +2954,7 @@ public struct AutomationDefinitionNotFoundException: ClientRuntime.ModeledError,
     }
 }
 
-struct AutomationDefinitionNotFoundExceptionBody: Swift.Equatable {
+struct AutomationDefinitionNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3009,7 +3009,7 @@ public struct AutomationDefinitionVersionNotFoundException: ClientRuntime.Modele
     }
 }
 
-struct AutomationDefinitionVersionNotFoundExceptionBody: Swift.Equatable {
+struct AutomationDefinitionVersionNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3404,7 +3404,7 @@ extension SSMClientTypes.AutomationExecution: Swift.Codable {
 
 extension SSMClientTypes {
     /// Detailed information about the current state of an individual Automation execution.
-    public struct AutomationExecution: Swift.Equatable {
+    public struct AutomationExecution {
         /// The details for the CloudWatch alarm applied to your automation.
         public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
         /// The ID of a State Manager association used in the Automation operation.
@@ -3589,7 +3589,7 @@ extension SSMClientTypes.AutomationExecutionFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// A filter used to match specific automation executions. This is used to limit the scope of Automation execution information returned.
-    public struct AutomationExecutionFilter: Swift.Equatable {
+    public struct AutomationExecutionFilter {
         /// One or more keys to limit the results.
         /// This member is required.
         public var key: SSMClientTypes.AutomationExecutionFilterKey?
@@ -3710,7 +3710,7 @@ public struct AutomationExecutionLimitExceededException: ClientRuntime.ModeledEr
     }
 }
 
-struct AutomationExecutionLimitExceededExceptionBody: Swift.Equatable {
+struct AutomationExecutionLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4013,7 +4013,7 @@ extension SSMClientTypes.AutomationExecutionMetadata: Swift.Codable {
 
 extension SSMClientTypes {
     /// Details about a specific Automation execution.
-    public struct AutomationExecutionMetadata: Swift.Equatable {
+    public struct AutomationExecutionMetadata {
         /// The details for the CloudWatch alarm applied to your automation.
         public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
         /// The ID of a State Manager association used in the Automation operation.
@@ -4182,7 +4182,7 @@ public struct AutomationExecutionNotFoundException: ClientRuntime.ModeledError, 
     }
 }
 
-struct AutomationExecutionNotFoundExceptionBody: Swift.Equatable {
+struct AutomationExecutionNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4320,7 +4320,7 @@ public struct AutomationStepNotFoundException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct AutomationStepNotFoundExceptionBody: Swift.Equatable {
+struct AutomationStepNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4502,7 +4502,7 @@ extension SSMClientTypes.BaselineOverride: Swift.Codable {
 
 extension SSMClientTypes {
     /// Defines the basic information about a patch baseline override.
-    public struct BaselineOverride: Swift.Equatable {
+    public struct BaselineOverride {
         /// A set of rules defining the approval rules for a patch baseline.
         public var approvalRules: SSMClientTypes.PatchRuleGroup?
         /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see [About package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html) in the Amazon Web Services Systems Manager User Guide.
@@ -4608,7 +4608,7 @@ extension CancelCommandInput {
 }
 
 ///
-public struct CancelCommandInput: Swift.Equatable {
+public struct CancelCommandInput {
     /// The ID of the command you want to cancel.
     /// This member is required.
     public var commandId: Swift.String?
@@ -4625,7 +4625,7 @@ public struct CancelCommandInput: Swift.Equatable {
     }
 }
 
-struct CancelCommandInputBody: Swift.Equatable {
+struct CancelCommandInputBody {
     let commandId: Swift.String?
     let instanceIds: [Swift.String]?
 }
@@ -4660,7 +4660,7 @@ extension CancelCommandOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Whether or not the command was successfully canceled. There is no guarantee that a request can be canceled.
-public struct CancelCommandOutput: Swift.Equatable {
+public struct CancelCommandOutput {
 
     public init() { }
 }
@@ -4699,7 +4699,7 @@ extension CancelMaintenanceWindowExecutionInput {
     }
 }
 
-public struct CancelMaintenanceWindowExecutionInput: Swift.Equatable {
+public struct CancelMaintenanceWindowExecutionInput {
     /// The ID of the maintenance window execution to stop.
     /// This member is required.
     public var windowExecutionId: Swift.String?
@@ -4712,7 +4712,7 @@ public struct CancelMaintenanceWindowExecutionInput: Swift.Equatable {
     }
 }
 
-struct CancelMaintenanceWindowExecutionInputBody: Swift.Equatable {
+struct CancelMaintenanceWindowExecutionInputBody {
     let windowExecutionId: Swift.String?
 }
 
@@ -4740,7 +4740,7 @@ extension CancelMaintenanceWindowExecutionOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CancelMaintenanceWindowExecutionOutput: Swift.Equatable {
+public struct CancelMaintenanceWindowExecutionOutput {
     /// The ID of the maintenance window execution that has been stopped.
     public var windowExecutionId: Swift.String?
 
@@ -4752,7 +4752,7 @@ public struct CancelMaintenanceWindowExecutionOutput: Swift.Equatable {
     }
 }
 
-struct CancelMaintenanceWindowExecutionOutputBody: Swift.Equatable {
+struct CancelMaintenanceWindowExecutionOutputBody {
     let windowExecutionId: Swift.String?
 }
 
@@ -4807,7 +4807,7 @@ extension SSMClientTypes.CloudWatchOutputConfig: Swift.Codable {
 
 extension SSMClientTypes {
     /// Configuration options for sending command output to Amazon CloudWatch Logs.
-    public struct CloudWatchOutputConfig: Swift.Equatable {
+    public struct CloudWatchOutputConfig {
         /// The name of the CloudWatch Logs log group where you want to send command output. If you don't specify a group name, Amazon Web Services Systems Manager automatically creates a log group for you. The log group uses the following naming format: aws/ssm/SystemsManagerDocumentName
         public var cloudWatchLogGroupName: Swift.String?
         /// Enables Systems Manager to send command output to CloudWatch Logs.
@@ -5059,7 +5059,7 @@ extension SSMClientTypes.Command: Swift.CustomDebugStringConvertible {
 
 extension SSMClientTypes {
     /// Describes a command request.
-    public struct Command: Swift.Equatable {
+    public struct Command {
         /// The details for the CloudWatch alarm applied to your command.
         public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
         /// Amazon CloudWatch Logs information where you want Amazon Web Services Systems Manager to send the command output.
@@ -5220,7 +5220,7 @@ extension SSMClientTypes.CommandFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes a command filter. A managed node ID can't be specified when a command status is Pending because the command hasn't run on the node yet.
-    public struct CommandFilter: Swift.Equatable {
+    public struct CommandFilter {
         /// The name of the filter. The ExecutionStage filter can't be used with the ListCommandInvocations operation, only with ListCommands.
         /// This member is required.
         public var key: SSMClientTypes.CommandFilterKey?
@@ -5474,7 +5474,7 @@ extension SSMClientTypes.CommandInvocation: Swift.Codable {
 
 extension SSMClientTypes {
     /// An invocation is a copy of a command sent to a specific managed node. A command can apply to one or more managed nodes. A command invocation applies to one managed node. For example, if a user runs SendCommand against three managed nodes, then a command invocation is created for each requested managed node ID. A command invocation returns status and detail information about a command you ran.
-    public struct CommandInvocation: Swift.Equatable {
+    public struct CommandInvocation {
         /// Amazon CloudWatch Logs information where you want Amazon Web Services Systems Manager to send the command output.
         public var cloudWatchOutputConfig: SSMClientTypes.CloudWatchOutputConfig?
         /// The command against which this invocation was requested.
@@ -5705,7 +5705,7 @@ extension SSMClientTypes.CommandPlugin: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes plugin details.
-    public struct CommandPlugin: Swift.Equatable {
+    public struct CommandPlugin {
         /// The name of the plugin. Must be one of the following: aws:updateAgent, aws:domainjoin, aws:applications, aws:runPowerShellScript, aws:psmodule, aws:cloudWatch, aws:runShellScript, or aws:updateSSMAgent.
         public var name: Swift.String?
         /// Output of the plugin execution.
@@ -5905,7 +5905,7 @@ extension SSMClientTypes.ComplianceExecutionSummary: Swift.Codable {
 
 extension SSMClientTypes {
     /// A summary of the call execution that includes an execution ID, the type of execution (for example, Command), and the date/time of the execution using a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
-    public struct ComplianceExecutionSummary: Swift.Equatable {
+    public struct ComplianceExecutionSummary {
         /// An ID created by the system when PutComplianceItems was called. For example, CommandID is a valid execution ID. You can use this ID in subsequent calls.
         public var executionId: Swift.String?
         /// The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
@@ -6009,7 +6009,7 @@ extension SSMClientTypes.ComplianceItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about the compliance as defined by the resource type. For example, for a patch resource type, Items includes information about the PatchSeverity, Classification, and so on.
-    public struct ComplianceItem: Swift.Equatable {
+    public struct ComplianceItem {
         /// The compliance type. For example, Association (for a State Manager association), Patch, or Custom:string are all valid compliance types.
         public var complianceType: Swift.String?
         /// A "Key": "Value" tag combination for the compliance item.
@@ -6112,7 +6112,7 @@ extension SSMClientTypes.ComplianceItemEntry: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about a compliance item.
-    public struct ComplianceItemEntry: Swift.Equatable {
+    public struct ComplianceItemEntry {
         /// A "Key": "Value" tag combination for the compliance item.
         public var details: [Swift.String:Swift.String]?
         /// The compliance item ID. For example, if the compliance item is a Windows patch, the ID could be the number of the KB article.
@@ -6306,7 +6306,7 @@ extension SSMClientTypes.ComplianceStringFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// One or more filters. Use a filter to return a more specific list of results.
-    public struct ComplianceStringFilter: Swift.Equatable {
+    public struct ComplianceStringFilter {
         /// The name of the filter.
         public var key: Swift.String?
         /// The type of comparison that should be performed for the value: Equal, NotEqual, BeginWith, LessThan, or GreaterThan.
@@ -6361,7 +6361,7 @@ extension SSMClientTypes.ComplianceSummaryItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// A summary of compliance information by compliance type.
-    public struct ComplianceSummaryItem: Swift.Equatable {
+    public struct ComplianceSummaryItem {
         /// The type of compliance item. For example, the compliance type can be Association, Patch, or Custom:string.
         public var complianceType: Swift.String?
         /// A list of COMPLIANT items for the specified compliance type.
@@ -6422,7 +6422,7 @@ public struct ComplianceTypeCountLimitExceededException: ClientRuntime.ModeledEr
     }
 }
 
-struct ComplianceTypeCountLimitExceededExceptionBody: Swift.Equatable {
+struct ComplianceTypeCountLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -6497,7 +6497,7 @@ extension SSMClientTypes.CompliantSummary: Swift.Codable {
 
 extension SSMClientTypes {
     /// A summary of resources that are compliant. The summary is organized according to the resource count for each compliance type.
-    public struct CompliantSummary: Swift.Equatable {
+    public struct CompliantSummary {
         /// The total number of resources that are compliant.
         public var compliantCount: Swift.Int
         /// A summary of the compliance severity by compliance type.
@@ -6597,7 +6597,7 @@ extension CreateActivationInput {
     }
 }
 
-public struct CreateActivationInput: Swift.Equatable {
+public struct CreateActivationInput {
     /// The name of the registered, managed node as it will appear in the Amazon Web Services Systems Manager console or when you use the Amazon Web Services command line tools to list Systems Manager resources. Don't enter personally identifiable information in this field.
     public var defaultInstanceName: Swift.String?
     /// A user-defined description of the resource that you want to register with Systems Manager. Don't enter personally identifiable information in this field.
@@ -6641,7 +6641,7 @@ public struct CreateActivationInput: Swift.Equatable {
     }
 }
 
-struct CreateActivationInputBody: Swift.Equatable {
+struct CreateActivationInputBody {
     let description: Swift.String?
     let defaultInstanceName: Swift.String?
     let iamRole: Swift.String?
@@ -6713,7 +6713,7 @@ extension CreateActivationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateActivationOutput: Swift.Equatable {
+public struct CreateActivationOutput {
     /// The code the system generates when it processes the activation. The activation code functions like a password to validate the activation ID.
     public var activationCode: Swift.String?
     /// The ID number generated by the system when it processed the activation. The activation ID functions like a user name.
@@ -6729,7 +6729,7 @@ public struct CreateActivationOutput: Swift.Equatable {
     }
 }
 
-struct CreateActivationOutputBody: Swift.Equatable {
+struct CreateActivationOutputBody {
     let activationId: Swift.String?
     let activationCode: Swift.String?
 }
@@ -6784,7 +6784,7 @@ extension CreateAssociationBatchInput {
     }
 }
 
-public struct CreateAssociationBatchInput: Swift.Equatable {
+public struct CreateAssociationBatchInput {
     /// One or more associations.
     /// This member is required.
     public var entries: [SSMClientTypes.CreateAssociationBatchRequestEntry]?
@@ -6797,7 +6797,7 @@ public struct CreateAssociationBatchInput: Swift.Equatable {
     }
 }
 
-struct CreateAssociationBatchInputBody: Swift.Equatable {
+struct CreateAssociationBatchInputBody {
     let entries: [SSMClientTypes.CreateAssociationBatchRequestEntry]?
 }
 
@@ -6836,7 +6836,7 @@ extension CreateAssociationBatchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAssociationBatchOutput: Swift.Equatable {
+public struct CreateAssociationBatchOutput {
     /// Information about the associations that failed.
     public var failed: [SSMClientTypes.FailedCreateAssociation]?
     /// Information about the associations that succeeded.
@@ -6852,7 +6852,7 @@ public struct CreateAssociationBatchOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssociationBatchOutputBody: Swift.Equatable {
+struct CreateAssociationBatchOutputBody {
     let successful: [SSMClientTypes.AssociationDescription]?
     let failed: [SSMClientTypes.FailedCreateAssociation]?
 }
@@ -7144,7 +7144,7 @@ extension SSMClientTypes.CreateAssociationBatchRequestEntry: Swift.CustomDebugSt
 
 extension SSMClientTypes {
     /// Describes the association of a Amazon Web Services Systems Manager document (SSM document) and a managed node.
-    public struct CreateAssociationBatchRequestEntry: Swift.Equatable {
+    public struct CreateAssociationBatchRequestEntry {
         /// The details for the CloudWatch alarm you want to apply to an automation or command.
         public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
         /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
@@ -7371,7 +7371,7 @@ extension CreateAssociationInput {
     }
 }
 
-public struct CreateAssociationInput: Swift.Equatable {
+public struct CreateAssociationInput {
     /// The details for the CloudWatch alarm you want to apply to an automation or command.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
@@ -7468,7 +7468,7 @@ public struct CreateAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateAssociationInputBody: Swift.Equatable {
+struct CreateAssociationInputBody {
     let name: Swift.String?
     let documentVersion: Swift.String?
     let instanceId: Swift.String?
@@ -7653,7 +7653,7 @@ extension CreateAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAssociationOutput: Swift.Equatable {
+public struct CreateAssociationOutput {
     /// Information about the association.
     public var associationDescription: SSMClientTypes.AssociationDescription?
 
@@ -7665,7 +7665,7 @@ public struct CreateAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssociationOutputBody: Swift.Equatable {
+struct CreateAssociationOutputBody {
     let associationDescription: SSMClientTypes.AssociationDescription?
 }
 
@@ -7769,7 +7769,7 @@ extension CreateDocumentInput {
     }
 }
 
-public struct CreateDocumentInput: Swift.Equatable {
+public struct CreateDocumentInput {
     /// A list of key-value pairs that describe attachments to a version of a document.
     public var attachments: [SSMClientTypes.AttachmentsSource]?
     /// The content for the new SSM document in JSON or YAML format. The content of the document must not exceed 64KB. This quota also includes the content specified for input parameters at runtime. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the Amazon Web Services Systems Manager User Guide.
@@ -7838,7 +7838,7 @@ public struct CreateDocumentInput: Swift.Equatable {
     }
 }
 
-struct CreateDocumentInputBody: Swift.Equatable {
+struct CreateDocumentInputBody {
     let content: Swift.String?
     let requires: [SSMClientTypes.DocumentRequires]?
     let attachments: [SSMClientTypes.AttachmentsSource]?
@@ -7929,7 +7929,7 @@ extension CreateDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDocumentOutput: Swift.Equatable {
+public struct CreateDocumentOutput {
     /// Information about the SSM document.
     public var documentDescription: SSMClientTypes.DocumentDescription?
 
@@ -7941,7 +7941,7 @@ public struct CreateDocumentOutput: Swift.Equatable {
     }
 }
 
-struct CreateDocumentOutputBody: Swift.Equatable {
+struct CreateDocumentOutputBody {
     let documentDescription: SSMClientTypes.DocumentDescription?
 }
 
@@ -8045,7 +8045,7 @@ extension CreateMaintenanceWindowInput {
     }
 }
 
-public struct CreateMaintenanceWindowInput: Swift.Equatable {
+public struct CreateMaintenanceWindowInput {
     /// Enables a maintenance window task to run on managed nodes, even if you haven't registered those nodes as targets. If enabled, then you must specify the unregistered managed nodes (by node ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previously-registered targets when you register a task with the maintenance window.
     /// This member is required.
     public var allowUnassociatedTargets: Swift.Bool?
@@ -8115,7 +8115,7 @@ public struct CreateMaintenanceWindowInput: Swift.Equatable {
     }
 }
 
-struct CreateMaintenanceWindowInputBody: Swift.Equatable {
+struct CreateMaintenanceWindowInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let startDate: Swift.String?
@@ -8196,7 +8196,7 @@ extension CreateMaintenanceWindowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMaintenanceWindowOutput: Swift.Equatable {
+public struct CreateMaintenanceWindowOutput {
     /// The ID of the created maintenance window.
     public var windowId: Swift.String?
 
@@ -8208,7 +8208,7 @@ public struct CreateMaintenanceWindowOutput: Swift.Equatable {
     }
 }
 
-struct CreateMaintenanceWindowOutputBody: Swift.Equatable {
+struct CreateMaintenanceWindowOutputBody {
     let windowId: Swift.String?
 }
 
@@ -8329,7 +8329,7 @@ extension CreateOpsItemInput {
     }
 }
 
-public struct CreateOpsItemInput: Swift.Equatable {
+public struct CreateOpsItemInput {
     /// The target Amazon Web Services account where you want to create an OpsItem. To make this call, your account must be configured to work with OpsItems across accounts. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide.
     public var accountId: Swift.String?
     /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
@@ -8410,7 +8410,7 @@ public struct CreateOpsItemInput: Swift.Equatable {
     }
 }
 
-struct CreateOpsItemInputBody: Swift.Equatable {
+struct CreateOpsItemInputBody {
     let description: Swift.String?
     let opsItemType: Swift.String?
     let operationalData: [Swift.String:SSMClientTypes.OpsItemDataValue]?
@@ -8536,7 +8536,7 @@ extension CreateOpsItemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOpsItemOutput: Swift.Equatable {
+public struct CreateOpsItemOutput {
     /// The OpsItem Amazon Resource Name (ARN).
     public var opsItemArn: Swift.String?
     /// The ID of the OpsItem.
@@ -8552,7 +8552,7 @@ public struct CreateOpsItemOutput: Swift.Equatable {
     }
 }
 
-struct CreateOpsItemOutputBody: Swift.Equatable {
+struct CreateOpsItemOutputBody {
     let opsItemId: Swift.String?
     let opsItemArn: Swift.String?
 }
@@ -8621,7 +8621,7 @@ extension CreateOpsMetadataInput {
     }
 }
 
-public struct CreateOpsMetadataInput: Swift.Equatable {
+public struct CreateOpsMetadataInput {
     /// Metadata for a new Application Manager application.
     public var metadata: [Swift.String:SSMClientTypes.MetadataValue]?
     /// A resource ID for a new Application Manager application.
@@ -8646,7 +8646,7 @@ public struct CreateOpsMetadataInput: Swift.Equatable {
     }
 }
 
-struct CreateOpsMetadataInputBody: Swift.Equatable {
+struct CreateOpsMetadataInputBody {
     let resourceId: Swift.String?
     let metadata: [Swift.String:SSMClientTypes.MetadataValue]?
     let tags: [SSMClientTypes.Tag]?
@@ -8700,7 +8700,7 @@ extension CreateOpsMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOpsMetadataOutput: Swift.Equatable {
+public struct CreateOpsMetadataOutput {
     /// The Amazon Resource Name (ARN) of the OpsMetadata Object or blob created by the call.
     public var opsMetadataArn: Swift.String?
 
@@ -8712,7 +8712,7 @@ public struct CreateOpsMetadataOutput: Swift.Equatable {
     }
 }
 
-struct CreateOpsMetadataOutputBody: Swift.Equatable {
+struct CreateOpsMetadataOutputBody {
     let opsMetadataArn: Swift.String?
 }
 
@@ -8823,7 +8823,7 @@ extension CreatePatchBaselineInput {
     }
 }
 
-public struct CreatePatchBaselineInput: Swift.Equatable {
+public struct CreatePatchBaselineInput {
     /// A set of rules used to include patches in the baseline.
     public var approvalRules: SSMClientTypes.PatchRuleGroup?
     /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see [About package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html) in the Amazon Web Services Systems Manager User Guide.
@@ -8895,7 +8895,7 @@ public struct CreatePatchBaselineInput: Swift.Equatable {
     }
 }
 
-struct CreatePatchBaselineInputBody: Swift.Equatable {
+struct CreatePatchBaselineInputBody {
     let operatingSystem: SSMClientTypes.OperatingSystem?
     let name: Swift.String?
     let globalFilters: SSMClientTypes.PatchFilterGroup?
@@ -9007,7 +9007,7 @@ extension CreatePatchBaselineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePatchBaselineOutput: Swift.Equatable {
+public struct CreatePatchBaselineOutput {
     /// The ID of the created patch baseline.
     public var baselineId: Swift.String?
 
@@ -9019,7 +9019,7 @@ public struct CreatePatchBaselineOutput: Swift.Equatable {
     }
 }
 
-struct CreatePatchBaselineOutputBody: Swift.Equatable {
+struct CreatePatchBaselineOutputBody {
     let baselineId: Swift.String?
 }
 
@@ -9080,7 +9080,7 @@ extension CreateResourceDataSyncInput {
     }
 }
 
-public struct CreateResourceDataSyncInput: Swift.Equatable {
+public struct CreateResourceDataSyncInput {
     /// Amazon S3 configuration details for the sync. This parameter is required if the SyncType value is SyncToDestination.
     public var s3Destination: SSMClientTypes.ResourceDataSyncS3Destination?
     /// A name for the configuration.
@@ -9105,7 +9105,7 @@ public struct CreateResourceDataSyncInput: Swift.Equatable {
     }
 }
 
-struct CreateResourceDataSyncInputBody: Swift.Equatable {
+struct CreateResourceDataSyncInputBody {
     let syncName: Swift.String?
     let s3Destination: SSMClientTypes.ResourceDataSyncS3Destination?
     let syncType: Swift.String?
@@ -9138,7 +9138,7 @@ extension CreateResourceDataSyncOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateResourceDataSyncOutput: Swift.Equatable {
+public struct CreateResourceDataSyncOutput {
 
     public init() { }
 }
@@ -9196,7 +9196,7 @@ public struct CustomSchemaCountLimitExceededException: ClientRuntime.ModeledErro
     }
 }
 
-struct CustomSchemaCountLimitExceededExceptionBody: Swift.Equatable {
+struct CustomSchemaCountLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -9232,7 +9232,7 @@ extension DeleteActivationInput {
     }
 }
 
-public struct DeleteActivationInput: Swift.Equatable {
+public struct DeleteActivationInput {
     /// The ID of the activation that you want to delete.
     /// This member is required.
     public var activationId: Swift.String?
@@ -9245,7 +9245,7 @@ public struct DeleteActivationInput: Swift.Equatable {
     }
 }
 
-struct DeleteActivationInputBody: Swift.Equatable {
+struct DeleteActivationInputBody {
     let activationId: Swift.String?
 }
 
@@ -9266,7 +9266,7 @@ extension DeleteActivationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteActivationOutput: Swift.Equatable {
+public struct DeleteActivationOutput {
 
     public init() { }
 }
@@ -9313,7 +9313,7 @@ extension DeleteAssociationInput {
     }
 }
 
-public struct DeleteAssociationInput: Swift.Equatable {
+public struct DeleteAssociationInput {
     /// The association ID that you want to delete.
     public var associationId: Swift.String?
     /// The managed node ID. InstanceId has been deprecated. To specify a managed node ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
@@ -9333,7 +9333,7 @@ public struct DeleteAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssociationInputBody: Swift.Equatable {
+struct DeleteAssociationInputBody {
     let name: Swift.String?
     let instanceId: Swift.String?
     let associationId: Swift.String?
@@ -9362,7 +9362,7 @@ extension DeleteAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAssociationOutput: Swift.Equatable {
+public struct DeleteAssociationOutput {
 
     public init() { }
 }
@@ -9414,7 +9414,7 @@ extension DeleteDocumentInput {
     }
 }
 
-public struct DeleteDocumentInput: Swift.Equatable {
+public struct DeleteDocumentInput {
     /// The version of the document that you want to delete. If not provided, all versions of the document are deleted.
     public var documentVersion: Swift.String?
     /// Some SSM document types require that you specify a Force flag before you can delete the document. For example, you must specify a Force flag to delete a document of type ApplicationConfigurationSchema. You can restrict access to the Force flag in an Identity and Access Management (IAM) policy.
@@ -9439,7 +9439,7 @@ public struct DeleteDocumentInput: Swift.Equatable {
     }
 }
 
-struct DeleteDocumentInputBody: Swift.Equatable {
+struct DeleteDocumentInputBody {
     let name: Swift.String?
     let documentVersion: Swift.String?
     let versionName: Swift.String?
@@ -9472,7 +9472,7 @@ extension DeleteDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDocumentOutput: Swift.Equatable {
+public struct DeleteDocumentOutput {
 
     public init() { }
 }
@@ -9523,7 +9523,7 @@ extension DeleteInventoryInput {
     }
 }
 
-public struct DeleteInventoryInput: Swift.Equatable {
+public struct DeleteInventoryInput {
     /// User-provided idempotency token.
     public var clientToken: Swift.String?
     /// Use this option to view a summary of the deletion request without deleting any data or the data type. This option is useful when you only want to understand what will be deleted. Once you validate that the data to be deleted is what you intend to delete, you can run the same command without specifying the DryRun option.
@@ -9548,7 +9548,7 @@ public struct DeleteInventoryInput: Swift.Equatable {
     }
 }
 
-struct DeleteInventoryInputBody: Swift.Equatable {
+struct DeleteInventoryInputBody {
     let typeName: Swift.String?
     let schemaDeleteOption: SSMClientTypes.InventorySchemaDeleteOption?
     let dryRun: Swift.Bool?
@@ -9592,7 +9592,7 @@ extension DeleteInventoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInventoryOutput: Swift.Equatable {
+public struct DeleteInventoryOutput {
     /// Every DeleteInventory operation is assigned a unique ID. This option returns a unique ID. You can use this ID to query the status of a delete operation. This option is useful for ensuring that a delete operation has completed before you begin other operations.
     public var deletionId: Swift.String?
     /// A summary of the delete operation. For more information about this summary, see [Understanding the delete inventory summary](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete-summary) in the Amazon Web Services Systems Manager User Guide.
@@ -9612,7 +9612,7 @@ public struct DeleteInventoryOutput: Swift.Equatable {
     }
 }
 
-struct DeleteInventoryOutputBody: Swift.Equatable {
+struct DeleteInventoryOutputBody {
     let deletionId: Swift.String?
     let typeName: Swift.String?
     let deletionSummary: SSMClientTypes.InventoryDeletionSummary?
@@ -9671,7 +9671,7 @@ extension DeleteMaintenanceWindowInput {
     }
 }
 
-public struct DeleteMaintenanceWindowInput: Swift.Equatable {
+public struct DeleteMaintenanceWindowInput {
     /// The ID of the maintenance window to delete.
     /// This member is required.
     public var windowId: Swift.String?
@@ -9684,7 +9684,7 @@ public struct DeleteMaintenanceWindowInput: Swift.Equatable {
     }
 }
 
-struct DeleteMaintenanceWindowInputBody: Swift.Equatable {
+struct DeleteMaintenanceWindowInputBody {
     let windowId: Swift.String?
 }
 
@@ -9712,7 +9712,7 @@ extension DeleteMaintenanceWindowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMaintenanceWindowOutput: Swift.Equatable {
+public struct DeleteMaintenanceWindowOutput {
     /// The ID of the deleted maintenance window.
     public var windowId: Swift.String?
 
@@ -9724,7 +9724,7 @@ public struct DeleteMaintenanceWindowOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMaintenanceWindowOutputBody: Swift.Equatable {
+struct DeleteMaintenanceWindowOutputBody {
     let windowId: Swift.String?
 }
 
@@ -9771,7 +9771,7 @@ extension DeleteOpsItemInput {
     }
 }
 
-public struct DeleteOpsItemInput: Swift.Equatable {
+public struct DeleteOpsItemInput {
     /// The ID of the OpsItem that you want to delete.
     /// This member is required.
     public var opsItemId: Swift.String?
@@ -9784,7 +9784,7 @@ public struct DeleteOpsItemInput: Swift.Equatable {
     }
 }
 
-struct DeleteOpsItemInputBody: Swift.Equatable {
+struct DeleteOpsItemInputBody {
     let opsItemId: Swift.String?
 }
 
@@ -9805,7 +9805,7 @@ extension DeleteOpsItemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOpsItemOutput: Swift.Equatable {
+public struct DeleteOpsItemOutput {
 
     public init() { }
 }
@@ -9842,7 +9842,7 @@ extension DeleteOpsMetadataInput {
     }
 }
 
-public struct DeleteOpsMetadataInput: Swift.Equatable {
+public struct DeleteOpsMetadataInput {
     /// The Amazon Resource Name (ARN) of an OpsMetadata Object to delete.
     /// This member is required.
     public var opsMetadataArn: Swift.String?
@@ -9855,7 +9855,7 @@ public struct DeleteOpsMetadataInput: Swift.Equatable {
     }
 }
 
-struct DeleteOpsMetadataInputBody: Swift.Equatable {
+struct DeleteOpsMetadataInputBody {
     let opsMetadataArn: Swift.String?
 }
 
@@ -9876,7 +9876,7 @@ extension DeleteOpsMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOpsMetadataOutput: Swift.Equatable {
+public struct DeleteOpsMetadataOutput {
 
     public init() { }
 }
@@ -9914,7 +9914,7 @@ extension DeleteParameterInput {
     }
 }
 
-public struct DeleteParameterInput: Swift.Equatable {
+public struct DeleteParameterInput {
     /// The name of the parameter to delete. You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.
     /// This member is required.
     public var name: Swift.String?
@@ -9927,7 +9927,7 @@ public struct DeleteParameterInput: Swift.Equatable {
     }
 }
 
-struct DeleteParameterInputBody: Swift.Equatable {
+struct DeleteParameterInputBody {
     let name: Swift.String?
 }
 
@@ -9948,7 +9948,7 @@ extension DeleteParameterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteParameterOutput: Swift.Equatable {
+public struct DeleteParameterOutput {
 
     public init() { }
 }
@@ -9988,7 +9988,7 @@ extension DeleteParametersInput {
     }
 }
 
-public struct DeleteParametersInput: Swift.Equatable {
+public struct DeleteParametersInput {
     /// The names of the parameters to delete. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name. You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.
     /// This member is required.
     public var names: [Swift.String]?
@@ -10001,7 +10001,7 @@ public struct DeleteParametersInput: Swift.Equatable {
     }
 }
 
-struct DeleteParametersInputBody: Swift.Equatable {
+struct DeleteParametersInputBody {
     let names: [Swift.String]?
 }
 
@@ -10040,7 +10040,7 @@ extension DeleteParametersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteParametersOutput: Swift.Equatable {
+public struct DeleteParametersOutput {
     /// The names of the deleted parameters.
     public var deletedParameters: [Swift.String]?
     /// The names of parameters that weren't deleted because the parameters aren't valid.
@@ -10056,7 +10056,7 @@ public struct DeleteParametersOutput: Swift.Equatable {
     }
 }
 
-struct DeleteParametersOutputBody: Swift.Equatable {
+struct DeleteParametersOutputBody {
     let deletedParameters: [Swift.String]?
     let invalidParameters: [Swift.String]?
 }
@@ -10125,7 +10125,7 @@ extension DeletePatchBaselineInput {
     }
 }
 
-public struct DeletePatchBaselineInput: Swift.Equatable {
+public struct DeletePatchBaselineInput {
     /// The ID of the patch baseline to delete.
     /// This member is required.
     public var baselineId: Swift.String?
@@ -10138,7 +10138,7 @@ public struct DeletePatchBaselineInput: Swift.Equatable {
     }
 }
 
-struct DeletePatchBaselineInputBody: Swift.Equatable {
+struct DeletePatchBaselineInputBody {
     let baselineId: Swift.String?
 }
 
@@ -10166,7 +10166,7 @@ extension DeletePatchBaselineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePatchBaselineOutput: Swift.Equatable {
+public struct DeletePatchBaselineOutput {
     /// The ID of the deleted patch baseline.
     public var baselineId: Swift.String?
 
@@ -10178,7 +10178,7 @@ public struct DeletePatchBaselineOutput: Swift.Equatable {
     }
 }
 
-struct DeletePatchBaselineOutputBody: Swift.Equatable {
+struct DeletePatchBaselineOutputBody {
     let baselineId: Swift.String?
 }
 
@@ -10230,7 +10230,7 @@ extension DeleteResourceDataSyncInput {
     }
 }
 
-public struct DeleteResourceDataSyncInput: Swift.Equatable {
+public struct DeleteResourceDataSyncInput {
     /// The name of the configuration to delete.
     /// This member is required.
     public var syncName: Swift.String?
@@ -10247,7 +10247,7 @@ public struct DeleteResourceDataSyncInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourceDataSyncInputBody: Swift.Equatable {
+struct DeleteResourceDataSyncInputBody {
     let syncName: Swift.String?
     let syncType: Swift.String?
 }
@@ -10272,7 +10272,7 @@ extension DeleteResourceDataSyncOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourceDataSyncOutput: Swift.Equatable {
+public struct DeleteResourceDataSyncOutput {
 
     public init() { }
 }
@@ -10318,7 +10318,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// ID of the current policy version. The hash helps to prevent multiple calls from attempting to overwrite a policy.
     /// This member is required.
     public var policyHash: Swift.String?
@@ -10341,7 +10341,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
     let resourceArn: Swift.String?
     let policyId: Swift.String?
     let policyHash: Swift.String?
@@ -10370,7 +10370,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -10411,7 +10411,7 @@ extension DeregisterManagedInstanceInput {
     }
 }
 
-public struct DeregisterManagedInstanceInput: Swift.Equatable {
+public struct DeregisterManagedInstanceInput {
     /// The ID assigned to the managed node when you registered it using the activation process.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -10424,7 +10424,7 @@ public struct DeregisterManagedInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeregisterManagedInstanceInputBody: Swift.Equatable {
+struct DeregisterManagedInstanceInputBody {
     let instanceId: Swift.String?
 }
 
@@ -10445,7 +10445,7 @@ extension DeregisterManagedInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterManagedInstanceOutput: Swift.Equatable {
+public struct DeregisterManagedInstanceOutput {
 
     public init() { }
 }
@@ -10486,7 +10486,7 @@ extension DeregisterPatchBaselineForPatchGroupInput {
     }
 }
 
-public struct DeregisterPatchBaselineForPatchGroupInput: Swift.Equatable {
+public struct DeregisterPatchBaselineForPatchGroupInput {
     /// The ID of the patch baseline to deregister the patch group from.
     /// This member is required.
     public var baselineId: Swift.String?
@@ -10504,7 +10504,7 @@ public struct DeregisterPatchBaselineForPatchGroupInput: Swift.Equatable {
     }
 }
 
-struct DeregisterPatchBaselineForPatchGroupInputBody: Swift.Equatable {
+struct DeregisterPatchBaselineForPatchGroupInputBody {
     let baselineId: Swift.String?
     let patchGroup: Swift.String?
 }
@@ -10538,7 +10538,7 @@ extension DeregisterPatchBaselineForPatchGroupOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DeregisterPatchBaselineForPatchGroupOutput: Swift.Equatable {
+public struct DeregisterPatchBaselineForPatchGroupOutput {
     /// The ID of the patch baseline the patch group was deregistered from.
     public var baselineId: Swift.String?
     /// The name of the patch group deregistered from the patch baseline.
@@ -10554,7 +10554,7 @@ public struct DeregisterPatchBaselineForPatchGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeregisterPatchBaselineForPatchGroupOutputBody: Swift.Equatable {
+struct DeregisterPatchBaselineForPatchGroupOutputBody {
     let baselineId: Swift.String?
     let patchGroup: Swift.String?
 }
@@ -10614,7 +10614,7 @@ extension DeregisterTargetFromMaintenanceWindowInput {
     }
 }
 
-public struct DeregisterTargetFromMaintenanceWindowInput: Swift.Equatable {
+public struct DeregisterTargetFromMaintenanceWindowInput {
     /// The system checks if the target is being referenced by a task. If the target is being referenced, the system returns an error and doesn't deregister the target from the maintenance window.
     public var safe: Swift.Bool?
     /// The ID of the maintenance window the target should be removed from.
@@ -10636,7 +10636,7 @@ public struct DeregisterTargetFromMaintenanceWindowInput: Swift.Equatable {
     }
 }
 
-struct DeregisterTargetFromMaintenanceWindowInputBody: Swift.Equatable {
+struct DeregisterTargetFromMaintenanceWindowInputBody {
     let windowId: Swift.String?
     let windowTargetId: Swift.String?
     let safe: Swift.Bool?
@@ -10674,7 +10674,7 @@ extension DeregisterTargetFromMaintenanceWindowOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct DeregisterTargetFromMaintenanceWindowOutput: Swift.Equatable {
+public struct DeregisterTargetFromMaintenanceWindowOutput {
     /// The ID of the maintenance window the target was removed from.
     public var windowId: Swift.String?
     /// The ID of the removed target definition.
@@ -10690,7 +10690,7 @@ public struct DeregisterTargetFromMaintenanceWindowOutput: Swift.Equatable {
     }
 }
 
-struct DeregisterTargetFromMaintenanceWindowOutputBody: Swift.Equatable {
+struct DeregisterTargetFromMaintenanceWindowOutputBody {
     let windowId: Swift.String?
     let windowTargetId: Swift.String?
 }
@@ -10747,7 +10747,7 @@ extension DeregisterTaskFromMaintenanceWindowInput {
     }
 }
 
-public struct DeregisterTaskFromMaintenanceWindowInput: Swift.Equatable {
+public struct DeregisterTaskFromMaintenanceWindowInput {
     /// The ID of the maintenance window the task should be removed from.
     /// This member is required.
     public var windowId: Swift.String?
@@ -10765,7 +10765,7 @@ public struct DeregisterTaskFromMaintenanceWindowInput: Swift.Equatable {
     }
 }
 
-struct DeregisterTaskFromMaintenanceWindowInputBody: Swift.Equatable {
+struct DeregisterTaskFromMaintenanceWindowInputBody {
     let windowId: Swift.String?
     let windowTaskId: Swift.String?
 }
@@ -10799,7 +10799,7 @@ extension DeregisterTaskFromMaintenanceWindowOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DeregisterTaskFromMaintenanceWindowOutput: Swift.Equatable {
+public struct DeregisterTaskFromMaintenanceWindowOutput {
     /// The ID of the maintenance window the task was removed from.
     public var windowId: Swift.String?
     /// The ID of the task removed from the maintenance window.
@@ -10815,7 +10815,7 @@ public struct DeregisterTaskFromMaintenanceWindowOutput: Swift.Equatable {
     }
 }
 
-struct DeregisterTaskFromMaintenanceWindowOutputBody: Swift.Equatable {
+struct DeregisterTaskFromMaintenanceWindowOutputBody {
     let windowId: Swift.String?
     let windowTaskId: Swift.String?
 }
@@ -10886,7 +10886,7 @@ extension SSMClientTypes.DescribeActivationsFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Filter for the DescribeActivation API.
-    public struct DescribeActivationsFilter: Swift.Equatable {
+    public struct DescribeActivationsFilter {
         /// The name of the filter.
         public var filterKey: SSMClientTypes.DescribeActivationsFilterKeys?
         /// The filter values.
@@ -10970,7 +10970,7 @@ extension DescribeActivationsInput {
     }
 }
 
-public struct DescribeActivationsInput: Swift.Equatable {
+public struct DescribeActivationsInput {
     /// A filter to view information about your activations.
     public var filters: [SSMClientTypes.DescribeActivationsFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -10990,7 +10990,7 @@ public struct DescribeActivationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeActivationsInputBody: Swift.Equatable {
+struct DescribeActivationsInputBody {
     let filters: [SSMClientTypes.DescribeActivationsFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -11037,7 +11037,7 @@ extension DescribeActivationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeActivationsOutput: Swift.Equatable {
+public struct DescribeActivationsOutput {
     /// A list of activations for your Amazon Web Services account.
     public var activationList: [SSMClientTypes.Activation]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -11053,7 +11053,7 @@ public struct DescribeActivationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeActivationsOutputBody: Swift.Equatable {
+struct DescribeActivationsOutputBody {
     let activationList: [SSMClientTypes.Activation]?
     let nextToken: Swift.String?
 }
@@ -11134,7 +11134,7 @@ extension DescribeAssociationExecutionTargetsInput {
     }
 }
 
-public struct DescribeAssociationExecutionTargetsInput: Swift.Equatable {
+public struct DescribeAssociationExecutionTargetsInput {
     /// The association ID that includes the execution for which you want to view details.
     /// This member is required.
     public var associationId: Swift.String?
@@ -11164,7 +11164,7 @@ public struct DescribeAssociationExecutionTargetsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAssociationExecutionTargetsInputBody: Swift.Equatable {
+struct DescribeAssociationExecutionTargetsInputBody {
     let associationId: Swift.String?
     let executionId: Swift.String?
     let filters: [SSMClientTypes.AssociationExecutionTargetsFilter]?
@@ -11219,7 +11219,7 @@ extension DescribeAssociationExecutionTargetsOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DescribeAssociationExecutionTargetsOutput: Swift.Equatable {
+public struct DescribeAssociationExecutionTargetsOutput {
     /// Information about the execution.
     public var associationExecutionTargets: [SSMClientTypes.AssociationExecutionTarget]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -11235,7 +11235,7 @@ public struct DescribeAssociationExecutionTargetsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAssociationExecutionTargetsOutputBody: Swift.Equatable {
+struct DescribeAssociationExecutionTargetsOutputBody {
     let associationExecutionTargets: [SSMClientTypes.AssociationExecutionTarget]?
     let nextToken: Swift.String?
 }
@@ -11313,7 +11313,7 @@ extension DescribeAssociationExecutionsInput {
     }
 }
 
-public struct DescribeAssociationExecutionsInput: Swift.Equatable {
+public struct DescribeAssociationExecutionsInput {
     /// The association ID for which you want to view execution history details.
     /// This member is required.
     public var associationId: Swift.String?
@@ -11338,7 +11338,7 @@ public struct DescribeAssociationExecutionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAssociationExecutionsInputBody: Swift.Equatable {
+struct DescribeAssociationExecutionsInputBody {
     let associationId: Swift.String?
     let filters: [SSMClientTypes.AssociationExecutionFilter]?
     let maxResults: Swift.Int?
@@ -11389,7 +11389,7 @@ extension DescribeAssociationExecutionsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeAssociationExecutionsOutput: Swift.Equatable {
+public struct DescribeAssociationExecutionsOutput {
     /// A list of the executions for the specified association ID.
     public var associationExecutions: [SSMClientTypes.AssociationExecution]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -11405,7 +11405,7 @@ public struct DescribeAssociationExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAssociationExecutionsOutputBody: Swift.Equatable {
+struct DescribeAssociationExecutionsOutputBody {
     let associationExecutions: [SSMClientTypes.AssociationExecution]?
     let nextToken: Swift.String?
 }
@@ -11479,7 +11479,7 @@ extension DescribeAssociationInput {
     }
 }
 
-public struct DescribeAssociationInput: Swift.Equatable {
+public struct DescribeAssociationInput {
     /// The association ID for which you want information.
     public var associationId: Swift.String?
     /// Specify the association version to retrieve. To view the latest version, either specify $LATEST for this parameter, or omit this parameter. To view a list of all associations for a managed node, use [ListAssociations]. To get a list of versions for a specific association, use [ListAssociationVersions].
@@ -11503,7 +11503,7 @@ public struct DescribeAssociationInput: Swift.Equatable {
     }
 }
 
-struct DescribeAssociationInputBody: Swift.Equatable {
+struct DescribeAssociationInputBody {
     let name: Swift.String?
     let instanceId: Swift.String?
     let associationId: Swift.String?
@@ -11543,7 +11543,7 @@ extension DescribeAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAssociationOutput: Swift.Equatable {
+public struct DescribeAssociationOutput {
     /// Information about the association.
     public var associationDescription: SSMClientTypes.AssociationDescription?
 
@@ -11555,7 +11555,7 @@ public struct DescribeAssociationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAssociationOutputBody: Swift.Equatable {
+struct DescribeAssociationOutputBody {
     let associationDescription: SSMClientTypes.AssociationDescription?
 }
 
@@ -11617,7 +11617,7 @@ extension DescribeAutomationExecutionsInput {
     }
 }
 
-public struct DescribeAutomationExecutionsInput: Swift.Equatable {
+public struct DescribeAutomationExecutionsInput {
     /// Filters used to limit the scope of executions that are requested.
     public var filters: [SSMClientTypes.AutomationExecutionFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -11637,7 +11637,7 @@ public struct DescribeAutomationExecutionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAutomationExecutionsInputBody: Swift.Equatable {
+struct DescribeAutomationExecutionsInputBody {
     let filters: [SSMClientTypes.AutomationExecutionFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -11684,7 +11684,7 @@ extension DescribeAutomationExecutionsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeAutomationExecutionsOutput: Swift.Equatable {
+public struct DescribeAutomationExecutionsOutput {
     /// The list of details about each automation execution which has occurred which matches the filter specification, if any.
     public var automationExecutionMetadataList: [SSMClientTypes.AutomationExecutionMetadata]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -11700,7 +11700,7 @@ public struct DescribeAutomationExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAutomationExecutionsOutputBody: Swift.Equatable {
+struct DescribeAutomationExecutionsOutputBody {
     let automationExecutionMetadataList: [SSMClientTypes.AutomationExecutionMetadata]?
     let nextToken: Swift.String?
 }
@@ -11782,7 +11782,7 @@ extension DescribeAutomationStepExecutionsInput {
     }
 }
 
-public struct DescribeAutomationStepExecutionsInput: Swift.Equatable {
+public struct DescribeAutomationStepExecutionsInput {
     /// The Automation execution ID for which you want step execution descriptions.
     /// This member is required.
     public var automationExecutionId: Swift.String?
@@ -11811,7 +11811,7 @@ public struct DescribeAutomationStepExecutionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAutomationStepExecutionsInputBody: Swift.Equatable {
+struct DescribeAutomationStepExecutionsInputBody {
     let automationExecutionId: Swift.String?
     let filters: [SSMClientTypes.StepExecutionFilter]?
     let nextToken: Swift.String?
@@ -11866,7 +11866,7 @@ extension DescribeAutomationStepExecutionsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeAutomationStepExecutionsOutput: Swift.Equatable {
+public struct DescribeAutomationStepExecutionsOutput {
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
     /// A list of details about the current state of all steps that make up an execution.
@@ -11882,7 +11882,7 @@ public struct DescribeAutomationStepExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAutomationStepExecutionsOutputBody: Swift.Equatable {
+struct DescribeAutomationStepExecutionsOutputBody {
     let stepExecutions: [SSMClientTypes.StepExecution]?
     let nextToken: Swift.String?
 }
@@ -11957,7 +11957,7 @@ extension DescribeAvailablePatchesInput {
     }
 }
 
-public struct DescribeAvailablePatchesInput: Swift.Equatable {
+public struct DescribeAvailablePatchesInput {
     /// Each element in the array is a structure containing a key-value pair. Windows Server Supported keys for Windows Server managed node patches include the following:
     ///
     /// * PATCH_SET Sample values: OS | APPLICATION
@@ -12014,7 +12014,7 @@ public struct DescribeAvailablePatchesInput: Swift.Equatable {
     }
 }
 
-struct DescribeAvailablePatchesInputBody: Swift.Equatable {
+struct DescribeAvailablePatchesInputBody {
     let filters: [SSMClientTypes.PatchOrchestratorFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -12061,7 +12061,7 @@ extension DescribeAvailablePatchesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAvailablePatchesOutput: Swift.Equatable {
+public struct DescribeAvailablePatchesOutput {
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
     /// An array of patches. Each entry in the array is a patch structure.
@@ -12077,7 +12077,7 @@ public struct DescribeAvailablePatchesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAvailablePatchesOutputBody: Swift.Equatable {
+struct DescribeAvailablePatchesOutputBody {
     let patches: [SSMClientTypes.Patch]?
     let nextToken: Swift.String?
 }
@@ -12145,7 +12145,7 @@ extension DescribeDocumentInput {
     }
 }
 
-public struct DescribeDocumentInput: Swift.Equatable {
+public struct DescribeDocumentInput {
     /// The document version for which you want information. Can be a specific version or the default version.
     public var documentVersion: Swift.String?
     /// The name of the SSM document.
@@ -12166,7 +12166,7 @@ public struct DescribeDocumentInput: Swift.Equatable {
     }
 }
 
-struct DescribeDocumentInputBody: Swift.Equatable {
+struct DescribeDocumentInputBody {
     let name: Swift.String?
     let documentVersion: Swift.String?
     let versionName: Swift.String?
@@ -12202,7 +12202,7 @@ extension DescribeDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDocumentOutput: Swift.Equatable {
+public struct DescribeDocumentOutput {
     /// Information about the SSM document.
     public var document: SSMClientTypes.DocumentDescription?
 
@@ -12214,7 +12214,7 @@ public struct DescribeDocumentOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDocumentOutputBody: Swift.Equatable {
+struct DescribeDocumentOutputBody {
     let document: SSMClientTypes.DocumentDescription?
 }
 
@@ -12275,7 +12275,7 @@ extension DescribeDocumentPermissionInput {
     }
 }
 
-public struct DescribeDocumentPermissionInput: Swift.Equatable {
+public struct DescribeDocumentPermissionInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// The name of the document for which you are the owner.
@@ -12301,7 +12301,7 @@ public struct DescribeDocumentPermissionInput: Swift.Equatable {
     }
 }
 
-struct DescribeDocumentPermissionInputBody: Swift.Equatable {
+struct DescribeDocumentPermissionInputBody {
     let name: Swift.String?
     let permissionType: SSMClientTypes.DocumentPermissionType?
     let maxResults: Swift.Int?
@@ -12345,7 +12345,7 @@ extension DescribeDocumentPermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDocumentPermissionOutput: Swift.Equatable {
+public struct DescribeDocumentPermissionOutput {
     /// The account IDs that have permission to use this document. The ID can be either an Amazon Web Services account or All.
     public var accountIds: [Swift.String]?
     /// A list of Amazon Web Services accounts where the current document is shared and the version shared with each account.
@@ -12365,7 +12365,7 @@ public struct DescribeDocumentPermissionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDocumentPermissionOutputBody: Swift.Equatable {
+struct DescribeDocumentPermissionOutputBody {
     let accountIds: [Swift.String]?
     let accountSharingInfoList: [SSMClientTypes.AccountSharingInfo]?
     let nextToken: Swift.String?
@@ -12450,7 +12450,7 @@ extension DescribeEffectiveInstanceAssociationsInput {
     }
 }
 
-public struct DescribeEffectiveInstanceAssociationsInput: Swift.Equatable {
+public struct DescribeEffectiveInstanceAssociationsInput {
     /// The managed node ID for which you want to view all associations.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12471,7 +12471,7 @@ public struct DescribeEffectiveInstanceAssociationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeEffectiveInstanceAssociationsInputBody: Swift.Equatable {
+struct DescribeEffectiveInstanceAssociationsInputBody {
     let instanceId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -12509,7 +12509,7 @@ extension DescribeEffectiveInstanceAssociationsOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct DescribeEffectiveInstanceAssociationsOutput: Swift.Equatable {
+public struct DescribeEffectiveInstanceAssociationsOutput {
     /// The associations for the requested managed node.
     public var associations: [SSMClientTypes.InstanceAssociation]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -12525,7 +12525,7 @@ public struct DescribeEffectiveInstanceAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEffectiveInstanceAssociationsOutputBody: Swift.Equatable {
+struct DescribeEffectiveInstanceAssociationsOutputBody {
     let associations: [SSMClientTypes.InstanceAssociation]?
     let nextToken: Swift.String?
 }
@@ -12595,7 +12595,7 @@ extension DescribeEffectivePatchesForPatchBaselineInput {
     }
 }
 
-public struct DescribeEffectivePatchesForPatchBaselineInput: Swift.Equatable {
+public struct DescribeEffectivePatchesForPatchBaselineInput {
     /// The ID of the patch baseline to retrieve the effective patches for.
     /// This member is required.
     public var baselineId: Swift.String?
@@ -12616,7 +12616,7 @@ public struct DescribeEffectivePatchesForPatchBaselineInput: Swift.Equatable {
     }
 }
 
-struct DescribeEffectivePatchesForPatchBaselineInputBody: Swift.Equatable {
+struct DescribeEffectivePatchesForPatchBaselineInputBody {
     let baselineId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -12654,7 +12654,7 @@ extension DescribeEffectivePatchesForPatchBaselineOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct DescribeEffectivePatchesForPatchBaselineOutput: Swift.Equatable {
+public struct DescribeEffectivePatchesForPatchBaselineOutput {
     /// An array of patches and patch status.
     public var effectivePatches: [SSMClientTypes.EffectivePatch]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -12670,7 +12670,7 @@ public struct DescribeEffectivePatchesForPatchBaselineOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEffectivePatchesForPatchBaselineOutputBody: Swift.Equatable {
+struct DescribeEffectivePatchesForPatchBaselineOutputBody {
     let effectivePatches: [SSMClientTypes.EffectivePatch]?
     let nextToken: Swift.String?
 }
@@ -12741,7 +12741,7 @@ extension DescribeInstanceAssociationsStatusInput {
     }
 }
 
-public struct DescribeInstanceAssociationsStatusInput: Swift.Equatable {
+public struct DescribeInstanceAssociationsStatusInput {
     /// The managed node IDs for which you want association status information.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12762,7 +12762,7 @@ public struct DescribeInstanceAssociationsStatusInput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceAssociationsStatusInputBody: Swift.Equatable {
+struct DescribeInstanceAssociationsStatusInputBody {
     let instanceId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -12800,7 +12800,7 @@ extension DescribeInstanceAssociationsStatusOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeInstanceAssociationsStatusOutput: Swift.Equatable {
+public struct DescribeInstanceAssociationsStatusOutput {
     /// Status information about the association.
     public var instanceAssociationStatusInfos: [SSMClientTypes.InstanceAssociationStatusInfo]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -12816,7 +12816,7 @@ public struct DescribeInstanceAssociationsStatusOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceAssociationsStatusOutputBody: Swift.Equatable {
+struct DescribeInstanceAssociationsStatusOutputBody {
     let instanceAssociationStatusInfos: [SSMClientTypes.InstanceAssociationStatusInfo]?
     let nextToken: Swift.String?
 }
@@ -12896,7 +12896,7 @@ extension DescribeInstanceInformationInput {
     }
 }
 
-public struct DescribeInstanceInformationInput: Swift.Equatable {
+public struct DescribeInstanceInformationInput {
     /// One or more filters. Use a filter to return a more specific list of managed nodes. You can filter based on tags applied to your managed nodes. Tag filters can't be combined with other filter types. Use this Filters data type instead of InstanceInformationFilterList, which is deprecated.
     public var filters: [SSMClientTypes.InstanceInformationStringFilter]?
     /// This is a legacy method. We recommend that you don't use this method. Instead, use the Filters data type. Filters enables you to return node information by filtering based on tags applied to managed nodes. Attempting to use InstanceInformationFilterList and Filters leads to an exception error.
@@ -12920,7 +12920,7 @@ public struct DescribeInstanceInformationInput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceInformationInputBody: Swift.Equatable {
+struct DescribeInstanceInformationInputBody {
     let instanceInformationFilterList: [SSMClientTypes.InstanceInformationFilter]?
     let filters: [SSMClientTypes.InstanceInformationStringFilter]?
     let maxResults: Swift.Int?
@@ -12980,7 +12980,7 @@ extension DescribeInstanceInformationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeInstanceInformationOutput: Swift.Equatable {
+public struct DescribeInstanceInformationOutput {
     /// The managed node information list.
     public var instanceInformationList: [SSMClientTypes.InstanceInformation]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -12996,7 +12996,7 @@ public struct DescribeInstanceInformationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInstanceInformationOutputBody: Swift.Equatable {
+struct DescribeInstanceInformationOutputBody {
     let instanceInformationList: [SSMClientTypes.InstanceInformation]?
     let nextToken: Swift.String?
 }
@@ -13075,7 +13075,7 @@ extension DescribeInstancePatchStatesForPatchGroupInput {
     }
 }
 
-public struct DescribeInstancePatchStatesForPatchGroupInput: Swift.Equatable {
+public struct DescribeInstancePatchStatesForPatchGroupInput {
     /// Each entry in the array is a structure containing:
     ///
     /// * Key (string between 1 and 200 characters)
@@ -13106,7 +13106,7 @@ public struct DescribeInstancePatchStatesForPatchGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeInstancePatchStatesForPatchGroupInputBody: Swift.Equatable {
+struct DescribeInstancePatchStatesForPatchGroupInputBody {
     let patchGroup: Swift.String?
     let filters: [SSMClientTypes.InstancePatchStateFilter]?
     let nextToken: Swift.String?
@@ -13157,7 +13157,7 @@ extension DescribeInstancePatchStatesForPatchGroupOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct DescribeInstancePatchStatesForPatchGroupOutput: Swift.Equatable {
+public struct DescribeInstancePatchStatesForPatchGroupOutput {
     /// The high-level patch state for the requested managed nodes.
     public var instancePatchStates: [SSMClientTypes.InstancePatchState]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -13173,7 +13173,7 @@ public struct DescribeInstancePatchStatesForPatchGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInstancePatchStatesForPatchGroupOutputBody: Swift.Equatable {
+struct DescribeInstancePatchStatesForPatchGroupOutputBody {
     let instancePatchStates: [SSMClientTypes.InstancePatchState]?
     let nextToken: Swift.String?
 }
@@ -13246,7 +13246,7 @@ extension DescribeInstancePatchStatesInput {
     }
 }
 
-public struct DescribeInstancePatchStatesInput: Swift.Equatable {
+public struct DescribeInstancePatchStatesInput {
     /// The ID of the managed node for which patch state information should be retrieved.
     /// This member is required.
     public var instanceIds: [Swift.String]?
@@ -13267,7 +13267,7 @@ public struct DescribeInstancePatchStatesInput: Swift.Equatable {
     }
 }
 
-struct DescribeInstancePatchStatesInputBody: Swift.Equatable {
+struct DescribeInstancePatchStatesInputBody {
     let instanceIds: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -13314,7 +13314,7 @@ extension DescribeInstancePatchStatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeInstancePatchStatesOutput: Swift.Equatable {
+public struct DescribeInstancePatchStatesOutput {
     /// The high-level patch state for the requested managed nodes.
     public var instancePatchStates: [SSMClientTypes.InstancePatchState]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -13330,7 +13330,7 @@ public struct DescribeInstancePatchStatesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInstancePatchStatesOutputBody: Swift.Equatable {
+struct DescribeInstancePatchStatesOutputBody {
     let instancePatchStates: [SSMClientTypes.InstancePatchState]?
     let nextToken: Swift.String?
 }
@@ -13406,7 +13406,7 @@ extension DescribeInstancePatchesInput {
     }
 }
 
-public struct DescribeInstancePatchesInput: Swift.Equatable {
+public struct DescribeInstancePatchesInput {
     /// Each element in the array is a structure containing a key-value pair. Supported keys for DescribeInstancePatchesinclude the following:
     ///
     /// * Classification Sample values: Security | SecurityUpdates
@@ -13439,7 +13439,7 @@ public struct DescribeInstancePatchesInput: Swift.Equatable {
     }
 }
 
-struct DescribeInstancePatchesInputBody: Swift.Equatable {
+struct DescribeInstancePatchesInputBody {
     let instanceId: Swift.String?
     let filters: [SSMClientTypes.PatchOrchestratorFilter]?
     let nextToken: Swift.String?
@@ -13490,7 +13490,7 @@ extension DescribeInstancePatchesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeInstancePatchesOutput: Swift.Equatable {
+public struct DescribeInstancePatchesOutput {
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
     /// Each entry in the array is a structure containing:
@@ -13520,7 +13520,7 @@ public struct DescribeInstancePatchesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInstancePatchesOutputBody: Swift.Equatable {
+struct DescribeInstancePatchesOutputBody {
     let patches: [SSMClientTypes.PatchComplianceData]?
     let nextToken: Swift.String?
 }
@@ -13591,7 +13591,7 @@ extension DescribeInventoryDeletionsInput {
     }
 }
 
-public struct DescribeInventoryDeletionsInput: Swift.Equatable {
+public struct DescribeInventoryDeletionsInput {
     /// Specify the delete inventory ID for which you want information. This ID was returned by the DeleteInventory operation.
     public var deletionId: Swift.String?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -13611,7 +13611,7 @@ public struct DescribeInventoryDeletionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeInventoryDeletionsInputBody: Swift.Equatable {
+struct DescribeInventoryDeletionsInputBody {
     let deletionId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -13649,7 +13649,7 @@ extension DescribeInventoryDeletionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeInventoryDeletionsOutput: Swift.Equatable {
+public struct DescribeInventoryDeletionsOutput {
     /// A list of status items for deleted inventory.
     public var inventoryDeletions: [SSMClientTypes.InventoryDeletionStatusItem]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -13665,7 +13665,7 @@ public struct DescribeInventoryDeletionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInventoryDeletionsOutputBody: Swift.Equatable {
+struct DescribeInventoryDeletionsOutputBody {
     let inventoryDeletions: [SSMClientTypes.InventoryDeletionStatusItem]?
     let nextToken: Swift.String?
 }
@@ -13746,7 +13746,7 @@ extension DescribeMaintenanceWindowExecutionTaskInvocationsInput {
     }
 }
 
-public struct DescribeMaintenanceWindowExecutionTaskInvocationsInput: Swift.Equatable {
+public struct DescribeMaintenanceWindowExecutionTaskInvocationsInput {
     /// Optional filters used to scope down the returned task invocations. The supported filter key is STATUS with the corresponding values PENDING, IN_PROGRESS, SUCCESS, FAILED, TIMED_OUT, CANCELLING, and CANCELLED.
     public var filters: [SSMClientTypes.MaintenanceWindowFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -13776,7 +13776,7 @@ public struct DescribeMaintenanceWindowExecutionTaskInvocationsInput: Swift.Equa
     }
 }
 
-struct DescribeMaintenanceWindowExecutionTaskInvocationsInputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowExecutionTaskInvocationsInputBody {
     let windowExecutionId: Swift.String?
     let taskId: Swift.String?
     let filters: [SSMClientTypes.MaintenanceWindowFilter]?
@@ -13831,7 +13831,7 @@ extension DescribeMaintenanceWindowExecutionTaskInvocationsOutput: ClientRuntime
     }
 }
 
-public struct DescribeMaintenanceWindowExecutionTaskInvocationsOutput: Swift.Equatable {
+public struct DescribeMaintenanceWindowExecutionTaskInvocationsOutput {
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
     /// Information about the task invocation results per invocation.
@@ -13847,7 +13847,7 @@ public struct DescribeMaintenanceWindowExecutionTaskInvocationsOutput: Swift.Equ
     }
 }
 
-struct DescribeMaintenanceWindowExecutionTaskInvocationsOutputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowExecutionTaskInvocationsOutputBody {
     let windowExecutionTaskInvocationIdentities: [SSMClientTypes.MaintenanceWindowExecutionTaskInvocationIdentity]?
     let nextToken: Swift.String?
 }
@@ -13923,7 +13923,7 @@ extension DescribeMaintenanceWindowExecutionTasksInput {
     }
 }
 
-public struct DescribeMaintenanceWindowExecutionTasksInput: Swift.Equatable {
+public struct DescribeMaintenanceWindowExecutionTasksInput {
     /// Optional filters used to scope down the returned tasks. The supported filter key is STATUS with the corresponding values PENDING, IN_PROGRESS, SUCCESS, FAILED, TIMED_OUT, CANCELLING, and CANCELLED.
     public var filters: [SSMClientTypes.MaintenanceWindowFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -13948,7 +13948,7 @@ public struct DescribeMaintenanceWindowExecutionTasksInput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowExecutionTasksInputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowExecutionTasksInputBody {
     let windowExecutionId: Swift.String?
     let filters: [SSMClientTypes.MaintenanceWindowFilter]?
     let maxResults: Swift.Int?
@@ -13999,7 +13999,7 @@ extension DescribeMaintenanceWindowExecutionTasksOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct DescribeMaintenanceWindowExecutionTasksOutput: Swift.Equatable {
+public struct DescribeMaintenanceWindowExecutionTasksOutput {
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
     /// Information about the task executions.
@@ -14015,7 +14015,7 @@ public struct DescribeMaintenanceWindowExecutionTasksOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowExecutionTasksOutputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowExecutionTasksOutputBody {
     let windowExecutionTaskIdentities: [SSMClientTypes.MaintenanceWindowExecutionTaskIdentity]?
     let nextToken: Swift.String?
 }
@@ -14091,7 +14091,7 @@ extension DescribeMaintenanceWindowExecutionsInput {
     }
 }
 
-public struct DescribeMaintenanceWindowExecutionsInput: Swift.Equatable {
+public struct DescribeMaintenanceWindowExecutionsInput {
     /// Each entry in the array is a structure containing:
     ///
     /// * Key. A string between 1 and 128 characters. Supported keys include ExecutedBefore and ExecutedAfter.
@@ -14120,7 +14120,7 @@ public struct DescribeMaintenanceWindowExecutionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowExecutionsInputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowExecutionsInputBody {
     let windowId: Swift.String?
     let filters: [SSMClientTypes.MaintenanceWindowFilter]?
     let maxResults: Swift.Int?
@@ -14171,7 +14171,7 @@ extension DescribeMaintenanceWindowExecutionsOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DescribeMaintenanceWindowExecutionsOutput: Swift.Equatable {
+public struct DescribeMaintenanceWindowExecutionsOutput {
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
     /// Information about the maintenance window executions.
@@ -14187,7 +14187,7 @@ public struct DescribeMaintenanceWindowExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowExecutionsOutputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowExecutionsOutputBody {
     let windowExecutions: [SSMClientTypes.MaintenanceWindowExecution]?
     let nextToken: Swift.String?
 }
@@ -14273,7 +14273,7 @@ extension DescribeMaintenanceWindowScheduleInput {
     }
 }
 
-public struct DescribeMaintenanceWindowScheduleInput: Swift.Equatable {
+public struct DescribeMaintenanceWindowScheduleInput {
     /// Filters used to limit the range of results. For example, you can limit maintenance window executions to only those scheduled before or after a certain date and time.
     public var filters: [SSMClientTypes.PatchOrchestratorFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -14305,7 +14305,7 @@ public struct DescribeMaintenanceWindowScheduleInput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowScheduleInputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowScheduleInputBody {
     let windowId: Swift.String?
     let targets: [SSMClientTypes.Target]?
     let resourceType: SSMClientTypes.MaintenanceWindowResourceType?
@@ -14373,7 +14373,7 @@ extension DescribeMaintenanceWindowScheduleOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeMaintenanceWindowScheduleOutput: Swift.Equatable {
+public struct DescribeMaintenanceWindowScheduleOutput {
     /// The token for the next set of items to return. (You use this token in the next call.)
     public var nextToken: Swift.String?
     /// Information about maintenance window executions scheduled for the specified time range.
@@ -14389,7 +14389,7 @@ public struct DescribeMaintenanceWindowScheduleOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowScheduleOutputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowScheduleOutputBody {
     let scheduledWindowExecutions: [SSMClientTypes.ScheduledWindowExecution]?
     let nextToken: Swift.String?
 }
@@ -14465,7 +14465,7 @@ extension DescribeMaintenanceWindowTargetsInput {
     }
 }
 
-public struct DescribeMaintenanceWindowTargetsInput: Swift.Equatable {
+public struct DescribeMaintenanceWindowTargetsInput {
     /// Optional filters that can be used to narrow down the scope of the returned window targets. The supported filter keys are Type, WindowTargetId, and OwnerInformation.
     public var filters: [SSMClientTypes.MaintenanceWindowFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -14490,7 +14490,7 @@ public struct DescribeMaintenanceWindowTargetsInput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowTargetsInputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowTargetsInputBody {
     let windowId: Swift.String?
     let filters: [SSMClientTypes.MaintenanceWindowFilter]?
     let maxResults: Swift.Int?
@@ -14541,7 +14541,7 @@ extension DescribeMaintenanceWindowTargetsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeMaintenanceWindowTargetsOutput: Swift.Equatable {
+public struct DescribeMaintenanceWindowTargetsOutput {
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
     /// Information about the targets in the maintenance window.
@@ -14557,7 +14557,7 @@ public struct DescribeMaintenanceWindowTargetsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowTargetsOutputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowTargetsOutputBody {
     let targets: [SSMClientTypes.MaintenanceWindowTarget]?
     let nextToken: Swift.String?
 }
@@ -14633,7 +14633,7 @@ extension DescribeMaintenanceWindowTasksInput {
     }
 }
 
-public struct DescribeMaintenanceWindowTasksInput: Swift.Equatable {
+public struct DescribeMaintenanceWindowTasksInput {
     /// Optional filters used to narrow down the scope of the returned tasks. The supported filter keys are WindowTaskId, TaskArn, Priority, and TaskType.
     public var filters: [SSMClientTypes.MaintenanceWindowFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -14658,7 +14658,7 @@ public struct DescribeMaintenanceWindowTasksInput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowTasksInputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowTasksInputBody {
     let windowId: Swift.String?
     let filters: [SSMClientTypes.MaintenanceWindowFilter]?
     let maxResults: Swift.Int?
@@ -14709,7 +14709,7 @@ extension DescribeMaintenanceWindowTasksOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeMaintenanceWindowTasksOutput: Swift.Equatable {
+public struct DescribeMaintenanceWindowTasksOutput {
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
     /// Information about the tasks in the maintenance window.
@@ -14725,7 +14725,7 @@ public struct DescribeMaintenanceWindowTasksOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowTasksOutputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowTasksOutputBody {
     let tasks: [SSMClientTypes.MaintenanceWindowTask]?
     let nextToken: Swift.String?
 }
@@ -14801,7 +14801,7 @@ extension DescribeMaintenanceWindowsForTargetInput {
     }
 }
 
-public struct DescribeMaintenanceWindowsForTargetInput: Swift.Equatable {
+public struct DescribeMaintenanceWindowsForTargetInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -14827,7 +14827,7 @@ public struct DescribeMaintenanceWindowsForTargetInput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowsForTargetInputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowsForTargetInputBody {
     let targets: [SSMClientTypes.Target]?
     let resourceType: SSMClientTypes.MaintenanceWindowResourceType?
     let maxResults: Swift.Int?
@@ -14878,7 +14878,7 @@ extension DescribeMaintenanceWindowsForTargetOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DescribeMaintenanceWindowsForTargetOutput: Swift.Equatable {
+public struct DescribeMaintenanceWindowsForTargetOutput {
     /// The token for the next set of items to return. (You use this token in the next call.)
     public var nextToken: Swift.String?
     /// Information about the maintenance window targets and tasks a managed node is associated with.
@@ -14894,7 +14894,7 @@ public struct DescribeMaintenanceWindowsForTargetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowsForTargetOutputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowsForTargetOutputBody {
     let windowIdentities: [SSMClientTypes.MaintenanceWindowIdentityForTarget]?
     let nextToken: Swift.String?
 }
@@ -14965,7 +14965,7 @@ extension DescribeMaintenanceWindowsInput {
     }
 }
 
-public struct DescribeMaintenanceWindowsInput: Swift.Equatable {
+public struct DescribeMaintenanceWindowsInput {
     /// Optional filters used to narrow down the scope of the returned maintenance windows. Supported filter keys are Name and Enabled. For example, Name=MyMaintenanceWindow and Enabled=True.
     public var filters: [SSMClientTypes.MaintenanceWindowFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -14985,7 +14985,7 @@ public struct DescribeMaintenanceWindowsInput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowsInputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowsInputBody {
     let filters: [SSMClientTypes.MaintenanceWindowFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -15032,7 +15032,7 @@ extension DescribeMaintenanceWindowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeMaintenanceWindowsOutput: Swift.Equatable {
+public struct DescribeMaintenanceWindowsOutput {
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
     /// Information about the maintenance windows.
@@ -15048,7 +15048,7 @@ public struct DescribeMaintenanceWindowsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMaintenanceWindowsOutputBody: Swift.Equatable {
+struct DescribeMaintenanceWindowsOutputBody {
     let windowIdentities: [SSMClientTypes.MaintenanceWindowIdentity]?
     let nextToken: Swift.String?
 }
@@ -15119,7 +15119,7 @@ extension DescribeOpsItemsInput {
     }
 }
 
-public struct DescribeOpsItemsInput: Swift.Equatable {
+public struct DescribeOpsItemsInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
@@ -15170,7 +15170,7 @@ public struct DescribeOpsItemsInput: Swift.Equatable {
     }
 }
 
-struct DescribeOpsItemsInputBody: Swift.Equatable {
+struct DescribeOpsItemsInputBody {
     let opsItemFilters: [SSMClientTypes.OpsItemFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -15217,7 +15217,7 @@ extension DescribeOpsItemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeOpsItemsOutput: Swift.Equatable {
+public struct DescribeOpsItemsOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// A list of OpsItems.
@@ -15233,7 +15233,7 @@ public struct DescribeOpsItemsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOpsItemsOutputBody: Swift.Equatable {
+struct DescribeOpsItemsOutputBody {
     let nextToken: Swift.String?
     let opsItemSummaries: [SSMClientTypes.OpsItemSummary]?
 }
@@ -15315,7 +15315,7 @@ extension DescribeParametersInput {
     }
 }
 
-public struct DescribeParametersInput: Swift.Equatable {
+public struct DescribeParametersInput {
     /// This data type is deprecated. Instead, use ParameterFilters.
     public var filters: [SSMClientTypes.ParametersFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -15343,7 +15343,7 @@ public struct DescribeParametersInput: Swift.Equatable {
     }
 }
 
-struct DescribeParametersInputBody: Swift.Equatable {
+struct DescribeParametersInputBody {
     let filters: [SSMClientTypes.ParametersFilter]?
     let parameterFilters: [SSMClientTypes.ParameterStringFilter]?
     let maxResults: Swift.Int?
@@ -15407,7 +15407,7 @@ extension DescribeParametersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeParametersOutput: Swift.Equatable {
+public struct DescribeParametersOutput {
     /// The token to use when requesting the next set of items.
     public var nextToken: Swift.String?
     /// Parameters returned by the request.
@@ -15423,7 +15423,7 @@ public struct DescribeParametersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeParametersOutputBody: Swift.Equatable {
+struct DescribeParametersOutputBody {
     let parameters: [SSMClientTypes.ParameterMetadata]?
     let nextToken: Swift.String?
 }
@@ -15498,7 +15498,7 @@ extension DescribePatchBaselinesInput {
     }
 }
 
-public struct DescribePatchBaselinesInput: Swift.Equatable {
+public struct DescribePatchBaselinesInput {
     /// Each element in the array is a structure containing a key-value pair. Supported keys for DescribePatchBaselines include the following:
     ///
     /// * NAME_PREFIX Sample values: AWS- | My-
@@ -15524,7 +15524,7 @@ public struct DescribePatchBaselinesInput: Swift.Equatable {
     }
 }
 
-struct DescribePatchBaselinesInputBody: Swift.Equatable {
+struct DescribePatchBaselinesInputBody {
     let filters: [SSMClientTypes.PatchOrchestratorFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -15571,7 +15571,7 @@ extension DescribePatchBaselinesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePatchBaselinesOutput: Swift.Equatable {
+public struct DescribePatchBaselinesOutput {
     /// An array of PatchBaselineIdentity elements.
     public var baselineIdentities: [SSMClientTypes.PatchBaselineIdentity]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -15587,7 +15587,7 @@ public struct DescribePatchBaselinesOutput: Swift.Equatable {
     }
 }
 
-struct DescribePatchBaselinesOutputBody: Swift.Equatable {
+struct DescribePatchBaselinesOutputBody {
     let baselineIdentities: [SSMClientTypes.PatchBaselineIdentity]?
     let nextToken: Swift.String?
 }
@@ -15647,7 +15647,7 @@ extension DescribePatchGroupStateInput {
     }
 }
 
-public struct DescribePatchGroupStateInput: Swift.Equatable {
+public struct DescribePatchGroupStateInput {
     /// The name of the patch group whose patch snapshot should be retrieved.
     /// This member is required.
     public var patchGroup: Swift.String?
@@ -15660,7 +15660,7 @@ public struct DescribePatchGroupStateInput: Swift.Equatable {
     }
 }
 
-struct DescribePatchGroupStateInputBody: Swift.Equatable {
+struct DescribePatchGroupStateInputBody {
     let patchGroup: Swift.String?
 }
 
@@ -15710,7 +15710,7 @@ extension DescribePatchGroupStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePatchGroupStateOutput: Swift.Equatable {
+public struct DescribePatchGroupStateOutput {
     /// The number of managed nodes in the patch group.
     public var instances: Swift.Int
     /// The number of managed nodes where patches that are specified as Critical for compliance reporting in the patch baseline aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
@@ -15766,7 +15766,7 @@ public struct DescribePatchGroupStateOutput: Swift.Equatable {
     }
 }
 
-struct DescribePatchGroupStateOutputBody: Swift.Equatable {
+struct DescribePatchGroupStateOutputBody {
     let instances: Swift.Int
     let instancesWithInstalledPatches: Swift.Int
     let instancesWithInstalledOtherPatches: Swift.Int
@@ -15869,7 +15869,7 @@ extension DescribePatchGroupsInput {
     }
 }
 
-public struct DescribePatchGroupsInput: Swift.Equatable {
+public struct DescribePatchGroupsInput {
     /// Each element in the array is a structure containing a key-value pair. Supported keys for DescribePatchGroups include the following:
     ///
     /// * NAME_PREFIX Sample values: AWS- | My-.
@@ -15893,7 +15893,7 @@ public struct DescribePatchGroupsInput: Swift.Equatable {
     }
 }
 
-struct DescribePatchGroupsInputBody: Swift.Equatable {
+struct DescribePatchGroupsInputBody {
     let maxResults: Swift.Int?
     let filters: [SSMClientTypes.PatchOrchestratorFilter]?
     let nextToken: Swift.String?
@@ -15940,7 +15940,7 @@ extension DescribePatchGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePatchGroupsOutput: Swift.Equatable {
+public struct DescribePatchGroupsOutput {
     /// Each entry in the array contains:
     ///
     /// * PatchGroup: string (between 1 and 256 characters. Regex: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$)
@@ -15960,7 +15960,7 @@ public struct DescribePatchGroupsOutput: Swift.Equatable {
     }
 }
 
-struct DescribePatchGroupsOutputBody: Swift.Equatable {
+struct DescribePatchGroupsOutputBody {
     let mappings: [SSMClientTypes.PatchGroupPatchBaselineMapping]?
     let nextToken: Swift.String?
 }
@@ -16036,7 +16036,7 @@ extension DescribePatchPropertiesInput {
     }
 }
 
-public struct DescribePatchPropertiesInput: Swift.Equatable {
+public struct DescribePatchPropertiesInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -16066,7 +16066,7 @@ public struct DescribePatchPropertiesInput: Swift.Equatable {
     }
 }
 
-struct DescribePatchPropertiesInputBody: Swift.Equatable {
+struct DescribePatchPropertiesInputBody {
     let operatingSystem: SSMClientTypes.OperatingSystem?
     let property: SSMClientTypes.PatchProperty?
     let patchSet: SSMClientTypes.PatchSet?
@@ -16112,7 +16112,7 @@ extension DescribePatchPropertiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePatchPropertiesOutput: Swift.Equatable {
+public struct DescribePatchPropertiesOutput {
     /// The token for the next set of items to return. (You use this token in the next call.)
     public var nextToken: Swift.String?
     /// A list of the properties for patches matching the filter request parameters.
@@ -16128,7 +16128,7 @@ public struct DescribePatchPropertiesOutput: Swift.Equatable {
     }
 }
 
-struct DescribePatchPropertiesOutputBody: Swift.Equatable {
+struct DescribePatchPropertiesOutputBody {
     let properties: [[Swift.String:Swift.String]]?
     let nextToken: Swift.String?
 }
@@ -16212,7 +16212,7 @@ extension DescribeSessionsInput {
     }
 }
 
-public struct DescribeSessionsInput: Swift.Equatable {
+public struct DescribeSessionsInput {
     /// One or more filters to limit the type of sessions returned by the request.
     public var filters: [SSMClientTypes.SessionFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -16237,7 +16237,7 @@ public struct DescribeSessionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeSessionsInputBody: Swift.Equatable {
+struct DescribeSessionsInputBody {
     let state: SSMClientTypes.SessionState?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -16288,7 +16288,7 @@ extension DescribeSessionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSessionsOutput: Swift.Equatable {
+public struct DescribeSessionsOutput {
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// A list of sessions meeting the request parameters.
@@ -16304,7 +16304,7 @@ public struct DescribeSessionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSessionsOutputBody: Swift.Equatable {
+struct DescribeSessionsOutputBody {
     let sessions: [SSMClientTypes.Session]?
     let nextToken: Swift.String?
 }
@@ -16370,7 +16370,7 @@ extension DisassociateOpsItemRelatedItemInput {
     }
 }
 
-public struct DisassociateOpsItemRelatedItemInput: Swift.Equatable {
+public struct DisassociateOpsItemRelatedItemInput {
     /// The ID of the association for which you want to delete an association between the OpsItem and a related item.
     /// This member is required.
     public var associationId: Swift.String?
@@ -16388,7 +16388,7 @@ public struct DisassociateOpsItemRelatedItemInput: Swift.Equatable {
     }
 }
 
-struct DisassociateOpsItemRelatedItemInputBody: Swift.Equatable {
+struct DisassociateOpsItemRelatedItemInputBody {
     let opsItemId: Swift.String?
     let associationId: Swift.String?
 }
@@ -16413,7 +16413,7 @@ extension DisassociateOpsItemRelatedItemOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DisassociateOpsItemRelatedItemOutput: Swift.Equatable {
+public struct DisassociateOpsItemRelatedItemOutput {
 
     public init() { }
 }
@@ -16472,7 +16472,7 @@ public struct DocumentAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct DocumentAlreadyExistsBody: Swift.Equatable {
+struct DocumentAlreadyExistsBody {
     let message: Swift.String?
 }
 
@@ -16521,7 +16521,7 @@ extension SSMClientTypes.DocumentDefaultVersionDescription: Swift.Codable {
 
 extension SSMClientTypes {
     /// A default version of a document.
-    public struct DocumentDefaultVersionDescription: Swift.Equatable {
+    public struct DocumentDefaultVersionDescription {
         /// The default version of the document.
         public var defaultVersion: Swift.String?
         /// The default version of the artifact associated with the document.
@@ -16834,7 +16834,7 @@ extension SSMClientTypes.DocumentDescription: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes an Amazon Web Services Systems Manager document (SSM document).
-    public struct DocumentDescription: Swift.Equatable {
+    public struct DocumentDescription {
         /// The version of the document currently approved for use in the organization.
         public var approvedVersion: Swift.String?
         /// Details about the document attachments, including names, locations, sizes, and so on.
@@ -16991,7 +16991,7 @@ extension SSMClientTypes.DocumentFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// This data type is deprecated. Instead, use [DocumentKeyValuesFilter].
-    public struct DocumentFilter: Swift.Equatable {
+    public struct DocumentFilter {
         /// The name of the filter.
         /// This member is required.
         public var key: SSMClientTypes.DocumentFilterKey?
@@ -17257,7 +17257,7 @@ extension SSMClientTypes.DocumentIdentifier: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes the name of a SSM document.
-    public struct DocumentIdentifier: Swift.Equatable {
+    public struct DocumentIdentifier {
         /// The user in your organization who created the document.
         public var author: Swift.String?
         /// The date the SSM document was created.
@@ -17405,7 +17405,7 @@ extension SSMClientTypes {
     ///
     ///
     /// Name is another Amazon Web Services-provided key. If you use Name as a key, you can use a name prefix to return a list of documents. For example, in the Amazon Web Services CLI, to return a list of all documents that begin with Te, run the following command: aws ssm list-documents --filters Key=Name,Values=Te You can also use the TargetType Amazon Web Services-provided key. For a list of valid resource type values that can be used with this key, see [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation User Guide. If you specify more than two keys, only documents that are identified by all the tags are returned in the results. If you specify more than two values for a key, documents that are identified by any of the values are returned in the results. To specify a custom key-value pair, use the format Key=tag:tagName,Values=valueName. For example, if you created a key called region and are using the Amazon Web Services CLI to call the list-documents command: aws ssm list-documents --filters Key=tag:region,Values=east,west Key=Owner,Values=Self
-    public struct DocumentKeyValuesFilter: Swift.Equatable {
+    public struct DocumentKeyValuesFilter {
         /// The name of the filter key.
         public var key: Swift.String?
         /// The value for the filter key.
@@ -17462,7 +17462,7 @@ public struct DocumentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct DocumentLimitExceededBody: Swift.Equatable {
+struct DocumentLimitExceededBody {
     let message: Swift.String?
 }
 
@@ -17540,7 +17540,7 @@ extension SSMClientTypes.DocumentMetadataResponseInfo: Swift.Codable {
 
 extension SSMClientTypes {
     /// Details about the response to a document review request.
-    public struct DocumentMetadataResponseInfo: Swift.Equatable {
+    public struct DocumentMetadataResponseInfo {
         /// Details about a reviewer's response to a document review request.
         public var reviewerResponse: [SSMClientTypes.DocumentReviewerResponseSource]?
 
@@ -17593,7 +17593,7 @@ extension SSMClientTypes.DocumentParameter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Parameters specified in a Systems Manager document that run on the server when the command is run.
-    public struct DocumentParameter: Swift.Equatable {
+    public struct DocumentParameter {
         /// If specified, the default values for the parameters. Parameters without a default value are required. Parameters with a default value are optional.
         public var defaultValue: Swift.String?
         /// A description of what the parameter does, how to use it, the default value, and whether or not the parameter is optional.
@@ -17690,7 +17690,7 @@ public struct DocumentPermissionLimit: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct DocumentPermissionLimitBody: Swift.Equatable {
+struct DocumentPermissionLimitBody {
     let message: Swift.String?
 }
 
@@ -17774,7 +17774,7 @@ extension SSMClientTypes.DocumentRequires: Swift.Codable {
 
 extension SSMClientTypes {
     /// An SSM document required by the current document.
-    public struct DocumentRequires: Swift.Equatable {
+    public struct DocumentRequires {
         /// The name of the required SSM document. The name can be an Amazon Resource Name (ARN).
         /// This member is required.
         public var name: Swift.String?
@@ -17866,7 +17866,7 @@ extension SSMClientTypes.DocumentReviewCommentSource: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about comments added to a document review request.
-    public struct DocumentReviewCommentSource: Swift.Equatable {
+    public struct DocumentReviewCommentSource {
         /// The content of a comment entered by a user who requests a review of a new document version, or who reviews the new version.
         public var content: Swift.String?
         /// The type of information added to a review request. Currently, only the value Comment is supported.
@@ -17970,7 +17970,7 @@ extension SSMClientTypes.DocumentReviewerResponseSource: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about a reviewer's response to a document review request.
-    public struct DocumentReviewerResponseSource: Swift.Equatable {
+    public struct DocumentReviewerResponseSource {
         /// The comment entered by a reviewer as part of their document review response.
         public var comment: [SSMClientTypes.DocumentReviewCommentSource]?
         /// The date and time that a reviewer entered a response to a document review request.
@@ -18039,7 +18039,7 @@ extension SSMClientTypes.DocumentReviews: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about a document approval review.
-    public struct DocumentReviews: Swift.Equatable {
+    public struct DocumentReviews {
         /// The action to take on a document approval review request.
         /// This member is required.
         public var action: SSMClientTypes.DocumentReviewAction?
@@ -18246,7 +18246,7 @@ extension SSMClientTypes.DocumentVersionInfo: Swift.Codable {
 
 extension SSMClientTypes {
     /// Version information about the document.
-    public struct DocumentVersionInfo: Swift.Equatable {
+    public struct DocumentVersionInfo {
         /// The date the document was created.
         public var createdDate: ClientRuntime.Date?
         /// The friendly name of the SSM document. This value can differ for each version of the document. If you want to update this value, see [UpdateDocument].
@@ -18335,7 +18335,7 @@ public struct DocumentVersionLimitExceeded: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct DocumentVersionLimitExceededBody: Swift.Equatable {
+struct DocumentVersionLimitExceededBody {
     let message: Swift.String?
 }
 
@@ -18390,7 +18390,7 @@ public struct DoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct DoesNotExistExceptionBody: Swift.Equatable {
+struct DoesNotExistExceptionBody {
     let message: Swift.String?
 }
 
@@ -18445,7 +18445,7 @@ public struct DuplicateDocumentContent: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct DuplicateDocumentContentBody: Swift.Equatable {
+struct DuplicateDocumentContentBody {
     let message: Swift.String?
 }
 
@@ -18500,7 +18500,7 @@ public struct DuplicateDocumentVersionName: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct DuplicateDocumentVersionNameBody: Swift.Equatable {
+struct DuplicateDocumentVersionNameBody {
     let message: Swift.String?
 }
 
@@ -18564,7 +18564,7 @@ extension SSMClientTypes.EffectivePatch: Swift.Codable {
 
 extension SSMClientTypes {
     /// The EffectivePatch structure defines metadata about a patch along with the approval state of the patch in a particular patch baseline. The approval state includes information about whether the patch is currently approved, due to be approved by a rule, explicitly approved, or explicitly rejected and the date the patch was or will be approved.
-    public struct EffectivePatch: Swift.Equatable {
+    public struct EffectivePatch {
         /// Provides metadata for a patch, including information such as the KB ID, severity, classification and a URL for where more information can be obtained about the patch.
         public var patch: SSMClientTypes.Patch?
         /// The status of the patch in a patch baseline. This includes information about whether the patch is currently approved, due to be approved by a rule, explicitly approved, or explicitly rejected and the date the patch was or will be approved.
@@ -18679,7 +18679,7 @@ extension SSMClientTypes.FailedCreateAssociation: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes a failed association.
-    public struct FailedCreateAssociation: Swift.Equatable {
+    public struct FailedCreateAssociation {
         /// The association.
         public var entry: SSMClientTypes.CreateAssociationBatchRequestEntry?
         /// The source of the failure.
@@ -18756,7 +18756,7 @@ extension SSMClientTypes.FailureDetails: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about an Automation failure.
-    public struct FailureDetails: Swift.Equatable {
+    public struct FailureDetails {
         /// Detailed information about the Automation step failure.
         public var details: [Swift.String:[Swift.String]]?
         /// The stage of the Automation execution when the failure occurred. The stages include the following: InputValidation, PreVerification, Invocation, PostVerification.
@@ -18852,7 +18852,7 @@ public struct FeatureNotAvailableException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct FeatureNotAvailableExceptionBody: Swift.Equatable {
+struct FeatureNotAvailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -18888,7 +18888,7 @@ extension GetAutomationExecutionInput {
     }
 }
 
-public struct GetAutomationExecutionInput: Swift.Equatable {
+public struct GetAutomationExecutionInput {
     /// The unique identifier for an existing automation execution to examine. The execution ID is returned by StartAutomationExecution when the execution of an Automation runbook is initiated.
     /// This member is required.
     public var automationExecutionId: Swift.String?
@@ -18901,7 +18901,7 @@ public struct GetAutomationExecutionInput: Swift.Equatable {
     }
 }
 
-struct GetAutomationExecutionInputBody: Swift.Equatable {
+struct GetAutomationExecutionInputBody {
     let automationExecutionId: Swift.String?
 }
 
@@ -18929,7 +18929,7 @@ extension GetAutomationExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAutomationExecutionOutput: Swift.Equatable {
+public struct GetAutomationExecutionOutput {
     /// Detailed information about the current state of an automation execution.
     public var automationExecution: SSMClientTypes.AutomationExecution?
 
@@ -18941,7 +18941,7 @@ public struct GetAutomationExecutionOutput: Swift.Equatable {
     }
 }
 
-struct GetAutomationExecutionOutputBody: Swift.Equatable {
+struct GetAutomationExecutionOutputBody {
     let automationExecution: SSMClientTypes.AutomationExecution?
 }
 
@@ -18996,7 +18996,7 @@ extension GetCalendarStateInput {
     }
 }
 
-public struct GetCalendarStateInput: Swift.Equatable {
+public struct GetCalendarStateInput {
     /// (Optional) The specific time for which you want to get calendar state information, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. If you don't specify a value or AtTime, the current time is used.
     public var atTime: Swift.String?
     /// The names or Amazon Resource Names (ARNs) of the Systems Manager documents (SSM documents) that represent the calendar entries for which you want to get the state.
@@ -19013,7 +19013,7 @@ public struct GetCalendarStateInput: Swift.Equatable {
     }
 }
 
-struct GetCalendarStateInputBody: Swift.Equatable {
+struct GetCalendarStateInputBody {
     let calendarNames: [Swift.String]?
     let atTime: Swift.String?
 }
@@ -19058,7 +19058,7 @@ extension GetCalendarStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCalendarStateOutput: Swift.Equatable {
+public struct GetCalendarStateOutput {
     /// The time, as an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) string, that you specified in your command. If you don't specify a time, GetCalendarState uses the current time.
     public var atTime: Swift.String?
     /// The time, as an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) string, that the calendar state will change. If the current calendar state is OPEN, NextTransitionTime indicates when the calendar state changes to CLOSED, and vice-versa.
@@ -19078,7 +19078,7 @@ public struct GetCalendarStateOutput: Swift.Equatable {
     }
 }
 
-struct GetCalendarStateOutputBody: Swift.Equatable {
+struct GetCalendarStateOutputBody {
     let state: SSMClientTypes.CalendarState?
     let atTime: Swift.String?
     let nextTransitionTime: Swift.String?
@@ -19144,7 +19144,7 @@ extension GetCommandInvocationInput {
     }
 }
 
-public struct GetCommandInvocationInput: Swift.Equatable {
+public struct GetCommandInvocationInput {
     /// (Required) The parent command ID of the invocation plugin.
     /// This member is required.
     public var commandId: Swift.String?
@@ -19166,7 +19166,7 @@ public struct GetCommandInvocationInput: Swift.Equatable {
     }
 }
 
-struct GetCommandInvocationInputBody: Swift.Equatable {
+struct GetCommandInvocationInputBody {
     let commandId: Swift.String?
     let instanceId: Swift.String?
     let pluginName: Swift.String?
@@ -19234,7 +19234,7 @@ extension GetCommandInvocationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCommandInvocationOutput: Swift.Equatable {
+public struct GetCommandInvocationOutput {
     /// Amazon CloudWatch Logs information where Systems Manager sent the command output.
     public var cloudWatchOutputConfig: SSMClientTypes.CloudWatchOutputConfig?
     /// The parent command ID of the invocation plugin.
@@ -19330,7 +19330,7 @@ public struct GetCommandInvocationOutput: Swift.Equatable {
     }
 }
 
-struct GetCommandInvocationOutputBody: Swift.Equatable {
+struct GetCommandInvocationOutputBody {
     let commandId: Swift.String?
     let instanceId: Swift.String?
     let comment: Swift.String?
@@ -19445,7 +19445,7 @@ extension GetConnectionStatusInput {
     }
 }
 
-public struct GetConnectionStatusInput: Swift.Equatable {
+public struct GetConnectionStatusInput {
     /// The managed node ID.
     /// This member is required.
     public var target: Swift.String?
@@ -19458,7 +19458,7 @@ public struct GetConnectionStatusInput: Swift.Equatable {
     }
 }
 
-struct GetConnectionStatusInputBody: Swift.Equatable {
+struct GetConnectionStatusInputBody {
     let target: Swift.String?
 }
 
@@ -19488,7 +19488,7 @@ extension GetConnectionStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectionStatusOutput: Swift.Equatable {
+public struct GetConnectionStatusOutput {
     /// The status of the connection to the managed node.
     public var status: SSMClientTypes.ConnectionStatus?
     /// The ID of the managed node to check connection status.
@@ -19504,7 +19504,7 @@ public struct GetConnectionStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectionStatusOutputBody: Swift.Equatable {
+struct GetConnectionStatusOutputBody {
     let target: Swift.String?
     let status: SSMClientTypes.ConnectionStatus?
 }
@@ -19555,7 +19555,7 @@ extension GetDefaultPatchBaselineInput {
     }
 }
 
-public struct GetDefaultPatchBaselineInput: Swift.Equatable {
+public struct GetDefaultPatchBaselineInput {
     /// Returns the default patch baseline for the specified operating system.
     public var operatingSystem: SSMClientTypes.OperatingSystem?
 
@@ -19567,7 +19567,7 @@ public struct GetDefaultPatchBaselineInput: Swift.Equatable {
     }
 }
 
-struct GetDefaultPatchBaselineInputBody: Swift.Equatable {
+struct GetDefaultPatchBaselineInputBody {
     let operatingSystem: SSMClientTypes.OperatingSystem?
 }
 
@@ -19597,7 +19597,7 @@ extension GetDefaultPatchBaselineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDefaultPatchBaselineOutput: Swift.Equatable {
+public struct GetDefaultPatchBaselineOutput {
     /// The ID of the default patch baseline.
     public var baselineId: Swift.String?
     /// The operating system for the returned patch baseline.
@@ -19613,7 +19613,7 @@ public struct GetDefaultPatchBaselineOutput: Swift.Equatable {
     }
 }
 
-struct GetDefaultPatchBaselineOutputBody: Swift.Equatable {
+struct GetDefaultPatchBaselineOutputBody {
     let baselineId: Swift.String?
     let operatingSystem: SSMClientTypes.OperatingSystem?
 }
@@ -19672,7 +19672,7 @@ extension GetDeployablePatchSnapshotForInstanceInput {
     }
 }
 
-public struct GetDeployablePatchSnapshotForInstanceInput: Swift.Equatable {
+public struct GetDeployablePatchSnapshotForInstanceInput {
     /// Defines the basic information about a patch baseline override.
     public var baselineOverride: SSMClientTypes.BaselineOverride?
     /// The ID of the managed node for which the appropriate patch snapshot should be retrieved.
@@ -19694,7 +19694,7 @@ public struct GetDeployablePatchSnapshotForInstanceInput: Swift.Equatable {
     }
 }
 
-struct GetDeployablePatchSnapshotForInstanceInputBody: Swift.Equatable {
+struct GetDeployablePatchSnapshotForInstanceInputBody {
     let instanceId: Swift.String?
     let snapshotId: Swift.String?
     let baselineOverride: SSMClientTypes.BaselineOverride?
@@ -19736,7 +19736,7 @@ extension GetDeployablePatchSnapshotForInstanceOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetDeployablePatchSnapshotForInstanceOutput: Swift.Equatable {
+public struct GetDeployablePatchSnapshotForInstanceOutput {
     /// The managed node ID.
     public var instanceId: Swift.String?
     /// Returns the specific operating system (for example Windows Server 2012 or Amazon Linux 2015.09) on the managed node for the specified patch snapshot.
@@ -19760,7 +19760,7 @@ public struct GetDeployablePatchSnapshotForInstanceOutput: Swift.Equatable {
     }
 }
 
-struct GetDeployablePatchSnapshotForInstanceOutputBody: Swift.Equatable {
+struct GetDeployablePatchSnapshotForInstanceOutputBody {
     let instanceId: Swift.String?
     let snapshotId: Swift.String?
     let snapshotDownloadUrl: Swift.String?
@@ -19833,7 +19833,7 @@ extension GetDocumentInput {
     }
 }
 
-public struct GetDocumentInput: Swift.Equatable {
+public struct GetDocumentInput {
     /// Returns the document in the specified format. The document format can be either JSON or YAML. JSON is the default format.
     public var documentFormat: SSMClientTypes.DocumentFormat?
     /// The document version for which you want information.
@@ -19858,7 +19858,7 @@ public struct GetDocumentInput: Swift.Equatable {
     }
 }
 
-struct GetDocumentInputBody: Swift.Equatable {
+struct GetDocumentInputBody {
     let name: Swift.String?
     let versionName: Swift.String?
     let documentVersion: Swift.String?
@@ -19922,7 +19922,7 @@ extension GetDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDocumentOutput: Swift.Equatable {
+public struct GetDocumentOutput {
     /// A description of the document attachments, including names, locations, sizes, and so on.
     public var attachmentsContent: [SSMClientTypes.AttachmentContent]?
     /// The contents of the SSM document.
@@ -19982,7 +19982,7 @@ public struct GetDocumentOutput: Swift.Equatable {
     }
 }
 
-struct GetDocumentOutputBody: Swift.Equatable {
+struct GetDocumentOutputBody {
     let name: Swift.String?
     let createdDate: ClientRuntime.Date?
     let displayName: Swift.String?
@@ -20122,7 +20122,7 @@ extension GetInventoryInput {
     }
 }
 
-public struct GetInventoryInput: Swift.Equatable {
+public struct GetInventoryInput {
     /// Returns counts of inventory types based on one or more expressions. For example, if you aggregate by using an expression that uses the AWS:InstanceInformation.PlatformType type, you can see a count of how many Windows and Linux managed nodes exist in your inventoried fleet.
     public var aggregators: [SSMClientTypes.InventoryAggregator]?
     /// One or more filters. Use a filter to return a more specific list of results.
@@ -20150,7 +20150,7 @@ public struct GetInventoryInput: Swift.Equatable {
     }
 }
 
-struct GetInventoryInputBody: Swift.Equatable {
+struct GetInventoryInputBody {
     let filters: [SSMClientTypes.InventoryFilter]?
     let aggregators: [SSMClientTypes.InventoryAggregator]?
     let resultAttributes: [SSMClientTypes.ResultAttribute]?
@@ -20223,7 +20223,7 @@ extension GetInventoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInventoryOutput: Swift.Equatable {
+public struct GetInventoryOutput {
     /// Collection of inventory entities such as a collection of managed node inventory.
     public var entities: [SSMClientTypes.InventoryResultEntity]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -20239,7 +20239,7 @@ public struct GetInventoryOutput: Swift.Equatable {
     }
 }
 
-struct GetInventoryOutputBody: Swift.Equatable {
+struct GetInventoryOutputBody {
     let entities: [SSMClientTypes.InventoryResultEntity]?
     let nextToken: Swift.String?
 }
@@ -20321,7 +20321,7 @@ extension GetInventorySchemaInput {
     }
 }
 
-public struct GetInventorySchemaInput: Swift.Equatable {
+public struct GetInventorySchemaInput {
     /// Returns inventory schemas that support aggregation. For example, this call returns the AWS:InstanceInformation type, because it supports aggregation based on the PlatformName, PlatformType, and PlatformVersion attributes.
     public var aggregator: Swift.Bool?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -20349,7 +20349,7 @@ public struct GetInventorySchemaInput: Swift.Equatable {
     }
 }
 
-struct GetInventorySchemaInputBody: Swift.Equatable {
+struct GetInventorySchemaInputBody {
     let typeName: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -20395,7 +20395,7 @@ extension GetInventorySchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInventorySchemaOutput: Swift.Equatable {
+public struct GetInventorySchemaOutput {
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
     /// Inventory schemas returned by the request.
@@ -20411,7 +20411,7 @@ public struct GetInventorySchemaOutput: Swift.Equatable {
     }
 }
 
-struct GetInventorySchemaOutputBody: Swift.Equatable {
+struct GetInventorySchemaOutputBody {
     let schemas: [SSMClientTypes.InventoryItemSchema]?
     let nextToken: Swift.String?
 }
@@ -20473,7 +20473,7 @@ extension GetMaintenanceWindowExecutionInput {
     }
 }
 
-public struct GetMaintenanceWindowExecutionInput: Swift.Equatable {
+public struct GetMaintenanceWindowExecutionInput {
     /// The ID of the maintenance window execution that includes the task.
     /// This member is required.
     public var windowExecutionId: Swift.String?
@@ -20486,7 +20486,7 @@ public struct GetMaintenanceWindowExecutionInput: Swift.Equatable {
     }
 }
 
-struct GetMaintenanceWindowExecutionInputBody: Swift.Equatable {
+struct GetMaintenanceWindowExecutionInputBody {
     let windowExecutionId: Swift.String?
 }
 
@@ -20524,7 +20524,7 @@ extension GetMaintenanceWindowExecutionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetMaintenanceWindowExecutionOutput: Swift.Equatable {
+public struct GetMaintenanceWindowExecutionOutput {
     /// The time the maintenance window finished running.
     public var endTime: ClientRuntime.Date?
     /// The time the maintenance window started running.
@@ -20556,7 +20556,7 @@ public struct GetMaintenanceWindowExecutionOutput: Swift.Equatable {
     }
 }
 
-struct GetMaintenanceWindowExecutionOutputBody: Swift.Equatable {
+struct GetMaintenanceWindowExecutionOutputBody {
     let windowExecutionId: Swift.String?
     let taskIds: [Swift.String]?
     let status: SSMClientTypes.MaintenanceWindowExecutionStatus?
@@ -20637,7 +20637,7 @@ extension GetMaintenanceWindowExecutionTaskInput {
     }
 }
 
-public struct GetMaintenanceWindowExecutionTaskInput: Swift.Equatable {
+public struct GetMaintenanceWindowExecutionTaskInput {
     /// The ID of the specific task execution in the maintenance window task that should be retrieved.
     /// This member is required.
     public var taskId: Swift.String?
@@ -20655,7 +20655,7 @@ public struct GetMaintenanceWindowExecutionTaskInput: Swift.Equatable {
     }
 }
 
-struct GetMaintenanceWindowExecutionTaskInputBody: Swift.Equatable {
+struct GetMaintenanceWindowExecutionTaskInputBody {
     let windowExecutionId: Swift.String?
     let taskId: Swift.String?
 }
@@ -20703,7 +20703,7 @@ extension GetMaintenanceWindowExecutionTaskInvocationInput {
     }
 }
 
-public struct GetMaintenanceWindowExecutionTaskInvocationInput: Swift.Equatable {
+public struct GetMaintenanceWindowExecutionTaskInvocationInput {
     /// The invocation ID to retrieve.
     /// This member is required.
     public var invocationId: Swift.String?
@@ -20726,7 +20726,7 @@ public struct GetMaintenanceWindowExecutionTaskInvocationInput: Swift.Equatable 
     }
 }
 
-struct GetMaintenanceWindowExecutionTaskInvocationInputBody: Swift.Equatable {
+struct GetMaintenanceWindowExecutionTaskInvocationInputBody {
     let windowExecutionId: Swift.String?
     let taskId: Swift.String?
     let invocationId: Swift.String?
@@ -20789,7 +20789,7 @@ extension GetMaintenanceWindowExecutionTaskInvocationOutput: ClientRuntime.HttpR
     }
 }
 
-public struct GetMaintenanceWindowExecutionTaskInvocationOutput: Swift.Equatable {
+public struct GetMaintenanceWindowExecutionTaskInvocationOutput {
     /// The time that the task finished running on the target.
     public var endTime: ClientRuntime.Date?
     /// The execution ID.
@@ -20845,7 +20845,7 @@ public struct GetMaintenanceWindowExecutionTaskInvocationOutput: Swift.Equatable
     }
 }
 
-struct GetMaintenanceWindowExecutionTaskInvocationOutputBody: Swift.Equatable {
+struct GetMaintenanceWindowExecutionTaskInvocationOutputBody {
     let windowExecutionId: Swift.String?
     let taskExecutionId: Swift.String?
     let invocationId: Swift.String?
@@ -20962,7 +20962,7 @@ extension GetMaintenanceWindowExecutionTaskOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetMaintenanceWindowExecutionTaskOutput: Swift.Equatable {
+public struct GetMaintenanceWindowExecutionTaskOutput {
     /// The details for the CloudWatch alarm you applied to your maintenance window task.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// The time the task execution completed.
@@ -21034,7 +21034,7 @@ public struct GetMaintenanceWindowExecutionTaskOutput: Swift.Equatable {
     }
 }
 
-struct GetMaintenanceWindowExecutionTaskOutputBody: Swift.Equatable {
+struct GetMaintenanceWindowExecutionTaskOutputBody {
     let windowExecutionId: Swift.String?
     let taskExecutionId: Swift.String?
     let taskArn: Swift.String?
@@ -21165,7 +21165,7 @@ extension GetMaintenanceWindowInput {
     }
 }
 
-public struct GetMaintenanceWindowInput: Swift.Equatable {
+public struct GetMaintenanceWindowInput {
     /// The ID of the maintenance window for which you want to retrieve information.
     /// This member is required.
     public var windowId: Swift.String?
@@ -21178,7 +21178,7 @@ public struct GetMaintenanceWindowInput: Swift.Equatable {
     }
 }
 
-struct GetMaintenanceWindowInputBody: Swift.Equatable {
+struct GetMaintenanceWindowInputBody {
     let windowId: Swift.String?
 }
 
@@ -21239,7 +21239,7 @@ extension GetMaintenanceWindowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMaintenanceWindowOutput: Swift.Equatable {
+public struct GetMaintenanceWindowOutput {
     /// Whether targets must be registered with the maintenance window before tasks can be defined for those targets.
     public var allowUnassociatedTargets: Swift.Bool
     /// The date the maintenance window was created.
@@ -21307,7 +21307,7 @@ public struct GetMaintenanceWindowOutput: Swift.Equatable {
     }
 }
 
-struct GetMaintenanceWindowOutputBody: Swift.Equatable {
+struct GetMaintenanceWindowOutputBody {
     let windowId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -21415,7 +21415,7 @@ extension GetMaintenanceWindowTaskInput {
     }
 }
 
-public struct GetMaintenanceWindowTaskInput: Swift.Equatable {
+public struct GetMaintenanceWindowTaskInput {
     /// The maintenance window ID that includes the task to retrieve.
     /// This member is required.
     public var windowId: Swift.String?
@@ -21433,7 +21433,7 @@ public struct GetMaintenanceWindowTaskInput: Swift.Equatable {
     }
 }
 
-struct GetMaintenanceWindowTaskInputBody: Swift.Equatable {
+struct GetMaintenanceWindowTaskInputBody {
     let windowId: Swift.String?
     let windowTaskId: Swift.String?
 }
@@ -21500,7 +21500,7 @@ extension GetMaintenanceWindowTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMaintenanceWindowTaskOutput: Swift.Equatable {
+public struct GetMaintenanceWindowTaskOutput {
     /// The details for the CloudWatch alarm you applied to your maintenance window task.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// The action to take on tasks when the maintenance window cutoff time is reached. CONTINUE_TASK means that tasks continue to run. For Automation, Lambda, Step Functions tasks, CANCEL_TASK means that currently running task invocations continue, but no new task invocations are started. For Run Command tasks, CANCEL_TASK means the system attempts to stop the task by sending a CancelCommand operation.
@@ -21572,7 +21572,7 @@ public struct GetMaintenanceWindowTaskOutput: Swift.Equatable {
     }
 }
 
-struct GetMaintenanceWindowTaskOutputBody: Swift.Equatable {
+struct GetMaintenanceWindowTaskOutputBody {
     let windowId: Swift.String?
     let windowTaskId: Swift.String?
     let targets: [SSMClientTypes.Target]?
@@ -21702,7 +21702,7 @@ extension GetOpsItemInput {
     }
 }
 
-public struct GetOpsItemInput: Swift.Equatable {
+public struct GetOpsItemInput {
     /// The OpsItem Amazon Resource Name (ARN).
     public var opsItemArn: Swift.String?
     /// The ID of the OpsItem that you want to get.
@@ -21719,7 +21719,7 @@ public struct GetOpsItemInput: Swift.Equatable {
     }
 }
 
-struct GetOpsItemInputBody: Swift.Equatable {
+struct GetOpsItemInputBody {
     let opsItemId: Swift.String?
     let opsItemArn: Swift.String?
 }
@@ -21751,7 +21751,7 @@ extension GetOpsItemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOpsItemOutput: Swift.Equatable {
+public struct GetOpsItemOutput {
     /// The OpsItem.
     public var opsItem: SSMClientTypes.OpsItem?
 
@@ -21763,7 +21763,7 @@ public struct GetOpsItemOutput: Swift.Equatable {
     }
 }
 
-struct GetOpsItemOutputBody: Swift.Equatable {
+struct GetOpsItemOutputBody {
     let opsItem: SSMClientTypes.OpsItem?
 }
 
@@ -21820,7 +21820,7 @@ extension GetOpsMetadataInput {
     }
 }
 
-public struct GetOpsMetadataInput: Swift.Equatable {
+public struct GetOpsMetadataInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
@@ -21841,7 +21841,7 @@ public struct GetOpsMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetOpsMetadataInputBody: Swift.Equatable {
+struct GetOpsMetadataInputBody {
     let opsMetadataArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -21881,7 +21881,7 @@ extension GetOpsMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOpsMetadataOutput: Swift.Equatable {
+public struct GetOpsMetadataOutput {
     /// OpsMetadata for an Application Manager application.
     public var metadata: [Swift.String:SSMClientTypes.MetadataValue]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -21901,7 +21901,7 @@ public struct GetOpsMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetOpsMetadataOutputBody: Swift.Equatable {
+struct GetOpsMetadataOutputBody {
     let resourceId: Swift.String?
     let metadata: [Swift.String:SSMClientTypes.MetadataValue]?
     let nextToken: Swift.String?
@@ -21996,7 +21996,7 @@ extension GetOpsSummaryInput {
     }
 }
 
-public struct GetOpsSummaryInput: Swift.Equatable {
+public struct GetOpsSummaryInput {
     /// Optional aggregators that return counts of OpsData based on one or more expressions.
     public var aggregators: [SSMClientTypes.OpsAggregator]?
     /// Optional filters used to scope down the returned OpsData.
@@ -22028,7 +22028,7 @@ public struct GetOpsSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetOpsSummaryInputBody: Swift.Equatable {
+struct GetOpsSummaryInputBody {
     let syncName: Swift.String?
     let filters: [SSMClientTypes.OpsFilter]?
     let aggregators: [SSMClientTypes.OpsAggregator]?
@@ -22105,7 +22105,7 @@ extension GetOpsSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOpsSummaryOutput: Swift.Equatable {
+public struct GetOpsSummaryOutput {
     /// The list of aggregated details and filtered OpsData.
     public var entities: [SSMClientTypes.OpsEntity]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -22121,7 +22121,7 @@ public struct GetOpsSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetOpsSummaryOutputBody: Swift.Equatable {
+struct GetOpsSummaryOutputBody {
     let entities: [SSMClientTypes.OpsEntity]?
     let nextToken: Swift.String?
 }
@@ -22198,7 +22198,7 @@ extension GetParameterHistoryInput {
     }
 }
 
-public struct GetParameterHistoryInput: Swift.Equatable {
+public struct GetParameterHistoryInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// The name or Amazon Resource Name (ARN) of the parameter for which you want to review history. For parameters shared with you from another account, you must use the full ARN.
@@ -22223,7 +22223,7 @@ public struct GetParameterHistoryInput: Swift.Equatable {
     }
 }
 
-struct GetParameterHistoryInputBody: Swift.Equatable {
+struct GetParameterHistoryInputBody {
     let name: Swift.String?
     let withDecryption: Swift.Bool?
     let maxResults: Swift.Int?
@@ -22265,7 +22265,7 @@ extension GetParameterHistoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetParameterHistoryOutput: Swift.Equatable {
+public struct GetParameterHistoryOutput {
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
     /// A list of parameters returned by the request.
@@ -22281,7 +22281,7 @@ public struct GetParameterHistoryOutput: Swift.Equatable {
     }
 }
 
-struct GetParameterHistoryOutputBody: Swift.Equatable {
+struct GetParameterHistoryOutputBody {
     let parameters: [SSMClientTypes.ParameterHistory]?
     let nextToken: Swift.String?
 }
@@ -22348,7 +22348,7 @@ extension GetParameterInput {
     }
 }
 
-public struct GetParameterInput: Swift.Equatable {
+public struct GetParameterInput {
     /// The name or Amazon Resource Name (ARN) of the parameter that you want to query. For parameters shared with you from another account, you must use the full ARN. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version". For more information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sharing.html) in the Amazon Web Services Systems Manager User Guide.
     /// This member is required.
     public var name: Swift.String?
@@ -22365,7 +22365,7 @@ public struct GetParameterInput: Swift.Equatable {
     }
 }
 
-struct GetParameterInputBody: Swift.Equatable {
+struct GetParameterInputBody {
     let name: Swift.String?
     let withDecryption: Swift.Bool?
 }
@@ -22397,7 +22397,7 @@ extension GetParameterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetParameterOutput: Swift.Equatable {
+public struct GetParameterOutput {
     /// Information about a parameter.
     public var parameter: SSMClientTypes.Parameter?
 
@@ -22409,7 +22409,7 @@ public struct GetParameterOutput: Swift.Equatable {
     }
 }
 
-struct GetParameterOutputBody: Swift.Equatable {
+struct GetParameterOutputBody {
     let parameter: SSMClientTypes.Parameter?
 }
 
@@ -22482,7 +22482,7 @@ extension GetParametersByPathInput {
     }
 }
 
-public struct GetParametersByPathInput: Swift.Equatable {
+public struct GetParametersByPathInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
@@ -22515,7 +22515,7 @@ public struct GetParametersByPathInput: Swift.Equatable {
     }
 }
 
-struct GetParametersByPathInputBody: Swift.Equatable {
+struct GetParametersByPathInputBody {
     let path: Swift.String?
     let recursive: Swift.Bool?
     let parameterFilters: [SSMClientTypes.ParameterStringFilter]?
@@ -22574,7 +22574,7 @@ extension GetParametersByPathOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetParametersByPathOutput: Swift.Equatable {
+public struct GetParametersByPathOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// A list of parameters found in the specified hierarchy.
@@ -22590,7 +22590,7 @@ public struct GetParametersByPathOutput: Swift.Equatable {
     }
 }
 
-struct GetParametersByPathOutputBody: Swift.Equatable {
+struct GetParametersByPathOutputBody {
     let parameters: [SSMClientTypes.Parameter]?
     let nextToken: Swift.String?
 }
@@ -22662,7 +22662,7 @@ extension GetParametersInput {
     }
 }
 
-public struct GetParametersInput: Swift.Equatable {
+public struct GetParametersInput {
     /// The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version". For more information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html) in the Amazon Web Services Systems Manager User Guide.
     /// This member is required.
     public var names: [Swift.String]?
@@ -22679,7 +22679,7 @@ public struct GetParametersInput: Swift.Equatable {
     }
 }
 
-struct GetParametersInputBody: Swift.Equatable {
+struct GetParametersInputBody {
     let names: [Swift.String]?
     let withDecryption: Swift.Bool?
 }
@@ -22722,7 +22722,7 @@ extension GetParametersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetParametersOutput: Swift.Equatable {
+public struct GetParametersOutput {
     /// A list of parameters that aren't formatted correctly or don't run during an execution.
     public var invalidParameters: [Swift.String]?
     /// A list of details for a parameter.
@@ -22738,7 +22738,7 @@ public struct GetParametersOutput: Swift.Equatable {
     }
 }
 
-struct GetParametersOutputBody: Swift.Equatable {
+struct GetParametersOutputBody {
     let parameters: [SSMClientTypes.Parameter]?
     let invalidParameters: [Swift.String]?
 }
@@ -22812,7 +22812,7 @@ extension GetPatchBaselineForPatchGroupInput {
     }
 }
 
-public struct GetPatchBaselineForPatchGroupInput: Swift.Equatable {
+public struct GetPatchBaselineForPatchGroupInput {
     /// Returns the operating system rule specified for patch groups using the patch baseline.
     public var operatingSystem: SSMClientTypes.OperatingSystem?
     /// The name of the patch group whose patch baseline should be retrieved.
@@ -22829,7 +22829,7 @@ public struct GetPatchBaselineForPatchGroupInput: Swift.Equatable {
     }
 }
 
-struct GetPatchBaselineForPatchGroupInputBody: Swift.Equatable {
+struct GetPatchBaselineForPatchGroupInputBody {
     let patchGroup: Swift.String?
     let operatingSystem: SSMClientTypes.OperatingSystem?
 }
@@ -22865,7 +22865,7 @@ extension GetPatchBaselineForPatchGroupOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetPatchBaselineForPatchGroupOutput: Swift.Equatable {
+public struct GetPatchBaselineForPatchGroupOutput {
     /// The ID of the patch baseline that should be used for the patch group.
     public var baselineId: Swift.String?
     /// The operating system rule specified for patch groups using the patch baseline.
@@ -22885,7 +22885,7 @@ public struct GetPatchBaselineForPatchGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetPatchBaselineForPatchGroupOutputBody: Swift.Equatable {
+struct GetPatchBaselineForPatchGroupOutputBody {
     let baselineId: Swift.String?
     let patchGroup: Swift.String?
     let operatingSystem: SSMClientTypes.OperatingSystem?
@@ -22940,7 +22940,7 @@ extension GetPatchBaselineInput {
     }
 }
 
-public struct GetPatchBaselineInput: Swift.Equatable {
+public struct GetPatchBaselineInput {
     /// The ID of the patch baseline to retrieve. To retrieve information about an Amazon Web Services managed patch baseline, specify the full Amazon Resource Name (ARN) of the baseline. For example, for the baseline AWS-AmazonLinuxDefaultPatchBaseline, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0e392de35e7c563b7 instead of pb-0e392de35e7c563b7.
     /// This member is required.
     public var baselineId: Swift.String?
@@ -22953,7 +22953,7 @@ public struct GetPatchBaselineInput: Swift.Equatable {
     }
 }
 
-struct GetPatchBaselineInputBody: Swift.Equatable {
+struct GetPatchBaselineInputBody {
     let baselineId: Swift.String?
 }
 
@@ -23009,7 +23009,7 @@ extension GetPatchBaselineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPatchBaselineOutput: Swift.Equatable {
+public struct GetPatchBaselineOutput {
     /// A set of rules used to include patches in the baseline.
     public var approvalRules: SSMClientTypes.PatchRuleGroup?
     /// A list of explicitly approved patches for the baseline.
@@ -23077,7 +23077,7 @@ public struct GetPatchBaselineOutput: Swift.Equatable {
     }
 }
 
-struct GetPatchBaselineOutputBody: Swift.Equatable {
+struct GetPatchBaselineOutputBody {
     let baselineId: Swift.String?
     let name: Swift.String?
     let operatingSystem: SSMClientTypes.OperatingSystem?
@@ -23226,7 +23226,7 @@ extension GetResourcePoliciesInput {
     }
 }
 
-public struct GetResourcePoliciesInput: Swift.Equatable {
+public struct GetResourcePoliciesInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
@@ -23247,7 +23247,7 @@ public struct GetResourcePoliciesInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePoliciesInputBody: Swift.Equatable {
+struct GetResourcePoliciesInputBody {
     let resourceArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -23285,7 +23285,7 @@ extension GetResourcePoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePoliciesOutput: Swift.Equatable {
+public struct GetResourcePoliciesOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// An array of the Policy object.
@@ -23301,7 +23301,7 @@ public struct GetResourcePoliciesOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePoliciesOutputBody: Swift.Equatable {
+struct GetResourcePoliciesOutputBody {
     let nextToken: Swift.String?
     let policies: [SSMClientTypes.GetResourcePoliciesResponseEntry]?
 }
@@ -23376,7 +23376,7 @@ extension SSMClientTypes.GetResourcePoliciesResponseEntry: Swift.Codable {
 
 extension SSMClientTypes {
     /// A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. Currently, OpsItemGroup is the only resource that supports Systems Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
-    public struct GetResourcePoliciesResponseEntry: Swift.Equatable {
+    public struct GetResourcePoliciesResponseEntry {
         /// A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. Currently, OpsItemGroup is the only resource that supports Systems Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
         public var policy: Swift.String?
         /// ID of the current policy version. The hash helps to prevent a situation where multiple users attempt to overwrite a policy. You must provide this hash when updating or deleting a policy.
@@ -23419,7 +23419,7 @@ extension GetServiceSettingInput {
 }
 
 /// The request body of the GetServiceSetting API operation.
-public struct GetServiceSettingInput: Swift.Equatable {
+public struct GetServiceSettingInput {
     /// The ID of the service setting to get. The setting ID can be one of the following.
     ///
     /// * /ssm/managed-instance/default-ec2-instance-management-role
@@ -23448,7 +23448,7 @@ public struct GetServiceSettingInput: Swift.Equatable {
     }
 }
 
-struct GetServiceSettingInputBody: Swift.Equatable {
+struct GetServiceSettingInputBody {
     let settingId: Swift.String?
 }
 
@@ -23477,7 +23477,7 @@ extension GetServiceSettingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The query result body of the GetServiceSetting API operation.
-public struct GetServiceSettingOutput: Swift.Equatable {
+public struct GetServiceSettingOutput {
     /// The query result of the current service setting.
     public var serviceSetting: SSMClientTypes.ServiceSetting?
 
@@ -23489,7 +23489,7 @@ public struct GetServiceSettingOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceSettingOutputBody: Swift.Equatable {
+struct GetServiceSettingOutputBody {
     let serviceSetting: SSMClientTypes.ServiceSetting?
 }
 
@@ -23557,7 +23557,7 @@ public struct HierarchyLevelLimitExceededException: ClientRuntime.ModeledError, 
     }
 }
 
-struct HierarchyLevelLimitExceededExceptionBody: Swift.Equatable {
+struct HierarchyLevelLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -23613,7 +23613,7 @@ public struct HierarchyTypeMismatchException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct HierarchyTypeMismatchExceptionBody: Swift.Equatable {
+struct HierarchyTypeMismatchExceptionBody {
     let message: Swift.String?
 }
 
@@ -23668,7 +23668,7 @@ public struct IdempotentParameterMismatch: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct IdempotentParameterMismatchBody: Swift.Equatable {
+struct IdempotentParameterMismatchBody {
     let message: Swift.String?
 }
 
@@ -23723,7 +23723,7 @@ public struct IncompatiblePolicyException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct IncompatiblePolicyExceptionBody: Swift.Equatable {
+struct IncompatiblePolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -23778,7 +23778,7 @@ extension SSMClientTypes.InstanceAggregatedAssociationOverview: Swift.Codable {
 
 extension SSMClientTypes {
     /// Status information about the aggregated associations.
-    public struct InstanceAggregatedAssociationOverview: Swift.Equatable {
+    public struct InstanceAggregatedAssociationOverview {
         /// Detailed status information about the aggregated associations.
         public var detailedStatus: Swift.String?
         /// The number of associations for the managed nodes.
@@ -23835,7 +23835,7 @@ extension SSMClientTypes.InstanceAssociation: Swift.Codable {
 
 extension SSMClientTypes {
     /// One or more association documents on the managed node.
-    public struct InstanceAssociation: Swift.Equatable {
+    public struct InstanceAssociation {
         /// The association ID.
         public var associationId: Swift.String?
         /// Version information for the association on the managed node.
@@ -23882,7 +23882,7 @@ extension SSMClientTypes.InstanceAssociationOutputLocation: Swift.Codable {
 
 extension SSMClientTypes {
     /// An S3 bucket where you want to store the results of this request. For the minimal permissions required to enable Amazon S3 output for an association, see [Create an association (console)](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-associations-creating.html#state-manager-associations-console) in the Systems Manager User Guide.
-    public struct InstanceAssociationOutputLocation: Swift.Equatable {
+    public struct InstanceAssociationOutputLocation {
         /// An S3 bucket where you want to store the results of this request.
         public var s3Location: SSMClientTypes.S3OutputLocation?
 
@@ -23917,7 +23917,7 @@ extension SSMClientTypes.InstanceAssociationOutputUrl: Swift.Codable {
 
 extension SSMClientTypes {
     /// The URL of S3 bucket where you want to store the results of this request.
-    public struct InstanceAssociationOutputUrl: Swift.Equatable {
+    public struct InstanceAssociationOutputUrl {
         /// The URL of S3 bucket where you want to store the results of this request.
         public var s3OutputUrl: SSMClientTypes.S3OutputUrl?
 
@@ -24018,7 +24018,7 @@ extension SSMClientTypes.InstanceAssociationStatusInfo: Swift.Codable {
 
 extension SSMClientTypes {
     /// Status information about the association.
-    public struct InstanceAssociationStatusInfo: Swift.Equatable {
+    public struct InstanceAssociationStatusInfo {
         /// The association ID.
         public var associationId: Swift.String?
         /// The name of the association applied to the managed node.
@@ -24217,7 +24217,7 @@ extension SSMClientTypes.InstanceInformation: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes a filter for a specific list of managed nodes.
-    public struct InstanceInformation: Swift.Equatable {
+    public struct InstanceInformation {
         /// The activation ID created by Amazon Web Services Systems Manager when the server or virtual machine (VM) was registered.
         public var activationId: Swift.String?
         /// The version of SSM Agent running on your Linux managed node.
@@ -24350,7 +24350,7 @@ extension SSMClientTypes.InstanceInformationFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes a filter for a specific list of managed nodes. You can filter node information by using tags. You specify tags by using a key-value mapping. Use this operation instead of the [DescribeInstanceInformationRequest$InstanceInformationFilterList] method. The InstanceInformationFilterList method is a legacy method and doesn't support tags.
-    public struct InstanceInformationFilter: Swift.Equatable {
+    public struct InstanceInformationFilter {
         /// The name of the filter.
         /// This member is required.
         public var key: SSMClientTypes.InstanceInformationFilterKey?
@@ -24459,7 +24459,7 @@ extension SSMClientTypes.InstanceInformationStringFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// The filters to describe or get information about your managed nodes.
-    public struct InstanceInformationStringFilter: Swift.Equatable {
+    public struct InstanceInformationStringFilter {
         /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformTypes | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}
         ///
         /// * Valid values for the AssociationStatus filter key: Success | Pending | Failed
@@ -24643,7 +24643,7 @@ extension SSMClientTypes.InstancePatchState: Swift.CustomDebugStringConvertible 
 
 extension SSMClientTypes {
     /// Defines the high-level patch compliance state for a managed node, providing information about the number of installed, missing, not applicable, and failed patches along with metadata about the operation when this information was gathered for the managed node.
-    public struct InstancePatchState: Swift.Equatable {
+    public struct InstancePatchState {
         /// The ID of the patch baseline used to patch the managed node.
         /// This member is required.
         public var baselineId: Swift.String?
@@ -24806,7 +24806,7 @@ extension SSMClientTypes {
     /// * Value for Type: GreaterThan
     ///
     /// * Value for Values: 3
-    public struct InstancePatchStateFilter: Swift.Equatable {
+    public struct InstancePatchStateFilter {
         /// The key for the filter. Supported values include the following:
         ///
         /// * InstalledCount
@@ -24924,7 +24924,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InternalServerErrorBody: Swift.Equatable {
+struct InternalServerErrorBody {
     let message: Swift.String?
 }
 
@@ -24979,7 +24979,7 @@ public struct InvalidActivation: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InvalidActivationBody: Swift.Equatable {
+struct InvalidActivationBody {
     let message: Swift.String?
 }
 
@@ -25034,7 +25034,7 @@ public struct InvalidActivationId: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidActivationIdBody: Swift.Equatable {
+struct InvalidActivationIdBody {
     let message: Swift.String?
 }
 
@@ -25089,7 +25089,7 @@ public struct InvalidAggregatorException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InvalidAggregatorExceptionBody: Swift.Equatable {
+struct InvalidAggregatorExceptionBody {
     let message: Swift.String?
 }
 
@@ -25145,7 +25145,7 @@ public struct InvalidAllowedPatternException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidAllowedPatternExceptionBody: Swift.Equatable {
+struct InvalidAllowedPatternExceptionBody {
     let message: Swift.String?
 }
 
@@ -25200,7 +25200,7 @@ public struct InvalidAssociation: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct InvalidAssociationBody: Swift.Equatable {
+struct InvalidAssociationBody {
     let message: Swift.String?
 }
 
@@ -25255,7 +25255,7 @@ public struct InvalidAssociationVersion: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidAssociationVersionBody: Swift.Equatable {
+struct InvalidAssociationVersionBody {
     let message: Swift.String?
 }
 
@@ -25310,7 +25310,7 @@ public struct InvalidAutomationExecutionParametersException: ClientRuntime.Model
     }
 }
 
-struct InvalidAutomationExecutionParametersExceptionBody: Swift.Equatable {
+struct InvalidAutomationExecutionParametersExceptionBody {
     let message: Swift.String?
 }
 
@@ -25365,7 +25365,7 @@ public struct InvalidAutomationSignalException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InvalidAutomationSignalExceptionBody: Swift.Equatable {
+struct InvalidAutomationSignalExceptionBody {
     let message: Swift.String?
 }
 
@@ -25420,7 +25420,7 @@ public struct InvalidAutomationStatusUpdateException: ClientRuntime.ModeledError
     }
 }
 
-struct InvalidAutomationStatusUpdateExceptionBody: Swift.Equatable {
+struct InvalidAutomationStatusUpdateExceptionBody {
     let message: Swift.String?
 }
 
@@ -25496,7 +25496,7 @@ public struct InvalidDeleteInventoryParametersException: ClientRuntime.ModeledEr
     }
 }
 
-struct InvalidDeleteInventoryParametersExceptionBody: Swift.Equatable {
+struct InvalidDeleteInventoryParametersExceptionBody {
     let message: Swift.String?
 }
 
@@ -25551,7 +25551,7 @@ public struct InvalidDeletionIdException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InvalidDeletionIdExceptionBody: Swift.Equatable {
+struct InvalidDeletionIdExceptionBody {
     let message: Swift.String?
 }
 
@@ -25607,7 +25607,7 @@ public struct InvalidDocument: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct InvalidDocumentBody: Swift.Equatable {
+struct InvalidDocumentBody {
     let message: Swift.String?
 }
 
@@ -25663,7 +25663,7 @@ public struct InvalidDocumentContent: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidDocumentContentBody: Swift.Equatable {
+struct InvalidDocumentContentBody {
     let message: Swift.String?
 }
 
@@ -25718,7 +25718,7 @@ public struct InvalidDocumentOperation: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidDocumentOperationBody: Swift.Equatable {
+struct InvalidDocumentOperationBody {
     let message: Swift.String?
 }
 
@@ -25773,7 +25773,7 @@ public struct InvalidDocumentSchemaVersion: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InvalidDocumentSchemaVersionBody: Swift.Equatable {
+struct InvalidDocumentSchemaVersionBody {
     let message: Swift.String?
 }
 
@@ -25828,7 +25828,7 @@ public struct InvalidDocumentType: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidDocumentTypeBody: Swift.Equatable {
+struct InvalidDocumentTypeBody {
     let message: Swift.String?
 }
 
@@ -25883,7 +25883,7 @@ public struct InvalidDocumentVersion: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidDocumentVersionBody: Swift.Equatable {
+struct InvalidDocumentVersionBody {
     let message: Swift.String?
 }
 
@@ -25938,7 +25938,7 @@ public struct InvalidFilter: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-struct InvalidFilterBody: Swift.Equatable {
+struct InvalidFilterBody {
     let message: Swift.String?
 }
 
@@ -26015,7 +26015,7 @@ public struct InvalidFilterOption: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidFilterOptionBody: Swift.Equatable {
+struct InvalidFilterOptionBody {
     let message: Swift.String?
 }
 
@@ -26070,7 +26070,7 @@ public struct InvalidFilterValue: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct InvalidFilterValueBody: Swift.Equatable {
+struct InvalidFilterValueBody {
     let message: Swift.String?
 }
 
@@ -26133,7 +26133,7 @@ public struct InvalidInstanceId: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InvalidInstanceIdBody: Swift.Equatable {
+struct InvalidInstanceIdBody {
     let message: Swift.String?
 }
 
@@ -26188,7 +26188,7 @@ public struct InvalidInstanceInformationFilterValue: ClientRuntime.ModeledError,
     }
 }
 
-struct InvalidInstanceInformationFilterValueBody: Swift.Equatable {
+struct InvalidInstanceInformationFilterValueBody {
     let message: Swift.String?
 }
 
@@ -26243,7 +26243,7 @@ public struct InvalidInventoryGroupException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidInventoryGroupExceptionBody: Swift.Equatable {
+struct InvalidInventoryGroupExceptionBody {
     let message: Swift.String?
 }
 
@@ -26298,7 +26298,7 @@ public struct InvalidInventoryItemContextException: ClientRuntime.ModeledError, 
     }
 }
 
-struct InvalidInventoryItemContextExceptionBody: Swift.Equatable {
+struct InvalidInventoryItemContextExceptionBody {
     let message: Swift.String?
 }
 
@@ -26353,7 +26353,7 @@ public struct InvalidInventoryRequestException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InvalidInventoryRequestExceptionBody: Swift.Equatable {
+struct InvalidInventoryRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -26413,7 +26413,7 @@ public struct InvalidItemContentException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidItemContentExceptionBody: Swift.Equatable {
+struct InvalidItemContentExceptionBody {
     let typeName: Swift.String?
     let message: Swift.String?
 }
@@ -26472,7 +26472,7 @@ public struct InvalidKeyId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     }
 }
 
-struct InvalidKeyIdBody: Swift.Equatable {
+struct InvalidKeyIdBody {
     let message: Swift.String?
 }
 
@@ -26527,7 +26527,7 @@ public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct InvalidNextTokenBody: Swift.Equatable {
+struct InvalidNextTokenBody {
     let message: Swift.String?
 }
 
@@ -26582,7 +26582,7 @@ public struct InvalidNotificationConfig: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNotificationConfigBody: Swift.Equatable {
+struct InvalidNotificationConfigBody {
     let message: Swift.String?
 }
 
@@ -26637,7 +26637,7 @@ public struct InvalidOptionException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidOptionExceptionBody: Swift.Equatable {
+struct InvalidOptionExceptionBody {
     let message: Swift.String?
 }
 
@@ -26734,7 +26734,7 @@ public struct InvalidParameters: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InvalidParametersBody: Swift.Equatable {
+struct InvalidParametersBody {
     let message: Swift.String?
 }
 
@@ -26789,7 +26789,7 @@ public struct InvalidPermissionType: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidPermissionTypeBody: Swift.Equatable {
+struct InvalidPermissionTypeBody {
     let message: Swift.String?
 }
 
@@ -26865,7 +26865,7 @@ public struct InvalidPolicyAttributeException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidPolicyAttributeExceptionBody: Swift.Equatable {
+struct InvalidPolicyAttributeExceptionBody {
     let message: Swift.String?
 }
 
@@ -26920,7 +26920,7 @@ public struct InvalidPolicyTypeException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InvalidPolicyTypeExceptionBody: Swift.Equatable {
+struct InvalidPolicyTypeExceptionBody {
     let message: Swift.String?
 }
 
@@ -27017,7 +27017,7 @@ public struct InvalidResultAttributeException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidResultAttributeExceptionBody: Swift.Equatable {
+struct InvalidResultAttributeExceptionBody {
     let message: Swift.String?
 }
 
@@ -27072,7 +27072,7 @@ public struct InvalidRole: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
     }
 }
 
-struct InvalidRoleBody: Swift.Equatable {
+struct InvalidRoleBody {
     let message: Swift.String?
 }
 
@@ -27127,7 +27127,7 @@ public struct InvalidSchedule: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct InvalidScheduleBody: Swift.Equatable {
+struct InvalidScheduleBody {
     let message: Swift.String?
 }
 
@@ -27182,7 +27182,7 @@ public struct InvalidTag: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
     }
 }
 
-struct InvalidTagBody: Swift.Equatable {
+struct InvalidTagBody {
     let message: Swift.String?
 }
 
@@ -27237,7 +27237,7 @@ public struct InvalidTarget: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-struct InvalidTargetBody: Swift.Equatable {
+struct InvalidTargetBody {
     let message: Swift.String?
 }
 
@@ -27292,7 +27292,7 @@ public struct InvalidTargetMaps: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InvalidTargetMapsBody: Swift.Equatable {
+struct InvalidTargetMapsBody {
     let message: Swift.String?
 }
 
@@ -27347,7 +27347,7 @@ public struct InvalidTypeNameException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidTypeNameExceptionBody: Swift.Equatable {
+struct InvalidTypeNameExceptionBody {
     let message: Swift.String?
 }
 
@@ -27402,7 +27402,7 @@ public struct InvalidUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-struct InvalidUpdateBody: Swift.Equatable {
+struct InvalidUpdateBody {
     let message: Swift.String?
 }
 
@@ -27475,7 +27475,7 @@ extension SSMClientTypes.InventoryAggregator: Swift.Codable {
 
 extension SSMClientTypes {
     /// Specifies the inventory type and attribute for the aggregation execution.
-    public struct InventoryAggregator: Swift.Equatable {
+    public struct InventoryAggregator {
         /// Nested aggregators to further refine aggregation for an inventory type.
         public var aggregators: [SSMClientTypes.InventoryAggregator]?
         /// The inventory type and attribute name for aggregation.
@@ -27618,7 +27618,7 @@ extension SSMClientTypes.InventoryDeletionStatusItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// Status information returned by the DeleteInventory operation.
-    public struct InventoryDeletionStatusItem: Swift.Equatable {
+    public struct InventoryDeletionStatusItem {
         /// The deletion ID returned by the DeleteInventory operation.
         public var deletionId: Swift.String?
         /// The UTC timestamp when the delete operation started.
@@ -27701,7 +27701,7 @@ extension SSMClientTypes.InventoryDeletionSummary: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about the delete operation.
-    public struct InventoryDeletionSummary: Swift.Equatable {
+    public struct InventoryDeletionSummary {
         /// Remaining number of items to delete.
         public var remainingCount: Swift.Int
         /// A list of counts and versions for deleted items.
@@ -27756,7 +27756,7 @@ extension SSMClientTypes.InventoryDeletionSummaryItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// Either a count, remaining count, or a version number in a delete inventory summary.
-    public struct InventoryDeletionSummaryItem: Swift.Equatable {
+    public struct InventoryDeletionSummaryItem {
         /// A count of the number of deleted items.
         public var count: Swift.Int
         /// The remaining number of items to delete.
@@ -27823,7 +27823,7 @@ extension SSMClientTypes.InventoryFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// One or more filters. Use a filter to return a more specific list of results.
-    public struct InventoryFilter: Swift.Equatable {
+    public struct InventoryFilter {
         /// The name of the filter key.
         /// This member is required.
         public var key: Swift.String?
@@ -27886,7 +27886,7 @@ extension SSMClientTypes.InventoryGroup: Swift.Codable {
 
 extension SSMClientTypes {
     /// A user-defined set of one or more filters on which to aggregate inventory data. Groups return a count of resources that match and don't match the specified criteria.
-    public struct InventoryGroup: Swift.Equatable {
+    public struct InventoryGroup {
         /// Filters define the criteria for the group. The matchingCount field displays the number of resources that match the criteria. The notMatchingCount field displays the number of resources that don't match the criteria.
         /// This member is required.
         public var filters: [SSMClientTypes.InventoryFilter]?
@@ -27993,7 +27993,7 @@ extension SSMClientTypes.InventoryItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information collected from managed nodes based on your inventory policy document
-    public struct InventoryItem: Swift.Equatable {
+    public struct InventoryItem {
         /// The time the inventory information was collected.
         /// This member is required.
         public var captureTime: Swift.String?
@@ -28057,7 +28057,7 @@ extension SSMClientTypes.InventoryItemAttribute: Swift.Codable {
 
 extension SSMClientTypes {
     /// Attributes are the entries within the inventory item content. It contains name and value.
-    public struct InventoryItemAttribute: Swift.Equatable {
+    public struct InventoryItemAttribute {
         /// The data type of the inventory item attribute.
         /// This member is required.
         public var dataType: SSMClientTypes.InventoryAttributeDataType?
@@ -28128,7 +28128,7 @@ extension SSMClientTypes.InventoryItemSchema: Swift.Codable {
 
 extension SSMClientTypes {
     /// The inventory item schema definition. Users can use this to compose inventory query filters.
-    public struct InventoryItemSchema: Swift.Equatable {
+    public struct InventoryItemSchema {
         /// The schema attributes for inventory. This contains data type and attribute name.
         /// This member is required.
         public var attributes: [SSMClientTypes.InventoryItemAttribute]?
@@ -28239,7 +28239,7 @@ extension SSMClientTypes.InventoryResultEntity: Swift.Codable {
 
 extension SSMClientTypes {
     /// Inventory query results.
-    public struct InventoryResultEntity: Swift.Equatable {
+    public struct InventoryResultEntity {
         /// The data section in the inventory result entity JSON.
         public var data: [Swift.String:SSMClientTypes.InventoryResultItem]?
         /// ID of the inventory result entity. For example, for managed node inventory the result will be the managed node ID. For EC2 instance inventory, the result will be the instance ID.
@@ -28326,7 +28326,7 @@ extension SSMClientTypes.InventoryResultItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// The inventory result item.
-    public struct InventoryResultItem: Swift.Equatable {
+    public struct InventoryResultItem {
         /// The time inventory item data was captured.
         public var captureTime: Swift.String?
         /// Contains all the inventory data of the item type. Results include attribute names and values.
@@ -28456,7 +28456,7 @@ public struct ItemContentMismatchException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ItemContentMismatchExceptionBody: Swift.Equatable {
+struct ItemContentMismatchExceptionBody {
     let typeName: Swift.String?
     let message: Swift.String?
 }
@@ -28520,7 +28520,7 @@ public struct ItemSizeLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ItemSizeLimitExceededExceptionBody: Swift.Equatable {
+struct ItemSizeLimitExceededExceptionBody {
     let typeName: Swift.String?
     let message: Swift.String?
 }
@@ -28571,7 +28571,7 @@ extension LabelParameterVersionInput {
     }
 }
 
-public struct LabelParameterVersionInput: Swift.Equatable {
+public struct LabelParameterVersionInput {
     /// One or more labels to attach to the specified parameter version.
     /// This member is required.
     public var labels: [Swift.String]?
@@ -28593,7 +28593,7 @@ public struct LabelParameterVersionInput: Swift.Equatable {
     }
 }
 
-struct LabelParameterVersionInputBody: Swift.Equatable {
+struct LabelParameterVersionInputBody {
     let name: Swift.String?
     let parameterVersion: Swift.Int?
     let labels: [Swift.String]?
@@ -28640,7 +28640,7 @@ extension LabelParameterVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct LabelParameterVersionOutput: Swift.Equatable {
+public struct LabelParameterVersionOutput {
     /// The label doesn't meet the requirements. For information about parameter label requirements, see [Working with parameter labels](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-labels.html) in the Amazon Web Services Systems Manager User Guide.
     public var invalidLabels: [Swift.String]?
     /// The version of the parameter that has been labeled.
@@ -28656,7 +28656,7 @@ public struct LabelParameterVersionOutput: Swift.Equatable {
     }
 }
 
-struct LabelParameterVersionOutputBody: Swift.Equatable {
+struct LabelParameterVersionOutputBody {
     let invalidLabels: [Swift.String]?
     let parameterVersion: Swift.Int
 }
@@ -28763,7 +28763,7 @@ extension ListAssociationVersionsInput {
     }
 }
 
-public struct ListAssociationVersionsInput: Swift.Equatable {
+public struct ListAssociationVersionsInput {
     /// The association ID for which you want to view all versions.
     /// This member is required.
     public var associationId: Swift.String?
@@ -28784,7 +28784,7 @@ public struct ListAssociationVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListAssociationVersionsInputBody: Swift.Equatable {
+struct ListAssociationVersionsInputBody {
     let associationId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -28822,7 +28822,7 @@ extension ListAssociationVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssociationVersionsOutput: Swift.Equatable {
+public struct ListAssociationVersionsOutput {
     /// Information about all versions of the association for the specified association ID.
     public var associationVersions: [SSMClientTypes.AssociationVersionInfo]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -28838,7 +28838,7 @@ public struct ListAssociationVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssociationVersionsOutputBody: Swift.Equatable {
+struct ListAssociationVersionsOutputBody {
     let associationVersions: [SSMClientTypes.AssociationVersionInfo]?
     let nextToken: Swift.String?
 }
@@ -28911,7 +28911,7 @@ extension ListAssociationsInput {
     }
 }
 
-public struct ListAssociationsInput: Swift.Equatable {
+public struct ListAssociationsInput {
     /// One or more filters. Use a filter to return a more specific list of results. Filtering associations using the InstanceID attribute only returns legacy associations created using the InstanceID attribute. Associations targeting the managed node that are part of the Target Attributes ResourceGroup or Tags aren't returned.
     public var associationFilterList: [SSMClientTypes.AssociationFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -28931,7 +28931,7 @@ public struct ListAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListAssociationsInputBody: Swift.Equatable {
+struct ListAssociationsInputBody {
     let associationFilterList: [SSMClientTypes.AssociationFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -28978,7 +28978,7 @@ extension ListAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssociationsOutput: Swift.Equatable {
+public struct ListAssociationsOutput {
     /// The associations.
     public var associations: [SSMClientTypes.Association]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -28994,7 +28994,7 @@ public struct ListAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssociationsOutputBody: Swift.Equatable {
+struct ListAssociationsOutputBody {
     let associations: [SSMClientTypes.Association]?
     let nextToken: Swift.String?
 }
@@ -29078,7 +29078,7 @@ extension ListCommandInvocationsInput {
     }
 }
 
-public struct ListCommandInvocationsInput: Swift.Equatable {
+public struct ListCommandInvocationsInput {
     /// (Optional) The invocations for a specific command ID.
     public var commandId: Swift.String?
     /// (Optional) If set this returns the response of the command executions and any command output. The default value is false.
@@ -29110,7 +29110,7 @@ public struct ListCommandInvocationsInput: Swift.Equatable {
     }
 }
 
-struct ListCommandInvocationsInputBody: Swift.Equatable {
+struct ListCommandInvocationsInputBody {
     let commandId: Swift.String?
     let instanceId: Swift.String?
     let maxResults: Swift.Int?
@@ -29169,7 +29169,7 @@ extension ListCommandInvocationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCommandInvocationsOutput: Swift.Equatable {
+public struct ListCommandInvocationsOutput {
     /// (Optional) A list of all invocations.
     public var commandInvocations: [SSMClientTypes.CommandInvocation]?
     /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
@@ -29185,7 +29185,7 @@ public struct ListCommandInvocationsOutput: Swift.Equatable {
     }
 }
 
-struct ListCommandInvocationsOutputBody: Swift.Equatable {
+struct ListCommandInvocationsOutputBody {
     let commandInvocations: [SSMClientTypes.CommandInvocation]?
     let nextToken: Swift.String?
 }
@@ -29268,7 +29268,7 @@ extension ListCommandsInput {
     }
 }
 
-public struct ListCommandsInput: Swift.Equatable {
+public struct ListCommandsInput {
     /// (Optional) If provided, lists only the specified command.
     public var commandId: Swift.String?
     /// (Optional) One or more filters. Use a filter to return a more specific list of results.
@@ -29296,7 +29296,7 @@ public struct ListCommandsInput: Swift.Equatable {
     }
 }
 
-struct ListCommandsInputBody: Swift.Equatable {
+struct ListCommandsInputBody {
     let commandId: Swift.String?
     let instanceId: Swift.String?
     let maxResults: Swift.Int?
@@ -29351,7 +29351,7 @@ extension ListCommandsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCommandsOutput: Swift.Equatable {
+public struct ListCommandsOutput {
     /// (Optional) The list of commands requested by the user.
     public var commands: [SSMClientTypes.Command]?
     /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
@@ -29367,7 +29367,7 @@ public struct ListCommandsOutput: Swift.Equatable {
     }
 }
 
-struct ListCommandsOutputBody: Swift.Equatable {
+struct ListCommandsOutputBody {
     let commands: [SSMClientTypes.Command]?
     let nextToken: Swift.String?
 }
@@ -29456,7 +29456,7 @@ extension ListComplianceItemsInput {
     }
 }
 
-public struct ListComplianceItemsInput: Swift.Equatable {
+public struct ListComplianceItemsInput {
     /// One or more compliance filters. Use a filter to return a more specific list of results.
     public var filters: [SSMClientTypes.ComplianceStringFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -29484,7 +29484,7 @@ public struct ListComplianceItemsInput: Swift.Equatable {
     }
 }
 
-struct ListComplianceItemsInputBody: Swift.Equatable {
+struct ListComplianceItemsInputBody {
     let filters: [SSMClientTypes.ComplianceStringFilter]?
     let resourceIds: [Swift.String]?
     let resourceTypes: [Swift.String]?
@@ -29557,7 +29557,7 @@ extension ListComplianceItemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComplianceItemsOutput: Swift.Equatable {
+public struct ListComplianceItemsOutput {
     /// A list of compliance information for the specified resource ID.
     public var complianceItems: [SSMClientTypes.ComplianceItem]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -29573,7 +29573,7 @@ public struct ListComplianceItemsOutput: Swift.Equatable {
     }
 }
 
-struct ListComplianceItemsOutputBody: Swift.Equatable {
+struct ListComplianceItemsOutputBody {
     let complianceItems: [SSMClientTypes.ComplianceItem]?
     let nextToken: Swift.String?
 }
@@ -29648,7 +29648,7 @@ extension ListComplianceSummariesInput {
     }
 }
 
-public struct ListComplianceSummariesInput: Swift.Equatable {
+public struct ListComplianceSummariesInput {
     /// One or more compliance or inventory filters. Use a filter to return a more specific list of results.
     public var filters: [SSMClientTypes.ComplianceStringFilter]?
     /// The maximum number of items to return for this call. Currently, you can specify null or 50. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -29668,7 +29668,7 @@ public struct ListComplianceSummariesInput: Swift.Equatable {
     }
 }
 
-struct ListComplianceSummariesInputBody: Swift.Equatable {
+struct ListComplianceSummariesInputBody {
     let filters: [SSMClientTypes.ComplianceStringFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -29715,7 +29715,7 @@ extension ListComplianceSummariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComplianceSummariesOutput: Swift.Equatable {
+public struct ListComplianceSummariesOutput {
     /// A list of compliant and non-compliant summary counts based on compliance types. For example, this call returns State Manager associations, patches, or custom compliance types according to the filter criteria that you specified.
     public var complianceSummaryItems: [SSMClientTypes.ComplianceSummaryItem]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
@@ -29731,7 +29731,7 @@ public struct ListComplianceSummariesOutput: Swift.Equatable {
     }
 }
 
-struct ListComplianceSummariesOutputBody: Swift.Equatable {
+struct ListComplianceSummariesOutputBody {
     let complianceSummaryItems: [SSMClientTypes.ComplianceSummaryItem]?
     let nextToken: Swift.String?
 }
@@ -29809,7 +29809,7 @@ extension ListDocumentMetadataHistoryInput {
     }
 }
 
-public struct ListDocumentMetadataHistoryInput: Swift.Equatable {
+public struct ListDocumentMetadataHistoryInput {
     /// The version of the change template.
     public var documentVersion: Swift.String?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -29839,7 +29839,7 @@ public struct ListDocumentMetadataHistoryInput: Swift.Equatable {
     }
 }
 
-struct ListDocumentMetadataHistoryInputBody: Swift.Equatable {
+struct ListDocumentMetadataHistoryInputBody {
     let name: Swift.String?
     let documentVersion: Swift.String?
     let metadata: SSMClientTypes.DocumentMetadataEnum?
@@ -29891,7 +29891,7 @@ extension ListDocumentMetadataHistoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDocumentMetadataHistoryOutput: Swift.Equatable {
+public struct ListDocumentMetadataHistoryOutput {
     /// The user ID of the person in the organization who requested the review of the change template.
     public var author: Swift.String?
     /// The version of the change template.
@@ -29919,7 +29919,7 @@ public struct ListDocumentMetadataHistoryOutput: Swift.Equatable {
     }
 }
 
-struct ListDocumentMetadataHistoryOutputBody: Swift.Equatable {
+struct ListDocumentMetadataHistoryOutputBody {
     let name: Swift.String?
     let documentVersion: Swift.String?
     let author: Swift.String?
@@ -29993,7 +29993,7 @@ extension ListDocumentVersionsInput {
     }
 }
 
-public struct ListDocumentVersionsInput: Swift.Equatable {
+public struct ListDocumentVersionsInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// The name of the document. You can specify an Amazon Resource Name (ARN).
@@ -30014,7 +30014,7 @@ public struct ListDocumentVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListDocumentVersionsInputBody: Swift.Equatable {
+struct ListDocumentVersionsInputBody {
     let name: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -30052,7 +30052,7 @@ extension ListDocumentVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDocumentVersionsOutput: Swift.Equatable {
+public struct ListDocumentVersionsOutput {
     /// The document versions.
     public var documentVersions: [SSMClientTypes.DocumentVersionInfo]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -30068,7 +30068,7 @@ public struct ListDocumentVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListDocumentVersionsOutputBody: Swift.Equatable {
+struct ListDocumentVersionsOutputBody {
     let documentVersions: [SSMClientTypes.DocumentVersionInfo]?
     let nextToken: Swift.String?
 }
@@ -30148,7 +30148,7 @@ extension ListDocumentsInput {
     }
 }
 
-public struct ListDocumentsInput: Swift.Equatable {
+public struct ListDocumentsInput {
     /// This data type is deprecated. Instead, use Filters.
     public var documentFilterList: [SSMClientTypes.DocumentFilter]?
     /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more specific list of results. For keys, you can specify one or more key-value pair tags that have been applied to a document. Other valid keys include Owner, Name, PlatformTypes, DocumentType, and TargetType. For example, to return documents you own use Key=Owner,Values=Self. To specify a custom key-value pair, use the format Key=tag:tagName,Values=valueName. This API operation only supports filtering documents by using a single tag key and one or more tag values. For example: Key=tag:tagName,Values=valueName1,valueName2
@@ -30172,7 +30172,7 @@ public struct ListDocumentsInput: Swift.Equatable {
     }
 }
 
-struct ListDocumentsInputBody: Swift.Equatable {
+struct ListDocumentsInputBody {
     let documentFilterList: [SSMClientTypes.DocumentFilter]?
     let filters: [SSMClientTypes.DocumentKeyValuesFilter]?
     let maxResults: Swift.Int?
@@ -30232,7 +30232,7 @@ extension ListDocumentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDocumentsOutput: Swift.Equatable {
+public struct ListDocumentsOutput {
     /// The names of the SSM documents.
     public var documentIdentifiers: [SSMClientTypes.DocumentIdentifier]?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -30248,7 +30248,7 @@ public struct ListDocumentsOutput: Swift.Equatable {
     }
 }
 
-struct ListDocumentsOutputBody: Swift.Equatable {
+struct ListDocumentsOutputBody {
     let documentIdentifiers: [SSMClientTypes.DocumentIdentifier]?
     let nextToken: Swift.String?
 }
@@ -30329,7 +30329,7 @@ extension ListInventoryEntriesInput {
     }
 }
 
-public struct ListInventoryEntriesInput: Swift.Equatable {
+public struct ListInventoryEntriesInput {
     /// One or more filters. Use a filter to return a more specific list of results.
     public var filters: [SSMClientTypes.InventoryFilter]?
     /// The managed node ID for which you want inventory information.
@@ -30359,7 +30359,7 @@ public struct ListInventoryEntriesInput: Swift.Equatable {
     }
 }
 
-struct ListInventoryEntriesInputBody: Swift.Equatable {
+struct ListInventoryEntriesInputBody {
     let instanceId: Swift.String?
     let typeName: Swift.String?
     let filters: [SSMClientTypes.InventoryFilter]?
@@ -30422,7 +30422,7 @@ extension ListInventoryEntriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInventoryEntriesOutput: Swift.Equatable {
+public struct ListInventoryEntriesOutput {
     /// The time that inventory information was collected for the managed nodes.
     public var captureTime: Swift.String?
     /// A list of inventory items on the managed nodes.
@@ -30454,7 +30454,7 @@ public struct ListInventoryEntriesOutput: Swift.Equatable {
     }
 }
 
-struct ListInventoryEntriesOutputBody: Swift.Equatable {
+struct ListInventoryEntriesOutputBody {
     let typeName: Swift.String?
     let instanceId: Swift.String?
     let schemaVersion: Swift.String?
@@ -30554,7 +30554,7 @@ extension ListOpsItemEventsInput {
     }
 }
 
-public struct ListOpsItemEventsInput: Swift.Equatable {
+public struct ListOpsItemEventsInput {
     /// One or more OpsItem filters. Use a filter to return a more specific list of results.
     public var filters: [SSMClientTypes.OpsItemEventFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -30574,7 +30574,7 @@ public struct ListOpsItemEventsInput: Swift.Equatable {
     }
 }
 
-struct ListOpsItemEventsInputBody: Swift.Equatable {
+struct ListOpsItemEventsInputBody {
     let filters: [SSMClientTypes.OpsItemEventFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -30621,7 +30621,7 @@ extension ListOpsItemEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOpsItemEventsOutput: Swift.Equatable {
+public struct ListOpsItemEventsOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// A list of event information for the specified OpsItems.
@@ -30637,7 +30637,7 @@ public struct ListOpsItemEventsOutput: Swift.Equatable {
     }
 }
 
-struct ListOpsItemEventsOutputBody: Swift.Equatable {
+struct ListOpsItemEventsOutputBody {
     let nextToken: Swift.String?
     let summaries: [SSMClientTypes.OpsItemEventSummary]?
 }
@@ -30715,7 +30715,7 @@ extension ListOpsItemRelatedItemsInput {
     }
 }
 
-public struct ListOpsItemRelatedItemsInput: Swift.Equatable {
+public struct ListOpsItemRelatedItemsInput {
     /// One or more OpsItem filters. Use a filter to return a more specific list of results.
     public var filters: [SSMClientTypes.OpsItemRelatedItemsFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -30739,7 +30739,7 @@ public struct ListOpsItemRelatedItemsInput: Swift.Equatable {
     }
 }
 
-struct ListOpsItemRelatedItemsInputBody: Swift.Equatable {
+struct ListOpsItemRelatedItemsInputBody {
     let opsItemId: Swift.String?
     let filters: [SSMClientTypes.OpsItemRelatedItemsFilter]?
     let maxResults: Swift.Int?
@@ -30790,7 +30790,7 @@ extension ListOpsItemRelatedItemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOpsItemRelatedItemsOutput: Swift.Equatable {
+public struct ListOpsItemRelatedItemsOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// A list of related-item resources for the specified OpsItem.
@@ -30806,7 +30806,7 @@ public struct ListOpsItemRelatedItemsOutput: Swift.Equatable {
     }
 }
 
-struct ListOpsItemRelatedItemsOutputBody: Swift.Equatable {
+struct ListOpsItemRelatedItemsOutputBody {
     let nextToken: Swift.String?
     let summaries: [SSMClientTypes.OpsItemRelatedItemSummary]?
 }
@@ -30878,7 +30878,7 @@ extension ListOpsMetadataInput {
     }
 }
 
-public struct ListOpsMetadataInput: Swift.Equatable {
+public struct ListOpsMetadataInput {
     /// One or more filters to limit the number of OpsMetadata objects returned by the call.
     public var filters: [SSMClientTypes.OpsMetadataFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -30898,7 +30898,7 @@ public struct ListOpsMetadataInput: Swift.Equatable {
     }
 }
 
-struct ListOpsMetadataInputBody: Swift.Equatable {
+struct ListOpsMetadataInputBody {
     let filters: [SSMClientTypes.OpsMetadataFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -30945,7 +30945,7 @@ extension ListOpsMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOpsMetadataOutput: Swift.Equatable {
+public struct ListOpsMetadataOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// Returns a list of OpsMetadata objects.
@@ -30961,7 +30961,7 @@ public struct ListOpsMetadataOutput: Swift.Equatable {
     }
 }
 
-struct ListOpsMetadataOutputBody: Swift.Equatable {
+struct ListOpsMetadataOutputBody {
     let opsMetadataList: [SSMClientTypes.OpsMetadata]?
     let nextToken: Swift.String?
 }
@@ -31033,7 +31033,7 @@ extension ListResourceComplianceSummariesInput {
     }
 }
 
-public struct ListResourceComplianceSummariesInput: Swift.Equatable {
+public struct ListResourceComplianceSummariesInput {
     /// One or more filters. Use a filter to return a more specific list of results.
     public var filters: [SSMClientTypes.ComplianceStringFilter]?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
@@ -31053,7 +31053,7 @@ public struct ListResourceComplianceSummariesInput: Swift.Equatable {
     }
 }
 
-struct ListResourceComplianceSummariesInputBody: Swift.Equatable {
+struct ListResourceComplianceSummariesInputBody {
     let filters: [SSMClientTypes.ComplianceStringFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -31100,7 +31100,7 @@ extension ListResourceComplianceSummariesOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListResourceComplianceSummariesOutput: Swift.Equatable {
+public struct ListResourceComplianceSummariesOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// A summary count for specified or targeted managed nodes. Summary count includes information about compliant and non-compliant State Manager associations, patch status, or custom items according to the filter criteria that you specify.
@@ -31116,7 +31116,7 @@ public struct ListResourceComplianceSummariesOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceComplianceSummariesOutputBody: Swift.Equatable {
+struct ListResourceComplianceSummariesOutputBody {
     let resourceComplianceSummaryItems: [SSMClientTypes.ResourceComplianceSummaryItem]?
     let nextToken: Swift.String?
 }
@@ -31186,7 +31186,7 @@ extension ListResourceDataSyncInput {
     }
 }
 
-public struct ListResourceDataSyncInput: Swift.Equatable {
+public struct ListResourceDataSyncInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
@@ -31206,7 +31206,7 @@ public struct ListResourceDataSyncInput: Swift.Equatable {
     }
 }
 
-struct ListResourceDataSyncInputBody: Swift.Equatable {
+struct ListResourceDataSyncInputBody {
     let syncType: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -31244,7 +31244,7 @@ extension ListResourceDataSyncOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourceDataSyncOutput: Swift.Equatable {
+public struct ListResourceDataSyncOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// A list of your current resource data sync configurations and their statuses.
@@ -31260,7 +31260,7 @@ public struct ListResourceDataSyncOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceDataSyncOutputBody: Swift.Equatable {
+struct ListResourceDataSyncOutputBody {
     let resourceDataSyncItems: [SSMClientTypes.ResourceDataSyncItem]?
     let nextToken: Swift.String?
 }
@@ -31326,7 +31326,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The resource ID for which you want to see a list of tags.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -31344,7 +31344,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceType: SSMClientTypes.ResourceTypeForTagging?
     let resourceId: Swift.String?
 }
@@ -31376,7 +31376,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags.
     public var tagList: [SSMClientTypes.Tag]?
 
@@ -31388,7 +31388,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tagList: [SSMClientTypes.Tag]?
 }
 
@@ -31459,7 +31459,7 @@ extension SSMClientTypes.LoggingInfo: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about an Amazon Simple Storage Service (Amazon S3) bucket to write managed node-level logs to. LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see [MaintenanceWindowTaskInvocationParameters].
-    public struct LoggingInfo: Swift.Equatable {
+    public struct LoggingInfo {
         /// The name of an S3 bucket where execution logs are stored.
         /// This member is required.
         public var s3BucketName: Swift.String?
@@ -31532,7 +31532,7 @@ extension SSMClientTypes.MaintenanceWindowAutomationParameters: Swift.Codable {
 
 extension SSMClientTypes {
     /// The parameters for an AUTOMATION task type.
-    public struct MaintenanceWindowAutomationParameters: Swift.Equatable {
+    public struct MaintenanceWindowAutomationParameters {
         /// The version of an Automation runbook to use during task execution.
         public var documentVersion: Swift.String?
         /// The parameters for the AUTOMATION task. For information about specifying and updating task parameters, see [RegisterTaskWithMaintenanceWindow] and [UpdateMaintenanceWindowTask]. LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see [MaintenanceWindowTaskInvocationParameters]. TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see [MaintenanceWindowTaskInvocationParameters]. For AUTOMATION task types, Amazon Web Services Systems Manager ignores any values specified for these parameters.
@@ -31601,7 +31601,7 @@ extension SSMClientTypes.MaintenanceWindowExecution: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes the information about an execution of a maintenance window.
-    public struct MaintenanceWindowExecution: Swift.Equatable {
+    public struct MaintenanceWindowExecution {
         /// The time the execution finished.
         public var endTime: ClientRuntime.Date?
         /// The time the execution started.
@@ -31772,7 +31772,7 @@ extension SSMClientTypes.MaintenanceWindowExecutionTaskIdentity: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about a task execution performed as part of a maintenance window execution.
-    public struct MaintenanceWindowExecutionTaskIdentity: Swift.Equatable {
+    public struct MaintenanceWindowExecutionTaskIdentity {
         /// The details for the CloudWatch alarm applied to your maintenance window task.
         public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
         /// The time the task execution finished.
@@ -31914,7 +31914,7 @@ extension SSMClientTypes.MaintenanceWindowExecutionTaskInvocationIdentity: Swift
 
 extension SSMClientTypes {
     /// Describes the information about a task invocation for a particular target as part of a task execution performed as part of a maintenance window execution.
-    public struct MaintenanceWindowExecutionTaskInvocationIdentity: Swift.Equatable {
+    public struct MaintenanceWindowExecutionTaskInvocationIdentity {
         /// The time the invocation finished.
         public var endTime: ClientRuntime.Date?
         /// The ID of the action performed in the service that actually handled the task invocation. If the task type is RUN_COMMAND, this value is the command ID.
@@ -32023,7 +32023,7 @@ extension SSMClientTypes {
     /// * [DescribeMaintenanceWindowTargets]
     ///
     /// * [DescribeMaintenanceWindowTasks]
-    public struct MaintenanceWindowFilter: Swift.Equatable {
+    public struct MaintenanceWindowFilter {
         /// The name of the filter.
         public var key: Swift.String?
         /// The filter values.
@@ -32133,7 +32133,7 @@ extension SSMClientTypes.MaintenanceWindowIdentity: Swift.CustomDebugStringConve
 
 extension SSMClientTypes {
     /// Information about the maintenance window.
-    public struct MaintenanceWindowIdentity: Swift.Equatable {
+    public struct MaintenanceWindowIdentity {
         /// The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution.
         public var cutoff: Swift.Int
         /// A description of the maintenance window.
@@ -32218,7 +32218,7 @@ extension SSMClientTypes.MaintenanceWindowIdentityForTarget: Swift.Codable {
 
 extension SSMClientTypes {
     /// The maintenance window to which the specified target belongs.
-    public struct MaintenanceWindowIdentityForTarget: Swift.Equatable {
+    public struct MaintenanceWindowIdentityForTarget {
         /// The name of the maintenance window.
         public var name: Swift.String?
         /// The ID of the maintenance window.
@@ -32274,7 +32274,7 @@ extension SSMClientTypes.MaintenanceWindowLambdaParameters: Swift.CustomDebugStr
 
 extension SSMClientTypes {
     /// The parameters for a LAMBDA task type. For information about specifying and updating task parameters, see [RegisterTaskWithMaintenanceWindow] and [UpdateMaintenanceWindowTask]. LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see [MaintenanceWindowTaskInvocationParameters]. TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see [MaintenanceWindowTaskInvocationParameters]. For Lambda tasks, Systems Manager ignores any values specified for TaskParameters and LoggingInfo.
-    public struct MaintenanceWindowLambdaParameters: Swift.Equatable {
+    public struct MaintenanceWindowLambdaParameters {
         /// Pass client-specific information to the Lambda function that you are invoking. You can then process the client information in your Lambda function as you choose through the context variable.
         public var clientContext: Swift.String?
         /// JSON to provide to your Lambda function as input.
@@ -32436,7 +32436,7 @@ extension SSMClientTypes.MaintenanceWindowRunCommandParameters: Swift.CustomDebu
 
 extension SSMClientTypes {
     /// The parameters for a RUN_COMMAND task type. For information about specifying and updating task parameters, see [RegisterTaskWithMaintenanceWindow] and [UpdateMaintenanceWindowTask]. LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see [MaintenanceWindowTaskInvocationParameters]. TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see [MaintenanceWindowTaskInvocationParameters]. For RUN_COMMAND tasks, Systems Manager uses specified values for TaskParameters and LoggingInfo only if no values are specified for TaskInvocationParameters.
-    public struct MaintenanceWindowRunCommandParameters: Swift.Equatable {
+    public struct MaintenanceWindowRunCommandParameters {
         /// Configuration options for sending command output to Amazon CloudWatch Logs.
         public var cloudWatchOutputConfig: SSMClientTypes.CloudWatchOutputConfig?
         /// Information about the commands to run.
@@ -32526,7 +32526,7 @@ extension SSMClientTypes.MaintenanceWindowStepFunctionsParameters: Swift.CustomD
 
 extension SSMClientTypes {
     /// The parameters for a STEP_FUNCTIONS task. For information about specifying and updating task parameters, see [RegisterTaskWithMaintenanceWindow] and [UpdateMaintenanceWindowTask]. LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see [MaintenanceWindowTaskInvocationParameters]. TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see [MaintenanceWindowTaskInvocationParameters]. For Step Functions tasks, Systems Manager ignores any values specified for TaskParameters and LoggingInfo.
-    public struct MaintenanceWindowStepFunctionsParameters: Swift.Equatable {
+    public struct MaintenanceWindowStepFunctionsParameters {
         /// The inputs for the STEP_FUNCTIONS task.
         public var input: Swift.String?
         /// The name of the STEP_FUNCTIONS task.
@@ -32618,7 +32618,7 @@ extension SSMClientTypes.MaintenanceWindowTarget: Swift.CustomDebugStringConvert
 
 extension SSMClientTypes {
     /// The target registered with the maintenance window.
-    public struct MaintenanceWindowTarget: Swift.Equatable {
+    public struct MaintenanceWindowTarget {
         /// A description for the target.
         public var description: Swift.String?
         /// The name for the maintenance window target.
@@ -32790,7 +32790,7 @@ extension SSMClientTypes.MaintenanceWindowTask: Swift.CustomDebugStringConvertib
 
 extension SSMClientTypes {
     /// Information about a task defined for a maintenance window.
-    public struct MaintenanceWindowTask: Swift.Equatable {
+    public struct MaintenanceWindowTask {
         /// The details for the CloudWatch alarm applied to your maintenance window task.
         public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
         /// The specification for whether tasks should continue to run after the cutoff time specified in the maintenance windows is reached.
@@ -32931,7 +32931,7 @@ extension SSMClientTypes.MaintenanceWindowTaskInvocationParameters: Swift.Codabl
 
 extension SSMClientTypes {
     /// The parameters for task execution.
-    public struct MaintenanceWindowTaskInvocationParameters: Swift.Equatable {
+    public struct MaintenanceWindowTaskInvocationParameters {
         /// The parameters for an AUTOMATION task type.
         public var automation: SSMClientTypes.MaintenanceWindowAutomationParameters?
         /// The parameters for a LAMBDA task type.
@@ -32996,7 +32996,7 @@ extension SSMClientTypes.MaintenanceWindowTaskParameterValueExpression: Swift.Cu
 
 extension SSMClientTypes {
     /// Defines the values for a task parameter.
-    public struct MaintenanceWindowTaskParameterValueExpression: Swift.Equatable {
+    public struct MaintenanceWindowTaskParameterValueExpression {
         /// This field contains an array of 0 or more strings, each 1 to 255 characters in length.
         public var values: [Swift.String]?
 
@@ -33087,7 +33087,7 @@ public struct MalformedResourcePolicyDocumentException: ClientRuntime.ModeledErr
     }
 }
 
-struct MalformedResourcePolicyDocumentExceptionBody: Swift.Equatable {
+struct MalformedResourcePolicyDocumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -33142,7 +33142,7 @@ public struct MaxDocumentSizeExceeded: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct MaxDocumentSizeExceededBody: Swift.Equatable {
+struct MaxDocumentSizeExceededBody {
     let message: Swift.String?
 }
 
@@ -33179,7 +33179,7 @@ extension SSMClientTypes.MetadataValue: Swift.Codable {
 
 extension SSMClientTypes {
     /// Metadata to assign to an Application Manager application.
-    public struct MetadataValue: Swift.Equatable {
+    public struct MetadataValue {
         /// Metadata value to assign to an Application Manager application.
         public var value: Swift.String?
 
@@ -33235,7 +33235,7 @@ extension ModifyDocumentPermissionInput {
     }
 }
 
-public struct ModifyDocumentPermissionInput: Swift.Equatable {
+public struct ModifyDocumentPermissionInput {
     /// The Amazon Web Services users that should have access to the document. The account IDs can either be a group of account IDs or All.
     public var accountIdsToAdd: [Swift.String]?
     /// The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user can either be a group of account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify an ID to add and the same ID to remove, the system removes access to the document.
@@ -33265,7 +33265,7 @@ public struct ModifyDocumentPermissionInput: Swift.Equatable {
     }
 }
 
-struct ModifyDocumentPermissionInputBody: Swift.Equatable {
+struct ModifyDocumentPermissionInputBody {
     let name: Swift.String?
     let permissionType: SSMClientTypes.DocumentPermissionType?
     let accountIdsToAdd: [Swift.String]?
@@ -33320,7 +33320,7 @@ extension ModifyDocumentPermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyDocumentPermissionOutput: Swift.Equatable {
+public struct ModifyDocumentPermissionOutput {
 
     public init() { }
 }
@@ -33367,7 +33367,7 @@ extension SSMClientTypes.NonCompliantSummary: Swift.Codable {
 
 extension SSMClientTypes {
     /// A summary of resources that aren't compliant. The summary is organized according to resource type.
-    public struct NonCompliantSummary: Swift.Equatable {
+    public struct NonCompliantSummary {
         /// The total number of compliance items that aren't compliant.
         public var nonCompliantCount: Swift.Int
         /// A summary of the non-compliance severity by compliance type
@@ -33430,7 +33430,7 @@ extension SSMClientTypes.NotificationConfig: Swift.Codable {
 
 extension SSMClientTypes {
     /// Configurations for sending notifications.
-    public struct NotificationConfig: Swift.Equatable {
+    public struct NotificationConfig {
         /// An Amazon Resource Name (ARN) for an Amazon Simple Notification Service (Amazon SNS) topic. Run Command pushes notifications about command status changes to this topic.
         public var notificationArn: Swift.String?
         /// The different events for which you can receive notifications. To learn more about these events, see [Monitoring Systems Manager status changes using Amazon SNS notifications](https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-sns-notifications.html) in the Amazon Web Services Systems Manager User Guide.
@@ -33690,7 +33690,7 @@ extension SSMClientTypes.OpsAggregator: Swift.Codable {
 
 extension SSMClientTypes {
     /// One or more aggregators for viewing counts of OpsData using different dimensions such as Source, CreatedTime, or Source and CreatedTime, to name a few.
-    public struct OpsAggregator: Swift.Equatable {
+    public struct OpsAggregator {
         /// Either a Range or Count aggregator for limiting an OpsData summary.
         public var aggregatorType: Swift.String?
         /// A nested aggregator for viewing counts of OpsData.
@@ -33763,7 +33763,7 @@ extension SSMClientTypes.OpsEntity: Swift.Codable {
 
 extension SSMClientTypes {
     /// The result of the query.
-    public struct OpsEntity: Swift.Equatable {
+    public struct OpsEntity {
         /// The data returned by the query.
         public var data: [Swift.String:SSMClientTypes.OpsEntityItem]?
         /// The query ID.
@@ -33832,7 +33832,7 @@ extension SSMClientTypes.OpsEntityItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// The OpsData summary.
-    public struct OpsEntityItem: Swift.Equatable {
+    public struct OpsEntityItem {
         /// The time the OpsData was captured.
         public var captureTime: Swift.String?
         /// The details of an OpsData summary.
@@ -33895,7 +33895,7 @@ extension SSMClientTypes.OpsFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// A filter for viewing OpsData summaries.
-    public struct OpsFilter: Swift.Equatable {
+    public struct OpsFilter {
         /// The name of the filter.
         /// This member is required.
         public var key: Swift.String?
@@ -34146,7 +34146,7 @@ extension SSMClientTypes.OpsItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational work items (OpsItems) impacting the performance and health of their Amazon Web Services resources. OpsCenter is integrated with Amazon EventBridge and Amazon CloudWatch. This means you can configure these services to automatically create an OpsItem in OpsCenter when a CloudWatch alarm enters the ALARM state or when EventBridge processes an event from any Amazon Web Services service that publishes events. Configuring Amazon CloudWatch alarms and EventBridge events to automatically create OpsItems allows you to quickly diagnose and remediate issues with Amazon Web Services resources from a single console. To help you diagnose issues, each OpsItem includes contextually relevant information such as the name and ID of the Amazon Web Services resource that generated the OpsItem, alarm or event details, alarm history, and an alarm timeline graph. For the Amazon Web Services resource, OpsCenter aggregates information from Config, CloudTrail logs, and EventBridge, so you don't have to navigate across multiple console pages during your investigation. For more information, see [Amazon Web Services Systems Manager OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
-    public struct OpsItem: Swift.Equatable {
+    public struct OpsItem {
         /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
         public var actualEndTime: ClientRuntime.Date?
         /// The time a runbook workflow started. Currently reported only for the OpsItem type /aws/changerequest.
@@ -34289,7 +34289,7 @@ public struct OpsItemAccessDeniedException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct OpsItemAccessDeniedExceptionBody: Swift.Equatable {
+struct OpsItemAccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -34349,7 +34349,7 @@ public struct OpsItemAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct OpsItemAlreadyExistsExceptionBody: Swift.Equatable {
+struct OpsItemAlreadyExistsExceptionBody {
     let message: Swift.String?
     let opsItemId: Swift.String?
 }
@@ -34408,7 +34408,7 @@ public struct OpsItemConflictException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct OpsItemConflictExceptionBody: Swift.Equatable {
+struct OpsItemConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -34483,7 +34483,7 @@ extension SSMClientTypes.OpsItemDataValue: Swift.Codable {
 
 extension SSMClientTypes {
     /// An object that defines the value of the key and its type in the OperationalData map.
-    public struct OpsItemDataValue: Swift.Equatable {
+    public struct OpsItemDataValue {
         /// The type of key-value pair. Valid types include SearchableString and String.
         public var type: SSMClientTypes.OpsItemDataType?
         /// The value of the OperationalData key.
@@ -34546,7 +34546,7 @@ extension SSMClientTypes.OpsItemEventFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes a filter for a specific list of OpsItem events. You can filter event information by using tags. You specify tags by using a key-value pair mapping.
-    public struct OpsItemEventFilter: Swift.Equatable {
+    public struct OpsItemEventFilter {
         /// The name of the filter key. Currently, the only supported value is OpsItemId.
         /// This member is required.
         public var key: SSMClientTypes.OpsItemEventFilterKey?
@@ -34686,7 +34686,7 @@ extension SSMClientTypes.OpsItemEventSummary: Swift.Codable {
 
 extension SSMClientTypes {
     /// Summary information about an OpsItem event or that associated an OpsItem with a related item.
-    public struct OpsItemEventSummary: Swift.Equatable {
+    public struct OpsItemEventSummary {
         /// Information about the user or resource that created the OpsItem event.
         public var createdBy: SSMClientTypes.OpsItemIdentity?
         /// The date and time the OpsItem event was created.
@@ -34769,7 +34769,7 @@ extension SSMClientTypes.OpsItemFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes an OpsItem filter.
-    public struct OpsItemFilter: Swift.Equatable {
+    public struct OpsItemFilter {
         /// The name of the filter.
         /// This member is required.
         public var key: SSMClientTypes.OpsItemFilterKey?
@@ -34963,7 +34963,7 @@ extension SSMClientTypes.OpsItemIdentity: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about the user or resource that created an OpsItem event.
-    public struct OpsItemIdentity: Swift.Equatable {
+    public struct OpsItemIdentity {
         /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem event.
         public var arn: Swift.String?
 
@@ -35021,7 +35021,7 @@ public struct OpsItemInvalidParameterException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct OpsItemInvalidParameterExceptionBody: Swift.Equatable {
+struct OpsItemInvalidParameterExceptionBody {
     let parameterNames: [Swift.String]?
     let message: Swift.String?
 }
@@ -35104,7 +35104,7 @@ public struct OpsItemLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct OpsItemLimitExceededExceptionBody: Swift.Equatable {
+struct OpsItemLimitExceededExceptionBody {
     let resourceTypes: [Swift.String]?
     let limit: Swift.Int
     let limitType: Swift.String?
@@ -35180,7 +35180,7 @@ public struct OpsItemNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct OpsItemNotFoundExceptionBody: Swift.Equatable {
+struct OpsItemNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -35217,7 +35217,7 @@ extension SSMClientTypes.OpsItemNotification: Swift.Codable {
 
 extension SSMClientTypes {
     /// A notification about the OpsItem.
-    public struct OpsItemNotification: Swift.Equatable {
+    public struct OpsItemNotification {
         /// The Amazon Resource Name (ARN) of an Amazon Simple Notification Service (Amazon SNS) topic where notifications are sent when this OpsItem is edited or changed.
         public var arn: Swift.String?
 
@@ -35280,7 +35280,7 @@ public struct OpsItemRelatedItemAlreadyExistsException: ClientRuntime.ModeledErr
     }
 }
 
-struct OpsItemRelatedItemAlreadyExistsExceptionBody: Swift.Equatable {
+struct OpsItemRelatedItemAlreadyExistsExceptionBody {
     let message: Swift.String?
     let resourceUri: Swift.String?
     let opsItemId: Swift.String?
@@ -35343,7 +35343,7 @@ public struct OpsItemRelatedItemAssociationNotFoundException: ClientRuntime.Mode
     }
 }
 
-struct OpsItemRelatedItemAssociationNotFoundExceptionBody: Swift.Equatable {
+struct OpsItemRelatedItemAssociationNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -35428,7 +35428,7 @@ extension SSMClientTypes.OpsItemRelatedItemSummary: Swift.Codable {
 
 extension SSMClientTypes {
     /// Summary information about related-item resources for an OpsItem.
-    public struct OpsItemRelatedItemSummary: Swift.Equatable {
+    public struct OpsItemRelatedItemSummary {
         /// The association ID.
         public var associationId: Swift.String?
         /// The association type.
@@ -35519,7 +35519,7 @@ extension SSMClientTypes.OpsItemRelatedItemsFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes a filter for a specific list of related-item resources.
-    public struct OpsItemRelatedItemsFilter: Swift.Equatable {
+    public struct OpsItemRelatedItemsFilter {
         /// The name of the filter key. Supported values include ResourceUri, ResourceType, or AssociationId.
         /// This member is required.
         public var key: SSMClientTypes.OpsItemRelatedItemsFilterKey?
@@ -35820,7 +35820,7 @@ extension SSMClientTypes.OpsItemSummary: Swift.Codable {
 
 extension SSMClientTypes {
     /// A count of OpsItems.
-    public struct OpsItemSummary: Swift.Equatable {
+    public struct OpsItemSummary {
         /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
         public var actualEndTime: ClientRuntime.Date?
         /// The time a runbook workflow started. Currently reported only for the OpsItem type /aws/changerequest.
@@ -35949,7 +35949,7 @@ extension SSMClientTypes.OpsMetadata: Swift.Codable {
 
 extension SSMClientTypes {
     /// Operational metadata for an application in Application Manager.
-    public struct OpsMetadata: Swift.Equatable {
+    public struct OpsMetadata {
         /// The date the OpsMetadata objects was created.
         public var creationDate: ClientRuntime.Date?
         /// The date the OpsMetadata object was last updated.
@@ -36018,7 +36018,7 @@ public struct OpsMetadataAlreadyExistsException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct OpsMetadataAlreadyExistsExceptionBody: Swift.Equatable {
+struct OpsMetadataAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -36073,7 +36073,7 @@ extension SSMClientTypes.OpsMetadataFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// A filter to limit the number of OpsMetadata objects displayed.
-    public struct OpsMetadataFilter: Swift.Equatable {
+    public struct OpsMetadataFilter {
         /// A filter key.
         /// This member is required.
         public var key: Swift.String?
@@ -36132,7 +36132,7 @@ public struct OpsMetadataInvalidArgumentException: ClientRuntime.ModeledError, A
     }
 }
 
-struct OpsMetadataInvalidArgumentExceptionBody: Swift.Equatable {
+struct OpsMetadataInvalidArgumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -36187,7 +36187,7 @@ public struct OpsMetadataKeyLimitExceededException: ClientRuntime.ModeledError, 
     }
 }
 
-struct OpsMetadataKeyLimitExceededExceptionBody: Swift.Equatable {
+struct OpsMetadataKeyLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -36242,7 +36242,7 @@ public struct OpsMetadataLimitExceededException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct OpsMetadataLimitExceededExceptionBody: Swift.Equatable {
+struct OpsMetadataLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -36297,7 +36297,7 @@ public struct OpsMetadataNotFoundException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct OpsMetadataNotFoundExceptionBody: Swift.Equatable {
+struct OpsMetadataNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -36352,7 +36352,7 @@ public struct OpsMetadataTooManyUpdatesException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct OpsMetadataTooManyUpdatesExceptionBody: Swift.Equatable {
+struct OpsMetadataTooManyUpdatesExceptionBody {
     let message: Swift.String?
 }
 
@@ -36389,7 +36389,7 @@ extension SSMClientTypes.OpsResultAttribute: Swift.Codable {
 
 extension SSMClientTypes {
     /// The OpsItem data type to return.
-    public struct OpsResultAttribute: Swift.Equatable {
+    public struct OpsResultAttribute {
         /// Name of the data type. Valid value: AWS:OpsItem, AWS:EC2InstanceInformation, AWS:OpsItemTrendline, or AWS:ComplianceSummary.
         /// This member is required.
         public var typeName: Swift.String?
@@ -36431,7 +36431,7 @@ extension SSMClientTypes.OutputSource: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about the source where the association execution details are stored.
-    public struct OutputSource: Swift.Equatable {
+    public struct OutputSource {
         /// The ID of the output source, for example the URL of an S3 bucket.
         public var outputSourceId: Swift.String?
         /// The type of source where the association execution details are stored, for example, Amazon S3.
@@ -36523,7 +36523,7 @@ extension SSMClientTypes.Parameter: Swift.CustomDebugStringConvertible {
 
 extension SSMClientTypes {
     /// An Amazon Web Services Systems Manager parameter in Parameter Store.
-    public struct Parameter: Swift.Equatable {
+    public struct Parameter {
         /// The Amazon Resource Name (ARN) of the parameter.
         public var arn: Swift.String?
         /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
@@ -36608,7 +36608,7 @@ public struct ParameterAlreadyExists: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ParameterAlreadyExistsBody: Swift.Equatable {
+struct ParameterAlreadyExistsBody {
     let message: Swift.String?
 }
 
@@ -36746,7 +36746,7 @@ extension SSMClientTypes.ParameterHistory: Swift.CustomDebugStringConvertible {
 
 extension SSMClientTypes {
     /// Information about parameter usage.
-    public struct ParameterHistory: Swift.Equatable {
+    public struct ParameterHistory {
         /// Parameter names can include the following letters and symbols. a-zA-Z0-9_.-
         public var allowedPattern: Swift.String?
         /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
@@ -36841,7 +36841,7 @@ extension SSMClientTypes.ParameterInlinePolicy: Swift.Codable {
 
 extension SSMClientTypes {
     /// One or more policies assigned to a parameter.
-    public struct ParameterInlinePolicy: Swift.Equatable {
+    public struct ParameterInlinePolicy {
         /// The status of the policy. Policies report the following statuses: Pending (the policy hasn't been enforced or applied yet), Finished (the policy was applied), Failed (the policy wasn't applied), or InProgress (the policy is being applied now).
         public var policyStatus: Swift.String?
         /// The JSON text of the policy.
@@ -36902,7 +36902,7 @@ public struct ParameterLimitExceeded: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ParameterLimitExceededBody: Swift.Equatable {
+struct ParameterLimitExceededBody {
     let message: Swift.String?
 }
 
@@ -36957,7 +36957,7 @@ public struct ParameterMaxVersionLimitExceeded: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct ParameterMaxVersionLimitExceededBody: Swift.Equatable {
+struct ParameterMaxVersionLimitExceededBody {
     let message: Swift.String?
 }
 
@@ -37072,7 +37072,7 @@ extension SSMClientTypes.ParameterMetadata: Swift.Codable {
 
 extension SSMClientTypes {
     /// Metadata includes information like the Amazon Resource Name (ARN) of the last user to update the parameter and the date and time the parameter was last used.
-    public struct ParameterMetadata: Swift.Equatable {
+    public struct ParameterMetadata {
         /// A parameter name can include only the following letters and symbols. a-zA-Z0-9_.-
         public var allowedPattern: Swift.String?
         /// The (ARN) of the last user to update the parameter.
@@ -37169,7 +37169,7 @@ public struct ParameterNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ParameterNotFoundBody: Swift.Equatable {
+struct ParameterNotFoundBody {
     let message: Swift.String?
 }
 
@@ -37225,7 +37225,7 @@ public struct ParameterPatternMismatchException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct ParameterPatternMismatchExceptionBody: Swift.Equatable {
+struct ParameterPatternMismatchExceptionBody {
     let message: Swift.String?
 }
 
@@ -37286,7 +37286,7 @@ extension SSMClientTypes.ParameterStringFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// One or more filters. Use a filter to return a more specific list of results.
-    public struct ParameterStringFilter: Swift.Equatable {
+    public struct ParameterStringFilter {
         /// The name of the filter. The ParameterStringFilter object is used by the [DescribeParameters] and [GetParametersByPath] API operations. However, not all of the pattern values listed for Key can be used with both operations. For DescribeParameters, all of the listed patterns are valid except Label. For GetParametersByPath, the following patterns listed for Key aren't valid: tag, DataType, Name, Path, and Tier. For examples of Amazon Web Services CLI commands demonstrating valid parameter filter constructions, see [Searching for Systems Manager parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-search.html) in the Amazon Web Services Systems Manager User Guide.
         /// This member is required.
         public var key: Swift.String?
@@ -37418,7 +37418,7 @@ public struct ParameterVersionLabelLimitExceeded: ClientRuntime.ModeledError, AW
     }
 }
 
-struct ParameterVersionLabelLimitExceededBody: Swift.Equatable {
+struct ParameterVersionLabelLimitExceededBody {
     let message: Swift.String?
 }
 
@@ -37473,7 +37473,7 @@ public struct ParameterVersionNotFound: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ParameterVersionNotFoundBody: Swift.Equatable {
+struct ParameterVersionNotFoundBody {
     let message: Swift.String?
 }
 
@@ -37528,7 +37528,7 @@ extension SSMClientTypes.ParametersFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// This data type is deprecated. Instead, use [ParameterStringFilter].
-    public struct ParametersFilter: Swift.Equatable {
+    public struct ParametersFilter {
         /// The name of the filter.
         /// This member is required.
         public var key: SSMClientTypes.ParametersFilterKey?
@@ -37628,7 +37628,7 @@ extension SSMClientTypes.ParentStepDetails: Swift.Codable {
 
 extension SSMClientTypes {
     /// A detailed status of the parent step.
-    public struct ParentStepDetails: Swift.Equatable {
+    public struct ParentStepDetails {
         /// The name of the automation action.
         public var action: Swift.String?
         /// The current repetition of the loop represented by an integer.
@@ -37847,7 +37847,7 @@ extension SSMClientTypes.Patch: Swift.Codable {
 
 extension SSMClientTypes {
     /// Represents metadata about a patch.
-    public struct Patch: Swift.Equatable {
+    public struct Patch {
         /// The Advisory ID of the patch. For example, RHSA-2020:3779. Applies to Linux-based managed nodes only.
         public var advisoryIds: [Swift.String]?
         /// The architecture of the patch. For example, in example-pkg-0.710.10-2.7.abcd.x86_64, the architecture is indicated by x86_64. Applies to Linux-based managed nodes only.
@@ -38026,7 +38026,7 @@ extension SSMClientTypes.PatchBaselineIdentity: Swift.Codable {
 
 extension SSMClientTypes {
     /// Defines the basic information about a patch baseline.
-    public struct PatchBaselineIdentity: Swift.Equatable {
+    public struct PatchBaselineIdentity {
         /// The description of the patch baseline.
         public var baselineDescription: Swift.String?
         /// The ID of the patch baseline.
@@ -38113,7 +38113,7 @@ extension SSMClientTypes.PatchComplianceData: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about the state of a patch on a particular managed node as it relates to the patch baseline used to patch the node.
-    public struct PatchComplianceData: Swift.Equatable {
+    public struct PatchComplianceData {
         /// The classification of the patch, such as SecurityUpdates, Updates, and CriticalUpdates.
         /// This member is required.
         public var classification: Swift.String?
@@ -38325,7 +38325,7 @@ extension SSMClientTypes.PatchFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Defines which patches should be included in a patch baseline. A patch filter consists of a key and a set of values. The filter key is a patch property. For example, the available filter keys for WINDOWS are PATCH_SET, PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, and MSRC_SEVERITY. The filter values define a matching criterion for the patch property indicated by the key. For example, if the filter key is PRODUCT and the filter values are ["Office 2013", "Office 2016"], then the filter accepts all patches where product name is either "Office 2013" or "Office 2016". The filter values can be exact values for the patch property given as a key, or a wildcard (*), which matches all values. You can view lists of valid values for the patch properties by running the DescribePatchProperties command. For information about which patch properties can be used with each major operating system, see [DescribePatchProperties].
-    public struct PatchFilter: Swift.Equatable {
+    public struct PatchFilter {
         /// The key for the filter. Run the [DescribePatchProperties] command to view lists of valid keys for each operating system type.
         /// This member is required.
         public var key: SSMClientTypes.PatchFilterKey?
@@ -38378,7 +38378,7 @@ extension SSMClientTypes.PatchFilterGroup: Swift.Codable {
 
 extension SSMClientTypes {
     /// A set of patch filters, typically used for approval rules.
-    public struct PatchFilterGroup: Swift.Equatable {
+    public struct PatchFilterGroup {
         /// The set of patch filters that make up the group.
         /// This member is required.
         public var patchFilters: [SSMClientTypes.PatchFilter]?
@@ -38503,7 +38503,7 @@ extension SSMClientTypes.PatchGroupPatchBaselineMapping: Swift.Codable {
 
 extension SSMClientTypes {
     /// The mapping between a patch group and the patch baseline the patch group is registered with.
-    public struct PatchGroupPatchBaselineMapping: Swift.Equatable {
+    public struct PatchGroupPatchBaselineMapping {
         /// The patch baseline the patch group is registered with.
         public var baselineIdentity: SSMClientTypes.PatchBaselineIdentity?
         /// The name of the patch group registered with the patch baseline.
@@ -38600,7 +38600,7 @@ extension SSMClientTypes {
     /// * [DescribePatchBaselines]
     ///
     /// * [DescribePatchGroups]
-    public struct PatchOrchestratorFilter: Swift.Equatable {
+    public struct PatchOrchestratorFilter {
         /// The key for the filter.
         public var key: Swift.String?
         /// The value for the filter.
@@ -38707,7 +38707,7 @@ extension SSMClientTypes.PatchRule: Swift.Codable {
 
 extension SSMClientTypes {
     /// Defines an approval rule for a patch baseline.
-    public struct PatchRule: Swift.Equatable {
+    public struct PatchRule {
         /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Not supported on Debian Server or Ubuntu Server.
         public var approveAfterDays: Swift.Int?
         /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Not supported on Debian Server or Ubuntu Server. Enter dates in the format YYYY-MM-DD. For example, 2021-12-31.
@@ -38771,7 +38771,7 @@ extension SSMClientTypes.PatchRuleGroup: Swift.Codable {
 
 extension SSMClientTypes {
     /// A set of rules defining the approval rules for a patch baseline.
-    public struct PatchRuleGroup: Swift.Equatable {
+    public struct PatchRuleGroup {
         /// The rules that make up the rule group.
         /// This member is required.
         public var patchRules: [SSMClientTypes.PatchRule]?
@@ -38868,7 +38868,7 @@ extension SSMClientTypes.PatchSource: Swift.CustomDebugStringConvertible {
 
 extension SSMClientTypes {
     /// Information about the patches to use to update the managed nodes, including target operating systems and source repository. Applies to Linux managed nodes only.
-    public struct PatchSource: Swift.Equatable {
+    public struct PatchSource {
         /// The value of the yum repo configuration. For example: [main]
         ///     name=MyCustomRepository
         ///
@@ -38932,7 +38932,7 @@ extension SSMClientTypes.PatchStatus: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about the approval status of a patch.
-    public struct PatchStatus: Swift.Equatable {
+    public struct PatchStatus {
         /// The date the patch was approved (or will be approved if the status is PENDING_APPROVAL).
         public var approvalDate: ClientRuntime.Date?
         /// The compliance severity level for a patch.
@@ -39063,7 +39063,7 @@ public struct PoliciesLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct PoliciesLimitExceededExceptionBody: Swift.Equatable {
+struct PoliciesLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -39124,7 +39124,7 @@ extension SSMClientTypes.ProgressCounters: Swift.Codable {
 
 extension SSMClientTypes {
     /// An aggregate of step execution statuses displayed in the Amazon Web Services Systems Manager console for a multi-Region and multi-account Automation execution.
-    public struct ProgressCounters: Swift.Equatable {
+    public struct ProgressCounters {
         /// The total number of steps that the system cancelled in all specified Amazon Web Services Regions and Amazon Web Services accounts for the current Automation execution.
         public var cancelledSteps: Swift.Int
         /// The total number of steps that failed to run in all specified Amazon Web Services Regions and Amazon Web Services accounts for the current Automation execution.
@@ -39201,7 +39201,7 @@ extension PutComplianceItemsInput {
     }
 }
 
-public struct PutComplianceItemsInput: Swift.Equatable {
+public struct PutComplianceItemsInput {
     /// Specify the compliance type. For example, specify Association (for a State Manager association), Patch, or Custom:string.
     /// This member is required.
     public var complianceType: Swift.String?
@@ -39242,7 +39242,7 @@ public struct PutComplianceItemsInput: Swift.Equatable {
     }
 }
 
-struct PutComplianceItemsInputBody: Swift.Equatable {
+struct PutComplianceItemsInputBody {
     let resourceId: Swift.String?
     let resourceType: Swift.String?
     let complianceType: Swift.String?
@@ -39296,7 +39296,7 @@ extension PutComplianceItemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutComplianceItemsOutput: Swift.Equatable {
+public struct PutComplianceItemsOutput {
 
     public init() { }
 }
@@ -39345,7 +39345,7 @@ extension PutInventoryInput {
     }
 }
 
-public struct PutInventoryInput: Swift.Equatable {
+public struct PutInventoryInput {
     /// An managed node ID where you want to add or update inventory items.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -39363,7 +39363,7 @@ public struct PutInventoryInput: Swift.Equatable {
     }
 }
 
-struct PutInventoryInputBody: Swift.Equatable {
+struct PutInventoryInputBody {
     let instanceId: Swift.String?
     let items: [SSMClientTypes.InventoryItem]?
 }
@@ -39404,7 +39404,7 @@ extension PutInventoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutInventoryOutput: Swift.Equatable {
+public struct PutInventoryOutput {
     /// Information about the request.
     public var message: Swift.String?
 
@@ -39416,7 +39416,7 @@ public struct PutInventoryOutput: Swift.Equatable {
     }
 }
 
-struct PutInventoryOutputBody: Swift.Equatable {
+struct PutInventoryOutputBody {
     let message: Swift.String?
 }
 
@@ -39522,7 +39522,7 @@ extension PutParameterInput {
     }
 }
 
-public struct PutParameterInput: Swift.Equatable {
+public struct PutParameterInput {
     /// A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$
     public var allowedPattern: Swift.String?
     /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image (AMI) IDs. The following data type values are supported.
@@ -39627,7 +39627,7 @@ public struct PutParameterInput: Swift.Equatable {
     }
 }
 
-struct PutParameterInputBody: Swift.Equatable {
+struct PutParameterInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let value: Swift.String?
@@ -39706,7 +39706,7 @@ extension PutParameterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutParameterOutput: Swift.Equatable {
+public struct PutParameterOutput {
     /// The tier assigned to the parameter.
     public var tier: SSMClientTypes.ParameterTier?
     /// The new version number of a parameter. If you edit a parameter value, Parameter Store automatically creates a new version and assigns this new version a unique ID. You can reference a parameter version ID in API operations or in Systems Manager documents (SSM documents). By default, if you don't specify a specific version, the system returns the latest parameter value when a parameter is called.
@@ -39722,7 +39722,7 @@ public struct PutParameterOutput: Swift.Equatable {
     }
 }
 
-struct PutParameterOutputBody: Swift.Equatable {
+struct PutParameterOutputBody {
     let version: Swift.Int
     let tier: SSMClientTypes.ParameterTier?
 }
@@ -39799,7 +39799,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// A policy you want to associate with a resource.
     /// This member is required.
     public var policy: Swift.String?
@@ -39825,7 +39825,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let resourceArn: Swift.String?
     let policy: Swift.String?
     let policyId: Swift.String?
@@ -39867,7 +39867,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
     /// ID of the current policy version.
     public var policyHash: Swift.String?
     /// The policy ID. To update a policy, you must specify PolicyId and PolicyHash.
@@ -39883,7 +39883,7 @@ public struct PutResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody {
     let policyId: Swift.String?
     let policyHash: Swift.String?
 }
@@ -39972,7 +39972,7 @@ extension RegisterDefaultPatchBaselineInput {
     }
 }
 
-public struct RegisterDefaultPatchBaselineInput: Swift.Equatable {
+public struct RegisterDefaultPatchBaselineInput {
     /// The ID of the patch baseline that should be the default patch baseline.
     /// This member is required.
     public var baselineId: Swift.String?
@@ -39985,7 +39985,7 @@ public struct RegisterDefaultPatchBaselineInput: Swift.Equatable {
     }
 }
 
-struct RegisterDefaultPatchBaselineInputBody: Swift.Equatable {
+struct RegisterDefaultPatchBaselineInputBody {
     let baselineId: Swift.String?
 }
 
@@ -40013,7 +40013,7 @@ extension RegisterDefaultPatchBaselineOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct RegisterDefaultPatchBaselineOutput: Swift.Equatable {
+public struct RegisterDefaultPatchBaselineOutput {
     /// The ID of the default patch baseline.
     public var baselineId: Swift.String?
 
@@ -40025,7 +40025,7 @@ public struct RegisterDefaultPatchBaselineOutput: Swift.Equatable {
     }
 }
 
-struct RegisterDefaultPatchBaselineOutputBody: Swift.Equatable {
+struct RegisterDefaultPatchBaselineOutputBody {
     let baselineId: Swift.String?
 }
 
@@ -40078,7 +40078,7 @@ extension RegisterPatchBaselineForPatchGroupInput {
     }
 }
 
-public struct RegisterPatchBaselineForPatchGroupInput: Swift.Equatable {
+public struct RegisterPatchBaselineForPatchGroupInput {
     /// The ID of the patch baseline to register with the patch group.
     /// This member is required.
     public var baselineId: Swift.String?
@@ -40096,7 +40096,7 @@ public struct RegisterPatchBaselineForPatchGroupInput: Swift.Equatable {
     }
 }
 
-struct RegisterPatchBaselineForPatchGroupInputBody: Swift.Equatable {
+struct RegisterPatchBaselineForPatchGroupInputBody {
     let baselineId: Swift.String?
     let patchGroup: Swift.String?
 }
@@ -40130,7 +40130,7 @@ extension RegisterPatchBaselineForPatchGroupOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct RegisterPatchBaselineForPatchGroupOutput: Swift.Equatable {
+public struct RegisterPatchBaselineForPatchGroupOutput {
     /// The ID of the patch baseline the patch group was registered with.
     public var baselineId: Swift.String?
     /// The name of the patch group registered with the patch baseline.
@@ -40146,7 +40146,7 @@ public struct RegisterPatchBaselineForPatchGroupOutput: Swift.Equatable {
     }
 }
 
-struct RegisterPatchBaselineForPatchGroupOutputBody: Swift.Equatable {
+struct RegisterPatchBaselineForPatchGroupOutputBody {
     let baselineId: Swift.String?
     let patchGroup: Swift.String?
 }
@@ -40233,7 +40233,7 @@ extension RegisterTargetWithMaintenanceWindowInput {
     }
 }
 
-public struct RegisterTargetWithMaintenanceWindowInput: Swift.Equatable {
+public struct RegisterTargetWithMaintenanceWindowInput {
     /// User-provided idempotency token.
     public var clientToken: Swift.String?
     /// An optional description for the target.
@@ -40272,7 +40272,7 @@ public struct RegisterTargetWithMaintenanceWindowInput: Swift.Equatable {
     }
 }
 
-struct RegisterTargetWithMaintenanceWindowInputBody: Swift.Equatable {
+struct RegisterTargetWithMaintenanceWindowInputBody {
     let windowId: Swift.String?
     let resourceType: SSMClientTypes.MaintenanceWindowResourceType?
     let targets: [SSMClientTypes.Target]?
@@ -40333,7 +40333,7 @@ extension RegisterTargetWithMaintenanceWindowOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct RegisterTargetWithMaintenanceWindowOutput: Swift.Equatable {
+public struct RegisterTargetWithMaintenanceWindowOutput {
     /// The ID of the target definition in this maintenance window.
     public var windowTargetId: Swift.String?
 
@@ -40345,7 +40345,7 @@ public struct RegisterTargetWithMaintenanceWindowOutput: Swift.Equatable {
     }
 }
 
-struct RegisterTargetWithMaintenanceWindowOutputBody: Swift.Equatable {
+struct RegisterTargetWithMaintenanceWindowOutputBody {
     let windowTargetId: Swift.String?
 }
 
@@ -40466,7 +40466,7 @@ extension RegisterTaskWithMaintenanceWindowInput {
     }
 }
 
-public struct RegisterTaskWithMaintenanceWindowInput: Swift.Equatable {
+public struct RegisterTaskWithMaintenanceWindowInput {
     /// The CloudWatch alarm you want to apply to your maintenance window task.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// User-provided idempotency token.
@@ -40552,7 +40552,7 @@ public struct RegisterTaskWithMaintenanceWindowInput: Swift.Equatable {
     }
 }
 
-struct RegisterTaskWithMaintenanceWindowInputBody: Swift.Equatable {
+struct RegisterTaskWithMaintenanceWindowInputBody {
     let windowId: Swift.String?
     let targets: [SSMClientTypes.Target]?
     let taskArn: Swift.String?
@@ -40658,7 +40658,7 @@ extension RegisterTaskWithMaintenanceWindowOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct RegisterTaskWithMaintenanceWindowOutput: Swift.Equatable {
+public struct RegisterTaskWithMaintenanceWindowOutput {
     /// The ID of the task in the maintenance window.
     public var windowTaskId: Swift.String?
 
@@ -40670,7 +40670,7 @@ public struct RegisterTaskWithMaintenanceWindowOutput: Swift.Equatable {
     }
 }
 
-struct RegisterTaskWithMaintenanceWindowOutputBody: Swift.Equatable {
+struct RegisterTaskWithMaintenanceWindowOutputBody {
     let windowTaskId: Swift.String?
 }
 
@@ -40728,7 +40728,7 @@ extension SSMClientTypes.RegistrationMetadataItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// Reserved for internal use.
-    public struct RegistrationMetadataItem: Swift.Equatable {
+    public struct RegistrationMetadataItem {
         /// Reserved for internal use.
         /// This member is required.
         public var key: Swift.String?
@@ -40769,7 +40769,7 @@ extension SSMClientTypes.RelatedOpsItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// An OpsItems that shares something in common with the current OpsItem. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
-    public struct RelatedOpsItem: Swift.Equatable {
+    public struct RelatedOpsItem {
         /// The ID of an OpsItem related to the current OpsItem.
         /// This member is required.
         public var opsItemId: Swift.String?
@@ -40815,7 +40815,7 @@ extension RemoveTagsFromResourceInput {
     }
 }
 
-public struct RemoveTagsFromResourceInput: Swift.Equatable {
+public struct RemoveTagsFromResourceInput {
     /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde Automation: example-c160-4567-8519-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource. The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -40838,7 +40838,7 @@ public struct RemoveTagsFromResourceInput: Swift.Equatable {
     }
 }
 
-struct RemoveTagsFromResourceInputBody: Swift.Equatable {
+struct RemoveTagsFromResourceInputBody {
     let resourceType: SSMClientTypes.ResourceTypeForTagging?
     let resourceId: Swift.String?
     let tagKeys: [Swift.String]?
@@ -40876,7 +40876,7 @@ extension RemoveTagsFromResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveTagsFromResourceOutput: Swift.Equatable {
+public struct RemoveTagsFromResourceOutput {
 
     public init() { }
 }
@@ -40916,7 +40916,7 @@ extension ResetServiceSettingInput {
 }
 
 /// The request body of the ResetServiceSetting API operation.
-public struct ResetServiceSettingInput: Swift.Equatable {
+public struct ResetServiceSettingInput {
     /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following.
     ///
     /// * /ssm/managed-instance/default-ec2-instance-management-role
@@ -40945,7 +40945,7 @@ public struct ResetServiceSettingInput: Swift.Equatable {
     }
 }
 
-struct ResetServiceSettingInputBody: Swift.Equatable {
+struct ResetServiceSettingInputBody {
     let settingId: Swift.String?
 }
 
@@ -40974,7 +40974,7 @@ extension ResetServiceSettingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result body of the ResetServiceSetting API operation.
-public struct ResetServiceSettingOutput: Swift.Equatable {
+public struct ResetServiceSettingOutput {
     /// The current, effective service setting after calling the ResetServiceSetting API operation.
     public var serviceSetting: SSMClientTypes.ServiceSetting?
 
@@ -40986,7 +40986,7 @@ public struct ResetServiceSettingOutput: Swift.Equatable {
     }
 }
 
-struct ResetServiceSettingOutputBody: Swift.Equatable {
+struct ResetServiceSettingOutputBody {
     let serviceSetting: SSMClientTypes.ServiceSetting?
 }
 
@@ -41054,7 +41054,7 @@ extension SSMClientTypes.ResolvedTargets: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about targets that resolved during the Automation execution.
-    public struct ResolvedTargets: Swift.Equatable {
+    public struct ResolvedTargets {
         /// A list of parameter values sent to targets that resolved during the Automation execution.
         public var parameterValues: [Swift.String]?
         /// A boolean value indicating whether the resolved target list is truncated.
@@ -41135,7 +41135,7 @@ extension SSMClientTypes.ResourceComplianceSummaryItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// Compliance summary information for a specific resource.
-    public struct ResourceComplianceSummaryItem: Swift.Equatable {
+    public struct ResourceComplianceSummaryItem {
         /// The compliance type.
         public var complianceType: Swift.String?
         /// A list of items that are compliant for the resource.
@@ -41216,7 +41216,7 @@ public struct ResourceDataSyncAlreadyExistsException: ClientRuntime.ModeledError
     }
 }
 
-struct ResourceDataSyncAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceDataSyncAlreadyExistsExceptionBody {
     let syncName: Swift.String?
 }
 
@@ -41271,7 +41271,7 @@ extension SSMClientTypes.ResourceDataSyncAwsOrganizationsSource: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from Organizations or, if an Amazon Web Services organization isn't present, from multiple Amazon Web Services Regions.
-    public struct ResourceDataSyncAwsOrganizationsSource: Swift.Equatable {
+    public struct ResourceDataSyncAwsOrganizationsSource {
         /// If an Amazon Web Services organization is present, this is either OrganizationalUnits or EntireOrganization. For OrganizationalUnits, the data is aggregated from a set of organization units. For EntireOrganization, the data is aggregated from the entire Amazon Web Services organization.
         /// This member is required.
         public var organizationSourceType: Swift.String?
@@ -41329,7 +41329,7 @@ public struct ResourceDataSyncConflictException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct ResourceDataSyncConflictExceptionBody: Swift.Equatable {
+struct ResourceDataSyncConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -41384,7 +41384,7 @@ public struct ResourceDataSyncCountExceededException: ClientRuntime.ModeledError
     }
 }
 
-struct ResourceDataSyncCountExceededExceptionBody: Swift.Equatable {
+struct ResourceDataSyncCountExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -41421,7 +41421,7 @@ extension SSMClientTypes.ResourceDataSyncDestinationDataSharing: Swift.Codable {
 
 extension SSMClientTypes {
     /// Synchronize Amazon Web Services Systems Manager Inventory data from multiple Amazon Web Services accounts defined in Organizations to a centralized Amazon S3 bucket. Data is synchronized to individual key prefixes in the central bucket. Each key prefix represents a different Amazon Web Services account ID.
-    public struct ResourceDataSyncDestinationDataSharing: Swift.Equatable {
+    public struct ResourceDataSyncDestinationDataSharing {
         /// The sharing data type. Only Organization is supported.
         public var destinationDataSharingType: Swift.String?
 
@@ -41474,7 +41474,7 @@ public struct ResourceDataSyncInvalidConfigurationException: ClientRuntime.Model
     }
 }
 
-struct ResourceDataSyncInvalidConfigurationExceptionBody: Swift.Equatable {
+struct ResourceDataSyncInvalidConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -41565,7 +41565,7 @@ extension SSMClientTypes.ResourceDataSyncItem: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about a resource data sync configuration, including its current status and last successful sync.
-    public struct ResourceDataSyncItem: Swift.Equatable {
+    public struct ResourceDataSyncItem {
         /// The status reported by the last sync.
         public var lastStatus: SSMClientTypes.LastResourceDataSyncStatus?
         /// The last time the sync operations returned a status of SUCCESSFUL (UTC).
@@ -41664,7 +41664,7 @@ public struct ResourceDataSyncNotFoundException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct ResourceDataSyncNotFoundExceptionBody: Swift.Equatable {
+struct ResourceDataSyncNotFoundExceptionBody {
     let syncName: Swift.String?
     let syncType: Swift.String?
     let message: Swift.String?
@@ -41709,7 +41709,7 @@ extension SSMClientTypes.ResourceDataSyncOrganizationalUnit: Swift.Codable {
 
 extension SSMClientTypes {
     /// The Organizations organizational unit data source for the sync.
-    public struct ResourceDataSyncOrganizationalUnit: Swift.Equatable {
+    public struct ResourceDataSyncOrganizationalUnit {
         /// The Organizations unit ID data source for the sync.
         public var organizationalUnitId: Swift.String?
 
@@ -41774,7 +41774,7 @@ extension SSMClientTypes.ResourceDataSyncS3Destination: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about the target S3 bucket for the resource data sync.
-    public struct ResourceDataSyncS3Destination: Swift.Equatable {
+    public struct ResourceDataSyncS3Destination {
         /// The ARN of an encryption key for a destination in Amazon S3. Must belong to the same Region as the destination S3 bucket.
         public var awskmsKeyARN: Swift.String?
         /// The name of the S3 bucket where the aggregated data is stored.
@@ -41897,7 +41897,7 @@ extension SSMClientTypes.ResourceDataSyncSource: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about the source of the data included in the resource data sync.
-    public struct ResourceDataSyncSource: Swift.Equatable {
+    public struct ResourceDataSyncSource {
         /// Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from Organizations.
         public var awsOrganizationsSource: SSMClientTypes.ResourceDataSyncAwsOrganizationsSource?
         /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organization (or in the selected organization units). For more information, see [Setting up Systems Manager Explorer to display data from multiple accounts and Regions](https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html) in the Amazon Web Services Systems Manager User Guide.
@@ -41992,7 +41992,7 @@ extension SSMClientTypes.ResourceDataSyncSourceWithState: Swift.Codable {
 
 extension SSMClientTypes {
     /// The data type name for including resource data sync state. There are four sync states: OrganizationNotExists (Your organization doesn't exist) NoPermissions (The system can't locate the service-linked role. This role is automatically created when a user creates a resource data sync in Amazon Web Services Systems Manager Explorer.) InvalidOrganizationalUnit (You specified or selected an invalid unit in the resource data sync configuration.) TrustedAccessDisabled (You disabled Systems Manager access in the organization in Organizations.)
-    public struct ResourceDataSyncSourceWithState: Swift.Equatable {
+    public struct ResourceDataSyncSourceWithState {
         /// The field name in SyncSource for the ResourceDataSyncAwsOrganizationsSource type.
         public var awsOrganizationsSource: SSMClientTypes.ResourceDataSyncAwsOrganizationsSource?
         /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organization (or in the selected organization units). For more information, see [Setting up Systems Manager Explorer to display data from multiple accounts and Regions](https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html) in the Amazon Web Services Systems Manager User Guide.
@@ -42065,7 +42065,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -42120,7 +42120,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceLimitExceededExceptionBody: Swift.Equatable {
+struct ResourceLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -42175,7 +42175,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -42230,7 +42230,7 @@ public struct ResourcePolicyConflictException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ResourcePolicyConflictExceptionBody: Swift.Equatable {
+struct ResourcePolicyConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -42290,7 +42290,7 @@ public struct ResourcePolicyInvalidParameterException: ClientRuntime.ModeledErro
     }
 }
 
-struct ResourcePolicyInvalidParameterExceptionBody: Swift.Equatable {
+struct ResourcePolicyInvalidParameterExceptionBody {
     let parameterNames: [Swift.String]?
     let message: Swift.String?
 }
@@ -42368,7 +42368,7 @@ public struct ResourcePolicyLimitExceededException: ClientRuntime.ModeledError, 
     }
 }
 
-struct ResourcePolicyLimitExceededExceptionBody: Swift.Equatable {
+struct ResourcePolicyLimitExceededExceptionBody {
     let limit: Swift.Int
     let limitType: Swift.String?
     let message: Swift.String?
@@ -42431,7 +42431,7 @@ public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ResourcePolicyNotFoundExceptionBody: Swift.Equatable {
+struct ResourcePolicyNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -42553,7 +42553,7 @@ extension SSMClientTypes.ResultAttribute: Swift.Codable {
 
 extension SSMClientTypes {
     /// The inventory item result attribute.
-    public struct ResultAttribute: Swift.Equatable {
+    public struct ResultAttribute {
         /// Name of the inventory item type. Valid value: AWS:InstanceInformation. Default Value: AWS:InstanceInformation.
         /// This member is required.
         public var typeName: Swift.String?
@@ -42588,7 +42588,7 @@ extension ResumeSessionInput {
     }
 }
 
-public struct ResumeSessionInput: Swift.Equatable {
+public struct ResumeSessionInput {
     /// The ID of the disconnected session to resume.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -42601,7 +42601,7 @@ public struct ResumeSessionInput: Swift.Equatable {
     }
 }
 
-struct ResumeSessionInputBody: Swift.Equatable {
+struct ResumeSessionInputBody {
     let sessionId: Swift.String?
 }
 
@@ -42633,7 +42633,7 @@ extension ResumeSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResumeSessionOutput: Swift.Equatable {
+public struct ResumeSessionOutput {
     /// The ID of the session.
     public var sessionId: Swift.String?
     /// A URL back to SSM Agent on the managed node that the Session Manager client uses to send commands and receive output from the managed node. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output). region represents the Region identifier for an Amazon Web Services Region supported by Amazon Web Services Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in [Systems Manager service endpoints](https://docs.aws.amazon.com/general/latest/gr/ssm.html#ssm_region) in the Amazon Web Services General Reference. session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
@@ -42653,7 +42653,7 @@ public struct ResumeSessionOutput: Swift.Equatable {
     }
 }
 
-struct ResumeSessionOutputBody: Swift.Equatable {
+struct ResumeSessionOutputBody {
     let sessionId: Swift.String?
     let tokenValue: Swift.String?
     let streamUrl: Swift.String?
@@ -42722,7 +42722,7 @@ extension SSMClientTypes.ReviewInformation: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about the result of a document review request.
-    public struct ReviewInformation: Swift.Equatable {
+    public struct ReviewInformation {
         /// The time that the reviewer took action on the document review request.
         public var reviewedTime: ClientRuntime.Date?
         /// The reviewer assigned to take action on the document review request.
@@ -42931,7 +42931,7 @@ extension SSMClientTypes.Runbook: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about an Automation runbook used in a runbook workflow in Change Manager. The Automation runbooks specified for the runbook workflow can't run until all required approvals for the change request have been received.
-    public struct Runbook: Swift.Equatable {
+    public struct Runbook {
         /// The name of the Automation runbook used in a runbook workflow.
         /// This member is required.
         public var documentName: Swift.String?
@@ -43011,7 +43011,7 @@ extension SSMClientTypes.S3OutputLocation: Swift.Codable {
 
 extension SSMClientTypes {
     /// An S3 bucket where you want to store the results of this request.
-    public struct S3OutputLocation: Swift.Equatable {
+    public struct S3OutputLocation {
         /// The name of the S3 bucket.
         public var outputS3BucketName: Swift.String?
         /// The S3 bucket subfolder.
@@ -43054,7 +43054,7 @@ extension SSMClientTypes.S3OutputUrl: Swift.Codable {
 
 extension SSMClientTypes {
     /// A URL for the Amazon Web Services Systems Manager (Systems Manager) bucket where you want to store the results of this request.
-    public struct S3OutputUrl: Swift.Equatable {
+    public struct S3OutputUrl {
         /// A URL for an S3 bucket where you want to store the results of this request.
         public var outputUrl: Swift.String?
 
@@ -43103,7 +43103,7 @@ extension SSMClientTypes.ScheduledWindowExecution: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about a scheduled execution for a maintenance window.
-    public struct ScheduledWindowExecution: Swift.Equatable {
+    public struct ScheduledWindowExecution {
         /// The time, in ISO-8601 Extended format, that the maintenance window is scheduled to be run.
         public var executionTime: Swift.String?
         /// The name of the maintenance window to be run.
@@ -43159,7 +43159,7 @@ extension SendAutomationSignalInput {
     }
 }
 
-public struct SendAutomationSignalInput: Swift.Equatable {
+public struct SendAutomationSignalInput {
     /// The unique identifier for an existing Automation execution that you want to send the signal to.
     /// This member is required.
     public var automationExecutionId: Swift.String?
@@ -43181,7 +43181,7 @@ public struct SendAutomationSignalInput: Swift.Equatable {
     }
 }
 
-struct SendAutomationSignalInputBody: Swift.Equatable {
+struct SendAutomationSignalInputBody {
     let automationExecutionId: Swift.String?
     let signalType: SSMClientTypes.SignalType?
     let payload: [Swift.String:[Swift.String]]?
@@ -43226,7 +43226,7 @@ extension SendAutomationSignalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendAutomationSignalOutput: Swift.Equatable {
+public struct SendAutomationSignalOutput {
 
     public init() { }
 }
@@ -43350,7 +43350,7 @@ extension SendCommandInput {
     }
 }
 
-public struct SendCommandInput: Swift.Equatable {
+public struct SendCommandInput {
     /// The CloudWatch alarm you want to apply to your command.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// Enables Amazon Web Services Systems Manager to send Run Command output to Amazon CloudWatch Logs. Run Command is a capability of Amazon Web Services Systems Manager.
@@ -43431,7 +43431,7 @@ public struct SendCommandInput: Swift.Equatable {
     }
 }
 
-struct SendCommandInputBody: Swift.Equatable {
+struct SendCommandInputBody {
     let instanceIds: [Swift.String]?
     let targets: [SSMClientTypes.Target]?
     let documentName: Swift.String?
@@ -43561,7 +43561,7 @@ extension SendCommandOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendCommandOutput: Swift.Equatable {
+public struct SendCommandOutput {
     /// The request as it was received by Systems Manager. Also provides the command ID which can be used future references to this request.
     public var command: SSMClientTypes.Command?
 
@@ -43573,7 +43573,7 @@ public struct SendCommandOutput: Swift.Equatable {
     }
 }
 
-struct SendCommandOutputBody: Swift.Equatable {
+struct SendCommandOutputBody {
     let command: SSMClientTypes.Command?
 }
 
@@ -43661,7 +43661,7 @@ extension SSMClientTypes.ServiceSetting: Swift.Codable {
 
 extension SSMClientTypes {
     /// The service setting data structure. ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the [UpdateServiceSetting] API operation to change the default setting. Or, use the [ResetServiceSetting] to change the value back to the original value defined by the Amazon Web Services service team.
-    public struct ServiceSetting: Swift.Equatable {
+    public struct ServiceSetting {
         /// The ARN of the service setting.
         public var arn: Swift.String?
         /// The last time the service setting was modified.
@@ -43740,7 +43740,7 @@ public struct ServiceSettingNotFound: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ServiceSettingNotFoundBody: Swift.Equatable {
+struct ServiceSettingNotFoundBody {
     let message: Swift.String?
 }
 
@@ -43837,7 +43837,7 @@ extension SSMClientTypes.Session: Swift.Codable {
 
 extension SSMClientTypes {
     /// Information about a Session Manager connection to a managed node.
-    public struct Session: Swift.Equatable {
+    public struct Session {
         /// Reserved for future use.
         public var details: Swift.String?
         /// The name of the Session Manager SSM document used to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell.
@@ -43918,7 +43918,7 @@ extension SSMClientTypes.SessionFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// Describes a filter for Session Manager information.
-    public struct SessionFilter: Swift.Equatable {
+    public struct SessionFilter {
         /// The name of the filter.
         /// This member is required.
         public var key: SSMClientTypes.SessionFilterKey?
@@ -44036,7 +44036,7 @@ extension SSMClientTypes.SessionManagerOutputUrl: Swift.Codable {
 
 extension SSMClientTypes {
     /// Reserved for future use.
-    public struct SessionManagerOutputUrl: Swift.Equatable {
+    public struct SessionManagerOutputUrl {
         /// Reserved for future use.
         public var cloudWatchOutputUrl: Swift.String?
         /// Reserved for future use.
@@ -44181,7 +44181,7 @@ extension SSMClientTypes.SeveritySummary: Swift.Codable {
 
 extension SSMClientTypes {
     /// The number of managed nodes found for each patch severity level defined in the request filter.
-    public struct SeveritySummary: Swift.Equatable {
+    public struct SeveritySummary {
         /// The total number of resources or compliance items that have a severity level of Critical. Critical severity is determined by the organization that published the compliance items.
         public var criticalCount: Swift.Int
         /// The total number of resources or compliance items that have a severity level of high. High severity is determined by the organization that published the compliance items.
@@ -44314,7 +44314,7 @@ extension StartAssociationsOnceInput {
     }
 }
 
-public struct StartAssociationsOnceInput: Swift.Equatable {
+public struct StartAssociationsOnceInput {
     /// The association IDs that you want to run immediately and only one time.
     /// This member is required.
     public var associationIds: [Swift.String]?
@@ -44327,7 +44327,7 @@ public struct StartAssociationsOnceInput: Swift.Equatable {
     }
 }
 
-struct StartAssociationsOnceInputBody: Swift.Equatable {
+struct StartAssociationsOnceInputBody {
     let associationIds: [Swift.String]?
 }
 
@@ -44357,7 +44357,7 @@ extension StartAssociationsOnceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartAssociationsOnceOutput: Swift.Equatable {
+public struct StartAssociationsOnceOutput {
 
     public init() { }
 }
@@ -44466,7 +44466,7 @@ extension StartAutomationExecutionInput {
     }
 }
 
-public struct StartAutomationExecutionInput: Swift.Equatable {
+public struct StartAutomationExecutionInput {
     /// The CloudWatch alarm you want to apply to your automation.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// User-provided idempotency token. The token must be unique, is case insensitive, enforces the UUID format, and can't be reused.
@@ -44534,7 +44534,7 @@ public struct StartAutomationExecutionInput: Swift.Equatable {
     }
 }
 
-struct StartAutomationExecutionInputBody: Swift.Equatable {
+struct StartAutomationExecutionInputBody {
     let documentName: Swift.String?
     let documentVersion: Swift.String?
     let parameters: [Swift.String:[Swift.String]]?
@@ -44678,7 +44678,7 @@ extension StartAutomationExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartAutomationExecutionOutput: Swift.Equatable {
+public struct StartAutomationExecutionOutput {
     /// The unique ID of a newly scheduled automation execution.
     public var automationExecutionId: Swift.String?
 
@@ -44690,7 +44690,7 @@ public struct StartAutomationExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StartAutomationExecutionOutputBody: Swift.Equatable {
+struct StartAutomationExecutionOutputBody {
     let automationExecutionId: Swift.String?
 }
 
@@ -44795,7 +44795,7 @@ extension StartChangeRequestExecutionInput {
     }
 }
 
-public struct StartChangeRequestExecutionInput: Swift.Equatable {
+public struct StartChangeRequestExecutionInput {
     /// Indicates whether the change request can be approved automatically without the need for manual approvals. If AutoApprovable is enabled in a change template, then setting AutoApprove to true in StartChangeRequestExecution creates a change request that bypasses approver review. Change Calendar restrictions are not bypassed in this scenario. If the state of an associated calendar is CLOSED, change freeze approvers must still grant permission for this change request to run. If they don't, the change won't be processed until the calendar state is again OPEN.
     public var autoApprove: Swift.Bool?
     /// User-provided details about the change. If no details are provided, content specified in the Template information section of the associated change template is added.
@@ -44853,7 +44853,7 @@ public struct StartChangeRequestExecutionInput: Swift.Equatable {
     }
 }
 
-struct StartChangeRequestExecutionInputBody: Swift.Equatable {
+struct StartChangeRequestExecutionInputBody {
     let scheduledTime: ClientRuntime.Date?
     let documentName: Swift.String?
     let documentVersion: Swift.String?
@@ -44955,7 +44955,7 @@ extension StartChangeRequestExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartChangeRequestExecutionOutput: Swift.Equatable {
+public struct StartChangeRequestExecutionOutput {
     /// The unique ID of a runbook workflow operation. (A runbook workflow is a type of Automation operation.)
     public var automationExecutionId: Swift.String?
 
@@ -44967,7 +44967,7 @@ public struct StartChangeRequestExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StartChangeRequestExecutionOutputBody: Swift.Equatable {
+struct StartChangeRequestExecutionOutputBody {
     let automationExecutionId: Swift.String?
 }
 
@@ -45038,7 +45038,7 @@ extension StartSessionInput {
     }
 }
 
-public struct StartSessionInput: Swift.Equatable {
+public struct StartSessionInput {
     /// The name of the SSM document you want to use to define the type of session, input parameters, or preferences for the session. For example, SSM-SessionManagerRunShell. You can call the [GetDocument] API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the managed node is launched by default. For more information, see [Start a session](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html) in the Amazon Web Services Systems Manager User Guide.
     public var documentName: Swift.String?
     /// The values you want to specify for the parameters defined in the Session document.
@@ -45063,7 +45063,7 @@ public struct StartSessionInput: Swift.Equatable {
     }
 }
 
-struct StartSessionInputBody: Swift.Equatable {
+struct StartSessionInputBody {
     let target: Swift.String?
     let documentName: Swift.String?
     let reason: Swift.String?
@@ -45123,7 +45123,7 @@ extension StartSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSessionOutput: Swift.Equatable {
+public struct StartSessionOutput {
     /// The ID of the session.
     public var sessionId: Swift.String?
     /// A URL back to SSM Agent on the managed node that the Session Manager client uses to send commands and receive output from the node. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output) region represents the Region identifier for an Amazon Web Services Region supported by Amazon Web Services Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in [Systems Manager service endpoints](https://docs.aws.amazon.com/general/latest/gr/ssm.html#ssm_region) in the Amazon Web Services General Reference. session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
@@ -45143,7 +45143,7 @@ public struct StartSessionOutput: Swift.Equatable {
     }
 }
 
-struct StartSessionOutputBody: Swift.Equatable {
+struct StartSessionOutputBody {
     let sessionId: Swift.String?
     let tokenValue: Swift.String?
     let streamUrl: Swift.String?
@@ -45452,7 +45452,7 @@ extension SSMClientTypes.StepExecution: Swift.Codable {
 
 extension SSMClientTypes {
     /// Detailed information about an the execution state of an Automation step.
-    public struct StepExecution: Swift.Equatable {
+    public struct StepExecution {
         /// The action this step performs. The action determines the behavior of the step.
         public var action: Swift.String?
         /// If a step has finished execution, this contains the time the execution ended. If the step hasn't yet concluded, this field isn't populated.
@@ -45597,7 +45597,7 @@ extension SSMClientTypes.StepExecutionFilter: Swift.Codable {
 
 extension SSMClientTypes {
     /// A filter to limit the amount of step execution information returned by the call.
-    public struct StepExecutionFilter: Swift.Equatable {
+    public struct StepExecutionFilter {
         /// One or more keys to limit the results.
         /// This member is required.
         public var key: SSMClientTypes.StepExecutionFilterKey?
@@ -45694,7 +45694,7 @@ extension StopAutomationExecutionInput {
     }
 }
 
-public struct StopAutomationExecutionInput: Swift.Equatable {
+public struct StopAutomationExecutionInput {
     /// The execution ID of the Automation to stop.
     /// This member is required.
     public var automationExecutionId: Swift.String?
@@ -45711,7 +45711,7 @@ public struct StopAutomationExecutionInput: Swift.Equatable {
     }
 }
 
-struct StopAutomationExecutionInputBody: Swift.Equatable {
+struct StopAutomationExecutionInputBody {
     let automationExecutionId: Swift.String?
     let type: SSMClientTypes.StopType?
 }
@@ -45736,7 +45736,7 @@ extension StopAutomationExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopAutomationExecutionOutput: Swift.Equatable {
+public struct StopAutomationExecutionOutput {
 
     public init() { }
 }
@@ -45825,7 +45825,7 @@ public struct SubTypeCountLimitExceededException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct SubTypeCountLimitExceededExceptionBody: Swift.Equatable {
+struct SubTypeCountLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -45868,7 +45868,7 @@ extension SSMClientTypes.Tag: Swift.Codable {
 
 extension SSMClientTypes {
     /// Metadata that you assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. In Amazon Web Services Systems Manager, you can apply tags to Systems Manager documents (SSM documents), managed nodes, maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The name of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -45959,7 +45959,7 @@ extension SSMClientTypes {
     ///
     ///
     /// For more information about how to send commands that target managed nodes using Key,Value parameters, see [Targeting multiple managed nodes](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-targeting) in the Amazon Web Services Systems Manager User Guide.
-    public struct Target: Swift.Equatable {
+    public struct Target {
         /// User-defined criteria for sending commands that target managed nodes that meet the criteria.
         public var key: Swift.String?
         /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer. Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50.
@@ -46016,7 +46016,7 @@ public struct TargetInUseException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TargetInUseExceptionBody: Swift.Equatable {
+struct TargetInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -46107,7 +46107,7 @@ extension SSMClientTypes.TargetLocation: Swift.Codable {
 
 extension SSMClientTypes {
     /// The combination of Amazon Web Services Regions and Amazon Web Services accounts targeted by the current Automation execution.
-    public struct TargetLocation: Swift.Equatable {
+    public struct TargetLocation {
         /// The Amazon Web Services accounts targeted by the current Automation execution.
         public var accounts: [Swift.String]?
         /// The Automation execution role used by the currently running Automation. If not specified, the default value is AWS-SystemsManager-AutomationExecutionRole.
@@ -46180,7 +46180,7 @@ public struct TargetNotConnected: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct TargetNotConnectedBody: Swift.Equatable {
+struct TargetNotConnectedBody {
     let message: Swift.String?
 }
 
@@ -46216,7 +46216,7 @@ extension TerminateSessionInput {
     }
 }
 
-public struct TerminateSessionInput: Swift.Equatable {
+public struct TerminateSessionInput {
     /// The ID of the session to terminate.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -46229,7 +46229,7 @@ public struct TerminateSessionInput: Swift.Equatable {
     }
 }
 
-struct TerminateSessionInputBody: Swift.Equatable {
+struct TerminateSessionInputBody {
     let sessionId: Swift.String?
 }
 
@@ -46257,7 +46257,7 @@ extension TerminateSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TerminateSessionOutput: Swift.Equatable {
+public struct TerminateSessionOutput {
     /// The ID of the session that has been terminated.
     public var sessionId: Swift.String?
 
@@ -46269,7 +46269,7 @@ public struct TerminateSessionOutput: Swift.Equatable {
     }
 }
 
-struct TerminateSessionOutputBody: Swift.Equatable {
+struct TerminateSessionOutputBody {
     let sessionId: Swift.String?
 }
 
@@ -46356,7 +46356,7 @@ public struct TooManyUpdates: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
-struct TooManyUpdatesBody: Swift.Equatable {
+struct TooManyUpdatesBody {
     let message: Swift.String?
 }
 
@@ -46411,7 +46411,7 @@ public struct TotalSizeLimitExceededException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct TotalSizeLimitExceededExceptionBody: Swift.Equatable {
+struct TotalSizeLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -46458,7 +46458,7 @@ extension UnlabelParameterVersionInput {
     }
 }
 
-public struct UnlabelParameterVersionInput: Swift.Equatable {
+public struct UnlabelParameterVersionInput {
     /// One or more labels to delete from the specified parameter version.
     /// This member is required.
     public var labels: [Swift.String]?
@@ -46481,7 +46481,7 @@ public struct UnlabelParameterVersionInput: Swift.Equatable {
     }
 }
 
-struct UnlabelParameterVersionInputBody: Swift.Equatable {
+struct UnlabelParameterVersionInputBody {
     let name: Swift.String?
     let parameterVersion: Swift.Int?
     let labels: [Swift.String]?
@@ -46528,7 +46528,7 @@ extension UnlabelParameterVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnlabelParameterVersionOutput: Swift.Equatable {
+public struct UnlabelParameterVersionOutput {
     /// The labels that aren't attached to the given parameter version.
     public var invalidLabels: [Swift.String]?
     /// A list of all labels deleted from the parameter.
@@ -46544,7 +46544,7 @@ public struct UnlabelParameterVersionOutput: Swift.Equatable {
     }
 }
 
-struct UnlabelParameterVersionOutputBody: Swift.Equatable {
+struct UnlabelParameterVersionOutputBody {
     let removedLabels: [Swift.String]?
     let invalidLabels: [Swift.String]?
 }
@@ -46635,7 +46635,7 @@ public struct UnsupportedCalendarException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct UnsupportedCalendarExceptionBody: Swift.Equatable {
+struct UnsupportedCalendarExceptionBody {
     let message: Swift.String?
 }
 
@@ -46690,7 +46690,7 @@ public struct UnsupportedFeatureRequiredException: ClientRuntime.ModeledError, A
     }
 }
 
-struct UnsupportedFeatureRequiredExceptionBody: Swift.Equatable {
+struct UnsupportedFeatureRequiredExceptionBody {
     let message: Swift.String?
 }
 
@@ -46750,7 +46750,7 @@ public struct UnsupportedInventoryItemContextException: ClientRuntime.ModeledErr
     }
 }
 
-struct UnsupportedInventoryItemContextExceptionBody: Swift.Equatable {
+struct UnsupportedInventoryItemContextExceptionBody {
     let typeName: Swift.String?
     let message: Swift.String?
 }
@@ -46809,7 +46809,7 @@ public struct UnsupportedInventorySchemaVersionException: ClientRuntime.ModeledE
     }
 }
 
-struct UnsupportedInventorySchemaVersionExceptionBody: Swift.Equatable {
+struct UnsupportedInventorySchemaVersionExceptionBody {
     let message: Swift.String?
 }
 
@@ -46864,7 +46864,7 @@ public struct UnsupportedOperatingSystem: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct UnsupportedOperatingSystemBody: Swift.Equatable {
+struct UnsupportedOperatingSystemBody {
     let message: Swift.String?
 }
 
@@ -46919,7 +46919,7 @@ public struct UnsupportedParameterType: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct UnsupportedParameterTypeBody: Swift.Equatable {
+struct UnsupportedParameterTypeBody {
     let message: Swift.String?
 }
 
@@ -46974,7 +46974,7 @@ public struct UnsupportedPlatformType: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct UnsupportedPlatformTypeBody: Swift.Equatable {
+struct UnsupportedPlatformTypeBody {
     let message: Swift.String?
 }
 
@@ -47119,7 +47119,7 @@ extension UpdateAssociationInput {
     }
 }
 
-public struct UpdateAssociationInput: Swift.Equatable {
+public struct UpdateAssociationInput {
     /// The details for the CloudWatch alarm you want to apply to an automation or command.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter isn't supported for rate expressions. If you chose this option when you created an association and later you edit that association or you make changes to the SSM document on which that association is based (by using the Documents page in the console), State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously selected this option. If this option wasn't selected, State Manager immediately runs the association. You can reset this option. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
@@ -47216,7 +47216,7 @@ public struct UpdateAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssociationInputBody: Swift.Equatable {
+struct UpdateAssociationInputBody {
     let associationId: Swift.String?
     let parameters: [Swift.String:[Swift.String]]?
     let documentVersion: Swift.String?
@@ -47392,7 +47392,7 @@ extension UpdateAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAssociationOutput: Swift.Equatable {
+public struct UpdateAssociationOutput {
     /// The description of the association that was updated.
     public var associationDescription: SSMClientTypes.AssociationDescription?
 
@@ -47404,7 +47404,7 @@ public struct UpdateAssociationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssociationOutputBody: Swift.Equatable {
+struct UpdateAssociationOutputBody {
     let associationDescription: SSMClientTypes.AssociationDescription?
 }
 
@@ -47471,7 +47471,7 @@ extension UpdateAssociationStatusInput {
     }
 }
 
-public struct UpdateAssociationStatusInput: Swift.Equatable {
+public struct UpdateAssociationStatusInput {
     /// The association status.
     /// This member is required.
     public var associationStatus: SSMClientTypes.AssociationStatus?
@@ -47494,7 +47494,7 @@ public struct UpdateAssociationStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssociationStatusInputBody: Swift.Equatable {
+struct UpdateAssociationStatusInputBody {
     let name: Swift.String?
     let instanceId: Swift.String?
     let associationStatus: SSMClientTypes.AssociationStatus?
@@ -47530,7 +47530,7 @@ extension UpdateAssociationStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAssociationStatusOutput: Swift.Equatable {
+public struct UpdateAssociationStatusOutput {
     /// Information about the association.
     public var associationDescription: SSMClientTypes.AssociationDescription?
 
@@ -47542,7 +47542,7 @@ public struct UpdateAssociationStatusOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssociationStatusOutputBody: Swift.Equatable {
+struct UpdateAssociationStatusOutputBody {
     let associationDescription: SSMClientTypes.AssociationDescription?
 }
 
@@ -47598,7 +47598,7 @@ extension UpdateDocumentDefaultVersionInput {
     }
 }
 
-public struct UpdateDocumentDefaultVersionInput: Swift.Equatable {
+public struct UpdateDocumentDefaultVersionInput {
     /// The version of a custom document that you want to set as the default version.
     /// This member is required.
     public var documentVersion: Swift.String?
@@ -47616,7 +47616,7 @@ public struct UpdateDocumentDefaultVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateDocumentDefaultVersionInputBody: Swift.Equatable {
+struct UpdateDocumentDefaultVersionInputBody {
     let name: Swift.String?
     let documentVersion: Swift.String?
 }
@@ -47648,7 +47648,7 @@ extension UpdateDocumentDefaultVersionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateDocumentDefaultVersionOutput: Swift.Equatable {
+public struct UpdateDocumentDefaultVersionOutput {
     /// The description of a custom document that you want to set as the default version.
     public var description: SSMClientTypes.DocumentDefaultVersionDescription?
 
@@ -47660,7 +47660,7 @@ public struct UpdateDocumentDefaultVersionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDocumentDefaultVersionOutputBody: Swift.Equatable {
+struct UpdateDocumentDefaultVersionOutputBody {
     let description: SSMClientTypes.DocumentDefaultVersionDescription?
 }
 
@@ -47741,7 +47741,7 @@ extension UpdateDocumentInput {
     }
 }
 
-public struct UpdateDocumentInput: Swift.Equatable {
+public struct UpdateDocumentInput {
     /// A list of key-value pairs that describe attachments to a version of a document.
     public var attachments: [SSMClientTypes.AttachmentsSource]?
     /// A valid JSON or YAML string.
@@ -47783,7 +47783,7 @@ public struct UpdateDocumentInput: Swift.Equatable {
     }
 }
 
-struct UpdateDocumentInputBody: Swift.Equatable {
+struct UpdateDocumentInputBody {
     let content: Swift.String?
     let attachments: [SSMClientTypes.AttachmentsSource]?
     let name: Swift.String?
@@ -47864,7 +47864,7 @@ extension UpdateDocumentMetadataInput {
     }
 }
 
-public struct UpdateDocumentMetadataInput: Swift.Equatable {
+public struct UpdateDocumentMetadataInput {
     /// The change template review details to update.
     /// This member is required.
     public var documentReviews: SSMClientTypes.DocumentReviews?
@@ -47886,7 +47886,7 @@ public struct UpdateDocumentMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateDocumentMetadataInputBody: Swift.Equatable {
+struct UpdateDocumentMetadataInputBody {
     let name: Swift.String?
     let documentVersion: Swift.String?
     let documentReviews: SSMClientTypes.DocumentReviews?
@@ -47915,7 +47915,7 @@ extension UpdateDocumentMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDocumentMetadataOutput: Swift.Equatable {
+public struct UpdateDocumentMetadataOutput {
 
     public init() { }
 }
@@ -47946,7 +47946,7 @@ extension UpdateDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDocumentOutput: Swift.Equatable {
+public struct UpdateDocumentOutput {
     /// A description of the document that was updated.
     public var documentDescription: SSMClientTypes.DocumentDescription?
 
@@ -47958,7 +47958,7 @@ public struct UpdateDocumentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDocumentOutputBody: Swift.Equatable {
+struct UpdateDocumentOutputBody {
     let documentDescription: SSMClientTypes.DocumentDescription?
 }
 
@@ -48067,7 +48067,7 @@ extension UpdateMaintenanceWindowInput {
     }
 }
 
-public struct UpdateMaintenanceWindowInput: Swift.Equatable {
+public struct UpdateMaintenanceWindowInput {
     /// Whether targets must be registered with the maintenance window before tasks can be defined for those targets.
     public var allowUnassociatedTargets: Swift.Bool?
     /// The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution.
@@ -48128,7 +48128,7 @@ public struct UpdateMaintenanceWindowInput: Swift.Equatable {
     }
 }
 
-struct UpdateMaintenanceWindowInputBody: Swift.Equatable {
+struct UpdateMaintenanceWindowInputBody {
     let windowId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -48231,7 +48231,7 @@ extension UpdateMaintenanceWindowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMaintenanceWindowOutput: Swift.Equatable {
+public struct UpdateMaintenanceWindowOutput {
     /// Whether targets must be registered with the maintenance window before tasks can be defined for those targets.
     public var allowUnassociatedTargets: Swift.Bool
     /// The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution.
@@ -48287,7 +48287,7 @@ public struct UpdateMaintenanceWindowOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMaintenanceWindowOutputBody: Swift.Equatable {
+struct UpdateMaintenanceWindowOutputBody {
     let windowId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -48411,7 +48411,7 @@ extension UpdateMaintenanceWindowTargetInput {
     }
 }
 
-public struct UpdateMaintenanceWindowTargetInput: Swift.Equatable {
+public struct UpdateMaintenanceWindowTargetInput {
     /// An optional description for the update.
     public var description: Swift.String?
     /// A name for the update.
@@ -48449,7 +48449,7 @@ public struct UpdateMaintenanceWindowTargetInput: Swift.Equatable {
     }
 }
 
-struct UpdateMaintenanceWindowTargetInputBody: Swift.Equatable {
+struct UpdateMaintenanceWindowTargetInputBody {
     let windowId: Swift.String?
     let windowTargetId: Swift.String?
     let targets: [SSMClientTypes.Target]?
@@ -48525,7 +48525,7 @@ extension UpdateMaintenanceWindowTargetOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateMaintenanceWindowTargetOutput: Swift.Equatable {
+public struct UpdateMaintenanceWindowTargetOutput {
     /// The updated description.
     public var description: Swift.String?
     /// The updated name.
@@ -48557,7 +48557,7 @@ public struct UpdateMaintenanceWindowTargetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMaintenanceWindowTargetOutputBody: Swift.Equatable {
+struct UpdateMaintenanceWindowTargetOutputBody {
     let windowId: Swift.String?
     let windowTargetId: Swift.String?
     let targets: [SSMClientTypes.Target]?
@@ -48705,7 +48705,7 @@ extension UpdateMaintenanceWindowTaskInput {
     }
 }
 
-public struct UpdateMaintenanceWindowTaskInput: Swift.Equatable {
+public struct UpdateMaintenanceWindowTaskInput {
     /// The CloudWatch alarm you want to apply to your maintenance window task.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// Indicates whether tasks should continue to run after the cutoff time specified in the maintenance windows is reached.
@@ -48790,7 +48790,7 @@ public struct UpdateMaintenanceWindowTaskInput: Swift.Equatable {
     }
 }
 
-struct UpdateMaintenanceWindowTaskInputBody: Swift.Equatable {
+struct UpdateMaintenanceWindowTaskInputBody {
     let windowId: Swift.String?
     let windowTaskId: Swift.String?
     let targets: [SSMClientTypes.Target]?
@@ -48929,7 +48929,7 @@ extension UpdateMaintenanceWindowTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMaintenanceWindowTaskOutput: Swift.Equatable {
+public struct UpdateMaintenanceWindowTaskOutput {
     /// The details for the CloudWatch alarm you applied to your maintenance window task.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// The specification for whether tasks should continue to run after the cutoff time specified in the maintenance windows is reached.
@@ -48997,7 +48997,7 @@ public struct UpdateMaintenanceWindowTaskOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMaintenanceWindowTaskOutputBody: Swift.Equatable {
+struct UpdateMaintenanceWindowTaskOutputBody {
     let windowId: Swift.String?
     let windowTaskId: Swift.String?
     let targets: [SSMClientTypes.Target]?
@@ -49123,7 +49123,7 @@ extension UpdateManagedInstanceRoleInput {
     }
 }
 
-public struct UpdateManagedInstanceRoleInput: Swift.Equatable {
+public struct UpdateManagedInstanceRoleInput {
     /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see [Create an IAM service role for a hybrid and multicloud environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html) in the Amazon Web Services Systems Manager User Guide. You can't specify an IAM service-linked role for this parameter. You must create a unique role.
     /// This member is required.
     public var iamRole: Swift.String?
@@ -49141,7 +49141,7 @@ public struct UpdateManagedInstanceRoleInput: Swift.Equatable {
     }
 }
 
-struct UpdateManagedInstanceRoleInputBody: Swift.Equatable {
+struct UpdateManagedInstanceRoleInputBody {
     let instanceId: Swift.String?
     let iamRole: Swift.String?
 }
@@ -49166,7 +49166,7 @@ extension UpdateManagedInstanceRoleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateManagedInstanceRoleOutput: Swift.Equatable {
+public struct UpdateManagedInstanceRoleOutput {
 
     public init() { }
 }
@@ -49275,7 +49275,7 @@ extension UpdateOpsItemInput {
     }
 }
 
-public struct UpdateOpsItemInput: Swift.Equatable {
+public struct UpdateOpsItemInput {
     /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
     public var actualEndTime: ClientRuntime.Date?
     /// The time a runbook workflow started. Currently reported only for the OpsItem type /aws/changerequest.
@@ -49348,7 +49348,7 @@ public struct UpdateOpsItemInput: Swift.Equatable {
     }
 }
 
-struct UpdateOpsItemInputBody: Swift.Equatable {
+struct UpdateOpsItemInputBody {
     let description: Swift.String?
     let operationalData: [Swift.String:SSMClientTypes.OpsItemDataValue]?
     let operationalDataToDelete: [Swift.String]?
@@ -49465,7 +49465,7 @@ extension UpdateOpsItemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateOpsItemOutput: Swift.Equatable {
+public struct UpdateOpsItemOutput {
 
     public init() { }
 }
@@ -49521,7 +49521,7 @@ extension UpdateOpsMetadataInput {
     }
 }
 
-public struct UpdateOpsMetadataInput: Swift.Equatable {
+public struct UpdateOpsMetadataInput {
     /// The metadata keys to delete from the OpsMetadata object.
     public var keysToDelete: [Swift.String]?
     /// Metadata to add to an OpsMetadata object.
@@ -49542,7 +49542,7 @@ public struct UpdateOpsMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateOpsMetadataInputBody: Swift.Equatable {
+struct UpdateOpsMetadataInputBody {
     let opsMetadataArn: Swift.String?
     let metadataToUpdate: [Swift.String:SSMClientTypes.MetadataValue]?
     let keysToDelete: [Swift.String]?
@@ -49596,7 +49596,7 @@ extension UpdateOpsMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateOpsMetadataOutput: Swift.Equatable {
+public struct UpdateOpsMetadataOutput {
     /// The Amazon Resource Name (ARN) of the OpsMetadata Object that was updated.
     public var opsMetadataArn: Swift.String?
 
@@ -49608,7 +49608,7 @@ public struct UpdateOpsMetadataOutput: Swift.Equatable {
     }
 }
 
-struct UpdateOpsMetadataOutputBody: Swift.Equatable {
+struct UpdateOpsMetadataOutputBody {
     let opsMetadataArn: Swift.String?
 }
 
@@ -49712,7 +49712,7 @@ extension UpdatePatchBaselineInput {
     }
 }
 
-public struct UpdatePatchBaselineInput: Swift.Equatable {
+public struct UpdatePatchBaselineInput {
     /// A set of rules used to include patches in the baseline.
     public var approvalRules: SSMClientTypes.PatchRuleGroup?
     /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see [About package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html) in the Amazon Web Services Systems Manager User Guide.
@@ -49773,7 +49773,7 @@ public struct UpdatePatchBaselineInput: Swift.Equatable {
     }
 }
 
-struct UpdatePatchBaselineInputBody: Swift.Equatable {
+struct UpdatePatchBaselineInputBody {
     let baselineId: Swift.String?
     let name: Swift.String?
     let globalFilters: SSMClientTypes.PatchFilterGroup?
@@ -49898,7 +49898,7 @@ extension UpdatePatchBaselineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePatchBaselineOutput: Swift.Equatable {
+public struct UpdatePatchBaselineOutput {
     /// A set of rules used to include patches in the baseline.
     public var approvalRules: SSMClientTypes.PatchRuleGroup?
     /// A list of explicitly approved patches for the baseline.
@@ -49962,7 +49962,7 @@ public struct UpdatePatchBaselineOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePatchBaselineOutputBody: Swift.Equatable {
+struct UpdatePatchBaselineOutputBody {
     let baselineId: Swift.String?
     let name: Swift.String?
     let operatingSystem: SSMClientTypes.OperatingSystem?
@@ -50097,7 +50097,7 @@ extension UpdateResourceDataSyncInput {
     }
 }
 
-public struct UpdateResourceDataSyncInput: Swift.Equatable {
+public struct UpdateResourceDataSyncInput {
     /// The name of the resource data sync you want to update.
     /// This member is required.
     public var syncName: Swift.String?
@@ -50120,7 +50120,7 @@ public struct UpdateResourceDataSyncInput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceDataSyncInputBody: Swift.Equatable {
+struct UpdateResourceDataSyncInputBody {
     let syncName: Swift.String?
     let syncType: Swift.String?
     let syncSource: SSMClientTypes.ResourceDataSyncSource?
@@ -50149,7 +50149,7 @@ extension UpdateResourceDataSyncOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResourceDataSyncOutput: Swift.Equatable {
+public struct UpdateResourceDataSyncOutput {
 
     public init() { }
 }
@@ -50193,7 +50193,7 @@ extension UpdateServiceSettingInput {
 }
 
 /// The request body of the UpdateServiceSetting API operation.
-public struct UpdateServiceSettingInput: Swift.Equatable {
+public struct UpdateServiceSettingInput {
     /// The Amazon Resource Name (ARN) of the service setting to update. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.
     ///
     /// * /ssm/managed-instance/default-ec2-instance-management-role
@@ -50246,7 +50246,7 @@ public struct UpdateServiceSettingInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceSettingInputBody: Swift.Equatable {
+struct UpdateServiceSettingInputBody {
     let settingId: Swift.String?
     let settingValue: Swift.String?
 }
@@ -50272,7 +50272,7 @@ extension UpdateServiceSettingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result body of the UpdateServiceSetting API operation.
-public struct UpdateServiceSettingOutput: Swift.Equatable {
+public struct UpdateServiceSettingOutput {
 
     public init() { }
 }

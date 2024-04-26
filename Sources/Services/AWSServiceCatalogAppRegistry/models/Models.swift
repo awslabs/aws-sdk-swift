@@ -23,7 +23,7 @@ extension ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration: Swift.C
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// Includes all of the AppRegistry settings.
-    public struct AppRegistryConfiguration: Swift.Equatable {
+    public struct AppRegistryConfiguration {
         /// Includes the definition of a tagQuery.
         public var tagQueryConfiguration: ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration?
 
@@ -124,7 +124,7 @@ extension ServiceCatalogAppRegistryClientTypes.Application: Swift.Codable {
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// Represents a Amazon Web Services Service Catalog AppRegistry application that is the top-level node in a hierarchy of related cloud resource abstractions.
-    public struct Application: Swift.Equatable {
+    public struct Application {
         /// A key-value pair that identifies an associated resource.
         public var applicationTag: [Swift.String:Swift.String]?
         /// The Amazon resource name (ARN) that specifies the application across services.
@@ -217,7 +217,7 @@ extension ServiceCatalogAppRegistryClientTypes.ApplicationSummary: Swift.Codable
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// Summary of a Amazon Web Services Service Catalog AppRegistry application.
-    public struct ApplicationSummary: Swift.Equatable {
+    public struct ApplicationSummary {
         /// The Amazon resource name (ARN) that specifies the application across services.
         public var arn: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment when the application was created.
@@ -302,7 +302,7 @@ extension ServiceCatalogAppRegistryClientTypes.ApplicationTagResult: Swift.Codab
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// The result of the application tag that's applied to a resource.
-    public struct ApplicationTagResult: Swift.Equatable {
+    public struct ApplicationTagResult {
         /// The application tag is in the process of being applied to a resource, was successfully applied to a resource, or failed to apply to a resource.
         public var applicationTagStatus: ServiceCatalogAppRegistryClientTypes.ApplicationTagStatus?
         /// The message returned if the call fails.
@@ -376,7 +376,7 @@ extension AssociateAttributeGroupInput {
     }
 }
 
-public struct AssociateAttributeGroupInput: Swift.Equatable {
+public struct AssociateAttributeGroupInput {
     /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
@@ -394,7 +394,7 @@ public struct AssociateAttributeGroupInput: Swift.Equatable {
     }
 }
 
-struct AssociateAttributeGroupInputBody: Swift.Equatable {
+struct AssociateAttributeGroupInputBody {
 }
 
 extension AssociateAttributeGroupInputBody: Swift.Decodable {
@@ -417,7 +417,7 @@ extension AssociateAttributeGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateAttributeGroupOutput: Swift.Equatable {
+public struct AssociateAttributeGroupOutput {
     /// The Amazon resource name (ARN) of the application that was augmented with attributes.
     public var applicationArn: Swift.String?
     /// The Amazon resource name (ARN) of the attribute group that contains the application's new attributes.
@@ -433,7 +433,7 @@ public struct AssociateAttributeGroupOutput: Swift.Equatable {
     }
 }
 
-struct AssociateAttributeGroupOutputBody: Swift.Equatable {
+struct AssociateAttributeGroupOutputBody {
     let applicationArn: Swift.String?
     let attributeGroupArn: Swift.String?
 }
@@ -500,7 +500,7 @@ extension AssociateResourceInput {
     }
 }
 
-public struct AssociateResourceInput: Swift.Equatable {
+public struct AssociateResourceInput {
     /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
@@ -527,7 +527,7 @@ public struct AssociateResourceInput: Swift.Equatable {
     }
 }
 
-struct AssociateResourceInputBody: Swift.Equatable {
+struct AssociateResourceInputBody {
     let options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]?
 }
 
@@ -568,7 +568,7 @@ extension AssociateResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateResourceOutput: Swift.Equatable {
+public struct AssociateResourceOutput {
     /// The Amazon resource name (ARN) of the application that was augmented with attributes.
     public var applicationArn: Swift.String?
     /// Determines whether an application tag is applied or skipped.
@@ -588,7 +588,7 @@ public struct AssociateResourceOutput: Swift.Equatable {
     }
 }
 
-struct AssociateResourceOutputBody: Swift.Equatable {
+struct AssociateResourceOutputBody {
     let applicationArn: Swift.String?
     let resourceArn: Swift.String?
     let options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]?
@@ -738,7 +738,7 @@ extension ServiceCatalogAppRegistryClientTypes.AttributeGroup: Swift.Codable {
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// Represents a Amazon Web Services Service Catalog AppRegistry attribute group that is rich metadata which describes an application and its components.
-    public struct AttributeGroup: Swift.Equatable {
+    public struct AttributeGroup {
         /// The Amazon resource name (ARN) that specifies the attribute group across services.
         public var arn: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment the attribute group was created.
@@ -815,7 +815,7 @@ extension ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails: Swift.Coda
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// The details related to a specific AttributeGroup.
-    public struct AttributeGroupDetails: Swift.Equatable {
+    public struct AttributeGroupDetails {
         /// The Amazon resource name (ARN) that specifies the attribute group.
         public var arn: Swift.String?
         /// The service principal that created the attribute group.
@@ -898,7 +898,7 @@ extension ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary: Swift.Coda
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// Summary of a Amazon Web Services Service Catalog AppRegistry attribute group.
-    public struct AttributeGroupSummary: Swift.Equatable {
+    public struct AttributeGroupSummary {
         /// The Amazon resource name (ARN) that specifies the attribute group across services.
         public var arn: Swift.String?
         /// The service principal that created the attribute group.
@@ -975,7 +975,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1026,7 +1026,7 @@ extension CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// A unique identifier that you provide to ensure idempotency. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -1052,7 +1052,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInputBody: Swift.Equatable {
+struct CreateApplicationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -1101,7 +1101,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// Information about the application.
     public var application: ServiceCatalogAppRegistryClientTypes.Application?
 
@@ -1113,7 +1113,7 @@ public struct CreateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationOutputBody: Swift.Equatable {
+struct CreateApplicationOutputBody {
     let application: ServiceCatalogAppRegistryClientTypes.Application?
 }
 
@@ -1183,7 +1183,7 @@ extension CreateAttributeGroupInput {
     }
 }
 
-public struct CreateAttributeGroupInput: Swift.Equatable {
+public struct CreateAttributeGroupInput {
     /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components.
     /// This member is required.
     public var attributes: Swift.String?
@@ -1214,7 +1214,7 @@ public struct CreateAttributeGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateAttributeGroupInputBody: Swift.Equatable {
+struct CreateAttributeGroupInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let attributes: Swift.String?
@@ -1267,7 +1267,7 @@ extension CreateAttributeGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAttributeGroupOutput: Swift.Equatable {
+public struct CreateAttributeGroupOutput {
     /// Information about the attribute group.
     public var attributeGroup: ServiceCatalogAppRegistryClientTypes.AttributeGroup?
 
@@ -1279,7 +1279,7 @@ public struct CreateAttributeGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateAttributeGroupOutputBody: Swift.Equatable {
+struct CreateAttributeGroupOutputBody {
     let attributeGroup: ServiceCatalogAppRegistryClientTypes.AttributeGroup?
 }
 
@@ -1319,7 +1319,7 @@ extension DeleteApplicationInput {
     }
 }
 
-public struct DeleteApplicationInput: Swift.Equatable {
+public struct DeleteApplicationInput {
     /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
@@ -1332,7 +1332,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationInputBody: Swift.Equatable {
+struct DeleteApplicationInputBody {
 }
 
 extension DeleteApplicationInputBody: Swift.Decodable {
@@ -1353,7 +1353,7 @@ extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApplicationOutput: Swift.Equatable {
+public struct DeleteApplicationOutput {
     /// Information about the deleted application.
     public var application: ServiceCatalogAppRegistryClientTypes.ApplicationSummary?
 
@@ -1365,7 +1365,7 @@ public struct DeleteApplicationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationOutputBody: Swift.Equatable {
+struct DeleteApplicationOutputBody {
     let application: ServiceCatalogAppRegistryClientTypes.ApplicationSummary?
 }
 
@@ -1404,7 +1404,7 @@ extension DeleteAttributeGroupInput {
     }
 }
 
-public struct DeleteAttributeGroupInput: Swift.Equatable {
+public struct DeleteAttributeGroupInput {
     /// The name, ID, or ARN of the attribute group that holds the attributes to describe the application.
     /// This member is required.
     public var attributeGroup: Swift.String?
@@ -1417,7 +1417,7 @@ public struct DeleteAttributeGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteAttributeGroupInputBody: Swift.Equatable {
+struct DeleteAttributeGroupInputBody {
 }
 
 extension DeleteAttributeGroupInputBody: Swift.Decodable {
@@ -1438,7 +1438,7 @@ extension DeleteAttributeGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAttributeGroupOutput: Swift.Equatable {
+public struct DeleteAttributeGroupOutput {
     /// Information about the deleted attribute group.
     public var attributeGroup: ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary?
 
@@ -1450,7 +1450,7 @@ public struct DeleteAttributeGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAttributeGroupOutputBody: Swift.Equatable {
+struct DeleteAttributeGroupOutputBody {
     let attributeGroup: ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary?
 }
 
@@ -1492,7 +1492,7 @@ extension DisassociateAttributeGroupInput {
     }
 }
 
-public struct DisassociateAttributeGroupInput: Swift.Equatable {
+public struct DisassociateAttributeGroupInput {
     /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
@@ -1510,7 +1510,7 @@ public struct DisassociateAttributeGroupInput: Swift.Equatable {
     }
 }
 
-struct DisassociateAttributeGroupInputBody: Swift.Equatable {
+struct DisassociateAttributeGroupInputBody {
 }
 
 extension DisassociateAttributeGroupInputBody: Swift.Decodable {
@@ -1533,7 +1533,7 @@ extension DisassociateAttributeGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateAttributeGroupOutput: Swift.Equatable {
+public struct DisassociateAttributeGroupOutput {
     /// The Amazon resource name (ARN) that specifies the application.
     public var applicationArn: Swift.String?
     /// The Amazon resource name (ARN) that specifies the attribute group.
@@ -1549,7 +1549,7 @@ public struct DisassociateAttributeGroupOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateAttributeGroupOutputBody: Swift.Equatable {
+struct DisassociateAttributeGroupOutputBody {
     let applicationArn: Swift.String?
     let attributeGroupArn: Swift.String?
 }
@@ -1598,7 +1598,7 @@ extension DisassociateResourceInput {
     }
 }
 
-public struct DisassociateResourceInput: Swift.Equatable {
+public struct DisassociateResourceInput {
     /// The name or ID of the application.
     /// This member is required.
     public var application: Swift.String?
@@ -1621,7 +1621,7 @@ public struct DisassociateResourceInput: Swift.Equatable {
     }
 }
 
-struct DisassociateResourceInputBody: Swift.Equatable {
+struct DisassociateResourceInputBody {
 }
 
 extension DisassociateResourceInputBody: Swift.Decodable {
@@ -1644,7 +1644,7 @@ extension DisassociateResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateResourceOutput: Swift.Equatable {
+public struct DisassociateResourceOutput {
     /// The Amazon resource name (ARN) that specifies the application.
     public var applicationArn: Swift.String?
     /// The Amazon resource name (ARN) that specifies the resource.
@@ -1660,7 +1660,7 @@ public struct DisassociateResourceOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateResourceOutputBody: Swift.Equatable {
+struct DisassociateResourceOutputBody {
     let applicationArn: Swift.String?
     let resourceArn: Swift.String?
 }
@@ -1704,7 +1704,7 @@ extension GetApplicationInput {
     }
 }
 
-public struct GetApplicationInput: Swift.Equatable {
+public struct GetApplicationInput {
     /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
@@ -1717,7 +1717,7 @@ public struct GetApplicationInput: Swift.Equatable {
     }
 }
 
-struct GetApplicationInputBody: Swift.Equatable {
+struct GetApplicationInputBody {
 }
 
 extension GetApplicationInputBody: Swift.Decodable {
@@ -1756,7 +1756,7 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApplicationOutput: Swift.Equatable {
+public struct GetApplicationOutput {
     /// A key-value pair that identifies an associated resource.
     public var applicationTag: [Swift.String:Swift.String]?
     /// The Amazon resource name (ARN) that specifies the application across services.
@@ -1804,7 +1804,7 @@ public struct GetApplicationOutput: Swift.Equatable {
     }
 }
 
-struct GetApplicationOutputBody: Swift.Equatable {
+struct GetApplicationOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -1926,7 +1926,7 @@ extension GetAssociatedResourceInput {
     }
 }
 
-public struct GetAssociatedResourceInput: Swift.Equatable {
+public struct GetAssociatedResourceInput {
     /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
@@ -1961,7 +1961,7 @@ public struct GetAssociatedResourceInput: Swift.Equatable {
     }
 }
 
-struct GetAssociatedResourceInputBody: Swift.Equatable {
+struct GetAssociatedResourceInputBody {
 }
 
 extension GetAssociatedResourceInputBody: Swift.Decodable {
@@ -1986,7 +1986,7 @@ extension GetAssociatedResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssociatedResourceOutput: Swift.Equatable {
+public struct GetAssociatedResourceOutput {
     /// The result of the application that's tag applied to a resource.
     public var applicationTagResult: ServiceCatalogAppRegistryClientTypes.ApplicationTagResult?
     /// Determines whether an application tag is applied or skipped.
@@ -2006,7 +2006,7 @@ public struct GetAssociatedResourceOutput: Swift.Equatable {
     }
 }
 
-struct GetAssociatedResourceOutputBody: Swift.Equatable {
+struct GetAssociatedResourceOutputBody {
     let resource: ServiceCatalogAppRegistryClientTypes.Resource?
     let options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]?
     let applicationTagResult: ServiceCatalogAppRegistryClientTypes.ApplicationTagResult?
@@ -2062,7 +2062,7 @@ extension GetAttributeGroupInput {
     }
 }
 
-public struct GetAttributeGroupInput: Swift.Equatable {
+public struct GetAttributeGroupInput {
     /// The name, ID, or ARN of the attribute group that holds the attributes to describe the application.
     /// This member is required.
     public var attributeGroup: Swift.String?
@@ -2075,7 +2075,7 @@ public struct GetAttributeGroupInput: Swift.Equatable {
     }
 }
 
-struct GetAttributeGroupInputBody: Swift.Equatable {
+struct GetAttributeGroupInputBody {
 }
 
 extension GetAttributeGroupInputBody: Swift.Decodable {
@@ -2112,7 +2112,7 @@ extension GetAttributeGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAttributeGroupOutput: Swift.Equatable {
+public struct GetAttributeGroupOutput {
     /// The Amazon resource name (ARN) that specifies the attribute group across services.
     public var arn: Swift.String?
     /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components.
@@ -2156,7 +2156,7 @@ public struct GetAttributeGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetAttributeGroupOutputBody: Swift.Equatable {
+struct GetAttributeGroupOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -2234,12 +2234,12 @@ extension GetConfigurationInput {
     }
 }
 
-public struct GetConfigurationInput: Swift.Equatable {
+public struct GetConfigurationInput {
 
     public init() { }
 }
 
-struct GetConfigurationInputBody: Swift.Equatable {
+struct GetConfigurationInputBody {
 }
 
 extension GetConfigurationInputBody: Swift.Decodable {
@@ -2260,7 +2260,7 @@ extension GetConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConfigurationOutput: Swift.Equatable {
+public struct GetConfigurationOutput {
     /// Retrieves TagKey configuration from an account.
     public var configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration?
 
@@ -2272,7 +2272,7 @@ public struct GetConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationOutputBody: Swift.Equatable {
+struct GetConfigurationOutputBody {
     let configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration?
 }
 
@@ -2326,7 +2326,7 @@ extension ServiceCatalogAppRegistryClientTypes.Integrations: Swift.Codable {
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// The information about the service integration.
-    public struct Integrations: Swift.Equatable {
+    public struct Integrations {
         /// The information about the resource group integration.
         public var applicationTagResourceGroup: ServiceCatalogAppRegistryClientTypes.ResourceGroup?
         /// The information about the resource group integration.
@@ -2383,7 +2383,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2422,7 +2422,7 @@ extension ListApplicationsInput {
     }
 }
 
-public struct ListApplicationsInput: Swift.Equatable {
+public struct ListApplicationsInput {
     /// The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
     public var maxResults: Swift.Int?
     /// The token to use to get the next page of results after a previous API call.
@@ -2438,7 +2438,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsInputBody: Swift.Equatable {
+struct ListApplicationsInputBody {
 }
 
 extension ListApplicationsInputBody: Swift.Decodable {
@@ -2461,7 +2461,7 @@ extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationsOutput: Swift.Equatable {
+public struct ListApplicationsOutput {
     /// This list of applications.
     public var applications: [ServiceCatalogAppRegistryClientTypes.ApplicationSummary]?
     /// The token to use to get the next page of results after a previous API call.
@@ -2477,7 +2477,7 @@ public struct ListApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsOutputBody: Swift.Equatable {
+struct ListApplicationsOutputBody {
     let applications: [ServiceCatalogAppRegistryClientTypes.ApplicationSummary]?
     let nextToken: Swift.String?
 }
@@ -2544,7 +2544,7 @@ extension ListAssociatedAttributeGroupsInput {
     }
 }
 
-public struct ListAssociatedAttributeGroupsInput: Swift.Equatable {
+public struct ListAssociatedAttributeGroupsInput {
     /// The name or ID of the application.
     /// This member is required.
     public var application: Swift.String?
@@ -2565,7 +2565,7 @@ public struct ListAssociatedAttributeGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedAttributeGroupsInputBody: Swift.Equatable {
+struct ListAssociatedAttributeGroupsInputBody {
 }
 
 extension ListAssociatedAttributeGroupsInputBody: Swift.Decodable {
@@ -2588,7 +2588,7 @@ extension ListAssociatedAttributeGroupsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListAssociatedAttributeGroupsOutput: Swift.Equatable {
+public struct ListAssociatedAttributeGroupsOutput {
     /// A list of attribute group IDs.
     public var attributeGroups: [Swift.String]?
     /// The token to use to get the next page of results after a previous API call.
@@ -2604,7 +2604,7 @@ public struct ListAssociatedAttributeGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedAttributeGroupsOutputBody: Swift.Equatable {
+struct ListAssociatedAttributeGroupsOutputBody {
     let attributeGroups: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -2672,7 +2672,7 @@ extension ListAssociatedResourcesInput {
     }
 }
 
-public struct ListAssociatedResourcesInput: Swift.Equatable {
+public struct ListAssociatedResourcesInput {
     /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
@@ -2693,7 +2693,7 @@ public struct ListAssociatedResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedResourcesInputBody: Swift.Equatable {
+struct ListAssociatedResourcesInputBody {
 }
 
 extension ListAssociatedResourcesInputBody: Swift.Decodable {
@@ -2716,7 +2716,7 @@ extension ListAssociatedResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssociatedResourcesOutput: Swift.Equatable {
+public struct ListAssociatedResourcesOutput {
     /// The token to use to get the next page of results after a previous API call.
     public var nextToken: Swift.String?
     /// Information about the resources.
@@ -2732,7 +2732,7 @@ public struct ListAssociatedResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedResourcesOutputBody: Swift.Equatable {
+struct ListAssociatedResourcesOutputBody {
     let resources: [ServiceCatalogAppRegistryClientTypes.ResourceInfo]?
     let nextToken: Swift.String?
 }
@@ -2800,7 +2800,7 @@ extension ListAttributeGroupsForApplicationInput {
     }
 }
 
-public struct ListAttributeGroupsForApplicationInput: Swift.Equatable {
+public struct ListAttributeGroupsForApplicationInput {
     /// The name or ID of the application.
     /// This member is required.
     public var application: Swift.String?
@@ -2821,7 +2821,7 @@ public struct ListAttributeGroupsForApplicationInput: Swift.Equatable {
     }
 }
 
-struct ListAttributeGroupsForApplicationInputBody: Swift.Equatable {
+struct ListAttributeGroupsForApplicationInputBody {
 }
 
 extension ListAttributeGroupsForApplicationInputBody: Swift.Decodable {
@@ -2844,7 +2844,7 @@ extension ListAttributeGroupsForApplicationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListAttributeGroupsForApplicationOutput: Swift.Equatable {
+public struct ListAttributeGroupsForApplicationOutput {
     /// The details related to a specific attribute group.
     public var attributeGroupsDetails: [ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails]?
     /// The token to use to get the next page of results after a previous API call.
@@ -2860,7 +2860,7 @@ public struct ListAttributeGroupsForApplicationOutput: Swift.Equatable {
     }
 }
 
-struct ListAttributeGroupsForApplicationOutputBody: Swift.Equatable {
+struct ListAttributeGroupsForApplicationOutputBody {
     let attributeGroupsDetails: [ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails]?
     let nextToken: Swift.String?
 }
@@ -2925,7 +2925,7 @@ extension ListAttributeGroupsInput {
     }
 }
 
-public struct ListAttributeGroupsInput: Swift.Equatable {
+public struct ListAttributeGroupsInput {
     /// The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
     public var maxResults: Swift.Int?
     /// The token to use to get the next page of results after a previous API call.
@@ -2941,7 +2941,7 @@ public struct ListAttributeGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListAttributeGroupsInputBody: Swift.Equatable {
+struct ListAttributeGroupsInputBody {
 }
 
 extension ListAttributeGroupsInputBody: Swift.Decodable {
@@ -2964,7 +2964,7 @@ extension ListAttributeGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAttributeGroupsOutput: Swift.Equatable {
+public struct ListAttributeGroupsOutput {
     /// This list of attribute groups.
     public var attributeGroups: [ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary]?
     /// The token to use to get the next page of results after a previous API call.
@@ -2980,7 +2980,7 @@ public struct ListAttributeGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListAttributeGroupsOutputBody: Swift.Equatable {
+struct ListAttributeGroupsOutputBody {
     let attributeGroups: [ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -3031,7 +3031,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon resource name (ARN) that specifies the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3044,7 +3044,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3065,7 +3065,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags on the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3077,7 +3077,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3135,7 +3135,7 @@ extension PutConfigurationInput {
     }
 }
 
-public struct PutConfigurationInput: Swift.Equatable {
+public struct PutConfigurationInput {
     /// Associates a TagKey configuration to an account.
     /// This member is required.
     public var configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration?
@@ -3148,7 +3148,7 @@ public struct PutConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutConfigurationInputBody: Swift.Equatable {
+struct PutConfigurationInputBody {
     let configuration: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration?
 }
 
@@ -3169,7 +3169,7 @@ extension PutConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutConfigurationOutput: Swift.Equatable {
+public struct PutConfigurationOutput {
 
     public init() { }
 }
@@ -3226,7 +3226,7 @@ extension ServiceCatalogAppRegistryClientTypes.Resource: Swift.Codable {
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// The information about the resource.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The Amazon resource name (ARN) of the resource.
         public var arn: Swift.String?
         /// The time the resource was associated with the application.
@@ -3273,7 +3273,7 @@ extension ServiceCatalogAppRegistryClientTypes.ResourceDetails: Swift.Codable {
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// The details related to the resource.
-    public struct ResourceDetails: Swift.Equatable {
+    public struct ResourceDetails {
         /// The value of the tag.
         public var tagValue: Swift.String?
 
@@ -3320,7 +3320,7 @@ extension ServiceCatalogAppRegistryClientTypes.ResourceGroup: Swift.Codable {
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// The information about the resource group integration.
-    public struct ResourceGroup: Swift.Equatable {
+    public struct ResourceGroup {
         /// The Amazon resource name (ARN) of the resource group.
         public var arn: Swift.String?
         /// The error message that generates when the propagation process for the resource group fails.
@@ -3443,7 +3443,7 @@ extension ServiceCatalogAppRegistryClientTypes.ResourceInfo: Swift.Codable {
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// The information about the resource.
-    public struct ResourceInfo: Swift.Equatable {
+    public struct ResourceInfo {
         /// The Amazon resource name (ARN) that specifies the resource across services.
         public var arn: Swift.String?
         /// The name of the resource.
@@ -3494,7 +3494,7 @@ extension ServiceCatalogAppRegistryClientTypes.ResourceIntegrations: Swift.Codab
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// The service integration information about the resource.
-    public struct ResourceIntegrations: Swift.Equatable {
+    public struct ResourceIntegrations {
         /// The information about the integration of Resource Groups.
         public var resourceGroup: ServiceCatalogAppRegistryClientTypes.ResourceGroup?
 
@@ -3585,7 +3585,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3672,7 +3672,7 @@ extension ServiceCatalogAppRegistryClientTypes.ResourcesListItem: Swift.Codable 
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// The resource in a list of resources.
-    public struct ResourcesListItem: Swift.Equatable {
+    public struct ResourcesListItem {
         /// The message returned if the call fails.
         public var errorMessage: Swift.String?
         /// The Amazon resource name (ARN) of the resource.
@@ -3739,7 +3739,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3800,7 +3800,7 @@ extension SyncResourceInput {
     }
 }
 
-public struct SyncResourceInput: Swift.Equatable {
+public struct SyncResourceInput {
     /// An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an Amazon Web Services CloudFormation stack, or an Amazon S3 bucket.
     /// This member is required.
     public var resource: Swift.String?
@@ -3818,7 +3818,7 @@ public struct SyncResourceInput: Swift.Equatable {
     }
 }
 
-struct SyncResourceInputBody: Swift.Equatable {
+struct SyncResourceInputBody {
 }
 
 extension SyncResourceInputBody: Swift.Decodable {
@@ -3843,7 +3843,7 @@ extension SyncResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SyncResourceOutput: Swift.Equatable {
+public struct SyncResourceOutput {
     /// The results of the output if an application is associated with an ARN value, which could be syncStarted or None.
     public var actionTaken: ServiceCatalogAppRegistryClientTypes.SyncAction?
     /// The Amazon resource name (ARN) that specifies the application.
@@ -3863,7 +3863,7 @@ public struct SyncResourceOutput: Swift.Equatable {
     }
 }
 
-struct SyncResourceOutputBody: Swift.Equatable {
+struct SyncResourceOutputBody {
     let applicationArn: Swift.String?
     let resourceArn: Swift.String?
     let actionTaken: ServiceCatalogAppRegistryClientTypes.SyncAction?
@@ -3923,7 +3923,7 @@ extension ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration: Swift.Coda
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// The definition of tagQuery. Specifies which resources are associated with an application.
-    public struct TagQueryConfiguration: Swift.Equatable {
+    public struct TagQueryConfiguration {
         /// Condition in the IAM policy that associates resources to an application.
         public var tagKey: Swift.String?
 
@@ -3963,7 +3963,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon resource name (ARN) that specifies the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3981,7 +3981,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4011,7 +4011,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4076,7 +4076,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
 }
@@ -4122,7 +4122,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon resource name (ARN) that specifies the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4140,7 +4140,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4154,7 +4154,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4199,7 +4199,7 @@ extension UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// The name, ID, or ARN of the application that will be updated.
     /// This member is required.
     public var application: Swift.String?
@@ -4221,7 +4221,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationInputBody: Swift.Equatable {
+struct UpdateApplicationInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -4253,7 +4253,7 @@ extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
     /// The updated information of the application.
     public var application: ServiceCatalogAppRegistryClientTypes.Application?
 
@@ -4265,7 +4265,7 @@ public struct UpdateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationOutputBody: Swift.Equatable {
+struct UpdateApplicationOutputBody {
     let application: ServiceCatalogAppRegistryClientTypes.Application?
 }
 
@@ -4327,7 +4327,7 @@ extension UpdateAttributeGroupInput {
     }
 }
 
-public struct UpdateAttributeGroupInput: Swift.Equatable {
+public struct UpdateAttributeGroupInput {
     /// The name, ID, or ARN of the attribute group that holds the attributes to describe the application.
     /// This member is required.
     public var attributeGroup: Swift.String?
@@ -4353,7 +4353,7 @@ public struct UpdateAttributeGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateAttributeGroupInputBody: Swift.Equatable {
+struct UpdateAttributeGroupInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let attributes: Swift.String?
@@ -4389,7 +4389,7 @@ extension UpdateAttributeGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAttributeGroupOutput: Swift.Equatable {
+public struct UpdateAttributeGroupOutput {
     /// The updated information of the attribute group.
     public var attributeGroup: ServiceCatalogAppRegistryClientTypes.AttributeGroup?
 
@@ -4401,7 +4401,7 @@ public struct UpdateAttributeGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAttributeGroupOutputBody: Swift.Equatable {
+struct UpdateAttributeGroupOutputBody {
     let attributeGroup: ServiceCatalogAppRegistryClientTypes.AttributeGroup?
 }
 
@@ -4470,7 +4470,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

@@ -33,7 +33,7 @@ extension CloudSearchClientTypes.AccessPoliciesStatus: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The configured access rules for the domain's document and search endpoints, and the current status of those rules.
-    public struct AccessPoliciesStatus: Swift.Equatable {
+    public struct AccessPoliciesStatus {
         /// Access rules for a domain's document or search service endpoints. For more information, see [Configuring Access for a Search Domain](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-access.html) in the Amazon CloudSearch Developer Guide. The maximum size of a policy document is 100 KB.
         /// This member is required.
         public var options: Swift.String?
@@ -135,7 +135,7 @@ extension CloudSearchClientTypes.AnalysisOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Synonyms, stopwords, and stemming options for an analysis scheme. Includes tokenization dictionary for Japanese.
-    public struct AnalysisOptions: Swift.Equatable {
+    public struct AnalysisOptions {
         /// The level of algorithmic stemming to perform: none, minimal, light, or full. The available levels vary depending on the language. For more information, see [Language Specific Text Processing Settings](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/text-processing.html#text-processing-settings) in the Amazon CloudSearch Developer Guide
         public var algorithmicStemming: CloudSearchClientTypes.AlgorithmicStemming?
         /// A JSON array that contains a collection of terms, tokens, readings and part of speech for Japanese Tokenizaiton. The Japanese tokenization dictionary enables you to override the default tokenization for selected terms. This is only valid for Japanese language fields.
@@ -199,7 +199,7 @@ extension CloudSearchClientTypes.AnalysisScheme: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Configuration information for an analysis scheme. Each analysis scheme has a unique name and specifies the language of the text to be processed. The following options can be configured for an analysis scheme: Synonyms, Stopwords, StemmingDictionary, JapaneseTokenizationDictionary and AlgorithmicStemming.
-    public struct AnalysisScheme: Swift.Equatable {
+    public struct AnalysisScheme {
         /// Synonyms, stopwords, and stemming options for an analysis scheme. Includes tokenization dictionary for Japanese.
         public var analysisOptions: CloudSearchClientTypes.AnalysisOptions?
         /// An [IETF RFC 4646](http://tools.ietf.org/html/rfc4646) language code or mul for multiple languages.
@@ -384,7 +384,7 @@ extension CloudSearchClientTypes.AnalysisSchemeStatus: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The status and configuration of an AnalysisScheme.
-    public struct AnalysisSchemeStatus: Swift.Equatable {
+    public struct AnalysisSchemeStatus {
         /// Configuration information for an analysis scheme. Each analysis scheme has a unique name and specifies the language of the text to be processed. The following options can be configured for an analysis scheme: Synonyms, Stopwords, StemmingDictionary, JapaneseTokenizationDictionary and AlgorithmicStemming.
         /// This member is required.
         public var options: CloudSearchClientTypes.AnalysisScheme?
@@ -433,7 +433,7 @@ extension CloudSearchClientTypes.AvailabilityOptionsStatus: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The status and configuration of the domain's availability options.
-    public struct AvailabilityOptionsStatus: Swift.Equatable {
+    public struct AvailabilityOptionsStatus {
         /// The availability options configured for the domain.
         /// This member is required.
         public var options: Swift.Bool
@@ -518,7 +518,7 @@ extension BuildSuggestersInput {
 }
 
 /// Container for the parameters to the [BuildSuggester] operation. Specifies the name of the domain you want to update.
-public struct BuildSuggestersInput: Swift.Equatable {
+public struct BuildSuggestersInput {
     /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -545,7 +545,7 @@ extension BuildSuggestersOutput {
 }
 
 /// The result of a BuildSuggester request. Contains a list of the fields used for suggestions.
-public struct BuildSuggestersOutput: Swift.Equatable {
+public struct BuildSuggestersOutput {
     /// A list of field names.
     public var fieldNames: [Swift.String]?
 
@@ -602,7 +602,7 @@ extension CreateDomainInput {
 }
 
 /// Container for the parameters to the [CreateDomain] operation. Specifies a name for the new search domain.
-public struct CreateDomainInput: Swift.Equatable {
+public struct CreateDomainInput {
     /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
     /// This member is required.
     public var domainName: Swift.String?
@@ -629,7 +629,7 @@ extension CreateDomainOutput {
 }
 
 /// The result of a CreateDomainRequest. Contains the status of a newly created domain.
-public struct CreateDomainOutput: Swift.Equatable {
+public struct CreateDomainOutput {
     /// The current status of the search domain.
     public var domainStatus: CloudSearchClientTypes.DomainStatus?
 
@@ -706,7 +706,7 @@ extension CloudSearchClientTypes.DateArrayOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for a field that contains an array of dates. Present if IndexFieldType specifies the field is of type date-array. All options are enabled by default.
-    public struct DateArrayOptions: Swift.Equatable {
+    public struct DateArrayOptions {
         /// A value to use for the field if the field isn't specified for a document.
         public var defaultValue: Swift.String?
         /// Whether facet information can be returned for the field.
@@ -785,7 +785,7 @@ extension CloudSearchClientTypes.DateOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for a date field. Dates and times are specified in UTC (Coordinated Universal Time) according to IETF RFC3339: yyyy-mm-ddT00:00:00Z. Present if IndexFieldType specifies the field is of type date. All options are enabled by default.
-    public struct DateOptions: Swift.Equatable {
+    public struct DateOptions {
         /// A value to use for the field if the field isn't specified for a document.
         public var defaultValue: Swift.String?
         /// Whether facet information can be returned for the field.
@@ -846,7 +846,7 @@ extension DefineAnalysisSchemeInput {
 }
 
 /// Container for the parameters to the [DefineAnalysisScheme] operation. Specifies the name of the domain you want to update and the analysis scheme configuration.
-public struct DefineAnalysisSchemeInput: Swift.Equatable {
+public struct DefineAnalysisSchemeInput {
     /// Configuration information for an analysis scheme. Each analysis scheme has a unique name and specifies the language of the text to be processed. The following options can be configured for an analysis scheme: Synonyms, Stopwords, StemmingDictionary, JapaneseTokenizationDictionary and AlgorithmicStemming.
     /// This member is required.
     public var analysisScheme: CloudSearchClientTypes.AnalysisScheme?
@@ -878,7 +878,7 @@ extension DefineAnalysisSchemeOutput {
 }
 
 /// The result of a [DefineAnalysisScheme] request. Contains the status of the newly-configured analysis scheme.
-public struct DefineAnalysisSchemeOutput: Swift.Equatable {
+public struct DefineAnalysisSchemeOutput {
     /// The status and configuration of an AnalysisScheme.
     /// This member is required.
     public var analysisScheme: CloudSearchClientTypes.AnalysisSchemeStatus?
@@ -940,7 +940,7 @@ extension DefineExpressionInput {
 }
 
 /// Container for the parameters to the [DefineExpression] operation. Specifies the name of the domain you want to update and the expression you want to configure.
-public struct DefineExpressionInput: Swift.Equatable {
+public struct DefineExpressionInput {
     /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -972,7 +972,7 @@ extension DefineExpressionOutput {
 }
 
 /// The result of a DefineExpression request. Contains the status of the newly-configured expression.
-public struct DefineExpressionOutput: Swift.Equatable {
+public struct DefineExpressionOutput {
     /// The value of an Expression and its current status.
     /// This member is required.
     public var expression: CloudSearchClientTypes.ExpressionStatus?
@@ -1034,7 +1034,7 @@ extension DefineIndexFieldInput {
 }
 
 /// Container for the parameters to the [DefineIndexField] operation. Specifies the name of the domain you want to update and the index field configuration.
-public struct DefineIndexFieldInput: Swift.Equatable {
+public struct DefineIndexFieldInput {
     /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -1066,7 +1066,7 @@ extension DefineIndexFieldOutput {
 }
 
 /// The result of a [DefineIndexField] request. Contains the status of the newly-configured index field.
-public struct DefineIndexFieldOutput: Swift.Equatable {
+public struct DefineIndexFieldOutput {
     /// The value of an IndexField and its current status.
     /// This member is required.
     public var indexField: CloudSearchClientTypes.IndexFieldStatus?
@@ -1128,7 +1128,7 @@ extension DefineSuggesterInput {
 }
 
 /// Container for the parameters to the [DefineSuggester] operation. Specifies the name of the domain you want to update and the suggester configuration.
-public struct DefineSuggesterInput: Swift.Equatable {
+public struct DefineSuggesterInput {
     /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -1160,7 +1160,7 @@ extension DefineSuggesterOutput {
 }
 
 /// The result of a DefineSuggester request. Contains the status of the newly-configured suggester.
-public struct DefineSuggesterOutput: Swift.Equatable {
+public struct DefineSuggesterOutput {
     /// The value of a Suggester and its current status.
     /// This member is required.
     public var suggester: CloudSearchClientTypes.SuggesterStatus?
@@ -1222,7 +1222,7 @@ extension DeleteAnalysisSchemeInput {
 }
 
 /// Container for the parameters to the [DeleteAnalysisScheme] operation. Specifies the name of the domain you want to update and the analysis scheme you want to delete.
-public struct DeleteAnalysisSchemeInput: Swift.Equatable {
+public struct DeleteAnalysisSchemeInput {
     /// The name of the analysis scheme you want to delete.
     /// This member is required.
     public var analysisSchemeName: Swift.String?
@@ -1254,7 +1254,7 @@ extension DeleteAnalysisSchemeOutput {
 }
 
 /// The result of a DeleteAnalysisScheme request. Contains the status of the deleted analysis scheme.
-public struct DeleteAnalysisSchemeOutput: Swift.Equatable {
+public struct DeleteAnalysisSchemeOutput {
     /// The status of the analysis scheme being deleted.
     /// This member is required.
     public var analysisScheme: CloudSearchClientTypes.AnalysisSchemeStatus?
@@ -1311,7 +1311,7 @@ extension DeleteDomainInput {
 }
 
 /// Container for the parameters to the [DeleteDomain] operation. Specifies the name of the domain you want to delete.
-public struct DeleteDomainInput: Swift.Equatable {
+public struct DeleteDomainInput {
     /// The name of the domain you want to permanently delete.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1338,7 +1338,7 @@ extension DeleteDomainOutput {
 }
 
 /// The result of a DeleteDomain request. Contains the status of a newly deleted domain, or no status if the domain has already been completely deleted.
-public struct DeleteDomainOutput: Swift.Equatable {
+public struct DeleteDomainOutput {
     /// The current status of the search domain.
     public var domainStatus: CloudSearchClientTypes.DomainStatus?
 
@@ -1395,7 +1395,7 @@ extension DeleteExpressionInput {
 }
 
 /// Container for the parameters to the [DeleteExpression] operation. Specifies the name of the domain you want to update and the name of the expression you want to delete.
-public struct DeleteExpressionInput: Swift.Equatable {
+public struct DeleteExpressionInput {
     /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -1427,7 +1427,7 @@ extension DeleteExpressionOutput {
 }
 
 /// The result of a [DeleteExpression] request. Specifies the expression being deleted.
-public struct DeleteExpressionOutput: Swift.Equatable {
+public struct DeleteExpressionOutput {
     /// The status of the expression being deleted.
     /// This member is required.
     public var expression: CloudSearchClientTypes.ExpressionStatus?
@@ -1488,7 +1488,7 @@ extension DeleteIndexFieldInput {
 }
 
 /// Container for the parameters to the [DeleteIndexField] operation. Specifies the name of the domain you want to update and the name of the index field you want to delete.
-public struct DeleteIndexFieldInput: Swift.Equatable {
+public struct DeleteIndexFieldInput {
     /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -1520,7 +1520,7 @@ extension DeleteIndexFieldOutput {
 }
 
 /// The result of a [DeleteIndexField] request.
-public struct DeleteIndexFieldOutput: Swift.Equatable {
+public struct DeleteIndexFieldOutput {
     /// The status of the index field being deleted.
     /// This member is required.
     public var indexField: CloudSearchClientTypes.IndexFieldStatus?
@@ -1581,7 +1581,7 @@ extension DeleteSuggesterInput {
 }
 
 /// Container for the parameters to the [DeleteSuggester] operation. Specifies the name of the domain you want to update and name of the suggester you want to delete.
-public struct DeleteSuggesterInput: Swift.Equatable {
+public struct DeleteSuggesterInput {
     /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -1613,7 +1613,7 @@ extension DeleteSuggesterOutput {
 }
 
 /// The result of a DeleteSuggester request. Contains the status of the deleted suggester.
-public struct DeleteSuggesterOutput: Swift.Equatable {
+public struct DeleteSuggesterOutput {
     /// The status of the suggester being deleted.
     /// This member is required.
     public var suggester: CloudSearchClientTypes.SuggesterStatus?
@@ -1687,7 +1687,7 @@ extension DescribeAnalysisSchemesInput {
 }
 
 /// Container for the parameters to the [DescribeAnalysisSchemes] operation. Specifies the name of the domain you want to describe. To limit the response to particular analysis schemes, specify the names of the analysis schemes you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
-public struct DescribeAnalysisSchemesInput: Swift.Equatable {
+public struct DescribeAnalysisSchemesInput {
     /// The analysis schemes you want to describe.
     public var analysisSchemeNames: [Swift.String]?
     /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
@@ -1722,7 +1722,7 @@ extension DescribeAnalysisSchemesOutput {
 }
 
 /// The result of a DescribeAnalysisSchemes request. Contains the analysis schemes configured for the domain specified in the request.
-public struct DescribeAnalysisSchemesOutput: Swift.Equatable {
+public struct DescribeAnalysisSchemesOutput {
     /// The analysis scheme descriptions.
     /// This member is required.
     public var analysisSchemes: [CloudSearchClientTypes.AnalysisSchemeStatus]?
@@ -1781,7 +1781,7 @@ extension DescribeAvailabilityOptionsInput {
 }
 
 /// Container for the parameters to the [DescribeAvailabilityOptions] operation. Specifies the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
-public struct DescribeAvailabilityOptionsInput: Swift.Equatable {
+public struct DescribeAvailabilityOptionsInput {
     /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
     public var deployed: Swift.Bool?
     /// The name of the domain you want to describe.
@@ -1812,7 +1812,7 @@ extension DescribeAvailabilityOptionsOutput {
 }
 
 /// The result of a DescribeAvailabilityOptions request. Indicates whether or not the Multi-AZ option is enabled for the domain specified in the request.
-public struct DescribeAvailabilityOptionsOutput: Swift.Equatable {
+public struct DescribeAvailabilityOptionsOutput {
     /// The availability options configured for the domain. Indicates whether Multi-AZ is enabled for the domain.
     public var availabilityOptions: CloudSearchClientTypes.AvailabilityOptionsStatus?
 
@@ -1873,7 +1873,7 @@ extension DescribeDomainEndpointOptionsInput {
 }
 
 /// Container for the parameters to the [DescribeDomainEndpointOptions] operation. Specify the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
-public struct DescribeDomainEndpointOptionsInput: Swift.Equatable {
+public struct DescribeDomainEndpointOptionsInput {
     /// Whether to retrieve the latest configuration (which might be in a Processing state) or the current, active configuration. Defaults to false.
     public var deployed: Swift.Bool?
     /// A string that represents the name of a domain.
@@ -1904,7 +1904,7 @@ extension DescribeDomainEndpointOptionsOutput {
 }
 
 /// The result of a DescribeDomainEndpointOptions request. Contains the status and configuration of a search domain's endpoint options.
-public struct DescribeDomainEndpointOptionsOutput: Swift.Equatable {
+public struct DescribeDomainEndpointOptionsOutput {
     /// The status and configuration of a search domain's endpoint options.
     public var domainEndpointOptions: CloudSearchClientTypes.DomainEndpointOptionsStatus?
 
@@ -1969,7 +1969,7 @@ extension DescribeDomainsInput {
 }
 
 /// Container for the parameters to the [DescribeDomains] operation. By default shows the status of all domains. To restrict the response to particular domains, specify the names of the domains you want to describe.
-public struct DescribeDomainsInput: Swift.Equatable {
+public struct DescribeDomainsInput {
     /// The names of the domains you want to include in the response.
     public var domainNames: [Swift.String]?
 
@@ -1995,7 +1995,7 @@ extension DescribeDomainsOutput {
 }
 
 /// The result of a DescribeDomains request. Contains the status of the domains specified in the request or all domains owned by the account.
-public struct DescribeDomainsOutput: Swift.Equatable {
+public struct DescribeDomainsOutput {
     /// A list that contains the status of each requested domain.
     /// This member is required.
     public var domainStatusList: [CloudSearchClientTypes.DomainStatus]?
@@ -2066,7 +2066,7 @@ extension DescribeExpressionsInput {
 }
 
 /// Container for the parameters to the [DescribeDomains] operation. Specifies the name of the domain you want to describe. To restrict the response to particular expressions, specify the names of the expressions you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
-public struct DescribeExpressionsInput: Swift.Equatable {
+public struct DescribeExpressionsInput {
     /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
     public var deployed: Swift.Bool?
     /// The name of the domain you want to describe.
@@ -2101,7 +2101,7 @@ extension DescribeExpressionsOutput {
 }
 
 /// The result of a DescribeExpressions request. Contains the expressions configured for the domain specified in the request.
-public struct DescribeExpressionsOutput: Swift.Equatable {
+public struct DescribeExpressionsOutput {
     /// The expressions configured for the domain.
     /// This member is required.
     public var expressions: [CloudSearchClientTypes.ExpressionStatus]?
@@ -2173,7 +2173,7 @@ extension DescribeIndexFieldsInput {
 }
 
 /// Container for the parameters to the [DescribeIndexFields] operation. Specifies the name of the domain you want to describe. To restrict the response to particular index fields, specify the names of the index fields you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
-public struct DescribeIndexFieldsInput: Swift.Equatable {
+public struct DescribeIndexFieldsInput {
     /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
     public var deployed: Swift.Bool?
     /// The name of the domain you want to describe.
@@ -2208,7 +2208,7 @@ extension DescribeIndexFieldsOutput {
 }
 
 /// The result of a DescribeIndexFields request. Contains the index fields configured for the domain specified in the request.
-public struct DescribeIndexFieldsOutput: Swift.Equatable {
+public struct DescribeIndexFieldsOutput {
     /// The index fields configured for the domain.
     /// This member is required.
     public var indexFields: [CloudSearchClientTypes.IndexFieldStatus]?
@@ -2263,7 +2263,7 @@ extension DescribeScalingParametersInput {
 }
 
 /// Container for the parameters to the [DescribeScalingParameters] operation. Specifies the name of the domain you want to describe.
-public struct DescribeScalingParametersInput: Swift.Equatable {
+public struct DescribeScalingParametersInput {
     /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -2290,7 +2290,7 @@ extension DescribeScalingParametersOutput {
 }
 
 /// The result of a DescribeScalingParameters request. Contains the scaling parameters configured for the domain specified in the request.
-public struct DescribeScalingParametersOutput: Swift.Equatable {
+public struct DescribeScalingParametersOutput {
     /// The status and configuration of a search domain's scaling parameters.
     /// This member is required.
     public var scalingParameters: CloudSearchClientTypes.ScalingParametersStatus?
@@ -2349,7 +2349,7 @@ extension DescribeServiceAccessPoliciesInput {
 }
 
 /// Container for the parameters to the [DescribeServiceAccessPolicies] operation. Specifies the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
-public struct DescribeServiceAccessPoliciesInput: Swift.Equatable {
+public struct DescribeServiceAccessPoliciesInput {
     /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
     public var deployed: Swift.Bool?
     /// The name of the domain you want to describe.
@@ -2380,7 +2380,7 @@ extension DescribeServiceAccessPoliciesOutput {
 }
 
 /// The result of a DescribeServiceAccessPolicies request.
-public struct DescribeServiceAccessPoliciesOutput: Swift.Equatable {
+public struct DescribeServiceAccessPoliciesOutput {
     /// The access rules configured for the domain specified in the request.
     /// This member is required.
     public var accessPolicies: CloudSearchClientTypes.AccessPoliciesStatus?
@@ -2452,7 +2452,7 @@ extension DescribeSuggestersInput {
 }
 
 /// Container for the parameters to the [DescribeSuggester] operation. Specifies the name of the domain you want to describe. To restrict the response to particular suggesters, specify the names of the suggesters you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
-public struct DescribeSuggestersInput: Swift.Equatable {
+public struct DescribeSuggestersInput {
     /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
     public var deployed: Swift.Bool?
     /// The name of the domain you want to describe.
@@ -2487,7 +2487,7 @@ extension DescribeSuggestersOutput {
 }
 
 /// The result of a DescribeSuggesters request.
-public struct DescribeSuggestersOutput: Swift.Equatable {
+public struct DescribeSuggestersOutput {
     /// The suggesters configured for the domain specified in the request.
     /// This member is required.
     public var suggesters: [CloudSearchClientTypes.SuggesterStatus]?
@@ -2595,7 +2595,7 @@ extension CloudSearchClientTypes.DocumentSuggesterOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for a search suggester.
-    public struct DocumentSuggesterOptions: Swift.Equatable {
+    public struct DocumentSuggesterOptions {
         /// The level of fuzziness allowed when suggesting matches for a string: none, low, or high. With none, the specified string is treated as an exact prefix. With low, suggestions must differ from the specified string by no more than one character. With high, suggestions can differ by up to two characters. The default is none.
         public var fuzzyMatching: CloudSearchClientTypes.SuggesterFuzzyMatching?
         /// An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expression, simply specify the name of the field or expression. If no expression is configured for the suggester, the suggestions are sorted with the closest matches listed first.
@@ -2647,7 +2647,7 @@ extension CloudSearchClientTypes.DomainEndpointOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The domain's endpoint options.
-    public struct DomainEndpointOptions: Swift.Equatable {
+    public struct DomainEndpointOptions {
         /// Whether the domain is HTTPS only enabled.
         public var enforceHTTPS: Swift.Bool?
         /// The minimum required TLS version
@@ -2694,7 +2694,7 @@ extension CloudSearchClientTypes.DomainEndpointOptionsStatus: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The configuration and status of the domain's endpoint options.
-    public struct DomainEndpointOptionsStatus: Swift.Equatable {
+    public struct DomainEndpointOptionsStatus {
         /// The domain endpoint options configured for the domain.
         /// This member is required.
         public var options: CloudSearchClientTypes.DomainEndpointOptions?
@@ -2798,7 +2798,7 @@ extension CloudSearchClientTypes.DomainStatus: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The current status of the search domain.
-    public struct DomainStatus: Swift.Equatable {
+    public struct DomainStatus {
         /// The Amazon Resource Name (ARN) of the search domain. See [Identifiers for IAM Entities](http://docs.aws.amazon.com/IAM/latest/UserGuide/index.html?Using_Identifiers.html) in Using AWS Identity and Access Management for more information.
         public var arn: Swift.String?
         /// True if the search domain is created. It can take several minutes to initialize a domain when [CreateDomain] is called. Newly created search domains are returned from [DescribeDomains] with a false value for Created until domain creation is complete.
@@ -2906,7 +2906,7 @@ extension CloudSearchClientTypes.DoubleArrayOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for a field that contains an array of double-precision 64-bit floating point values. Present if IndexFieldType specifies the field is of type double-array. All options are enabled by default.
-    public struct DoubleArrayOptions: Swift.Equatable {
+    public struct DoubleArrayOptions {
         /// A value to use for the field if the field isn't specified for a document.
         public var defaultValue: Swift.Double?
         /// Whether facet information can be returned for the field.
@@ -2985,7 +2985,7 @@ extension CloudSearchClientTypes.DoubleOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for a double-precision 64-bit floating point field. Present if IndexFieldType specifies the field is of type double. All options are enabled by default.
-    public struct DoubleOptions: Swift.Equatable {
+    public struct DoubleOptions {
         /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
         public var defaultValue: Swift.Double?
         /// Whether facet information can be returned for the field.
@@ -3048,7 +3048,7 @@ extension CloudSearchClientTypes.Expression: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// A named expression that can be evaluated at search time. Can be used to sort the search results, define other expressions, or return computed information in the search results.
-    public struct Expression: Swift.Equatable {
+    public struct Expression {
         /// Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore).
         /// This member is required.
         public var expressionName: Swift.String?
@@ -3097,7 +3097,7 @@ extension CloudSearchClientTypes.ExpressionStatus: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The value of an Expression and its current status.
-    public struct ExpressionStatus: Swift.Equatable {
+    public struct ExpressionStatus {
         /// The expression that is evaluated for sorting while processing a search request.
         /// This member is required.
         public var options: CloudSearchClientTypes.Expression?
@@ -3140,7 +3140,7 @@ extension IndexDocumentsInput {
 }
 
 /// Container for the parameters to the [IndexDocuments] operation. Specifies the name of the domain you want to re-index.
-public struct IndexDocumentsInput: Swift.Equatable {
+public struct IndexDocumentsInput {
     /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -3167,7 +3167,7 @@ extension IndexDocumentsOutput {
 }
 
 /// The result of an IndexDocuments request. Contains the status of the indexing operation, including the fields being indexed.
-public struct IndexDocumentsOutput: Swift.Equatable {
+public struct IndexDocumentsOutput {
     /// The names of the fields that are currently being indexed.
     public var fieldNames: [Swift.String]?
 
@@ -3283,7 +3283,7 @@ extension CloudSearchClientTypes.IndexField: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Configuration information for a field in the index, including its name, type, and options. The supported options depend on the [IndexFieldType].
-    public struct IndexField: Swift.Equatable {
+    public struct IndexField {
         /// Options for a field that contains an array of dates. Present if IndexFieldType specifies the field is of type date-array. All options are enabled by default.
         public var dateArrayOptions: CloudSearchClientTypes.DateArrayOptions?
         /// Options for a date field. Dates and times are specified in UTC (Coordinated Universal Time) according to IETF RFC3339: yyyy-mm-ddT00:00:00Z. Present if IndexFieldType specifies the field is of type date. All options are enabled by default.
@@ -3376,7 +3376,7 @@ extension CloudSearchClientTypes.IndexFieldStatus: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The value of an IndexField and its current status.
-    public struct IndexFieldStatus: Swift.Equatable {
+    public struct IndexFieldStatus {
         /// Configuration information for a field in the index, including its name, type, and options. The supported options depend on the [IndexFieldType].
         /// This member is required.
         public var options: CloudSearchClientTypes.IndexField?
@@ -3500,7 +3500,7 @@ extension CloudSearchClientTypes.IntArrayOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for a field that contains an array of 64-bit signed integers. Present if IndexFieldType specifies the field is of type int-array. All options are enabled by default.
-    public struct IntArrayOptions: Swift.Equatable {
+    public struct IntArrayOptions {
         /// A value to use for the field if the field isn't specified for a document.
         public var defaultValue: Swift.Int?
         /// Whether facet information can be returned for the field.
@@ -3579,7 +3579,7 @@ extension CloudSearchClientTypes.IntOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for a 64-bit signed integer field. Present if IndexFieldType specifies the field is of type int. All options are enabled by default.
-    public struct IntOptions: Swift.Equatable {
+    public struct IntOptions {
         /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
         public var defaultValue: Swift.Int?
         /// Whether facet information can be returned for the field.
@@ -3746,7 +3746,7 @@ extension CloudSearchClientTypes.LatLonOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for a latlon field. A latlon field contains a location stored as a latitude and longitude value pair. Present if IndexFieldType specifies the field is of type latlon. All options are enabled by default.
-    public struct LatLonOptions: Swift.Equatable {
+    public struct LatLonOptions {
         /// A value to use for the field if the field isn't specified for a document.
         public var defaultValue: Swift.String?
         /// Whether facet information can be returned for the field.
@@ -3850,7 +3850,7 @@ extension CloudSearchClientTypes.Limits: Swift.Encodable {
 }
 
 extension CloudSearchClientTypes {
-    public struct Limits: Swift.Equatable {
+    public struct Limits {
         /// This member is required.
         public var maximumPartitionCount: Swift.Int?
         /// This member is required.
@@ -3884,7 +3884,7 @@ extension ListDomainNamesInput {
     }
 }
 
-public struct ListDomainNamesInput: Swift.Equatable {
+public struct ListDomainNamesInput {
 
     public init() { }
 }
@@ -3903,7 +3903,7 @@ extension ListDomainNamesOutput {
 }
 
 /// The result of a ListDomainNames request. Contains a list of the domains owned by an account.
-public struct ListDomainNamesOutput: Swift.Equatable {
+public struct ListDomainNamesOutput {
     /// The names of the search domains owned by an account.
     public var domainNames: [Swift.String:Swift.String]?
 
@@ -3976,7 +3976,7 @@ extension CloudSearchClientTypes.LiteralArrayOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for a field that contains an array of literal strings. Present if IndexFieldType specifies the field is of type literal-array. All options are enabled by default.
-    public struct LiteralArrayOptions: Swift.Equatable {
+    public struct LiteralArrayOptions {
         /// A value to use for the field if the field isn't specified for a document.
         public var defaultValue: Swift.String?
         /// Whether facet information can be returned for the field.
@@ -4055,7 +4055,7 @@ extension CloudSearchClientTypes.LiteralOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for literal field. Present if IndexFieldType specifies the field is of type literal. All options are enabled by default.
-    public struct LiteralOptions: Swift.Equatable {
+    public struct LiteralOptions {
         /// A value to use for the field if the field isn't specified for a document.
         public var defaultValue: Swift.String?
         /// Whether facet information can be returned for the field.
@@ -4180,7 +4180,7 @@ extension CloudSearchClientTypes.OptionStatus: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The status of domain configuration option.
-    public struct OptionStatus: Swift.Equatable {
+    public struct OptionStatus {
         /// A timestamp for when this option was created.
         /// This member is required.
         public var creationDate: ClientRuntime.Date?
@@ -4417,7 +4417,7 @@ extension CloudSearchClientTypes.ScalingParameters: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The desired instance type and desired number of replicas of each index partition.
-    public struct ScalingParameters: Swift.Equatable {
+    public struct ScalingParameters {
         /// The instance type that you want to preconfigure for your domain. For example, search.m1.small.
         public var desiredInstanceType: CloudSearchClientTypes.PartitionInstanceType?
         /// The number of partitions you want to preconfigure for your domain. Only valid when you select m2.2xlarge as the desired instance type.
@@ -4468,7 +4468,7 @@ extension CloudSearchClientTypes.ScalingParametersStatus: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The status and configuration of a search domain's scaling parameters.
-    public struct ScalingParametersStatus: Swift.Equatable {
+    public struct ScalingParametersStatus {
         /// The desired instance type and desired number of replicas of each index partition.
         /// This member is required.
         public var options: CloudSearchClientTypes.ScalingParameters?
@@ -4512,7 +4512,7 @@ extension CloudSearchClientTypes.ServiceEndpoint: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The endpoint to which service requests can be submitted.
-    public struct ServiceEndpoint: Swift.Equatable {
+    public struct ServiceEndpoint {
         /// The endpoint to which service requests can be submitted. For example, search-imdb-movies-oopcnjfn6ugofer3zx5iadxxca.eu-west-1.cloudsearch.amazonaws.com or doc-imdb-movies-oopcnjfn6ugofer3zx5iadxxca.eu-west-1.cloudsearch.amazonaws.com.
         public var endpoint: Swift.String?
 
@@ -4555,7 +4555,7 @@ extension CloudSearchClientTypes.Suggester: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Configuration information for a search suggester. Each suggester has a unique name and specifies the text field you want to use for suggestions. The following options can be configured for a suggester: FuzzyMatching, SortExpression.
-    public struct Suggester: Swift.Equatable {
+    public struct Suggester {
         /// Options for a search suggester.
         /// This member is required.
         public var documentSuggesterOptions: CloudSearchClientTypes.DocumentSuggesterOptions?
@@ -4639,7 +4639,7 @@ extension CloudSearchClientTypes.SuggesterStatus: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// The value of a Suggester and its current status.
-    public struct SuggesterStatus: Swift.Equatable {
+    public struct SuggesterStatus {
         /// Configuration information for a search suggester. Each suggester has a unique name and specifies the text field you want to use for suggestions. The following options can be configured for a suggester: FuzzyMatching, SortExpression.
         /// This member is required.
         public var options: CloudSearchClientTypes.Suggester?
@@ -4736,7 +4736,7 @@ extension CloudSearchClientTypes.TextArrayOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for a field that contains an array of text strings. Present if IndexFieldType specifies the field is of type text-array. A text-array field is always searchable. All options are enabled by default.
-    public struct TextArrayOptions: Swift.Equatable {
+    public struct TextArrayOptions {
         /// The name of an analysis scheme for a text-array field.
         public var analysisScheme: Swift.String?
         /// A value to use for the field if the field isn't specified for a document.
@@ -4815,7 +4815,7 @@ extension CloudSearchClientTypes.TextOptions: Swift.Encodable {
 
 extension CloudSearchClientTypes {
     /// Options for text field. Present if IndexFieldType specifies the field is of type text. A text field is always searchable. All options are enabled by default.
-    public struct TextOptions: Swift.Equatable {
+    public struct TextOptions {
         /// The name of an analysis scheme for a text field.
         public var analysisScheme: Swift.String?
         /// A value to use for the field if the field isn't specified for a document.
@@ -4876,7 +4876,7 @@ extension UpdateAvailabilityOptionsInput {
 }
 
 /// Container for the parameters to the [UpdateAvailabilityOptions] operation. Specifies the name of the domain you want to update and the Multi-AZ availability option.
-public struct UpdateAvailabilityOptionsInput: Swift.Equatable {
+public struct UpdateAvailabilityOptionsInput {
     /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -4908,7 +4908,7 @@ extension UpdateAvailabilityOptionsOutput {
 }
 
 /// The result of a UpdateAvailabilityOptions request. Contains the status of the domain's availability options.
-public struct UpdateAvailabilityOptionsOutput: Swift.Equatable {
+public struct UpdateAvailabilityOptionsOutput {
     /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain.
     public var availabilityOptions: CloudSearchClientTypes.AvailabilityOptionsStatus?
 
@@ -4970,7 +4970,7 @@ extension UpdateDomainEndpointOptionsInput {
 }
 
 /// Container for the parameters to the [UpdateDomainEndpointOptions] operation. Specifies the name of the domain you want to update and the domain endpoint options.
-public struct UpdateDomainEndpointOptionsInput: Swift.Equatable {
+public struct UpdateDomainEndpointOptionsInput {
     /// Whether to require that all requests to the domain arrive over HTTPS. We recommend Policy-Min-TLS-1-2-2019-07 for TLSSecurityPolicy. For compatibility with older clients, the default is Policy-Min-TLS-1-0-2019-07.
     /// This member is required.
     public var domainEndpointOptions: CloudSearchClientTypes.DomainEndpointOptions?
@@ -5002,7 +5002,7 @@ extension UpdateDomainEndpointOptionsOutput {
 }
 
 /// The result of a UpdateDomainEndpointOptions request. Contains the configuration and status of the domain's endpoint options.
-public struct UpdateDomainEndpointOptionsOutput: Swift.Equatable {
+public struct UpdateDomainEndpointOptionsOutput {
     /// The newly-configured domain endpoint options.
     public var domainEndpointOptions: CloudSearchClientTypes.DomainEndpointOptionsStatus?
 
@@ -5064,7 +5064,7 @@ extension UpdateScalingParametersInput {
 }
 
 /// Container for the parameters to the [UpdateScalingParameters] operation. Specifies the name of the domain you want to update and the scaling parameters you want to configure.
-public struct UpdateScalingParametersInput: Swift.Equatable {
+public struct UpdateScalingParametersInput {
     /// A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     /// This member is required.
     public var domainName: Swift.String?
@@ -5096,7 +5096,7 @@ extension UpdateScalingParametersOutput {
 }
 
 /// The result of a UpdateScalingParameters request. Contains the status of the newly-configured scaling parameters.
-public struct UpdateScalingParametersOutput: Swift.Equatable {
+public struct UpdateScalingParametersOutput {
     /// The status and configuration of a search domain's scaling parameters.
     /// This member is required.
     public var scalingParameters: CloudSearchClientTypes.ScalingParametersStatus?
@@ -5158,7 +5158,7 @@ extension UpdateServiceAccessPoliciesInput {
 }
 
 /// Container for the parameters to the [UpdateServiceAccessPolicies] operation. Specifies the name of the domain you want to update and the access rules you want to configure.
-public struct UpdateServiceAccessPoliciesInput: Swift.Equatable {
+public struct UpdateServiceAccessPoliciesInput {
     /// The access rules you want to configure. These rules replace any existing rules.
     /// This member is required.
     public var accessPolicies: Swift.String?
@@ -5190,7 +5190,7 @@ extension UpdateServiceAccessPoliciesOutput {
 }
 
 /// The result of an UpdateServiceAccessPolicies request. Contains the new access policies.
-public struct UpdateServiceAccessPoliciesOutput: Swift.Equatable {
+public struct UpdateServiceAccessPoliciesOutput {
     /// The access rules configured for the domain.
     /// This member is required.
     public var accessPolicies: CloudSearchClientTypes.AccessPoliciesStatus?

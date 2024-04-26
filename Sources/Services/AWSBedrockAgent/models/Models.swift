@@ -39,7 +39,7 @@ extension BedrockAgentClientTypes.APISchema: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about the OpenAPI schema for the action group. For more information, see [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html). You can either include the schema directly in the payload field or you can upload it to an S3 bucket and specify the S3 bucket location in the s3 field.
-    public enum APISchema: Swift.Equatable {
+    public enum APISchema {
         /// Contains details about the S3 object containing the OpenAPI schema for the action group. For more information, see [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).
         case s3(BedrockAgentClientTypes.S3Identifier)
         /// The JSON or YAML-formatted payload defining the OpenAPI schema for the action group. For more information, see [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).
@@ -88,7 +88,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -141,7 +141,7 @@ extension BedrockAgentClientTypes.ActionGroupExecutor: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about the Lambda function containing the business logic that is carried out upon invoking the action.
-    public enum ActionGroupExecutor: Swift.Equatable {
+    public enum ActionGroupExecutor {
         /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
         case lambda(Swift.String)
         /// To return the action group invocation results directly in the InvokeAgent response, specify RETURN_CONTROL.
@@ -257,7 +257,7 @@ extension BedrockAgentClientTypes.ActionGroupSummary: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about an action group.
-    public struct ActionGroupSummary: Swift.Equatable {
+    public struct ActionGroupSummary {
         /// The unique identifier of the action group.
         /// This member is required.
         public var actionGroupId: Swift.String?
@@ -443,7 +443,7 @@ extension BedrockAgentClientTypes.Agent: Swift.CustomDebugStringConvertible {
 
 extension BedrockAgentClientTypes {
     /// Contains details about an agent.
-    public struct Agent: Swift.Equatable {
+    public struct Agent {
         /// The Amazon Resource Name (ARN) of the agent.
         /// This member is required.
         public var agentArn: Swift.String?
@@ -641,7 +641,7 @@ extension BedrockAgentClientTypes.AgentActionGroup: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about an action group.
-    public struct AgentActionGroup: Swift.Equatable {
+    public struct AgentActionGroup {
         /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
         public var actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor?
         /// The unique identifier of the action group.
@@ -815,7 +815,7 @@ extension BedrockAgentClientTypes.AgentAlias: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about an alias of an agent.
-    public struct AgentAlias: Swift.Equatable {
+    public struct AgentAlias {
         /// The Amazon Resource Name (ARN) of the alias of the agent.
         /// This member is required.
         public var agentAliasArn: Swift.String?
@@ -932,7 +932,7 @@ extension BedrockAgentClientTypes.AgentAliasHistoryEvent: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about the history of the alias.
-    public struct AgentAliasHistoryEvent: Swift.Equatable {
+    public struct AgentAliasHistoryEvent {
         /// The date that the alias stopped being associated to the version in the routingConfiguration object
         public var endDate: ClientRuntime.Date?
         /// Contains details about the version of the agent with which the alias is associated.
@@ -975,7 +975,7 @@ extension BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem: Swift.
 
 extension BedrockAgentClientTypes {
     /// Contains details about the routing configuration of the alias.
-    public struct AgentAliasRoutingConfigurationListItem: Swift.Equatable {
+    public struct AgentAliasRoutingConfigurationListItem {
         /// The version of the agent with which the alias is associated.
         /// This member is required.
         public var agentVersion: Swift.String?
@@ -1100,7 +1100,7 @@ extension BedrockAgentClientTypes.AgentAliasSummary: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about an alias of an agent.
-    public struct AgentAliasSummary: Swift.Equatable {
+    public struct AgentAliasSummary {
         /// Contains details about
         /// This member is required.
         public var agentAliasId: Swift.String?
@@ -1200,7 +1200,7 @@ extension BedrockAgentClientTypes.AgentKnowledgeBase: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about a knowledge base that is associated with an agent.
-    public struct AgentKnowledgeBase: Swift.Equatable {
+    public struct AgentKnowledgeBase {
         /// The unique identifier of the agent with which the knowledge base is associated.
         /// This member is required.
         public var agentId: Swift.String?
@@ -1284,7 +1284,7 @@ extension BedrockAgentClientTypes.AgentKnowledgeBaseSummary: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about a knowledge base associated with an agent.
-    public struct AgentKnowledgeBaseSummary: Swift.Equatable {
+    public struct AgentKnowledgeBaseSummary {
         /// The description of the knowledge base associated with an agent.
         public var description: Swift.String?
         /// The unique identifier of the knowledge base associated with an agent.
@@ -1414,7 +1414,7 @@ extension BedrockAgentClientTypes.AgentSummary: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about an agent.
-    public struct AgentSummary: Swift.Equatable {
+    public struct AgentSummary {
         /// The unique identifier of the agent.
         /// This member is required.
         public var agentId: Swift.String?
@@ -1592,7 +1592,7 @@ extension BedrockAgentClientTypes.AgentVersion: Swift.CustomDebugStringConvertib
 
 extension BedrockAgentClientTypes {
     /// Contains details about a version of an agent.
-    public struct AgentVersion: Swift.Equatable {
+    public struct AgentVersion {
         /// The Amazon Resource Name (ARN) of the agent that the version belongs to.
         /// This member is required.
         public var agentArn: Swift.String?
@@ -1726,7 +1726,7 @@ extension BedrockAgentClientTypes.AgentVersionSummary: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about a version of an agent.
-    public struct AgentVersionSummary: Swift.Equatable {
+    public struct AgentVersionSummary {
         /// The name of the agent to which the version belongs.
         /// This member is required.
         public var agentName: Swift.String?
@@ -1799,7 +1799,7 @@ extension AssociateAgentKnowledgeBaseInput {
     }
 }
 
-public struct AssociateAgentKnowledgeBaseInput: Swift.Equatable {
+public struct AssociateAgentKnowledgeBaseInput {
     /// The unique identifier of the agent with which you want to associate the knowledge base.
     /// This member is required.
     public var agentId: Swift.String?
@@ -1831,7 +1831,7 @@ public struct AssociateAgentKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct AssociateAgentKnowledgeBaseInputBody: Swift.Equatable {
+struct AssociateAgentKnowledgeBaseInputBody {
     let knowledgeBaseId: Swift.String?
     let description: Swift.String?
     let knowledgeBaseState: BedrockAgentClientTypes.KnowledgeBaseState?
@@ -1867,7 +1867,7 @@ extension AssociateAgentKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateAgentKnowledgeBaseOutput: Swift.Equatable {
+public struct AssociateAgentKnowledgeBaseOutput {
     /// Contains details about the knowledge base that has been associated with the agent.
     /// This member is required.
     public var agentKnowledgeBase: BedrockAgentClientTypes.AgentKnowledgeBase?
@@ -1880,7 +1880,7 @@ public struct AssociateAgentKnowledgeBaseOutput: Swift.Equatable {
     }
 }
 
-struct AssociateAgentKnowledgeBaseOutputBody: Swift.Equatable {
+struct AssociateAgentKnowledgeBaseOutputBody {
     let agentKnowledgeBase: BedrockAgentClientTypes.AgentKnowledgeBase?
 }
 
@@ -1942,7 +1942,7 @@ extension BedrockAgentClientTypes.ChunkingConfiguration: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
-    public struct ChunkingConfiguration: Swift.Equatable {
+    public struct ChunkingConfiguration {
         /// Knowledge base can split your source data into chunks. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried. You have the following options for chunking your data. If you opt for NONE, then you may want to pre-process your files by splitting them up such that each file corresponds to a chunk.
         ///
         /// * FIXED_SIZE – Amazon Bedrock splits your source data into chunks of the approximate size that you set in the fixedSizeChunkingConfiguration.
@@ -2036,7 +2036,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -2106,7 +2106,7 @@ extension CreateAgentActionGroupInput {
     }
 }
 
-public struct CreateAgentActionGroupInput: Swift.Equatable {
+public struct CreateAgentActionGroupInput {
     /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
     public var actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor?
     /// The name to give the action group.
@@ -2157,7 +2157,7 @@ public struct CreateAgentActionGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateAgentActionGroupInputBody: Swift.Equatable {
+struct CreateAgentActionGroupInputBody {
     let actionGroupName: Swift.String?
     let clientToken: Swift.String?
     let description: Swift.String?
@@ -2213,7 +2213,7 @@ extension CreateAgentActionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAgentActionGroupOutput: Swift.Equatable {
+public struct CreateAgentActionGroupOutput {
     /// Contains details about the action group that was created.
     /// This member is required.
     public var agentActionGroup: BedrockAgentClientTypes.AgentActionGroup?
@@ -2226,7 +2226,7 @@ public struct CreateAgentActionGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateAgentActionGroupOutputBody: Swift.Equatable {
+struct CreateAgentActionGroupOutputBody {
     let agentActionGroup: BedrockAgentClientTypes.AgentActionGroup?
 }
 
@@ -2304,7 +2304,7 @@ extension CreateAgentAliasInput {
     }
 }
 
-public struct CreateAgentAliasInput: Swift.Equatable {
+public struct CreateAgentAliasInput {
     /// The name of the alias.
     /// This member is required.
     public var agentAliasName: Swift.String?
@@ -2338,7 +2338,7 @@ public struct CreateAgentAliasInput: Swift.Equatable {
     }
 }
 
-struct CreateAgentAliasInputBody: Swift.Equatable {
+struct CreateAgentAliasInputBody {
     let agentAliasName: Swift.String?
     let clientToken: Swift.String?
     let description: Swift.String?
@@ -2400,7 +2400,7 @@ extension CreateAgentAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAgentAliasOutput: Swift.Equatable {
+public struct CreateAgentAliasOutput {
     /// Contains details about the alias that was created.
     /// This member is required.
     public var agentAlias: BedrockAgentClientTypes.AgentAlias?
@@ -2413,7 +2413,7 @@ public struct CreateAgentAliasOutput: Swift.Equatable {
     }
 }
 
-struct CreateAgentAliasOutputBody: Swift.Equatable {
+struct CreateAgentAliasOutputBody {
     let agentAlias: BedrockAgentClientTypes.AgentAlias?
 }
 
@@ -2510,7 +2510,7 @@ extension CreateAgentInput {
     }
 }
 
-public struct CreateAgentInput: Swift.Equatable {
+public struct CreateAgentInput {
     /// A name for the agent that you create.
     /// This member is required.
     public var agentName: Swift.String?
@@ -2559,7 +2559,7 @@ public struct CreateAgentInput: Swift.Equatable {
     }
 }
 
-struct CreateAgentInputBody: Swift.Equatable {
+struct CreateAgentInputBody {
     let agentName: Swift.String?
     let clientToken: Swift.String?
     let instruction: Swift.String?
@@ -2632,7 +2632,7 @@ extension CreateAgentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAgentOutput: Swift.Equatable {
+public struct CreateAgentOutput {
     /// Contains details about the agent created.
     /// This member is required.
     public var agent: BedrockAgentClientTypes.Agent?
@@ -2645,7 +2645,7 @@ public struct CreateAgentOutput: Swift.Equatable {
     }
 }
 
-struct CreateAgentOutputBody: Swift.Equatable {
+struct CreateAgentOutputBody {
     let agent: BedrockAgentClientTypes.Agent?
 }
 
@@ -2720,7 +2720,7 @@ extension CreateDataSourceInput {
     }
 }
 
-public struct CreateDataSourceInput: Swift.Equatable {
+public struct CreateDataSourceInput {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// Contains metadata about where the data source is stored.
@@ -2759,7 +2759,7 @@ public struct CreateDataSourceInput: Swift.Equatable {
     }
 }
 
-struct CreateDataSourceInputBody: Swift.Equatable {
+struct CreateDataSourceInputBody {
     let clientToken: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -2807,7 +2807,7 @@ extension CreateDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataSourceOutput: Swift.Equatable {
+public struct CreateDataSourceOutput {
     /// Contains details about the data source.
     /// This member is required.
     public var dataSource: BedrockAgentClientTypes.DataSource?
@@ -2820,7 +2820,7 @@ public struct CreateDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataSourceOutputBody: Swift.Equatable {
+struct CreateDataSourceOutputBody {
     let dataSource: BedrockAgentClientTypes.DataSource?
 }
 
@@ -2900,7 +2900,7 @@ extension CreateKnowledgeBaseInput {
     }
 }
 
-public struct CreateKnowledgeBaseInput: Swift.Equatable {
+public struct CreateKnowledgeBaseInput {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// A description of the knowledge base.
@@ -2940,7 +2940,7 @@ public struct CreateKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct CreateKnowledgeBaseInputBody: Swift.Equatable {
+struct CreateKnowledgeBaseInputBody {
     let clientToken: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -3001,7 +3001,7 @@ extension CreateKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateKnowledgeBaseOutput: Swift.Equatable {
+public struct CreateKnowledgeBaseOutput {
     /// Contains details about the knowledge base.
     /// This member is required.
     public var knowledgeBase: BedrockAgentClientTypes.KnowledgeBase?
@@ -3014,7 +3014,7 @@ public struct CreateKnowledgeBaseOutput: Swift.Equatable {
     }
 }
 
-struct CreateKnowledgeBaseOutputBody: Swift.Equatable {
+struct CreateKnowledgeBaseOutputBody {
     let knowledgeBase: BedrockAgentClientTypes.KnowledgeBase?
 }
 
@@ -3182,7 +3182,7 @@ extension BedrockAgentClientTypes.DataSource: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about a data source.
-    public struct DataSource: Swift.Equatable {
+    public struct DataSource {
         /// The time at which the data source was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -3270,7 +3270,7 @@ extension BedrockAgentClientTypes.DataSourceConfiguration: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about how a data source is stored.
-    public struct DataSourceConfiguration: Swift.Equatable {
+    public struct DataSourceConfiguration {
         /// Contains details about the configuration of the S3 object containing the data source.
         public var s3Configuration: BedrockAgentClientTypes.S3DataSourceConfiguration?
         /// The type of storage for the data source.
@@ -3372,7 +3372,7 @@ extension BedrockAgentClientTypes.DataSourceSummary: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about a data source.
-    public struct DataSourceSummary: Swift.Equatable {
+    public struct DataSourceSummary {
         /// The unique identifier of the data source.
         /// This member is required.
         public var dataSourceId: Swift.String?
@@ -3468,7 +3468,7 @@ extension DeleteAgentActionGroupInput {
     }
 }
 
-public struct DeleteAgentActionGroupInput: Swift.Equatable {
+public struct DeleteAgentActionGroupInput {
     /// The unique identifier of the action group to delete.
     /// This member is required.
     public var actionGroupId: Swift.String?
@@ -3495,7 +3495,7 @@ public struct DeleteAgentActionGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteAgentActionGroupInputBody: Swift.Equatable {
+struct DeleteAgentActionGroupInputBody {
 }
 
 extension DeleteAgentActionGroupInputBody: Swift.Decodable {
@@ -3509,7 +3509,7 @@ extension DeleteAgentActionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAgentActionGroupOutput: Swift.Equatable {
+public struct DeleteAgentActionGroupOutput {
 
     public init() { }
 }
@@ -3543,7 +3543,7 @@ extension DeleteAgentAliasInput {
     }
 }
 
-public struct DeleteAgentAliasInput: Swift.Equatable {
+public struct DeleteAgentAliasInput {
     /// The unique identifier of the alias to delete.
     /// This member is required.
     public var agentAliasId: Swift.String?
@@ -3561,7 +3561,7 @@ public struct DeleteAgentAliasInput: Swift.Equatable {
     }
 }
 
-struct DeleteAgentAliasInputBody: Swift.Equatable {
+struct DeleteAgentAliasInputBody {
 }
 
 extension DeleteAgentAliasInputBody: Swift.Decodable {
@@ -3586,7 +3586,7 @@ extension DeleteAgentAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAgentAliasOutput: Swift.Equatable {
+public struct DeleteAgentAliasOutput {
     /// The unique identifier of the alias that was deleted.
     /// This member is required.
     public var agentAliasId: Swift.String?
@@ -3609,7 +3609,7 @@ public struct DeleteAgentAliasOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAgentAliasOutputBody: Swift.Equatable {
+struct DeleteAgentAliasOutputBody {
     let agentId: Swift.String?
     let agentAliasId: Swift.String?
     let agentAliasStatus: BedrockAgentClientTypes.AgentAliasStatus?
@@ -3670,7 +3670,7 @@ extension DeleteAgentInput {
     }
 }
 
-public struct DeleteAgentInput: Swift.Equatable {
+public struct DeleteAgentInput {
     /// The unique identifier of the agent to delete.
     /// This member is required.
     public var agentId: Swift.String?
@@ -3687,7 +3687,7 @@ public struct DeleteAgentInput: Swift.Equatable {
     }
 }
 
-struct DeleteAgentInputBody: Swift.Equatable {
+struct DeleteAgentInputBody {
 }
 
 extension DeleteAgentInputBody: Swift.Decodable {
@@ -3710,7 +3710,7 @@ extension DeleteAgentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAgentOutput: Swift.Equatable {
+public struct DeleteAgentOutput {
     /// The unique identifier of the agent that was deleted.
     /// This member is required.
     public var agentId: Swift.String?
@@ -3728,7 +3728,7 @@ public struct DeleteAgentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAgentOutputBody: Swift.Equatable {
+struct DeleteAgentOutputBody {
     let agentId: Swift.String?
     let agentStatus: BedrockAgentClientTypes.AgentStatus?
 }
@@ -3789,7 +3789,7 @@ extension DeleteAgentVersionInput {
     }
 }
 
-public struct DeleteAgentVersionInput: Swift.Equatable {
+public struct DeleteAgentVersionInput {
     /// The unique identifier of the agent that the version belongs to.
     /// This member is required.
     public var agentId: Swift.String?
@@ -3811,7 +3811,7 @@ public struct DeleteAgentVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteAgentVersionInputBody: Swift.Equatable {
+struct DeleteAgentVersionInputBody {
 }
 
 extension DeleteAgentVersionInputBody: Swift.Decodable {
@@ -3836,7 +3836,7 @@ extension DeleteAgentVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAgentVersionOutput: Swift.Equatable {
+public struct DeleteAgentVersionOutput {
     /// The unique identifier of the agent that the version belongs to.
     /// This member is required.
     public var agentId: Swift.String?
@@ -3859,7 +3859,7 @@ public struct DeleteAgentVersionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAgentVersionOutputBody: Swift.Equatable {
+struct DeleteAgentVersionOutputBody {
     let agentId: Swift.String?
     let agentVersion: Swift.String?
     let agentStatus: BedrockAgentClientTypes.AgentStatus?
@@ -3912,7 +3912,7 @@ extension DeleteDataSourceInput {
     }
 }
 
-public struct DeleteDataSourceInput: Swift.Equatable {
+public struct DeleteDataSourceInput {
     /// The unique identifier of the data source to delete.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -3930,7 +3930,7 @@ public struct DeleteDataSourceInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSourceInputBody: Swift.Equatable {
+struct DeleteDataSourceInputBody {
 }
 
 extension DeleteDataSourceInputBody: Swift.Decodable {
@@ -3955,7 +3955,7 @@ extension DeleteDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDataSourceOutput: Swift.Equatable {
+public struct DeleteDataSourceOutput {
     /// The unique identifier of the data source that was deleted.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -3978,7 +3978,7 @@ public struct DeleteDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSourceOutputBody: Swift.Equatable {
+struct DeleteDataSourceOutputBody {
     let knowledgeBaseId: Swift.String?
     let dataSourceId: Swift.String?
     let status: BedrockAgentClientTypes.DataSourceStatus?
@@ -4028,7 +4028,7 @@ extension DeleteKnowledgeBaseInput {
     }
 }
 
-public struct DeleteKnowledgeBaseInput: Swift.Equatable {
+public struct DeleteKnowledgeBaseInput {
     /// The unique identifier of the knowledge base to delete.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -4041,7 +4041,7 @@ public struct DeleteKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct DeleteKnowledgeBaseInputBody: Swift.Equatable {
+struct DeleteKnowledgeBaseInputBody {
 }
 
 extension DeleteKnowledgeBaseInputBody: Swift.Decodable {
@@ -4064,7 +4064,7 @@ extension DeleteKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteKnowledgeBaseOutput: Swift.Equatable {
+public struct DeleteKnowledgeBaseOutput {
     /// The unique identifier of the knowledge base that was deleted.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -4082,7 +4082,7 @@ public struct DeleteKnowledgeBaseOutput: Swift.Equatable {
     }
 }
 
-struct DeleteKnowledgeBaseOutputBody: Swift.Equatable {
+struct DeleteKnowledgeBaseOutputBody {
     let knowledgeBaseId: Swift.String?
     let status: BedrockAgentClientTypes.KnowledgeBaseStatus?
 }
@@ -4134,7 +4134,7 @@ extension DisassociateAgentKnowledgeBaseInput {
     }
 }
 
-public struct DisassociateAgentKnowledgeBaseInput: Swift.Equatable {
+public struct DisassociateAgentKnowledgeBaseInput {
     /// The unique identifier of the agent from which to disassociate the knowledge base.
     /// This member is required.
     public var agentId: Swift.String?
@@ -4157,7 +4157,7 @@ public struct DisassociateAgentKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct DisassociateAgentKnowledgeBaseInputBody: Swift.Equatable {
+struct DisassociateAgentKnowledgeBaseInputBody {
 }
 
 extension DisassociateAgentKnowledgeBaseInputBody: Swift.Decodable {
@@ -4171,7 +4171,7 @@ extension DisassociateAgentKnowledgeBaseOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DisassociateAgentKnowledgeBaseOutput: Swift.Equatable {
+public struct DisassociateAgentKnowledgeBaseOutput {
 
     public init() { }
 }
@@ -4219,7 +4219,7 @@ extension BedrockAgentClientTypes.FixedSizeChunkingConfiguration: Swift.Codable 
 
 extension BedrockAgentClientTypes {
     /// Configurations for when you choose fixed-size chunking. If you set the chunkingStrategy as NONE, exclude this field.
-    public struct FixedSizeChunkingConfiguration: Swift.Equatable {
+    public struct FixedSizeChunkingConfiguration {
         /// The maximum number of tokens to include in a chunk.
         /// This member is required.
         public var maxTokens: Swift.Int?
@@ -4294,7 +4294,7 @@ extension BedrockAgentClientTypes {
     /// * [UpdateAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_ResponseSyntax)
     ///
     /// * [GetAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetAgentActionGroup.html#API_agent_GetAgentActionGroup_ResponseSyntax)
-    public struct Function: Swift.Equatable {
+    public struct Function {
         /// A description of the function and its purpose.
         public var description: Swift.String?
         /// A name for the function.
@@ -4368,7 +4368,7 @@ extension BedrockAgentClientTypes {
     /// * [UpdateAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_ResponseSyntax)
     ///
     /// * [GetAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetAgentActionGroup.html#API_agent_GetAgentActionGroup_ResponseSyntax)
-    public enum FunctionSchema: Swift.Equatable {
+    public enum FunctionSchema {
         /// A list of functions that each define an action in the action group.
         case functions([BedrockAgentClientTypes.Function])
         case sdkUnknown(Swift.String)
@@ -4392,7 +4392,7 @@ extension GetAgentActionGroupInput {
     }
 }
 
-public struct GetAgentActionGroupInput: Swift.Equatable {
+public struct GetAgentActionGroupInput {
     /// The unique identifier of the action group for which to get information.
     /// This member is required.
     public var actionGroupId: Swift.String?
@@ -4415,7 +4415,7 @@ public struct GetAgentActionGroupInput: Swift.Equatable {
     }
 }
 
-struct GetAgentActionGroupInputBody: Swift.Equatable {
+struct GetAgentActionGroupInputBody {
 }
 
 extension GetAgentActionGroupInputBody: Swift.Decodable {
@@ -4436,7 +4436,7 @@ extension GetAgentActionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAgentActionGroupOutput: Swift.Equatable {
+public struct GetAgentActionGroupOutput {
     /// Contains details about the action group.
     /// This member is required.
     public var agentActionGroup: BedrockAgentClientTypes.AgentActionGroup?
@@ -4449,7 +4449,7 @@ public struct GetAgentActionGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetAgentActionGroupOutputBody: Swift.Equatable {
+struct GetAgentActionGroupOutputBody {
     let agentActionGroup: BedrockAgentClientTypes.AgentActionGroup?
 }
 
@@ -4493,7 +4493,7 @@ extension GetAgentAliasInput {
     }
 }
 
-public struct GetAgentAliasInput: Swift.Equatable {
+public struct GetAgentAliasInput {
     /// The unique identifier of the alias for which to get information.
     /// This member is required.
     public var agentAliasId: Swift.String?
@@ -4511,7 +4511,7 @@ public struct GetAgentAliasInput: Swift.Equatable {
     }
 }
 
-struct GetAgentAliasInputBody: Swift.Equatable {
+struct GetAgentAliasInputBody {
 }
 
 extension GetAgentAliasInputBody: Swift.Decodable {
@@ -4532,7 +4532,7 @@ extension GetAgentAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAgentAliasOutput: Swift.Equatable {
+public struct GetAgentAliasOutput {
     /// Contains information about the alias.
     /// This member is required.
     public var agentAlias: BedrockAgentClientTypes.AgentAlias?
@@ -4545,7 +4545,7 @@ public struct GetAgentAliasOutput: Swift.Equatable {
     }
 }
 
-struct GetAgentAliasOutputBody: Swift.Equatable {
+struct GetAgentAliasOutputBody {
     let agentAlias: BedrockAgentClientTypes.AgentAlias?
 }
 
@@ -4586,7 +4586,7 @@ extension GetAgentInput {
     }
 }
 
-public struct GetAgentInput: Swift.Equatable {
+public struct GetAgentInput {
     /// The unique identifier of the agent.
     /// This member is required.
     public var agentId: Swift.String?
@@ -4599,7 +4599,7 @@ public struct GetAgentInput: Swift.Equatable {
     }
 }
 
-struct GetAgentInputBody: Swift.Equatable {
+struct GetAgentInputBody {
 }
 
 extension GetAgentInputBody: Swift.Decodable {
@@ -4624,7 +4624,7 @@ extension GetAgentKnowledgeBaseInput {
     }
 }
 
-public struct GetAgentKnowledgeBaseInput: Swift.Equatable {
+public struct GetAgentKnowledgeBaseInput {
     /// The unique identifier of the agent with which the knowledge base is associated.
     /// This member is required.
     public var agentId: Swift.String?
@@ -4647,7 +4647,7 @@ public struct GetAgentKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct GetAgentKnowledgeBaseInputBody: Swift.Equatable {
+struct GetAgentKnowledgeBaseInputBody {
 }
 
 extension GetAgentKnowledgeBaseInputBody: Swift.Decodable {
@@ -4668,7 +4668,7 @@ extension GetAgentKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAgentKnowledgeBaseOutput: Swift.Equatable {
+public struct GetAgentKnowledgeBaseOutput {
     /// Contains details about a knowledge base attached to an agent.
     /// This member is required.
     public var agentKnowledgeBase: BedrockAgentClientTypes.AgentKnowledgeBase?
@@ -4681,7 +4681,7 @@ public struct GetAgentKnowledgeBaseOutput: Swift.Equatable {
     }
 }
 
-struct GetAgentKnowledgeBaseOutputBody: Swift.Equatable {
+struct GetAgentKnowledgeBaseOutputBody {
     let agentKnowledgeBase: BedrockAgentClientTypes.AgentKnowledgeBase?
 }
 
@@ -4724,7 +4724,7 @@ extension GetAgentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAgentOutput: Swift.Equatable {
+public struct GetAgentOutput {
     /// Contains details about the agent.
     /// This member is required.
     public var agent: BedrockAgentClientTypes.Agent?
@@ -4737,7 +4737,7 @@ public struct GetAgentOutput: Swift.Equatable {
     }
 }
 
-struct GetAgentOutputBody: Swift.Equatable {
+struct GetAgentOutputBody {
     let agent: BedrockAgentClientTypes.Agent?
 }
 
@@ -4781,7 +4781,7 @@ extension GetAgentVersionInput {
     }
 }
 
-public struct GetAgentVersionInput: Swift.Equatable {
+public struct GetAgentVersionInput {
     /// The unique identifier of the agent.
     /// This member is required.
     public var agentId: Swift.String?
@@ -4799,7 +4799,7 @@ public struct GetAgentVersionInput: Swift.Equatable {
     }
 }
 
-struct GetAgentVersionInputBody: Swift.Equatable {
+struct GetAgentVersionInputBody {
 }
 
 extension GetAgentVersionInputBody: Swift.Decodable {
@@ -4820,7 +4820,7 @@ extension GetAgentVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAgentVersionOutput: Swift.Equatable {
+public struct GetAgentVersionOutput {
     /// Contains details about the version of the agent.
     /// This member is required.
     public var agentVersion: BedrockAgentClientTypes.AgentVersion?
@@ -4833,7 +4833,7 @@ public struct GetAgentVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetAgentVersionOutputBody: Swift.Equatable {
+struct GetAgentVersionOutputBody {
     let agentVersion: BedrockAgentClientTypes.AgentVersion?
 }
 
@@ -4877,7 +4877,7 @@ extension GetDataSourceInput {
     }
 }
 
-public struct GetDataSourceInput: Swift.Equatable {
+public struct GetDataSourceInput {
     /// The unique identifier of the data source.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -4895,7 +4895,7 @@ public struct GetDataSourceInput: Swift.Equatable {
     }
 }
 
-struct GetDataSourceInputBody: Swift.Equatable {
+struct GetDataSourceInputBody {
 }
 
 extension GetDataSourceInputBody: Swift.Decodable {
@@ -4916,7 +4916,7 @@ extension GetDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataSourceOutput: Swift.Equatable {
+public struct GetDataSourceOutput {
     /// Contains details about the data source.
     /// This member is required.
     public var dataSource: BedrockAgentClientTypes.DataSource?
@@ -4929,7 +4929,7 @@ public struct GetDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct GetDataSourceOutputBody: Swift.Equatable {
+struct GetDataSourceOutputBody {
     let dataSource: BedrockAgentClientTypes.DataSource?
 }
 
@@ -4976,7 +4976,7 @@ extension GetIngestionJobInput {
     }
 }
 
-public struct GetIngestionJobInput: Swift.Equatable {
+public struct GetIngestionJobInput {
     /// The unique identifier of the data source in the ingestion job.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -4999,7 +4999,7 @@ public struct GetIngestionJobInput: Swift.Equatable {
     }
 }
 
-struct GetIngestionJobInputBody: Swift.Equatable {
+struct GetIngestionJobInputBody {
 }
 
 extension GetIngestionJobInputBody: Swift.Decodable {
@@ -5020,7 +5020,7 @@ extension GetIngestionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIngestionJobOutput: Swift.Equatable {
+public struct GetIngestionJobOutput {
     /// Contains details about the ingestion job.
     /// This member is required.
     public var ingestionJob: BedrockAgentClientTypes.IngestionJob?
@@ -5033,7 +5033,7 @@ public struct GetIngestionJobOutput: Swift.Equatable {
     }
 }
 
-struct GetIngestionJobOutputBody: Swift.Equatable {
+struct GetIngestionJobOutputBody {
     let ingestionJob: BedrockAgentClientTypes.IngestionJob?
 }
 
@@ -5074,7 +5074,7 @@ extension GetKnowledgeBaseInput {
     }
 }
 
-public struct GetKnowledgeBaseInput: Swift.Equatable {
+public struct GetKnowledgeBaseInput {
     /// The unique identifier of the knowledge base for which to get information.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -5087,7 +5087,7 @@ public struct GetKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct GetKnowledgeBaseInputBody: Swift.Equatable {
+struct GetKnowledgeBaseInputBody {
 }
 
 extension GetKnowledgeBaseInputBody: Swift.Decodable {
@@ -5108,7 +5108,7 @@ extension GetKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetKnowledgeBaseOutput: Swift.Equatable {
+public struct GetKnowledgeBaseOutput {
     /// Contains details about the knowledge base.
     /// This member is required.
     public var knowledgeBase: BedrockAgentClientTypes.KnowledgeBase?
@@ -5121,7 +5121,7 @@ public struct GetKnowledgeBaseOutput: Swift.Equatable {
     }
 }
 
-struct GetKnowledgeBaseOutputBody: Swift.Equatable {
+struct GetKnowledgeBaseOutputBody {
     let knowledgeBase: BedrockAgentClientTypes.KnowledgeBase?
 }
 
@@ -5209,7 +5209,7 @@ extension BedrockAgentClientTypes.InferenceConfiguration: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
-    public struct InferenceConfiguration: Swift.Equatable {
+    public struct InferenceConfiguration {
         /// The maximum number of tokens to allow in the generated response.
         public var maximumLength: Swift.Int?
         /// A list of stop sequences. A stop sequence is a sequence of characters that causes the model to stop generating the response.
@@ -5326,7 +5326,7 @@ extension BedrockAgentClientTypes {
     /// * [GetIngestionJob response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetIngestionJob.html#API_agent_GetIngestionJob_ResponseSyntax)
     ///
     /// * [ListIngestionJob response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListIngestionJobs.html#API_agent_ListIngestionJobs_ResponseSyntax)
-    public struct IngestionJob: Swift.Equatable {
+    public struct IngestionJob {
         /// The unique identifier of the ingested data source.
         /// This member is required.
         public var dataSourceId: Swift.String?
@@ -5423,7 +5423,7 @@ extension BedrockAgentClientTypes.IngestionJobFilter: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Defines a filter by which to filter the results.
-    public struct IngestionJobFilter: Swift.Equatable {
+    public struct IngestionJobFilter {
         /// The attribute by which to filter the results.
         /// This member is required.
         public var attribute: BedrockAgentClientTypes.IngestionJobFilterAttribute?
@@ -5533,7 +5533,7 @@ extension BedrockAgentClientTypes.IngestionJobSortBy: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Parameters by which to sort the results.
-    public struct IngestionJobSortBy: Swift.Equatable {
+    public struct IngestionJobSortBy {
         /// The attribute by which to sort the results.
         /// This member is required.
         public var attribute: BedrockAgentClientTypes.IngestionJobSortByAttribute?
@@ -5642,7 +5642,7 @@ extension BedrockAgentClientTypes.IngestionJobStatistics: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains the statistics for the ingestion job.
-    public struct IngestionJobStatistics: Swift.Equatable {
+    public struct IngestionJobStatistics {
         /// The number of source documents that was deleted.
         public var numberOfDocumentsDeleted: Swift.Int
         /// The number of source documents that failed to be ingested.
@@ -5781,7 +5781,7 @@ extension BedrockAgentClientTypes.IngestionJobSummary: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about an ingestion job.
-    public struct IngestionJobSummary: Swift.Equatable {
+    public struct IngestionJobSummary {
         /// The unique identifier of the data source in the ingestion job.
         /// This member is required.
         public var dataSourceId: Swift.String?
@@ -5868,7 +5868,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -5977,7 +5977,7 @@ extension BedrockAgentClientTypes.KnowledgeBase: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains information about a knowledge base.
-    public struct KnowledgeBase: Swift.Equatable {
+    public struct KnowledgeBase {
         /// The time at which the knowledge base was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -6077,7 +6077,7 @@ extension BedrockAgentClientTypes.KnowledgeBaseConfiguration: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about the embeddings configuration of the knowledge base.
-    public struct KnowledgeBaseConfiguration: Swift.Equatable {
+    public struct KnowledgeBaseConfiguration {
         /// The type of data that the data source is converted into for the knowledge base.
         /// This member is required.
         public var type: BedrockAgentClientTypes.KnowledgeBaseType?
@@ -6252,7 +6252,7 @@ extension BedrockAgentClientTypes.KnowledgeBaseSummary: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about a knowledge base.
-    public struct KnowledgeBaseSummary: Swift.Equatable {
+    public struct KnowledgeBaseSummary {
         /// The description of the knowledge base.
         public var description: Swift.String?
         /// The unique identifier of the knowledge base.
@@ -6345,7 +6345,7 @@ extension ListAgentActionGroupsInput {
     }
 }
 
-public struct ListAgentActionGroupsInput: Swift.Equatable {
+public struct ListAgentActionGroupsInput {
     /// The unique identifier of the agent.
     /// This member is required.
     public var agentId: Swift.String?
@@ -6371,7 +6371,7 @@ public struct ListAgentActionGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListAgentActionGroupsInputBody: Swift.Equatable {
+struct ListAgentActionGroupsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -6405,7 +6405,7 @@ extension ListAgentActionGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAgentActionGroupsOutput: Swift.Equatable {
+public struct ListAgentActionGroupsOutput {
     /// A list of objects, each of which contains information about an action group.
     /// This member is required.
     public var actionGroupSummaries: [BedrockAgentClientTypes.ActionGroupSummary]?
@@ -6422,7 +6422,7 @@ public struct ListAgentActionGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListAgentActionGroupsOutputBody: Swift.Equatable {
+struct ListAgentActionGroupsOutputBody {
     let actionGroupSummaries: [BedrockAgentClientTypes.ActionGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -6493,7 +6493,7 @@ extension ListAgentAliasesInput {
     }
 }
 
-public struct ListAgentAliasesInput: Swift.Equatable {
+public struct ListAgentAliasesInput {
     /// The unique identifier of the agent.
     /// This member is required.
     public var agentId: Swift.String?
@@ -6514,7 +6514,7 @@ public struct ListAgentAliasesInput: Swift.Equatable {
     }
 }
 
-struct ListAgentAliasesInputBody: Swift.Equatable {
+struct ListAgentAliasesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -6548,7 +6548,7 @@ extension ListAgentAliasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAgentAliasesOutput: Swift.Equatable {
+public struct ListAgentAliasesOutput {
     /// A list of objects, each of which contains information about an alias of the agent.
     /// This member is required.
     public var agentAliasSummaries: [BedrockAgentClientTypes.AgentAliasSummary]?
@@ -6565,7 +6565,7 @@ public struct ListAgentAliasesOutput: Swift.Equatable {
     }
 }
 
-struct ListAgentAliasesOutputBody: Swift.Equatable {
+struct ListAgentAliasesOutputBody {
     let agentAliasSummaries: [BedrockAgentClientTypes.AgentAliasSummary]?
     let nextToken: Swift.String?
 }
@@ -6639,7 +6639,7 @@ extension ListAgentKnowledgeBasesInput {
     }
 }
 
-public struct ListAgentKnowledgeBasesInput: Swift.Equatable {
+public struct ListAgentKnowledgeBasesInput {
     /// The unique identifier of the agent for which to return information about knowledge bases associated with it.
     /// This member is required.
     public var agentId: Swift.String?
@@ -6665,7 +6665,7 @@ public struct ListAgentKnowledgeBasesInput: Swift.Equatable {
     }
 }
 
-struct ListAgentKnowledgeBasesInputBody: Swift.Equatable {
+struct ListAgentKnowledgeBasesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -6699,7 +6699,7 @@ extension ListAgentKnowledgeBasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAgentKnowledgeBasesOutput: Swift.Equatable {
+public struct ListAgentKnowledgeBasesOutput {
     /// A list of objects, each of which contains information about a knowledge base associated with the agent.
     /// This member is required.
     public var agentKnowledgeBaseSummaries: [BedrockAgentClientTypes.AgentKnowledgeBaseSummary]?
@@ -6716,7 +6716,7 @@ public struct ListAgentKnowledgeBasesOutput: Swift.Equatable {
     }
 }
 
-struct ListAgentKnowledgeBasesOutputBody: Swift.Equatable {
+struct ListAgentKnowledgeBasesOutputBody {
     let agentKnowledgeBaseSummaries: [BedrockAgentClientTypes.AgentKnowledgeBaseSummary]?
     let nextToken: Swift.String?
 }
@@ -6787,7 +6787,7 @@ extension ListAgentVersionsInput {
     }
 }
 
-public struct ListAgentVersionsInput: Swift.Equatable {
+public struct ListAgentVersionsInput {
     /// The unique identifier of the agent.
     /// This member is required.
     public var agentId: Swift.String?
@@ -6808,7 +6808,7 @@ public struct ListAgentVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListAgentVersionsInputBody: Swift.Equatable {
+struct ListAgentVersionsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -6842,7 +6842,7 @@ extension ListAgentVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAgentVersionsOutput: Swift.Equatable {
+public struct ListAgentVersionsOutput {
     /// A list of objects, each of which contains information about a version of the agent.
     /// This member is required.
     public var agentVersionSummaries: [BedrockAgentClientTypes.AgentVersionSummary]?
@@ -6859,7 +6859,7 @@ public struct ListAgentVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListAgentVersionsOutputBody: Swift.Equatable {
+struct ListAgentVersionsOutputBody {
     let agentVersionSummaries: [BedrockAgentClientTypes.AgentVersionSummary]?
     let nextToken: Swift.String?
 }
@@ -6927,7 +6927,7 @@ extension ListAgentsInput {
     }
 }
 
-public struct ListAgentsInput: Swift.Equatable {
+public struct ListAgentsInput {
     /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     public var maxResults: Swift.Int?
     /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
@@ -6943,7 +6943,7 @@ public struct ListAgentsInput: Swift.Equatable {
     }
 }
 
-struct ListAgentsInputBody: Swift.Equatable {
+struct ListAgentsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -6977,7 +6977,7 @@ extension ListAgentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAgentsOutput: Swift.Equatable {
+public struct ListAgentsOutput {
     /// A list of objects, each of which contains information about an agent.
     /// This member is required.
     public var agentSummaries: [BedrockAgentClientTypes.AgentSummary]?
@@ -6994,7 +6994,7 @@ public struct ListAgentsOutput: Swift.Equatable {
     }
 }
 
-struct ListAgentsOutputBody: Swift.Equatable {
+struct ListAgentsOutputBody {
     let agentSummaries: [BedrockAgentClientTypes.AgentSummary]?
     let nextToken: Swift.String?
 }
@@ -7064,7 +7064,7 @@ extension ListDataSourcesInput {
     }
 }
 
-public struct ListDataSourcesInput: Swift.Equatable {
+public struct ListDataSourcesInput {
     /// The unique identifier of the knowledge base for which to return a list of information.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -7085,7 +7085,7 @@ public struct ListDataSourcesInput: Swift.Equatable {
     }
 }
 
-struct ListDataSourcesInputBody: Swift.Equatable {
+struct ListDataSourcesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -7119,7 +7119,7 @@ extension ListDataSourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataSourcesOutput: Swift.Equatable {
+public struct ListDataSourcesOutput {
     /// A list of objects, each of which contains information about a data source.
     /// This member is required.
     public var dataSourceSummaries: [BedrockAgentClientTypes.DataSourceSummary]?
@@ -7136,7 +7136,7 @@ public struct ListDataSourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSourcesOutputBody: Swift.Equatable {
+struct ListDataSourcesOutputBody {
     let dataSourceSummaries: [BedrockAgentClientTypes.DataSourceSummary]?
     let nextToken: Swift.String?
 }
@@ -7221,7 +7221,7 @@ extension ListIngestionJobsInput {
     }
 }
 
-public struct ListIngestionJobsInput: Swift.Equatable {
+public struct ListIngestionJobsInput {
     /// The unique identifier of the data source for which to return ingestion jobs.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -7255,7 +7255,7 @@ public struct ListIngestionJobsInput: Swift.Equatable {
     }
 }
 
-struct ListIngestionJobsInputBody: Swift.Equatable {
+struct ListIngestionJobsInputBody {
     let filters: [BedrockAgentClientTypes.IngestionJobFilter]?
     let sortBy: BedrockAgentClientTypes.IngestionJobSortBy?
     let maxResults: Swift.Int?
@@ -7306,7 +7306,7 @@ extension ListIngestionJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIngestionJobsOutput: Swift.Equatable {
+public struct ListIngestionJobsOutput {
     /// A list of objects, each of which contains information about an ingestion job.
     /// This member is required.
     public var ingestionJobSummaries: [BedrockAgentClientTypes.IngestionJobSummary]?
@@ -7323,7 +7323,7 @@ public struct ListIngestionJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListIngestionJobsOutputBody: Swift.Equatable {
+struct ListIngestionJobsOutputBody {
     let ingestionJobSummaries: [BedrockAgentClientTypes.IngestionJobSummary]?
     let nextToken: Swift.String?
 }
@@ -7391,7 +7391,7 @@ extension ListKnowledgeBasesInput {
     }
 }
 
-public struct ListKnowledgeBasesInput: Swift.Equatable {
+public struct ListKnowledgeBasesInput {
     /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     public var maxResults: Swift.Int?
     /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
@@ -7407,7 +7407,7 @@ public struct ListKnowledgeBasesInput: Swift.Equatable {
     }
 }
 
-struct ListKnowledgeBasesInputBody: Swift.Equatable {
+struct ListKnowledgeBasesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -7441,7 +7441,7 @@ extension ListKnowledgeBasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKnowledgeBasesOutput: Swift.Equatable {
+public struct ListKnowledgeBasesOutput {
     /// A list of objects, each of which contains information about a knowledge base.
     /// This member is required.
     public var knowledgeBaseSummaries: [BedrockAgentClientTypes.KnowledgeBaseSummary]?
@@ -7458,7 +7458,7 @@ public struct ListKnowledgeBasesOutput: Swift.Equatable {
     }
 }
 
-struct ListKnowledgeBasesOutputBody: Swift.Equatable {
+struct ListKnowledgeBasesOutputBody {
     let knowledgeBaseSummaries: [BedrockAgentClientTypes.KnowledgeBaseSummary]?
     let nextToken: Swift.String?
 }
@@ -7511,7 +7511,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource for which to list tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7524,7 +7524,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -7545,7 +7545,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The key-value pairs for the tags associated with the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -7557,7 +7557,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -7630,7 +7630,7 @@ extension BedrockAgentClientTypes.OpenSearchServerlessConfiguration: Swift.Codab
 
 extension BedrockAgentClientTypes {
     /// Contains details about the storage configuration of the knowledge base in Amazon OpenSearch Service. For more information, see [Create a vector index in Amazon OpenSearch Service](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html).
-    public struct OpenSearchServerlessConfiguration: Swift.Equatable {
+    public struct OpenSearchServerlessConfiguration {
         /// The Amazon Resource Name (ARN) of the OpenSearch Service vector store.
         /// This member is required.
         public var collectionArn: Swift.String?
@@ -7688,7 +7688,7 @@ extension BedrockAgentClientTypes.OpenSearchServerlessFieldMapping: Swift.Codabl
 
 extension BedrockAgentClientTypes {
     /// Contains the names of the fields to which to map information about the vector store.
-    public struct OpenSearchServerlessFieldMapping: Swift.Equatable {
+    public struct OpenSearchServerlessFieldMapping {
         /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
         /// This member is required.
         public var metadataField: Swift.String?
@@ -7756,7 +7756,7 @@ extension BedrockAgentClientTypes {
     /// * [UpdateAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_ResponseSyntax)
     ///
     /// * [GetAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetAgentActionGroup.html#API_agent_GetAgentActionGroup_ResponseSyntax)
-    public struct ParameterDetail: Swift.Equatable {
+    public struct ParameterDetail {
         /// A description of the parameter. Helps the foundation model determine how to elicit the parameters from the user.
         public var description: Swift.String?
         /// Whether the parameter is required for the agent to complete the function for action group invocation.
@@ -7818,7 +7818,7 @@ extension BedrockAgentClientTypes.PineconeConfiguration: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about the storage configuration of the knowledge base in Pinecone. For more information, see [Create a vector index in Pinecone](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-pinecone.html).
-    public struct PineconeConfiguration: Swift.Equatable {
+    public struct PineconeConfiguration {
         /// The endpoint URL for your index management page.
         /// This member is required.
         public var connectionString: Swift.String?
@@ -7874,7 +7874,7 @@ extension BedrockAgentClientTypes.PineconeFieldMapping: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains the names of the fields to which to map information about the vector store.
-    public struct PineconeFieldMapping: Swift.Equatable {
+    public struct PineconeFieldMapping {
         /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
         /// This member is required.
         public var metadataField: Swift.String?
@@ -7904,7 +7904,7 @@ extension PrepareAgentInput {
     }
 }
 
-public struct PrepareAgentInput: Swift.Equatable {
+public struct PrepareAgentInput {
     /// The unique identifier of the agent for which to create a DRAFT version.
     /// This member is required.
     public var agentId: Swift.String?
@@ -7917,7 +7917,7 @@ public struct PrepareAgentInput: Swift.Equatable {
     }
 }
 
-struct PrepareAgentInputBody: Swift.Equatable {
+struct PrepareAgentInputBody {
 }
 
 extension PrepareAgentInputBody: Swift.Decodable {
@@ -7944,7 +7944,7 @@ extension PrepareAgentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PrepareAgentOutput: Swift.Equatable {
+public struct PrepareAgentOutput {
     /// The unique identifier of the agent for which the DRAFT version was created.
     /// This member is required.
     public var agentId: Swift.String?
@@ -7972,7 +7972,7 @@ public struct PrepareAgentOutput: Swift.Equatable {
     }
 }
 
-struct PrepareAgentOutputBody: Swift.Equatable {
+struct PrepareAgentOutputBody {
     let agentId: Swift.String?
     let agentStatus: BedrockAgentClientTypes.AgentStatus?
     let agentVersion: Swift.String?
@@ -8068,7 +8068,7 @@ extension BedrockAgentClientTypes.PromptConfiguration: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains configurations to override a prompt template in one part of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
-    public struct PromptConfiguration: Swift.Equatable {
+    public struct PromptConfiguration {
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html).
         public var basePromptTemplate: Swift.String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
@@ -8155,7 +8155,7 @@ extension BedrockAgentClientTypes.PromptOverrideConfiguration: Swift.CustomDebug
 
 extension BedrockAgentClientTypes {
     /// Contains configurations to override prompts in different parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
-    public struct PromptOverrideConfiguration: Swift.Equatable {
+    public struct PromptOverrideConfiguration {
         /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence. If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is set to OVERRIDDEN.
         public var overrideLambda: Swift.String?
         /// Contains configurations to override a prompt template in one part of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
@@ -8289,7 +8289,7 @@ extension BedrockAgentClientTypes.RdsConfiguration: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about the storage configuration of the knowledge base in Amazon RDS. For more information, see [Create a vector index in Amazon RDS](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-rds.html).
-    public struct RdsConfiguration: Swift.Equatable {
+    public struct RdsConfiguration {
         /// The Amazon Resource Name (ARN) of the secret that you created in Secrets Manager that is linked to your Amazon RDS database.
         /// This member is required.
         public var credentialsSecretArn: Swift.String?
@@ -8363,7 +8363,7 @@ extension BedrockAgentClientTypes.RdsFieldMapping: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains the names of the fields to which to map information about the vector store.
-    public struct RdsFieldMapping: Swift.Equatable {
+    public struct RdsFieldMapping {
         /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
         /// This member is required.
         public var metadataField: Swift.String?
@@ -8432,7 +8432,7 @@ extension BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration: Swift.Codab
 
 extension BedrockAgentClientTypes {
     /// Contains details about the storage configuration of the knowledge base in Redis Enterprise Cloud. For more information, see [Create a vector index in Redis Enterprise Cloud](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html).
-    public struct RedisEnterpriseCloudConfiguration: Swift.Equatable {
+    public struct RedisEnterpriseCloudConfiguration {
         /// The Amazon Resource Name (ARN) of the secret that you created in Secrets Manager that is linked to your Redis Enterprise Cloud database.
         /// This member is required.
         public var credentialsSecretArn: Swift.String?
@@ -8495,7 +8495,7 @@ extension BedrockAgentClientTypes.RedisEnterpriseCloudFieldMapping: Swift.Codabl
 
 extension BedrockAgentClientTypes {
     /// Contains the names of the fields to which to map information about the vector store.
-    public struct RedisEnterpriseCloudFieldMapping: Swift.Equatable {
+    public struct RedisEnterpriseCloudFieldMapping {
         /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
         /// This member is required.
         public var metadataField: Swift.String?
@@ -8559,7 +8559,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -8614,7 +8614,7 @@ extension BedrockAgentClientTypes.S3DataSourceConfiguration: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains information about the S3 configuration of the data source.
-    public struct S3DataSourceConfiguration: Swift.Equatable {
+    public struct S3DataSourceConfiguration {
         /// The Amazon Resource Name (ARN) of the bucket that contains the data source.
         /// This member is required.
         public var bucketArn: Swift.String?
@@ -8660,7 +8660,7 @@ extension BedrockAgentClientTypes.S3Identifier: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains information about the S3 object containing the resource.
-    public struct S3Identifier: Swift.Equatable {
+    public struct S3Identifier {
         /// The name of the S3 bucket.
         public var s3BucketName: Swift.String?
         /// The S3 object key containing the resource.
@@ -8699,7 +8699,7 @@ extension BedrockAgentClientTypes.ServerSideEncryptionConfiguration: Swift.Codab
 
 extension BedrockAgentClientTypes {
     /// Contains the configuration for server-side encryption.
-    public struct ServerSideEncryptionConfiguration: Swift.Equatable {
+    public struct ServerSideEncryptionConfiguration {
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the resource.
         public var kmsKeyArn: Swift.String?
 
@@ -8752,7 +8752,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -8830,7 +8830,7 @@ extension StartIngestionJobInput {
     }
 }
 
-public struct StartIngestionJobInput: Swift.Equatable {
+public struct StartIngestionJobInput {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The unique identifier of the data source to ingest.
@@ -8856,7 +8856,7 @@ public struct StartIngestionJobInput: Swift.Equatable {
     }
 }
 
-struct StartIngestionJobInputBody: Swift.Equatable {
+struct StartIngestionJobInputBody {
     let clientToken: Swift.String?
     let description: Swift.String?
 }
@@ -8888,7 +8888,7 @@ extension StartIngestionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartIngestionJobOutput: Swift.Equatable {
+public struct StartIngestionJobOutput {
     /// An object containing information about the ingestion job.
     /// This member is required.
     public var ingestionJob: BedrockAgentClientTypes.IngestionJob?
@@ -8901,7 +8901,7 @@ public struct StartIngestionJobOutput: Swift.Equatable {
     }
 }
 
-struct StartIngestionJobOutputBody: Swift.Equatable {
+struct StartIngestionJobOutputBody {
     let ingestionJob: BedrockAgentClientTypes.IngestionJob?
 }
 
@@ -8979,7 +8979,7 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains the storage configuration of the knowledge base.
-    public struct StorageConfiguration: Swift.Equatable {
+    public struct StorageConfiguration {
         /// Contains the storage configuration of the knowledge base in Amazon OpenSearch Service.
         public var opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration?
         /// Contains the storage configuration of the knowledge base in Pinecone.
@@ -9036,7 +9036,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9054,7 +9054,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -9084,7 +9084,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -9144,7 +9144,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -9227,7 +9227,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource from which to remove tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9245,7 +9245,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -9259,7 +9259,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -9332,7 +9332,7 @@ extension UpdateAgentActionGroupInput {
     }
 }
 
-public struct UpdateAgentActionGroupInput: Swift.Equatable {
+public struct UpdateAgentActionGroupInput {
     /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
     public var actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor?
     /// The unique identifier of the action group.
@@ -9384,7 +9384,7 @@ public struct UpdateAgentActionGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentActionGroupInputBody: Swift.Equatable {
+struct UpdateAgentActionGroupInputBody {
     let actionGroupName: Swift.String?
     let description: Swift.String?
     let parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
@@ -9436,7 +9436,7 @@ extension UpdateAgentActionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAgentActionGroupOutput: Swift.Equatable {
+public struct UpdateAgentActionGroupOutput {
     /// Contains details about the action group that was updated.
     /// This member is required.
     public var agentActionGroup: BedrockAgentClientTypes.AgentActionGroup?
@@ -9449,7 +9449,7 @@ public struct UpdateAgentActionGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentActionGroupOutputBody: Swift.Equatable {
+struct UpdateAgentActionGroupOutputBody {
     let agentActionGroup: BedrockAgentClientTypes.AgentActionGroup?
 }
 
@@ -9519,7 +9519,7 @@ extension UpdateAgentAliasInput {
     }
 }
 
-public struct UpdateAgentAliasInput: Swift.Equatable {
+public struct UpdateAgentAliasInput {
     /// The unique identifier of the alias.
     /// This member is required.
     public var agentAliasId: Swift.String?
@@ -9550,7 +9550,7 @@ public struct UpdateAgentAliasInput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentAliasInputBody: Swift.Equatable {
+struct UpdateAgentAliasInputBody {
     let agentAliasName: Swift.String?
     let description: Swift.String?
     let routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]?
@@ -9595,7 +9595,7 @@ extension UpdateAgentAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAgentAliasOutput: Swift.Equatable {
+public struct UpdateAgentAliasOutput {
     /// Contains details about the alias that was updated.
     /// This member is required.
     public var agentAlias: BedrockAgentClientTypes.AgentAlias?
@@ -9608,7 +9608,7 @@ public struct UpdateAgentAliasOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentAliasOutputBody: Swift.Equatable {
+struct UpdateAgentAliasOutputBody {
     let agentAlias: BedrockAgentClientTypes.AgentAlias?
 }
 
@@ -9697,7 +9697,7 @@ extension UpdateAgentInput {
     }
 }
 
-public struct UpdateAgentInput: Swift.Equatable {
+public struct UpdateAgentInput {
     /// The unique identifier of the agent.
     /// This member is required.
     public var agentId: Swift.String?
@@ -9745,7 +9745,7 @@ public struct UpdateAgentInput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentInputBody: Swift.Equatable {
+struct UpdateAgentInputBody {
     let agentName: Swift.String?
     let instruction: Swift.String?
     let foundationModel: Swift.String?
@@ -9822,7 +9822,7 @@ extension UpdateAgentKnowledgeBaseInput {
     }
 }
 
-public struct UpdateAgentKnowledgeBaseInput: Swift.Equatable {
+public struct UpdateAgentKnowledgeBaseInput {
     /// The unique identifier of the agent associated with the knowledge base that you want to update.
     /// This member is required.
     public var agentId: Swift.String?
@@ -9853,7 +9853,7 @@ public struct UpdateAgentKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentKnowledgeBaseInputBody: Swift.Equatable {
+struct UpdateAgentKnowledgeBaseInputBody {
     let description: Swift.String?
     let knowledgeBaseState: BedrockAgentClientTypes.KnowledgeBaseState?
 }
@@ -9885,7 +9885,7 @@ extension UpdateAgentKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAgentKnowledgeBaseOutput: Swift.Equatable {
+public struct UpdateAgentKnowledgeBaseOutput {
     /// Contains details about the knowledge base that has been associated with an agent.
     /// This member is required.
     public var agentKnowledgeBase: BedrockAgentClientTypes.AgentKnowledgeBase?
@@ -9898,7 +9898,7 @@ public struct UpdateAgentKnowledgeBaseOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentKnowledgeBaseOutputBody: Swift.Equatable {
+struct UpdateAgentKnowledgeBaseOutputBody {
     let agentKnowledgeBase: BedrockAgentClientTypes.AgentKnowledgeBase?
 }
 
@@ -9942,7 +9942,7 @@ extension UpdateAgentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAgentOutput: Swift.Equatable {
+public struct UpdateAgentOutput {
     /// Contains details about the agent that was updated.
     /// This member is required.
     public var agent: BedrockAgentClientTypes.Agent?
@@ -9955,7 +9955,7 @@ public struct UpdateAgentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentOutputBody: Swift.Equatable {
+struct UpdateAgentOutputBody {
     let agent: BedrockAgentClientTypes.Agent?
 }
 
@@ -10030,7 +10030,7 @@ extension UpdateDataSourceInput {
     }
 }
 
-public struct UpdateDataSourceInput: Swift.Equatable {
+public struct UpdateDataSourceInput {
     /// Contains details about the storage configuration of the data source.
     /// This member is required.
     public var dataSourceConfiguration: BedrockAgentClientTypes.DataSourceConfiguration?
@@ -10070,7 +10070,7 @@ public struct UpdateDataSourceInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSourceInputBody: Swift.Equatable {
+struct UpdateDataSourceInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let dataSourceConfiguration: BedrockAgentClientTypes.DataSourceConfiguration?
@@ -10114,7 +10114,7 @@ extension UpdateDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataSourceOutput: Swift.Equatable {
+public struct UpdateDataSourceOutput {
     /// Contains details about the data source.
     /// This member is required.
     public var dataSource: BedrockAgentClientTypes.DataSource?
@@ -10127,7 +10127,7 @@ public struct UpdateDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSourceOutputBody: Swift.Equatable {
+struct UpdateDataSourceOutputBody {
     let dataSource: BedrockAgentClientTypes.DataSource?
 }
 
@@ -10198,7 +10198,7 @@ extension UpdateKnowledgeBaseInput {
     }
 }
 
-public struct UpdateKnowledgeBaseInput: Swift.Equatable {
+public struct UpdateKnowledgeBaseInput {
     /// Specifies a new description for the knowledge base.
     public var description: Swift.String?
     /// Specifies the configuration for the embeddings model used for the knowledge base. You must use the same configuration as when the knowledge base was created.
@@ -10235,7 +10235,7 @@ public struct UpdateKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct UpdateKnowledgeBaseInputBody: Swift.Equatable {
+struct UpdateKnowledgeBaseInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let roleArn: Swift.String?
@@ -10279,7 +10279,7 @@ extension UpdateKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateKnowledgeBaseOutput: Swift.Equatable {
+public struct UpdateKnowledgeBaseOutput {
     /// Contains details about the knowledge base.
     /// This member is required.
     public var knowledgeBase: BedrockAgentClientTypes.KnowledgeBase?
@@ -10292,7 +10292,7 @@ public struct UpdateKnowledgeBaseOutput: Swift.Equatable {
     }
 }
 
-struct UpdateKnowledgeBaseOutputBody: Swift.Equatable {
+struct UpdateKnowledgeBaseOutputBody {
     let knowledgeBase: BedrockAgentClientTypes.KnowledgeBase?
 }
 
@@ -10369,7 +10369,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let fieldList: [BedrockAgentClientTypes.ValidationExceptionField]?
 }
@@ -10425,7 +10425,7 @@ extension BedrockAgentClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Stores information about a field passed inside a request that resulted in an validation error.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// A message describing why this field failed validation.
         /// This member is required.
         public var message: Swift.String?
@@ -10466,7 +10466,7 @@ extension BedrockAgentClientTypes.VectorIngestionConfiguration: Swift.Codable {
 
 extension BedrockAgentClientTypes {
     /// Contains details about how to ingest the documents in a data source.
-    public struct VectorIngestionConfiguration: Swift.Equatable {
+    public struct VectorIngestionConfiguration {
         /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
         public var chunkingConfiguration: BedrockAgentClientTypes.ChunkingConfiguration?
 
@@ -10501,7 +10501,7 @@ extension BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration: Swift.Codabl
 
 extension BedrockAgentClientTypes {
     /// Contains details about the model used to create vector embeddings for the knowledge base.
-    public struct VectorKnowledgeBaseConfiguration: Swift.Equatable {
+    public struct VectorKnowledgeBaseConfiguration {
         /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
         /// This member is required.
         public var embeddingModelArn: Swift.String?

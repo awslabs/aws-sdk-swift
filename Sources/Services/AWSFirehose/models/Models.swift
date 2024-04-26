@@ -29,7 +29,7 @@ extension FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints: Swift.Co
 
 extension FirehoseClientTypes {
     /// Describes the buffering to perform before delivering data to the Serverless offering for Amazon OpenSearch Service destination.
-    public struct AmazonOpenSearchServerlessBufferingHints: Swift.Equatable {
+    public struct AmazonOpenSearchServerlessBufferingHints {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public var intervalInSeconds: Swift.Int?
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
@@ -122,7 +122,7 @@ extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration
 
 extension FirehoseClientTypes {
     /// Describes the configuration of a destination in the Serverless offering for Amazon OpenSearch Service.
-    public struct AmazonOpenSearchServerlessDestinationConfiguration: Swift.Equatable {
+    public struct AmazonOpenSearchServerlessDestinationConfiguration {
         /// The buffering options. If no value is specified, the default values for AmazonopensearchserviceBufferingHints are used.
         public var bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
@@ -250,7 +250,7 @@ extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription: 
 
 extension FirehoseClientTypes {
     /// The destination description in the Serverless offering for Amazon OpenSearch Service.
-    public struct AmazonOpenSearchServerlessDestinationDescription: Swift.Equatable {
+    public struct AmazonOpenSearchServerlessDestinationDescription {
         /// The buffering options.
         public var bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
@@ -363,7 +363,7 @@ extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate: Swift
 
 extension FirehoseClientTypes {
     /// Describes an update for a destination in the Serverless offering for Amazon OpenSearch Service.
-    public struct AmazonOpenSearchServerlessDestinationUpdate: Swift.Equatable {
+    public struct AmazonOpenSearchServerlessDestinationUpdate {
         /// The buffering options. If no value is specified, AmazonopensearchBufferingHints object default values are used.
         public var bufferingHints: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
@@ -426,7 +426,7 @@ extension FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions: Swift.Coda
 
 extension FirehoseClientTypes {
     /// Configures retry behavior in case Firehose is unable to deliver documents to the Serverless offering for Amazon OpenSearch Service.
-    public struct AmazonOpenSearchServerlessRetryOptions: Swift.Equatable {
+    public struct AmazonOpenSearchServerlessRetryOptions {
         /// After an initial failure to deliver to the Serverless offering for Amazon OpenSearch Service, the total amount of time during which Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public var durationInSeconds: Swift.Int?
 
@@ -499,7 +499,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceBufferingHints: Swift.Codab
 
 extension FirehoseClientTypes {
     /// Describes the buffering to perform before delivering data to the Amazon OpenSearch Service destination.
-    public struct AmazonopensearchserviceBufferingHints: Swift.Equatable {
+    public struct AmazonopensearchserviceBufferingHints {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public var intervalInSeconds: Swift.Int?
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
@@ -616,7 +616,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration: S
 
 extension FirehoseClientTypes {
     /// Describes the configuration of a destination in Amazon OpenSearch Service
-    public struct AmazonopensearchserviceDestinationConfiguration: Swift.Equatable {
+    public struct AmazonopensearchserviceDestinationConfiguration {
         /// The buffering options. If no value is specified, the default values for AmazonopensearchserviceBufferingHints are used.
         public var bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
@@ -784,7 +784,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationDescription: Swi
 
 extension FirehoseClientTypes {
     /// The destination description in Amazon OpenSearch Service.
-    public struct AmazonopensearchserviceDestinationDescription: Swift.Equatable {
+    public struct AmazonopensearchserviceDestinationDescription {
         /// The buffering options.
         public var bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
@@ -937,7 +937,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate: Swift.Co
 
 extension FirehoseClientTypes {
     /// Describes an update for a destination in Amazon OpenSearch Service.
-    public struct AmazonopensearchserviceDestinationUpdate: Swift.Equatable {
+    public struct AmazonopensearchserviceDestinationUpdate {
         /// The buffering options. If no value is specified, AmazonopensearchBufferingHints object default values are used.
         public var bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
@@ -1057,7 +1057,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceRetryOptions: Swift.Codable
 
 extension FirehoseClientTypes {
     /// Configures retry behavior in case Firehose is unable to deliver documents to Amazon OpenSearch Service.
-    public struct AmazonopensearchserviceRetryOptions: Swift.Equatable {
+    public struct AmazonopensearchserviceRetryOptions {
         /// After an initial failure to deliver to Amazon OpenSearch Service, the total amount of time during which Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public var durationInSeconds: Swift.Int?
 
@@ -1130,7 +1130,7 @@ extension FirehoseClientTypes.AuthenticationConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The authentication configuration of the Amazon MSK cluster.
-    public struct AuthenticationConfiguration: Swift.Equatable {
+    public struct AuthenticationConfiguration {
         /// The type of connectivity used to access the Amazon MSK cluster.
         /// This member is required.
         public var connectivity: FirehoseClientTypes.Connectivity?
@@ -1177,7 +1177,7 @@ extension FirehoseClientTypes.BufferingHints: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes hints for the buffering to perform before delivering data to the destination. These options are treated as hints, and therefore Firehose might choose to use different values when it is optimal. The SizeInMBs and IntervalInSeconds parameters are optional. However, if specify a value for one of them, you must also provide a value for the other.
-    public struct BufferingHints: Swift.Equatable {
+    public struct BufferingHints {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300. This parameter is optional but if you specify a value for it, you must also specify a value for SizeInMBs, and vice versa.
         public var intervalInSeconds: Swift.Int?
         /// Buffer incoming data to the specified size, in MiBs, before delivering it to the destination. The default value is 5. This parameter is optional but if you specify a value for it, you must also specify a value for IntervalInSeconds, and vice versa. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MiB/sec, the value should be 10 MiB or higher.
@@ -1228,7 +1228,7 @@ extension FirehoseClientTypes.CloudWatchLoggingOptions: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes the Amazon CloudWatch logging options for your delivery stream.
-    public struct CloudWatchLoggingOptions: Swift.Equatable {
+    public struct CloudWatchLoggingOptions {
         /// Enables or disables CloudWatch logging.
         public var enabled: Swift.Bool?
         /// The CloudWatch group name for logging. This value is required if CloudWatch logging is enabled.
@@ -1331,7 +1331,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1444,7 +1444,7 @@ extension FirehoseClientTypes.CopyCommand: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes a COPY command for Amazon Redshift.
-    public struct CopyCommand: Swift.Equatable {
+    public struct CopyCommand {
         /// Optional parameters to use with the Amazon Redshift COPY command. For more information, see the "Optional Parameters" section of [Amazon Redshift COPY command](https://docs.aws.amazon.com/redshift/latest/dg/r_COPY.html). Some possible examples that would apply to Firehose are as follows: delimiter '\t' lzop; - fields are delimited with "\t" (TAB character) and compressed using lzop. delimiter '|' - fields are delimited with "|" (this is the default delimiter). delimiter '|' escape - the delimiter should be escaped. fixedwidth 'venueid:3,venuename:25,venuecity:12,venuestate:2,venueseats:6' - fields are fixed width in the source, with each width specified after every column in the table. JSON 's3://mybucket/jsonpaths.txt' - data is in JSON format, and the path specified is the format of the data. For more examples, see [Amazon Redshift COPY command examples](https://docs.aws.amazon.com/redshift/latest/dg/r_COPY_command_examples.html).
         public var copyOptions: Swift.String?
         /// A comma-separated list of column names.
@@ -1546,7 +1546,7 @@ extension CreateDeliveryStreamInput {
     }
 }
 
-public struct CreateDeliveryStreamInput: Swift.Equatable {
+public struct CreateDeliveryStreamInput {
     /// The destination in the Serverless offering for Amazon OpenSearch Service. You can specify only one destination.
     public var amazonOpenSearchServerlessDestinationConfiguration: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration?
     /// The destination in Amazon OpenSearch Service. You can specify only one destination.
@@ -1620,7 +1620,7 @@ public struct CreateDeliveryStreamInput: Swift.Equatable {
     }
 }
 
-struct CreateDeliveryStreamInputBody: Swift.Equatable {
+struct CreateDeliveryStreamInputBody {
     let deliveryStreamName: Swift.String?
     let deliveryStreamType: FirehoseClientTypes.DeliveryStreamType?
     let kinesisStreamSourceConfiguration: FirehoseClientTypes.KinesisStreamSourceConfiguration?
@@ -1713,7 +1713,7 @@ extension CreateDeliveryStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDeliveryStreamOutput: Swift.Equatable {
+public struct CreateDeliveryStreamOutput {
     /// The ARN of the delivery stream.
     public var deliveryStreamARN: Swift.String?
 
@@ -1725,7 +1725,7 @@ public struct CreateDeliveryStreamOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeliveryStreamOutputBody: Swift.Equatable {
+struct CreateDeliveryStreamOutputBody {
     let deliveryStreamARN: Swift.String?
 }
 
@@ -1794,7 +1794,7 @@ extension FirehoseClientTypes.DataFormatConversionConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Specifies that you want Firehose to convert data from the JSON format to the Parquet or ORC format before writing it to Amazon S3. Firehose uses the serializer and deserializer that you specify, in addition to the column information from the Amazon Web Services Glue table, to deserialize your input data from JSON and then serialize it to the Parquet or ORC format. For more information, see [Firehose Record Format Conversion](https://docs.aws.amazon.com/firehose/latest/dev/record-format-conversion.html).
-    public struct DataFormatConversionConfiguration: Swift.Equatable {
+    public struct DataFormatConversionConfiguration {
         /// Defaults to true. Set it to false if you want to disable format conversion while preserving the configuration details.
         public var enabled: Swift.Bool?
         /// Specifies the deserializer that you want Firehose to use to convert the format of your data from JSON. This parameter is required if Enabled is set to true.
@@ -1876,7 +1876,7 @@ extension DeleteDeliveryStreamInput {
     }
 }
 
-public struct DeleteDeliveryStreamInput: Swift.Equatable {
+public struct DeleteDeliveryStreamInput {
     /// Set this to true if you want to delete the delivery stream even if Firehose is unable to retire the grant for the CMK. Firehose might be unable to retire the grant due to a customer error, such as when the CMK or the grant are in an invalid state. If you force deletion, you can then use the [RevokeGrant](https://docs.aws.amazon.com/kms/latest/APIReference/API_RevokeGrant.html) operation to revoke the grant you gave to Firehose. If a failure to retire the grant happens due to an Amazon Web Services KMS issue, Firehose keeps retrying the delete operation. The default value is false.
     public var allowForceDelete: Swift.Bool?
     /// The name of the delivery stream.
@@ -1893,7 +1893,7 @@ public struct DeleteDeliveryStreamInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeliveryStreamInputBody: Swift.Equatable {
+struct DeleteDeliveryStreamInputBody {
     let deliveryStreamName: Swift.String?
     let allowForceDelete: Swift.Bool?
 }
@@ -1918,7 +1918,7 @@ extension DeleteDeliveryStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeliveryStreamOutput: Swift.Equatable {
+public struct DeleteDeliveryStreamOutput {
 
     public init() { }
 }
@@ -2034,7 +2034,7 @@ extension FirehoseClientTypes.DeliveryStreamDescription: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Contains information about a delivery stream.
-    public struct DeliveryStreamDescription: Swift.Equatable {
+    public struct DeliveryStreamDescription {
         /// The date and time that the delivery stream was created.
         public var createTimestamp: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the delivery stream. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
@@ -2142,7 +2142,7 @@ extension FirehoseClientTypes.DeliveryStreamEncryptionConfiguration: Swift.Codab
 
 extension FirehoseClientTypes {
     /// Contains information about the server-side encryption (SSE) status for the delivery stream, the type customer master key (CMK) in use, if any, and the ARN of the CMK. You can get DeliveryStreamEncryptionConfiguration by invoking the [DescribeDeliveryStream] operation.
-    public struct DeliveryStreamEncryptionConfiguration: Swift.Equatable {
+    public struct DeliveryStreamEncryptionConfiguration {
         /// Provides details in case one of the following operations fails due to an error related to KMS: [CreateDeliveryStream], [DeleteDeliveryStream], [StartDeliveryStreamEncryption], [StopDeliveryStreamEncryption].
         public var failureDescription: FirehoseClientTypes.FailureDescription?
         /// If KeyType is CUSTOMER_MANAGED_CMK, this field contains the ARN of the customer managed CMK. If KeyType is Amazon Web Services_OWNED_CMK, DeliveryStreamEncryptionConfiguration doesn't contain a value for KeyARN.
@@ -2195,7 +2195,7 @@ extension FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput: Swift.
 
 extension FirehoseClientTypes {
     /// Specifies the type and Amazon Resource Name (ARN) of the CMK to use for Server-Side Encryption (SSE).
-    public struct DeliveryStreamEncryptionConfigurationInput: Swift.Equatable {
+    public struct DeliveryStreamEncryptionConfigurationInput {
         /// If you set KeyType to CUSTOMER_MANAGED_CMK, you must specify the Amazon Resource Name (ARN) of the CMK. If you set KeyType to Amazon Web Services_OWNED_CMK, Firehose uses a service-account CMK.
         public var keyARN: Swift.String?
         /// Indicates the type of customer master key (CMK) to use for encryption. The default setting is Amazon Web Services_OWNED_CMK. For more information about CMKs, see [Customer Master Keys (CMKs)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys). When you invoke [CreateDeliveryStream] or [StartDeliveryStreamEncryption] with KeyType set to CUSTOMER_MANAGED_CMK, Firehose invokes the Amazon KMS operation [CreateGrant](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateGrant.html) to create a grant that allows the Firehose service to use the customer managed CMK to perform encryption and decryption. Firehose manages that grant. When you invoke [StartDeliveryStreamEncryption] to change the CMK for a delivery stream that is encrypted with a customer managed CMK, Firehose schedules the grant it had on the old CMK for retirement. You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 delivery streams. If a [CreateDeliveryStream] or [StartDeliveryStreamEncryption] operation exceeds this limit, Firehose throws a LimitExceededException. To encrypt your delivery stream, use symmetric CMKs. Firehose doesn't support asymmetric CMKs. For information about symmetric and asymmetric CMKs, see [About Symmetric and Asymmetric CMKs](https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html) in the Amazon Web Services Key Management Service developer guide.
@@ -2433,7 +2433,7 @@ extension DescribeDeliveryStreamInput {
     }
 }
 
-public struct DescribeDeliveryStreamInput: Swift.Equatable {
+public struct DescribeDeliveryStreamInput {
     /// The name of the delivery stream.
     /// This member is required.
     public var deliveryStreamName: Swift.String?
@@ -2454,7 +2454,7 @@ public struct DescribeDeliveryStreamInput: Swift.Equatable {
     }
 }
 
-struct DescribeDeliveryStreamInputBody: Swift.Equatable {
+struct DescribeDeliveryStreamInputBody {
     let deliveryStreamName: Swift.String?
     let limit: Swift.Int?
     let exclusiveStartDestinationId: Swift.String?
@@ -2490,7 +2490,7 @@ extension DescribeDeliveryStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDeliveryStreamOutput: Swift.Equatable {
+public struct DescribeDeliveryStreamOutput {
     /// Information about the delivery stream.
     /// This member is required.
     public var deliveryStreamDescription: FirehoseClientTypes.DeliveryStreamDescription?
@@ -2503,7 +2503,7 @@ public struct DescribeDeliveryStreamOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDeliveryStreamOutputBody: Swift.Equatable {
+struct DescribeDeliveryStreamOutputBody {
     let deliveryStreamDescription: FirehoseClientTypes.DeliveryStreamDescription?
 }
 
@@ -2557,7 +2557,7 @@ extension FirehoseClientTypes.Deserializer: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The deserializer you want Firehose to use for converting the input data from JSON. Firehose then serializes the data to its final format using the [Serializer]. Firehose supports two types of deserializers: the [Apache Hive JSON SerDe](https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-JSON) and the [OpenX JSON SerDe](https://github.com/rcongiu/Hive-JSON-Serde).
-    public struct Deserializer: Swift.Equatable {
+    public struct Deserializer {
         /// The native Hive / HCatalog JsonSerDe. Used by Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the OpenX SerDe.
         public var hiveJsonSerDe: FirehoseClientTypes.HiveJsonSerDe?
         /// The OpenX SerDe. Used by Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the native Hive / HCatalog JsonSerDe.
@@ -2650,7 +2650,7 @@ extension FirehoseClientTypes.DestinationDescription: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes the destination for a delivery stream.
-    public struct DestinationDescription: Swift.Equatable {
+    public struct DestinationDescription {
         /// The destination in the Serverless offering for Amazon OpenSearch Service.
         public var amazonOpenSearchServerlessDestinationDescription: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription?
         /// The destination in Amazon OpenSearch Service.
@@ -2722,7 +2722,7 @@ extension FirehoseClientTypes.DocumentIdOptions: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Indicates the method for setting up document ID. The supported methods are Firehose generated document ID and OpenSearch Service generated document ID.
-    public struct DocumentIdOptions: Swift.Equatable {
+    public struct DocumentIdOptions {
         /// When the FIREHOSE_DEFAULT option is chosen, Firehose generates a unique document ID for each record based on a unique internal identifier. The generated document ID is stable across multiple delivery attempts, which helps prevent the same record from being indexed multiple times with different document IDs. When the NO_DOCUMENT_ID option is chosen, Firehose does not include any document IDs in the requests it sends to the Amazon OpenSearch Service. This causes the Amazon OpenSearch Service domain to generate document IDs. In case of multiple delivery attempts, this may cause the same record to be indexed more than once with different document IDs. This option enables write-heavy operations, such as the ingestion of logs and observability data, to consume less resources in the Amazon OpenSearch Service domain, resulting in improved performance.
         /// This member is required.
         public var defaultDocumentIdFormat: FirehoseClientTypes.DefaultDocumentIdFormat?
@@ -2764,7 +2764,7 @@ extension FirehoseClientTypes.DynamicPartitioningConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The configuration of the dynamic partitioning mechanism that creates smaller data sets from the streaming data by partitioning it based on partition keys. Currently, dynamic partitioning is only supported for Amazon S3 destinations.
-    public struct DynamicPartitioningConfiguration: Swift.Equatable {
+    public struct DynamicPartitioningConfiguration {
         /// Specifies that the dynamic partitioning is enabled for this Firehose delivery stream.
         public var enabled: Swift.Bool?
         /// The retry behavior in case Firehose is unable to deliver data to an Amazon S3 prefix.
@@ -2809,7 +2809,7 @@ extension FirehoseClientTypes.ElasticsearchBufferingHints: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes the buffering to perform before delivering data to the Amazon ES destination.
-    public struct ElasticsearchBufferingHints: Swift.Equatable {
+    public struct ElasticsearchBufferingHints {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public var intervalInSeconds: Swift.Int?
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
@@ -2926,7 +2926,7 @@ extension FirehoseClientTypes.ElasticsearchDestinationConfiguration: Swift.Codab
 
 extension FirehoseClientTypes {
     /// Describes the configuration of a destination in Amazon ES.
-    public struct ElasticsearchDestinationConfiguration: Swift.Equatable {
+    public struct ElasticsearchDestinationConfiguration {
         /// The buffering options. If no value is specified, the default values for ElasticsearchBufferingHints are used.
         public var bufferingHints: FirehoseClientTypes.ElasticsearchBufferingHints?
         /// The Amazon CloudWatch logging options for your delivery stream.
@@ -3094,7 +3094,7 @@ extension FirehoseClientTypes.ElasticsearchDestinationDescription: Swift.Codable
 
 extension FirehoseClientTypes {
     /// The destination description in Amazon ES.
-    public struct ElasticsearchDestinationDescription: Swift.Equatable {
+    public struct ElasticsearchDestinationDescription {
         /// The buffering options.
         public var bufferingHints: FirehoseClientTypes.ElasticsearchBufferingHints?
         /// The Amazon CloudWatch logging options.
@@ -3247,7 +3247,7 @@ extension FirehoseClientTypes.ElasticsearchDestinationUpdate: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes an update for a destination in Amazon ES.
-    public struct ElasticsearchDestinationUpdate: Swift.Equatable {
+    public struct ElasticsearchDestinationUpdate {
         /// The buffering options. If no value is specified, ElasticsearchBufferingHints object default values are used.
         public var bufferingHints: FirehoseClientTypes.ElasticsearchBufferingHints?
         /// The CloudWatch logging options for your delivery stream.
@@ -3367,7 +3367,7 @@ extension FirehoseClientTypes.ElasticsearchRetryOptions: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Configures retry behavior in case Firehose is unable to deliver documents to Amazon ES.
-    public struct ElasticsearchRetryOptions: Swift.Equatable {
+    public struct ElasticsearchRetryOptions {
         /// After an initial failure to deliver to Amazon ES, the total amount of time during which Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public var durationInSeconds: Swift.Int?
 
@@ -3440,7 +3440,7 @@ extension FirehoseClientTypes.EncryptionConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes the encryption for a destination in Amazon S3.
-    public struct EncryptionConfiguration: Swift.Equatable {
+    public struct EncryptionConfiguration {
         /// The encryption key.
         public var kmsEncryptionConfig: FirehoseClientTypes.KMSEncryptionConfig?
         /// Specifically override existing encryption information to ensure that no encryption is used.
@@ -3563,7 +3563,7 @@ extension FirehoseClientTypes.ExtendedS3DestinationConfiguration: Swift.Codable 
 
 extension FirehoseClientTypes {
     /// Describes the configuration of a destination in Amazon S3.
-    public struct ExtendedS3DestinationConfiguration: Swift.Equatable {
+    public struct ExtendedS3DestinationConfiguration {
         /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var bucketARN: Swift.String?
@@ -3740,7 +3740,7 @@ extension FirehoseClientTypes.ExtendedS3DestinationDescription: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes a destination in Amazon S3.
-    public struct ExtendedS3DestinationDescription: Swift.Equatable {
+    public struct ExtendedS3DestinationDescription {
         /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var bucketARN: Swift.String?
@@ -3920,7 +3920,7 @@ extension FirehoseClientTypes.ExtendedS3DestinationUpdate: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes an update for a destination in Amazon S3.
-    public struct ExtendedS3DestinationUpdate: Swift.Equatable {
+    public struct ExtendedS3DestinationUpdate {
         /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         public var bucketARN: Swift.String?
         /// The buffering option.
@@ -4017,7 +4017,7 @@ extension FirehoseClientTypes.FailureDescription: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Provides details in case one of the following operations fails due to an error related to KMS: [CreateDeliveryStream], [DeleteDeliveryStream], [StartDeliveryStreamEncryption], [StopDeliveryStreamEncryption].
-    public struct FailureDescription: Swift.Equatable {
+    public struct FailureDescription {
         /// A message providing details about the error that caused the failure.
         /// This member is required.
         public var details: Swift.String?
@@ -4104,7 +4104,7 @@ extension FirehoseClientTypes.HiveJsonSerDe: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The native Hive / HCatalog JsonSerDe. Used by Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the OpenX SerDe.
-    public struct HiveJsonSerDe: Swift.Equatable {
+    public struct HiveJsonSerDe {
         /// Indicates how you want Firehose to parse the date and timestamps that may be present in your input data JSON. To specify these format strings, follow the pattern syntax of JodaTime's DateTimeFormat format strings. For more information, see [Class DateTimeFormat](https://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html). You can also use the special value millis to parse timestamps in epoch milliseconds. If you don't specify a format, Firehose uses java.sql.Timestamp::valueOf by default.
         public var timestampFormats: [Swift.String]?
 
@@ -4145,7 +4145,7 @@ extension FirehoseClientTypes.HttpEndpointBufferingHints: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes the buffering options that can be applied before data is delivered to the HTTP endpoint destination. Firehose treats these options as hints, and it might choose to use more optimal values. The SizeInMBs and IntervalInSeconds parameters are optional. However, if specify a value for one of them, you must also provide a value for the other.
-    public struct HttpEndpointBufferingHints: Swift.Equatable {
+    public struct HttpEndpointBufferingHints {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
         public var intervalInSeconds: Swift.Int?
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
@@ -4195,7 +4195,7 @@ extension FirehoseClientTypes.HttpEndpointCommonAttribute: Swift.CustomDebugStri
 
 extension FirehoseClientTypes {
     /// Describes the metadata that's delivered to the specified HTTP endpoint destination.
-    public struct HttpEndpointCommonAttribute: Swift.Equatable {
+    public struct HttpEndpointCommonAttribute {
         /// The name of the HTTP endpoint common attribute.
         /// This member is required.
         public var attributeName: Swift.String?
@@ -4253,7 +4253,7 @@ extension FirehoseClientTypes.HttpEndpointConfiguration: Swift.CustomDebugString
 
 extension FirehoseClientTypes {
     /// Describes the configuration of the HTTP endpoint to which Kinesis Firehose delivers data.
-    public struct HttpEndpointConfiguration: Swift.Equatable {
+    public struct HttpEndpointConfiguration {
         /// The access key required for Kinesis Firehose to authenticate with the HTTP endpoint selected as the destination.
         public var accessKey: Swift.String?
         /// The name of the HTTP endpoint selected as the destination.
@@ -4308,7 +4308,7 @@ extension FirehoseClientTypes.HttpEndpointDescription: Swift.CustomDebugStringCo
 
 extension FirehoseClientTypes {
     /// Describes the HTTP endpoint selected as the destination.
-    public struct HttpEndpointDescription: Swift.Equatable {
+    public struct HttpEndpointDescription {
         /// The name of the HTTP endpoint selected as the destination.
         public var name: Swift.String?
         /// The URL of the HTTP endpoint selected as the destination.
@@ -4395,7 +4395,7 @@ extension FirehoseClientTypes.HttpEndpointDestinationConfiguration: Swift.Codabl
 
 extension FirehoseClientTypes {
     /// Describes the configuration of the HTTP endpoint destination.
-    public struct HttpEndpointDestinationConfiguration: Swift.Equatable {
+    public struct HttpEndpointDestinationConfiguration {
         /// The buffering options that can be used before data is delivered to the specified destination. Firehose treats these options as hints, and it might choose to use more optimal values. The SizeInMBs and IntervalInSeconds parameters are optional. However, if you specify a value for one of them, you must also provide a value for the other.
         public var bufferingHints: FirehoseClientTypes.HttpEndpointBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
@@ -4512,7 +4512,7 @@ extension FirehoseClientTypes.HttpEndpointDestinationDescription: Swift.Codable 
 
 extension FirehoseClientTypes {
     /// Describes the HTTP endpoint destination.
-    public struct HttpEndpointDestinationDescription: Swift.Equatable {
+    public struct HttpEndpointDestinationDescription {
         /// Describes buffering options that can be applied to the data before it is delivered to the HTTPS endpoint destination. Firehose teats these options as hints, and it might choose to use more optimal values. The SizeInMBs and IntervalInSeconds parameters are optional. However, if specify a value for one of them, you must also provide a value for the other.
         public var bufferingHints: FirehoseClientTypes.HttpEndpointBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
@@ -4627,7 +4627,7 @@ extension FirehoseClientTypes.HttpEndpointDestinationUpdate: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Updates the specified HTTP endpoint destination.
-    public struct HttpEndpointDestinationUpdate: Swift.Equatable {
+    public struct HttpEndpointDestinationUpdate {
         /// Describes buffering options that can be applied to the data before it is delivered to the HTTPS endpoint destination. Firehose teats these options as hints, and it might choose to use more optimal values. The SizeInMBs and IntervalInSeconds parameters are optional. However, if specify a value for one of them, you must also provide a value for the other.
         public var bufferingHints: FirehoseClientTypes.HttpEndpointBufferingHints?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
@@ -4712,7 +4712,7 @@ extension FirehoseClientTypes.HttpEndpointRequestConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The configuration of the HTTP endpoint request.
-    public struct HttpEndpointRequestConfiguration: Swift.Equatable {
+    public struct HttpEndpointRequestConfiguration {
         /// Describes the metadata sent to the HTTP endpoint destination.
         public var commonAttributes: [FirehoseClientTypes.HttpEndpointCommonAttribute]?
         /// Firehose uses the content encoding to compress the body of a request before sending the request to the destination. For more information, see [Content-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding) in MDN Web Docs, the official Mozilla documentation.
@@ -4751,7 +4751,7 @@ extension FirehoseClientTypes.HttpEndpointRetryOptions: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes the retry behavior in case Firehose is unable to deliver data to the specified HTTP endpoint destination, or if it doesn't receive a valid acknowledgment of receipt from the specified HTTP endpoint destination.
-    public struct HttpEndpointRetryOptions: Swift.Equatable {
+    public struct HttpEndpointRetryOptions {
         /// The total amount of time that Firehose spends on retries. This duration starts after the initial attempt to send data to the custom destination via HTTPS endpoint fails. It doesn't include the periods during which Firehose waits for acknowledgment from the specified destination after each attempt.
         public var durationInSeconds: Swift.Int?
 
@@ -4818,7 +4818,7 @@ extension FirehoseClientTypes.InputFormatConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Specifies the deserializer you want to use to convert the format of the input data. This parameter is required if Enabled is set to true.
-    public struct InputFormatConfiguration: Swift.Equatable {
+    public struct InputFormatConfiguration {
         /// Specifies which deserializer to use. You can choose either the Apache Hive JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects the request.
         public var deserializer: FirehoseClientTypes.Deserializer?
 
@@ -4872,7 +4872,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidArgumentExceptionBody: Swift.Equatable {
+struct InvalidArgumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -4932,7 +4932,7 @@ public struct InvalidKMSResourceException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidKMSResourceExceptionBody: Swift.Equatable {
+struct InvalidKMSResourceExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -4996,7 +4996,7 @@ public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidSourceExceptionBody: Swift.Equatable {
+struct InvalidSourceExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -5037,7 +5037,7 @@ extension FirehoseClientTypes.KMSEncryptionConfig: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes an encryption key for a destination in Amazon S3.
-    public struct KMSEncryptionConfig: Swift.Equatable {
+    public struct KMSEncryptionConfig {
         /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same Amazon Web Services Region as the destination Amazon S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var awskmsKeyARN: Swift.String?
@@ -5111,7 +5111,7 @@ extension FirehoseClientTypes.KinesisStreamSourceConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The stream and role Amazon Resource Names (ARNs) for a Kinesis data stream used as the source for a delivery stream.
-    public struct KinesisStreamSourceConfiguration: Swift.Equatable {
+    public struct KinesisStreamSourceConfiguration {
         /// The ARN of the source Kinesis data stream. For more information, see [Amazon Kinesis Data Streams ARN Format](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
         /// This member is required.
         public var kinesisStreamARN: Swift.String?
@@ -5164,7 +5164,7 @@ extension FirehoseClientTypes.KinesisStreamSourceDescription: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Details about a Kinesis data stream used as the source for a Firehose delivery stream.
-    public struct KinesisStreamSourceDescription: Swift.Equatable {
+    public struct KinesisStreamSourceDescription {
         /// Firehose starts retrieving records from the Kinesis data stream starting with this timestamp.
         public var deliveryStartTimestamp: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more information, see [Amazon Kinesis Data Streams ARN Format](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
@@ -5226,7 +5226,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5270,7 +5270,7 @@ extension ListDeliveryStreamsInput {
     }
 }
 
-public struct ListDeliveryStreamsInput: Swift.Equatable {
+public struct ListDeliveryStreamsInput {
     /// The delivery stream type. This can be one of the following values:
     ///
     /// * DirectPut: Provider applications access the delivery stream directly.
@@ -5297,7 +5297,7 @@ public struct ListDeliveryStreamsInput: Swift.Equatable {
     }
 }
 
-struct ListDeliveryStreamsInputBody: Swift.Equatable {
+struct ListDeliveryStreamsInputBody {
     let limit: Swift.Int?
     let deliveryStreamType: FirehoseClientTypes.DeliveryStreamType?
     let exclusiveStartDeliveryStreamName: Swift.String?
@@ -5335,7 +5335,7 @@ extension ListDeliveryStreamsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeliveryStreamsOutput: Swift.Equatable {
+public struct ListDeliveryStreamsOutput {
     /// The names of the delivery streams.
     /// This member is required.
     public var deliveryStreamNames: [Swift.String]?
@@ -5353,7 +5353,7 @@ public struct ListDeliveryStreamsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeliveryStreamsOutputBody: Swift.Equatable {
+struct ListDeliveryStreamsOutputBody {
     let deliveryStreamNames: [Swift.String]?
     let hasMoreDeliveryStreams: Swift.Bool?
 }
@@ -5420,7 +5420,7 @@ extension ListTagsForDeliveryStreamInput {
     }
 }
 
-public struct ListTagsForDeliveryStreamInput: Swift.Equatable {
+public struct ListTagsForDeliveryStreamInput {
     /// The name of the delivery stream whose tags you want to list.
     /// This member is required.
     public var deliveryStreamName: Swift.String?
@@ -5441,7 +5441,7 @@ public struct ListTagsForDeliveryStreamInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForDeliveryStreamInputBody: Swift.Equatable {
+struct ListTagsForDeliveryStreamInputBody {
     let deliveryStreamName: Swift.String?
     let exclusiveStartTagKey: Swift.String?
     let limit: Swift.Int?
@@ -5479,7 +5479,7 @@ extension ListTagsForDeliveryStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForDeliveryStreamOutput: Swift.Equatable {
+public struct ListTagsForDeliveryStreamOutput {
     /// If this is true in the response, more tags are available. To list the remaining tags, set ExclusiveStartTagKey to the key of the last tag returned and call ListTagsForDeliveryStream again.
     /// This member is required.
     public var hasMoreTags: Swift.Bool?
@@ -5497,7 +5497,7 @@ public struct ListTagsForDeliveryStreamOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForDeliveryStreamOutputBody: Swift.Equatable {
+struct ListTagsForDeliveryStreamOutputBody {
     let tags: [FirehoseClientTypes.Tag]?
     let hasMoreTags: Swift.Bool?
 }
@@ -5572,7 +5572,7 @@ extension FirehoseClientTypes.MSKSourceConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The configuration for the Amazon MSK cluster to be used as the source for a delivery stream.
-    public struct MSKSourceConfiguration: Swift.Equatable {
+    public struct MSKSourceConfiguration {
         /// The authentication configuration of the Amazon MSK cluster.
         /// This member is required.
         public var authenticationConfiguration: FirehoseClientTypes.AuthenticationConfiguration?
@@ -5636,7 +5636,7 @@ extension FirehoseClientTypes.MSKSourceDescription: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Details about the Amazon MSK cluster used as the source for a Firehose delivery stream.
-    public struct MSKSourceDescription: Swift.Equatable {
+    public struct MSKSourceDescription {
         /// The authentication configuration of the Amazon MSK cluster.
         public var authenticationConfiguration: FirehoseClientTypes.AuthenticationConfiguration?
         /// Firehose starts retrieving records from the topic within the Amazon MSK cluster starting with this timestamp.
@@ -5736,7 +5736,7 @@ extension FirehoseClientTypes.OpenXJsonSerDe: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The OpenX SerDe. Used by Firehose for deserializing data, which means converting it from the JSON format in preparation for serializing it to the Parquet or ORC format. This is one of two deserializers you can choose, depending on which one offers the functionality you need. The other option is the native Hive / HCatalog JsonSerDe.
-    public struct OpenXJsonSerDe: Swift.Equatable {
+    public struct OpenXJsonSerDe {
         /// When set to true, which is the default, Firehose converts JSON keys to lowercase before deserializing them.
         public var caseInsensitive: Swift.Bool?
         /// Maps column names to JSON keys that aren't identical to the column names. This is useful when the JSON contains keys that are Hive keywords. For example, timestamp is a Hive keyword. If you have a JSON key named timestamp, set this parameter to {"ts": "timestamp"} to map this key to a column named ts.
@@ -5912,7 +5912,7 @@ extension FirehoseClientTypes.OrcSerDe: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// A serializer to use for converting data to the ORC format before storing it in Amazon S3. For more information, see [Apache ORC](https://orc.apache.org/docs/).
-    public struct OrcSerDe: Swift.Equatable {
+    public struct OrcSerDe {
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Firehose uses this value for padding calculations.
         public var blockSizeBytes: Swift.Int?
         /// The column names for which you want Firehose to create bloom filters. The default is null.
@@ -5983,7 +5983,7 @@ extension FirehoseClientTypes.OutputFormatConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Specifies the serializer that you want Firehose to use to convert the format of your data before it writes it to Amazon S3. This parameter is required if Enabled is set to true.
-    public struct OutputFormatConfiguration: Swift.Equatable {
+    public struct OutputFormatConfiguration {
         /// Specifies which serializer to use. You can choose either the ORC SerDe or the Parquet SerDe. If both are non-null, the server rejects the request.
         public var serializer: FirehoseClientTypes.Serializer?
 
@@ -6083,7 +6083,7 @@ extension FirehoseClientTypes.ParquetSerDe: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// A serializer to use for converting data to the Parquet format before storing it in Amazon S3. For more information, see [Apache Parquet](https://parquet.apache.org/documentation/latest/).
-    public struct ParquetSerDe: Swift.Equatable {
+    public struct ParquetSerDe {
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Firehose uses this value for padding calculations.
         public var blockSizeBytes: Swift.Int?
         /// The compression code to use over data blocks. The possible values are UNCOMPRESSED, SNAPPY, and GZIP, with the default being SNAPPY. Use SNAPPY for higher decompression speed. Use GZIP if the compression ratio is more important than speed.
@@ -6188,7 +6188,7 @@ extension FirehoseClientTypes.ProcessingConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes a data processing configuration.
-    public struct ProcessingConfiguration: Swift.Equatable {
+    public struct ProcessingConfiguration {
         /// Enables or disables data processing.
         public var enabled: Swift.Bool?
         /// The data processors.
@@ -6245,7 +6245,7 @@ extension FirehoseClientTypes.Processor: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes a data processor. If you want to add a new line delimiter between records in objects that are delivered to Amazon S3, choose AppendDelimiterToRecord as a processor type. You don’t have to put a processor parameter when you select AppendDelimiterToRecord.
-    public struct Processor: Swift.Equatable {
+    public struct Processor {
         /// The processor parameters.
         public var parameters: [FirehoseClientTypes.ProcessorParameter]?
         /// The type of processor.
@@ -6291,7 +6291,7 @@ extension FirehoseClientTypes.ProcessorParameter: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes the processor parameter.
-    public struct ProcessorParameter: Swift.Equatable {
+    public struct ProcessorParameter {
         /// The name of the parameter. Currently the following default values are supported: 3 for NumberOfRetries and 60 for the BufferIntervalInSeconds. The BufferSizeInMBs ranges between 0.2 MB and up to 3MB. The default buffering hint is 1MB for all destinations, except Splunk. For Splunk, the default buffering hint is 256 KB.
         /// This member is required.
         public var parameterName: FirehoseClientTypes.ProcessorParameterName?
@@ -6441,7 +6441,7 @@ extension PutRecordBatchInput {
     }
 }
 
-public struct PutRecordBatchInput: Swift.Equatable {
+public struct PutRecordBatchInput {
     /// The name of the delivery stream.
     /// This member is required.
     public var deliveryStreamName: Swift.String?
@@ -6459,7 +6459,7 @@ public struct PutRecordBatchInput: Swift.Equatable {
     }
 }
 
-struct PutRecordBatchInputBody: Swift.Equatable {
+struct PutRecordBatchInputBody {
     let deliveryStreamName: Swift.String?
     let records: [FirehoseClientTypes.Record]?
 }
@@ -6504,7 +6504,7 @@ extension PutRecordBatchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutRecordBatchOutput: Swift.Equatable {
+public struct PutRecordBatchOutput {
     /// Indicates whether server-side encryption (SSE) was enabled during this operation.
     public var encrypted: Swift.Bool?
     /// The number of records that might have failed processing. This number might be greater than 0 even if the [PutRecordBatch] call succeeds. Check FailedPutCount to determine whether there are records that you need to resend.
@@ -6526,7 +6526,7 @@ public struct PutRecordBatchOutput: Swift.Equatable {
     }
 }
 
-struct PutRecordBatchOutputBody: Swift.Equatable {
+struct PutRecordBatchOutputBody {
     let failedPutCount: Swift.Int?
     let encrypted: Swift.Bool?
     let requestResponses: [FirehoseClientTypes.PutRecordBatchResponseEntry]?
@@ -6607,7 +6607,7 @@ extension FirehoseClientTypes.PutRecordBatchResponseEntry: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Contains the result for an individual record from a [PutRecordBatch] request. If the record is successfully added to your delivery stream, it receives a record ID. If the record fails to be added to your delivery stream, the result includes an error code and an error message.
-    public struct PutRecordBatchResponseEntry: Swift.Equatable {
+    public struct PutRecordBatchResponseEntry {
         /// The error code for an individual record result.
         public var errorCode: Swift.String?
         /// The error message for an individual record result.
@@ -6653,7 +6653,7 @@ extension PutRecordInput {
     }
 }
 
-public struct PutRecordInput: Swift.Equatable {
+public struct PutRecordInput {
     /// The name of the delivery stream.
     /// This member is required.
     public var deliveryStreamName: Swift.String?
@@ -6671,7 +6671,7 @@ public struct PutRecordInput: Swift.Equatable {
     }
 }
 
-struct PutRecordInputBody: Swift.Equatable {
+struct PutRecordInputBody {
     let deliveryStreamName: Swift.String?
     let record: FirehoseClientTypes.Record?
 }
@@ -6705,7 +6705,7 @@ extension PutRecordOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutRecordOutput: Swift.Equatable {
+public struct PutRecordOutput {
     /// Indicates whether server-side encryption (SSE) was enabled during this operation.
     public var encrypted: Swift.Bool?
     /// The ID of the record.
@@ -6722,7 +6722,7 @@ public struct PutRecordOutput: Swift.Equatable {
     }
 }
 
-struct PutRecordOutputBody: Swift.Equatable {
+struct PutRecordOutputBody {
     let recordId: Swift.String?
     let encrypted: Swift.Bool?
 }
@@ -6778,7 +6778,7 @@ extension FirehoseClientTypes.Record: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The unit of data in a delivery stream.
-    public struct Record: Swift.Equatable {
+    public struct Record {
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB.
         /// This member is required.
         public var data: ClientRuntime.Data?
@@ -6879,7 +6879,7 @@ extension FirehoseClientTypes.RedshiftDestinationConfiguration: Swift.CustomDebu
 
 extension FirehoseClientTypes {
     /// Describes the configuration of a destination in Amazon Redshift.
-    public struct RedshiftDestinationConfiguration: Swift.Equatable {
+    public struct RedshiftDestinationConfiguration {
         /// The CloudWatch logging options for your delivery stream.
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The database connection string.
@@ -7019,7 +7019,7 @@ extension FirehoseClientTypes.RedshiftDestinationDescription: Swift.CustomDebugS
 
 extension FirehoseClientTypes {
     /// Describes a destination in Amazon Redshift.
-    public struct RedshiftDestinationDescription: Swift.Equatable {
+    public struct RedshiftDestinationDescription {
         /// The Amazon CloudWatch logging options for your delivery stream.
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The database connection string.
@@ -7160,7 +7160,7 @@ extension FirehoseClientTypes.RedshiftDestinationUpdate: Swift.CustomDebugString
 
 extension FirehoseClientTypes {
     /// Describes an update for a destination in Amazon Redshift.
-    public struct RedshiftDestinationUpdate: Swift.Equatable {
+    public struct RedshiftDestinationUpdate {
         /// The Amazon CloudWatch logging options for your delivery stream.
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The database connection string.
@@ -7235,7 +7235,7 @@ extension FirehoseClientTypes.RedshiftRetryOptions: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Configures retry behavior in case Firehose is unable to deliver documents to Amazon Redshift.
-    public struct RedshiftRetryOptions: Swift.Equatable {
+    public struct RedshiftRetryOptions {
         /// The length of time during which Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
         public var durationInSeconds: Swift.Int?
 
@@ -7321,7 +7321,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -7377,7 +7377,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -7414,7 +7414,7 @@ extension FirehoseClientTypes.RetryOptions: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The retry behavior in case Firehose is unable to deliver data to an Amazon S3 prefix.
-    public struct RetryOptions: Swift.Equatable {
+    public struct RetryOptions {
         /// The period of time during which Firehose retries to deliver data to the specified Amazon S3 prefix.
         public var durationInSeconds: Swift.Int?
 
@@ -7523,7 +7523,7 @@ extension FirehoseClientTypes.S3DestinationConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes the configuration of a destination in Amazon S3.
-    public struct S3DestinationConfiguration: Swift.Equatable {
+    public struct S3DestinationConfiguration {
         /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var bucketARN: Swift.String?
@@ -7630,7 +7630,7 @@ extension FirehoseClientTypes.S3DestinationDescription: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes a destination in Amazon S3.
-    public struct S3DestinationDescription: Swift.Equatable {
+    public struct S3DestinationDescription {
         /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var bucketARN: Swift.String?
@@ -7740,7 +7740,7 @@ extension FirehoseClientTypes.S3DestinationUpdate: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes an update for a destination in Amazon S3.
-    public struct S3DestinationUpdate: Swift.Equatable {
+    public struct S3DestinationUpdate {
         /// The ARN of the S3 bucket. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         public var bucketARN: Swift.String?
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
@@ -7833,7 +7833,7 @@ extension FirehoseClientTypes.SchemaConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Specifies the schema to which you want Firehose to configure your data before it writes it to Amazon S3. This parameter is required if Enabled is set to true.
-    public struct SchemaConfiguration: Swift.Equatable {
+    public struct SchemaConfiguration {
         /// The ID of the Amazon Web Services Glue Data Catalog. If you don't supply this, the Amazon Web Services account ID is used by default.
         public var catalogId: Swift.String?
         /// Specifies the name of the Amazon Web Services Glue database that contains the schema for the output data. If the SchemaConfiguration request parameter is used as part of invoking the CreateDeliveryStream API, then the DatabaseName property is required and its value must be specified.
@@ -7894,7 +7894,7 @@ extension FirehoseClientTypes.Serializer: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The serializer that you want Firehose to use to convert data to the target format before writing it to Amazon S3. Firehose supports two types of serializers: the [ORC SerDe](https://hive.apache.org/javadocs/r1.2.2/api/org/apache/hadoop/hive/ql/io/orc/OrcSerde.html) and the [Parquet SerDe](https://hive.apache.org/javadocs/r1.2.2/api/org/apache/hadoop/hive/ql/io/parquet/serde/ParquetHiveSerDe.html).
-    public struct Serializer: Swift.Equatable {
+    public struct Serializer {
         /// A serializer to use for converting data to the ORC format before storing it in Amazon S3. For more information, see [Apache ORC](https://orc.apache.org/docs/).
         public var orcSerDe: FirehoseClientTypes.OrcSerDe?
         /// A serializer to use for converting data to the Parquet format before storing it in Amazon S3. For more information, see [Apache Parquet](https://parquet.apache.org/documentation/latest/).
@@ -7952,7 +7952,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -8131,7 +8131,7 @@ extension FirehoseClientTypes.SnowflakeDestinationConfiguration: Swift.CustomDeb
 
 extension FirehoseClientTypes {
     /// Configure Snowflake destination
-    public struct SnowflakeDestinationConfiguration: Swift.Equatable {
+    public struct SnowflakeDestinationConfiguration {
         /// URL for accessing your Snowflake account. This URL must include your [account identifier](https://docs.snowflake.com/en/user-guide/admin-account-identifier). Note that the protocol (https://) and port number are optional.
         /// This member is required.
         public var accountUrl: Swift.String?
@@ -8337,7 +8337,7 @@ extension FirehoseClientTypes.SnowflakeDestinationDescription: Swift.CustomDebug
 
 extension FirehoseClientTypes {
     /// Optional Snowflake destination description
-    public struct SnowflakeDestinationDescription: Swift.Equatable {
+    public struct SnowflakeDestinationDescription {
         /// URL for accessing your Snowflake account. This URL must include your [account identifier](https://docs.snowflake.com/en/user-guide/admin-account-identifier). Note that the protocol (https://) and port number are optional.
         public var accountUrl: Swift.String?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
@@ -8533,7 +8533,7 @@ extension FirehoseClientTypes.SnowflakeDestinationUpdate: Swift.CustomDebugStrin
 
 extension FirehoseClientTypes {
     /// Update to configuration settings
-    public struct SnowflakeDestinationUpdate: Swift.Equatable {
+    public struct SnowflakeDestinationUpdate {
         /// URL for accessing your Snowflake account. This URL must include your [account identifier](https://docs.snowflake.com/en/user-guide/admin-account-identifier). Note that the protocol (https://) and port number are optional.
         public var accountUrl: Swift.String?
         /// Describes the Amazon CloudWatch logging options for your delivery stream.
@@ -8632,7 +8632,7 @@ extension FirehoseClientTypes.SnowflakeRetryOptions: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Specify how long Firehose retries sending data to the New Relic HTTP endpoint. After sending data, Firehose first waits for an acknowledgment from the HTTP endpoint. If an error occurs or the acknowledgment doesn’t arrive within the acknowledgment timeout period, Firehose starts the retry duration counter. It keeps retrying until the retry duration expires. After that, Firehose considers it a data delivery failure and backs up the data to your Amazon S3 bucket. Every time that Firehose sends data to the HTTP endpoint (either the initial attempt or a retry), it restarts the acknowledgement timeout counter and waits for an acknowledgement from the HTTP endpoint. Even if the retry duration expires, Firehose still waits for the acknowledgment until it receives it or the acknowledgement timeout period is reached. If the acknowledgment times out, Firehose determines whether there's time left in the retry counter. If there is time left, it retries again and repeats the logic until it receives an acknowledgment or determines that the retry time has expired. If you don't want Firehose to retry sending data, set this value to 0.
-    public struct SnowflakeRetryOptions: Swift.Equatable {
+    public struct SnowflakeRetryOptions {
         /// the time period where Firehose will retry sending data to the chosen HTTP endpoint.
         public var durationInSeconds: Swift.Int?
 
@@ -8678,7 +8678,7 @@ extension FirehoseClientTypes.SnowflakeRoleConfiguration: Swift.CustomDebugStrin
 
 extension FirehoseClientTypes {
     /// Optionally configure a Snowflake role. Otherwise the default user role will be used.
-    public struct SnowflakeRoleConfiguration: Swift.Equatable {
+    public struct SnowflakeRoleConfiguration {
         /// Enable Snowflake role
         public var enabled: Swift.Bool?
         /// The Snowflake role you wish to configure
@@ -8754,7 +8754,7 @@ extension FirehoseClientTypes.SnowflakeVpcConfiguration: Swift.CustomDebugString
 
 extension FirehoseClientTypes {
     /// Configure a Snowflake VPC
-    public struct SnowflakeVpcConfiguration: Swift.Equatable {
+    public struct SnowflakeVpcConfiguration {
         /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see [Amazon PrivateLink & Snowflake](https://docs.snowflake.com/en/user-guide/admin-security-privatelink)
         /// This member is required.
         public var privateLinkVpceId: Swift.String?
@@ -8796,7 +8796,7 @@ extension FirehoseClientTypes.SourceDescription: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Details about a Kinesis data stream used as the source for a Firehose delivery stream.
-    public struct SourceDescription: Swift.Equatable {
+    public struct SourceDescription {
         /// The [KinesisStreamSourceDescription] value for the source Kinesis data stream.
         public var kinesisStreamSourceDescription: FirehoseClientTypes.KinesisStreamSourceDescription?
         /// The configuration description for the Amazon MSK cluster to be used as the source for a delivery stream.
@@ -8841,7 +8841,7 @@ extension FirehoseClientTypes.SplunkBufferingHints: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The buffering options. If no value is specified, the default values for Splunk are used.
-    public struct SplunkBufferingHints: Swift.Equatable {
+    public struct SplunkBufferingHints {
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 60 (1 minute).
         public var intervalInSeconds: Swift.Int?
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5.
@@ -8934,7 +8934,7 @@ extension FirehoseClientTypes.SplunkDestinationConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes the configuration of a destination in Splunk.
-    public struct SplunkDestinationConfiguration: Swift.Equatable {
+    public struct SplunkDestinationConfiguration {
         /// The buffering options. If no value is specified, the default values for Splunk are used.
         public var bufferingHints: FirehoseClientTypes.SplunkBufferingHints?
         /// The Amazon CloudWatch logging options for your delivery stream.
@@ -9063,7 +9063,7 @@ extension FirehoseClientTypes.SplunkDestinationDescription: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes a destination in Splunk.
-    public struct SplunkDestinationDescription: Swift.Equatable {
+    public struct SplunkDestinationDescription {
         /// The buffering options. If no value is specified, the default values for Splunk are used.
         public var bufferingHints: FirehoseClientTypes.SplunkBufferingHints?
         /// The Amazon CloudWatch logging options for your delivery stream.
@@ -9188,7 +9188,7 @@ extension FirehoseClientTypes.SplunkDestinationUpdate: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Describes an update for a destination in Splunk.
-    public struct SplunkDestinationUpdate: Swift.Equatable {
+    public struct SplunkDestinationUpdate {
         /// The buffering options. If no value is specified, the default values for Splunk are used.
         public var bufferingHints: FirehoseClientTypes.SplunkBufferingHints?
         /// The Amazon CloudWatch logging options for your delivery stream.
@@ -9259,7 +9259,7 @@ extension FirehoseClientTypes.SplunkRetryOptions: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Configures retry behavior in case Firehose is unable to deliver documents to Splunk, or if it doesn't receive an acknowledgment from Splunk.
-    public struct SplunkRetryOptions: Swift.Equatable {
+    public struct SplunkRetryOptions {
         /// The total amount of time that Firehose spends on retries. This duration starts after the initial attempt to send data to Splunk fails. It doesn't include the periods during which Firehose waits for acknowledgment from Splunk after each attempt.
         public var durationInSeconds: Swift.Int?
 
@@ -9329,7 +9329,7 @@ extension StartDeliveryStreamEncryptionInput {
     }
 }
 
-public struct StartDeliveryStreamEncryptionInput: Swift.Equatable {
+public struct StartDeliveryStreamEncryptionInput {
     /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
     public var deliveryStreamEncryptionConfigurationInput: FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput?
     /// The name of the delivery stream for which you want to enable server-side encryption (SSE).
@@ -9346,7 +9346,7 @@ public struct StartDeliveryStreamEncryptionInput: Swift.Equatable {
     }
 }
 
-struct StartDeliveryStreamEncryptionInputBody: Swift.Equatable {
+struct StartDeliveryStreamEncryptionInputBody {
     let deliveryStreamName: Swift.String?
     let deliveryStreamEncryptionConfigurationInput: FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput?
 }
@@ -9371,7 +9371,7 @@ extension StartDeliveryStreamEncryptionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct StartDeliveryStreamEncryptionOutput: Swift.Equatable {
+public struct StartDeliveryStreamEncryptionOutput {
 
     public init() { }
 }
@@ -9411,7 +9411,7 @@ extension StopDeliveryStreamEncryptionInput {
     }
 }
 
-public struct StopDeliveryStreamEncryptionInput: Swift.Equatable {
+public struct StopDeliveryStreamEncryptionInput {
     /// The name of the delivery stream for which you want to disable server-side encryption (SSE).
     /// This member is required.
     public var deliveryStreamName: Swift.String?
@@ -9424,7 +9424,7 @@ public struct StopDeliveryStreamEncryptionInput: Swift.Equatable {
     }
 }
 
-struct StopDeliveryStreamEncryptionInputBody: Swift.Equatable {
+struct StopDeliveryStreamEncryptionInputBody {
     let deliveryStreamName: Swift.String?
 }
 
@@ -9445,7 +9445,7 @@ extension StopDeliveryStreamEncryptionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct StopDeliveryStreamEncryptionOutput: Swift.Equatable {
+public struct StopDeliveryStreamEncryptionOutput {
 
     public init() { }
 }
@@ -9491,7 +9491,7 @@ extension FirehoseClientTypes.Tag: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// Metadata that you can assign to a delivery stream, consisting of a key-value pair.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
         /// This member is required.
         public var key: Swift.String?
@@ -9537,7 +9537,7 @@ extension TagDeliveryStreamInput {
     }
 }
 
-public struct TagDeliveryStreamInput: Swift.Equatable {
+public struct TagDeliveryStreamInput {
     /// The name of the delivery stream to which you want to add the tags.
     /// This member is required.
     public var deliveryStreamName: Swift.String?
@@ -9555,7 +9555,7 @@ public struct TagDeliveryStreamInput: Swift.Equatable {
     }
 }
 
-struct TagDeliveryStreamInputBody: Swift.Equatable {
+struct TagDeliveryStreamInputBody {
     let deliveryStreamName: Swift.String?
     let tags: [FirehoseClientTypes.Tag]?
 }
@@ -9589,7 +9589,7 @@ extension TagDeliveryStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagDeliveryStreamOutput: Swift.Equatable {
+public struct TagDeliveryStreamOutput {
 
     public init() { }
 }
@@ -9635,7 +9635,7 @@ extension UntagDeliveryStreamInput {
     }
 }
 
-public struct UntagDeliveryStreamInput: Swift.Equatable {
+public struct UntagDeliveryStreamInput {
     /// The name of the delivery stream.
     /// This member is required.
     public var deliveryStreamName: Swift.String?
@@ -9653,7 +9653,7 @@ public struct UntagDeliveryStreamInput: Swift.Equatable {
     }
 }
 
-struct UntagDeliveryStreamInputBody: Swift.Equatable {
+struct UntagDeliveryStreamInputBody {
     let deliveryStreamName: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -9687,7 +9687,7 @@ extension UntagDeliveryStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagDeliveryStreamOutput: Swift.Equatable {
+public struct UntagDeliveryStreamOutput {
 
     public init() { }
 }
@@ -9770,7 +9770,7 @@ extension UpdateDestinationInput {
     }
 }
 
-public struct UpdateDestinationInput: Swift.Equatable {
+public struct UpdateDestinationInput {
     /// Describes an update for a destination in the Serverless offering for Amazon OpenSearch Service.
     public var amazonOpenSearchServerlessDestinationUpdate: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate?
     /// Describes an update for a destination in Amazon OpenSearch Service.
@@ -9830,7 +9830,7 @@ public struct UpdateDestinationInput: Swift.Equatable {
     }
 }
 
-struct UpdateDestinationInputBody: Swift.Equatable {
+struct UpdateDestinationInputBody {
     let deliveryStreamName: Swift.String?
     let currentDeliveryStreamVersionId: Swift.String?
     let destinationId: Swift.String?
@@ -9895,7 +9895,7 @@ extension UpdateDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDestinationOutput: Swift.Equatable {
+public struct UpdateDestinationOutput {
 
     public init() { }
 }
@@ -9971,7 +9971,7 @@ extension FirehoseClientTypes.VpcConfiguration: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The details of the VPC of the Amazon OpenSearch or Amazon OpenSearch Serverless destination.
-    public struct VpcConfiguration: Swift.Equatable {
+    public struct VpcConfiguration {
         /// The ARN of the IAM role that you want the delivery stream to use to create endpoints in the destination VPC. You can use your existing Firehose delivery role or you can specify a new role. In either case, make sure that the role trusts the Firehose service principal and that it grants the following permissions:
         ///
         /// * ec2:DescribeVpcs
@@ -10078,7 +10078,7 @@ extension FirehoseClientTypes.VpcConfigurationDescription: Swift.Codable {
 
 extension FirehoseClientTypes {
     /// The details of the VPC of the Amazon ES destination.
-    public struct VpcConfigurationDescription: Swift.Equatable {
+    public struct VpcConfigurationDescription {
         /// The ARN of the IAM role that the delivery stream uses to create endpoints in the destination VPC. You can use your existing Firehose delivery role or you can specify a new role. In either case, make sure that the role trusts the Firehose service principal and that it grants the following permissions:
         ///
         /// * ec2:DescribeVpcs

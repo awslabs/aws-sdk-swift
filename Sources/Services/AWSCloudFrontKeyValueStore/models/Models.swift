@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -98,7 +98,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -138,7 +138,7 @@ extension DeleteKeyInput {
     }
 }
 
-public struct DeleteKeyInput: Swift.Equatable {
+public struct DeleteKeyInput {
     /// The current version (ETag) of the Key Value Store that you are deleting keys from, which you can get using DescribeKeyValueStore.
     /// This member is required.
     public var ifMatch: Swift.String?
@@ -161,7 +161,7 @@ public struct DeleteKeyInput: Swift.Equatable {
     }
 }
 
-struct DeleteKeyInputBody: Swift.Equatable {
+struct DeleteKeyInputBody {
 }
 
 extension DeleteKeyInputBody: Swift.Decodable {
@@ -190,7 +190,7 @@ extension DeleteKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Metadata information about a Key Value Store.
-public struct DeleteKeyOutput: Swift.Equatable {
+public struct DeleteKeyOutput {
     /// The current version identifier of the Key Value Store after the successful delete.
     /// This member is required.
     public var eTag: Swift.String?
@@ -213,7 +213,7 @@ public struct DeleteKeyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteKeyOutputBody: Swift.Equatable {
+struct DeleteKeyOutputBody {
     let itemCount: Swift.Int?
     let totalSizeInBytes: Swift.Int?
 }
@@ -270,7 +270,7 @@ extension CloudFrontKeyValueStoreClientTypes.DeleteKeyRequestListItem: Swift.Cod
 
 extension CloudFrontKeyValueStoreClientTypes {
     /// List item for keys to delete.
-    public struct DeleteKeyRequestListItem: Swift.Equatable {
+    public struct DeleteKeyRequestListItem {
         /// The key of the key value pair to be deleted.
         /// This member is required.
         public var key: Swift.String?
@@ -295,7 +295,7 @@ extension DescribeKeyValueStoreInput {
     }
 }
 
-public struct DescribeKeyValueStoreInput: Swift.Equatable {
+public struct DescribeKeyValueStoreInput {
     /// The Amazon Resource Name (ARN) of the Key Value Store.
     /// This member is required.
     public var kvsARN: Swift.String?
@@ -308,7 +308,7 @@ public struct DescribeKeyValueStoreInput: Swift.Equatable {
     }
 }
 
-struct DescribeKeyValueStoreInputBody: Swift.Equatable {
+struct DescribeKeyValueStoreInputBody {
 }
 
 extension DescribeKeyValueStoreInputBody: Swift.Decodable {
@@ -347,7 +347,7 @@ extension DescribeKeyValueStoreOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Metadata information about a Key Value Store.
-public struct DescribeKeyValueStoreOutput: Swift.Equatable {
+public struct DescribeKeyValueStoreOutput {
     /// Date and time when the Key Value Store was created.
     /// This member is required.
     public var created: ClientRuntime.Date?
@@ -392,7 +392,7 @@ public struct DescribeKeyValueStoreOutput: Swift.Equatable {
     }
 }
 
-struct DescribeKeyValueStoreOutputBody: Swift.Equatable {
+struct DescribeKeyValueStoreOutputBody {
     let itemCount: Swift.Int?
     let totalSizeInBytes: Swift.Int?
     let kvsARN: Swift.String?
@@ -459,7 +459,7 @@ extension GetKeyInput {
     }
 }
 
-public struct GetKeyInput: Swift.Equatable {
+public struct GetKeyInput {
     /// The key to get.
     /// This member is required.
     public var key: Swift.String?
@@ -477,7 +477,7 @@ public struct GetKeyInput: Swift.Equatable {
     }
 }
 
-struct GetKeyInputBody: Swift.Equatable {
+struct GetKeyInputBody {
 }
 
 extension GetKeyInputBody: Swift.Decodable {
@@ -510,7 +510,7 @@ extension GetKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A key value pair.
-public struct GetKeyOutput: Swift.Equatable {
+public struct GetKeyOutput {
     /// Number of key value pairs in the Key Value Store.
     /// This member is required.
     public var itemCount: Swift.Int?
@@ -538,7 +538,7 @@ public struct GetKeyOutput: Swift.Equatable {
     }
 }
 
-struct GetKeyOutputBody: Swift.Equatable {
+struct GetKeyOutputBody {
     let key: Swift.String?
     let value: Swift.String?
     let itemCount: Swift.Int?
@@ -619,7 +619,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -661,7 +661,7 @@ extension ListKeysInput {
     }
 }
 
-public struct ListKeysInput: Swift.Equatable {
+public struct ListKeysInput {
     /// The Amazon Resource Name (ARN) of the Key Value Store.
     /// This member is required.
     public var kvsARN: Swift.String?
@@ -682,7 +682,7 @@ public struct ListKeysInput: Swift.Equatable {
     }
 }
 
-struct ListKeysInputBody: Swift.Equatable {
+struct ListKeysInputBody {
 }
 
 extension ListKeysInputBody: Swift.Decodable {
@@ -705,7 +705,7 @@ extension ListKeysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKeysOutput: Swift.Equatable {
+public struct ListKeysOutput {
     /// Key value pairs
     public var items: [CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem]?
     /// If nextToken is returned in the response, there are more results available. Make the next call using the returned token to retrieve the next page.
@@ -721,7 +721,7 @@ public struct ListKeysOutput: Swift.Equatable {
     }
 }
 
-struct ListKeysOutputBody: Swift.Equatable {
+struct ListKeysOutputBody {
     let nextToken: Swift.String?
     let items: [CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem]?
 }
@@ -797,7 +797,7 @@ extension CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem: Swift.Cus
 
 extension CloudFrontKeyValueStoreClientTypes {
     /// A key value pair.
-    public struct ListKeysResponseListItem: Swift.Equatable {
+    public struct ListKeysResponseListItem {
         /// The key of the key value pair.
         /// This member is required.
         public var key: Swift.String?
@@ -860,7 +860,7 @@ extension PutKeyInput {
 }
 
 /// A key value pair.
-public struct PutKeyInput: Swift.Equatable {
+public struct PutKeyInput {
     /// The current version (ETag) of the Key Value Store that you are putting keys into, which you can get using DescribeKeyValueStore.
     /// This member is required.
     public var ifMatch: Swift.String?
@@ -888,7 +888,7 @@ public struct PutKeyInput: Swift.Equatable {
     }
 }
 
-struct PutKeyInputBody: Swift.Equatable {
+struct PutKeyInputBody {
     let value: Swift.String?
 }
 
@@ -924,7 +924,7 @@ extension PutKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Metadata information about a Key Value Store.
-public struct PutKeyOutput: Swift.Equatable {
+public struct PutKeyOutput {
     /// The current version identifier of the Key Value Store after the successful put.
     /// This member is required.
     public var eTag: Swift.String?
@@ -947,7 +947,7 @@ public struct PutKeyOutput: Swift.Equatable {
     }
 }
 
-struct PutKeyOutputBody: Swift.Equatable {
+struct PutKeyOutputBody {
     let itemCount: Swift.Int?
     let totalSizeInBytes: Swift.Int?
 }
@@ -1015,7 +1015,7 @@ extension CloudFrontKeyValueStoreClientTypes.PutKeyRequestListItem: Swift.Custom
 
 extension CloudFrontKeyValueStoreClientTypes {
     /// List item for key value pair to put.
-    public struct PutKeyRequestListItem: Swift.Equatable {
+    public struct PutKeyRequestListItem {
         /// The key of the key value pair list item to put.
         /// This member is required.
         public var key: Swift.String?
@@ -1074,7 +1074,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1129,7 +1129,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1189,7 +1189,7 @@ extension UpdateKeysInput {
     }
 }
 
-public struct UpdateKeysInput: Swift.Equatable {
+public struct UpdateKeysInput {
     /// List of keys to delete.
     public var deletes: [CloudFrontKeyValueStoreClientTypes.DeleteKeyRequestListItem]?
     /// The current version (ETag) of the Key Value Store that you are updating keys of, which you can get using DescribeKeyValueStore.
@@ -1215,7 +1215,7 @@ public struct UpdateKeysInput: Swift.Equatable {
     }
 }
 
-struct UpdateKeysInputBody: Swift.Equatable {
+struct UpdateKeysInputBody {
     let puts: [CloudFrontKeyValueStoreClientTypes.PutKeyRequestListItem]?
     let deletes: [CloudFrontKeyValueStoreClientTypes.DeleteKeyRequestListItem]?
 }
@@ -1273,7 +1273,7 @@ extension UpdateKeysOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Metadata information about a Key Value Store.
-public struct UpdateKeysOutput: Swift.Equatable {
+public struct UpdateKeysOutput {
     /// The current version identifier of the Key Value Store after the successful update.
     /// This member is required.
     public var eTag: Swift.String?
@@ -1296,7 +1296,7 @@ public struct UpdateKeysOutput: Swift.Equatable {
     }
 }
 
-struct UpdateKeysOutputBody: Swift.Equatable {
+struct UpdateKeysOutputBody {
     let itemCount: Swift.Int?
     let totalSizeInBytes: Swift.Int?
 }
@@ -1371,7 +1371,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

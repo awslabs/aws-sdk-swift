@@ -32,7 +32,7 @@ extension AcceptDomainTransferFromAnotherAwsAccountInput {
 }
 
 /// The AcceptDomainTransferFromAnotherAwsAccount request includes the following elements.
-public struct AcceptDomainTransferFromAnotherAwsAccountInput: Swift.Equatable {
+public struct AcceptDomainTransferFromAnotherAwsAccountInput {
     /// The name of the domain that was specified when another Amazon Web Services account submitted a [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html) request.
     /// This member is required.
     public var domainName: Swift.String?
@@ -50,7 +50,7 @@ public struct AcceptDomainTransferFromAnotherAwsAccountInput: Swift.Equatable {
     }
 }
 
-struct AcceptDomainTransferFromAnotherAwsAccountInputBody: Swift.Equatable {
+struct AcceptDomainTransferFromAnotherAwsAccountInputBody {
     let domainName: Swift.String?
     let password: Swift.String?
 }
@@ -83,7 +83,7 @@ extension AcceptDomainTransferFromAnotherAwsAccountOutput: ClientRuntime.HttpRes
 }
 
 /// The AcceptDomainTransferFromAnotherAwsAccount response includes the following element.
-public struct AcceptDomainTransferFromAnotherAwsAccountOutput: Swift.Equatable {
+public struct AcceptDomainTransferFromAnotherAwsAccountOutput {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
@@ -95,7 +95,7 @@ public struct AcceptDomainTransferFromAnotherAwsAccountOutput: Swift.Equatable {
     }
 }
 
-struct AcceptDomainTransferFromAnotherAwsAccountOutputBody: Swift.Equatable {
+struct AcceptDomainTransferFromAnotherAwsAccountOutputBody {
     let operationId: Swift.String?
 }
 
@@ -149,7 +149,7 @@ extension AssociateDelegationSignerToDomainInput {
     }
 }
 
-public struct AssociateDelegationSignerToDomainInput: Swift.Equatable {
+public struct AssociateDelegationSignerToDomainInput {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -167,7 +167,7 @@ public struct AssociateDelegationSignerToDomainInput: Swift.Equatable {
     }
 }
 
-struct AssociateDelegationSignerToDomainInputBody: Swift.Equatable {
+struct AssociateDelegationSignerToDomainInputBody {
     let domainName: Swift.String?
     let signingAttributes: Route53DomainsClientTypes.DnssecSigningAttributes?
 }
@@ -199,7 +199,7 @@ extension AssociateDelegationSignerToDomainOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct AssociateDelegationSignerToDomainOutput: Swift.Equatable {
+public struct AssociateDelegationSignerToDomainOutput {
     /// The identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
@@ -211,7 +211,7 @@ public struct AssociateDelegationSignerToDomainOutput: Swift.Equatable {
     }
 }
 
-struct AssociateDelegationSignerToDomainOutputBody: Swift.Equatable {
+struct AssociateDelegationSignerToDomainOutputBody {
     let operationId: Swift.String?
 }
 
@@ -288,7 +288,7 @@ extension Route53DomainsClientTypes.BillingRecord: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Information for one billing record.
-    public struct BillingRecord: Swift.Equatable {
+    public struct BillingRecord {
         /// The date that the operation was billed, in Unix format.
         public var billDate: ClientRuntime.Date?
         /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see [DNS Domain Name Format](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html) in the Amazon Route 53 Developer Guide.
@@ -339,7 +339,7 @@ extension CancelDomainTransferToAnotherAwsAccountInput {
 }
 
 /// The CancelDomainTransferToAnotherAwsAccount request includes the following element.
-public struct CancelDomainTransferToAnotherAwsAccountInput: Swift.Equatable {
+public struct CancelDomainTransferToAnotherAwsAccountInput {
     /// The name of the domain for which you want to cancel the transfer to another Amazon Web Services account.
     /// This member is required.
     public var domainName: Swift.String?
@@ -352,7 +352,7 @@ public struct CancelDomainTransferToAnotherAwsAccountInput: Swift.Equatable {
     }
 }
 
-struct CancelDomainTransferToAnotherAwsAccountInputBody: Swift.Equatable {
+struct CancelDomainTransferToAnotherAwsAccountInputBody {
     let domainName: Swift.String?
 }
 
@@ -381,7 +381,7 @@ extension CancelDomainTransferToAnotherAwsAccountOutput: ClientRuntime.HttpRespo
 }
 
 /// The CancelDomainTransferToAnotherAwsAccount response includes the following element.
-public struct CancelDomainTransferToAnotherAwsAccountOutput: Swift.Equatable {
+public struct CancelDomainTransferToAnotherAwsAccountOutput {
     /// The identifier that TransferDomainToAnotherAwsAccount returned to track the progress of the request. Because the transfer request was canceled, the value is no longer valid, and you can't use GetOperationDetail to query the operation status.
     public var operationId: Swift.String?
 
@@ -393,7 +393,7 @@ public struct CancelDomainTransferToAnotherAwsAccountOutput: Swift.Equatable {
     }
 }
 
-struct CancelDomainTransferToAnotherAwsAccountOutputBody: Swift.Equatable {
+struct CancelDomainTransferToAnotherAwsAccountOutputBody {
     let operationId: Swift.String?
 }
 
@@ -447,7 +447,7 @@ extension CheckDomainAvailabilityInput {
 }
 
 /// The CheckDomainAvailability request contains the following elements.
-public struct CheckDomainAvailabilityInput: Swift.Equatable {
+public struct CheckDomainAvailabilityInput {
     /// The name of the domain that you want to get availability for. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:
     ///
     /// * Letters a through z. Domain names are not case sensitive.
@@ -475,7 +475,7 @@ public struct CheckDomainAvailabilityInput: Swift.Equatable {
     }
 }
 
-struct CheckDomainAvailabilityInputBody: Swift.Equatable {
+struct CheckDomainAvailabilityInputBody {
     let domainName: Swift.String?
     let idnLangCode: Swift.String?
 }
@@ -508,7 +508,7 @@ extension CheckDomainAvailabilityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The CheckDomainAvailability response includes the following elements.
-public struct CheckDomainAvailabilityOutput: Swift.Equatable {
+public struct CheckDomainAvailabilityOutput {
     /// Whether the domain name is available for registering. You can register only domains designated as AVAILABLE. Valid values: AVAILABLE The domain name is available. AVAILABLE_RESERVED The domain name is reserved under specific conditions. AVAILABLE_PREORDER The domain name is available and can be preordered. DONT_KNOW The TLD registry didn't reply with a definitive answer about whether the domain name is available. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. INVALID_NAME_FOR_TLD The TLD isn't valid. For example, it can contain characters that aren't allowed. PENDING The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately. RESERVED The domain name has been reserved for another person or organization. UNAVAILABLE The domain name is not available. UNAVAILABLE_PREMIUM The domain name is not available. UNAVAILABLE_RESTRICTED The domain name is forbidden.
     public var availability: Route53DomainsClientTypes.DomainAvailability?
 
@@ -520,7 +520,7 @@ public struct CheckDomainAvailabilityOutput: Swift.Equatable {
     }
 }
 
-struct CheckDomainAvailabilityOutputBody: Swift.Equatable {
+struct CheckDomainAvailabilityOutputBody {
     let availability: Route53DomainsClientTypes.DomainAvailability?
 }
 
@@ -578,7 +578,7 @@ extension CheckDomainTransferabilityInput {
 }
 
 /// The CheckDomainTransferability request contains the following elements.
-public struct CheckDomainTransferabilityInput: Swift.Equatable {
+public struct CheckDomainTransferabilityInput {
     /// If the registrar for the top-level domain (TLD) requires an authorization code to transfer the domain, the code that you got from the current registrar for the domain.
     public var authCode: Swift.String?
     /// The name of the domain that you want to transfer to Route 53. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:
@@ -603,7 +603,7 @@ public struct CheckDomainTransferabilityInput: Swift.Equatable {
     }
 }
 
-struct CheckDomainTransferabilityInputBody: Swift.Equatable {
+struct CheckDomainTransferabilityInputBody {
     let domainName: Swift.String?
     let authCode: Swift.String?
 }
@@ -638,7 +638,7 @@ extension CheckDomainTransferabilityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The CheckDomainTransferability response includes the following elements.
-public struct CheckDomainTransferabilityOutput: Swift.Equatable {
+public struct CheckDomainTransferabilityOutput {
     /// Provides an explanation for when a domain can't be transferred.
     public var message: Swift.String?
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
@@ -654,7 +654,7 @@ public struct CheckDomainTransferabilityOutput: Swift.Equatable {
     }
 }
 
-struct CheckDomainTransferabilityOutputBody: Swift.Equatable {
+struct CheckDomainTransferabilityOutputBody {
     let transferability: Route53DomainsClientTypes.DomainTransferability?
     let message: Swift.String?
 }
@@ -713,7 +713,7 @@ extension Route53DomainsClientTypes.Consent: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Customer's consent for the owner change request.
-    public struct Consent: Swift.Equatable {
+    public struct Consent {
         /// Currency for the MaxPrice.
         /// This member is required.
         public var currency: Swift.String?
@@ -850,7 +850,7 @@ extension Route53DomainsClientTypes.ContactDetail: Swift.CustomDebugStringConver
 
 extension Route53DomainsClientTypes {
     /// ContactDetail includes the following elements.
-    public struct ContactDetail: Swift.Equatable {
+    public struct ContactDetail {
         /// First line of the contact's address.
         public var addressLine1: Swift.String?
         /// Second line of contact's address, if any.
@@ -1762,7 +1762,7 @@ extension DeleteDomainInput {
     }
 }
 
-public struct DeleteDomainInput: Swift.Equatable {
+public struct DeleteDomainInput {
     /// Name of the domain to be deleted.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1775,7 +1775,7 @@ public struct DeleteDomainInput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainInputBody: Swift.Equatable {
+struct DeleteDomainInputBody {
     let domainName: Swift.String?
 }
 
@@ -1803,7 +1803,7 @@ extension DeleteDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDomainOutput: Swift.Equatable {
+public struct DeleteDomainOutput {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
@@ -1815,7 +1815,7 @@ public struct DeleteDomainOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainOutputBody: Swift.Equatable {
+struct DeleteDomainOutputBody {
     let operationId: Swift.String?
 }
 
@@ -1873,7 +1873,7 @@ extension DeleteTagsForDomainInput {
 }
 
 /// The DeleteTagsForDomainRequest includes the following elements.
-public struct DeleteTagsForDomainInput: Swift.Equatable {
+public struct DeleteTagsForDomainInput {
     /// The domain for which you want to delete one or more tags.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1891,7 +1891,7 @@ public struct DeleteTagsForDomainInput: Swift.Equatable {
     }
 }
 
-struct DeleteTagsForDomainInputBody: Swift.Equatable {
+struct DeleteTagsForDomainInputBody {
     let domainName: Swift.String?
     let tagsToDelete: [Swift.String]?
 }
@@ -1925,7 +1925,7 @@ extension DeleteTagsForDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTagsForDomainOutput: Swift.Equatable {
+public struct DeleteTagsForDomainOutput {
 
     public init() { }
 }
@@ -1963,7 +1963,7 @@ extension DisableDomainAutoRenewInput {
     }
 }
 
-public struct DisableDomainAutoRenewInput: Swift.Equatable {
+public struct DisableDomainAutoRenewInput {
     /// The name of the domain that you want to disable automatic renewal for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -1976,7 +1976,7 @@ public struct DisableDomainAutoRenewInput: Swift.Equatable {
     }
 }
 
-struct DisableDomainAutoRenewInputBody: Swift.Equatable {
+struct DisableDomainAutoRenewInputBody {
     let domainName: Swift.String?
 }
 
@@ -1997,7 +1997,7 @@ extension DisableDomainAutoRenewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableDomainAutoRenewOutput: Swift.Equatable {
+public struct DisableDomainAutoRenewOutput {
 
     public init() { }
 }
@@ -2035,7 +2035,7 @@ extension DisableDomainTransferLockInput {
 }
 
 /// The DisableDomainTransferLock request includes the following element.
-public struct DisableDomainTransferLockInput: Swift.Equatable {
+public struct DisableDomainTransferLockInput {
     /// The name of the domain that you want to remove the transfer lock for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -2048,7 +2048,7 @@ public struct DisableDomainTransferLockInput: Swift.Equatable {
     }
 }
 
-struct DisableDomainTransferLockInputBody: Swift.Equatable {
+struct DisableDomainTransferLockInputBody {
     let domainName: Swift.String?
 }
 
@@ -2077,7 +2077,7 @@ extension DisableDomainTransferLockOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The DisableDomainTransferLock response includes the following element.
-public struct DisableDomainTransferLockOutput: Swift.Equatable {
+public struct DisableDomainTransferLockOutput {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
@@ -2089,7 +2089,7 @@ public struct DisableDomainTransferLockOutput: Swift.Equatable {
     }
 }
 
-struct DisableDomainTransferLockOutputBody: Swift.Equatable {
+struct DisableDomainTransferLockOutputBody {
     let operationId: Swift.String?
 }
 
@@ -2144,7 +2144,7 @@ extension DisassociateDelegationSignerFromDomainInput {
     }
 }
 
-public struct DisassociateDelegationSignerFromDomainInput: Swift.Equatable {
+public struct DisassociateDelegationSignerFromDomainInput {
     /// Name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -2162,7 +2162,7 @@ public struct DisassociateDelegationSignerFromDomainInput: Swift.Equatable {
     }
 }
 
-struct DisassociateDelegationSignerFromDomainInputBody: Swift.Equatable {
+struct DisassociateDelegationSignerFromDomainInputBody {
     let domainName: Swift.String?
     let id: Swift.String?
 }
@@ -2194,7 +2194,7 @@ extension DisassociateDelegationSignerFromDomainOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct DisassociateDelegationSignerFromDomainOutput: Swift.Equatable {
+public struct DisassociateDelegationSignerFromDomainOutput {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
@@ -2206,7 +2206,7 @@ public struct DisassociateDelegationSignerFromDomainOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateDelegationSignerFromDomainOutputBody: Swift.Equatable {
+struct DisassociateDelegationSignerFromDomainOutputBody {
     let operationId: Swift.String?
 }
 
@@ -2294,7 +2294,7 @@ extension Route53DomainsClientTypes.DnssecKey: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Information about the DNSSEC key. You get this from your DNS provider and then give it to Route 53 (by using [AssociateDelegationSignerToDomain](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html)) to pass it to the registry to establish the chain of trust.
-    public struct DnssecKey: Swift.Equatable {
+    public struct DnssecKey {
         /// The number of the public key’s cryptographic algorithm according to an [IANA](https://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xml) assignment. If Route 53 is your DNS service, set this to 13. For more information about enabling DNSSEC signing, see [Enabling DNSSEC signing and establishing a chain of trust](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring-dnssec-enable-signing.html).
         public var algorithm: Swift.Int?
         /// The delegation signer digest. Digest is calculated from the public key provided using specified digest algorithm and this digest is the actual value returned from the registry nameservers as the value of DS records.
@@ -2371,7 +2371,7 @@ public struct DnssecLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct DnssecLimitExceededBody: Swift.Equatable {
+struct DnssecLimitExceededBody {
     let message: Swift.String?
 }
 
@@ -2420,7 +2420,7 @@ extension Route53DomainsClientTypes.DnssecSigningAttributes: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Information about a delegation signer (DS) record that was created in the registry by [AssociateDelegationSignerToDomain](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html).
-    public struct DnssecSigningAttributes: Swift.Equatable {
+    public struct DnssecSigningAttributes {
         /// Algorithm which was used to generate the digest from the public key.
         public var algorithm: Swift.Int?
         /// Defines the type of key. It can be either a KSK (key-signing-key, value 257) or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only use ZSK if your DNS provider isn't Route 53 and you don’t have KSK available. If you have KSK and ZSK keys, always use KSK to create a delegations signer (DS) record. If you have ZSK keys only – use ZSK to create a DS record.
@@ -2538,7 +2538,7 @@ public struct DomainLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct DomainLimitExceededBody: Swift.Equatable {
+struct DomainLimitExceededBody {
     let message: Swift.String?
 }
 
@@ -2605,7 +2605,7 @@ extension Route53DomainsClientTypes.DomainPrice: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Information about the domain price associated with a TLD.
-    public struct DomainPrice: Swift.Equatable {
+    public struct DomainPrice {
         /// The price for changing domain ownership.
         public var changeOwnershipPrice: Route53DomainsClientTypes.PriceWithCurrency?
         /// The name of the TLD for which the prices apply.
@@ -2666,7 +2666,7 @@ extension Route53DomainsClientTypes.DomainSuggestion: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Information about one suggested domain name.
-    public struct DomainSuggestion: Swift.Equatable {
+    public struct DomainSuggestion {
         /// Whether the domain name is available for registering. You can register only the domains that are designated as AVAILABLE. Valid values: AVAILABLE The domain name is available. AVAILABLE_RESERVED The domain name is reserved under specific conditions. AVAILABLE_PREORDER The domain name is available and can be preordered. DONT_KNOW The TLD registry didn't reply with a definitive answer about whether the domain name is available. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. PENDING The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately. RESERVED The domain name has been reserved for another person or organization. UNAVAILABLE The domain name is not available. UNAVAILABLE_PREMIUM The domain name is not available. UNAVAILABLE_RESTRICTED The domain name is forbidden.
         public var availability: Swift.String?
         /// A suggested domain name.
@@ -2723,7 +2723,7 @@ extension Route53DomainsClientTypes.DomainSummary: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Summary information about one domain.
-    public struct DomainSummary: Swift.Equatable {
+    public struct DomainSummary {
         /// Indicates whether the domain is automatically renewed upon expiration.
         public var autoRenew: Swift.Bool?
         /// The name of the domain that the summary information applies to.
@@ -2770,7 +2770,7 @@ extension Route53DomainsClientTypes.DomainTransferability: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
-    public struct DomainTransferability: Swift.Equatable {
+    public struct DomainTransferability {
         /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
         public var transferable: Route53DomainsClientTypes.Transferable?
 
@@ -2830,7 +2830,7 @@ public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct DuplicateRequestBody: Swift.Equatable {
+struct DuplicateRequestBody {
     let requestId: Swift.String?
     let message: Swift.String?
 }
@@ -2870,7 +2870,7 @@ extension EnableDomainAutoRenewInput {
     }
 }
 
-public struct EnableDomainAutoRenewInput: Swift.Equatable {
+public struct EnableDomainAutoRenewInput {
     /// The name of the domain that you want to enable automatic renewal for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -2883,7 +2883,7 @@ public struct EnableDomainAutoRenewInput: Swift.Equatable {
     }
 }
 
-struct EnableDomainAutoRenewInputBody: Swift.Equatable {
+struct EnableDomainAutoRenewInputBody {
     let domainName: Swift.String?
 }
 
@@ -2904,7 +2904,7 @@ extension EnableDomainAutoRenewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableDomainAutoRenewOutput: Swift.Equatable {
+public struct EnableDomainAutoRenewOutput {
 
     public init() { }
 }
@@ -2943,7 +2943,7 @@ extension EnableDomainTransferLockInput {
 }
 
 /// A request to set the transfer lock for the specified domain.
-public struct EnableDomainTransferLockInput: Swift.Equatable {
+public struct EnableDomainTransferLockInput {
     /// The name of the domain that you want to set the transfer lock for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -2956,7 +2956,7 @@ public struct EnableDomainTransferLockInput: Swift.Equatable {
     }
 }
 
-struct EnableDomainTransferLockInputBody: Swift.Equatable {
+struct EnableDomainTransferLockInputBody {
     let domainName: Swift.String?
 }
 
@@ -2985,7 +2985,7 @@ extension EnableDomainTransferLockOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The EnableDomainTransferLock response includes the following elements.
-public struct EnableDomainTransferLockOutput: Swift.Equatable {
+public struct EnableDomainTransferLockOutput {
     /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
     public var operationId: Swift.String?
 
@@ -2997,7 +2997,7 @@ public struct EnableDomainTransferLockOutput: Swift.Equatable {
     }
 }
 
-struct EnableDomainTransferLockOutputBody: Swift.Equatable {
+struct EnableDomainTransferLockOutputBody {
     let operationId: Swift.String?
 }
 
@@ -3060,7 +3060,7 @@ extension Route53DomainsClientTypes.ExtraParam: Swift.CustomDebugStringConvertib
 
 extension Route53DomainsClientTypes {
     /// ExtraParam includes the following elements.
-    public struct ExtraParam: Swift.Equatable {
+    public struct ExtraParam {
         /// The name of an additional parameter that is required by a top-level domain. Here are the top-level domains that require additional parameters and the names of the parameters that they require: .com.au and .net.au
         ///
         /// * AU_ID_NUMBER
@@ -3628,7 +3628,7 @@ extension Route53DomainsClientTypes.FilterCondition: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Information for the filtering of a list of domains returned by [ListDomains](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains__ListDomains.html).
-    public struct FilterCondition: Swift.Equatable {
+    public struct FilterCondition {
         /// Name of the field which should be used for filtering the list of domains.
         /// This member is required.
         public var name: Route53DomainsClientTypes.ListDomainsAttributeName?
@@ -3679,7 +3679,7 @@ extension GetContactReachabilityStatusInput {
     }
 }
 
-public struct GetContactReachabilityStatusInput: Swift.Equatable {
+public struct GetContactReachabilityStatusInput {
     /// The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
     public var domainName: Swift.String?
 
@@ -3691,7 +3691,7 @@ public struct GetContactReachabilityStatusInput: Swift.Equatable {
     }
 }
 
-struct GetContactReachabilityStatusInputBody: Swift.Equatable {
+struct GetContactReachabilityStatusInputBody {
     let domainName: Swift.String?
 }
 
@@ -3721,7 +3721,7 @@ extension GetContactReachabilityStatusOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetContactReachabilityStatusOutput: Swift.Equatable {
+public struct GetContactReachabilityStatusOutput {
     /// The domain name for which you requested the reachability status.
     public var domainName: Swift.String?
     /// Whether the registrant contact has responded. Values include the following: PENDING We sent the confirmation email and haven't received a response yet. DONE We sent the email and got confirmation from the registrant contact. EXPIRED The time limit expired before the registrant contact responded.
@@ -3737,7 +3737,7 @@ public struct GetContactReachabilityStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetContactReachabilityStatusOutputBody: Swift.Equatable {
+struct GetContactReachabilityStatusOutputBody {
     let domainName: Swift.String?
     let status: Route53DomainsClientTypes.ReachabilityStatus?
 }
@@ -3791,7 +3791,7 @@ extension GetDomainDetailInput {
 }
 
 /// The GetDomainDetail request includes the following element.
-public struct GetDomainDetailInput: Swift.Equatable {
+public struct GetDomainDetailInput {
     /// The name of the domain that you want to get detailed information about.
     /// This member is required.
     public var domainName: Swift.String?
@@ -3804,7 +3804,7 @@ public struct GetDomainDetailInput: Swift.Equatable {
     }
 }
 
-struct GetDomainDetailInputBody: Swift.Equatable {
+struct GetDomainDetailInputBody {
     let domainName: Swift.String?
 }
 
@@ -3884,7 +3884,7 @@ extension GetDomainDetailOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The GetDomainDetail response includes the following elements.
-public struct GetDomainDetailOutput: Swift.Equatable {
+public struct GetDomainDetailOutput {
     /// Email address to contact to report incorrect contact information for a domain, to report that the domain is being used to send spam, to report that someone is cybersquatting on a domain name, or report some other type of abuse.
     public var abuseContactEmail: Swift.String?
     /// Phone number for reporting abuse.
@@ -3988,7 +3988,7 @@ public struct GetDomainDetailOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainDetailOutputBody: Swift.Equatable {
+struct GetDomainDetailOutputBody {
     let domainName: Swift.String?
     let nameservers: [Route53DomainsClientTypes.Nameserver]?
     let autoRenew: Swift.Bool?
@@ -4163,7 +4163,7 @@ extension GetDomainSuggestionsInput {
     }
 }
 
-public struct GetDomainSuggestionsInput: Swift.Equatable {
+public struct GetDomainSuggestionsInput {
     /// A domain name that you want to use as the basis for a list of possible domain names. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:
     ///
     /// * Letters a through z. Domain names are not case sensitive.
@@ -4197,7 +4197,7 @@ public struct GetDomainSuggestionsInput: Swift.Equatable {
     }
 }
 
-struct GetDomainSuggestionsInputBody: Swift.Equatable {
+struct GetDomainSuggestionsInputBody {
     let domainName: Swift.String?
     let suggestionCount: Swift.Int?
     let onlyAvailable: Swift.Bool?
@@ -4233,7 +4233,7 @@ extension GetDomainSuggestionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDomainSuggestionsOutput: Swift.Equatable {
+public struct GetDomainSuggestionsOutput {
     /// A list of possible domain names. If you specified true for OnlyAvailable in the request, the list contains only domains that are available for registration.
     public var suggestionsList: [Route53DomainsClientTypes.DomainSuggestion]?
 
@@ -4245,7 +4245,7 @@ public struct GetDomainSuggestionsOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainSuggestionsOutputBody: Swift.Equatable {
+struct GetDomainSuggestionsOutputBody {
     let suggestionsList: [Route53DomainsClientTypes.DomainSuggestion]?
 }
 
@@ -4303,7 +4303,7 @@ extension GetOperationDetailInput {
 }
 
 /// The [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) request includes the following element.
-public struct GetOperationDetailInput: Swift.Equatable {
+public struct GetOperationDetailInput {
     /// The identifier for the operation for which you want to get the status. Route 53 returned the identifier in the response to the original request.
     /// This member is required.
     public var operationId: Swift.String?
@@ -4316,7 +4316,7 @@ public struct GetOperationDetailInput: Swift.Equatable {
     }
 }
 
-struct GetOperationDetailInputBody: Swift.Equatable {
+struct GetOperationDetailInputBody {
     let operationId: Swift.String?
 }
 
@@ -4359,7 +4359,7 @@ extension GetOperationDetailOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The GetOperationDetail response includes the following elements.
-public struct GetOperationDetailOutput: Swift.Equatable {
+public struct GetOperationDetailOutput {
     /// The name of a domain.
     public var domainName: Swift.String?
     /// The date when the operation was last updated.
@@ -4409,7 +4409,7 @@ public struct GetOperationDetailOutput: Swift.Equatable {
     }
 }
 
-struct GetOperationDetailOutputBody: Swift.Equatable {
+struct GetOperationDetailOutputBody {
     let operationId: Swift.String?
     let status: Route53DomainsClientTypes.OperationStatus?
     let message: Swift.String?
@@ -4504,7 +4504,7 @@ public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     }
 }
 
-struct InvalidInputBody: Swift.Equatable {
+struct InvalidInputBody {
     let message: Swift.String?
 }
 
@@ -4588,7 +4588,7 @@ extension ListDomainsInput {
 }
 
 /// The ListDomains request includes the following elements.
-public struct ListDomainsInput: Swift.Equatable {
+public struct ListDomainsInput {
     /// A complex type that contains information about the filters applied during the ListDomains request. The filter conditions can include domain name and domain expiration.
     public var filterConditions: [Route53DomainsClientTypes.FilterCondition]?
     /// For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current Amazon Web Services account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value specified in the previous request.
@@ -4612,7 +4612,7 @@ public struct ListDomainsInput: Swift.Equatable {
     }
 }
 
-struct ListDomainsInputBody: Swift.Equatable {
+struct ListDomainsInputBody {
     let filterConditions: [Route53DomainsClientTypes.FilterCondition]?
     let sortCondition: Route53DomainsClientTypes.SortCondition?
     let marker: Swift.String?
@@ -4664,7 +4664,7 @@ extension ListDomainsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The ListDomains response includes the following elements.
-public struct ListDomainsOutput: Swift.Equatable {
+public struct ListDomainsOutput {
     /// A list of domains.
     public var domains: [Route53DomainsClientTypes.DomainSummary]?
     /// If there are more domains than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
@@ -4680,7 +4680,7 @@ public struct ListDomainsOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainsOutputBody: Swift.Equatable {
+struct ListDomainsOutputBody {
     let domains: [Route53DomainsClientTypes.DomainSummary]?
     let nextPageMarker: Swift.String?
 }
@@ -4771,7 +4771,7 @@ extension ListOperationsInput {
 }
 
 /// The ListOperations request includes the following elements.
-public struct ListOperationsInput: Swift.Equatable {
+public struct ListOperationsInput {
     /// For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
     public var marker: Swift.String?
     /// Number of domains to be returned. Default: 20
@@ -4807,7 +4807,7 @@ public struct ListOperationsInput: Swift.Equatable {
     }
 }
 
-struct ListOperationsInputBody: Swift.Equatable {
+struct ListOperationsInputBody {
     let submittedSince: ClientRuntime.Date?
     let marker: Swift.String?
     let maxItems: Swift.Int?
@@ -4880,7 +4880,7 @@ extension ListOperationsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The ListOperations response includes the following elements.
-public struct ListOperationsOutput: Swift.Equatable {
+public struct ListOperationsOutput {
     /// If there are more operations than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
     public var nextPageMarker: Swift.String?
     /// Lists summaries of the operations.
@@ -4896,7 +4896,7 @@ public struct ListOperationsOutput: Swift.Equatable {
     }
 }
 
-struct ListOperationsOutputBody: Swift.Equatable {
+struct ListOperationsOutputBody {
     let operations: [Route53DomainsClientTypes.OperationSummary]?
     let nextPageMarker: Swift.String?
 }
@@ -4993,7 +4993,7 @@ extension ListPricesInput {
     }
 }
 
-public struct ListPricesInput: Swift.Equatable {
+public struct ListPricesInput {
     /// For an initial request for a list of prices, omit this element. If the number of prices that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional prices. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Used only for all TLDs. If you specify a TLD, don't specify a Marker.
     public var marker: Swift.String?
     /// Number of Prices to be returned. Used only for all TLDs. If you specify a TLD, don't specify a MaxItems.
@@ -5013,7 +5013,7 @@ public struct ListPricesInput: Swift.Equatable {
     }
 }
 
-struct ListPricesInputBody: Swift.Equatable {
+struct ListPricesInputBody {
     let tld: Swift.String?
     let marker: Swift.String?
     let maxItems: Swift.Int?
@@ -5051,7 +5051,7 @@ extension ListPricesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPricesOutput: Swift.Equatable {
+public struct ListPricesOutput {
     /// If there are more prices than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker. Used only for all TLDs. If you specify a TLD, don't specify a NextPageMarker.
     public var nextPageMarker: Swift.String?
     /// A complex type that includes all the pricing information. If you specify a TLD, this array contains only the pricing for that TLD.
@@ -5067,7 +5067,7 @@ public struct ListPricesOutput: Swift.Equatable {
     }
 }
 
-struct ListPricesOutputBody: Swift.Equatable {
+struct ListPricesOutputBody {
     let prices: [Route53DomainsClientTypes.DomainPrice]?
     let nextPageMarker: Swift.String?
 }
@@ -5129,7 +5129,7 @@ extension ListTagsForDomainInput {
 }
 
 /// The ListTagsForDomainRequest includes the following elements.
-public struct ListTagsForDomainInput: Swift.Equatable {
+public struct ListTagsForDomainInput {
     /// The domain for which you want to get a list of tags.
     /// This member is required.
     public var domainName: Swift.String?
@@ -5142,7 +5142,7 @@ public struct ListTagsForDomainInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForDomainInputBody: Swift.Equatable {
+struct ListTagsForDomainInputBody {
     let domainName: Swift.String?
 }
 
@@ -5171,7 +5171,7 @@ extension ListTagsForDomainOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The ListTagsForDomain response includes the following elements.
-public struct ListTagsForDomainOutput: Swift.Equatable {
+public struct ListTagsForDomainOutput {
     /// A list of the tags that are associated with the specified domain.
     public var tagList: [Route53DomainsClientTypes.Tag]?
 
@@ -5183,7 +5183,7 @@ public struct ListTagsForDomainOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForDomainOutputBody: Swift.Equatable {
+struct ListTagsForDomainOutputBody {
     let tagList: [Route53DomainsClientTypes.Tag]?
 }
 
@@ -5260,7 +5260,7 @@ extension Route53DomainsClientTypes.Nameserver: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Name server includes the following elements.
-    public struct Nameserver: Swift.Equatable {
+    public struct Nameserver {
         /// Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Constraints: The list can contain only one IPv4 and one IPv6 address.
         public var glueIps: [Swift.String]?
         /// The fully qualified host name of the name server. Constraint: Maximum 255 characters
@@ -5319,7 +5319,7 @@ public struct OperationLimitExceeded: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct OperationLimitExceededBody: Swift.Equatable {
+struct OperationLimitExceededBody {
     let message: Swift.String?
 }
 
@@ -5439,7 +5439,7 @@ extension Route53DomainsClientTypes.OperationSummary: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// OperationSummary includes the following elements.
-    public struct OperationSummary: Swift.Equatable {
+    public struct OperationSummary {
         /// Name of the domain.
         public var domainName: Swift.String?
         /// The date when the last change was made in Unix time format and Coordinated Universal Time (UTC).
@@ -5639,7 +5639,7 @@ extension Route53DomainsClientTypes.PriceWithCurrency: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Currency-specific price information.
-    public struct PriceWithCurrency: Swift.Equatable {
+    public struct PriceWithCurrency {
         /// The currency specifier.
         /// This member is required.
         public var currency: Swift.String?
@@ -5683,7 +5683,7 @@ extension PushDomainInput {
     }
 }
 
-public struct PushDomainInput: Swift.Equatable {
+public struct PushDomainInput {
     /// Name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -5701,7 +5701,7 @@ public struct PushDomainInput: Swift.Equatable {
     }
 }
 
-struct PushDomainInputBody: Swift.Equatable {
+struct PushDomainInputBody {
     let domainName: Swift.String?
     let target: Swift.String?
 }
@@ -5726,7 +5726,7 @@ extension PushDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PushDomainOutput: Swift.Equatable {
+public struct PushDomainOutput {
 
     public init() { }
 }
@@ -5849,7 +5849,7 @@ extension RegisterDomainInput {
 }
 
 /// The RegisterDomain request includes the following elements.
-public struct RegisterDomainInput: Swift.Equatable {
+public struct RegisterDomainInput {
     /// Provides detailed contact information. For information about the values that you specify for each element, see [ContactDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html).
     /// This member is required.
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
@@ -5921,7 +5921,7 @@ public struct RegisterDomainInput: Swift.Equatable {
     }
 }
 
-struct RegisterDomainInputBody: Swift.Equatable {
+struct RegisterDomainInputBody {
     let domainName: Swift.String?
     let idnLangCode: Swift.String?
     let durationInYears: Swift.Int?
@@ -5994,7 +5994,7 @@ extension RegisterDomainOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The RegisterDomain response includes the following element.
-public struct RegisterDomainOutput: Swift.Equatable {
+public struct RegisterDomainOutput {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
@@ -6006,7 +6006,7 @@ public struct RegisterDomainOutput: Swift.Equatable {
     }
 }
 
-struct RegisterDomainOutputBody: Swift.Equatable {
+struct RegisterDomainOutputBody {
     let operationId: Swift.String?
 }
 
@@ -6059,7 +6059,7 @@ extension RejectDomainTransferFromAnotherAwsAccountInput {
 }
 
 /// The RejectDomainTransferFromAnotherAwsAccount request includes the following element.
-public struct RejectDomainTransferFromAnotherAwsAccountInput: Swift.Equatable {
+public struct RejectDomainTransferFromAnotherAwsAccountInput {
     /// The name of the domain that was specified when another Amazon Web Services account submitted a [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html) request.
     /// This member is required.
     public var domainName: Swift.String?
@@ -6072,7 +6072,7 @@ public struct RejectDomainTransferFromAnotherAwsAccountInput: Swift.Equatable {
     }
 }
 
-struct RejectDomainTransferFromAnotherAwsAccountInputBody: Swift.Equatable {
+struct RejectDomainTransferFromAnotherAwsAccountInputBody {
     let domainName: Swift.String?
 }
 
@@ -6101,7 +6101,7 @@ extension RejectDomainTransferFromAnotherAwsAccountOutput: ClientRuntime.HttpRes
 }
 
 /// The RejectDomainTransferFromAnotherAwsAccount response includes the following element.
-public struct RejectDomainTransferFromAnotherAwsAccountOutput: Swift.Equatable {
+public struct RejectDomainTransferFromAnotherAwsAccountOutput {
     /// The identifier that TransferDomainToAnotherAwsAccount returned to track the progress of the request. Because the transfer request was rejected, the value is no longer valid, and you can't use GetOperationDetail to query the operation status.
     public var operationId: Swift.String?
 
@@ -6113,7 +6113,7 @@ public struct RejectDomainTransferFromAnotherAwsAccountOutput: Swift.Equatable {
     }
 }
 
-struct RejectDomainTransferFromAnotherAwsAccountOutputBody: Swift.Equatable {
+struct RejectDomainTransferFromAnotherAwsAccountOutputBody {
     let operationId: Swift.String?
 }
 
@@ -6171,7 +6171,7 @@ extension RenewDomainInput {
 }
 
 /// A RenewDomain request includes the number of years that you want to renew for and the current expiration year.
-public struct RenewDomainInput: Swift.Equatable {
+public struct RenewDomainInput {
     /// The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.
     /// This member is required.
     public var currentExpiryYear: Swift.Int?
@@ -6193,7 +6193,7 @@ public struct RenewDomainInput: Swift.Equatable {
     }
 }
 
-struct RenewDomainInputBody: Swift.Equatable {
+struct RenewDomainInputBody {
     let domainName: Swift.String?
     let durationInYears: Swift.Int?
     let currentExpiryYear: Swift.Int?
@@ -6229,7 +6229,7 @@ extension RenewDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RenewDomainOutput: Swift.Equatable {
+public struct RenewDomainOutput {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
@@ -6241,7 +6241,7 @@ public struct RenewDomainOutput: Swift.Equatable {
     }
 }
 
-struct RenewDomainOutputBody: Swift.Equatable {
+struct RenewDomainOutputBody {
     let operationId: Swift.String?
 }
 
@@ -6292,7 +6292,7 @@ extension ResendContactReachabilityEmailInput {
     }
 }
 
-public struct ResendContactReachabilityEmailInput: Swift.Equatable {
+public struct ResendContactReachabilityEmailInput {
     /// The name of the domain for which you want Route 53 to resend a confirmation email to the registrant contact.
     public var domainName: Swift.String?
 
@@ -6304,7 +6304,7 @@ public struct ResendContactReachabilityEmailInput: Swift.Equatable {
     }
 }
 
-struct ResendContactReachabilityEmailInputBody: Swift.Equatable {
+struct ResendContactReachabilityEmailInputBody {
     let domainName: Swift.String?
 }
 
@@ -6341,7 +6341,7 @@ extension ResendContactReachabilityEmailOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ResendContactReachabilityEmailOutput: Swift.Equatable {
+public struct ResendContactReachabilityEmailOutput {
     /// The domain name for which you requested a confirmation email.
     public var domainName: Swift.String?
     /// The email address for the registrant contact at the time that we sent the verification email.
@@ -6361,7 +6361,7 @@ public struct ResendContactReachabilityEmailOutput: Swift.Equatable {
     }
 }
 
-struct ResendContactReachabilityEmailOutputBody: Swift.Equatable {
+struct ResendContactReachabilityEmailOutputBody {
     let domainName: Swift.String?
     let emailAddress: Swift.String?
     let isAlreadyVerified: Swift.Bool?
@@ -6418,7 +6418,7 @@ extension ResendOperationAuthorizationInput {
     }
 }
 
-public struct ResendOperationAuthorizationInput: Swift.Equatable {
+public struct ResendOperationAuthorizationInput {
     /// Operation ID.
     /// This member is required.
     public var operationId: Swift.String?
@@ -6431,7 +6431,7 @@ public struct ResendOperationAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct ResendOperationAuthorizationInputBody: Swift.Equatable {
+struct ResendOperationAuthorizationInputBody {
     let operationId: Swift.String?
 }
 
@@ -6452,7 +6452,7 @@ extension ResendOperationAuthorizationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ResendOperationAuthorizationOutput: Swift.Equatable {
+public struct ResendOperationAuthorizationOutput {
 
     public init() { }
 }
@@ -6489,7 +6489,7 @@ extension RetrieveDomainAuthCodeInput {
 }
 
 /// A request for the authorization code for the specified domain. To transfer a domain to another registrar, you provide this value to the new registrar.
-public struct RetrieveDomainAuthCodeInput: Swift.Equatable {
+public struct RetrieveDomainAuthCodeInput {
     /// The name of the domain that you want to get an authorization code for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -6502,7 +6502,7 @@ public struct RetrieveDomainAuthCodeInput: Swift.Equatable {
     }
 }
 
-struct RetrieveDomainAuthCodeInputBody: Swift.Equatable {
+struct RetrieveDomainAuthCodeInputBody {
     let domainName: Swift.String?
 }
 
@@ -6536,7 +6536,7 @@ extension RetrieveDomainAuthCodeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The RetrieveDomainAuthCode response includes the following element.
-public struct RetrieveDomainAuthCodeOutput: Swift.Equatable {
+public struct RetrieveDomainAuthCodeOutput {
     /// The authorization code for the domain.
     public var authCode: Swift.String?
 
@@ -6548,7 +6548,7 @@ public struct RetrieveDomainAuthCodeOutput: Swift.Equatable {
     }
 }
 
-struct RetrieveDomainAuthCodeOutputBody: Swift.Equatable {
+struct RetrieveDomainAuthCodeOutputBody {
     let authCode: Swift.String?
 }
 
@@ -6605,7 +6605,7 @@ extension Route53DomainsClientTypes.SortCondition: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Information for sorting a list of domains.
-    public struct SortCondition: Swift.Equatable {
+    public struct SortCondition {
         /// Field to be used for sorting the list of domains. It can be either the name or the expiration for a domain. Note that if filterCondition is used in the same [ListDomains](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains__ListDomains.html) call, the field used for sorting has to be the same as the field used for filtering.
         /// This member is required.
         public var name: Route53DomainsClientTypes.ListDomainsAttributeName?
@@ -6738,7 +6738,7 @@ public struct TLDRulesViolation: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct TLDRulesViolationBody: Swift.Equatable {
+struct TLDRulesViolationBody {
     let message: Swift.String?
 }
 
@@ -6781,7 +6781,7 @@ extension Route53DomainsClientTypes.Tag: Swift.Codable {
 
 extension Route53DomainsClientTypes {
     /// Each tag includes the following elements.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key (name) of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each key can be 1-128 characters long.
         public var key: Swift.String?
         /// The value of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each value can be 0-256 characters long.
@@ -6880,7 +6880,7 @@ extension TransferDomainInput {
 }
 
 /// The TransferDomain request includes the following elements.
-public struct TransferDomainInput: Swift.Equatable {
+public struct TransferDomainInput {
     /// Provides detailed contact information.
     /// This member is required.
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
@@ -6957,7 +6957,7 @@ public struct TransferDomainInput: Swift.Equatable {
     }
 }
 
-struct TransferDomainInputBody: Swift.Equatable {
+struct TransferDomainInputBody {
     let domainName: Swift.String?
     let idnLangCode: Swift.String?
     let durationInYears: Swift.Int?
@@ -7047,7 +7047,7 @@ extension TransferDomainOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The TransferDomain response includes the following element.
-public struct TransferDomainOutput: Swift.Equatable {
+public struct TransferDomainOutput {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
@@ -7059,7 +7059,7 @@ public struct TransferDomainOutput: Swift.Equatable {
     }
 }
 
-struct TransferDomainOutputBody: Swift.Equatable {
+struct TransferDomainOutputBody {
     let operationId: Swift.String?
 }
 
@@ -7116,7 +7116,7 @@ extension TransferDomainToAnotherAwsAccountInput {
 }
 
 /// The TransferDomainToAnotherAwsAccount request includes the following elements.
-public struct TransferDomainToAnotherAwsAccountInput: Swift.Equatable {
+public struct TransferDomainToAnotherAwsAccountInput {
     /// The account ID of the Amazon Web Services account that you want to transfer the domain to, for example, 111122223333.
     /// This member is required.
     public var accountId: Swift.String?
@@ -7134,7 +7134,7 @@ public struct TransferDomainToAnotherAwsAccountInput: Swift.Equatable {
     }
 }
 
-struct TransferDomainToAnotherAwsAccountInputBody: Swift.Equatable {
+struct TransferDomainToAnotherAwsAccountInputBody {
     let domainName: Swift.String?
     let accountId: Swift.String?
 }
@@ -7174,7 +7174,7 @@ extension TransferDomainToAnotherAwsAccountOutput: ClientRuntime.HttpResponseBin
 }
 
 /// The TransferDomainToAnotherAwsAccount response includes the following elements.
-public struct TransferDomainToAnotherAwsAccountOutput: Swift.Equatable {
+public struct TransferDomainToAnotherAwsAccountOutput {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
     /// To finish transferring a domain to another Amazon Web Services account, the account that the domain is being transferred to must submit an [AcceptDomainTransferFromAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html) request. The request must include the value of the Password element that was returned in the TransferDomainToAnotherAwsAccount response.
@@ -7190,7 +7190,7 @@ public struct TransferDomainToAnotherAwsAccountOutput: Swift.Equatable {
     }
 }
 
-struct TransferDomainToAnotherAwsAccountOutputBody: Swift.Equatable {
+struct TransferDomainToAnotherAwsAccountOutputBody {
     let operationId: Swift.String?
     let password: Swift.String?
 }
@@ -7309,7 +7309,7 @@ public struct UnsupportedTLD: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
-struct UnsupportedTLDBody: Swift.Equatable {
+struct UnsupportedTLDBody {
     let message: Swift.String?
 }
 
@@ -7371,7 +7371,7 @@ extension UpdateDomainContactInput {
 }
 
 /// The UpdateDomainContact request includes the following elements.
-public struct UpdateDomainContactInput: Swift.Equatable {
+public struct UpdateDomainContactInput {
     /// Provides detailed contact information.
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
     /// Provides detailed contact information.
@@ -7404,7 +7404,7 @@ public struct UpdateDomainContactInput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainContactInputBody: Swift.Equatable {
+struct UpdateDomainContactInputBody {
     let domainName: Swift.String?
     let adminContact: Route53DomainsClientTypes.ContactDetail?
     let registrantContact: Route53DomainsClientTypes.ContactDetail?
@@ -7453,7 +7453,7 @@ extension UpdateDomainContactOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The UpdateDomainContact response includes the following element.
-public struct UpdateDomainContactOutput: Swift.Equatable {
+public struct UpdateDomainContactOutput {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
@@ -7465,7 +7465,7 @@ public struct UpdateDomainContactOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainContactOutputBody: Swift.Equatable {
+struct UpdateDomainContactOutputBody {
     let operationId: Swift.String?
 }
 
@@ -7533,7 +7533,7 @@ extension UpdateDomainContactPrivacyInput {
 }
 
 /// The UpdateDomainContactPrivacy request includes the following elements.
-public struct UpdateDomainContactPrivacyInput: Swift.Equatable {
+public struct UpdateDomainContactPrivacyInput {
     /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the admin contact. You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
     public var adminPrivacy: Swift.Bool?
     /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the billing contact. You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
@@ -7562,7 +7562,7 @@ public struct UpdateDomainContactPrivacyInput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainContactPrivacyInputBody: Swift.Equatable {
+struct UpdateDomainContactPrivacyInputBody {
     let domainName: Swift.String?
     let adminPrivacy: Swift.Bool?
     let registrantPrivacy: Swift.Bool?
@@ -7607,7 +7607,7 @@ extension UpdateDomainContactPrivacyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The UpdateDomainContactPrivacy response includes the following element.
-public struct UpdateDomainContactPrivacyOutput: Swift.Equatable {
+public struct UpdateDomainContactPrivacyOutput {
     /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
     public var operationId: Swift.String?
 
@@ -7619,7 +7619,7 @@ public struct UpdateDomainContactPrivacyOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainContactPrivacyOutputBody: Swift.Equatable {
+struct UpdateDomainContactPrivacyOutputBody {
     let operationId: Swift.String?
 }
 
@@ -7687,7 +7687,7 @@ extension UpdateDomainNameserversInput {
 }
 
 /// Replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain. If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
-public struct UpdateDomainNameserversInput: Swift.Equatable {
+public struct UpdateDomainNameserversInput {
     /// The name of the domain that you want to change name servers for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -7710,7 +7710,7 @@ public struct UpdateDomainNameserversInput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainNameserversInputBody: Swift.Equatable {
+struct UpdateDomainNameserversInputBody {
     let domainName: Swift.String?
     let fiAuthKey: Swift.String?
     let nameservers: [Route53DomainsClientTypes.Nameserver]?
@@ -7756,7 +7756,7 @@ extension UpdateDomainNameserversOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The UpdateDomainNameservers response includes the following element.
-public struct UpdateDomainNameserversOutput: Swift.Equatable {
+public struct UpdateDomainNameserversOutput {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
     public var operationId: Swift.String?
 
@@ -7768,7 +7768,7 @@ public struct UpdateDomainNameserversOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainNameserversOutputBody: Swift.Equatable {
+struct UpdateDomainNameserversOutputBody {
     let operationId: Swift.String?
 }
 
@@ -7827,7 +7827,7 @@ extension UpdateTagsForDomainInput {
 }
 
 /// The UpdateTagsForDomainRequest includes the following elements.
-public struct UpdateTagsForDomainInput: Swift.Equatable {
+public struct UpdateTagsForDomainInput {
     /// The domain for which you want to add or update tags.
     /// This member is required.
     public var domainName: Swift.String?
@@ -7844,7 +7844,7 @@ public struct UpdateTagsForDomainInput: Swift.Equatable {
     }
 }
 
-struct UpdateTagsForDomainInputBody: Swift.Equatable {
+struct UpdateTagsForDomainInputBody {
     let domainName: Swift.String?
     let tagsToUpdate: [Route53DomainsClientTypes.Tag]?
 }
@@ -7878,7 +7878,7 @@ extension UpdateTagsForDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTagsForDomainOutput: Swift.Equatable {
+public struct UpdateTagsForDomainOutput {
 
     public init() { }
 }
@@ -7929,7 +7929,7 @@ extension ViewBillingInput {
 }
 
 /// The ViewBilling request includes the following elements.
-public struct ViewBillingInput: Swift.Equatable {
+public struct ViewBillingInput {
     /// The end date and time for the time period for which you want a list of billing records. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
     public var end: ClientRuntime.Date?
     /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current Amazon Web Services account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
@@ -7953,7 +7953,7 @@ public struct ViewBillingInput: Swift.Equatable {
     }
 }
 
-struct ViewBillingInputBody: Swift.Equatable {
+struct ViewBillingInputBody {
     let start: ClientRuntime.Date?
     let end: ClientRuntime.Date?
     let marker: Swift.String?
@@ -7996,7 +7996,7 @@ extension ViewBillingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The ViewBilling response includes the following elements.
-public struct ViewBillingOutput: Swift.Equatable {
+public struct ViewBillingOutput {
     /// A summary of billing records.
     public var billingRecords: [Route53DomainsClientTypes.BillingRecord]?
     /// If there are more billing records than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
@@ -8012,7 +8012,7 @@ public struct ViewBillingOutput: Swift.Equatable {
     }
 }
 
-struct ViewBillingOutputBody: Swift.Equatable {
+struct ViewBillingOutputBody {
     let nextPageMarker: Swift.String?
     let billingRecords: [Route53DomainsClientTypes.BillingRecord]?
 }

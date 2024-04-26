@@ -108,7 +108,7 @@ extension AddTagsToResourceInput {
 }
 
 /// Represents the input of an AddTagsToResource operation.
-public struct AddTagsToResourceInput: Swift.Equatable {
+public struct AddTagsToResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are cluster and snapshot. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
     /// This member is required.
     public var resourceName: Swift.String?
@@ -140,7 +140,7 @@ extension AddTagsToResourceOutput {
 }
 
 /// Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
-public struct AddTagsToResourceOutput: Swift.Equatable {
+public struct AddTagsToResourceOutput {
     /// A list of tags as key-value pairs.
     public var tagList: [ElastiCacheClientTypes.Tag]?
 
@@ -280,7 +280,7 @@ extension ElastiCacheClientTypes.Authentication: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Indicates whether the user requires a password to authenticate.
-    public struct Authentication: Swift.Equatable {
+    public struct Authentication {
         /// The number of passwords belonging to the user. The maximum is two.
         public var passwordCount: Swift.Int?
         /// Indicates whether the user requires a password to authenticate.
@@ -336,7 +336,7 @@ extension ElastiCacheClientTypes.AuthenticationMode: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Specifies the authentication mode to use.
-    public struct AuthenticationMode: Swift.Equatable {
+    public struct AuthenticationMode {
         /// Specifies the passwords to use for authentication if Type is set to password.
         public var passwords: [Swift.String]?
         /// Specifies the authentication type. Possible options are IAM authentication, password and no password.
@@ -492,7 +492,7 @@ extension AuthorizeCacheSecurityGroupIngressInput {
 }
 
 /// Represents the input of an AuthorizeCacheSecurityGroupIngress operation.
-public struct AuthorizeCacheSecurityGroupIngressInput: Swift.Equatable {
+public struct AuthorizeCacheSecurityGroupIngressInput {
     /// The cache security group that allows network ingress.
     /// This member is required.
     public var cacheSecurityGroupName: Swift.String?
@@ -528,7 +528,7 @@ extension AuthorizeCacheSecurityGroupIngressOutput {
     }
 }
 
-public struct AuthorizeCacheSecurityGroupIngressOutput: Swift.Equatable {
+public struct AuthorizeCacheSecurityGroupIngressOutput {
     /// Represents the output of one of the following operations:
     ///
     /// * AuthorizeCacheSecurityGroupIngress
@@ -629,7 +629,7 @@ extension ElastiCacheClientTypes.AvailabilityZone: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Describes an Availability Zone in which the cluster is launched.
-    public struct AvailabilityZone: Swift.Equatable {
+    public struct AvailabilityZone {
         /// The name of the Availability Zone.
         public var name: Swift.String?
 
@@ -691,7 +691,7 @@ extension BatchApplyUpdateActionInput {
     }
 }
 
-public struct BatchApplyUpdateActionInput: Swift.Equatable {
+public struct BatchApplyUpdateActionInput {
     /// The cache cluster IDs
     public var cacheClusterIds: [Swift.String]?
     /// The replication group IDs
@@ -726,7 +726,7 @@ extension BatchApplyUpdateActionOutput {
     }
 }
 
-public struct BatchApplyUpdateActionOutput: Swift.Equatable {
+public struct BatchApplyUpdateActionOutput {
     /// Update actions that have been processed successfully
     public var processedUpdateActions: [ElastiCacheClientTypes.ProcessedUpdateAction]?
     /// Update actions that haven't been processed successfully
@@ -808,7 +808,7 @@ extension BatchStopUpdateActionInput {
     }
 }
 
-public struct BatchStopUpdateActionInput: Swift.Equatable {
+public struct BatchStopUpdateActionInput {
     /// The cache cluster IDs
     public var cacheClusterIds: [Swift.String]?
     /// The replication group IDs
@@ -843,7 +843,7 @@ extension BatchStopUpdateActionOutput {
     }
 }
 
-public struct BatchStopUpdateActionOutput: Swift.Equatable {
+public struct BatchStopUpdateActionOutput {
     /// Update actions that have been processed successfully
     public var processedUpdateActions: [ElastiCacheClientTypes.ProcessedUpdateAction]?
     /// Update actions that haven't been processed successfully
@@ -1097,7 +1097,7 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Contains all of the attributes of a specific cluster.
-    public struct CacheCluster: Swift.Equatable {
+    public struct CacheCluster {
         /// The ARN (Amazon Resource Name) of the cache cluster.
         public var arn: Swift.String?
         /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable at-rest encryption on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
@@ -1411,7 +1411,7 @@ extension ElastiCacheClientTypes.CacheEngineVersion: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Provides all of the details about a particular cache engine version.
-    public struct CacheEngineVersion: Swift.Equatable {
+    public struct CacheEngineVersion {
         /// The description of the cache engine.
         public var cacheEngineDescription: Swift.String?
         /// The description of the cache engine version.
@@ -1539,7 +1539,7 @@ extension ElastiCacheClientTypes {
     /// * Redis Multi-AZ with automatic failover is not supported on T1 instances.
     ///
     /// * Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.
-    public struct CacheNode: Swift.Equatable {
+    public struct CacheNode {
         /// The date and time when the cache node was created.
         public var cacheNodeCreateTime: ClientRuntime.Date?
         /// The cache node identifier. A node ID is a numeric identifier (0001, 0002, etc.). The combination of cluster ID and node ID uniquely identifies every cache node used in a customer's Amazon account.
@@ -1654,7 +1654,7 @@ extension ElastiCacheClientTypes.CacheNodeTypeSpecificParameter: Swift.Encodable
 
 extension ElastiCacheClientTypes {
     /// A parameter that has a different value for each cache node type it is applied to. For example, in a Redis cluster, a cache.m1.large cache node type would have a larger maxmemory value than a cache.m1.small type.
-    public struct CacheNodeTypeSpecificParameter: Swift.Equatable {
+    public struct CacheNodeTypeSpecificParameter : Swift.Equatable {
         /// The valid range of values for the parameter.
         public var allowedValues: Swift.String?
         /// A list of cache node types and their corresponding values for this parameter.
@@ -1729,7 +1729,7 @@ extension ElastiCacheClientTypes.CacheNodeTypeSpecificValue: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// A value that applies only to a certain cache node type.
-    public struct CacheNodeTypeSpecificValue: Swift.Equatable {
+    public struct CacheNodeTypeSpecificValue : Swift.Equatable {
         /// The cache node type for which this value applies.
         public var cacheNodeType: Swift.String?
         /// The value for the cache node type.
@@ -1806,7 +1806,7 @@ extension ElastiCacheClientTypes.CacheNodeUpdateStatus: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The status of the service update on the cache node
-    public struct CacheNodeUpdateStatus: Swift.Equatable {
+    public struct CacheNodeUpdateStatus {
         /// The node ID of the cache cluster
         public var cacheNodeId: Swift.String?
         /// The deletion date of the node
@@ -1892,7 +1892,7 @@ extension ElastiCacheClientTypes.CacheParameterGroup: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents the output of a CreateCacheParameterGroup operation.
-    public struct CacheParameterGroup: Swift.Equatable {
+    public struct CacheParameterGroup {
         /// The ARN (Amazon Resource Name) of the cache parameter group.
         public var arn: Swift.String?
         /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
@@ -2073,7 +2073,7 @@ extension ElastiCacheClientTypes.CacheParameterGroupStatus: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Status of the cache parameter group.
-    public struct CacheParameterGroupStatus: Swift.Equatable {
+    public struct CacheParameterGroupStatus {
         /// A list of the cache node IDs which need to be rebooted for parameter changes to be applied. A node ID is a numeric identifier (0001, 0002, etc.).
         public var cacheNodeIdsToReboot: [Swift.String]?
         /// The name of the cache parameter group.
@@ -2154,7 +2154,7 @@ extension ElastiCacheClientTypes {
     /// * CreateCacheSecurityGroup
     ///
     /// * RevokeCacheSecurityGroupIngress
-    public struct CacheSecurityGroup: Swift.Equatable {
+    public struct CacheSecurityGroup {
         /// The ARN of the cache security group,
         public var arn: Swift.String?
         /// The name of the cache security group.
@@ -2249,7 +2249,7 @@ extension ElastiCacheClientTypes.CacheSecurityGroupMembership: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents a cluster's status within a particular cache security group.
-    public struct CacheSecurityGroupMembership: Swift.Equatable {
+    public struct CacheSecurityGroupMembership {
         /// The name of the cache security group.
         public var cacheSecurityGroupName: Swift.String?
         /// The membership status in the cache security group. The status changes when a cache security group is modified, or when the cache security groups assigned to a cluster are modified.
@@ -2410,7 +2410,7 @@ extension ElastiCacheClientTypes {
     /// * CreateCacheSubnetGroup
     ///
     /// * ModifyCacheSubnetGroup
-    public struct CacheSubnetGroup: Swift.Equatable {
+    public struct CacheSubnetGroup {
         /// The ARN (Amazon Resource Name) of the cache subnet group.
         public var arn: Swift.String?
         /// The description of the cache subnet group.
@@ -2653,7 +2653,7 @@ extension ElastiCacheClientTypes.CacheUsageLimits: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The usage limits for storage and ElastiCache Processing Units for the cache.
-    public struct CacheUsageLimits: Swift.Equatable {
+    public struct CacheUsageLimits {
         /// The maximum data storage limit in the cache, expressed in Gigabytes.
         public var dataStorage: ElastiCacheClientTypes.DataStorage?
         /// The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
@@ -2727,7 +2727,7 @@ extension ElastiCacheClientTypes.CloudWatchLogsDestinationDetails: Swift.Encodab
 
 extension ElastiCacheClientTypes {
     /// The configuration details of the CloudWatch Logs destination.
-    public struct CloudWatchLogsDestinationDetails: Swift.Equatable {
+    public struct CloudWatchLogsDestinationDetails {
         /// The name of the CloudWatch Logs log group.
         public var logGroup: Swift.String?
 
@@ -2838,7 +2838,7 @@ extension CompleteMigrationInput {
     }
 }
 
-public struct CompleteMigrationInput: Swift.Equatable {
+public struct CompleteMigrationInput {
     /// Forces the migration to stop without ensuring that data is in sync. It is recommended to use this option only to abort the migration and not recommended when application wants to continue migration to ElastiCache.
     public var force: Swift.Bool?
     /// The ID of the replication group to which data is being migrated.
@@ -2868,7 +2868,7 @@ extension CompleteMigrationOutput {
     }
 }
 
-public struct CompleteMigrationOutput: Swift.Equatable {
+public struct CompleteMigrationOutput {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -2956,7 +2956,7 @@ extension ElastiCacheClientTypes.ConfigureShard: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Node group (shard) configuration options when adding or removing replicas. Each node group (shard) configuration has the following members: NodeGroupId, NewReplicaCount, and PreferredAvailabilityZones.
-    public struct ConfigureShard: Swift.Equatable {
+    public struct ConfigureShard {
         /// The number of replicas you want in this node group at the end of this operation. The maximum value for NewReplicaCount is 5. The minimum value depends upon the type of Redis replication group you are working with. The minimum number of replicas in a shard or replication group is:
         ///
         /// * Redis (cluster mode disabled)
@@ -3038,7 +3038,7 @@ extension CopyServerlessCacheSnapshotInput {
     }
 }
 
-public struct CopyServerlessCacheSnapshotInput: Swift.Equatable {
+public struct CopyServerlessCacheSnapshotInput {
     /// The identifier of the KMS key used to encrypt the target snapshot. Available for Redis only.
     public var kmsKeyId: Swift.String?
     /// The identifier of the existing serverless cache’s snapshot to be copied. Available for Redis only.
@@ -3077,7 +3077,7 @@ extension CopyServerlessCacheSnapshotOutput {
     }
 }
 
-public struct CopyServerlessCacheSnapshotOutput: Swift.Equatable {
+public struct CopyServerlessCacheSnapshotOutput {
     /// The response for the attempt to copy the serverless cache snapshot. Available for Redis only.
     public var serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
 
@@ -3161,7 +3161,7 @@ extension CopySnapshotInput {
 }
 
 /// Represents the input of a CopySnapshotMessage operation.
-public struct CopySnapshotInput: Swift.Equatable {
+public struct CopySnapshotInput {
     /// The ID of the KMS key used to encrypt the target snapshot.
     public var kmsKeyId: Swift.String?
     /// The name of an existing snapshot from which to make a copy.
@@ -3204,7 +3204,7 @@ extension CopySnapshotOutput {
     }
 }
 
-public struct CopySnapshotOutput: Swift.Equatable {
+public struct CopySnapshotOutput {
     /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
     public var snapshot: ElastiCacheClientTypes.Snapshot?
 
@@ -3441,7 +3441,7 @@ extension CreateCacheClusterInput {
 }
 
 /// Represents the input of a CreateCacheCluster operation.
-public struct CreateCacheClusterInput: Swift.Equatable {
+public struct CreateCacheClusterInput {
     /// Reserved parameter. The password used to access a password protected server. Password constraints:
     ///
     /// * Must be only printable ASCII characters.
@@ -3637,7 +3637,7 @@ extension CreateCacheClusterOutput {
     }
 }
 
-public struct CreateCacheClusterOutput: Swift.Equatable {
+public struct CreateCacheClusterOutput {
     /// Contains all of the attributes of a specific cluster.
     public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
 
@@ -3723,7 +3723,7 @@ extension CreateCacheParameterGroupInput {
 }
 
 /// Represents the input of a CreateCacheParameterGroup operation.
-public struct CreateCacheParameterGroupInput: Swift.Equatable {
+public struct CreateCacheParameterGroupInput {
     /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
     /// This member is required.
     public var cacheParameterGroupFamily: Swift.String?
@@ -3763,7 +3763,7 @@ extension CreateCacheParameterGroupOutput {
     }
 }
 
-public struct CreateCacheParameterGroupOutput: Swift.Equatable {
+public struct CreateCacheParameterGroupOutput {
     /// Represents the output of a CreateCacheParameterGroup operation.
     public var cacheParameterGroup: ElastiCacheClientTypes.CacheParameterGroup?
 
@@ -3837,7 +3837,7 @@ extension CreateCacheSecurityGroupInput {
 }
 
 /// Represents the input of a CreateCacheSecurityGroup operation.
-public struct CreateCacheSecurityGroupInput: Swift.Equatable {
+public struct CreateCacheSecurityGroupInput {
     /// A name for the cache security group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters. Cannot be the word "Default". Example: mysecuritygroup
     /// This member is required.
     public var cacheSecurityGroupName: Swift.String?
@@ -3872,7 +3872,7 @@ extension CreateCacheSecurityGroupOutput {
     }
 }
 
-public struct CreateCacheSecurityGroupOutput: Swift.Equatable {
+public struct CreateCacheSecurityGroupOutput {
     /// Represents the output of one of the following operations:
     ///
     /// * AuthorizeCacheSecurityGroupIngress
@@ -3964,7 +3964,7 @@ extension CreateCacheSubnetGroupInput {
 }
 
 /// Represents the input of a CreateCacheSubnetGroup operation.
-public struct CreateCacheSubnetGroupInput: Swift.Equatable {
+public struct CreateCacheSubnetGroupInput {
     /// A description for the cache subnet group.
     /// This member is required.
     public var cacheSubnetGroupDescription: Swift.String?
@@ -4004,7 +4004,7 @@ extension CreateCacheSubnetGroupOutput {
     }
 }
 
-public struct CreateCacheSubnetGroupOutput: Swift.Equatable {
+public struct CreateCacheSubnetGroupOutput {
     /// Represents the output of one of the following operations:
     ///
     /// * CreateCacheSubnetGroup
@@ -4072,7 +4072,7 @@ extension CreateGlobalReplicationGroupInput {
     }
 }
 
-public struct CreateGlobalReplicationGroupInput: Swift.Equatable {
+public struct CreateGlobalReplicationGroupInput {
     /// Provides details of the Global datastore
     public var globalReplicationGroupDescription: Swift.String?
     /// The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions. For a full list of Amazon Regions and their respective Global datastore iD prefixes, see [Using the Amazon CLI with Global datastores ](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Redis-Global-Datastores-CLI.html).
@@ -4107,7 +4107,7 @@ extension CreateGlobalReplicationGroupOutput {
     }
 }
 
-public struct CreateGlobalReplicationGroupOutput: Swift.Equatable {
+public struct CreateGlobalReplicationGroupOutput {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -4389,7 +4389,7 @@ extension CreateReplicationGroupInput {
 }
 
 /// Represents the input of a CreateReplicationGroup operation.
-public struct CreateReplicationGroupInput: Swift.Equatable {
+public struct CreateReplicationGroupInput {
     /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
     public var atRestEncryptionEnabled: Swift.Bool?
     /// Reserved parameter. The password used to access a password protected server. AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true. For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup. Password constraints:
@@ -4643,7 +4643,7 @@ extension CreateReplicationGroupOutput {
     }
 }
 
-public struct CreateReplicationGroupOutput: Swift.Equatable {
+public struct CreateReplicationGroupOutput {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -4796,7 +4796,7 @@ extension CreateServerlessCacheInput {
     }
 }
 
-public struct CreateServerlessCacheInput: Swift.Equatable {
+public struct CreateServerlessCacheInput {
     /// Sets the cache usage limits for storage and ElastiCache Processing Units for the cache.
     public var cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
     /// The daily time that snapshots will be created from the new serverless cache. By default this number is populated with 0, i.e. no snapshots will be created on an automatic daily basis. Available for Redis only.
@@ -4871,7 +4871,7 @@ extension CreateServerlessCacheOutput {
     }
 }
 
-public struct CreateServerlessCacheOutput: Swift.Equatable {
+public struct CreateServerlessCacheOutput {
     /// The response for the attempt to create the serverless cache.
     public var serverlessCache: ElastiCacheClientTypes.ServerlessCache?
 
@@ -4953,7 +4953,7 @@ extension CreateServerlessCacheSnapshotInput {
     }
 }
 
-public struct CreateServerlessCacheSnapshotInput: Swift.Equatable {
+public struct CreateServerlessCacheSnapshotInput {
     /// The ID of the KMS key used to encrypt the snapshot. Available for Redis only. Default: NULL
     public var kmsKeyId: Swift.String?
     /// The name of an existing serverless cache. The snapshot is created from this cache. Available for Redis only.
@@ -4992,7 +4992,7 @@ extension CreateServerlessCacheSnapshotOutput {
     }
 }
 
-public struct CreateServerlessCacheSnapshotOutput: Swift.Equatable {
+public struct CreateServerlessCacheSnapshotOutput {
     /// The state of a serverless cache snapshot at a specific point in time, to the millisecond. Available for Redis only.
     public var serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
 
@@ -5076,7 +5076,7 @@ extension CreateSnapshotInput {
 }
 
 /// Represents the input of a CreateSnapshot operation.
-public struct CreateSnapshotInput: Swift.Equatable {
+public struct CreateSnapshotInput {
     /// The identifier of an existing cluster. The snapshot is created from this cluster.
     public var cacheClusterId: Swift.String?
     /// The ID of the KMS key used to encrypt the snapshot.
@@ -5118,7 +5118,7 @@ extension CreateSnapshotOutput {
     }
 }
 
-public struct CreateSnapshotOutput: Swift.Equatable {
+public struct CreateSnapshotOutput {
     /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
     public var snapshot: ElastiCacheClientTypes.Snapshot?
 
@@ -5208,7 +5208,7 @@ extension CreateUserGroupInput {
     }
 }
 
-public struct CreateUserGroupInput: Swift.Equatable {
+public struct CreateUserGroupInput {
     /// The current supported value is Redis.
     /// This member is required.
     public var engine: Swift.String?
@@ -5255,7 +5255,7 @@ extension CreateUserGroupOutput {
     }
 }
 
-public struct CreateUserGroupOutput: Swift.Equatable {
+public struct CreateUserGroupOutput {
     /// The Amazon Resource Name (ARN) of the user group.
     public var arn: Swift.String?
     /// The current supported value is Redis.
@@ -5391,7 +5391,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// Access permissions string used for this user.
     /// This member is required.
     public var accessString: Swift.String?
@@ -5456,7 +5456,7 @@ extension CreateUserOutput {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
     /// Access permissions string used for this user.
     public var accessString: Swift.String?
     /// The Amazon Resource Name (ARN) of the user.
@@ -5552,7 +5552,7 @@ extension ElastiCacheClientTypes.CustomerNodeEndpoint: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The endpoint from which data should be migrated.
-    public struct CustomerNodeEndpoint: Swift.Equatable {
+    public struct CustomerNodeEndpoint {
         /// The address of the node endpoint
         public var address: Swift.String?
         /// The port of the node endpoint
@@ -5604,7 +5604,7 @@ extension ElastiCacheClientTypes.DataStorage: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The data storage limit.
-    public struct DataStorage: Swift.Equatable {
+    public struct DataStorage {
         /// The upper limit for data storage the cache is set to use.
         public var maximum: Swift.Int?
         /// The lower limit for data storage the cache is set to use.
@@ -5744,7 +5744,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupInput {
     }
 }
 
-public struct DecreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Equatable {
+public struct DecreaseNodeGroupsInGlobalReplicationGroupInput {
     /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true.
     /// This member is required.
     public var applyImmediately: Swift.Bool?
@@ -5788,7 +5788,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupOutput {
     }
 }
 
-public struct DecreaseNodeGroupsInGlobalReplicationGroupOutput: Swift.Equatable {
+public struct DecreaseNodeGroupsInGlobalReplicationGroupOutput {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -5878,7 +5878,7 @@ extension DecreaseReplicaCountInput {
     }
 }
 
-public struct DecreaseReplicaCountInput: Swift.Equatable {
+public struct DecreaseReplicaCountInput {
     /// If True, the number of replica nodes is decreased immediately. ApplyImmediately=False is not currently supported.
     /// This member is required.
     public var applyImmediately: Swift.Bool?
@@ -5932,7 +5932,7 @@ extension DecreaseReplicaCountOutput {
     }
 }
 
-public struct DecreaseReplicaCountOutput: Swift.Equatable {
+public struct DecreaseReplicaCountOutput {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -6071,7 +6071,7 @@ extension DeleteCacheClusterInput {
 }
 
 /// Represents the input of a DeleteCacheCluster operation.
-public struct DeleteCacheClusterInput: Swift.Equatable {
+public struct DeleteCacheClusterInput {
     /// The cluster identifier for the cluster to be deleted. This parameter is not case sensitive.
     /// This member is required.
     public var cacheClusterId: Swift.String?
@@ -6101,7 +6101,7 @@ extension DeleteCacheClusterOutput {
     }
 }
 
-public struct DeleteCacheClusterOutput: Swift.Equatable {
+public struct DeleteCacheClusterOutput {
     /// Contains all of the attributes of a specific cluster.
     public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
 
@@ -6159,7 +6159,7 @@ extension DeleteCacheParameterGroupInput {
 }
 
 /// Represents the input of a DeleteCacheParameterGroup operation.
-public struct DeleteCacheParameterGroupInput: Swift.Equatable {
+public struct DeleteCacheParameterGroupInput {
     /// The name of the cache parameter group to delete. The specified cache security group must not be associated with any clusters.
     /// This member is required.
     public var cacheParameterGroupName: Swift.String?
@@ -6181,7 +6181,7 @@ extension DeleteCacheParameterGroupOutput {
     }
 }
 
-public struct DeleteCacheParameterGroupOutput: Swift.Equatable {
+public struct DeleteCacheParameterGroupOutput {
 
     public init() { }
 }
@@ -6229,7 +6229,7 @@ extension DeleteCacheSecurityGroupInput {
 }
 
 /// Represents the input of a DeleteCacheSecurityGroup operation.
-public struct DeleteCacheSecurityGroupInput: Swift.Equatable {
+public struct DeleteCacheSecurityGroupInput {
     /// The name of the cache security group to delete. You cannot delete the default security group.
     /// This member is required.
     public var cacheSecurityGroupName: Swift.String?
@@ -6251,7 +6251,7 @@ extension DeleteCacheSecurityGroupOutput {
     }
 }
 
-public struct DeleteCacheSecurityGroupOutput: Swift.Equatable {
+public struct DeleteCacheSecurityGroupOutput {
 
     public init() { }
 }
@@ -6299,7 +6299,7 @@ extension DeleteCacheSubnetGroupInput {
 }
 
 /// Represents the input of a DeleteCacheSubnetGroup operation.
-public struct DeleteCacheSubnetGroupInput: Swift.Equatable {
+public struct DeleteCacheSubnetGroupInput {
     /// The name of the cache subnet group to delete. Constraints: Must contain no more than 255 alphanumeric characters or hyphens.
     /// This member is required.
     public var cacheSubnetGroupName: Swift.String?
@@ -6321,7 +6321,7 @@ extension DeleteCacheSubnetGroupOutput {
     }
 }
 
-public struct DeleteCacheSubnetGroupOutput: Swift.Equatable {
+public struct DeleteCacheSubnetGroupOutput {
 
     public init() { }
 }
@@ -6370,7 +6370,7 @@ extension DeleteGlobalReplicationGroupInput {
     }
 }
 
-public struct DeleteGlobalReplicationGroupInput: Swift.Equatable {
+public struct DeleteGlobalReplicationGroupInput {
     /// The name of the Global datastore
     /// This member is required.
     public var globalReplicationGroupId: Swift.String?
@@ -6401,7 +6401,7 @@ extension DeleteGlobalReplicationGroupOutput {
     }
 }
 
-public struct DeleteGlobalReplicationGroupOutput: Swift.Equatable {
+public struct DeleteGlobalReplicationGroupOutput {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -6465,7 +6465,7 @@ extension DeleteReplicationGroupInput {
 }
 
 /// Represents the input of a DeleteReplicationGroup operation.
-public struct DeleteReplicationGroupInput: Swift.Equatable {
+public struct DeleteReplicationGroupInput {
     /// The name of a final node group (shard) snapshot. ElastiCache creates the snapshot from the primary node in the cluster, rather than one of the replicas; this is to ensure that it captures the freshest data. After the final snapshot is taken, the replication group is immediately deleted.
     public var finalSnapshotIdentifier: Swift.String?
     /// The identifier for the cluster to be deleted. This parameter is not case sensitive.
@@ -6499,7 +6499,7 @@ extension DeleteReplicationGroupOutput {
     }
 }
 
-public struct DeleteReplicationGroupOutput: Swift.Equatable {
+public struct DeleteReplicationGroupOutput {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -6560,7 +6560,7 @@ extension DeleteServerlessCacheInput {
     }
 }
 
-public struct DeleteServerlessCacheInput: Swift.Equatable {
+public struct DeleteServerlessCacheInput {
     /// Name of the final snapshot to be taken before the serverless cache is deleted. Available for Redis only. Default: NULL, i.e. a final snapshot is not taken.
     public var finalSnapshotName: Swift.String?
     /// The identifier of the serverless cache to be deleted.
@@ -6590,7 +6590,7 @@ extension DeleteServerlessCacheOutput {
     }
 }
 
-public struct DeleteServerlessCacheOutput: Swift.Equatable {
+public struct DeleteServerlessCacheOutput {
     /// Provides the details of the specified serverless cache that is about to be deleted.
     public var serverlessCache: ElastiCacheClientTypes.ServerlessCache?
 
@@ -6647,7 +6647,7 @@ extension DeleteServerlessCacheSnapshotInput {
     }
 }
 
-public struct DeleteServerlessCacheSnapshotInput: Swift.Equatable {
+public struct DeleteServerlessCacheSnapshotInput {
     /// Idenfitier of the snapshot to be deleted. Available for Redis only.
     /// This member is required.
     public var serverlessCacheSnapshotName: Swift.String?
@@ -6673,7 +6673,7 @@ extension DeleteServerlessCacheSnapshotOutput {
     }
 }
 
-public struct DeleteServerlessCacheSnapshotOutput: Swift.Equatable {
+public struct DeleteServerlessCacheSnapshotOutput {
     /// The snapshot to be deleted. Available for Redis only.
     public var serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
 
@@ -6728,7 +6728,7 @@ extension DeleteSnapshotInput {
 }
 
 /// Represents the input of a DeleteSnapshot operation.
-public struct DeleteSnapshotInput: Swift.Equatable {
+public struct DeleteSnapshotInput {
     /// The name of the snapshot to be deleted.
     /// This member is required.
     public var snapshotName: Swift.String?
@@ -6754,7 +6754,7 @@ extension DeleteSnapshotOutput {
     }
 }
 
-public struct DeleteSnapshotOutput: Swift.Equatable {
+public struct DeleteSnapshotOutput {
     /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
     public var snapshot: ElastiCacheClientTypes.Snapshot?
 
@@ -6808,7 +6808,7 @@ extension DeleteUserGroupInput {
     }
 }
 
-public struct DeleteUserGroupInput: Swift.Equatable {
+public struct DeleteUserGroupInput {
     /// The ID of the user group.
     /// This member is required.
     public var userGroupId: Swift.String?
@@ -6842,7 +6842,7 @@ extension DeleteUserGroupOutput {
     }
 }
 
-public struct DeleteUserGroupOutput: Swift.Equatable {
+public struct DeleteUserGroupOutput {
     /// The Amazon Resource Name (ARN) of the user group.
     public var arn: Swift.String?
     /// The current supported value is Redis.
@@ -6928,7 +6928,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// The ID of the user.
     /// This member is required.
     public var userId: Swift.String?
@@ -6962,7 +6962,7 @@ extension DeleteUserOutput {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
     /// Access permissions string used for this user.
     public var accessString: Swift.String?
     /// The Amazon Resource Name (ARN) of the user.
@@ -7066,7 +7066,7 @@ extension DescribeCacheClustersInput {
 }
 
 /// Represents the input of a DescribeCacheClusters operation.
-public struct DescribeCacheClustersInput: Swift.Equatable {
+public struct DescribeCacheClustersInput {
     /// The user-supplied cluster identifier. If this parameter is specified, only information about that specific cluster is returned. This parameter isn't case sensitive.
     public var cacheClusterId: Swift.String?
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7109,7 +7109,7 @@ extension DescribeCacheClustersOutput {
 }
 
 /// Represents the output of a DescribeCacheClusters operation.
-public struct DescribeCacheClustersOutput: Swift.Equatable {
+public struct DescribeCacheClustersOutput {
     /// A list of clusters. Each item in the list contains detailed information about one cluster.
     public var cacheClusters: [ElastiCacheClientTypes.CacheCluster]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -7187,7 +7187,7 @@ extension DescribeCacheEngineVersionsInput {
 }
 
 /// Represents the input of a DescribeCacheEngineVersions operation.
-public struct DescribeCacheEngineVersionsInput: Swift.Equatable {
+public struct DescribeCacheEngineVersionsInput {
     /// The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7 Constraints:
     ///
     /// * Must be 1 to 255 alphanumeric characters
@@ -7240,7 +7240,7 @@ extension DescribeCacheEngineVersionsOutput {
 }
 
 /// Represents the output of a [DescribeCacheEngineVersions] operation.
-public struct DescribeCacheEngineVersionsOutput: Swift.Equatable {
+public struct DescribeCacheEngineVersionsOutput {
     /// A list of cache engine version details. Each element in the list contains detailed information about one cache engine version.
     public var cacheEngineVersions: [ElastiCacheClientTypes.CacheEngineVersion]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -7303,7 +7303,7 @@ extension DescribeCacheParameterGroupsInput {
 }
 
 /// Represents the input of a DescribeCacheParameterGroups operation.
-public struct DescribeCacheParameterGroupsInput: Swift.Equatable {
+public struct DescribeCacheParameterGroupsInput {
     /// The name of a specific cache parameter group to return details for.
     public var cacheParameterGroupName: Swift.String?
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7338,7 +7338,7 @@ extension DescribeCacheParameterGroupsOutput {
 }
 
 /// Represents the output of a DescribeCacheParameterGroups operation.
-public struct DescribeCacheParameterGroupsOutput: Swift.Equatable {
+public struct DescribeCacheParameterGroupsOutput {
     /// A list of cache parameter groups. Each element in the list contains detailed information about one cache parameter group.
     public var cacheParameterGroups: [ElastiCacheClientTypes.CacheParameterGroup]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -7408,7 +7408,7 @@ extension DescribeCacheParametersInput {
 }
 
 /// Represents the input of a DescribeCacheParameters operation.
-public struct DescribeCacheParametersInput: Swift.Equatable {
+public struct DescribeCacheParametersInput {
     /// The name of a specific cache parameter group to return details for.
     /// This member is required.
     public var cacheParameterGroupName: Swift.String?
@@ -7449,7 +7449,7 @@ extension DescribeCacheParametersOutput {
 }
 
 /// Represents the output of a DescribeCacheParameters operation.
-public struct DescribeCacheParametersOutput: Swift.Equatable {
+public struct DescribeCacheParametersOutput {
     /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
     public var cacheNodeTypeSpecificParameters: [ElastiCacheClientTypes.CacheNodeTypeSpecificParameter]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -7519,7 +7519,7 @@ extension DescribeCacheSecurityGroupsInput {
 }
 
 /// Represents the input of a DescribeCacheSecurityGroups operation.
-public struct DescribeCacheSecurityGroupsInput: Swift.Equatable {
+public struct DescribeCacheSecurityGroupsInput {
     /// The name of the cache security group to return details for.
     public var cacheSecurityGroupName: Swift.String?
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7554,7 +7554,7 @@ extension DescribeCacheSecurityGroupsOutput {
 }
 
 /// Represents the output of a DescribeCacheSecurityGroups operation.
-public struct DescribeCacheSecurityGroupsOutput: Swift.Equatable {
+public struct DescribeCacheSecurityGroupsOutput {
     /// A list of cache security groups. Each element in the list contains detailed information about one group.
     public var cacheSecurityGroups: [ElastiCacheClientTypes.CacheSecurityGroup]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -7620,7 +7620,7 @@ extension DescribeCacheSubnetGroupsInput {
 }
 
 /// Represents the input of a DescribeCacheSubnetGroups operation.
-public struct DescribeCacheSubnetGroupsInput: Swift.Equatable {
+public struct DescribeCacheSubnetGroupsInput {
     /// The name of the cache subnet group to return details for.
     public var cacheSubnetGroupName: Swift.String?
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7655,7 +7655,7 @@ extension DescribeCacheSubnetGroupsOutput {
 }
 
 /// Represents the output of a DescribeCacheSubnetGroups operation.
-public struct DescribeCacheSubnetGroupsOutput: Swift.Equatable {
+public struct DescribeCacheSubnetGroupsOutput {
     /// A list of cache subnet groups. Each element in the list contains detailed information about one group.
     public var cacheSubnetGroups: [ElastiCacheClientTypes.CacheSubnetGroup]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -7719,7 +7719,7 @@ extension DescribeEngineDefaultParametersInput {
 }
 
 /// Represents the input of a DescribeEngineDefaultParameters operation.
-public struct DescribeEngineDefaultParametersInput: Swift.Equatable {
+public struct DescribeEngineDefaultParametersInput {
     /// The name of the cache parameter group family. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7
     /// This member is required.
     public var cacheParameterGroupFamily: Swift.String?
@@ -7753,7 +7753,7 @@ extension DescribeEngineDefaultParametersOutput {
     }
 }
 
-public struct DescribeEngineDefaultParametersOutput: Swift.Equatable {
+public struct DescribeEngineDefaultParametersOutput {
     /// Represents the output of a DescribeEngineDefaultParameters operation.
     public var engineDefaults: ElastiCacheClientTypes.EngineDefaults?
 
@@ -7830,7 +7830,7 @@ extension DescribeEventsInput {
 }
 
 /// Represents the input of a DescribeEvents operation.
-public struct DescribeEventsInput: Swift.Equatable {
+public struct DescribeEventsInput {
     /// The number of minutes worth of events to retrieve.
     public var duration: Swift.Int?
     /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. Example: 2017-03-30T07:03:49.555Z
@@ -7881,7 +7881,7 @@ extension DescribeEventsOutput {
 }
 
 /// Represents the output of a DescribeEvents operation.
-public struct DescribeEventsOutput: Swift.Equatable {
+public struct DescribeEventsOutput {
     /// A list of events. Each element in the list contains detailed information about one event.
     public var events: [ElastiCacheClientTypes.Event]?
     /// Provides an identifier to allow retrieval of paginated results.
@@ -7949,7 +7949,7 @@ extension DescribeGlobalReplicationGroupsInput {
     }
 }
 
-public struct DescribeGlobalReplicationGroupsInput: Swift.Equatable {
+public struct DescribeGlobalReplicationGroupsInput {
     /// The name of the Global datastore
     public var globalReplicationGroupId: Swift.String?
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7987,7 +7987,7 @@ extension DescribeGlobalReplicationGroupsOutput {
     }
 }
 
-public struct DescribeGlobalReplicationGroupsOutput: Swift.Equatable {
+public struct DescribeGlobalReplicationGroupsOutput {
     /// Indicates the slot configuration and global identifier for each slice group.
     public var globalReplicationGroups: [ElastiCacheClientTypes.GlobalReplicationGroup]?
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
@@ -8053,7 +8053,7 @@ extension DescribeReplicationGroupsInput {
 }
 
 /// Represents the input of a DescribeReplicationGroups operation.
-public struct DescribeReplicationGroupsInput: Swift.Equatable {
+public struct DescribeReplicationGroupsInput {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
@@ -8088,7 +8088,7 @@ extension DescribeReplicationGroupsOutput {
 }
 
 /// Represents the output of a DescribeReplicationGroups operation.
-public struct DescribeReplicationGroupsOutput: Swift.Equatable {
+public struct DescribeReplicationGroupsOutput {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
     /// A list of replication groups. Each item in the list contains detailed information about one replication group.
@@ -8174,7 +8174,7 @@ extension DescribeReservedCacheNodesInput {
 }
 
 /// Represents the input of a DescribeReservedCacheNodes operation.
-public struct DescribeReservedCacheNodesInput: Swift.Equatable {
+public struct DescribeReservedCacheNodesInput {
     /// The cache node type filter value. Use this parameter to show only those reservations matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.
     ///
     /// * General purpose:
@@ -8300,7 +8300,7 @@ extension DescribeReservedCacheNodesOfferingsInput {
 }
 
 /// Represents the input of a DescribeReservedCacheNodesOfferings operation.
-public struct DescribeReservedCacheNodesOfferingsInput: Swift.Equatable {
+public struct DescribeReservedCacheNodesOfferingsInput {
     /// The cache node type filter value. Use this parameter to show only the available offerings matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.
     ///
     /// * General purpose:
@@ -8390,7 +8390,7 @@ extension DescribeReservedCacheNodesOfferingsOutput {
 }
 
 /// Represents the output of a DescribeReservedCacheNodesOfferings operation.
-public struct DescribeReservedCacheNodesOfferingsOutput: Swift.Equatable {
+public struct DescribeReservedCacheNodesOfferingsOutput {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
     /// A list of reserved cache node offerings. Each element in the list contains detailed information about one offering.
@@ -8440,7 +8440,7 @@ extension DescribeReservedCacheNodesOutput {
 }
 
 /// Represents the output of a DescribeReservedCacheNodes operation.
-public struct DescribeReservedCacheNodesOutput: Swift.Equatable {
+public struct DescribeReservedCacheNodesOutput {
     /// Provides an identifier to allow retrieval of paginated results.
     public var marker: Swift.String?
     /// A list of reserved cache nodes. Each element in the list contains detailed information about one node.
@@ -8513,7 +8513,7 @@ extension DescribeServerlessCacheSnapshotsInput {
     }
 }
 
-public struct DescribeServerlessCacheSnapshotsInput: Swift.Equatable {
+public struct DescribeServerlessCacheSnapshotsInput {
     /// The maximum number of records to include in the response. If more records exist than the specified max-results value, a market is included in the response so that remaining results can be retrieved. Available for Redis only.The default is 50. The Validation Constraints are a maximum of 50.
     public var maxResults: Swift.Int?
     /// An optional marker returned from a prior request to support pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by max-results. Available for Redis only.
@@ -8555,7 +8555,7 @@ extension DescribeServerlessCacheSnapshotsOutput {
     }
 }
 
-public struct DescribeServerlessCacheSnapshotsOutput: Swift.Equatable {
+public struct DescribeServerlessCacheSnapshotsOutput {
     /// An optional marker returned from a prior request to support pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by max-results. Available for Redis only.
     public var nextToken: Swift.String?
     /// The serverless caches snapshots associated with a given description request. Available for Redis only.
@@ -8621,7 +8621,7 @@ extension DescribeServerlessCachesInput {
     }
 }
 
-public struct DescribeServerlessCachesInput: Swift.Equatable {
+public struct DescribeServerlessCachesInput {
     /// The maximum number of records in the response. If more records exist than the specified max-records value, the next token is included in the response so that remaining results can be retrieved. The default is 50.
     public var maxResults: Swift.Int?
     /// An optional marker returned from a prior request to support pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxResults.
@@ -8655,7 +8655,7 @@ extension DescribeServerlessCachesOutput {
     }
 }
 
-public struct DescribeServerlessCachesOutput: Swift.Equatable {
+public struct DescribeServerlessCachesOutput {
     /// An optional marker returned from a prior request to support pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// The serverless caches associated with a given description request.
@@ -8733,7 +8733,7 @@ extension DescribeServiceUpdatesInput {
     }
 }
 
-public struct DescribeServiceUpdatesInput: Swift.Equatable {
+public struct DescribeServiceUpdatesInput {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The maximum number of records to include in the response
@@ -8771,7 +8771,7 @@ extension DescribeServiceUpdatesOutput {
     }
 }
 
-public struct DescribeServiceUpdatesOutput: Swift.Equatable {
+public struct DescribeServiceUpdatesOutput {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// A list of service updates
@@ -8853,7 +8853,7 @@ extension DescribeSnapshotsInput {
 }
 
 /// Represents the input of a DescribeSnapshotsMessage operation.
-public struct DescribeSnapshotsInput: Swift.Equatable {
+public struct DescribeSnapshotsInput {
     /// A user-supplied cluster identifier. If this parameter is specified, only snapshots associated with that specific cluster are described.
     public var cacheClusterId: Swift.String?
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8904,7 +8904,7 @@ extension DescribeSnapshotsOutput {
 }
 
 /// Represents the output of a DescribeSnapshots operation.
-public struct DescribeSnapshotsOutput: Swift.Equatable {
+public struct DescribeSnapshotsOutput {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// A list of snapshots. Each item in the list contains detailed information about one snapshot.
@@ -9034,7 +9034,7 @@ extension DescribeUpdateActionsInput {
     }
 }
 
-public struct DescribeUpdateActionsInput: Swift.Equatable {
+public struct DescribeUpdateActionsInput {
     /// The cache cluster IDs
     public var cacheClusterIds: [Swift.String]?
     /// The Elasticache engine to which the update applies. Either Redis or Memcached
@@ -9096,7 +9096,7 @@ extension DescribeUpdateActionsOutput {
     }
 }
 
-public struct DescribeUpdateActionsOutput: Swift.Equatable {
+public struct DescribeUpdateActionsOutput {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// Returns a list of update actions
@@ -9160,7 +9160,7 @@ extension DescribeUserGroupsInput {
     }
 }
 
-public struct DescribeUserGroupsInput: Swift.Equatable {
+public struct DescribeUserGroupsInput {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
     public var marker: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
@@ -9194,7 +9194,7 @@ extension DescribeUserGroupsOutput {
     }
 }
 
-public struct DescribeUserGroupsOutput: Swift.Equatable {
+public struct DescribeUserGroupsOutput {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
     public var marker: Swift.String?
     /// Returns a list of user groups.
@@ -9276,7 +9276,7 @@ extension DescribeUsersInput {
     }
 }
 
-public struct DescribeUsersInput: Swift.Equatable {
+public struct DescribeUsersInput {
     /// The Redis engine.
     public var engine: Swift.String?
     /// Filter to determine the list of User IDs to return.
@@ -9318,7 +9318,7 @@ extension DescribeUsersOutput {
     }
 }
 
-public struct DescribeUsersOutput: Swift.Equatable {
+public struct DescribeUsersOutput {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
     public var marker: Swift.String?
     /// A list of users.
@@ -9382,7 +9382,7 @@ extension ElastiCacheClientTypes.DestinationDetails: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination.
-    public struct DestinationDetails: Swift.Equatable {
+    public struct DestinationDetails {
         /// The configuration details of the CloudWatch Logs destination.
         public var cloudWatchLogsDetails: ElastiCacheClientTypes.CloudWatchLogsDestinationDetails?
         /// The configuration details of the Kinesis Data Firehose destination.
@@ -9462,7 +9462,7 @@ extension DisassociateGlobalReplicationGroupInput {
     }
 }
 
-public struct DisassociateGlobalReplicationGroupInput: Swift.Equatable {
+public struct DisassociateGlobalReplicationGroupInput {
     /// The name of the Global datastore
     /// This member is required.
     public var globalReplicationGroupId: Swift.String?
@@ -9498,7 +9498,7 @@ extension DisassociateGlobalReplicationGroupOutput {
     }
 }
 
-public struct DisassociateGlobalReplicationGroupOutput: Swift.Equatable {
+public struct DisassociateGlobalReplicationGroupOutput {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -9602,7 +9602,7 @@ extension ElastiCacheClientTypes.EC2SecurityGroup: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Provides ownership and status information for an Amazon EC2 security group.
-    public struct EC2SecurityGroup: Swift.Equatable {
+    public struct EC2SecurityGroup {
         /// The name of the Amazon EC2 security group.
         public var ec2SecurityGroupName: Swift.String?
         /// The Amazon account ID of the Amazon EC2 security group owner.
@@ -9653,7 +9653,7 @@ extension ElastiCacheClientTypes.ECPUPerSecond: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
-    public struct ECPUPerSecond: Swift.Equatable {
+    public struct ECPUPerSecond {
         /// The configuration for the maximum number of ECPUs the cache can consume per second.
         public var maximum: Swift.Int?
         /// The configuration for the minimum number of ECPUs the cache should be able consume per second.
@@ -9702,7 +9702,7 @@ extension ElastiCacheClientTypes.Endpoint: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents the information required for client programs to connect to a cache node. This value is read-only.
-    public struct Endpoint: Swift.Equatable {
+    public struct Endpoint {
         /// The DNS hostname of the cache node.
         public var address: Swift.String?
         /// The port number that the cache engine is listening on.
@@ -9777,7 +9777,7 @@ extension ElastiCacheClientTypes.EngineDefaults: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents the output of a DescribeEngineDefaultParameters operation.
-    public struct EngineDefaults: Swift.Equatable {
+    public struct EngineDefaults : Swift.Equatable {
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
         public var cacheNodeTypeSpecificParameters: [ElastiCacheClientTypes.CacheNodeTypeSpecificParameter]?
         /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | redis6.x | redis7
@@ -9842,7 +9842,7 @@ extension ElastiCacheClientTypes.Event: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents a single occurrence of something interesting within the system. Some examples of events are creating a cluster, adding or removing a cache node, or rebooting a node.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// The date and time when the event occurred.
         public var date: ClientRuntime.Date?
         /// The text of the event.
@@ -9894,7 +9894,7 @@ extension ExportServerlessCacheSnapshotInput {
     }
 }
 
-public struct ExportServerlessCacheSnapshotInput: Swift.Equatable {
+public struct ExportServerlessCacheSnapshotInput {
     /// Name of the Amazon S3 bucket to export the snapshot to. The Amazon S3 bucket must also be in same region as the snapshot. Available for Redis only.
     /// This member is required.
     public var s3BucketName: Swift.String?
@@ -9925,7 +9925,7 @@ extension ExportServerlessCacheSnapshotOutput {
     }
 }
 
-public struct ExportServerlessCacheSnapshotOutput: Swift.Equatable {
+public struct ExportServerlessCacheSnapshotOutput {
     /// The state of a serverless cache at a specific point in time, to the millisecond. Available for Redis only.
     public var serverlessCacheSnapshot: ElastiCacheClientTypes.ServerlessCacheSnapshot?
 
@@ -9987,7 +9987,7 @@ extension FailoverGlobalReplicationGroupInput {
     }
 }
 
-public struct FailoverGlobalReplicationGroupInput: Swift.Equatable {
+public struct FailoverGlobalReplicationGroupInput {
     /// The name of the Global datastore
     /// This member is required.
     public var globalReplicationGroupId: Swift.String?
@@ -10023,7 +10023,7 @@ extension FailoverGlobalReplicationGroupOutput {
     }
 }
 
-public struct FailoverGlobalReplicationGroupOutput: Swift.Equatable {
+public struct FailoverGlobalReplicationGroupOutput {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -10095,7 +10095,7 @@ extension ElastiCacheClientTypes.Filter: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Used to streamline results of a search based on the property being filtered.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The property being filtered. For example, UserId.
         /// This member is required.
         public var name: Swift.String?
@@ -10144,7 +10144,7 @@ extension ElastiCacheClientTypes.GlobalNodeGroup: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Indicates the slot configuration and global identifier for a slice group.
-    public struct GlobalNodeGroup: Swift.Equatable {
+    public struct GlobalNodeGroup {
         /// The name of the global node group
         public var globalNodeGroupId: Swift.String?
         /// The keyspace for this node group
@@ -10266,7 +10266,7 @@ extension ElastiCacheClientTypes {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
-    public struct GlobalReplicationGroup: Swift.Equatable {
+    public struct GlobalReplicationGroup {
         /// The ARN (Amazon Resource Name) of the global replication group.
         public var arn: Swift.String?
         /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later.
@@ -10393,7 +10393,7 @@ extension ElastiCacheClientTypes.GlobalReplicationGroupInfo: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The name of the Global datastore and role of this replication group in the Global datastore.
-    public struct GlobalReplicationGroupInfo: Swift.Equatable {
+    public struct GlobalReplicationGroupInfo {
         /// The name of the Global datastore
         public var globalReplicationGroupId: Swift.String?
         /// The role of the replication group in a Global datastore. Can be primary or secondary.
@@ -10455,7 +10455,7 @@ extension ElastiCacheClientTypes.GlobalReplicationGroupMember: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// A member of a Global datastore. It contains the Replication Group Id, the Amazon region and the role of the replication group.
-    public struct GlobalReplicationGroupMember: Swift.Equatable {
+    public struct GlobalReplicationGroupMember {
         /// Indicates whether automatic failover is enabled for the replication group.
         public var automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus?
         /// The replication group id of the Global datastore member.
@@ -10564,7 +10564,7 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupInput {
     }
 }
 
-public struct IncreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Equatable {
+public struct IncreaseNodeGroupsInGlobalReplicationGroupInput {
     /// Indicates that the process begins immediately. At present, the only permitted value for this parameter is true.
     /// This member is required.
     public var applyImmediately: Swift.Bool?
@@ -10604,7 +10604,7 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupOutput {
     }
 }
 
-public struct IncreaseNodeGroupsInGlobalReplicationGroupOutput: Swift.Equatable {
+public struct IncreaseNodeGroupsInGlobalReplicationGroupOutput {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -10680,7 +10680,7 @@ extension IncreaseReplicaCountInput {
     }
 }
 
-public struct IncreaseReplicaCountInput: Swift.Equatable {
+public struct IncreaseReplicaCountInput {
     /// If True, the number of replica nodes is increased immediately. ApplyImmediately=False is not currently supported.
     /// This member is required.
     public var applyImmediately: Swift.Bool?
@@ -10719,7 +10719,7 @@ extension IncreaseReplicaCountOutput {
     }
 }
 
-public struct IncreaseReplicaCountOutput: Swift.Equatable {
+public struct IncreaseReplicaCountOutput {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -11500,7 +11500,7 @@ extension ElastiCacheClientTypes.KinesisFirehoseDestinationDetails: Swift.Encoda
 
 extension ElastiCacheClientTypes {
     /// The configuration details of the Kinesis Data Firehose destination.
-    public struct KinesisFirehoseDestinationDetails: Swift.Equatable {
+    public struct KinesisFirehoseDestinationDetails {
         /// The name of the Kinesis Data Firehose delivery stream.
         public var deliveryStream: Swift.String?
 
@@ -11541,7 +11541,7 @@ extension ListAllowedNodeTypeModificationsInput {
 }
 
 /// The input parameters for the ListAllowedNodeTypeModifications operation.
-public struct ListAllowedNodeTypeModificationsInput: Swift.Equatable {
+public struct ListAllowedNodeTypeModificationsInput {
     /// The name of the cluster you want to scale up to a larger node instanced type. ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to. You must provide a value for either the CacheClusterId or the ReplicationGroupId.
     public var cacheClusterId: Swift.String?
     /// The name of the replication group want to scale up to a larger node type. ElastiCache uses the replication group id to identify the current node type being used by this replication group, and from that to create a list of node types you can scale up to. You must provide a value for either the CacheClusterId or the ReplicationGroupId.
@@ -11572,7 +11572,7 @@ extension ListAllowedNodeTypeModificationsOutput {
 }
 
 /// Represents the allowed node types you can use to modify your cluster or replication group.
-public struct ListAllowedNodeTypeModificationsOutput: Swift.Equatable {
+public struct ListAllowedNodeTypeModificationsOutput {
     /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling down a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
     public var scaleDownModifications: [Swift.String]?
     /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
@@ -11631,7 +11631,7 @@ extension ListTagsForResourceInput {
 }
 
 /// The input parameters for the ListTagsForResource operation.
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
     /// This member is required.
     public var resourceName: Swift.String?
@@ -11658,7 +11658,7 @@ extension ListTagsForResourceOutput {
 }
 
 /// Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags as key-value pairs.
     public var tagList: [ElastiCacheClientTypes.Tag]?
 
@@ -11750,7 +11750,7 @@ extension ElastiCacheClientTypes.LogDeliveryConfiguration: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Returns the destination, format and type of the logs.
-    public struct LogDeliveryConfiguration: Swift.Equatable {
+    public struct LogDeliveryConfiguration {
         /// Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination.
         public var destinationDetails: ElastiCacheClientTypes.DestinationDetails?
         /// Returns the destination type, either cloudwatch-logs or kinesis-firehose.
@@ -11828,7 +11828,7 @@ extension ElastiCacheClientTypes.LogDeliveryConfigurationRequest: Swift.Encodabl
 
 extension ElastiCacheClientTypes {
     /// Specifies the destination, format and type of the logs.
-    public struct LogDeliveryConfigurationRequest: Swift.Equatable {
+    public struct LogDeliveryConfigurationRequest {
         /// Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination.
         public var destinationDetails: ElastiCacheClientTypes.DestinationDetails?
         /// Specify either cloudwatch-logs or kinesis-firehose as the destination type.
@@ -12111,7 +12111,7 @@ extension ModifyCacheClusterInput {
 }
 
 /// Represents the input of a ModifyCacheCluster operation.
-public struct ModifyCacheClusterInput: Swift.Equatable {
+public struct ModifyCacheClusterInput {
     /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification. Valid values: true | false Default: false
     public var applyImmediately: Swift.Bool?
     /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update parameter. Password constraints:
@@ -12300,7 +12300,7 @@ extension ModifyCacheClusterOutput {
     }
 }
 
-public struct ModifyCacheClusterOutput: Swift.Equatable {
+public struct ModifyCacheClusterOutput {
     /// Contains all of the attributes of a specific cluster.
     public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
 
@@ -12375,7 +12375,7 @@ extension ModifyCacheParameterGroupInput {
 }
 
 /// Represents the input of a ModifyCacheParameterGroup operation.
-public struct ModifyCacheParameterGroupInput: Swift.Equatable {
+public struct ModifyCacheParameterGroupInput {
     /// The name of the cache parameter group to modify.
     /// This member is required.
     public var cacheParameterGroupName: Swift.String?
@@ -12411,7 +12411,7 @@ extension ModifyCacheParameterGroupOutput {
 /// * ModifyCacheParameterGroup
 ///
 /// * ResetCacheParameterGroup
-public struct ModifyCacheParameterGroupOutput: Swift.Equatable {
+public struct ModifyCacheParameterGroupOutput {
     /// The name of the cache parameter group.
     public var cacheParameterGroupName: Swift.String?
 
@@ -12484,7 +12484,7 @@ extension ModifyCacheSubnetGroupInput {
 }
 
 /// Represents the input of a ModifyCacheSubnetGroup operation.
-public struct ModifyCacheSubnetGroupInput: Swift.Equatable {
+public struct ModifyCacheSubnetGroupInput {
     /// A description of the cache subnet group.
     public var cacheSubnetGroupDescription: Swift.String?
     /// The name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup
@@ -12518,7 +12518,7 @@ extension ModifyCacheSubnetGroupOutput {
     }
 }
 
-public struct ModifyCacheSubnetGroupOutput: Swift.Equatable {
+public struct ModifyCacheSubnetGroupOutput {
     /// Represents the output of one of the following operations:
     ///
     /// * CreateCacheSubnetGroup
@@ -12601,7 +12601,7 @@ extension ModifyGlobalReplicationGroupInput {
     }
 }
 
-public struct ModifyGlobalReplicationGroupInput: Swift.Equatable {
+public struct ModifyGlobalReplicationGroupInput {
     /// This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global Replication Groups cannot be requested to be applied in PreferredMaintenceWindow.
     /// This member is required.
     public var applyImmediately: Swift.Bool?
@@ -12652,7 +12652,7 @@ extension ModifyGlobalReplicationGroupOutput {
     }
 }
 
-public struct ModifyGlobalReplicationGroupOutput: Swift.Equatable {
+public struct ModifyGlobalReplicationGroupOutput {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -12865,7 +12865,7 @@ extension ModifyReplicationGroupInput {
 }
 
 /// Represents the input of a ModifyReplicationGroups operation.
-public struct ModifyReplicationGroupInput: Swift.Equatable {
+public struct ModifyReplicationGroupInput {
     /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false Default: false
     public var applyImmediately: Swift.Bool?
     /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update-strategy  parameter. Password constraints:
@@ -13037,7 +13037,7 @@ extension ModifyReplicationGroupOutput {
     }
 }
 
-public struct ModifyReplicationGroupOutput: Swift.Equatable {
+public struct ModifyReplicationGroupOutput {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -13151,7 +13151,7 @@ extension ModifyReplicationGroupShardConfigurationInput {
 }
 
 /// Represents the input for a ModifyReplicationGroupShardConfiguration operation.
-public struct ModifyReplicationGroupShardConfigurationInput: Swift.Equatable {
+public struct ModifyReplicationGroupShardConfigurationInput {
     /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true. Value: true
     /// This member is required.
     public var applyImmediately: Swift.Bool?
@@ -13199,7 +13199,7 @@ extension ModifyReplicationGroupShardConfigurationOutput {
     }
 }
 
-public struct ModifyReplicationGroupShardConfigurationOutput: Swift.Equatable {
+public struct ModifyReplicationGroupShardConfigurationOutput {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -13296,7 +13296,7 @@ extension ModifyServerlessCacheInput {
     }
 }
 
-public struct ModifyServerlessCacheInput: Swift.Equatable {
+public struct ModifyServerlessCacheInput {
     /// Modify the cache usage limit for the serverless cache.
     public var cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
     /// The daily time during which Elasticache begins taking a daily snapshot of the serverless cache. Available for Redis only. The default is NULL, i.e. the existing snapshot time configured for the cluster is not removed.
@@ -13350,7 +13350,7 @@ extension ModifyServerlessCacheOutput {
     }
 }
 
-public struct ModifyServerlessCacheOutput: Swift.Equatable {
+public struct ModifyServerlessCacheOutput {
     /// The response for the attempt to modify the serverless cache.
     public var serverlessCache: ElastiCacheClientTypes.ServerlessCache?
 
@@ -13434,7 +13434,7 @@ extension ModifyUserGroupInput {
     }
 }
 
-public struct ModifyUserGroupInput: Swift.Equatable {
+public struct ModifyUserGroupInput {
     /// The ID of the user group.
     /// This member is required.
     public var userGroupId: Swift.String?
@@ -13476,7 +13476,7 @@ extension ModifyUserGroupOutput {
     }
 }
 
-public struct ModifyUserGroupOutput: Swift.Equatable {
+public struct ModifyUserGroupOutput {
     /// The Amazon Resource Name (ARN) of the user group.
     public var arn: Swift.String?
     /// The current supported value is Redis.
@@ -13595,7 +13595,7 @@ extension ModifyUserInput {
     }
 }
 
-public struct ModifyUserInput: Swift.Equatable {
+public struct ModifyUserInput {
     /// Access permissions string used for this user.
     public var accessString: Swift.String?
     /// Adds additional user permissions to the access string.
@@ -13649,7 +13649,7 @@ extension ModifyUserOutput {
     }
 }
 
-public struct ModifyUserOutput: Swift.Equatable {
+public struct ModifyUserOutput {
     /// Access permissions string used for this user.
     public var accessString: Swift.String?
     /// The Amazon Resource Name (ARN) of the user.
@@ -13875,7 +13875,7 @@ extension ElastiCacheClientTypes.NodeGroup: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents a collection of cache nodes in a replication group. One node in the node group is the read/write primary node. All the other nodes are read-only Replica nodes.
-    public struct NodeGroup: Swift.Equatable {
+    public struct NodeGroup {
         /// The identifier for the node group (shard). A Redis (cluster mode disabled) replication group contains only 1 node group; therefore, the node group ID is 0001. A Redis (cluster mode enabled) replication group contains 1 to 90 node groups numbered 0001 to 0090. Optionally, the user can provide the id for a node group.
         public var nodeGroupId: Swift.String?
         /// A list containing information about individual nodes within the node group (shard).
@@ -13981,7 +13981,7 @@ extension ElastiCacheClientTypes.NodeGroupConfiguration: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Node group (shard) configuration options. Each node group (shard) configuration has the following: Slots, PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount.
-    public struct NodeGroupConfiguration: Swift.Equatable {
+    public struct NodeGroupConfiguration {
         /// Either the ElastiCache for Redis supplied 4-digit id or a user supplied id for the node group these configuration values apply to.
         public var nodeGroupId: Swift.String?
         /// The Availability Zone where the primary node of this node group (shard) is launched.
@@ -14068,7 +14068,7 @@ extension ElastiCacheClientTypes.NodeGroupMember: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents a single node within a node group (shard).
-    public struct NodeGroupMember: Swift.Equatable {
+    public struct NodeGroupMember {
         /// The ID of the cluster to which the node belongs.
         public var cacheClusterId: Swift.String?
         /// The ID of the node within its cluster. A node ID is a numeric identifier (0001, 0002, etc.).
@@ -14166,7 +14166,7 @@ extension ElastiCacheClientTypes.NodeGroupMemberUpdateStatus: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The status of the service update on the node group member
-    public struct NodeGroupMemberUpdateStatus: Swift.Equatable {
+    public struct NodeGroupMemberUpdateStatus {
         /// The cache cluster ID
         public var cacheClusterId: Swift.String?
         /// The node ID of the cache cluster
@@ -14286,7 +14286,7 @@ extension ElastiCacheClientTypes.NodeGroupUpdateStatus: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The status of the service update on the node group
-    public struct NodeGroupUpdateStatus: Swift.Equatable {
+    public struct NodeGroupUpdateStatus {
         /// The ID of the node group
         public var nodeGroupId: Swift.String?
         /// The status of the service update on the node group member
@@ -14466,7 +14466,7 @@ extension ElastiCacheClientTypes.NodeSnapshot: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents an individual cache node in a snapshot of a cluster.
-    public struct NodeSnapshot: Swift.Equatable {
+    public struct NodeSnapshot {
         /// A unique identifier for the source cluster.
         public var cacheClusterId: Swift.String?
         /// The date and time when the cache node was created in the source cluster.
@@ -14609,7 +14609,7 @@ extension ElastiCacheClientTypes.NotificationConfiguration: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Describes a notification topic and its status. Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS).
-    public struct NotificationConfiguration: Swift.Equatable {
+    public struct NotificationConfiguration {
         /// The Amazon Resource Name (ARN) that identifies the topic.
         public var topicArn: Swift.String?
         /// The current state of the topic.
@@ -14723,7 +14723,7 @@ extension ElastiCacheClientTypes.Parameter: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Describes an individual setting that controls some aspect of ElastiCache behavior.
-    public struct Parameter: Swift.Equatable {
+    public struct Parameter : Swift.Equatable {
         /// The valid range of values for the parameter.
         public var allowedValues: Swift.String?
         /// Indicates whether a change to the parameter is applied immediately or requires a reboot for the change to be applied. You can force a reboot or wait until the next maintenance window's reboot. For more information, see [Rebooting a Cluster](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.Rebooting.html).
@@ -14798,7 +14798,7 @@ extension ElastiCacheClientTypes.ParameterNameValue: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Describes a name-value pair that is used to update the value of a parameter.
-    public struct ParameterNameValue: Swift.Equatable {
+    public struct ParameterNameValue {
         /// The name of the parameter.
         public var parameterName: Swift.String?
         /// The value of the parameter.
@@ -14887,7 +14887,7 @@ extension ElastiCacheClientTypes.PendingLogDeliveryConfiguration: Swift.Encodabl
 
 extension ElastiCacheClientTypes {
     /// The log delivery configurations being modified
-    public struct PendingLogDeliveryConfiguration: Swift.Equatable {
+    public struct PendingLogDeliveryConfiguration {
         /// Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination.
         public var destinationDetails: ElastiCacheClientTypes.DestinationDetails?
         /// Returns the destination type, either CloudWatch Logs or Kinesis Data Firehose.
@@ -14990,7 +14990,7 @@ extension ElastiCacheClientTypes.PendingModifiedValues: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// A group of settings that are applied to the cluster in the future, or that are currently being applied.
-    public struct PendingModifiedValues: Swift.Equatable {
+    public struct PendingModifiedValues {
         /// The auth token status
         public var authTokenStatus: ElastiCacheClientTypes.AuthTokenUpdateStatus?
         /// A list of cache node IDs that are being removed (or will be removed) from the cluster. A node ID is a 4-digit numeric identifier (0001, 0002, etc.).
@@ -15071,7 +15071,7 @@ extension ElastiCacheClientTypes.ProcessedUpdateAction: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Update action that has been processed for the corresponding apply/stop request
-    public struct ProcessedUpdateAction: Swift.Equatable {
+    public struct ProcessedUpdateAction {
         /// The ID of the cache cluster
         public var cacheClusterId: Swift.String?
         /// The ID of the replication group
@@ -15141,7 +15141,7 @@ extension PurchaseReservedCacheNodesOfferingInput {
 }
 
 /// Represents the input of a PurchaseReservedCacheNodesOffering operation.
-public struct PurchaseReservedCacheNodesOfferingInput: Swift.Equatable {
+public struct PurchaseReservedCacheNodesOfferingInput {
     /// The number of cache node instances to reserve. Default: 1
     public var cacheNodeCount: Swift.Int?
     /// A customer-specified identifier to track this reservation. The Reserved Cache Node ID is an unique customer-specified identifier to track this reservation. If this parameter is not specified, ElastiCache automatically generates an identifier for the reservation. Example: myreservationID
@@ -15179,7 +15179,7 @@ extension PurchaseReservedCacheNodesOfferingOutput {
     }
 }
 
-public struct PurchaseReservedCacheNodesOfferingOutput: Swift.Equatable {
+public struct PurchaseReservedCacheNodesOfferingOutput {
     /// Represents the output of a PurchaseReservedCacheNodesOffering operation.
     public var reservedCacheNode: ElastiCacheClientTypes.ReservedCacheNode?
 
@@ -15239,7 +15239,7 @@ extension RebalanceSlotsInGlobalReplicationGroupInput {
     }
 }
 
-public struct RebalanceSlotsInGlobalReplicationGroupInput: Swift.Equatable {
+public struct RebalanceSlotsInGlobalReplicationGroupInput {
     /// If True, redistribution is applied immediately.
     /// This member is required.
     public var applyImmediately: Swift.Bool?
@@ -15270,7 +15270,7 @@ extension RebalanceSlotsInGlobalReplicationGroupOutput {
     }
 }
 
-public struct RebalanceSlotsInGlobalReplicationGroupOutput: Swift.Equatable {
+public struct RebalanceSlotsInGlobalReplicationGroupOutput {
     /// Consists of a primary cluster that accepts writes and an associated secondary cluster that resides in a different Amazon region. The secondary cluster accepts only reads. The primary cluster automatically replicates updates to the secondary cluster.
     ///
     /// * The GlobalReplicationGroupIdSuffix represents the name of the Global datastore, which is what you use to associate a secondary cluster.
@@ -15339,7 +15339,7 @@ extension RebootCacheClusterInput {
 }
 
 /// Represents the input of a RebootCacheCluster operation.
-public struct RebootCacheClusterInput: Swift.Equatable {
+public struct RebootCacheClusterInput {
     /// The cluster identifier. This parameter is stored as a lowercase string.
     /// This member is required.
     public var cacheClusterId: Swift.String?
@@ -15370,7 +15370,7 @@ extension RebootCacheClusterOutput {
     }
 }
 
-public struct RebootCacheClusterOutput: Swift.Equatable {
+public struct RebootCacheClusterOutput {
     /// Contains all of the attributes of a specific cluster.
     public var cacheCluster: ElastiCacheClientTypes.CacheCluster?
 
@@ -15429,7 +15429,7 @@ extension ElastiCacheClientTypes.RecurringCharge: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Contains the specific price and frequency of a recurring charges for a reserved cache node, or for a reserved cache node offering.
-    public struct RecurringCharge: Swift.Equatable {
+    public struct RecurringCharge {
         /// The monetary amount of the recurring charge.
         public var recurringChargeAmount: Swift.Double?
         /// The frequency of the recurring charge.
@@ -15490,7 +15490,7 @@ extension ElastiCacheClientTypes.RegionalConfiguration: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// A list of the replication groups
-    public struct RegionalConfiguration: Swift.Equatable {
+    public struct RegionalConfiguration {
         /// The name of the secondary cluster
         /// This member is required.
         public var replicationGroupId: Swift.String?
@@ -15551,7 +15551,7 @@ extension RemoveTagsFromResourceInput {
 }
 
 /// Represents the input of a RemoveTagsFromResource operation.
-public struct RemoveTagsFromResourceInput: Swift.Equatable {
+public struct RemoveTagsFromResourceInput {
     /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
     /// This member is required.
     public var resourceName: Swift.String?
@@ -15583,7 +15583,7 @@ extension RemoveTagsFromResourceOutput {
 }
 
 /// Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
-public struct RemoveTagsFromResourceOutput: Swift.Equatable {
+public struct RemoveTagsFromResourceOutput {
     /// A list of tags as key-value pairs.
     public var tagList: [ElastiCacheClientTypes.Tag]?
 
@@ -15846,7 +15846,7 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Contains all of the attributes of a specific Redis replication group.
-    public struct ReplicationGroup: Swift.Equatable {
+    public struct ReplicationGroup {
         /// The ARN (Amazon Resource Name) of the replication group.
         public var arn: Swift.String?
         /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable encryption at-rest on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
@@ -16197,7 +16197,7 @@ extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues: Swift.En
 
 extension ElastiCacheClientTypes {
     /// The settings to be applied to the Redis replication group, either immediately or during the next maintenance window.
-    public struct ReplicationGroupPendingModifiedValues: Swift.Equatable {
+    public struct ReplicationGroupPendingModifiedValues {
         /// The auth token status
         public var authTokenStatus: ElastiCacheClientTypes.AuthTokenUpdateStatus?
         /// Indicates the status of automatic failover for this Redis replication group.
@@ -16336,7 +16336,7 @@ extension ElastiCacheClientTypes.ReservedCacheNode: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents the output of a PurchaseReservedCacheNodesOffering operation.
-    public struct ReservedCacheNode: Swift.Equatable {
+    public struct ReservedCacheNode {
         /// The number of cache nodes that have been reserved.
         public var cacheNodeCount: Swift.Int?
         /// The cache node type for the reserved cache nodes. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.
@@ -16613,7 +16613,7 @@ extension ElastiCacheClientTypes.ReservedCacheNodesOffering: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Describes all of the attributes of a reserved cache node offering.
-    public struct ReservedCacheNodesOffering: Swift.Equatable {
+    public struct ReservedCacheNodesOffering {
         /// The cache node type for the reserved cache node. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.
         ///
         /// * General purpose:
@@ -16770,7 +16770,7 @@ extension ResetCacheParameterGroupInput {
 }
 
 /// Represents the input of a ResetCacheParameterGroup operation.
-public struct ResetCacheParameterGroupInput: Swift.Equatable {
+public struct ResetCacheParameterGroupInput {
     /// The name of the cache parameter group to reset.
     /// This member is required.
     public var cacheParameterGroupName: Swift.String?
@@ -16809,7 +16809,7 @@ extension ResetCacheParameterGroupOutput {
 /// * ModifyCacheParameterGroup
 ///
 /// * ResetCacheParameterGroup
-public struct ResetCacheParameterGroupOutput: Swift.Equatable {
+public struct ResetCacheParameterGroupOutput {
     /// The name of the cache parameter group.
     public var cacheParameterGroupName: Swift.String?
 
@@ -16880,7 +16880,7 @@ extension ElastiCacheClientTypes.ReshardingConfiguration: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster.
-    public struct ReshardingConfiguration: Swift.Equatable {
+    public struct ReshardingConfiguration {
         /// Either the ElastiCache for Redis supplied 4-digit id or a user supplied id for the node group these configuration values apply to.
         public var nodeGroupId: Swift.String?
         /// A list of preferred availability zones for the nodes in this cluster.
@@ -16922,7 +16922,7 @@ extension ElastiCacheClientTypes.ReshardingStatus: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The status of an online resharding operation.
-    public struct ReshardingStatus: Swift.Equatable {
+    public struct ReshardingStatus {
         /// Represents the progress of an online resharding operation.
         public var slotMigration: ElastiCacheClientTypes.SlotMigration?
 
@@ -16967,7 +16967,7 @@ extension RevokeCacheSecurityGroupIngressInput {
 }
 
 /// Represents the input of a RevokeCacheSecurityGroupIngress operation.
-public struct RevokeCacheSecurityGroupIngressInput: Swift.Equatable {
+public struct RevokeCacheSecurityGroupIngressInput {
     /// The name of the cache security group to revoke ingress from.
     /// This member is required.
     public var cacheSecurityGroupName: Swift.String?
@@ -17003,7 +17003,7 @@ extension RevokeCacheSecurityGroupIngressOutput {
     }
 }
 
-public struct RevokeCacheSecurityGroupIngressOutput: Swift.Equatable {
+public struct RevokeCacheSecurityGroupIngressOutput {
     /// Represents the output of one of the following operations:
     ///
     /// * AuthorizeCacheSecurityGroupIngress
@@ -17071,7 +17071,7 @@ extension ElastiCacheClientTypes.SecurityGroupMembership: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents a single cache security group and its status.
-    public struct SecurityGroupMembership: Swift.Equatable {
+    public struct SecurityGroupMembership {
         /// The identifier of the cache security group.
         public var securityGroupId: Swift.String?
         /// The status of the cache security group membership. The status changes whenever a cache security group is modified, or when the cache security groups assigned to a cluster are modified.
@@ -17211,7 +17211,7 @@ extension ElastiCacheClientTypes.ServerlessCache: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The resource representing a serverless cache.
-    public struct ServerlessCache: Swift.Equatable {
+    public struct ServerlessCache {
         /// The Amazon Resource Name (ARN) of the serverless cache.
         public var arn: Swift.String?
         /// The cache usage limit for the serverless cache.
@@ -17359,7 +17359,7 @@ extension ElastiCacheClientTypes.ServerlessCacheConfiguration: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The configuration settings for a specific serverless cache.
-    public struct ServerlessCacheConfiguration: Swift.Equatable {
+    public struct ServerlessCacheConfiguration {
         /// The engine that the serverless cache is configured with.
         public var engine: Swift.String?
         /// The engine version number that the serverless cache is configured with.
@@ -17517,7 +17517,7 @@ extension ElastiCacheClientTypes.ServerlessCacheSnapshot: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The resource representing a serverless cache snapshot. Available for Redis only.
-    public struct ServerlessCacheSnapshot: Swift.Equatable {
+    public struct ServerlessCacheSnapshot {
         /// The Amazon Resource Name (ARN) of a serverless cache snapshot. Available for Redis only.
         public var arn: Swift.String?
         /// The total size of a serverless cache snapshot, in bytes. Available for Redis only.
@@ -17786,7 +17786,7 @@ extension ElastiCacheClientTypes.ServiceUpdate: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// An update that you can apply to your Redis clusters.
-    public struct ServiceUpdate: Swift.Equatable {
+    public struct ServiceUpdate {
         /// Indicates whether the service update will be automatically applied once the recommended apply-by date has expired.
         public var autoUpdateAfterRecommendedApplyByDate: Swift.Bool?
         /// The Elasticache engine to which the update applies. Either Redis or Memcached
@@ -18041,7 +18041,7 @@ extension ElastiCacheClientTypes.SlotMigration: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents the progress of an online resharding operation.
-    public struct SlotMigration: Swift.Equatable {
+    public struct SlotMigration {
         /// The percentage of the slot migration that is complete.
         public var progressPercentage: Swift.Double?
 
@@ -18223,7 +18223,7 @@ extension ElastiCacheClientTypes.Snapshot: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents a copy of an entire Redis cluster as of the time when the snapshot was taken.
-    public struct Snapshot: Swift.Equatable {
+    public struct Snapshot {
         /// The ARN (Amazon Resource Name) of the snapshot.
         public var arn: Swift.String?
         ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
@@ -18640,7 +18640,7 @@ extension StartMigrationInput {
     }
 }
 
-public struct StartMigrationInput: Swift.Equatable {
+public struct StartMigrationInput {
     /// List of endpoints from which data should be migrated. For Redis (cluster mode disabled), list should have only one element.
     /// This member is required.
     public var customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]?
@@ -18671,7 +18671,7 @@ extension StartMigrationOutput {
     }
 }
 
-public struct StartMigrationOutput: Swift.Equatable {
+public struct StartMigrationOutput {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -18751,7 +18751,7 @@ extension ElastiCacheClientTypes.Subnet: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Represents the subnet associated with a cluster. This parameter refers to subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used with ElastiCache.
-    public struct Subnet: Swift.Equatable {
+    public struct Subnet {
         /// The Availability Zone associated with the subnet.
         public var subnetAvailabilityZone: ElastiCacheClientTypes.AvailabilityZone?
         /// The unique identifier for the subnet.
@@ -18873,7 +18873,7 @@ extension ElastiCacheClientTypes.SubnetOutpost: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The ID of the outpost subnet.
-    public struct SubnetOutpost: Swift.Equatable {
+    public struct SubnetOutpost {
         /// The outpost ARN of the subnet.
         public var subnetOutpostArn: Swift.String?
 
@@ -18916,7 +18916,7 @@ extension ElastiCacheClientTypes.Tag: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key for the tag. May not be null.
         public var key: Swift.String?
         /// The tag's value. May be null.
@@ -19032,7 +19032,7 @@ extension TestFailoverInput {
     }
 }
 
-public struct TestFailoverInput: Swift.Equatable {
+public struct TestFailoverInput {
     /// The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 5 node groups in any rolling 24-hour period.
     /// This member is required.
     public var nodeGroupId: Swift.String?
@@ -19099,7 +19099,7 @@ extension TestFailoverOutput {
     }
 }
 
-public struct TestFailoverOutput: Swift.Equatable {
+public struct TestFailoverOutput {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -19171,7 +19171,7 @@ extension TestMigrationInput {
     }
 }
 
-public struct TestMigrationInput: Swift.Equatable {
+public struct TestMigrationInput {
     /// List of endpoints from which data should be migrated. List should have only one element.
     /// This member is required.
     public var customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]?
@@ -19202,7 +19202,7 @@ extension TestMigrationOutput {
     }
 }
 
-public struct TestMigrationOutput: Swift.Equatable {
+public struct TestMigrationOutput {
     /// Contains all of the attributes of a specific Redis replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
 
@@ -19263,7 +19263,7 @@ extension ElastiCacheClientTypes.TimeRangeFilter: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Filters update actions from the service updates that are in available status during the time range.
-    public struct TimeRangeFilter: Swift.Equatable {
+    public struct TimeRangeFilter {
         /// The end time of the time range filter
         public var endTime: ClientRuntime.Date?
         /// The start time of the time range filter
@@ -19357,7 +19357,7 @@ extension ElastiCacheClientTypes.UnprocessedUpdateAction: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Update action that has failed to be processed for the corresponding apply/stop request
-    public struct UnprocessedUpdateAction: Swift.Equatable {
+    public struct UnprocessedUpdateAction {
         /// The ID of the cache cluster
         public var cacheClusterId: Swift.String?
         /// The error message that describes the reason the request was not processed
@@ -19509,7 +19509,7 @@ extension ElastiCacheClientTypes.UpdateAction: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The status of the service update for a specific replication group
-    public struct UpdateAction: Swift.Equatable {
+    public struct UpdateAction {
         /// The ID of the cache cluster
         public var cacheClusterId: Swift.String?
         /// The status of the service update on the cache node
@@ -19712,7 +19712,7 @@ extension ElastiCacheClientTypes.User: Swift.Encodable {
 }
 
 extension ElastiCacheClientTypes {
-    public struct User: Swift.Equatable {
+    public struct User {
         /// Access permissions string used for this user.
         public var accessString: Swift.String?
         /// The Amazon Resource Name (ARN) of the user.
@@ -19884,7 +19884,7 @@ extension ElastiCacheClientTypes.UserGroup: Swift.Encodable {
 }
 
 extension ElastiCacheClientTypes {
-    public struct UserGroup: Swift.Equatable {
+    public struct UserGroup {
         /// The Amazon Resource Name (ARN) of the user group.
         public var arn: Swift.String?
         /// The current supported value is Redis.
@@ -20049,7 +20049,7 @@ extension ElastiCacheClientTypes.UserGroupPendingChanges: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// Returns the updates being applied to the user group.
-    public struct UserGroupPendingChanges: Swift.Equatable {
+    public struct UserGroupPendingChanges {
         /// The list of user IDs to add.
         public var userIdsToAdd: [Swift.String]?
         /// The list of user IDs to remove.
@@ -20150,7 +20150,7 @@ extension ElastiCacheClientTypes.UserGroupsUpdateStatus: Swift.Encodable {
 
 extension ElastiCacheClientTypes {
     /// The status of the user group update.
-    public struct UserGroupsUpdateStatus: Swift.Equatable {
+    public struct UserGroupsUpdateStatus {
         /// The ID of the user group to add.
         public var userGroupIdsToAdd: [Swift.String]?
         /// The ID of the user group to remove.

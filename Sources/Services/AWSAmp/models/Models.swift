@@ -43,7 +43,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -98,7 +98,7 @@ extension AmpClientTypes.AlertManagerDefinitionDescription: Swift.Codable {
 
 extension AmpClientTypes {
     /// The details of an alert manager definition.
-    public struct AlertManagerDefinitionDescription: Swift.Equatable {
+    public struct AlertManagerDefinitionDescription {
         /// The date and time that the alert manager definition was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -155,7 +155,7 @@ extension AmpClientTypes.AlertManagerDefinitionStatus: Swift.Codable {
 
 extension AmpClientTypes {
     /// The status of the alert manager.
-    public struct AlertManagerDefinitionStatus: Swift.Equatable {
+    public struct AlertManagerDefinitionStatus {
         /// The current status of the alert manager.
         /// This member is required.
         public var statusCode: AmpClientTypes.AlertManagerDefinitionStatusCode?
@@ -248,7 +248,7 @@ extension AmpClientTypes.AmpConfiguration: Swift.Codable {
 
 extension AmpClientTypes {
     /// The AmpConfiguration structure defines the Amazon Managed Service for Prometheus instance a scraper should send metrics to.
-    public struct AmpConfiguration: Swift.Equatable {
+    public struct AmpConfiguration {
         /// ARN of the Amazon Managed Service for Prometheus workspace.
         /// This member is required.
         public var workspaceArn: Swift.String?
@@ -318,7 +318,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -370,7 +370,7 @@ extension CreateAlertManagerDefinitionInput {
 }
 
 /// Represents the input of a CreateAlertManagerDefinition operation.
-public struct CreateAlertManagerDefinitionInput: Swift.Equatable {
+public struct CreateAlertManagerDefinitionInput {
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
     /// The alert manager definition to add. A base64-encoded version of the YAML alert manager definition file. For details about the alert manager definition, see [AlertManagedDefinitionData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-AlertManagerDefinitionData.html).
@@ -392,7 +392,7 @@ public struct CreateAlertManagerDefinitionInput: Swift.Equatable {
     }
 }
 
-struct CreateAlertManagerDefinitionInputBody: Swift.Equatable {
+struct CreateAlertManagerDefinitionInputBody {
     let data: ClientRuntime.Data?
     let clientToken: Swift.String?
 }
@@ -425,7 +425,7 @@ extension CreateAlertManagerDefinitionOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Represents the output of a CreateAlertManagerDefinition operation.
-public struct CreateAlertManagerDefinitionOutput: Swift.Equatable {
+public struct CreateAlertManagerDefinitionOutput {
     /// A structure that displays the current status of the alert manager definition.
     /// This member is required.
     public var status: AmpClientTypes.AlertManagerDefinitionStatus?
@@ -438,7 +438,7 @@ public struct CreateAlertManagerDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct CreateAlertManagerDefinitionOutputBody: Swift.Equatable {
+struct CreateAlertManagerDefinitionOutputBody {
     let status: AmpClientTypes.AlertManagerDefinitionStatus?
 }
 
@@ -499,7 +499,7 @@ extension CreateLoggingConfigurationInput {
 }
 
 /// Represents the input of a CreateLoggingConfiguration operation.
-public struct CreateLoggingConfigurationInput: Swift.Equatable {
+public struct CreateLoggingConfigurationInput {
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
     /// The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this API.
@@ -521,7 +521,7 @@ public struct CreateLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateLoggingConfigurationInputBody: Swift.Equatable {
+struct CreateLoggingConfigurationInputBody {
     let logGroupArn: Swift.String?
     let clientToken: Swift.String?
 }
@@ -554,7 +554,7 @@ extension CreateLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a CreateLoggingConfiguration operation.
-public struct CreateLoggingConfigurationOutput: Swift.Equatable {
+public struct CreateLoggingConfigurationOutput {
     /// A structure that displays the current status of the logging configuration.
     /// This member is required.
     public var status: AmpClientTypes.LoggingConfigurationStatus?
@@ -567,7 +567,7 @@ public struct CreateLoggingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateLoggingConfigurationOutputBody: Swift.Equatable {
+struct CreateLoggingConfigurationOutputBody {
     let status: AmpClientTypes.LoggingConfigurationStatus?
 }
 
@@ -636,7 +636,7 @@ extension CreateRuleGroupsNamespaceInput {
 }
 
 /// Represents the input of a CreateRuleGroupsNamespace operation.
-public struct CreateRuleGroupsNamespaceInput: Swift.Equatable {
+public struct CreateRuleGroupsNamespaceInput {
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
     /// The rules file to use in the new namespace. Contains the base64-encoded version of the YAML rules file. For details about the rule groups namespace structure, see [RuleGroupsNamespaceData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-RuleGroupsNamespaceData.html).
@@ -667,7 +667,7 @@ public struct CreateRuleGroupsNamespaceInput: Swift.Equatable {
     }
 }
 
-struct CreateRuleGroupsNamespaceInputBody: Swift.Equatable {
+struct CreateRuleGroupsNamespaceInputBody {
     let name: Swift.String?
     let data: ClientRuntime.Data?
     let clientToken: Swift.String?
@@ -723,7 +723,7 @@ extension CreateRuleGroupsNamespaceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a CreateRuleGroupsNamespace operation.
-public struct CreateRuleGroupsNamespaceOutput: Swift.Equatable {
+public struct CreateRuleGroupsNamespaceOutput {
     /// The Amazon Resource Name (ARN) of the new rule groups namespace.
     /// This member is required.
     public var arn: Swift.String?
@@ -750,7 +750,7 @@ public struct CreateRuleGroupsNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct CreateRuleGroupsNamespaceOutputBody: Swift.Equatable {
+struct CreateRuleGroupsNamespaceOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let status: AmpClientTypes.RuleGroupsNamespaceStatus?
@@ -848,7 +848,7 @@ extension CreateScraperInput {
 }
 
 /// Represents the input of a CreateScraper operation.
-public struct CreateScraperInput: Swift.Equatable {
+public struct CreateScraperInput {
     /// (optional) a name to associate with the scraper. This is for your use, and does not need to be unique.
     public var alias: Swift.String?
     /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
@@ -883,7 +883,7 @@ public struct CreateScraperInput: Swift.Equatable {
     }
 }
 
-struct CreateScraperInputBody: Swift.Equatable {
+struct CreateScraperInputBody {
     let alias: Swift.String?
     let scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
     let source: AmpClientTypes.Source?
@@ -947,7 +947,7 @@ extension CreateScraperOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a CreateScraper operation.
-public struct CreateScraperOutput: Swift.Equatable {
+public struct CreateScraperOutput {
     /// The Amazon Resource Name (ARN) of the new scraper.
     /// This member is required.
     public var arn: Swift.String?
@@ -974,7 +974,7 @@ public struct CreateScraperOutput: Swift.Equatable {
     }
 }
 
-struct CreateScraperOutputBody: Swift.Equatable {
+struct CreateScraperOutputBody {
     let scraperId: Swift.String?
     let arn: Swift.String?
     let status: AmpClientTypes.ScraperStatus?
@@ -1064,7 +1064,7 @@ extension CreateWorkspaceInput {
 }
 
 /// Represents the input of a CreateWorkspace operation.
-public struct CreateWorkspaceInput: Swift.Equatable {
+public struct CreateWorkspaceInput {
     /// An alias that you assign to this workspace to help you identify it. It does not need to be unique. Blank spaces at the beginning or end of the alias that you specify will be trimmed from the value used.
     public var alias: Swift.String?
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
@@ -1088,7 +1088,7 @@ public struct CreateWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceInputBody: Swift.Equatable {
+struct CreateWorkspaceInputBody {
     let alias: Swift.String?
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -1146,7 +1146,7 @@ extension CreateWorkspaceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a CreateWorkspace operation.
-public struct CreateWorkspaceOutput: Swift.Equatable {
+public struct CreateWorkspaceOutput {
     /// The ARN for the new workspace.
     /// This member is required.
     public var arn: Swift.String?
@@ -1177,7 +1177,7 @@ public struct CreateWorkspaceOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceOutputBody: Swift.Equatable {
+struct CreateWorkspaceOutputBody {
     let workspaceId: Swift.String?
     let arn: Swift.String?
     let status: AmpClientTypes.WorkspaceStatus?
@@ -1257,7 +1257,7 @@ extension DeleteAlertManagerDefinitionInput {
 }
 
 /// Represents the input of a DeleteAlertManagerDefinition operation.
-public struct DeleteAlertManagerDefinitionInput: Swift.Equatable {
+public struct DeleteAlertManagerDefinitionInput {
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
     /// The ID of the workspace to delete the alert manager definition from.
@@ -1274,7 +1274,7 @@ public struct DeleteAlertManagerDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteAlertManagerDefinitionInputBody: Swift.Equatable {
+struct DeleteAlertManagerDefinitionInputBody {
 }
 
 extension DeleteAlertManagerDefinitionInputBody: Swift.Decodable {
@@ -1288,7 +1288,7 @@ extension DeleteAlertManagerDefinitionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteAlertManagerDefinitionOutput: Swift.Equatable {
+public struct DeleteAlertManagerDefinitionOutput {
 
     public init() { }
 }
@@ -1332,7 +1332,7 @@ extension DeleteLoggingConfigurationInput {
 }
 
 /// Represents the input of a DeleteLoggingConfiguration operation.
-public struct DeleteLoggingConfigurationInput: Swift.Equatable {
+public struct DeleteLoggingConfigurationInput {
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
     /// The ID of the workspace containing the logging configuration to delete.
@@ -1349,7 +1349,7 @@ public struct DeleteLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteLoggingConfigurationInputBody: Swift.Equatable {
+struct DeleteLoggingConfigurationInputBody {
 }
 
 extension DeleteLoggingConfigurationInputBody: Swift.Decodable {
@@ -1363,7 +1363,7 @@ extension DeleteLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLoggingConfigurationOutput: Swift.Equatable {
+public struct DeleteLoggingConfigurationOutput {
 
     public init() { }
 }
@@ -1409,7 +1409,7 @@ extension DeleteRuleGroupsNamespaceInput {
 }
 
 /// Represents the input of a DeleteRuleGroupsNamespace operation.
-public struct DeleteRuleGroupsNamespaceInput: Swift.Equatable {
+public struct DeleteRuleGroupsNamespaceInput {
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
     /// The name of the rule groups namespace to delete.
@@ -1431,7 +1431,7 @@ public struct DeleteRuleGroupsNamespaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteRuleGroupsNamespaceInputBody: Swift.Equatable {
+struct DeleteRuleGroupsNamespaceInputBody {
 }
 
 extension DeleteRuleGroupsNamespaceInputBody: Swift.Decodable {
@@ -1445,7 +1445,7 @@ extension DeleteRuleGroupsNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRuleGroupsNamespaceOutput: Swift.Equatable {
+public struct DeleteRuleGroupsNamespaceOutput {
 
     public init() { }
 }
@@ -1489,7 +1489,7 @@ extension DeleteScraperInput {
 }
 
 /// Represents the input of a DeleteScraper operation.
-public struct DeleteScraperInput: Swift.Equatable {
+public struct DeleteScraperInput {
     /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The ID of the scraper to delete.
@@ -1506,7 +1506,7 @@ public struct DeleteScraperInput: Swift.Equatable {
     }
 }
 
-struct DeleteScraperInputBody: Swift.Equatable {
+struct DeleteScraperInputBody {
 }
 
 extension DeleteScraperInputBody: Swift.Decodable {
@@ -1530,7 +1530,7 @@ extension DeleteScraperOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a DeleteScraper operation.
-public struct DeleteScraperOutput: Swift.Equatable {
+public struct DeleteScraperOutput {
     /// The ID of the scraper to delete.
     /// This member is required.
     public var scraperId: Swift.String?
@@ -1548,7 +1548,7 @@ public struct DeleteScraperOutput: Swift.Equatable {
     }
 }
 
-struct DeleteScraperOutputBody: Swift.Equatable {
+struct DeleteScraperOutputBody {
     let scraperId: Swift.String?
     let status: AmpClientTypes.ScraperStatus?
 }
@@ -1607,7 +1607,7 @@ extension DeleteWorkspaceInput {
 }
 
 /// Represents the input of a DeleteWorkspace operation.
-public struct DeleteWorkspaceInput: Swift.Equatable {
+public struct DeleteWorkspaceInput {
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
     /// The ID of the workspace to delete.
@@ -1624,7 +1624,7 @@ public struct DeleteWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkspaceInputBody: Swift.Equatable {
+struct DeleteWorkspaceInputBody {
 }
 
 extension DeleteWorkspaceInputBody: Swift.Decodable {
@@ -1638,7 +1638,7 @@ extension DeleteWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkspaceOutput: Swift.Equatable {
+public struct DeleteWorkspaceOutput {
 
     public init() { }
 }
@@ -1670,7 +1670,7 @@ extension DescribeAlertManagerDefinitionInput {
 }
 
 /// Represents the input of a DescribeAlertManagerDefinition operation.
-public struct DescribeAlertManagerDefinitionInput: Swift.Equatable {
+public struct DescribeAlertManagerDefinitionInput {
     /// The ID of the workspace to retrieve the alert manager definition from.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -1683,7 +1683,7 @@ public struct DescribeAlertManagerDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DescribeAlertManagerDefinitionInputBody: Swift.Equatable {
+struct DescribeAlertManagerDefinitionInputBody {
 }
 
 extension DescribeAlertManagerDefinitionInputBody: Swift.Decodable {
@@ -1705,7 +1705,7 @@ extension DescribeAlertManagerDefinitionOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// Represents the output of a DescribeAlertManagerDefinition operation.
-public struct DescribeAlertManagerDefinitionOutput: Swift.Equatable {
+public struct DescribeAlertManagerDefinitionOutput {
     /// The alert manager definition.
     /// This member is required.
     public var alertManagerDefinition: AmpClientTypes.AlertManagerDefinitionDescription?
@@ -1718,7 +1718,7 @@ public struct DescribeAlertManagerDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAlertManagerDefinitionOutputBody: Swift.Equatable {
+struct DescribeAlertManagerDefinitionOutputBody {
     let alertManagerDefinition: AmpClientTypes.AlertManagerDefinitionDescription?
 }
 
@@ -1760,7 +1760,7 @@ extension DescribeLoggingConfigurationInput {
 }
 
 /// Represents the input of a DescribeLoggingConfiguration operation.
-public struct DescribeLoggingConfigurationInput: Swift.Equatable {
+public struct DescribeLoggingConfigurationInput {
     /// The ID of the workspace to describe the logging configuration for.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -1773,7 +1773,7 @@ public struct DescribeLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeLoggingConfigurationInputBody: Swift.Equatable {
+struct DescribeLoggingConfigurationInputBody {
 }
 
 extension DescribeLoggingConfigurationInputBody: Swift.Decodable {
@@ -1795,7 +1795,7 @@ extension DescribeLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Represents the output of a DescribeLoggingConfiguration operation.
-public struct DescribeLoggingConfigurationOutput: Swift.Equatable {
+public struct DescribeLoggingConfigurationOutput {
     /// A structure that displays the information about the logging configuration.
     /// This member is required.
     public var loggingConfiguration: AmpClientTypes.LoggingConfigurationMetadata?
@@ -1808,7 +1808,7 @@ public struct DescribeLoggingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLoggingConfigurationOutputBody: Swift.Equatable {
+struct DescribeLoggingConfigurationOutputBody {
     let loggingConfiguration: AmpClientTypes.LoggingConfigurationMetadata?
 }
 
@@ -1852,7 +1852,7 @@ extension DescribeRuleGroupsNamespaceInput {
 }
 
 /// Represents the input of a DescribeRuleGroupsNamespace operation.
-public struct DescribeRuleGroupsNamespaceInput: Swift.Equatable {
+public struct DescribeRuleGroupsNamespaceInput {
     /// The name of the rule groups namespace that you want information for.
     /// This member is required.
     public var name: Swift.String?
@@ -1870,7 +1870,7 @@ public struct DescribeRuleGroupsNamespaceInput: Swift.Equatable {
     }
 }
 
-struct DescribeRuleGroupsNamespaceInputBody: Swift.Equatable {
+struct DescribeRuleGroupsNamespaceInputBody {
 }
 
 extension DescribeRuleGroupsNamespaceInputBody: Swift.Decodable {
@@ -1892,7 +1892,7 @@ extension DescribeRuleGroupsNamespaceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a DescribeRuleGroupsNamespace operation.
-public struct DescribeRuleGroupsNamespaceOutput: Swift.Equatable {
+public struct DescribeRuleGroupsNamespaceOutput {
     /// The information about the rule groups namespace.
     /// This member is required.
     public var ruleGroupsNamespace: AmpClientTypes.RuleGroupsNamespaceDescription?
@@ -1905,7 +1905,7 @@ public struct DescribeRuleGroupsNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRuleGroupsNamespaceOutputBody: Swift.Equatable {
+struct DescribeRuleGroupsNamespaceOutputBody {
     let ruleGroupsNamespace: AmpClientTypes.RuleGroupsNamespaceDescription?
 }
 
@@ -1947,7 +1947,7 @@ extension DescribeScraperInput {
 }
 
 /// Represents the input of a DescribeScraper operation.
-public struct DescribeScraperInput: Swift.Equatable {
+public struct DescribeScraperInput {
     /// The ID of the scraper to describe.
     /// This member is required.
     public var scraperId: Swift.String?
@@ -1960,7 +1960,7 @@ public struct DescribeScraperInput: Swift.Equatable {
     }
 }
 
-struct DescribeScraperInputBody: Swift.Equatable {
+struct DescribeScraperInputBody {
 }
 
 extension DescribeScraperInputBody: Swift.Decodable {
@@ -1982,7 +1982,7 @@ extension DescribeScraperOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a DescribeScraper operation.
-public struct DescribeScraperOutput: Swift.Equatable {
+public struct DescribeScraperOutput {
     /// Contains details about the scraper.
     /// This member is required.
     public var scraper: AmpClientTypes.ScraperDescription?
@@ -1995,7 +1995,7 @@ public struct DescribeScraperOutput: Swift.Equatable {
     }
 }
 
-struct DescribeScraperOutputBody: Swift.Equatable {
+struct DescribeScraperOutputBody {
     let scraper: AmpClientTypes.ScraperDescription?
 }
 
@@ -2037,7 +2037,7 @@ extension DescribeWorkspaceInput {
 }
 
 /// Represents the input of a DescribeWorkspace operation.
-public struct DescribeWorkspaceInput: Swift.Equatable {
+public struct DescribeWorkspaceInput {
     /// The ID of the workspace to describe.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -2050,7 +2050,7 @@ public struct DescribeWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceInputBody: Swift.Equatable {
+struct DescribeWorkspaceInputBody {
 }
 
 extension DescribeWorkspaceInputBody: Swift.Decodable {
@@ -2072,7 +2072,7 @@ extension DescribeWorkspaceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a DescribeWorkspace operation.
-public struct DescribeWorkspaceOutput: Swift.Equatable {
+public struct DescribeWorkspaceOutput {
     /// A structure that contains details about the workspace.
     /// This member is required.
     public var workspace: AmpClientTypes.WorkspaceDescription?
@@ -2085,7 +2085,7 @@ public struct DescribeWorkspaceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceOutputBody: Swift.Equatable {
+struct DescribeWorkspaceOutputBody {
     let workspace: AmpClientTypes.WorkspaceDescription?
 }
 
@@ -2145,7 +2145,7 @@ extension AmpClientTypes.Destination: Swift.Codable {
 
 extension AmpClientTypes {
     /// Where to send the metrics from a scraper.
-    public enum Destination: Swift.Equatable {
+    public enum Destination {
         /// The Amazon Managed Service for Prometheusworkspace to send metrics to.
         case ampconfiguration(AmpClientTypes.AmpConfiguration)
         case sdkUnknown(Swift.String)
@@ -2210,7 +2210,7 @@ extension AmpClientTypes.EksConfiguration: Swift.Codable {
 
 extension AmpClientTypes {
     /// The EksConfiguration structure describes the connection to the Amazon EKS cluster from which a scraper collects metrics.
-    public struct EksConfiguration: Swift.Equatable {
+    public struct EksConfiguration {
         /// ARN of the Amazon EKS cluster.
         /// This member is required.
         public var clusterArn: Swift.String?
@@ -2242,12 +2242,12 @@ extension GetDefaultScraperConfigurationInput {
 }
 
 /// Represents the input of a GetDefaultScraperConfiguration operation.
-public struct GetDefaultScraperConfigurationInput: Swift.Equatable {
+public struct GetDefaultScraperConfigurationInput {
 
     public init() { }
 }
 
-struct GetDefaultScraperConfigurationInputBody: Swift.Equatable {
+struct GetDefaultScraperConfigurationInputBody {
 }
 
 extension GetDefaultScraperConfigurationInputBody: Swift.Decodable {
@@ -2269,7 +2269,7 @@ extension GetDefaultScraperConfigurationOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// Represents the output of a GetDefaultScraperConfiguration operation.
-public struct GetDefaultScraperConfigurationOutput: Swift.Equatable {
+public struct GetDefaultScraperConfigurationOutput {
     /// The configuration file. Base 64 encoded. For more information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration)in the Amazon Managed Service for Prometheus User Guide.
     /// This member is required.
     public var configuration: ClientRuntime.Data?
@@ -2282,7 +2282,7 @@ public struct GetDefaultScraperConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetDefaultScraperConfigurationOutputBody: Swift.Equatable {
+struct GetDefaultScraperConfigurationOutputBody {
     let configuration: ClientRuntime.Data?
 }
 
@@ -2361,7 +2361,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2408,7 +2408,7 @@ extension ListRuleGroupsNamespacesInput {
 }
 
 /// Represents the input of a ListRuleGroupsNamespaces operation.
-public struct ListRuleGroupsNamespacesInput: Swift.Equatable {
+public struct ListRuleGroupsNamespacesInput {
     /// The maximum number of results to return. The default is 100.
     public var maxResults: Swift.Int?
     /// Use this parameter to filter the rule groups namespaces that are returned. Only the namespaces with names that begin with the value that you specify are returned.
@@ -2433,7 +2433,7 @@ public struct ListRuleGroupsNamespacesInput: Swift.Equatable {
     }
 }
 
-struct ListRuleGroupsNamespacesInputBody: Swift.Equatable {
+struct ListRuleGroupsNamespacesInputBody {
 }
 
 extension ListRuleGroupsNamespacesInputBody: Swift.Decodable {
@@ -2457,7 +2457,7 @@ extension ListRuleGroupsNamespacesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a ListRuleGroupsNamespaces operation.
-public struct ListRuleGroupsNamespacesOutput: Swift.Equatable {
+public struct ListRuleGroupsNamespacesOutput {
     /// A token indicating that there are more results to retrieve. You can use this token as part of your next ListRuleGroupsNamespaces request to retrieve those results.
     public var nextToken: Swift.String?
     /// The returned list of rule groups namespaces.
@@ -2474,7 +2474,7 @@ public struct ListRuleGroupsNamespacesOutput: Swift.Equatable {
     }
 }
 
-struct ListRuleGroupsNamespacesOutputBody: Swift.Equatable {
+struct ListRuleGroupsNamespacesOutputBody {
     let ruleGroupsNamespaces: [AmpClientTypes.RuleGroupsNamespaceSummary]?
     let nextToken: Swift.String?
 }
@@ -2553,7 +2553,7 @@ extension ListScrapersInput {
 }
 
 /// Represents the input of a ListScrapers operation.
-public struct ListScrapersInput: Swift.Equatable {
+public struct ListScrapersInput {
     /// (Optional) A list of key-value pairs to filter the list of scrapers returned. Keys include status, sourceArn, destinationArn, and alias. Filters on the same key are OR'd together, and filters on different keys are AND'd together. For example, status=ACTIVE&status=CREATING&alias=Test, will return all scrapers that have the alias Test, and are either in status ACTIVE or CREATING. To find all active scrapers that are sending metrics to a specific Amazon Managed Service for Prometheus workspace, you would use the ARN of the workspace in a query: status=ACTIVE&destinationArn=arn:aws:aps:us-east-1:123456789012:workspace/ws-example1-1234-abcd-56ef-123456789012 If this is included, it filters the results to only the scrapers that match the filter.
     public var filters: [Swift.String:[Swift.String]]?
     /// Optional) The maximum number of scrapers to return in one ListScrapers operation. The range is 1-1000. If you omit this parameter, the default of 100 is used.
@@ -2573,7 +2573,7 @@ public struct ListScrapersInput: Swift.Equatable {
     }
 }
 
-struct ListScrapersInputBody: Swift.Equatable {
+struct ListScrapersInputBody {
 }
 
 extension ListScrapersInputBody: Swift.Decodable {
@@ -2597,7 +2597,7 @@ extension ListScrapersOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a ListScrapers operation.
-public struct ListScrapersOutput: Swift.Equatable {
+public struct ListScrapersOutput {
     /// A token indicating that there are more results to retrieve. You can use this token as part of your next ListScrapers operation to retrieve those results.
     public var nextToken: Swift.String?
     /// A list of ScraperSummary structures giving information about scrapers in the account that match the filters provided.
@@ -2614,7 +2614,7 @@ public struct ListScrapersOutput: Swift.Equatable {
     }
 }
 
-struct ListScrapersOutputBody: Swift.Equatable {
+struct ListScrapersOutputBody {
     let scrapers: [AmpClientTypes.ScraperSummary]?
     let nextToken: Swift.String?
 }
@@ -2667,7 +2667,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource to list tages for. Must be a workspace or rule groups namespace resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2680,7 +2680,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2701,7 +2701,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tag keys and values associated with the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2713,7 +2713,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2781,7 +2781,7 @@ extension ListWorkspacesInput {
 }
 
 /// Represents the input of a ListWorkspaces operation.
-public struct ListWorkspacesInput: Swift.Equatable {
+public struct ListWorkspacesInput {
     /// If this is included, it filters the results to only the workspaces with names that start with the value that you specify here. Amazon Managed Service for Prometheus will automatically strip any blank spaces from the beginning and end of the alias that you specify.
     public var alias: Swift.String?
     /// The maximum number of workspaces to return per request. The default is 100.
@@ -2801,7 +2801,7 @@ public struct ListWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct ListWorkspacesInputBody: Swift.Equatable {
+struct ListWorkspacesInputBody {
 }
 
 extension ListWorkspacesInputBody: Swift.Decodable {
@@ -2825,7 +2825,7 @@ extension ListWorkspacesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a ListWorkspaces operation.
-public struct ListWorkspacesOutput: Swift.Equatable {
+public struct ListWorkspacesOutput {
     /// A token indicating that there are more results to retrieve. You can use this token as part of your next ListWorkspaces request to retrieve those results.
     public var nextToken: Swift.String?
     /// An array of WorkspaceSummary structures containing information about the workspaces requested.
@@ -2842,7 +2842,7 @@ public struct ListWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkspacesOutputBody: Swift.Equatable {
+struct ListWorkspacesOutputBody {
     let workspaces: [AmpClientTypes.WorkspaceSummary]?
     let nextToken: Swift.String?
 }
@@ -2930,7 +2930,7 @@ extension AmpClientTypes.LoggingConfigurationMetadata: Swift.Codable {
 
 extension AmpClientTypes {
     /// Contains information about the logging configuration.
-    public struct LoggingConfigurationMetadata: Swift.Equatable {
+    public struct LoggingConfigurationMetadata {
         /// The date and time that the logging configuration was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -2992,7 +2992,7 @@ extension AmpClientTypes.LoggingConfigurationStatus: Swift.Codable {
 
 extension AmpClientTypes {
     /// The status of the logging configuration.
-    public struct LoggingConfigurationStatus: Swift.Equatable {
+    public struct LoggingConfigurationStatus {
         /// The current status of the logging configuration.
         /// This member is required.
         public var statusCode: AmpClientTypes.LoggingConfigurationStatusCode?
@@ -3090,7 +3090,7 @@ extension PutAlertManagerDefinitionInput {
 }
 
 /// Represents the input of a PutAlertManagerDefinition operation.
-public struct PutAlertManagerDefinitionInput: Swift.Equatable {
+public struct PutAlertManagerDefinitionInput {
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
     /// The alert manager definition to use. A base64-encoded version of the YAML alert manager definition file. For details about the alert manager definition, see [AlertManagedDefinitionData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-AlertManagerDefinitionData.html).
@@ -3112,7 +3112,7 @@ public struct PutAlertManagerDefinitionInput: Swift.Equatable {
     }
 }
 
-struct PutAlertManagerDefinitionInputBody: Swift.Equatable {
+struct PutAlertManagerDefinitionInputBody {
     let data: ClientRuntime.Data?
     let clientToken: Swift.String?
 }
@@ -3145,7 +3145,7 @@ extension PutAlertManagerDefinitionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a PutAlertManagerDefinition operation.
-public struct PutAlertManagerDefinitionOutput: Swift.Equatable {
+public struct PutAlertManagerDefinitionOutput {
     /// A structure that returns the current status of the alert manager definition.
     /// This member is required.
     public var status: AmpClientTypes.AlertManagerDefinitionStatus?
@@ -3158,7 +3158,7 @@ public struct PutAlertManagerDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct PutAlertManagerDefinitionOutputBody: Swift.Equatable {
+struct PutAlertManagerDefinitionOutputBody {
     let status: AmpClientTypes.AlertManagerDefinitionStatus?
 }
 
@@ -3222,7 +3222,7 @@ extension PutRuleGroupsNamespaceInput {
 }
 
 /// Represents the input of a PutRuleGroupsNamespace operation.
-public struct PutRuleGroupsNamespaceInput: Swift.Equatable {
+public struct PutRuleGroupsNamespaceInput {
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
     /// The new rules file to use in the namespace. A base64-encoded version of the YAML rule groups file. For details about the rule groups namespace structure, see [RuleGroupsNamespaceData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-RuleGroupsNamespaceData.html).
@@ -3249,7 +3249,7 @@ public struct PutRuleGroupsNamespaceInput: Swift.Equatable {
     }
 }
 
-struct PutRuleGroupsNamespaceInputBody: Swift.Equatable {
+struct PutRuleGroupsNamespaceInputBody {
     let data: ClientRuntime.Data?
     let clientToken: Swift.String?
 }
@@ -3288,7 +3288,7 @@ extension PutRuleGroupsNamespaceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a PutRuleGroupsNamespace operation.
-public struct PutRuleGroupsNamespaceOutput: Swift.Equatable {
+public struct PutRuleGroupsNamespaceOutput {
     /// The ARN of the rule groups namespace.
     /// This member is required.
     public var arn: Swift.String?
@@ -3315,7 +3315,7 @@ public struct PutRuleGroupsNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct PutRuleGroupsNamespaceOutputBody: Swift.Equatable {
+struct PutRuleGroupsNamespaceOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let status: AmpClientTypes.RuleGroupsNamespaceStatus?
@@ -3424,7 +3424,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -3517,7 +3517,7 @@ extension AmpClientTypes.RuleGroupsNamespaceDescription: Swift.Codable {
 
 extension AmpClientTypes {
     /// The details about one rule groups namespace.
-    public struct RuleGroupsNamespaceDescription: Swift.Equatable {
+    public struct RuleGroupsNamespaceDescription {
         /// The ARN of the rule groups namespace.
         /// This member is required.
         public var arn: Swift.String?
@@ -3588,7 +3588,7 @@ extension AmpClientTypes.RuleGroupsNamespaceStatus: Swift.Codable {
 
 extension AmpClientTypes {
     /// The status information about a rule groups namespace.
-    public struct RuleGroupsNamespaceStatus: Swift.Equatable {
+    public struct RuleGroupsNamespaceStatus {
         /// The current status of the namespace.
         /// This member is required.
         public var statusCode: AmpClientTypes.RuleGroupsNamespaceStatusCode?
@@ -3721,7 +3721,7 @@ extension AmpClientTypes.RuleGroupsNamespaceSummary: Swift.Codable {
 
 extension AmpClientTypes {
     /// The high-level information about a rule groups namespace. To retrieve more information, use DescribeRuleGroupsNamespace.
-    public struct RuleGroupsNamespaceSummary: Swift.Equatable {
+    public struct RuleGroupsNamespaceSummary {
         /// The ARN of the rule groups namespace.
         /// This member is required.
         public var arn: Swift.String?
@@ -3789,7 +3789,7 @@ extension AmpClientTypes.ScrapeConfiguration: Swift.Codable {
 
 extension AmpClientTypes {
     /// A scrape configuration for a scraper, base 64 encoded. For more information, see [Scraper configuration] in the Amazon Managed Service for Prometheus User Guide.
-    public enum ScrapeConfiguration: Swift.Equatable {
+    public enum ScrapeConfiguration {
         /// The base 64 encoded scrape configuration file.
         case configurationblob(ClientRuntime.Data)
         case sdkUnknown(Swift.String)
@@ -3896,7 +3896,7 @@ extension AmpClientTypes.ScraperDescription: Swift.Codable {
 
 extension AmpClientTypes {
     /// The ScraperDescription structure contains the full details about one scraper in your account.
-    public struct ScraperDescription: Swift.Equatable {
+    public struct ScraperDescription {
         /// (Optional) A name associated with the scraper.
         public var alias: Swift.String?
         /// The Amazon Resource Name (ARN) of the scraper.
@@ -3984,7 +3984,7 @@ extension AmpClientTypes.ScraperStatus: Swift.Codable {
 
 extension AmpClientTypes {
     /// The ScraperStatus structure contains status information about the scraper.
-    public struct ScraperStatus: Swift.Equatable {
+    public struct ScraperStatus {
         /// The current status of the scraper.
         /// This member is required.
         public var statusCode: AmpClientTypes.ScraperStatusCode?
@@ -4139,7 +4139,7 @@ extension AmpClientTypes.ScraperSummary: Swift.Codable {
 
 extension AmpClientTypes {
     /// The ScraperSummary structure contains a summary of the details about one scraper in your account.
-    public struct ScraperSummary: Swift.Equatable {
+    public struct ScraperSummary {
         /// (Optional) A name associated with the scraper.
         public var alias: Swift.String?
         /// The Amazon Resource Name (ARN) of the scraper.
@@ -4270,7 +4270,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -4331,7 +4331,7 @@ extension AmpClientTypes.Source: Swift.Codable {
 
 extension AmpClientTypes {
     /// The source of collected metrics for a scraper.
-    public enum Source: Swift.Equatable {
+    public enum Source {
         /// The Amazon EKS cluster from which a scraper collects metrics.
         case eksconfiguration(AmpClientTypes.EksConfiguration)
         case sdkUnknown(Swift.String)
@@ -4365,7 +4365,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the workspace or rule groups namespace to apply tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4383,7 +4383,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4413,7 +4413,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4495,7 +4495,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -4545,7 +4545,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the workspace or rule groups namespace.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4563,7 +4563,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4577,7 +4577,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4625,7 +4625,7 @@ extension UpdateLoggingConfigurationInput {
 }
 
 /// Represents the input of an UpdateLoggingConfiguration operation.
-public struct UpdateLoggingConfigurationInput: Swift.Equatable {
+public struct UpdateLoggingConfigurationInput {
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
     /// The ARN of the CloudWatch log group to which the vended log data will be published.
@@ -4647,7 +4647,7 @@ public struct UpdateLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateLoggingConfigurationInputBody: Swift.Equatable {
+struct UpdateLoggingConfigurationInputBody {
     let logGroupArn: Swift.String?
     let clientToken: Swift.String?
 }
@@ -4680,7 +4680,7 @@ extension UpdateLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of an UpdateLoggingConfiguration operation.
-public struct UpdateLoggingConfigurationOutput: Swift.Equatable {
+public struct UpdateLoggingConfigurationOutput {
     /// A structure that contains the current status of the logging configuration.
     /// This member is required.
     public var status: AmpClientTypes.LoggingConfigurationStatus?
@@ -4693,7 +4693,7 @@ public struct UpdateLoggingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLoggingConfigurationOutputBody: Swift.Equatable {
+struct UpdateLoggingConfigurationOutputBody {
     let status: AmpClientTypes.LoggingConfigurationStatus?
 }
 
@@ -4752,7 +4752,7 @@ extension UpdateWorkspaceAliasInput {
 }
 
 /// Represents the input of an UpdateWorkspaceAlias operation.
-public struct UpdateWorkspaceAliasInput: Swift.Equatable {
+public struct UpdateWorkspaceAliasInput {
     /// The new alias for the workspace. It does not need to be unique. Amazon Managed Service for Prometheus will automatically strip any blank spaces from the beginning and end of the alias that you specify.
     public var alias: Swift.String?
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
@@ -4773,7 +4773,7 @@ public struct UpdateWorkspaceAliasInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkspaceAliasInputBody: Swift.Equatable {
+struct UpdateWorkspaceAliasInputBody {
     let alias: Swift.String?
     let clientToken: Swift.String?
 }
@@ -4798,7 +4798,7 @@ extension UpdateWorkspaceAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkspaceAliasOutput: Swift.Equatable {
+public struct UpdateWorkspaceAliasOutput {
 
     public init() { }
 }
@@ -4874,7 +4874,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: AmpClientTypes.ValidationExceptionReason?
     let fieldList: [AmpClientTypes.ValidationExceptionField]?
@@ -4934,7 +4934,7 @@ extension AmpClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension AmpClientTypes {
     /// Information about a field passed into a request that resulted in an exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// A message describing why the field caused an exception.
         /// This member is required.
         public var message: Swift.String?
@@ -5068,7 +5068,7 @@ extension AmpClientTypes.WorkspaceDescription: Swift.Codable {
 
 extension AmpClientTypes {
     /// The full details about one Amazon Managed Service for Prometheus workspace in your account.
-    public struct WorkspaceDescription: Swift.Equatable {
+    public struct WorkspaceDescription {
         /// The alias that is assigned to this workspace to help identify it. It may not be unique.
         public var alias: Swift.String?
         /// The ARN of the workspace.
@@ -5135,7 +5135,7 @@ extension AmpClientTypes.WorkspaceStatus: Swift.Codable {
 
 extension AmpClientTypes {
     /// The status of the workspace.
-    public struct WorkspaceStatus: Swift.Equatable {
+    public struct WorkspaceStatus {
         /// The current status of the workspace.
         /// This member is required.
         public var statusCode: AmpClientTypes.WorkspaceStatusCode?
@@ -5266,7 +5266,7 @@ extension AmpClientTypes.WorkspaceSummary: Swift.Codable {
 
 extension AmpClientTypes {
     /// The information about one Amazon Managed Service for Prometheus workspace in your account.
-    public struct WorkspaceSummary: Swift.Equatable {
+    public struct WorkspaceSummary {
         /// The alias that is assigned to this workspace to help identify it. It may not be unique.
         public var alias: Swift.String?
         /// The ARN of the workspace.

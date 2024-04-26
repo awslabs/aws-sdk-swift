@@ -41,7 +41,7 @@ extension AutoScalingPlansClientTypes.ApplicationSource: Swift.Codable {
 
 extension AutoScalingPlansClientTypes {
     /// Represents an application source.
-    public struct ApplicationSource: Swift.Equatable {
+    public struct ApplicationSource {
         /// The Amazon Resource Name (ARN) of a AWS CloudFormation stack.
         public var cloudFormationStackARN: Swift.String?
         /// A set of tags (up to 50).
@@ -100,7 +100,7 @@ public struct ConcurrentUpdateException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ConcurrentUpdateExceptionBody: Swift.Equatable {
+struct ConcurrentUpdateExceptionBody {
     let message: Swift.String?
 }
 
@@ -147,7 +147,7 @@ extension CreateScalingPlanInput {
     }
 }
 
-public struct CreateScalingPlanInput: Swift.Equatable {
+public struct CreateScalingPlanInput {
     /// A CloudFormation stack or set of tags. You can create one scaling plan per application source. For more information, see [ApplicationSource](https://docs.aws.amazon.com/autoscaling/plans/APIReference/API_ApplicationSource.html) in the AWS Auto Scaling API Reference.
     /// This member is required.
     public var applicationSource: AutoScalingPlansClientTypes.ApplicationSource?
@@ -170,7 +170,7 @@ public struct CreateScalingPlanInput: Swift.Equatable {
     }
 }
 
-struct CreateScalingPlanInputBody: Swift.Equatable {
+struct CreateScalingPlanInputBody {
     let scalingPlanName: Swift.String?
     let applicationSource: AutoScalingPlansClientTypes.ApplicationSource?
     let scalingInstructions: [AutoScalingPlansClientTypes.ScalingInstruction]?
@@ -215,7 +215,7 @@ extension CreateScalingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateScalingPlanOutput: Swift.Equatable {
+public struct CreateScalingPlanOutput {
     /// The version number of the scaling plan. This value is always 1. Currently, you cannot have multiple scaling plan versions.
     /// This member is required.
     public var scalingPlanVersion: Swift.Int?
@@ -228,7 +228,7 @@ public struct CreateScalingPlanOutput: Swift.Equatable {
     }
 }
 
-struct CreateScalingPlanOutputBody: Swift.Equatable {
+struct CreateScalingPlanOutputBody {
     let scalingPlanVersion: Swift.Int?
 }
 
@@ -315,7 +315,7 @@ extension AutoScalingPlansClientTypes.CustomizedLoadMetricSpecification: Swift.C
 
 extension AutoScalingPlansClientTypes {
     /// Represents a CloudWatch metric of your choosing that can be used for predictive scaling. For predictive scaling to work with a customized load metric specification, AWS Auto Scaling needs access to the Sum and Average statistics that CloudWatch computes from metric data. When you choose a load metric, make sure that the required Sum and Average statistics for your metric are available in CloudWatch and that they provide relevant data for predictive scaling. The Sum statistic must represent the total load on the resource, and the Average statistic must represent the average load per capacity unit of the resource. For example, there is a metric that counts the number of requests processed by your Auto Scaling group. If the Sum statistic represents the total request count processed by the group, then the Average statistic for the specified metric must represent the average request count processed by each instance of the group. If you publish your own metrics, you can aggregate the data points at a given interval and then publish the aggregated data points to CloudWatch. Before AWS Auto Scaling generates the forecast, it sums up all the metric data points that occurred within each hour to match the granularity period that is used in the forecast (60 minutes). For information about terminology, available metrics, or how to publish new metrics, see [Amazon CloudWatch Concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide. After creating your scaling plan, you can use the AWS Auto Scaling console to visualize forecasts for the specified metric. For more information, see [View Scaling Information for a Resource](https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-create-scaling-plan.html#gs-view-resource) in the AWS Auto Scaling User Guide.
-    public struct CustomizedLoadMetricSpecification: Swift.Equatable {
+    public struct CustomizedLoadMetricSpecification {
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your customized load metric specification.
         public var dimensions: [AutoScalingPlansClientTypes.MetricDimension]?
         /// The name of the metric.
@@ -412,7 +412,7 @@ extension AutoScalingPlansClientTypes {
     ///
     ///
     /// For information about terminology, available metrics, or how to publish new metrics, see [Amazon CloudWatch Concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
-    public struct CustomizedScalingMetricSpecification: Swift.Equatable {
+    public struct CustomizedScalingMetricSpecification {
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your customized scaling metric specification.
         public var dimensions: [AutoScalingPlansClientTypes.MetricDimension]?
         /// The name of the metric.
@@ -472,7 +472,7 @@ extension AutoScalingPlansClientTypes.Datapoint: Swift.Codable {
 
 extension AutoScalingPlansClientTypes {
     /// Represents a single value in the forecast data used for predictive scaling.
-    public struct Datapoint: Swift.Equatable {
+    public struct Datapoint {
         /// The time stamp for the data point in UTC format.
         public var timestamp: ClientRuntime.Date?
         /// The value of the data point.
@@ -514,7 +514,7 @@ extension DeleteScalingPlanInput {
     }
 }
 
-public struct DeleteScalingPlanInput: Swift.Equatable {
+public struct DeleteScalingPlanInput {
     /// The name of the scaling plan.
     /// This member is required.
     public var scalingPlanName: Swift.String?
@@ -532,7 +532,7 @@ public struct DeleteScalingPlanInput: Swift.Equatable {
     }
 }
 
-struct DeleteScalingPlanInputBody: Swift.Equatable {
+struct DeleteScalingPlanInputBody {
     let scalingPlanName: Swift.String?
     let scalingPlanVersion: Swift.Int?
 }
@@ -557,7 +557,7 @@ extension DeleteScalingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteScalingPlanOutput: Swift.Equatable {
+public struct DeleteScalingPlanOutput {
 
     public init() { }
 }
@@ -608,7 +608,7 @@ extension DescribeScalingPlanResourcesInput {
     }
 }
 
-public struct DescribeScalingPlanResourcesInput: Swift.Equatable {
+public struct DescribeScalingPlanResourcesInput {
     /// The maximum number of scalable resources to return. The value must be between 1 and 50. The default value is 50.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -634,7 +634,7 @@ public struct DescribeScalingPlanResourcesInput: Swift.Equatable {
     }
 }
 
-struct DescribeScalingPlanResourcesInputBody: Swift.Equatable {
+struct DescribeScalingPlanResourcesInputBody {
     let scalingPlanName: Swift.String?
     let scalingPlanVersion: Swift.Int?
     let maxResults: Swift.Int?
@@ -676,7 +676,7 @@ extension DescribeScalingPlanResourcesOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeScalingPlanResourcesOutput: Swift.Equatable {
+public struct DescribeScalingPlanResourcesOutput {
     /// The token required to get the next set of results. This value is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the scalable resources.
@@ -692,7 +692,7 @@ public struct DescribeScalingPlanResourcesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeScalingPlanResourcesOutputBody: Swift.Equatable {
+struct DescribeScalingPlanResourcesOutputBody {
     let scalingPlanResources: [AutoScalingPlansClientTypes.ScalingPlanResource]?
     let nextToken: Swift.String?
 }
@@ -777,7 +777,7 @@ extension DescribeScalingPlansInput {
     }
 }
 
-public struct DescribeScalingPlansInput: Swift.Equatable {
+public struct DescribeScalingPlansInput {
     /// The sources for the applications (up to 10). If you specify scaling plan names, you cannot specify application sources.
     public var applicationSources: [AutoScalingPlansClientTypes.ApplicationSource]?
     /// The maximum number of scalable resources to return. This value can be between 1 and 50. The default value is 50.
@@ -805,7 +805,7 @@ public struct DescribeScalingPlansInput: Swift.Equatable {
     }
 }
 
-struct DescribeScalingPlansInputBody: Swift.Equatable {
+struct DescribeScalingPlansInputBody {
     let scalingPlanNames: [Swift.String]?
     let scalingPlanVersion: Swift.Int?
     let applicationSources: [AutoScalingPlansClientTypes.ApplicationSource]?
@@ -869,7 +869,7 @@ extension DescribeScalingPlansOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeScalingPlansOutput: Swift.Equatable {
+public struct DescribeScalingPlansOutput {
     /// The token required to get the next set of results. This value is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the scaling plans.
@@ -885,7 +885,7 @@ public struct DescribeScalingPlansOutput: Swift.Equatable {
     }
 }
 
-struct DescribeScalingPlansOutputBody: Swift.Equatable {
+struct DescribeScalingPlansOutputBody {
     let scalingPlans: [AutoScalingPlansClientTypes.ScalingPlan]?
     let nextToken: Swift.String?
 }
@@ -1014,7 +1014,7 @@ extension GetScalingPlanResourceForecastDataInput {
     }
 }
 
-public struct GetScalingPlanResourceForecastDataInput: Swift.Equatable {
+public struct GetScalingPlanResourceForecastDataInput {
     /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days. Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. AWS Auto Scaling only issues forecasts for periods of two days in advance.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -1070,7 +1070,7 @@ public struct GetScalingPlanResourceForecastDataInput: Swift.Equatable {
     }
 }
 
-struct GetScalingPlanResourceForecastDataInputBody: Swift.Equatable {
+struct GetScalingPlanResourceForecastDataInputBody {
     let scalingPlanName: Swift.String?
     let scalingPlanVersion: Swift.Int?
     let serviceNamespace: AutoScalingPlansClientTypes.ServiceNamespace?
@@ -1126,7 +1126,7 @@ extension GetScalingPlanResourceForecastDataOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetScalingPlanResourceForecastDataOutput: Swift.Equatable {
+public struct GetScalingPlanResourceForecastDataOutput {
     /// The data points to return.
     /// This member is required.
     public var datapoints: [AutoScalingPlansClientTypes.Datapoint]?
@@ -1139,7 +1139,7 @@ public struct GetScalingPlanResourceForecastDataOutput: Swift.Equatable {
     }
 }
 
-struct GetScalingPlanResourceForecastDataOutputBody: Swift.Equatable {
+struct GetScalingPlanResourceForecastDataOutputBody {
     let datapoints: [AutoScalingPlansClientTypes.Datapoint]?
 }
 
@@ -1215,7 +1215,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalServiceExceptionBody: Swift.Equatable {
+struct InternalServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -1270,7 +1270,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -1325,7 +1325,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1406,7 +1406,7 @@ extension AutoScalingPlansClientTypes.MetricDimension: Swift.Codable {
 
 extension AutoScalingPlansClientTypes {
     /// Represents a dimension for a customized metric.
-    public struct MetricDimension: Swift.Equatable {
+    public struct MetricDimension {
         /// The name of the dimension.
         /// This member is required.
         public var name: Swift.String?
@@ -1506,7 +1506,7 @@ public struct ObjectNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ObjectNotFoundExceptionBody: Swift.Equatable {
+struct ObjectNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1578,7 +1578,7 @@ extension AutoScalingPlansClientTypes.PredefinedLoadMetricSpecification: Swift.C
 
 extension AutoScalingPlansClientTypes {
     /// Represents a predefined metric that can be used for predictive scaling. After creating your scaling plan, you can use the AWS Auto Scaling console to visualize forecasts for the specified metric. For more information, see [View Scaling Information for a Resource](https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-create-scaling-plan.html#gs-view-resource) in the AWS Auto Scaling User Guide.
-    public struct PredefinedLoadMetricSpecification: Swift.Equatable {
+    public struct PredefinedLoadMetricSpecification {
         /// The metric type.
         /// This member is required.
         public var predefinedLoadMetricType: AutoScalingPlansClientTypes.LoadMetricType?
@@ -1631,7 +1631,7 @@ extension AutoScalingPlansClientTypes.PredefinedScalingMetricSpecification: Swif
 
 extension AutoScalingPlansClientTypes {
     /// Represents a predefined metric that can be used for dynamic scaling as part of a target tracking scaling policy.
-    public struct PredefinedScalingMetricSpecification: Swift.Equatable {
+    public struct PredefinedScalingMetricSpecification {
         /// The metric type. The ALBRequestCountPerTarget metric type applies only to Auto Scaling groups, Spot Fleet requests, and ECS services.
         /// This member is required.
         public var predefinedScalingMetricType: AutoScalingPlansClientTypes.ScalingMetricType?
@@ -1885,7 +1885,7 @@ extension AutoScalingPlansClientTypes.ScalingInstruction: Swift.Codable {
 
 extension AutoScalingPlansClientTypes {
     /// Describes a scaling instruction for a scalable resource in a scaling plan. Each scaling instruction applies to one resource. AWS Auto Scaling creates target tracking scaling policies based on the scaling instructions. Target tracking scaling policies adjust the capacity of your scalable resource as required to maintain resource utilization at the target value that you specified. AWS Auto Scaling also configures predictive scaling for your Amazon EC2 Auto Scaling groups using a subset of parameters, including the load metric, the scaling metric, the target value for the scaling metric, the predictive scaling mode (forecast and scale or forecast only), and the desired behavior when the forecast capacity exceeds the maximum capacity of the resource. With predictive scaling, AWS Auto Scaling generates forecasts with traffic predictions for the two days ahead and schedules scaling actions that proactively add and remove resource capacity to match the forecast. We recommend waiting a minimum of 24 hours after creating an Auto Scaling group to configure predictive scaling. At minimum, there must be 24 hours of historical data to generate a forecast. For more information, see [Best Practices for AWS Auto Scaling](https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-best-practices.html) in the AWS Auto Scaling User Guide.
-    public struct ScalingInstruction: Swift.Equatable {
+    public struct ScalingInstruction {
         /// The customized load metric to use for predictive scaling. This parameter or a PredefinedLoadMetricSpecification is required when configuring predictive scaling, and cannot be used otherwise.
         public var customizedLoadMetricSpecification: AutoScalingPlansClientTypes.CustomizedLoadMetricSpecification?
         /// Controls whether dynamic scaling by AWS Auto Scaling is disabled. When dynamic scaling is enabled, AWS Auto Scaling creates target tracking scaling policies based on the specified target tracking configurations. The default is enabled (false).
@@ -2134,7 +2134,7 @@ extension AutoScalingPlansClientTypes.ScalingPlan: Swift.Codable {
 
 extension AutoScalingPlansClientTypes {
     /// Represents a scaling plan.
-    public struct ScalingPlan: Swift.Equatable {
+    public struct ScalingPlan {
         /// A CloudFormation stack or a set of tags. You can create one scaling plan per application source.
         /// This member is required.
         public var applicationSource: AutoScalingPlansClientTypes.ApplicationSource?
@@ -2272,7 +2272,7 @@ extension AutoScalingPlansClientTypes.ScalingPlanResource: Swift.Codable {
 
 extension AutoScalingPlansClientTypes {
     /// Represents a scalable resource.
-    public struct ScalingPlanResource: Swift.Equatable {
+    public struct ScalingPlanResource {
         /// The ID of the resource. This string consists of the resource type and unique identifier.
         ///
         /// * Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.
@@ -2437,7 +2437,7 @@ extension AutoScalingPlansClientTypes.ScalingPolicy: Swift.Codable {
 
 extension AutoScalingPlansClientTypes {
     /// Represents a scaling policy.
-    public struct ScalingPolicy: Swift.Equatable {
+    public struct ScalingPolicy {
         /// The name of the scaling policy.
         /// This member is required.
         public var policyName: Swift.String?
@@ -2608,7 +2608,7 @@ extension AutoScalingPlansClientTypes.TagFilter: Swift.Codable {
 
 extension AutoScalingPlansClientTypes {
     /// Represents a tag.
-    public struct TagFilter: Swift.Equatable {
+    public struct TagFilter {
         /// The tag key.
         public var key: Swift.String?
         /// The tag values (0 to 20).
@@ -2683,7 +2683,7 @@ extension AutoScalingPlansClientTypes.TargetTrackingConfiguration: Swift.Codable
 
 extension AutoScalingPlansClientTypes {
     /// Describes a target tracking configuration to use with AWS Auto Scaling. Used with [ScalingInstruction] and [ScalingPolicy].
-    public struct TargetTrackingConfiguration: Swift.Equatable {
+    public struct TargetTrackingConfiguration {
         /// A customized metric. You can specify either a predefined metric or a customized metric.
         public var customizedScalingMetricSpecification: AutoScalingPlansClientTypes.CustomizedScalingMetricSpecification?
         /// Indicates whether scale in by the target tracking scaling policy is disabled. If the value is true, scale in is disabled and the target tracking scaling policy doesn't remove capacity from the scalable resource. Otherwise, scale in is enabled and the target tracking scaling policy can remove capacity from the scalable resource. The default value is false.
@@ -2757,7 +2757,7 @@ extension UpdateScalingPlanInput {
     }
 }
 
-public struct UpdateScalingPlanInput: Swift.Equatable {
+public struct UpdateScalingPlanInput {
     /// A CloudFormation stack or set of tags. For more information, see [ApplicationSource](https://docs.aws.amazon.com/autoscaling/plans/APIReference/API_ApplicationSource.html) in the AWS Auto Scaling API Reference.
     public var applicationSource: AutoScalingPlansClientTypes.ApplicationSource?
     /// The scaling instructions. For more information, see [ScalingInstruction](https://docs.aws.amazon.com/autoscaling/plans/APIReference/API_ScalingInstruction.html) in the AWS Auto Scaling API Reference.
@@ -2783,7 +2783,7 @@ public struct UpdateScalingPlanInput: Swift.Equatable {
     }
 }
 
-struct UpdateScalingPlanInputBody: Swift.Equatable {
+struct UpdateScalingPlanInputBody {
     let scalingPlanName: Swift.String?
     let scalingPlanVersion: Swift.Int?
     let applicationSource: AutoScalingPlansClientTypes.ApplicationSource?
@@ -2825,7 +2825,7 @@ extension UpdateScalingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateScalingPlanOutput: Swift.Equatable {
+public struct UpdateScalingPlanOutput {
 
     public init() { }
 }
@@ -2883,7 +2883,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

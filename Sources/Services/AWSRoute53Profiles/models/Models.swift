@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -92,7 +92,7 @@ extension AssociateProfileInput {
     }
 }
 
-public struct AssociateProfileInput: Swift.Equatable {
+public struct AssociateProfileInput {
     /// A name for the association.
     /// This member is required.
     public var name: Swift.String?
@@ -119,7 +119,7 @@ public struct AssociateProfileInput: Swift.Equatable {
     }
 }
 
-struct AssociateProfileInputBody: Swift.Equatable {
+struct AssociateProfileInputBody {
     let profileId: Swift.String?
     let resourceId: Swift.String?
     let name: Swift.String?
@@ -168,7 +168,7 @@ extension AssociateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateProfileOutput: Swift.Equatable {
+public struct AssociateProfileOutput {
     /// The association that you just created. The association has an ID that you can use to identify it in other requests, like update and delete.
     public var profileAssociation: Route53ProfilesClientTypes.ProfileAssociation?
 
@@ -180,7 +180,7 @@ public struct AssociateProfileOutput: Swift.Equatable {
     }
 }
 
-struct AssociateProfileOutputBody: Swift.Equatable {
+struct AssociateProfileOutputBody {
     let profileAssociation: Route53ProfilesClientTypes.ProfileAssociation?
 }
 
@@ -246,7 +246,7 @@ extension AssociateResourceToProfileInput {
     }
 }
 
-public struct AssociateResourceToProfileInput: Swift.Equatable {
+public struct AssociateResourceToProfileInput {
     /// Name for the resource association.
     /// This member is required.
     public var name: Swift.String?
@@ -273,7 +273,7 @@ public struct AssociateResourceToProfileInput: Swift.Equatable {
     }
 }
 
-struct AssociateResourceToProfileInputBody: Swift.Equatable {
+struct AssociateResourceToProfileInputBody {
     let profileId: Swift.String?
     let resourceArn: Swift.String?
     let name: Swift.String?
@@ -313,7 +313,7 @@ extension AssociateResourceToProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateResourceToProfileOutput: Swift.Equatable {
+public struct AssociateResourceToProfileOutput {
     /// Infromation about the AssociateResourceToProfile, including a status message.
     public var profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation?
 
@@ -325,7 +325,7 @@ public struct AssociateResourceToProfileOutput: Swift.Equatable {
     }
 }
 
-struct AssociateResourceToProfileOutputBody: Swift.Equatable {
+struct AssociateResourceToProfileOutputBody {
     let profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation?
 }
 
@@ -398,7 +398,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -445,7 +445,7 @@ extension CreateProfileInput {
     }
 }
 
-public struct CreateProfileInput: Swift.Equatable {
+public struct CreateProfileInput {
     /// ClientToken is an idempotency token that ensures a call to CreateProfile completes only once. You choose the value to pass. For example, an issue might prevent you from getting a response from CreateProfile. In this case, safely retry your call to CreateProfile by using the same CreateProfile parameter value.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -467,7 +467,7 @@ public struct CreateProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateProfileInputBody: Swift.Equatable {
+struct CreateProfileInputBody {
     let name: Swift.String?
     let clientToken: Swift.String?
     let tags: [Route53ProfilesClientTypes.Tag]?
@@ -512,7 +512,7 @@ extension CreateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProfileOutput: Swift.Equatable {
+public struct CreateProfileOutput {
     /// The Profile that you just created.
     public var profile: Route53ProfilesClientTypes.Profile?
 
@@ -524,7 +524,7 @@ public struct CreateProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateProfileOutputBody: Swift.Equatable {
+struct CreateProfileOutputBody {
     let profile: Route53ProfilesClientTypes.Profile?
 }
 
@@ -565,7 +565,7 @@ extension DeleteProfileInput {
     }
 }
 
-public struct DeleteProfileInput: Swift.Equatable {
+public struct DeleteProfileInput {
     /// The ID of the Profile that you want to delete.
     /// This member is required.
     public var profileId: Swift.String?
@@ -578,7 +578,7 @@ public struct DeleteProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteProfileInputBody: Swift.Equatable {
+struct DeleteProfileInputBody {
 }
 
 extension DeleteProfileInputBody: Swift.Decodable {
@@ -599,7 +599,7 @@ extension DeleteProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProfileOutput: Swift.Equatable {
+public struct DeleteProfileOutput {
     /// Information about the DeleteProfile request, including the status of the request.
     public var profile: Route53ProfilesClientTypes.Profile?
 
@@ -611,7 +611,7 @@ public struct DeleteProfileOutput: Swift.Equatable {
     }
 }
 
-struct DeleteProfileOutputBody: Swift.Equatable {
+struct DeleteProfileOutputBody {
     let profile: Route53ProfilesClientTypes.Profile?
 }
 
@@ -655,7 +655,7 @@ extension DisassociateProfileInput {
     }
 }
 
-public struct DisassociateProfileInput: Swift.Equatable {
+public struct DisassociateProfileInput {
     /// ID of the Profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -673,7 +673,7 @@ public struct DisassociateProfileInput: Swift.Equatable {
     }
 }
 
-struct DisassociateProfileInputBody: Swift.Equatable {
+struct DisassociateProfileInputBody {
 }
 
 extension DisassociateProfileInputBody: Swift.Decodable {
@@ -694,7 +694,7 @@ extension DisassociateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateProfileOutput: Swift.Equatable {
+public struct DisassociateProfileOutput {
     /// Information about the DisassociateProfile request.
     public var profileAssociation: Route53ProfilesClientTypes.ProfileAssociation?
 
@@ -706,7 +706,7 @@ public struct DisassociateProfileOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateProfileOutputBody: Swift.Equatable {
+struct DisassociateProfileOutputBody {
     let profileAssociation: Route53ProfilesClientTypes.ProfileAssociation?
 }
 
@@ -751,7 +751,7 @@ extension DisassociateResourceFromProfileInput {
     }
 }
 
-public struct DisassociateResourceFromProfileInput: Swift.Equatable {
+public struct DisassociateResourceFromProfileInput {
     /// The ID of the Profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -769,7 +769,7 @@ public struct DisassociateResourceFromProfileInput: Swift.Equatable {
     }
 }
 
-struct DisassociateResourceFromProfileInputBody: Swift.Equatable {
+struct DisassociateResourceFromProfileInputBody {
 }
 
 extension DisassociateResourceFromProfileInputBody: Swift.Decodable {
@@ -790,7 +790,7 @@ extension DisassociateResourceFromProfileOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DisassociateResourceFromProfileOutput: Swift.Equatable {
+public struct DisassociateResourceFromProfileOutput {
     /// Information about the DisassociateResourceFromProfile request, including the status of the request.
     public var profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation?
 
@@ -802,7 +802,7 @@ public struct DisassociateResourceFromProfileOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateResourceFromProfileOutputBody: Swift.Equatable {
+struct DisassociateResourceFromProfileOutputBody {
     let profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation?
 }
 
@@ -846,7 +846,7 @@ extension GetProfileAssociationInput {
     }
 }
 
-public struct GetProfileAssociationInput: Swift.Equatable {
+public struct GetProfileAssociationInput {
     /// The identifier of the association you want to get information about.
     /// This member is required.
     public var profileAssociationId: Swift.String?
@@ -859,7 +859,7 @@ public struct GetProfileAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetProfileAssociationInputBody: Swift.Equatable {
+struct GetProfileAssociationInputBody {
 }
 
 extension GetProfileAssociationInputBody: Swift.Decodable {
@@ -880,7 +880,7 @@ extension GetProfileAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProfileAssociationOutput: Swift.Equatable {
+public struct GetProfileAssociationOutput {
     /// Information about the Profile association that you specified in a GetProfileAssociation request.
     public var profileAssociation: Route53ProfilesClientTypes.ProfileAssociation?
 
@@ -892,7 +892,7 @@ public struct GetProfileAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetProfileAssociationOutputBody: Swift.Equatable {
+struct GetProfileAssociationOutputBody {
     let profileAssociation: Route53ProfilesClientTypes.ProfileAssociation?
 }
 
@@ -932,7 +932,7 @@ extension GetProfileInput {
     }
 }
 
-public struct GetProfileInput: Swift.Equatable {
+public struct GetProfileInput {
     /// ID of the Profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -945,7 +945,7 @@ public struct GetProfileInput: Swift.Equatable {
     }
 }
 
-struct GetProfileInputBody: Swift.Equatable {
+struct GetProfileInputBody {
 }
 
 extension GetProfileInputBody: Swift.Decodable {
@@ -966,7 +966,7 @@ extension GetProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProfileOutput: Swift.Equatable {
+public struct GetProfileOutput {
     /// Information about the Profile, including the status of the Profile.
     public var profile: Route53ProfilesClientTypes.Profile?
 
@@ -978,7 +978,7 @@ public struct GetProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetProfileOutputBody: Swift.Equatable {
+struct GetProfileOutputBody {
     let profile: Route53ProfilesClientTypes.Profile?
 }
 
@@ -1018,7 +1018,7 @@ extension GetProfileResourceAssociationInput {
     }
 }
 
-public struct GetProfileResourceAssociationInput: Swift.Equatable {
+public struct GetProfileResourceAssociationInput {
     /// The ID of the profile resource association that you want to get information about.
     /// This member is required.
     public var profileResourceAssociationId: Swift.String?
@@ -1031,7 +1031,7 @@ public struct GetProfileResourceAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetProfileResourceAssociationInputBody: Swift.Equatable {
+struct GetProfileResourceAssociationInputBody {
 }
 
 extension GetProfileResourceAssociationInputBody: Swift.Decodable {
@@ -1052,7 +1052,7 @@ extension GetProfileResourceAssociationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetProfileResourceAssociationOutput: Swift.Equatable {
+public struct GetProfileResourceAssociationOutput {
     /// Information about the Profile resource association that you specified in a GetProfileResourceAssociation request.
     public var profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation?
 
@@ -1064,7 +1064,7 @@ public struct GetProfileResourceAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetProfileResourceAssociationOutputBody: Swift.Equatable {
+struct GetProfileResourceAssociationOutputBody {
     let profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation?
 }
 
@@ -1134,7 +1134,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InternalServiceErrorExceptionBody: Swift.Equatable {
+struct InternalServiceErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -1189,7 +1189,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -1251,7 +1251,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
     let fieldName: Swift.String?
 }
@@ -1316,7 +1316,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -1367,7 +1367,7 @@ extension ListProfileAssociationsInput {
     }
 }
 
-public struct ListProfileAssociationsInput: Swift.Equatable {
+public struct ListProfileAssociationsInput {
     /// The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided. If you don't specify a value for MaxResults, up to 100 objects are returned.
     public var maxResults: Swift.Int?
     /// For the first call to this list request, omit this value. When you request a list of objects, at most the number of objects specified by MaxResults is returned. If more objects are available for retrieval, a NextToken value is returned in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
@@ -1391,7 +1391,7 @@ public struct ListProfileAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListProfileAssociationsInputBody: Swift.Equatable {
+struct ListProfileAssociationsInputBody {
 }
 
 extension ListProfileAssociationsInputBody: Swift.Decodable {
@@ -1414,7 +1414,7 @@ extension ListProfileAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProfileAssociationsOutput: Swift.Equatable {
+public struct ListProfileAssociationsOutput {
     /// If more than MaxResults profile associations match the specified criteria, you can submit another ListProfileAssociations request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
     public var nextToken: Swift.String?
     /// A complex type that containts settings information about the profile's VPC associations.
@@ -1430,7 +1430,7 @@ public struct ListProfileAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListProfileAssociationsOutputBody: Swift.Equatable {
+struct ListProfileAssociationsOutputBody {
     let profileAssociations: [Route53ProfilesClientTypes.ProfileAssociation]?
     let nextToken: Swift.String?
 }
@@ -1504,7 +1504,7 @@ extension ListProfileResourceAssociationsInput {
     }
 }
 
-public struct ListProfileResourceAssociationsInput: Swift.Equatable {
+public struct ListProfileResourceAssociationsInput {
     /// The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided. If you don't specify a value for MaxResults, up to 100 objects are returned.
     public var maxResults: Swift.Int?
     /// For the first call to this list request, omit this value. When you request a list of objects, at most the number of objects specified by MaxResults is returned. If more objects are available for retrieval, a NextToken value is returned in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
@@ -1529,7 +1529,7 @@ public struct ListProfileResourceAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListProfileResourceAssociationsInputBody: Swift.Equatable {
+struct ListProfileResourceAssociationsInputBody {
 }
 
 extension ListProfileResourceAssociationsInputBody: Swift.Decodable {
@@ -1552,7 +1552,7 @@ extension ListProfileResourceAssociationsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListProfileResourceAssociationsOutput: Swift.Equatable {
+public struct ListProfileResourceAssociationsOutput {
     /// If more than MaxResults resource associations match the specified criteria, you can submit another ListProfileResourceAssociations request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
     public var nextToken: Swift.String?
     /// Information about the profile resource association that you specified in a GetProfileResourceAssociation request.
@@ -1568,7 +1568,7 @@ public struct ListProfileResourceAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListProfileResourceAssociationsOutputBody: Swift.Equatable {
+struct ListProfileResourceAssociationsOutputBody {
     let profileResourceAssociations: [Route53ProfilesClientTypes.ProfileResourceAssociation]?
     let nextToken: Swift.String?
 }
@@ -1637,7 +1637,7 @@ extension ListProfilesInput {
     }
 }
 
-public struct ListProfilesInput: Swift.Equatable {
+public struct ListProfilesInput {
     /// The maximum number of objects that you want to return for this request. If more objects are available, in the response, a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided. If you don't specify a value for MaxResults, up to 100 objects are returned.
     public var maxResults: Swift.Int?
     /// For the first call to this list request, omit this value. When you request a list of objects, at most the number of objects specified by MaxResults is returned. If more objects are available for retrieval, a NextToken value is returned in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
@@ -1653,7 +1653,7 @@ public struct ListProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListProfilesInputBody: Swift.Equatable {
+struct ListProfilesInputBody {
 }
 
 extension ListProfilesInputBody: Swift.Decodable {
@@ -1676,7 +1676,7 @@ extension ListProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProfilesOutput: Swift.Equatable {
+public struct ListProfilesOutput {
     /// If more than MaxResults resource associations match the specified criteria, you can submit another ListProfiles request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
     public var nextToken: Swift.String?
     /// Summary information about the Profiles.
@@ -1692,7 +1692,7 @@ public struct ListProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListProfilesOutputBody: Swift.Equatable {
+struct ListProfilesOutputBody {
     let profileSummaries: [Route53ProfilesClientTypes.ProfileSummary]?
     let nextToken: Swift.String?
 }
@@ -1746,7 +1746,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) for the resource that you want to list the tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1759,7 +1759,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -1780,7 +1780,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags that are associated with the resource that you specified in the ListTagsForResource request.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -1793,7 +1793,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1908,7 +1908,7 @@ extension Route53ProfilesClientTypes.Profile: Swift.Codable {
 
 extension Route53ProfilesClientTypes {
     /// A complex type that includes settings for a Route 53 Profile.
-    public struct Profile: Swift.Equatable {
+    public struct Profile {
         /// The Amazon Resource Name (ARN) of the Profile.
         public var arn: Swift.String?
         /// The ClientToken value that was assigned when the Profile was created.
@@ -2027,7 +2027,7 @@ extension Route53ProfilesClientTypes.ProfileAssociation: Swift.Codable {
 
 extension Route53ProfilesClientTypes {
     /// An association between a Route 53 Profile and a VPC.
-    public struct ProfileAssociation: Swift.Equatable {
+    public struct ProfileAssociation {
         /// The date and time that the Profile association was created, in Unix time format and Coordinated Universal Time (UTC).
         public var creationTime: ClientRuntime.Date?
         /// ID of the Profile association.
@@ -2154,7 +2154,7 @@ extension Route53ProfilesClientTypes.ProfileResourceAssociation: Swift.Codable {
 
 extension Route53ProfilesClientTypes {
     /// The association between a Route 53 Profile and resources.
-    public struct ProfileResourceAssociation: Swift.Equatable {
+    public struct ProfileResourceAssociation {
         /// The date and time that the Profile resource association was created, in Unix time format and Coordinated Universal Time (UTC).
         public var creationTime: ClientRuntime.Date?
         /// ID of the Profile resource association.
@@ -2291,7 +2291,7 @@ extension Route53ProfilesClientTypes.ProfileSummary: Swift.Codable {
 
 extension Route53ProfilesClientTypes {
     /// Summary information about a Route 53 Profile.
-    public struct ProfileSummary: Swift.Equatable {
+    public struct ProfileSummary {
         /// The Amazon Resource Name (ARN) of the Profile.
         public var arn: Swift.String?
         /// ID of the Profile.
@@ -2362,7 +2362,7 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ResourceExistsExceptionBody: Swift.Equatable {
+struct ResourceExistsExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -2427,7 +2427,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -2511,7 +2511,7 @@ extension Route53ProfilesClientTypes.Tag: Swift.Codable {
 
 extension Route53ProfilesClientTypes {
     /// Tag for the Profile.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Key associated with the Tag.
         /// This member is required.
         public var key: Swift.String?
@@ -2557,7 +2557,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) for the resource that you want to add tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2575,7 +2575,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2605,7 +2605,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2663,7 +2663,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -2705,7 +2705,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) for the resource that you want to remove tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2723,7 +2723,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -2737,7 +2737,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -2784,7 +2784,7 @@ extension UpdateProfileResourceAssociationInput {
     }
 }
 
-public struct UpdateProfileResourceAssociationInput: Swift.Equatable {
+public struct UpdateProfileResourceAssociationInput {
     /// Name of the resource association.
     public var name: Swift.String?
     /// ID of the resource association.
@@ -2805,7 +2805,7 @@ public struct UpdateProfileResourceAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileResourceAssociationInputBody: Swift.Equatable {
+struct UpdateProfileResourceAssociationInputBody {
     let name: Swift.String?
     let resourceProperties: Swift.String?
 }
@@ -2837,7 +2837,7 @@ extension UpdateProfileResourceAssociationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateProfileResourceAssociationOutput: Swift.Equatable {
+public struct UpdateProfileResourceAssociationOutput {
     /// Information about the UpdateProfileResourceAssociation request, including a status message.
     public var profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation?
 
@@ -2849,7 +2849,7 @@ public struct UpdateProfileResourceAssociationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileResourceAssociationOutputBody: Swift.Equatable {
+struct UpdateProfileResourceAssociationOutputBody {
     let profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation?
 }
 
@@ -2922,7 +2922,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

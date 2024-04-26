@@ -41,7 +41,7 @@ public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ClientLimitExceededExceptionBody: Swift.Equatable {
+struct ClientLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -89,7 +89,7 @@ extension GetIceServerConfigInput {
     }
 }
 
-public struct GetIceServerConfigInput: Swift.Equatable {
+public struct GetIceServerConfigInput {
     /// The ARN of the signaling channel to be used for the peer-to-peer connection between configured peers.
     /// This member is required.
     public var channelARN: Swift.String?
@@ -114,7 +114,7 @@ public struct GetIceServerConfigInput: Swift.Equatable {
     }
 }
 
-struct GetIceServerConfigInputBody: Swift.Equatable {
+struct GetIceServerConfigInputBody {
     let channelARN: Swift.String?
     let clientId: Swift.String?
     let service: KinesisVideoSignalingClientTypes.Service?
@@ -154,7 +154,7 @@ extension GetIceServerConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIceServerConfigOutput: Swift.Equatable {
+public struct GetIceServerConfigOutput {
     /// The list of ICE server information objects.
     public var iceServerList: [KinesisVideoSignalingClientTypes.IceServer]?
 
@@ -166,7 +166,7 @@ public struct GetIceServerConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetIceServerConfigOutputBody: Swift.Equatable {
+struct GetIceServerConfigOutputBody {
     let iceServerList: [KinesisVideoSignalingClientTypes.IceServer]?
 }
 
@@ -258,7 +258,7 @@ extension KinesisVideoSignalingClientTypes.IceServer: Swift.Codable {
 
 extension KinesisVideoSignalingClientTypes {
     /// A structure for the ICE server connection data.
-    public struct IceServer: Swift.Equatable {
+    public struct IceServer {
         /// A password to login to the ICE server.
         public var password: Swift.String?
         /// The period of time, in seconds, during which the username and password are valid.
@@ -323,7 +323,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidArgumentExceptionBody: Swift.Equatable {
+struct InvalidArgumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -378,7 +378,7 @@ public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidClientExceptionBody: Swift.Equatable {
+struct InvalidClientExceptionBody {
     let message: Swift.String?
 }
 
@@ -435,7 +435,7 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct NotAuthorizedExceptionBody: Swift.Equatable {
+struct NotAuthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -490,7 +490,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -534,7 +534,7 @@ extension SendAlexaOfferToMasterInput {
     }
 }
 
-public struct SendAlexaOfferToMasterInput: Swift.Equatable {
+public struct SendAlexaOfferToMasterInput {
     /// The ARN of the signaling channel by which Alexa and the master peer communicate.
     /// This member is required.
     public var channelARN: Swift.String?
@@ -557,7 +557,7 @@ public struct SendAlexaOfferToMasterInput: Swift.Equatable {
     }
 }
 
-struct SendAlexaOfferToMasterInputBody: Swift.Equatable {
+struct SendAlexaOfferToMasterInputBody {
     let channelARN: Swift.String?
     let senderClientId: Swift.String?
     let messagePayload: Swift.String?
@@ -593,7 +593,7 @@ extension SendAlexaOfferToMasterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendAlexaOfferToMasterOutput: Swift.Equatable {
+public struct SendAlexaOfferToMasterOutput {
     /// The base64-encoded SDP answer content.
     public var answer: Swift.String?
 
@@ -605,7 +605,7 @@ public struct SendAlexaOfferToMasterOutput: Swift.Equatable {
     }
 }
 
-struct SendAlexaOfferToMasterOutputBody: Swift.Equatable {
+struct SendAlexaOfferToMasterOutputBody {
     let answer: Swift.String?
 }
 
@@ -703,7 +703,7 @@ public struct SessionExpiredException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct SessionExpiredExceptionBody: Swift.Equatable {
+struct SessionExpiredExceptionBody {
     let message: Swift.String?
 }
 

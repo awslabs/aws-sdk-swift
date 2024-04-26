@@ -12,7 +12,7 @@ extension GetRawMessageContentInput {
     }
 }
 
-public struct GetRawMessageContentInput: Swift.Equatable {
+public struct GetRawMessageContentInput {
     /// The identifier of the email message to retrieve.
     /// This member is required.
     public var messageId: Swift.String?
@@ -25,7 +25,7 @@ public struct GetRawMessageContentInput: Swift.Equatable {
     }
 }
 
-struct GetRawMessageContentInputBody: Swift.Equatable {
+struct GetRawMessageContentInputBody {
 }
 
 extension GetRawMessageContentInputBody: Swift.Decodable {
@@ -47,7 +47,7 @@ extension GetRawMessageContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRawMessageContentOutput: Swift.Equatable {
+public struct GetRawMessageContentOutput {
     /// The raw content of the email message, in MIME format.
     /// This member is required.
     public var messageContent: ClientRuntime.ByteStream?
@@ -60,7 +60,7 @@ public struct GetRawMessageContentOutput: Swift.Equatable {
     }
 }
 
-struct GetRawMessageContentOutputBody: Swift.Equatable {
+struct GetRawMessageContentOutputBody {
     let messageContent: ClientRuntime.ByteStream?
 }
 
@@ -132,7 +132,7 @@ public struct InvalidContentLocation: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidContentLocationBody: Swift.Equatable {
+struct InvalidContentLocationBody {
     let message: Swift.String?
 }
 
@@ -187,7 +187,7 @@ public struct MessageFrozen: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-struct MessageFrozenBody: Swift.Equatable {
+struct MessageFrozenBody {
     let message: Swift.String?
 }
 
@@ -242,7 +242,7 @@ public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct MessageRejectedBody: Swift.Equatable {
+struct MessageRejectedBody {
     let message: Swift.String?
 }
 
@@ -281,7 +281,7 @@ extension PutRawMessageContentInput {
     }
 }
 
-public struct PutRawMessageContentInput: Swift.Equatable {
+public struct PutRawMessageContentInput {
     /// Describes the raw message content of the updated email message.
     /// This member is required.
     public var content: WorkMailMessageFlowClientTypes.RawMessageContent?
@@ -299,7 +299,7 @@ public struct PutRawMessageContentInput: Swift.Equatable {
     }
 }
 
-struct PutRawMessageContentInputBody: Swift.Equatable {
+struct PutRawMessageContentInputBody {
     let content: WorkMailMessageFlowClientTypes.RawMessageContent?
 }
 
@@ -320,7 +320,7 @@ extension PutRawMessageContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutRawMessageContentOutput: Swift.Equatable {
+public struct PutRawMessageContentOutput {
 
     public init() { }
 }
@@ -374,7 +374,7 @@ extension WorkMailMessageFlowClientTypes {
     /// * The value of immutable headers must remain unchanged. Check the returned error message for more information.
     ///
     /// * Certain unique headers can only appear once. Check the returned error message for more information.
-    public struct RawMessageContent: Swift.Equatable {
+    public struct RawMessageContent {
         /// The S3 reference of an email message.
         /// This member is required.
         public var s3Reference: WorkMailMessageFlowClientTypes.S3Reference?
@@ -428,7 +428,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -477,7 +477,7 @@ extension WorkMailMessageFlowClientTypes.S3Reference: Swift.Codable {
 
 extension WorkMailMessageFlowClientTypes {
     /// Amazon S3 object representing the updated message content, in MIME format. The region for the S3 bucket containing the S3 object must match the region used for WorkMail operations. Also, for WorkMail to process an S3 object, it must have permission to access that object. For more information, see [ Updating message content with AWS Lambda](https://docs.aws.amazon.com/workmail/latest/adminguide/update-with-lambda.html).
-    public struct S3Reference: Swift.Equatable {
+    public struct S3Reference {
         /// The S3 bucket name.
         /// This member is required.
         public var bucket: Swift.String?

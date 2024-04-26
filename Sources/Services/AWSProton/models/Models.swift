@@ -22,7 +22,7 @@ extension AcceptEnvironmentAccountConnectionInput {
     }
 }
 
-public struct AcceptEnvironmentAccountConnectionInput: Swift.Equatable {
+public struct AcceptEnvironmentAccountConnectionInput {
     /// The ID of the environment account connection.
     /// This member is required.
     public var id: Swift.String?
@@ -35,7 +35,7 @@ public struct AcceptEnvironmentAccountConnectionInput: Swift.Equatable {
     }
 }
 
-struct AcceptEnvironmentAccountConnectionInputBody: Swift.Equatable {
+struct AcceptEnvironmentAccountConnectionInputBody {
     let id: Swift.String?
 }
 
@@ -63,7 +63,7 @@ extension AcceptEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct AcceptEnvironmentAccountConnectionOutput: Swift.Equatable {
+public struct AcceptEnvironmentAccountConnectionOutput {
     /// The environment account connection data that's returned by Proton.
     /// This member is required.
     public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
@@ -76,7 +76,7 @@ public struct AcceptEnvironmentAccountConnectionOutput: Swift.Equatable {
     }
 }
 
-struct AcceptEnvironmentAccountConnectionOutputBody: Swift.Equatable {
+struct AcceptEnvironmentAccountConnectionOutputBody {
     let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
 }
 
@@ -153,7 +153,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -202,7 +202,7 @@ extension ProtonClientTypes.AccountSettings: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Proton settings that are used for multiple services in the Amazon Web Services account.
-    public struct AccountSettings: Swift.Equatable {
+    public struct AccountSettings {
         /// The Amazon Resource Name (ARN) of the service role that Proton uses for provisioning pipelines. Proton assumes this role for CodeBuild-based provisioning.
         public var pipelineCodebuildRoleArn: Swift.String?
         /// The linked repository for pipeline provisioning. Required if you have environments configured for self-managed provisioning with services that include pipelines. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository].
@@ -305,7 +305,7 @@ extension CancelComponentDeploymentInput {
     }
 }
 
-public struct CancelComponentDeploymentInput: Swift.Equatable {
+public struct CancelComponentDeploymentInput {
     /// The name of the component with the deployment to cancel.
     /// This member is required.
     public var componentName: Swift.String?
@@ -318,7 +318,7 @@ public struct CancelComponentDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CancelComponentDeploymentInputBody: Swift.Equatable {
+struct CancelComponentDeploymentInputBody {
     let componentName: Swift.String?
 }
 
@@ -346,7 +346,7 @@ extension CancelComponentDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelComponentDeploymentOutput: Swift.Equatable {
+public struct CancelComponentDeploymentOutput {
     /// The detailed data of the component with the deployment that is being canceled.
     /// This member is required.
     public var component: ProtonClientTypes.Component?
@@ -359,7 +359,7 @@ public struct CancelComponentDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CancelComponentDeploymentOutputBody: Swift.Equatable {
+struct CancelComponentDeploymentOutputBody {
     let component: ProtonClientTypes.Component?
 }
 
@@ -411,7 +411,7 @@ extension CancelEnvironmentDeploymentInput {
     }
 }
 
-public struct CancelEnvironmentDeploymentInput: Swift.Equatable {
+public struct CancelEnvironmentDeploymentInput {
     /// The name of the environment with the deployment to cancel.
     /// This member is required.
     public var environmentName: Swift.String?
@@ -424,7 +424,7 @@ public struct CancelEnvironmentDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CancelEnvironmentDeploymentInputBody: Swift.Equatable {
+struct CancelEnvironmentDeploymentInputBody {
     let environmentName: Swift.String?
 }
 
@@ -452,7 +452,7 @@ extension CancelEnvironmentDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelEnvironmentDeploymentOutput: Swift.Equatable {
+public struct CancelEnvironmentDeploymentOutput {
     /// The environment summary data that's returned by Proton.
     /// This member is required.
     public var environment: ProtonClientTypes.Environment?
@@ -465,7 +465,7 @@ public struct CancelEnvironmentDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CancelEnvironmentDeploymentOutputBody: Swift.Equatable {
+struct CancelEnvironmentDeploymentOutputBody {
     let environment: ProtonClientTypes.Environment?
 }
 
@@ -521,7 +521,7 @@ extension CancelServiceInstanceDeploymentInput {
     }
 }
 
-public struct CancelServiceInstanceDeploymentInput: Swift.Equatable {
+public struct CancelServiceInstanceDeploymentInput {
     /// The name of the service instance with the deployment to cancel.
     /// This member is required.
     public var serviceInstanceName: Swift.String?
@@ -539,7 +539,7 @@ public struct CancelServiceInstanceDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CancelServiceInstanceDeploymentInputBody: Swift.Equatable {
+struct CancelServiceInstanceDeploymentInputBody {
     let serviceInstanceName: Swift.String?
     let serviceName: Swift.String?
 }
@@ -571,7 +571,7 @@ extension CancelServiceInstanceDeploymentOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CancelServiceInstanceDeploymentOutput: Swift.Equatable {
+public struct CancelServiceInstanceDeploymentOutput {
     /// The service instance summary data that's returned by Proton.
     /// This member is required.
     public var serviceInstance: ProtonClientTypes.ServiceInstance?
@@ -584,7 +584,7 @@ public struct CancelServiceInstanceDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CancelServiceInstanceDeploymentOutputBody: Swift.Equatable {
+struct CancelServiceInstanceDeploymentOutputBody {
     let serviceInstance: ProtonClientTypes.ServiceInstance?
 }
 
@@ -636,7 +636,7 @@ extension CancelServicePipelineDeploymentInput {
     }
 }
 
-public struct CancelServicePipelineDeploymentInput: Swift.Equatable {
+public struct CancelServicePipelineDeploymentInput {
     /// The name of the service with the service pipeline deployment to cancel.
     /// This member is required.
     public var serviceName: Swift.String?
@@ -649,7 +649,7 @@ public struct CancelServicePipelineDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CancelServicePipelineDeploymentInputBody: Swift.Equatable {
+struct CancelServicePipelineDeploymentInputBody {
     let serviceName: Swift.String?
 }
 
@@ -677,7 +677,7 @@ extension CancelServicePipelineDeploymentOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CancelServicePipelineDeploymentOutput: Swift.Equatable {
+public struct CancelServicePipelineDeploymentOutput {
     /// The service pipeline detail data that's returned by Proton.
     /// This member is required.
     public var pipeline: ProtonClientTypes.ServicePipeline?
@@ -690,7 +690,7 @@ public struct CancelServicePipelineDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CancelServicePipelineDeploymentOutputBody: Swift.Equatable {
+struct CancelServicePipelineDeploymentOutputBody {
     let pipeline: ProtonClientTypes.ServicePipeline?
 }
 
@@ -749,7 +749,7 @@ extension ProtonClientTypes.CompatibleEnvironmentTemplate: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Compatible environment template data.
-    public struct CompatibleEnvironmentTemplate: Swift.Equatable {
+    public struct CompatibleEnvironmentTemplate {
         /// The major version of the compatible environment template.
         /// This member is required.
         public var majorVersion: Swift.String?
@@ -796,7 +796,7 @@ extension ProtonClientTypes.CompatibleEnvironmentTemplateInput: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Compatible environment template data.
-    public struct CompatibleEnvironmentTemplateInput: Swift.Equatable {
+    public struct CompatibleEnvironmentTemplateInput {
         /// The major version of the compatible environment template.
         /// This member is required.
         public var majorVersion: Swift.String?
@@ -932,7 +932,7 @@ extension ProtonClientTypes.Component: Swift.CustomDebugStringConvertible {
 
 extension ProtonClientTypes {
     /// Detailed data of an Proton component resource. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    public struct Component: Swift.Equatable {
+    public struct Component {
         /// The Amazon Resource Name (ARN) of the component.
         /// This member is required.
         public var arn: Swift.String?
@@ -1088,7 +1088,7 @@ extension ProtonClientTypes.ComponentState: Swift.CustomDebugStringConvertible {
 
 extension ProtonClientTypes {
     /// The detailed data about the current state of the component.
-    public struct ComponentState: Swift.Equatable {
+    public struct ComponentState {
         /// The name of the service instance that this component is attached to. Provided when a component is attached to a service instance.
         public var serviceInstanceName: Swift.String?
         /// The name of the service that serviceInstanceName is associated with. Provided when a component is attached to a service instance.
@@ -1212,7 +1212,7 @@ extension ProtonClientTypes.ComponentSummary: Swift.CustomDebugStringConvertible
 
 extension ProtonClientTypes {
     /// Summary data of an Proton component resource. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
-    public struct ComponentSummary: Swift.Equatable {
+    public struct ComponentSummary {
         /// The Amazon Resource Name (ARN) of the component.
         /// This member is required.
         public var arn: Swift.String?
@@ -1325,7 +1325,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1398,7 +1398,7 @@ extension ProtonClientTypes.CountsSummary: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Summary counts of each Proton resource type.
-    public struct CountsSummary: Swift.Equatable {
+    public struct CountsSummary {
         /// The total number of components in the Amazon Web Services account. The semantics of the components field are different from the semantics of results for other infrastructure-provisioning resources. That's because at this time components don't have associated templates, therefore they don't have the concept of staleness. The components object will only contain total and failed members.
         public var components: ProtonClientTypes.ResourceCountsSummary?
         /// The total number of environment templates in the Amazon Web Services account. The environmentTemplates object will only contain total members.
@@ -1500,7 +1500,7 @@ extension CreateComponentInput {
     }
 }
 
-public struct CreateComponentInput: Swift.Equatable {
+public struct CreateComponentInput {
     /// The client token for the created component.
     public var clientToken: Swift.String?
     /// An optional customer-provided description of the component.
@@ -1551,7 +1551,7 @@ public struct CreateComponentInput: Swift.Equatable {
     }
 }
 
-struct CreateComponentInputBody: Swift.Equatable {
+struct CreateComponentInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let serviceName: Swift.String?
@@ -1624,7 +1624,7 @@ extension CreateComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateComponentOutput: Swift.Equatable {
+public struct CreateComponentOutput {
     /// The detailed data of the created component.
     /// This member is required.
     public var component: ProtonClientTypes.Component?
@@ -1637,7 +1637,7 @@ public struct CreateComponentOutput: Swift.Equatable {
     }
 }
 
-struct CreateComponentOutputBody: Swift.Equatable {
+struct CreateComponentOutputBody {
     let component: ProtonClientTypes.Component?
 }
 
@@ -1717,7 +1717,7 @@ extension CreateEnvironmentAccountConnectionInput {
     }
 }
 
-public struct CreateEnvironmentAccountConnectionInput: Swift.Equatable {
+public struct CreateEnvironmentAccountConnectionInput {
     /// When included, if two identical requests are made with the same client token, Proton returns the environment account connection that the first request created.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of an IAM service role in the environment account. Proton uses this role to provision infrastructure resources using CodeBuild-based provisioning in the associated environment account.
@@ -1755,7 +1755,7 @@ public struct CreateEnvironmentAccountConnectionInput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentAccountConnectionInputBody: Swift.Equatable {
+struct CreateEnvironmentAccountConnectionInputBody {
     let clientToken: Swift.String?
     let managementAccountId: Swift.String?
     let roleArn: Swift.String?
@@ -1816,7 +1816,7 @@ extension CreateEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct CreateEnvironmentAccountConnectionOutput: Swift.Equatable {
+public struct CreateEnvironmentAccountConnectionOutput {
     /// The environment account connection detail data that's returned by Proton.
     /// This member is required.
     public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
@@ -1829,7 +1829,7 @@ public struct CreateEnvironmentAccountConnectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentAccountConnectionOutputBody: Swift.Equatable {
+struct CreateEnvironmentAccountConnectionOutputBody {
     let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
 }
 
@@ -1933,7 +1933,7 @@ extension CreateEnvironmentInput {
     }
 }
 
-public struct CreateEnvironmentInput: Swift.Equatable {
+public struct CreateEnvironmentInput {
     /// The Amazon Resource Name (ARN) of the IAM service role that allows Proton to provision infrastructure using CodeBuild-based provisioning on your behalf. To use CodeBuild-based provisioning for the environment or for any service instance running in the environment, specify either the environmentAccountConnectionId or codebuildRoleArn parameter.
     public var codebuildRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. You must specify componentRoleArn to allow directly defined components to be associated with this environment. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
@@ -1993,7 +1993,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentInputBody: Swift.Equatable {
+struct CreateEnvironmentInputBody {
     let name: Swift.String?
     let templateName: Swift.String?
     let templateMajorVersion: Swift.String?
@@ -2074,7 +2074,7 @@ extension CreateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEnvironmentOutput: Swift.Equatable {
+public struct CreateEnvironmentOutput {
     /// The environment detail data that's returned by Proton.
     /// This member is required.
     public var environment: ProtonClientTypes.Environment?
@@ -2087,7 +2087,7 @@ public struct CreateEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentOutputBody: Swift.Equatable {
+struct CreateEnvironmentOutputBody {
     let environment: ProtonClientTypes.Environment?
 }
 
@@ -2168,7 +2168,7 @@ extension CreateEnvironmentTemplateInput {
     }
 }
 
-public struct CreateEnvironmentTemplateInput: Swift.Equatable {
+public struct CreateEnvironmentTemplateInput {
     /// A description of the environment template.
     public var description: Swift.String?
     /// The environment template name as displayed in the developer interface.
@@ -2201,7 +2201,7 @@ public struct CreateEnvironmentTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentTemplateInputBody: Swift.Equatable {
+struct CreateEnvironmentTemplateInputBody {
     let name: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -2258,7 +2258,7 @@ extension CreateEnvironmentTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEnvironmentTemplateOutput: Swift.Equatable {
+public struct CreateEnvironmentTemplateOutput {
     /// The environment template detail data that's returned by Proton.
     /// This member is required.
     public var environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
@@ -2271,7 +2271,7 @@ public struct CreateEnvironmentTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentTemplateOutputBody: Swift.Equatable {
+struct CreateEnvironmentTemplateOutputBody {
     let environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
 }
 
@@ -2351,7 +2351,7 @@ extension CreateEnvironmentTemplateVersionInput {
     }
 }
 
-public struct CreateEnvironmentTemplateVersionInput: Swift.Equatable {
+public struct CreateEnvironmentTemplateVersionInput {
     /// When included, if two identical requests are made with the same client token, Proton returns the environment template version that the first request created.
     public var clientToken: Swift.String?
     /// A description of the new version of an environment template.
@@ -2385,7 +2385,7 @@ public struct CreateEnvironmentTemplateVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentTemplateVersionInputBody: Swift.Equatable {
+struct CreateEnvironmentTemplateVersionInputBody {
     let clientToken: Swift.String?
     let templateName: Swift.String?
     let description: Swift.String?
@@ -2442,7 +2442,7 @@ extension CreateEnvironmentTemplateVersionOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreateEnvironmentTemplateVersionOutput: Swift.Equatable {
+public struct CreateEnvironmentTemplateVersionOutput {
     /// The environment template detail data that's returned by Proton.
     /// This member is required.
     public var environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
@@ -2455,7 +2455,7 @@ public struct CreateEnvironmentTemplateVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentTemplateVersionOutputBody: Swift.Equatable {
+struct CreateEnvironmentTemplateVersionOutputBody {
     let environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
 }
 
@@ -2527,7 +2527,7 @@ extension CreateRepositoryInput {
     }
 }
 
-public struct CreateRepositoryInput: Swift.Equatable {
+public struct CreateRepositoryInput {
     /// The Amazon Resource Name (ARN) of your AWS CodeStar connection that connects Proton to your repository provider account. For more information, see [Setting up for Proton](https://docs.aws.amazon.com/proton/latest/userguide/setting-up-for-service.html) in the Proton User Guide.
     /// This member is required.
     public var connectionArn: Swift.String?
@@ -2558,7 +2558,7 @@ public struct CreateRepositoryInput: Swift.Equatable {
     }
 }
 
-struct CreateRepositoryInputBody: Swift.Equatable {
+struct CreateRepositoryInputBody {
     let provider: ProtonClientTypes.RepositoryProvider?
     let name: Swift.String?
     let connectionArn: Swift.String?
@@ -2611,7 +2611,7 @@ extension CreateRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRepositoryOutput: Swift.Equatable {
+public struct CreateRepositoryOutput {
     /// The repository link's detail data that's returned by Proton.
     /// This member is required.
     public var repository: ProtonClientTypes.Repository?
@@ -2624,7 +2624,7 @@ public struct CreateRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct CreateRepositoryOutputBody: Swift.Equatable {
+struct CreateRepositoryOutputBody {
     let repository: ProtonClientTypes.Repository?
 }
 
@@ -2720,7 +2720,7 @@ extension CreateServiceInput {
     }
 }
 
-public struct CreateServiceInput: Swift.Equatable {
+public struct CreateServiceInput {
     /// The name of the code repository branch that holds the code that's deployed in Proton. Don't include this parameter if your service template doesn't include a service pipeline.
     public var branchName: Swift.String?
     /// A description of the Proton service.
@@ -2772,7 +2772,7 @@ public struct CreateServiceInput: Swift.Equatable {
     }
 }
 
-struct CreateServiceInputBody: Swift.Equatable {
+struct CreateServiceInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let templateName: Swift.String?
@@ -2885,7 +2885,7 @@ extension CreateServiceInstanceInput {
     }
 }
 
-public struct CreateServiceInstanceInput: Swift.Equatable {
+public struct CreateServiceInstanceInput {
     /// The client token of the service instance to create.
     public var clientToken: Swift.String?
     /// The name of the service instance to create.
@@ -2924,7 +2924,7 @@ public struct CreateServiceInstanceInput: Swift.Equatable {
     }
 }
 
-struct CreateServiceInstanceInputBody: Swift.Equatable {
+struct CreateServiceInstanceInputBody {
     let name: Swift.String?
     let serviceName: Swift.String?
     let spec: Swift.String?
@@ -2985,7 +2985,7 @@ extension CreateServiceInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateServiceInstanceOutput: Swift.Equatable {
+public struct CreateServiceInstanceOutput {
     /// The detailed data of the service instance being created.
     /// This member is required.
     public var serviceInstance: ProtonClientTypes.ServiceInstance?
@@ -2998,7 +2998,7 @@ public struct CreateServiceInstanceOutput: Swift.Equatable {
     }
 }
 
-struct CreateServiceInstanceOutputBody: Swift.Equatable {
+struct CreateServiceInstanceOutputBody {
     let serviceInstance: ProtonClientTypes.ServiceInstance?
 }
 
@@ -3042,7 +3042,7 @@ extension CreateServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateServiceOutput: Swift.Equatable {
+public struct CreateServiceOutput {
     /// The service detail data that's returned by Proton.
     /// This member is required.
     public var service: ProtonClientTypes.Service?
@@ -3055,7 +3055,7 @@ public struct CreateServiceOutput: Swift.Equatable {
     }
 }
 
-struct CreateServiceOutputBody: Swift.Equatable {
+struct CreateServiceOutputBody {
     let service: ProtonClientTypes.Service?
 }
 
@@ -3124,7 +3124,7 @@ extension CreateServiceSyncConfigInput {
     }
 }
 
-public struct CreateServiceSyncConfigInput: Swift.Equatable {
+public struct CreateServiceSyncConfigInput {
     /// The repository branch for your Proton Ops file.
     /// This member is required.
     public var branch: Swift.String?
@@ -3157,7 +3157,7 @@ public struct CreateServiceSyncConfigInput: Swift.Equatable {
     }
 }
 
-struct CreateServiceSyncConfigInputBody: Swift.Equatable {
+struct CreateServiceSyncConfigInputBody {
     let serviceName: Swift.String?
     let repositoryProvider: ProtonClientTypes.RepositoryProvider?
     let repositoryName: Swift.String?
@@ -3201,7 +3201,7 @@ extension CreateServiceSyncConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateServiceSyncConfigOutput: Swift.Equatable {
+public struct CreateServiceSyncConfigOutput {
     /// The detailed data of the Proton Ops file.
     public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
 
@@ -3213,7 +3213,7 @@ public struct CreateServiceSyncConfigOutput: Swift.Equatable {
     }
 }
 
-struct CreateServiceSyncConfigOutputBody: Swift.Equatable {
+struct CreateServiceSyncConfigOutputBody {
     let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
 }
 
@@ -3293,7 +3293,7 @@ extension CreateServiceTemplateInput {
     }
 }
 
-public struct CreateServiceTemplateInput: Swift.Equatable {
+public struct CreateServiceTemplateInput {
     /// A description of the service template.
     public var description: Swift.String?
     /// The name of the service template as displayed in the developer interface.
@@ -3326,7 +3326,7 @@ public struct CreateServiceTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateServiceTemplateInputBody: Swift.Equatable {
+struct CreateServiceTemplateInputBody {
     let name: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -3383,7 +3383,7 @@ extension CreateServiceTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateServiceTemplateOutput: Swift.Equatable {
+public struct CreateServiceTemplateOutput {
     /// The service template detail data that's returned by Proton.
     /// This member is required.
     public var serviceTemplate: ProtonClientTypes.ServiceTemplate?
@@ -3396,7 +3396,7 @@ public struct CreateServiceTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateServiceTemplateOutputBody: Swift.Equatable {
+struct CreateServiceTemplateOutputBody {
     let serviceTemplate: ProtonClientTypes.ServiceTemplate?
 }
 
@@ -3490,7 +3490,7 @@ extension CreateServiceTemplateVersionInput {
     }
 }
 
-public struct CreateServiceTemplateVersionInput: Swift.Equatable {
+public struct CreateServiceTemplateVersionInput {
     /// When included, if two identical requests are made with the same client token, Proton returns the service template version that the first request created.
     public var clientToken: Swift.String?
     /// An array of environment template objects that are compatible with the new service template version. A service instance based on this service template version can run in environments based on compatible templates.
@@ -3533,7 +3533,7 @@ public struct CreateServiceTemplateVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateServiceTemplateVersionInputBody: Swift.Equatable {
+struct CreateServiceTemplateVersionInputBody {
     let clientToken: Swift.String?
     let templateName: Swift.String?
     let description: Swift.String?
@@ -3616,7 +3616,7 @@ extension CreateServiceTemplateVersionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateServiceTemplateVersionOutput: Swift.Equatable {
+public struct CreateServiceTemplateVersionOutput {
     /// The service template version summary of detail data that's returned by Proton.
     /// This member is required.
     public var serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
@@ -3629,7 +3629,7 @@ public struct CreateServiceTemplateVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateServiceTemplateVersionOutputBody: Swift.Equatable {
+struct CreateServiceTemplateVersionOutputBody {
     let serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
 }
 
@@ -3702,7 +3702,7 @@ extension CreateTemplateSyncConfigInput {
     }
 }
 
-public struct CreateTemplateSyncConfigInput: Swift.Equatable {
+public struct CreateTemplateSyncConfigInput {
     /// The repository branch for your template.
     /// This member is required.
     public var branch: Swift.String?
@@ -3739,7 +3739,7 @@ public struct CreateTemplateSyncConfigInput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateSyncConfigInputBody: Swift.Equatable {
+struct CreateTemplateSyncConfigInputBody {
     let templateName: Swift.String?
     let templateType: ProtonClientTypes.TemplateType?
     let repositoryProvider: ProtonClientTypes.RepositoryProvider?
@@ -3787,7 +3787,7 @@ extension CreateTemplateSyncConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTemplateSyncConfigOutput: Swift.Equatable {
+public struct CreateTemplateSyncConfigOutput {
     /// The template sync configuration detail data that's returned by Proton.
     public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
 
@@ -3799,7 +3799,7 @@ public struct CreateTemplateSyncConfigOutput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateSyncConfigOutputBody: Swift.Equatable {
+struct CreateTemplateSyncConfigOutputBody {
     let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
 }
 
@@ -3851,7 +3851,7 @@ extension DeleteComponentInput {
     }
 }
 
-public struct DeleteComponentInput: Swift.Equatable {
+public struct DeleteComponentInput {
     /// The name of the component to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3864,7 +3864,7 @@ public struct DeleteComponentInput: Swift.Equatable {
     }
 }
 
-struct DeleteComponentInputBody: Swift.Equatable {
+struct DeleteComponentInputBody {
     let name: Swift.String?
 }
 
@@ -3892,7 +3892,7 @@ extension DeleteComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteComponentOutput: Swift.Equatable {
+public struct DeleteComponentOutput {
     /// The detailed data of the component being deleted.
     public var component: ProtonClientTypes.Component?
 
@@ -3904,7 +3904,7 @@ public struct DeleteComponentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteComponentOutputBody: Swift.Equatable {
+struct DeleteComponentOutputBody {
     let component: ProtonClientTypes.Component?
 }
 
@@ -3956,7 +3956,7 @@ extension DeleteDeploymentInput {
     }
 }
 
-public struct DeleteDeploymentInput: Swift.Equatable {
+public struct DeleteDeploymentInput {
     /// The ID of the deployment to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -3969,7 +3969,7 @@ public struct DeleteDeploymentInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeploymentInputBody: Swift.Equatable {
+struct DeleteDeploymentInputBody {
     let id: Swift.String?
 }
 
@@ -3997,7 +3997,7 @@ extension DeleteDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeploymentOutput: Swift.Equatable {
+public struct DeleteDeploymentOutput {
     /// The detailed data of the deployment being deleted.
     public var deployment: ProtonClientTypes.Deployment?
 
@@ -4009,7 +4009,7 @@ public struct DeleteDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDeploymentOutputBody: Swift.Equatable {
+struct DeleteDeploymentOutputBody {
     let deployment: ProtonClientTypes.Deployment?
 }
 
@@ -4060,7 +4060,7 @@ extension DeleteEnvironmentAccountConnectionInput {
     }
 }
 
-public struct DeleteEnvironmentAccountConnectionInput: Swift.Equatable {
+public struct DeleteEnvironmentAccountConnectionInput {
     /// The ID of the environment account connection to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -4073,7 +4073,7 @@ public struct DeleteEnvironmentAccountConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentAccountConnectionInputBody: Swift.Equatable {
+struct DeleteEnvironmentAccountConnectionInputBody {
     let id: Swift.String?
 }
 
@@ -4101,7 +4101,7 @@ extension DeleteEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DeleteEnvironmentAccountConnectionOutput: Swift.Equatable {
+public struct DeleteEnvironmentAccountConnectionOutput {
     /// The detailed data of the environment account connection being deleted.
     public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
 
@@ -4113,7 +4113,7 @@ public struct DeleteEnvironmentAccountConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentAccountConnectionOutputBody: Swift.Equatable {
+struct DeleteEnvironmentAccountConnectionOutputBody {
     let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
 }
 
@@ -4165,7 +4165,7 @@ extension DeleteEnvironmentInput {
     }
 }
 
-public struct DeleteEnvironmentInput: Swift.Equatable {
+public struct DeleteEnvironmentInput {
     /// The name of the environment to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -4178,7 +4178,7 @@ public struct DeleteEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentInputBody: Swift.Equatable {
+struct DeleteEnvironmentInputBody {
     let name: Swift.String?
 }
 
@@ -4206,7 +4206,7 @@ extension DeleteEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEnvironmentOutput: Swift.Equatable {
+public struct DeleteEnvironmentOutput {
     /// The detailed data of the environment being deleted.
     public var environment: ProtonClientTypes.Environment?
 
@@ -4218,7 +4218,7 @@ public struct DeleteEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentOutputBody: Swift.Equatable {
+struct DeleteEnvironmentOutputBody {
     let environment: ProtonClientTypes.Environment?
 }
 
@@ -4270,7 +4270,7 @@ extension DeleteEnvironmentTemplateInput {
     }
 }
 
-public struct DeleteEnvironmentTemplateInput: Swift.Equatable {
+public struct DeleteEnvironmentTemplateInput {
     /// The name of the environment template to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -4283,7 +4283,7 @@ public struct DeleteEnvironmentTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentTemplateInputBody: Swift.Equatable {
+struct DeleteEnvironmentTemplateInputBody {
     let name: Swift.String?
 }
 
@@ -4311,7 +4311,7 @@ extension DeleteEnvironmentTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEnvironmentTemplateOutput: Swift.Equatable {
+public struct DeleteEnvironmentTemplateOutput {
     /// The detailed data of the environment template being deleted.
     public var environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
 
@@ -4323,7 +4323,7 @@ public struct DeleteEnvironmentTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentTemplateOutputBody: Swift.Equatable {
+struct DeleteEnvironmentTemplateOutputBody {
     let environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
 }
 
@@ -4383,7 +4383,7 @@ extension DeleteEnvironmentTemplateVersionInput {
     }
 }
 
-public struct DeleteEnvironmentTemplateVersionInput: Swift.Equatable {
+public struct DeleteEnvironmentTemplateVersionInput {
     /// The environment template major version to delete.
     /// This member is required.
     public var majorVersion: Swift.String?
@@ -4406,7 +4406,7 @@ public struct DeleteEnvironmentTemplateVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentTemplateVersionInputBody: Swift.Equatable {
+struct DeleteEnvironmentTemplateVersionInputBody {
     let templateName: Swift.String?
     let majorVersion: Swift.String?
     let minorVersion: Swift.String?
@@ -4442,7 +4442,7 @@ extension DeleteEnvironmentTemplateVersionOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteEnvironmentTemplateVersionOutput: Swift.Equatable {
+public struct DeleteEnvironmentTemplateVersionOutput {
     /// The detailed data of the environment template version being deleted.
     public var environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
 
@@ -4454,7 +4454,7 @@ public struct DeleteEnvironmentTemplateVersionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentTemplateVersionOutputBody: Swift.Equatable {
+struct DeleteEnvironmentTemplateVersionOutputBody {
     let environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
 }
 
@@ -4510,7 +4510,7 @@ extension DeleteRepositoryInput {
     }
 }
 
-public struct DeleteRepositoryInput: Swift.Equatable {
+public struct DeleteRepositoryInput {
     /// The repository name.
     /// This member is required.
     public var name: Swift.String?
@@ -4528,7 +4528,7 @@ public struct DeleteRepositoryInput: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryInputBody: Swift.Equatable {
+struct DeleteRepositoryInputBody {
     let provider: ProtonClientTypes.RepositoryProvider?
     let name: Swift.String?
 }
@@ -4560,7 +4560,7 @@ extension DeleteRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRepositoryOutput: Swift.Equatable {
+public struct DeleteRepositoryOutput {
     /// The deleted repository link's detail data that's returned by Proton.
     public var repository: ProtonClientTypes.Repository?
 
@@ -4572,7 +4572,7 @@ public struct DeleteRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryOutputBody: Swift.Equatable {
+struct DeleteRepositoryOutputBody {
     let repository: ProtonClientTypes.Repository?
 }
 
@@ -4624,7 +4624,7 @@ extension DeleteServiceInput {
     }
 }
 
-public struct DeleteServiceInput: Swift.Equatable {
+public struct DeleteServiceInput {
     /// The name of the service to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -4637,7 +4637,7 @@ public struct DeleteServiceInput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceInputBody: Swift.Equatable {
+struct DeleteServiceInputBody {
     let name: Swift.String?
 }
 
@@ -4665,7 +4665,7 @@ extension DeleteServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteServiceOutput: Swift.Equatable {
+public struct DeleteServiceOutput {
     /// The detailed data of the service being deleted.
     public var service: ProtonClientTypes.Service?
 
@@ -4677,7 +4677,7 @@ public struct DeleteServiceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceOutputBody: Swift.Equatable {
+struct DeleteServiceOutputBody {
     let service: ProtonClientTypes.Service?
 }
 
@@ -4729,7 +4729,7 @@ extension DeleteServiceSyncConfigInput {
     }
 }
 
-public struct DeleteServiceSyncConfigInput: Swift.Equatable {
+public struct DeleteServiceSyncConfigInput {
     /// The name of the service that you want to delete the service sync configuration for.
     /// This member is required.
     public var serviceName: Swift.String?
@@ -4742,7 +4742,7 @@ public struct DeleteServiceSyncConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceSyncConfigInputBody: Swift.Equatable {
+struct DeleteServiceSyncConfigInputBody {
     let serviceName: Swift.String?
 }
 
@@ -4770,7 +4770,7 @@ extension DeleteServiceSyncConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteServiceSyncConfigOutput: Swift.Equatable {
+public struct DeleteServiceSyncConfigOutput {
     /// The detailed data for the service sync config.
     public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
 
@@ -4782,7 +4782,7 @@ public struct DeleteServiceSyncConfigOutput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceSyncConfigOutputBody: Swift.Equatable {
+struct DeleteServiceSyncConfigOutputBody {
     let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
 }
 
@@ -4834,7 +4834,7 @@ extension DeleteServiceTemplateInput {
     }
 }
 
-public struct DeleteServiceTemplateInput: Swift.Equatable {
+public struct DeleteServiceTemplateInput {
     /// The name of the service template to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -4847,7 +4847,7 @@ public struct DeleteServiceTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceTemplateInputBody: Swift.Equatable {
+struct DeleteServiceTemplateInputBody {
     let name: Swift.String?
 }
 
@@ -4875,7 +4875,7 @@ extension DeleteServiceTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteServiceTemplateOutput: Swift.Equatable {
+public struct DeleteServiceTemplateOutput {
     /// The detailed data of the service template being deleted.
     public var serviceTemplate: ProtonClientTypes.ServiceTemplate?
 
@@ -4887,7 +4887,7 @@ public struct DeleteServiceTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceTemplateOutputBody: Swift.Equatable {
+struct DeleteServiceTemplateOutputBody {
     let serviceTemplate: ProtonClientTypes.ServiceTemplate?
 }
 
@@ -4947,7 +4947,7 @@ extension DeleteServiceTemplateVersionInput {
     }
 }
 
-public struct DeleteServiceTemplateVersionInput: Swift.Equatable {
+public struct DeleteServiceTemplateVersionInput {
     /// The service template major version to delete.
     /// This member is required.
     public var majorVersion: Swift.String?
@@ -4970,7 +4970,7 @@ public struct DeleteServiceTemplateVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceTemplateVersionInputBody: Swift.Equatable {
+struct DeleteServiceTemplateVersionInputBody {
     let templateName: Swift.String?
     let majorVersion: Swift.String?
     let minorVersion: Swift.String?
@@ -5006,7 +5006,7 @@ extension DeleteServiceTemplateVersionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteServiceTemplateVersionOutput: Swift.Equatable {
+public struct DeleteServiceTemplateVersionOutput {
     /// The detailed data of the service template version being deleted.
     public var serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
 
@@ -5018,7 +5018,7 @@ public struct DeleteServiceTemplateVersionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteServiceTemplateVersionOutputBody: Swift.Equatable {
+struct DeleteServiceTemplateVersionOutputBody {
     let serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
 }
 
@@ -5074,7 +5074,7 @@ extension DeleteTemplateSyncConfigInput {
     }
 }
 
-public struct DeleteTemplateSyncConfigInput: Swift.Equatable {
+public struct DeleteTemplateSyncConfigInput {
     /// The template name.
     /// This member is required.
     public var templateName: Swift.String?
@@ -5092,7 +5092,7 @@ public struct DeleteTemplateSyncConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteTemplateSyncConfigInputBody: Swift.Equatable {
+struct DeleteTemplateSyncConfigInputBody {
     let templateName: Swift.String?
     let templateType: ProtonClientTypes.TemplateType?
 }
@@ -5124,7 +5124,7 @@ extension DeleteTemplateSyncConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTemplateSyncConfigOutput: Swift.Equatable {
+public struct DeleteTemplateSyncConfigOutput {
     /// The template sync configuration detail data that's returned by Proton.
     public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
 
@@ -5136,7 +5136,7 @@ public struct DeleteTemplateSyncConfigOutput: Swift.Equatable {
     }
 }
 
-struct DeleteTemplateSyncConfigOutputBody: Swift.Equatable {
+struct DeleteTemplateSyncConfigOutputBody {
     let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
 }
 
@@ -5296,7 +5296,7 @@ extension ProtonClientTypes.Deployment: Swift.CustomDebugStringConvertible {
 
 extension ProtonClientTypes {
     /// The detailed information about a deployment.
-    public struct Deployment: Swift.Equatable {
+    public struct Deployment {
         /// The Amazon Resource Name (ARN) of the deployment.
         /// This member is required.
         public var arn: Swift.String?
@@ -5440,7 +5440,7 @@ extension ProtonClientTypes.DeploymentState: Swift.Codable {
 
 extension ProtonClientTypes {
     /// The detailed data about the current state of the deployment.
-    public enum DeploymentState: Swift.Equatable {
+    public enum DeploymentState {
         /// The state of the service instance associated with the deployment.
         case serviceinstance(ProtonClientTypes.ServiceInstanceState)
         /// The state of the environment associated with the deployment.
@@ -5609,7 +5609,7 @@ extension ProtonClientTypes.DeploymentSummary: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Summary data of the deployment.
-    public struct DeploymentSummary: Swift.Equatable {
+    public struct DeploymentSummary {
         /// The Amazon Resource Name (ARN) of the deployment.
         /// This member is required.
         public var arn: Swift.String?
@@ -5910,7 +5910,7 @@ extension ProtonClientTypes.Environment: Swift.CustomDebugStringConvertible {
 
 extension ProtonClientTypes {
     /// Detailed data of an Proton environment resource. An Proton environment is a set of resources shared across Proton services.
-    public struct Environment: Swift.Equatable {
+    public struct Environment {
         /// The Amazon Resource Name (ARN) of the environment.
         /// This member is required.
         public var arn: Swift.String?
@@ -6094,7 +6094,7 @@ extension ProtonClientTypes.EnvironmentAccountConnection: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Detailed data of an Proton environment account connection resource.
-    public struct EnvironmentAccountConnection: Swift.Equatable {
+    public struct EnvironmentAccountConnection {
         /// The Amazon Resource Name (ARN) of the environment account connection.
         /// This member is required.
         public var arn: Swift.String?
@@ -6299,7 +6299,7 @@ extension ProtonClientTypes.EnvironmentAccountConnectionSummary: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Summary data of an Proton environment account connection resource.
-    public struct EnvironmentAccountConnectionSummary: Swift.Equatable {
+    public struct EnvironmentAccountConnectionSummary {
         /// The Amazon Resource Name (ARN) of the environment account connection.
         /// This member is required.
         public var arn: Swift.String?
@@ -6402,7 +6402,7 @@ extension ProtonClientTypes.EnvironmentState: Swift.CustomDebugStringConvertible
 
 extension ProtonClientTypes {
     /// The detailed data about the current state of the environment.
-    public struct EnvironmentState: Swift.Equatable {
+    public struct EnvironmentState {
         /// The environment spec that was used to create the environment.
         public var spec: Swift.String?
         /// The major version of the environment template that was used to create the environment.
@@ -6559,7 +6559,7 @@ extension ProtonClientTypes.EnvironmentSummary: Swift.CustomDebugStringConvertib
 
 extension ProtonClientTypes {
     /// Summary data of an Proton environment resource. An Proton environment is a set of resources shared across Proton services.
-    public struct EnvironmentSummary: Swift.Equatable {
+    public struct EnvironmentSummary {
         /// The Amazon Resource Name (ARN) of the environment.
         /// This member is required.
         public var arn: Swift.String?
@@ -6724,7 +6724,7 @@ extension ProtonClientTypes.EnvironmentTemplate: Swift.CustomDebugStringConverti
 
 extension ProtonClientTypes {
     /// The environment template data.
-    public struct EnvironmentTemplate: Swift.Equatable {
+    public struct EnvironmentTemplate {
         /// The Amazon Resource Name (ARN) of the environment template.
         /// This member is required.
         public var arn: Swift.String?
@@ -6801,7 +6801,7 @@ extension ProtonClientTypes.EnvironmentTemplateFilter: Swift.Codable {
 
 extension ProtonClientTypes {
     /// A search filter for environment templates.
-    public struct EnvironmentTemplateFilter: Swift.Equatable {
+    public struct EnvironmentTemplateFilter {
         /// Include majorVersion to filter search for a major version.
         /// This member is required.
         public var majorVersion: Swift.String?
@@ -6889,7 +6889,7 @@ extension ProtonClientTypes.EnvironmentTemplateSummary: Swift.CustomDebugStringC
 
 extension ProtonClientTypes {
     /// The environment template data.
-    public struct EnvironmentTemplateSummary: Swift.Equatable {
+    public struct EnvironmentTemplateSummary {
         /// The Amazon Resource Name (ARN) of the environment template.
         /// This member is required.
         public var arn: Swift.String?
@@ -7021,7 +7021,7 @@ extension ProtonClientTypes.EnvironmentTemplateVersion: Swift.CustomDebugStringC
 
 extension ProtonClientTypes {
     /// The environment template version data.
-    public struct EnvironmentTemplateVersion: Swift.Equatable {
+    public struct EnvironmentTemplateVersion {
         /// The Amazon Resource Name (ARN) of the version of an environment template.
         /// This member is required.
         public var arn: Swift.String?
@@ -7162,7 +7162,7 @@ extension ProtonClientTypes.EnvironmentTemplateVersionSummary: Swift.CustomDebug
 
 extension ProtonClientTypes {
     /// A summary of the version of an environment template detail data.
-    public struct EnvironmentTemplateVersionSummary: Swift.Equatable {
+    public struct EnvironmentTemplateVersionSummary {
         /// The Amazon Resource Name (ARN) of the version of an environment template.
         /// This member is required.
         public var arn: Swift.String?
@@ -7234,12 +7234,12 @@ extension GetAccountSettingsInput {
     }
 }
 
-public struct GetAccountSettingsInput: Swift.Equatable {
+public struct GetAccountSettingsInput {
 
     public init() { }
 }
 
-struct GetAccountSettingsInputBody: Swift.Equatable {
+struct GetAccountSettingsInputBody {
 }
 
 extension GetAccountSettingsInputBody: Swift.Decodable {
@@ -7260,7 +7260,7 @@ extension GetAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccountSettingsOutput: Swift.Equatable {
+public struct GetAccountSettingsOutput {
     /// The Proton pipeline service role detail data that's returned by Proton.
     public var accountSettings: ProtonClientTypes.AccountSettings?
 
@@ -7272,7 +7272,7 @@ public struct GetAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountSettingsOutputBody: Swift.Equatable {
+struct GetAccountSettingsOutputBody {
     let accountSettings: ProtonClientTypes.AccountSettings?
 }
 
@@ -7323,7 +7323,7 @@ extension GetComponentInput {
     }
 }
 
-public struct GetComponentInput: Swift.Equatable {
+public struct GetComponentInput {
     /// The name of the component that you want to get the detailed data for.
     /// This member is required.
     public var name: Swift.String?
@@ -7336,7 +7336,7 @@ public struct GetComponentInput: Swift.Equatable {
     }
 }
 
-struct GetComponentInputBody: Swift.Equatable {
+struct GetComponentInputBody {
     let name: Swift.String?
 }
 
@@ -7364,7 +7364,7 @@ extension GetComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetComponentOutput: Swift.Equatable {
+public struct GetComponentOutput {
     /// The detailed data of the requested component.
     public var component: ProtonClientTypes.Component?
 
@@ -7376,7 +7376,7 @@ public struct GetComponentOutput: Swift.Equatable {
     }
 }
 
-struct GetComponentOutputBody: Swift.Equatable {
+struct GetComponentOutputBody {
     let component: ProtonClientTypes.Component?
 }
 
@@ -7443,7 +7443,7 @@ extension GetDeploymentInput {
     }
 }
 
-public struct GetDeploymentInput: Swift.Equatable {
+public struct GetDeploymentInput {
     /// The name of a component that you want to get the detailed data for.
     public var componentName: Swift.String?
     /// The name of a environment that you want to get the detailed data for.
@@ -7472,7 +7472,7 @@ public struct GetDeploymentInput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentInputBody: Swift.Equatable {
+struct GetDeploymentInputBody {
     let id: Swift.String?
     let environmentName: Swift.String?
     let serviceName: Swift.String?
@@ -7516,7 +7516,7 @@ extension GetDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeploymentOutput: Swift.Equatable {
+public struct GetDeploymentOutput {
     /// The detailed data of the requested deployment.
     public var deployment: ProtonClientTypes.Deployment?
 
@@ -7528,7 +7528,7 @@ public struct GetDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentOutputBody: Swift.Equatable {
+struct GetDeploymentOutputBody {
     let deployment: ProtonClientTypes.Deployment?
 }
 
@@ -7579,7 +7579,7 @@ extension GetEnvironmentAccountConnectionInput {
     }
 }
 
-public struct GetEnvironmentAccountConnectionInput: Swift.Equatable {
+public struct GetEnvironmentAccountConnectionInput {
     /// The ID of the environment account connection that you want to get the detailed data for.
     /// This member is required.
     public var id: Swift.String?
@@ -7592,7 +7592,7 @@ public struct GetEnvironmentAccountConnectionInput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentAccountConnectionInputBody: Swift.Equatable {
+struct GetEnvironmentAccountConnectionInputBody {
     let id: Swift.String?
 }
 
@@ -7620,7 +7620,7 @@ extension GetEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetEnvironmentAccountConnectionOutput: Swift.Equatable {
+public struct GetEnvironmentAccountConnectionOutput {
     /// The detailed data of the requested environment account connection.
     /// This member is required.
     public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
@@ -7633,7 +7633,7 @@ public struct GetEnvironmentAccountConnectionOutput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentAccountConnectionOutputBody: Swift.Equatable {
+struct GetEnvironmentAccountConnectionOutputBody {
     let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
 }
 
@@ -7684,7 +7684,7 @@ extension GetEnvironmentInput {
     }
 }
 
-public struct GetEnvironmentInput: Swift.Equatable {
+public struct GetEnvironmentInput {
     /// The name of the environment that you want to get the detailed data for.
     /// This member is required.
     public var name: Swift.String?
@@ -7697,7 +7697,7 @@ public struct GetEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentInputBody: Swift.Equatable {
+struct GetEnvironmentInputBody {
     let name: Swift.String?
 }
 
@@ -7725,7 +7725,7 @@ extension GetEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnvironmentOutput: Swift.Equatable {
+public struct GetEnvironmentOutput {
     /// The detailed data of the requested environment.
     /// This member is required.
     public var environment: ProtonClientTypes.Environment?
@@ -7738,7 +7738,7 @@ public struct GetEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentOutputBody: Swift.Equatable {
+struct GetEnvironmentOutputBody {
     let environment: ProtonClientTypes.Environment?
 }
 
@@ -7789,7 +7789,7 @@ extension GetEnvironmentTemplateInput {
     }
 }
 
-public struct GetEnvironmentTemplateInput: Swift.Equatable {
+public struct GetEnvironmentTemplateInput {
     /// The name of the environment template that you want to get the detailed data for.
     /// This member is required.
     public var name: Swift.String?
@@ -7802,7 +7802,7 @@ public struct GetEnvironmentTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentTemplateInputBody: Swift.Equatable {
+struct GetEnvironmentTemplateInputBody {
     let name: Swift.String?
 }
 
@@ -7830,7 +7830,7 @@ extension GetEnvironmentTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnvironmentTemplateOutput: Swift.Equatable {
+public struct GetEnvironmentTemplateOutput {
     /// The detailed data of the requested environment template.
     /// This member is required.
     public var environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
@@ -7843,7 +7843,7 @@ public struct GetEnvironmentTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentTemplateOutputBody: Swift.Equatable {
+struct GetEnvironmentTemplateOutputBody {
     let environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
 }
 
@@ -7902,7 +7902,7 @@ extension GetEnvironmentTemplateVersionInput {
     }
 }
 
-public struct GetEnvironmentTemplateVersionInput: Swift.Equatable {
+public struct GetEnvironmentTemplateVersionInput {
     /// To get environment template major version detail data, include major Version.
     /// This member is required.
     public var majorVersion: Swift.String?
@@ -7925,7 +7925,7 @@ public struct GetEnvironmentTemplateVersionInput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentTemplateVersionInputBody: Swift.Equatable {
+struct GetEnvironmentTemplateVersionInputBody {
     let templateName: Swift.String?
     let majorVersion: Swift.String?
     let minorVersion: Swift.String?
@@ -7961,7 +7961,7 @@ extension GetEnvironmentTemplateVersionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetEnvironmentTemplateVersionOutput: Swift.Equatable {
+public struct GetEnvironmentTemplateVersionOutput {
     /// The detailed data of the requested environment template version.
     /// This member is required.
     public var environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
@@ -7974,7 +7974,7 @@ public struct GetEnvironmentTemplateVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentTemplateVersionOutputBody: Swift.Equatable {
+struct GetEnvironmentTemplateVersionOutputBody {
     let environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
 }
 
@@ -8029,7 +8029,7 @@ extension GetRepositoryInput {
     }
 }
 
-public struct GetRepositoryInput: Swift.Equatable {
+public struct GetRepositoryInput {
     /// The repository name, for example myrepos/myrepo.
     /// This member is required.
     public var name: Swift.String?
@@ -8047,7 +8047,7 @@ public struct GetRepositoryInput: Swift.Equatable {
     }
 }
 
-struct GetRepositoryInputBody: Swift.Equatable {
+struct GetRepositoryInputBody {
     let provider: ProtonClientTypes.RepositoryProvider?
     let name: Swift.String?
 }
@@ -8079,7 +8079,7 @@ extension GetRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRepositoryOutput: Swift.Equatable {
+public struct GetRepositoryOutput {
     /// The repository link's detail data that's returned by Proton.
     /// This member is required.
     public var repository: ProtonClientTypes.Repository?
@@ -8092,7 +8092,7 @@ public struct GetRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct GetRepositoryOutputBody: Swift.Equatable {
+struct GetRepositoryOutputBody {
     let repository: ProtonClientTypes.Repository?
 }
 
@@ -8155,7 +8155,7 @@ extension GetRepositorySyncStatusInput {
     }
 }
 
-public struct GetRepositorySyncStatusInput: Swift.Equatable {
+public struct GetRepositorySyncStatusInput {
     /// The repository branch.
     /// This member is required.
     public var branch: Swift.String?
@@ -8183,7 +8183,7 @@ public struct GetRepositorySyncStatusInput: Swift.Equatable {
     }
 }
 
-struct GetRepositorySyncStatusInputBody: Swift.Equatable {
+struct GetRepositorySyncStatusInputBody {
     let repositoryName: Swift.String?
     let repositoryProvider: ProtonClientTypes.RepositoryProvider?
     let branch: Swift.String?
@@ -8223,7 +8223,7 @@ extension GetRepositorySyncStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRepositorySyncStatusOutput: Swift.Equatable {
+public struct GetRepositorySyncStatusOutput {
     /// The repository sync status detail data that's returned by Proton.
     public var latestSync: ProtonClientTypes.RepositorySyncAttempt?
 
@@ -8235,7 +8235,7 @@ public struct GetRepositorySyncStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetRepositorySyncStatusOutputBody: Swift.Equatable {
+struct GetRepositorySyncStatusOutputBody {
     let latestSync: ProtonClientTypes.RepositorySyncAttempt?
 }
 
@@ -8281,12 +8281,12 @@ extension GetResourcesSummaryInput {
     }
 }
 
-public struct GetResourcesSummaryInput: Swift.Equatable {
+public struct GetResourcesSummaryInput {
 
     public init() { }
 }
 
-struct GetResourcesSummaryInputBody: Swift.Equatable {
+struct GetResourcesSummaryInputBody {
 }
 
 extension GetResourcesSummaryInputBody: Swift.Decodable {
@@ -8307,7 +8307,7 @@ extension GetResourcesSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcesSummaryOutput: Swift.Equatable {
+public struct GetResourcesSummaryOutput {
     /// Summary counts of each Proton resource type.
     /// This member is required.
     public var counts: ProtonClientTypes.CountsSummary?
@@ -8320,7 +8320,7 @@ public struct GetResourcesSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcesSummaryOutputBody: Swift.Equatable {
+struct GetResourcesSummaryOutputBody {
     let counts: ProtonClientTypes.CountsSummary?
 }
 
@@ -8370,7 +8370,7 @@ extension GetServiceInput {
     }
 }
 
-public struct GetServiceInput: Swift.Equatable {
+public struct GetServiceInput {
     /// The name of the service that you want to get the detailed data for.
     /// This member is required.
     public var name: Swift.String?
@@ -8383,7 +8383,7 @@ public struct GetServiceInput: Swift.Equatable {
     }
 }
 
-struct GetServiceInputBody: Swift.Equatable {
+struct GetServiceInputBody {
     let name: Swift.String?
 }
 
@@ -8423,7 +8423,7 @@ extension GetServiceInstanceInput {
     }
 }
 
-public struct GetServiceInstanceInput: Swift.Equatable {
+public struct GetServiceInstanceInput {
     /// The name of a service instance that you want to get the detailed data for.
     /// This member is required.
     public var name: Swift.String?
@@ -8441,7 +8441,7 @@ public struct GetServiceInstanceInput: Swift.Equatable {
     }
 }
 
-struct GetServiceInstanceInputBody: Swift.Equatable {
+struct GetServiceInstanceInputBody {
     let name: Swift.String?
     let serviceName: Swift.String?
 }
@@ -8473,7 +8473,7 @@ extension GetServiceInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceInstanceOutput: Swift.Equatable {
+public struct GetServiceInstanceOutput {
     /// The detailed data of the requested service instance.
     /// This member is required.
     public var serviceInstance: ProtonClientTypes.ServiceInstance?
@@ -8486,7 +8486,7 @@ public struct GetServiceInstanceOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceInstanceOutputBody: Swift.Equatable {
+struct GetServiceInstanceOutputBody {
     let serviceInstance: ProtonClientTypes.ServiceInstance?
 }
 
@@ -8541,7 +8541,7 @@ extension GetServiceInstanceSyncStatusInput {
     }
 }
 
-public struct GetServiceInstanceSyncStatusInput: Swift.Equatable {
+public struct GetServiceInstanceSyncStatusInput {
     /// The name of the service instance that you want the sync status input for.
     /// This member is required.
     public var serviceInstanceName: Swift.String?
@@ -8559,7 +8559,7 @@ public struct GetServiceInstanceSyncStatusInput: Swift.Equatable {
     }
 }
 
-struct GetServiceInstanceSyncStatusInputBody: Swift.Equatable {
+struct GetServiceInstanceSyncStatusInputBody {
     let serviceName: Swift.String?
     let serviceInstanceName: Swift.String?
 }
@@ -8595,7 +8595,7 @@ extension GetServiceInstanceSyncStatusOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetServiceInstanceSyncStatusOutput: Swift.Equatable {
+public struct GetServiceInstanceSyncStatusOutput {
     /// The service instance sync desired state that's returned by Proton
     public var desiredState: ProtonClientTypes.Revision?
     /// The detailed data of the latest successful sync with the service instance.
@@ -8615,7 +8615,7 @@ public struct GetServiceInstanceSyncStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceInstanceSyncStatusOutputBody: Swift.Equatable {
+struct GetServiceInstanceSyncStatusOutputBody {
     let latestSync: ProtonClientTypes.ResourceSyncAttempt?
     let latestSuccessfulSync: ProtonClientTypes.ResourceSyncAttempt?
     let desiredState: ProtonClientTypes.Revision?
@@ -8666,7 +8666,7 @@ extension GetServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceOutput: Swift.Equatable {
+public struct GetServiceOutput {
     /// The detailed data of the requested service.
     public var service: ProtonClientTypes.Service?
 
@@ -8678,7 +8678,7 @@ public struct GetServiceOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceOutputBody: Swift.Equatable {
+struct GetServiceOutputBody {
     let service: ProtonClientTypes.Service?
 }
 
@@ -8733,7 +8733,7 @@ extension GetServiceSyncBlockerSummaryInput {
     }
 }
 
-public struct GetServiceSyncBlockerSummaryInput: Swift.Equatable {
+public struct GetServiceSyncBlockerSummaryInput {
     /// The name of the service instance that you want to get the service sync blocker summary for. If given bothe the instance name and the service name, only the instance is blocked.
     public var serviceInstanceName: Swift.String?
     /// The name of the service that you want to get the service sync blocker summary for. If given only the service name, all instances are blocked.
@@ -8750,7 +8750,7 @@ public struct GetServiceSyncBlockerSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetServiceSyncBlockerSummaryInputBody: Swift.Equatable {
+struct GetServiceSyncBlockerSummaryInputBody {
     let serviceName: Swift.String?
     let serviceInstanceName: Swift.String?
 }
@@ -8782,7 +8782,7 @@ extension GetServiceSyncBlockerSummaryOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetServiceSyncBlockerSummaryOutput: Swift.Equatable {
+public struct GetServiceSyncBlockerSummaryOutput {
     /// The detailed data of the requested service sync blocker summary.
     public var serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary?
 
@@ -8794,7 +8794,7 @@ public struct GetServiceSyncBlockerSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceSyncBlockerSummaryOutputBody: Swift.Equatable {
+struct GetServiceSyncBlockerSummaryOutputBody {
     let serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary?
 }
 
@@ -8845,7 +8845,7 @@ extension GetServiceSyncConfigInput {
     }
 }
 
-public struct GetServiceSyncConfigInput: Swift.Equatable {
+public struct GetServiceSyncConfigInput {
     /// The name of the service that you want to get the service sync configuration for.
     /// This member is required.
     public var serviceName: Swift.String?
@@ -8858,7 +8858,7 @@ public struct GetServiceSyncConfigInput: Swift.Equatable {
     }
 }
 
-struct GetServiceSyncConfigInputBody: Swift.Equatable {
+struct GetServiceSyncConfigInputBody {
     let serviceName: Swift.String?
 }
 
@@ -8886,7 +8886,7 @@ extension GetServiceSyncConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceSyncConfigOutput: Swift.Equatable {
+public struct GetServiceSyncConfigOutput {
     /// The detailed data of the requested service sync configuration.
     public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
 
@@ -8898,7 +8898,7 @@ public struct GetServiceSyncConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceSyncConfigOutputBody: Swift.Equatable {
+struct GetServiceSyncConfigOutputBody {
     let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
 }
 
@@ -8949,7 +8949,7 @@ extension GetServiceTemplateInput {
     }
 }
 
-public struct GetServiceTemplateInput: Swift.Equatable {
+public struct GetServiceTemplateInput {
     /// The name of the service template that you want to get detailed data for.
     /// This member is required.
     public var name: Swift.String?
@@ -8962,7 +8962,7 @@ public struct GetServiceTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetServiceTemplateInputBody: Swift.Equatable {
+struct GetServiceTemplateInputBody {
     let name: Swift.String?
 }
 
@@ -8990,7 +8990,7 @@ extension GetServiceTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceTemplateOutput: Swift.Equatable {
+public struct GetServiceTemplateOutput {
     /// The detailed data of the requested service template.
     /// This member is required.
     public var serviceTemplate: ProtonClientTypes.ServiceTemplate?
@@ -9003,7 +9003,7 @@ public struct GetServiceTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceTemplateOutputBody: Swift.Equatable {
+struct GetServiceTemplateOutputBody {
     let serviceTemplate: ProtonClientTypes.ServiceTemplate?
 }
 
@@ -9062,7 +9062,7 @@ extension GetServiceTemplateVersionInput {
     }
 }
 
-public struct GetServiceTemplateVersionInput: Swift.Equatable {
+public struct GetServiceTemplateVersionInput {
     /// To get service template major version detail data, include major Version.
     /// This member is required.
     public var majorVersion: Swift.String?
@@ -9085,7 +9085,7 @@ public struct GetServiceTemplateVersionInput: Swift.Equatable {
     }
 }
 
-struct GetServiceTemplateVersionInputBody: Swift.Equatable {
+struct GetServiceTemplateVersionInputBody {
     let templateName: Swift.String?
     let majorVersion: Swift.String?
     let minorVersion: Swift.String?
@@ -9121,7 +9121,7 @@ extension GetServiceTemplateVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceTemplateVersionOutput: Swift.Equatable {
+public struct GetServiceTemplateVersionOutput {
     /// The detailed data of the requested service template version.
     /// This member is required.
     public var serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
@@ -9134,7 +9134,7 @@ public struct GetServiceTemplateVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceTemplateVersionOutputBody: Swift.Equatable {
+struct GetServiceTemplateVersionOutputBody {
     let serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
 }
 
@@ -9189,7 +9189,7 @@ extension GetTemplateSyncConfigInput {
     }
 }
 
-public struct GetTemplateSyncConfigInput: Swift.Equatable {
+public struct GetTemplateSyncConfigInput {
     /// The template name.
     /// This member is required.
     public var templateName: Swift.String?
@@ -9207,7 +9207,7 @@ public struct GetTemplateSyncConfigInput: Swift.Equatable {
     }
 }
 
-struct GetTemplateSyncConfigInputBody: Swift.Equatable {
+struct GetTemplateSyncConfigInputBody {
     let templateName: Swift.String?
     let templateType: ProtonClientTypes.TemplateType?
 }
@@ -9239,7 +9239,7 @@ extension GetTemplateSyncConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTemplateSyncConfigOutput: Swift.Equatable {
+public struct GetTemplateSyncConfigOutput {
     /// The template sync configuration detail data that's returned by Proton.
     public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
 
@@ -9251,7 +9251,7 @@ public struct GetTemplateSyncConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetTemplateSyncConfigOutputBody: Swift.Equatable {
+struct GetTemplateSyncConfigOutputBody {
     let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
 }
 
@@ -9310,7 +9310,7 @@ extension GetTemplateSyncStatusInput {
     }
 }
 
-public struct GetTemplateSyncStatusInput: Swift.Equatable {
+public struct GetTemplateSyncStatusInput {
     /// The template name.
     /// This member is required.
     public var templateName: Swift.String?
@@ -9333,7 +9333,7 @@ public struct GetTemplateSyncStatusInput: Swift.Equatable {
     }
 }
 
-struct GetTemplateSyncStatusInputBody: Swift.Equatable {
+struct GetTemplateSyncStatusInputBody {
     let templateName: Swift.String?
     let templateType: ProtonClientTypes.TemplateType?
     let templateVersion: Swift.String?
@@ -9373,7 +9373,7 @@ extension GetTemplateSyncStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTemplateSyncStatusOutput: Swift.Equatable {
+public struct GetTemplateSyncStatusOutput {
     /// The template sync desired state that's returned by Proton.
     public var desiredState: ProtonClientTypes.Revision?
     /// The details of the last successful sync that's returned by Proton.
@@ -9393,7 +9393,7 @@ public struct GetTemplateSyncStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetTemplateSyncStatusOutputBody: Swift.Equatable {
+struct GetTemplateSyncStatusOutputBody {
     let latestSync: ProtonClientTypes.ResourceSyncAttempt?
     let latestSuccessfulSync: ProtonClientTypes.ResourceSyncAttempt?
     let desiredState: ProtonClientTypes.Revision?
@@ -9477,7 +9477,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -9521,7 +9521,7 @@ extension ListComponentOutputsInput {
     }
 }
 
-public struct ListComponentOutputsInput: Swift.Equatable {
+public struct ListComponentOutputsInput {
     /// The name of the component whose outputs you want.
     /// This member is required.
     public var componentName: Swift.String?
@@ -9542,7 +9542,7 @@ public struct ListComponentOutputsInput: Swift.Equatable {
     }
 }
 
-struct ListComponentOutputsInputBody: Swift.Equatable {
+struct ListComponentOutputsInputBody {
     let componentName: Swift.String?
     let nextToken: Swift.String?
     let deploymentId: Swift.String?
@@ -9580,7 +9580,7 @@ extension ListComponentOutputsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentOutputsOutput: Swift.Equatable {
+public struct ListComponentOutputsOutput {
     /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
     public var nextToken: Swift.String?
     /// An array of component Infrastructure as Code (IaC) outputs.
@@ -9597,7 +9597,7 @@ public struct ListComponentOutputsOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentOutputsOutputBody: Swift.Equatable {
+struct ListComponentOutputsOutputBody {
     let nextToken: Swift.String?
     let outputs: [ProtonClientTypes.Output]?
 }
@@ -9665,7 +9665,7 @@ extension ListComponentProvisionedResourcesInput {
     }
 }
 
-public struct ListComponentProvisionedResourcesInput: Swift.Equatable {
+public struct ListComponentProvisionedResourcesInput {
     /// The name of the component whose provisioned resources you want.
     /// This member is required.
     public var componentName: Swift.String?
@@ -9682,7 +9682,7 @@ public struct ListComponentProvisionedResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListComponentProvisionedResourcesInputBody: Swift.Equatable {
+struct ListComponentProvisionedResourcesInputBody {
     let componentName: Swift.String?
     let nextToken: Swift.String?
 }
@@ -9716,7 +9716,7 @@ extension ListComponentProvisionedResourcesOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListComponentProvisionedResourcesOutput: Swift.Equatable {
+public struct ListComponentProvisionedResourcesOutput {
     /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
     public var nextToken: Swift.String?
     /// An array of provisioned resources for a component.
@@ -9733,7 +9733,7 @@ public struct ListComponentProvisionedResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentProvisionedResourcesOutputBody: Swift.Equatable {
+struct ListComponentProvisionedResourcesOutputBody {
     let nextToken: Swift.String?
     let provisionedResources: [ProtonClientTypes.ProvisionedResource]?
 }
@@ -9813,7 +9813,7 @@ extension ListComponentsInput {
     }
 }
 
-public struct ListComponentsInput: Swift.Equatable {
+public struct ListComponentsInput {
     /// The name of an environment for result list filtering. Proton returns components associated with the environment or attached to service instances running in it.
     public var environmentName: Swift.String?
     /// The maximum number of components to list.
@@ -9841,7 +9841,7 @@ public struct ListComponentsInput: Swift.Equatable {
     }
 }
 
-struct ListComponentsInputBody: Swift.Equatable {
+struct ListComponentsInputBody {
     let nextToken: Swift.String?
     let environmentName: Swift.String?
     let serviceName: Swift.String?
@@ -9887,7 +9887,7 @@ extension ListComponentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentsOutput: Swift.Equatable {
+public struct ListComponentsOutput {
     /// An array of components with summary data.
     /// This member is required.
     public var components: [ProtonClientTypes.ComponentSummary]?
@@ -9904,7 +9904,7 @@ public struct ListComponentsOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentsOutputBody: Swift.Equatable {
+struct ListComponentsOutputBody {
     let nextToken: Swift.String?
     let components: [ProtonClientTypes.ComponentSummary]?
 }
@@ -9987,7 +9987,7 @@ extension ListDeploymentsInput {
     }
 }
 
-public struct ListDeploymentsInput: Swift.Equatable {
+public struct ListDeploymentsInput {
     /// The name of a component for result list filtering. Proton returns deployments associated with that component.
     public var componentName: Swift.String?
     /// The name of an environment for result list filtering. Proton returns deployments associated with the environment.
@@ -10019,7 +10019,7 @@ public struct ListDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsInputBody: Swift.Equatable {
+struct ListDeploymentsInputBody {
     let nextToken: Swift.String?
     let environmentName: Swift.String?
     let serviceName: Swift.String?
@@ -10069,7 +10069,7 @@ extension ListDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeploymentsOutput: Swift.Equatable {
+public struct ListDeploymentsOutput {
     /// An array of deployment with summary data.
     /// This member is required.
     public var deployments: [ProtonClientTypes.DeploymentSummary]?
@@ -10086,7 +10086,7 @@ public struct ListDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsOutputBody: Swift.Equatable {
+struct ListDeploymentsOutputBody {
     let nextToken: Swift.String?
     let deployments: [ProtonClientTypes.DeploymentSummary]?
 }
@@ -10169,7 +10169,7 @@ extension ListEnvironmentAccountConnectionsInput {
     }
 }
 
-public struct ListEnvironmentAccountConnectionsInput: Swift.Equatable {
+public struct ListEnvironmentAccountConnectionsInput {
     /// The environment name that's associated with each listed environment account connection.
     public var environmentName: Swift.String?
     /// The maximum number of environment account connections to list.
@@ -10198,7 +10198,7 @@ public struct ListEnvironmentAccountConnectionsInput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentAccountConnectionsInputBody: Swift.Equatable {
+struct ListEnvironmentAccountConnectionsInputBody {
     let requestedBy: ProtonClientTypes.EnvironmentAccountConnectionRequesterAccountType?
     let environmentName: Swift.String?
     let statuses: [ProtonClientTypes.EnvironmentAccountConnectionStatus]?
@@ -10253,7 +10253,7 @@ extension ListEnvironmentAccountConnectionsOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListEnvironmentAccountConnectionsOutput: Swift.Equatable {
+public struct ListEnvironmentAccountConnectionsOutput {
     /// An array of environment account connections with details that's returned by Proton.
     /// This member is required.
     public var environmentAccountConnections: [ProtonClientTypes.EnvironmentAccountConnectionSummary]?
@@ -10270,7 +10270,7 @@ public struct ListEnvironmentAccountConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentAccountConnectionsOutputBody: Swift.Equatable {
+struct ListEnvironmentAccountConnectionsOutputBody {
     let environmentAccountConnections: [ProtonClientTypes.EnvironmentAccountConnectionSummary]?
     let nextToken: Swift.String?
 }
@@ -10341,7 +10341,7 @@ extension ListEnvironmentOutputsInput {
     }
 }
 
-public struct ListEnvironmentOutputsInput: Swift.Equatable {
+public struct ListEnvironmentOutputsInput {
     /// The ID of the deployment whose outputs you want.
     public var deploymentId: Swift.String?
     /// The environment name.
@@ -10362,7 +10362,7 @@ public struct ListEnvironmentOutputsInput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentOutputsInputBody: Swift.Equatable {
+struct ListEnvironmentOutputsInputBody {
     let environmentName: Swift.String?
     let nextToken: Swift.String?
     let deploymentId: Swift.String?
@@ -10400,7 +10400,7 @@ extension ListEnvironmentOutputsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnvironmentOutputsOutput: Swift.Equatable {
+public struct ListEnvironmentOutputsOutput {
     /// A token that indicates the location of the next environment output in the array of environment outputs, after the current requested list of environment outputs.
     public var nextToken: Swift.String?
     /// An array of environment outputs with detail data.
@@ -10417,7 +10417,7 @@ public struct ListEnvironmentOutputsOutput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentOutputsOutputBody: Swift.Equatable {
+struct ListEnvironmentOutputsOutputBody {
     let nextToken: Swift.String?
     let outputs: [ProtonClientTypes.Output]?
 }
@@ -10485,7 +10485,7 @@ extension ListEnvironmentProvisionedResourcesInput {
     }
 }
 
-public struct ListEnvironmentProvisionedResourcesInput: Swift.Equatable {
+public struct ListEnvironmentProvisionedResourcesInput {
     /// The environment name.
     /// This member is required.
     public var environmentName: Swift.String?
@@ -10502,7 +10502,7 @@ public struct ListEnvironmentProvisionedResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentProvisionedResourcesInputBody: Swift.Equatable {
+struct ListEnvironmentProvisionedResourcesInputBody {
     let environmentName: Swift.String?
     let nextToken: Swift.String?
 }
@@ -10536,7 +10536,7 @@ extension ListEnvironmentProvisionedResourcesOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListEnvironmentProvisionedResourcesOutput: Swift.Equatable {
+public struct ListEnvironmentProvisionedResourcesOutput {
     /// A token that indicates the location of the next environment provisioned resource in the array of provisioned resources, after the current requested list of environment provisioned resources.
     public var nextToken: Swift.String?
     /// An array of environment provisioned resources.
@@ -10553,7 +10553,7 @@ public struct ListEnvironmentProvisionedResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentProvisionedResourcesOutputBody: Swift.Equatable {
+struct ListEnvironmentProvisionedResourcesOutputBody {
     let nextToken: Swift.String?
     let provisionedResources: [ProtonClientTypes.ProvisionedResource]?
 }
@@ -10629,7 +10629,7 @@ extension ListEnvironmentTemplateVersionsInput {
     }
 }
 
-public struct ListEnvironmentTemplateVersionsInput: Swift.Equatable {
+public struct ListEnvironmentTemplateVersionsInput {
     /// To view a list of minor of versions under a major version of an environment template, include major Version. To view a list of major versions of an environment template, exclude major Version.
     public var majorVersion: Swift.String?
     /// The maximum number of major or minor versions of an environment template to list.
@@ -10654,7 +10654,7 @@ public struct ListEnvironmentTemplateVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentTemplateVersionsInputBody: Swift.Equatable {
+struct ListEnvironmentTemplateVersionsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let templateName: Swift.String?
@@ -10696,7 +10696,7 @@ extension ListEnvironmentTemplateVersionsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListEnvironmentTemplateVersionsOutput: Swift.Equatable {
+public struct ListEnvironmentTemplateVersionsOutput {
     /// A token that indicates the location of the next major or minor version in the array of major or minor versions of an environment template, after the list of major or minor versions that was previously requested.
     public var nextToken: Swift.String?
     /// An array of major or minor versions of an environment template detail data.
@@ -10713,7 +10713,7 @@ public struct ListEnvironmentTemplateVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentTemplateVersionsOutputBody: Swift.Equatable {
+struct ListEnvironmentTemplateVersionsOutputBody {
     let nextToken: Swift.String?
     let templateVersions: [ProtonClientTypes.EnvironmentTemplateVersionSummary]?
 }
@@ -10781,7 +10781,7 @@ extension ListEnvironmentTemplatesInput {
     }
 }
 
-public struct ListEnvironmentTemplatesInput: Swift.Equatable {
+public struct ListEnvironmentTemplatesInput {
     /// The maximum number of environment templates to list.
     public var maxResults: Swift.Int?
     /// A token that indicates the location of the next environment template in the array of environment templates, after the list of environment templates that was previously requested.
@@ -10797,7 +10797,7 @@ public struct ListEnvironmentTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentTemplatesInputBody: Swift.Equatable {
+struct ListEnvironmentTemplatesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -10831,7 +10831,7 @@ extension ListEnvironmentTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnvironmentTemplatesOutput: Swift.Equatable {
+public struct ListEnvironmentTemplatesOutput {
     /// A token that indicates the location of the next environment template in the array of environment templates, after the current requested list of environment templates.
     public var nextToken: Swift.String?
     /// An array of environment templates with detail data.
@@ -10848,7 +10848,7 @@ public struct ListEnvironmentTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentTemplatesOutputBody: Swift.Equatable {
+struct ListEnvironmentTemplatesOutputBody {
     let nextToken: Swift.String?
     let templates: [ProtonClientTypes.EnvironmentTemplateSummary]?
 }
@@ -10922,7 +10922,7 @@ extension ListEnvironmentsInput {
     }
 }
 
-public struct ListEnvironmentsInput: Swift.Equatable {
+public struct ListEnvironmentsInput {
     /// An array of the versions of the environment template.
     public var environmentTemplates: [ProtonClientTypes.EnvironmentTemplateFilter]?
     /// The maximum number of environments to list.
@@ -10942,7 +10942,7 @@ public struct ListEnvironmentsInput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsInputBody: Swift.Equatable {
+struct ListEnvironmentsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let environmentTemplates: [ProtonClientTypes.EnvironmentTemplateFilter]?
@@ -10989,7 +10989,7 @@ extension ListEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnvironmentsOutput: Swift.Equatable {
+public struct ListEnvironmentsOutput {
     /// An array of environment detail data summaries.
     /// This member is required.
     public var environments: [ProtonClientTypes.EnvironmentSummary]?
@@ -11006,7 +11006,7 @@ public struct ListEnvironmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsOutputBody: Swift.Equatable {
+struct ListEnvironmentsOutputBody {
     let nextToken: Swift.String?
     let environments: [ProtonClientTypes.EnvironmentSummary]?
 }
@@ -11074,7 +11074,7 @@ extension ListRepositoriesInput {
     }
 }
 
-public struct ListRepositoriesInput: Swift.Equatable {
+public struct ListRepositoriesInput {
     /// The maximum number of repositories to list.
     public var maxResults: Swift.Int?
     /// A token that indicates the location of the next repository in the array of repositories, after the list of repositories previously requested.
@@ -11090,7 +11090,7 @@ public struct ListRepositoriesInput: Swift.Equatable {
     }
 }
 
-struct ListRepositoriesInputBody: Swift.Equatable {
+struct ListRepositoriesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -11124,7 +11124,7 @@ extension ListRepositoriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRepositoriesOutput: Swift.Equatable {
+public struct ListRepositoriesOutput {
     /// A token that indicates the location of the next repository in the array of repositories, after the current requested list of repositories.
     public var nextToken: Swift.String?
     /// An array of repository links.
@@ -11141,7 +11141,7 @@ public struct ListRepositoriesOutput: Swift.Equatable {
     }
 }
 
-struct ListRepositoriesOutputBody: Swift.Equatable {
+struct ListRepositoriesOutputBody {
     let nextToken: Swift.String?
     let repositories: [ProtonClientTypes.RepositorySummary]?
 }
@@ -11217,7 +11217,7 @@ extension ListRepositorySyncDefinitionsInput {
     }
 }
 
-public struct ListRepositorySyncDefinitionsInput: Swift.Equatable {
+public struct ListRepositorySyncDefinitionsInput {
     /// A token that indicates the location of the next repository sync definition in the array of repository sync definitions, after the list of repository sync definitions previously requested.
     public var nextToken: Swift.String?
     /// The repository name.
@@ -11244,7 +11244,7 @@ public struct ListRepositorySyncDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListRepositorySyncDefinitionsInputBody: Swift.Equatable {
+struct ListRepositorySyncDefinitionsInputBody {
     let repositoryName: Swift.String?
     let repositoryProvider: ProtonClientTypes.RepositoryProvider?
     let syncType: ProtonClientTypes.SyncType?
@@ -11286,7 +11286,7 @@ extension ListRepositorySyncDefinitionsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListRepositorySyncDefinitionsOutput: Swift.Equatable {
+public struct ListRepositorySyncDefinitionsOutput {
     /// A token that indicates the location of the next repository sync definition in the array of repository sync definitions, after the current requested list of repository sync definitions.
     public var nextToken: Swift.String?
     /// An array of repository sync definitions.
@@ -11303,7 +11303,7 @@ public struct ListRepositorySyncDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListRepositorySyncDefinitionsOutputBody: Swift.Equatable {
+struct ListRepositorySyncDefinitionsOutputBody {
     let nextToken: Swift.String?
     let syncDefinitions: [ProtonClientTypes.RepositorySyncDefinition]?
 }
@@ -11378,7 +11378,7 @@ extension ListServiceInstanceOutputsInput {
     }
 }
 
-public struct ListServiceInstanceOutputsInput: Swift.Equatable {
+public struct ListServiceInstanceOutputsInput {
     /// The ID of the deployment whose outputs you want.
     public var deploymentId: Swift.String?
     /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
@@ -11404,7 +11404,7 @@ public struct ListServiceInstanceOutputsInput: Swift.Equatable {
     }
 }
 
-struct ListServiceInstanceOutputsInputBody: Swift.Equatable {
+struct ListServiceInstanceOutputsInputBody {
     let serviceInstanceName: Swift.String?
     let serviceName: Swift.String?
     let nextToken: Swift.String?
@@ -11446,7 +11446,7 @@ extension ListServiceInstanceOutputsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServiceInstanceOutputsOutput: Swift.Equatable {
+public struct ListServiceInstanceOutputsOutput {
     /// A token that indicates the location of the next output in the array of outputs, after the current requested list of outputs.
     public var nextToken: Swift.String?
     /// An array of service instance Infrastructure as Code (IaC) outputs.
@@ -11463,7 +11463,7 @@ public struct ListServiceInstanceOutputsOutput: Swift.Equatable {
     }
 }
 
-struct ListServiceInstanceOutputsOutputBody: Swift.Equatable {
+struct ListServiceInstanceOutputsOutputBody {
     let nextToken: Swift.String?
     let outputs: [ProtonClientTypes.Output]?
 }
@@ -11535,7 +11535,7 @@ extension ListServiceInstanceProvisionedResourcesInput {
     }
 }
 
-public struct ListServiceInstanceProvisionedResourcesInput: Swift.Equatable {
+public struct ListServiceInstanceProvisionedResourcesInput {
     /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
     public var nextToken: Swift.String?
     /// The name of the service instance whose provisioned resources you want.
@@ -11557,7 +11557,7 @@ public struct ListServiceInstanceProvisionedResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListServiceInstanceProvisionedResourcesInputBody: Swift.Equatable {
+struct ListServiceInstanceProvisionedResourcesInputBody {
     let serviceName: Swift.String?
     let serviceInstanceName: Swift.String?
     let nextToken: Swift.String?
@@ -11595,7 +11595,7 @@ extension ListServiceInstanceProvisionedResourcesOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListServiceInstanceProvisionedResourcesOutput: Swift.Equatable {
+public struct ListServiceInstanceProvisionedResourcesOutput {
     /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
     public var nextToken: Swift.String?
     /// An array of provisioned resources for a service instance.
@@ -11612,7 +11612,7 @@ public struct ListServiceInstanceProvisionedResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListServiceInstanceProvisionedResourcesOutputBody: Swift.Equatable {
+struct ListServiceInstanceProvisionedResourcesOutputBody {
     let nextToken: Swift.String?
     let provisionedResources: [ProtonClientTypes.ProvisionedResource]?
 }
@@ -11683,7 +11683,7 @@ extension ProtonClientTypes.ListServiceInstancesFilter: Swift.Codable {
 
 extension ProtonClientTypes {
     /// A filtering criterion to scope down the result list of the [ListServiceInstances] action.
-    public struct ListServiceInstancesFilter: Swift.Equatable {
+    public struct ListServiceInstancesFilter {
         /// The name of a filtering criterion.
         public var key: ProtonClientTypes.ListServiceInstancesFilterBy?
         /// A value to filter by. With the date/time keys (*At{Before,After}), the value is a valid [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339.html) string with no UTC offset and with an optional fractional precision (for example, 1985-04-12T23:20:50.52Z).
@@ -11800,7 +11800,7 @@ extension ListServiceInstancesInput {
     }
 }
 
-public struct ListServiceInstancesInput: Swift.Equatable {
+public struct ListServiceInstancesInput {
     /// An array of filtering criteria that scope down the result list. By default, all service instances in the Amazon Web Services account are returned.
     public var filters: [ProtonClientTypes.ListServiceInstancesFilter]?
     /// The maximum number of service instances to list.
@@ -11832,7 +11832,7 @@ public struct ListServiceInstancesInput: Swift.Equatable {
     }
 }
 
-struct ListServiceInstancesInputBody: Swift.Equatable {
+struct ListServiceInstancesInputBody {
     let serviceName: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -11891,7 +11891,7 @@ extension ListServiceInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServiceInstancesOutput: Swift.Equatable {
+public struct ListServiceInstancesOutput {
     /// A token that indicates the location of the next service instance in the array of service instances, after the current requested list of service instances.
     public var nextToken: Swift.String?
     /// An array of service instances with summary data.
@@ -11908,7 +11908,7 @@ public struct ListServiceInstancesOutput: Swift.Equatable {
     }
 }
 
-struct ListServiceInstancesOutputBody: Swift.Equatable {
+struct ListServiceInstancesOutputBody {
     let nextToken: Swift.String?
     let serviceInstances: [ProtonClientTypes.ServiceInstanceSummary]?
 }
@@ -12027,7 +12027,7 @@ extension ListServicePipelineOutputsInput {
     }
 }
 
-public struct ListServicePipelineOutputsInput: Swift.Equatable {
+public struct ListServicePipelineOutputsInput {
     /// The ID of the deployment you want the outputs for.
     public var deploymentId: Swift.String?
     /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
@@ -12048,7 +12048,7 @@ public struct ListServicePipelineOutputsInput: Swift.Equatable {
     }
 }
 
-struct ListServicePipelineOutputsInputBody: Swift.Equatable {
+struct ListServicePipelineOutputsInputBody {
     let serviceName: Swift.String?
     let nextToken: Swift.String?
     let deploymentId: Swift.String?
@@ -12086,7 +12086,7 @@ extension ListServicePipelineOutputsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServicePipelineOutputsOutput: Swift.Equatable {
+public struct ListServicePipelineOutputsOutput {
     /// A token that indicates the location of the next output in the array of outputs, after the current requested list of outputs.
     public var nextToken: Swift.String?
     /// An array of service pipeline Infrastructure as Code (IaC) outputs.
@@ -12103,7 +12103,7 @@ public struct ListServicePipelineOutputsOutput: Swift.Equatable {
     }
 }
 
-struct ListServicePipelineOutputsOutputBody: Swift.Equatable {
+struct ListServicePipelineOutputsOutputBody {
     let nextToken: Swift.String?
     let outputs: [ProtonClientTypes.Output]?
 }
@@ -12171,7 +12171,7 @@ extension ListServicePipelineProvisionedResourcesInput {
     }
 }
 
-public struct ListServicePipelineProvisionedResourcesInput: Swift.Equatable {
+public struct ListServicePipelineProvisionedResourcesInput {
     /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
     public var nextToken: Swift.String?
     /// The name of the service whose pipeline's provisioned resources you want.
@@ -12188,7 +12188,7 @@ public struct ListServicePipelineProvisionedResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListServicePipelineProvisionedResourcesInputBody: Swift.Equatable {
+struct ListServicePipelineProvisionedResourcesInputBody {
     let serviceName: Swift.String?
     let nextToken: Swift.String?
 }
@@ -12222,7 +12222,7 @@ extension ListServicePipelineProvisionedResourcesOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListServicePipelineProvisionedResourcesOutput: Swift.Equatable {
+public struct ListServicePipelineProvisionedResourcesOutput {
     /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
     public var nextToken: Swift.String?
     /// An array of provisioned resources for a service and pipeline.
@@ -12239,7 +12239,7 @@ public struct ListServicePipelineProvisionedResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListServicePipelineProvisionedResourcesOutputBody: Swift.Equatable {
+struct ListServicePipelineProvisionedResourcesOutputBody {
     let nextToken: Swift.String?
     let provisionedResources: [ProtonClientTypes.ProvisionedResource]?
 }
@@ -12315,7 +12315,7 @@ extension ListServiceTemplateVersionsInput {
     }
 }
 
-public struct ListServiceTemplateVersionsInput: Swift.Equatable {
+public struct ListServiceTemplateVersionsInput {
     /// To view a list of minor of versions under a major version of a service template, include major Version. To view a list of major versions of a service template, exclude major Version.
     public var majorVersion: Swift.String?
     /// The maximum number of major or minor versions of a service template to list.
@@ -12340,7 +12340,7 @@ public struct ListServiceTemplateVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListServiceTemplateVersionsInputBody: Swift.Equatable {
+struct ListServiceTemplateVersionsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let templateName: Swift.String?
@@ -12382,7 +12382,7 @@ extension ListServiceTemplateVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServiceTemplateVersionsOutput: Swift.Equatable {
+public struct ListServiceTemplateVersionsOutput {
     /// A token that indicates the location of the next major or minor version in the array of major or minor versions of a service template, after the current requested list of service major or minor versions.
     public var nextToken: Swift.String?
     /// An array of major or minor versions of a service template with detail data.
@@ -12399,7 +12399,7 @@ public struct ListServiceTemplateVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListServiceTemplateVersionsOutputBody: Swift.Equatable {
+struct ListServiceTemplateVersionsOutputBody {
     let nextToken: Swift.String?
     let templateVersions: [ProtonClientTypes.ServiceTemplateVersionSummary]?
 }
@@ -12467,7 +12467,7 @@ extension ListServiceTemplatesInput {
     }
 }
 
-public struct ListServiceTemplatesInput: Swift.Equatable {
+public struct ListServiceTemplatesInput {
     /// The maximum number of service templates to list.
     public var maxResults: Swift.Int?
     /// A token that indicates the location of the next service template in the array of service templates, after the list of service templates previously requested.
@@ -12483,7 +12483,7 @@ public struct ListServiceTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListServiceTemplatesInputBody: Swift.Equatable {
+struct ListServiceTemplatesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -12517,7 +12517,7 @@ extension ListServiceTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServiceTemplatesOutput: Swift.Equatable {
+public struct ListServiceTemplatesOutput {
     /// A token that indicates the location of the next service template in the array of service templates, after the current requested list of service templates.
     public var nextToken: Swift.String?
     /// An array of service templates with detail data.
@@ -12534,7 +12534,7 @@ public struct ListServiceTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListServiceTemplatesOutputBody: Swift.Equatable {
+struct ListServiceTemplatesOutputBody {
     let nextToken: Swift.String?
     let templates: [ProtonClientTypes.ServiceTemplateSummary]?
 }
@@ -12601,7 +12601,7 @@ extension ListServicesInput {
     }
 }
 
-public struct ListServicesInput: Swift.Equatable {
+public struct ListServicesInput {
     /// The maximum number of services to list.
     public var maxResults: Swift.Int?
     /// A token that indicates the location of the next service in the array of services, after the list of services that was previously requested.
@@ -12617,7 +12617,7 @@ public struct ListServicesInput: Swift.Equatable {
     }
 }
 
-struct ListServicesInputBody: Swift.Equatable {
+struct ListServicesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -12651,7 +12651,7 @@ extension ListServicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServicesOutput: Swift.Equatable {
+public struct ListServicesOutput {
     /// A token that indicates the location of the next service in the array of services, after the current requested list of services.
     public var nextToken: Swift.String?
     /// An array of services with summaries of detail data.
@@ -12668,7 +12668,7 @@ public struct ListServicesOutput: Swift.Equatable {
     }
 }
 
-struct ListServicesOutputBody: Swift.Equatable {
+struct ListServicesOutputBody {
     let nextToken: Swift.String?
     let services: [ProtonClientTypes.ServiceSummary]?
 }
@@ -12726,7 +12726,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The maximum number of tags to list.
     public var maxResults: Swift.Int?
     /// A token that indicates the location of the next resource tag in the array of resource tags, after the list of resource tags that was previously requested.
@@ -12747,7 +12747,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -12770,7 +12770,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A token that indicates the location of the next resource tag in the array of resource tags, after the current requested list of resource tags.
     public var nextToken: Swift.String?
     /// A list of resource tags with detail data.
@@ -12787,7 +12787,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [ProtonClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -12875,7 +12875,7 @@ extension NotifyResourceDeploymentStatusChangeInput {
     }
 }
 
-public struct NotifyResourceDeploymentStatusChangeInput: Swift.Equatable {
+public struct NotifyResourceDeploymentStatusChangeInput {
     /// The deployment ID for your provisioned resource.
     public var deploymentId: Swift.String?
     /// The provisioned resource state change detail data that's returned by Proton.
@@ -12904,7 +12904,7 @@ public struct NotifyResourceDeploymentStatusChangeInput: Swift.Equatable {
     }
 }
 
-struct NotifyResourceDeploymentStatusChangeInputBody: Swift.Equatable {
+struct NotifyResourceDeploymentStatusChangeInputBody {
     let resourceArn: Swift.String?
     let status: ProtonClientTypes.ResourceDeploymentStatus?
     let outputs: [ProtonClientTypes.Output]?
@@ -12950,7 +12950,7 @@ extension NotifyResourceDeploymentStatusChangeOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct NotifyResourceDeploymentStatusChangeOutput: Swift.Equatable {
+public struct NotifyResourceDeploymentStatusChangeOutput {
 
     public init() { }
 }
@@ -13005,7 +13005,7 @@ extension ProtonClientTypes.Output: Swift.CustomDebugStringConvertible {
 
 extension ProtonClientTypes {
     /// An infrastructure as code defined resource output.
-    public struct Output: Swift.Equatable {
+    public struct Output {
         /// The output key.
         public var key: Swift.String?
         /// The output value.
@@ -13058,7 +13058,7 @@ extension ProtonClientTypes.ProvisionedResource: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Detail data for a provisioned resource.
-    public struct ProvisionedResource: Swift.Equatable {
+    public struct ProvisionedResource {
         /// The provisioned resource identifier.
         public var identifier: Swift.String?
         /// The provisioned resource name.
@@ -13162,7 +13162,7 @@ extension RejectEnvironmentAccountConnectionInput {
     }
 }
 
-public struct RejectEnvironmentAccountConnectionInput: Swift.Equatable {
+public struct RejectEnvironmentAccountConnectionInput {
     /// The ID of the environment account connection to reject.
     /// This member is required.
     public var id: Swift.String?
@@ -13175,7 +13175,7 @@ public struct RejectEnvironmentAccountConnectionInput: Swift.Equatable {
     }
 }
 
-struct RejectEnvironmentAccountConnectionInputBody: Swift.Equatable {
+struct RejectEnvironmentAccountConnectionInputBody {
     let id: Swift.String?
 }
 
@@ -13203,7 +13203,7 @@ extension RejectEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct RejectEnvironmentAccountConnectionOutput: Swift.Equatable {
+public struct RejectEnvironmentAccountConnectionOutput {
     /// The environment connection account detail data that's returned by Proton.
     /// This member is required.
     public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
@@ -13216,7 +13216,7 @@ public struct RejectEnvironmentAccountConnectionOutput: Swift.Equatable {
     }
 }
 
-struct RejectEnvironmentAccountConnectionOutputBody: Swift.Equatable {
+struct RejectEnvironmentAccountConnectionOutputBody {
     let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
 }
 
@@ -13293,7 +13293,7 @@ extension ProtonClientTypes.Repository: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Detailed data of a linked repository—a repository that has been registered with Proton.
-    public struct Repository: Swift.Equatable {
+    public struct Repository {
         /// The Amazon Resource Name (ARN) of the linked repository.
         /// This member is required.
         public var arn: Swift.String?
@@ -13366,7 +13366,7 @@ extension ProtonClientTypes.RepositoryBranch: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Detail data for a linked repository branch.
-    public struct RepositoryBranch: Swift.Equatable {
+    public struct RepositoryBranch {
         /// The Amazon Resource Name (ARN) of the linked repository.
         /// This member is required.
         public var arn: Swift.String?
@@ -13429,7 +13429,7 @@ extension ProtonClientTypes.RepositoryBranchInput: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Detail input data for a linked repository branch.
-    public struct RepositoryBranchInput: Swift.Equatable {
+    public struct RepositoryBranchInput {
         /// The repository branch.
         /// This member is required.
         public var branch: Swift.String?
@@ -13528,7 +13528,7 @@ extension ProtonClientTypes.RepositorySummary: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Summary data of a linked repository—a repository that has been registered with Proton.
-    public struct RepositorySummary: Swift.Equatable {
+    public struct RepositorySummary {
         /// The Amazon Resource Name (ARN) of the linked repository.
         /// This member is required.
         public var arn: Swift.String?
@@ -13603,7 +13603,7 @@ extension ProtonClientTypes.RepositorySyncAttempt: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Detail data for a repository sync attempt activated by a push to a repository.
-    public struct RepositorySyncAttempt: Swift.Equatable {
+    public struct RepositorySyncAttempt {
         /// Detail data for sync attempt events.
         /// This member is required.
         public var events: [ProtonClientTypes.RepositorySyncEvent]?
@@ -13667,7 +13667,7 @@ extension ProtonClientTypes.RepositorySyncDefinition: Swift.Codable {
 
 extension ProtonClientTypes {
     /// A repository sync definition.
-    public struct RepositorySyncDefinition: Swift.Equatable {
+    public struct RepositorySyncDefinition {
         /// The repository branch.
         /// This member is required.
         public var branch: Swift.String?
@@ -13736,7 +13736,7 @@ extension ProtonClientTypes.RepositorySyncEvent: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Repository sync event detail data for a sync attempt.
-    public struct RepositorySyncEvent: Swift.Equatable {
+    public struct RepositorySyncEvent {
         /// Event detail for a repository sync attempt.
         /// This member is required.
         public var event: Swift.String?
@@ -13856,7 +13856,7 @@ extension ProtonClientTypes.ResourceCountsSummary: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Summary counts of each Proton resource types.
-    public struct ResourceCountsSummary: Swift.Equatable {
+    public struct ResourceCountsSummary {
         /// The number of resources of this type in the Amazon Web Services account that need a major template version update.
         public var behindMajor: Swift.Int?
         /// The number of resources of this type in the Amazon Web Services account that need a minor template version update.
@@ -13968,7 +13968,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -14047,7 +14047,7 @@ extension ProtonClientTypes.ResourceSyncAttempt: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Detail data for a resource sync attempt activated by a push to a repository.
-    public struct ResourceSyncAttempt: Swift.Equatable {
+    public struct ResourceSyncAttempt {
         /// An array of events with detail data.
         /// This member is required.
         public var events: [ProtonClientTypes.ResourceSyncEvent]?
@@ -14126,7 +14126,7 @@ extension ProtonClientTypes.ResourceSyncEvent: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Detail data for a resource sync event.
-    public struct ResourceSyncEvent: Swift.Equatable {
+    public struct ResourceSyncEvent {
         /// A resource sync event.
         /// This member is required.
         public var event: Swift.String?
@@ -14242,7 +14242,7 @@ extension ProtonClientTypes.Revision: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Revision detail data for a commit and push that activates a sync attempt
-    public struct Revision: Swift.Equatable {
+    public struct Revision {
         /// The repository branch.
         /// This member is required.
         public var branch: Swift.String?
@@ -14304,7 +14304,7 @@ extension ProtonClientTypes.S3ObjectSource: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Template bundle S3 bucket data.
-    public struct S3ObjectSource: Swift.Equatable {
+    public struct S3ObjectSource {
         /// The name of the S3 bucket that contains a template bundle.
         /// This member is required.
         public var bucket: Swift.String?
@@ -14422,7 +14422,7 @@ extension ProtonClientTypes.Service: Swift.CustomDebugStringConvertible {
 
 extension ProtonClientTypes {
     /// Detailed data of an Proton service resource.
-    public struct Service: Swift.Equatable {
+    public struct Service {
         /// The Amazon Resource Name (ARN) of the service.
         /// This member is required.
         public var arn: Swift.String?
@@ -14607,7 +14607,7 @@ extension ProtonClientTypes.ServiceInstance: Swift.CustomDebugStringConvertible 
 
 extension ProtonClientTypes {
     /// Detailed data of an Proton service instance resource.
-    public struct ServiceInstance: Swift.Equatable {
+    public struct ServiceInstance {
         /// The Amazon Resource Name (ARN) of the service instance.
         /// This member is required.
         public var arn: Swift.String?
@@ -14766,7 +14766,7 @@ extension ProtonClientTypes.ServiceInstanceState: Swift.CustomDebugStringConvert
 
 extension ProtonClientTypes {
     /// The detailed data about the current state of this service instance.
-    public struct ServiceInstanceState: Swift.Equatable {
+    public struct ServiceInstanceState {
         /// The IDs for the last successful components deployed for this service instance.
         public var lastSuccessfulComponentDeploymentIds: [Swift.String]?
         /// The ID for the last successful environment deployed for this service instance.
@@ -14912,7 +14912,7 @@ extension ProtonClientTypes.ServiceInstanceSummary: Swift.CustomDebugStringConve
 
 extension ProtonClientTypes {
     /// Summary data of an Proton service instance resource.
-    public struct ServiceInstanceSummary: Swift.Equatable {
+    public struct ServiceInstanceSummary {
         /// The Amazon Resource Name (ARN) of the service instance.
         /// This member is required.
         public var arn: Swift.String?
@@ -15081,7 +15081,7 @@ extension ProtonClientTypes.ServicePipeline: Swift.CustomDebugStringConvertible 
 
 extension ProtonClientTypes {
     /// Detailed data of an Proton service instance pipeline resource.
-    public struct ServicePipeline: Swift.Equatable {
+    public struct ServicePipeline {
         /// The Amazon Resource Name (ARN) of the service pipeline.
         /// This member is required.
         public var arn: Swift.String?
@@ -15191,7 +15191,7 @@ extension ProtonClientTypes.ServicePipelineState: Swift.CustomDebugStringConvert
 
 extension ProtonClientTypes {
     /// The detailed data about the current state of the service pipeline.
-    public struct ServicePipelineState: Swift.Equatable {
+    public struct ServicePipelineState {
         /// The service spec that was used to create the service pipeline.
         public var spec: Swift.String?
         /// The major version of the service template that was used to create the service pipeline.
@@ -15265,7 +15265,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -15417,7 +15417,7 @@ extension ProtonClientTypes.ServiceSummary: Swift.CustomDebugStringConvertible {
 
 extension ProtonClientTypes {
     /// Summary data of an Proton service resource.
-    public struct ServiceSummary: Swift.Equatable {
+    public struct ServiceSummary {
         /// The Amazon Resource Name (ARN) of the service.
         /// This member is required.
         public var arn: Swift.String?
@@ -15510,7 +15510,7 @@ extension ProtonClientTypes.ServiceSyncBlockerSummary: Swift.Codable {
 
 extension ProtonClientTypes {
     /// If a service instance is manually updated, Proton wants to prevent accidentally overriding a manual change. A blocker is created because of the manual update or deletion of a service instance. The summary describes the blocker as being active or resolved.
-    public struct ServiceSyncBlockerSummary: Swift.Equatable {
+    public struct ServiceSyncBlockerSummary {
         /// The latest active blockers for the synced service.
         public var latestBlockers: [ProtonClientTypes.SyncBlocker]?
         /// The name of the service instance that you want sync your service configuration with.
@@ -15578,7 +15578,7 @@ extension ProtonClientTypes.ServiceSyncConfig: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Detailed data of the service sync configuration.
-    public struct ServiceSyncConfig: Swift.Equatable {
+    public struct ServiceSyncConfig {
         /// The name of the code repository branch that holds the service code Proton will sync with.
         /// This member is required.
         public var branch: Swift.String?
@@ -15687,7 +15687,7 @@ extension ProtonClientTypes.ServiceTemplate: Swift.CustomDebugStringConvertible 
 
 extension ProtonClientTypes {
     /// Detailed data of an Proton service template resource.
-    public struct ServiceTemplate: Swift.Equatable {
+    public struct ServiceTemplate {
         /// The Amazon Resource Name (ARN) of the service template.
         /// This member is required.
         public var arn: Swift.String?
@@ -15805,7 +15805,7 @@ extension ProtonClientTypes.ServiceTemplateSummary: Swift.CustomDebugStringConve
 
 extension ProtonClientTypes {
     /// Summary data of an Proton service template resource.
-    public struct ServiceTemplateSummary: Swift.Equatable {
+    public struct ServiceTemplateSummary {
         /// The Amazon Resource Name (ARN) of the service template.
         /// This member is required.
         public var arn: Swift.String?
@@ -16002,7 +16002,7 @@ extension ProtonClientTypes.ServiceTemplateVersion: Swift.CustomDebugStringConve
 
 extension ProtonClientTypes {
     /// Detailed data of an Proton service template version resource.
-    public struct ServiceTemplateVersion: Swift.Equatable {
+    public struct ServiceTemplateVersion {
         /// The Amazon Resource Name (ARN) of the version of a service template.
         /// This member is required.
         public var arn: Swift.String?
@@ -16152,7 +16152,7 @@ extension ProtonClientTypes.ServiceTemplateVersionSummary: Swift.CustomDebugStri
 
 extension ProtonClientTypes {
     /// Summary data of an Proton service template version resource.
-    public struct ServiceTemplateVersionSummary: Swift.Equatable {
+    public struct ServiceTemplateVersionSummary {
         /// The Amazon Resource Name (ARN) of the version of a service template.
         /// This member is required.
         public var arn: Swift.String?
@@ -16316,7 +16316,7 @@ extension ProtonClientTypes.SyncBlocker: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Detailed data of the sync blocker.
-    public struct SyncBlocker: Swift.Equatable {
+    public struct SyncBlocker {
         /// The contexts for the sync blocker.
         public var contexts: [ProtonClientTypes.SyncBlockerContext]?
         /// The time when the sync blocker was created.
@@ -16390,7 +16390,7 @@ extension ProtonClientTypes.SyncBlockerContext: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Detailed data of the context of the sync blocker.
-    public struct SyncBlockerContext: Swift.Equatable {
+    public struct SyncBlockerContext {
         /// The key for the sync blocker context.
         /// This member is required.
         public var key: Swift.String?
@@ -16471,7 +16471,7 @@ extension ProtonClientTypes.Tag: Swift.Codable {
 
 extension ProtonClientTypes {
     /// A description of a resource tag.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the resource tag.
         /// This member is required.
         public var key: Swift.String?
@@ -16514,7 +16514,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the Proton resource to apply customer tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -16532,7 +16532,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [ProtonClientTypes.Tag]?
 }
 
@@ -16562,7 +16562,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -16634,7 +16634,7 @@ extension ProtonClientTypes.TemplateSyncConfig: Swift.Codable {
 
 extension ProtonClientTypes {
     /// The detail data for a template sync configuration.
-    public struct TemplateSyncConfig: Swift.Equatable {
+    public struct TemplateSyncConfig {
         /// The repository branch.
         /// This member is required.
         public var branch: Swift.String?
@@ -16734,7 +16734,7 @@ extension ProtonClientTypes.TemplateVersionSourceInput: Swift.Codable {
 
 extension ProtonClientTypes {
     /// Template version source data.
-    public enum TemplateVersionSourceInput: Swift.Equatable {
+    public enum TemplateVersionSourceInput {
         /// An S3 source object that includes the template bundle S3 path and name for a template minor version.
         case s3(ProtonClientTypes.S3ObjectSource)
         case sdkUnknown(Swift.String)
@@ -16825,7 +16825,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -16864,7 +16864,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to remove customer tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -16882,7 +16882,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let tagKeys: [Swift.String]?
 }
 
@@ -16912,7 +16912,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -16965,7 +16965,7 @@ extension UpdateAccountSettingsInput {
     }
 }
 
-public struct UpdateAccountSettingsInput: Swift.Equatable {
+public struct UpdateAccountSettingsInput {
     /// Set to true to remove a configured pipeline repository from the account settings. Don't set this field if you are updating the configured pipeline repository.
     public var deletePipelineProvisioningRepository: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Proton assumes this role for CodeBuild-based provisioning.
@@ -16989,7 +16989,7 @@ public struct UpdateAccountSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountSettingsInputBody: Swift.Equatable {
+struct UpdateAccountSettingsInputBody {
     let pipelineServiceRoleArn: Swift.String?
     let pipelineProvisioningRepository: ProtonClientTypes.RepositoryBranchInput?
     let deletePipelineProvisioningRepository: Swift.Bool?
@@ -17029,7 +17029,7 @@ extension UpdateAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAccountSettingsOutput: Swift.Equatable {
+public struct UpdateAccountSettingsOutput {
     /// The Proton pipeline service role and repository data shared across the Amazon Web Services account.
     /// This member is required.
     public var accountSettings: ProtonClientTypes.AccountSettings?
@@ -17042,7 +17042,7 @@ public struct UpdateAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountSettingsOutputBody: Swift.Equatable {
+struct UpdateAccountSettingsOutputBody {
     let accountSettings: ProtonClientTypes.AccountSettings?
 }
 
@@ -17126,7 +17126,7 @@ extension UpdateComponentInput {
     }
 }
 
-public struct UpdateComponentInput: Swift.Equatable {
+public struct UpdateComponentInput {
     /// The client token for the updated component.
     public var clientToken: Swift.String?
     /// The deployment type. It defines the mode for updating a component, as follows: NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. You can only specify description in this mode. CURRENT_VERSION In this mode, the component is deployed and updated with the new serviceSpec, templateSource, and/or type that you provide. Only requested parameters are updated.
@@ -17168,7 +17168,7 @@ public struct UpdateComponentInput: Swift.Equatable {
     }
 }
 
-struct UpdateComponentInputBody: Swift.Equatable {
+struct UpdateComponentInputBody {
     let name: Swift.String?
     let deploymentType: ProtonClientTypes.ComponentDeploymentUpdateType?
     let description: Swift.String?
@@ -17224,7 +17224,7 @@ extension UpdateComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateComponentOutput: Swift.Equatable {
+public struct UpdateComponentOutput {
     /// The detailed data of the updated component.
     /// This member is required.
     public var component: ProtonClientTypes.Component?
@@ -17237,7 +17237,7 @@ public struct UpdateComponentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateComponentOutputBody: Swift.Equatable {
+struct UpdateComponentOutputBody {
     let component: ProtonClientTypes.Component?
 }
 
@@ -17302,7 +17302,7 @@ extension UpdateEnvironmentAccountConnectionInput {
     }
 }
 
-public struct UpdateEnvironmentAccountConnectionInput: Swift.Equatable {
+public struct UpdateEnvironmentAccountConnectionInput {
     /// The Amazon Resource Name (ARN) of an IAM service role in the environment account. Proton uses this role to provision infrastructure resources using CodeBuild-based provisioning in the associated environment account.
     public var codebuildRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
@@ -17327,7 +17327,7 @@ public struct UpdateEnvironmentAccountConnectionInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentAccountConnectionInputBody: Swift.Equatable {
+struct UpdateEnvironmentAccountConnectionInputBody {
     let id: Swift.String?
     let roleArn: Swift.String?
     let componentRoleArn: Swift.String?
@@ -17367,7 +17367,7 @@ extension UpdateEnvironmentAccountConnectionOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct UpdateEnvironmentAccountConnectionOutput: Swift.Equatable {
+public struct UpdateEnvironmentAccountConnectionOutput {
     /// The environment account connection detail data that's returned by Proton.
     /// This member is required.
     public var environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
@@ -17380,7 +17380,7 @@ public struct UpdateEnvironmentAccountConnectionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentAccountConnectionOutputBody: Swift.Equatable {
+struct UpdateEnvironmentAccountConnectionOutputBody {
     let environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection?
 }
 
@@ -17477,7 +17477,7 @@ extension UpdateEnvironmentInput {
     }
 }
 
-public struct UpdateEnvironmentInput: Swift.Equatable {
+public struct UpdateEnvironmentInput {
     /// The Amazon Resource Name (ARN) of the IAM service role that allows Proton to provision infrastructure using CodeBuild-based provisioning on your behalf.
     public var codebuildRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
@@ -17531,7 +17531,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentInputBody: Swift.Equatable {
+struct UpdateEnvironmentInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let spec: Swift.String?
@@ -17599,7 +17599,7 @@ extension UpdateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnvironmentOutput: Swift.Equatable {
+public struct UpdateEnvironmentOutput {
     /// The environment detail data that's returned by Proton.
     /// This member is required.
     public var environment: ProtonClientTypes.Environment?
@@ -17612,7 +17612,7 @@ public struct UpdateEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentOutputBody: Swift.Equatable {
+struct UpdateEnvironmentOutputBody {
     let environment: ProtonClientTypes.Environment?
 }
 
@@ -17677,7 +17677,7 @@ extension UpdateEnvironmentTemplateInput {
     }
 }
 
-public struct UpdateEnvironmentTemplateInput: Swift.Equatable {
+public struct UpdateEnvironmentTemplateInput {
     /// A description of the environment template update.
     public var description: Swift.String?
     /// The name of the environment template to update as displayed in the developer interface.
@@ -17698,7 +17698,7 @@ public struct UpdateEnvironmentTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentTemplateInputBody: Swift.Equatable {
+struct UpdateEnvironmentTemplateInputBody {
     let name: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -17734,7 +17734,7 @@ extension UpdateEnvironmentTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnvironmentTemplateOutput: Swift.Equatable {
+public struct UpdateEnvironmentTemplateOutput {
     /// The environment template detail data that's returned by Proton.
     /// This member is required.
     public var environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
@@ -17747,7 +17747,7 @@ public struct UpdateEnvironmentTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentTemplateOutputBody: Swift.Equatable {
+struct UpdateEnvironmentTemplateOutputBody {
     let environmentTemplate: ProtonClientTypes.EnvironmentTemplate?
 }
 
@@ -17820,7 +17820,7 @@ extension UpdateEnvironmentTemplateVersionInput {
     }
 }
 
-public struct UpdateEnvironmentTemplateVersionInput: Swift.Equatable {
+public struct UpdateEnvironmentTemplateVersionInput {
     /// A description of environment template version to update.
     public var description: Swift.String?
     /// To update a major version of an environment template, include major Version.
@@ -17851,7 +17851,7 @@ public struct UpdateEnvironmentTemplateVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentTemplateVersionInputBody: Swift.Equatable {
+struct UpdateEnvironmentTemplateVersionInputBody {
     let templateName: Swift.String?
     let majorVersion: Swift.String?
     let minorVersion: Swift.String?
@@ -17895,7 +17895,7 @@ extension UpdateEnvironmentTemplateVersionOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct UpdateEnvironmentTemplateVersionOutput: Swift.Equatable {
+public struct UpdateEnvironmentTemplateVersionOutput {
     /// The environment template version detail data that's returned by Proton.
     /// This member is required.
     public var environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
@@ -17908,7 +17908,7 @@ public struct UpdateEnvironmentTemplateVersionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentTemplateVersionOutputBody: Swift.Equatable {
+struct UpdateEnvironmentTemplateVersionOutputBody {
     let environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion?
 }
 
@@ -17973,7 +17973,7 @@ extension UpdateServiceInput {
     }
 }
 
-public struct UpdateServiceInput: Swift.Equatable {
+public struct UpdateServiceInput {
     /// The edited service description.
     public var description: Swift.String?
     /// The name of the service to edit.
@@ -17994,7 +17994,7 @@ public struct UpdateServiceInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceInputBody: Swift.Equatable {
+struct UpdateServiceInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let spec: Swift.String?
@@ -18067,7 +18067,7 @@ extension UpdateServiceInstanceInput {
     }
 }
 
-public struct UpdateServiceInstanceInput: Swift.Equatable {
+public struct UpdateServiceInstanceInput {
     /// The client token of the service instance to update.
     public var clientToken: Swift.String?
     /// The deployment type. It defines the mode for updating a service instance, as follows: NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the service instance is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment type. MINOR_VERSION In this mode, the service instance is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the service instance is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can specify a different major version that's higher than the major version in use and a minor version.
@@ -18106,7 +18106,7 @@ public struct UpdateServiceInstanceInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceInstanceInputBody: Swift.Equatable {
+struct UpdateServiceInstanceInputBody {
     let name: Swift.String?
     let serviceName: Swift.String?
     let deploymentType: ProtonClientTypes.DeploymentUpdateType?
@@ -18158,7 +18158,7 @@ extension UpdateServiceInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServiceInstanceOutput: Swift.Equatable {
+public struct UpdateServiceInstanceOutput {
     /// The service instance summary data that's returned by Proton.
     /// This member is required.
     public var serviceInstance: ProtonClientTypes.ServiceInstance?
@@ -18171,7 +18171,7 @@ public struct UpdateServiceInstanceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceInstanceOutputBody: Swift.Equatable {
+struct UpdateServiceInstanceOutputBody {
     let serviceInstance: ProtonClientTypes.ServiceInstance?
 }
 
@@ -18215,7 +18215,7 @@ extension UpdateServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServiceOutput: Swift.Equatable {
+public struct UpdateServiceOutput {
     /// The service detail data that's returned by Proton.
     /// This member is required.
     public var service: ProtonClientTypes.Service?
@@ -18228,7 +18228,7 @@ public struct UpdateServiceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceOutputBody: Swift.Equatable {
+struct UpdateServiceOutputBody {
     let service: ProtonClientTypes.Service?
 }
 
@@ -18302,7 +18302,7 @@ extension UpdateServicePipelineInput {
     }
 }
 
-public struct UpdateServicePipelineInput: Swift.Equatable {
+public struct UpdateServicePipelineInput {
     /// The deployment type. There are four modes for updating a service pipeline. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type. MINOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can specify a different major version that's higher than the major version in use and a minor version.
     /// This member is required.
     public var deploymentType: ProtonClientTypes.DeploymentUpdateType?
@@ -18333,7 +18333,7 @@ public struct UpdateServicePipelineInput: Swift.Equatable {
     }
 }
 
-struct UpdateServicePipelineInputBody: Swift.Equatable {
+struct UpdateServicePipelineInputBody {
     let serviceName: Swift.String?
     let spec: Swift.String?
     let deploymentType: ProtonClientTypes.DeploymentUpdateType?
@@ -18377,7 +18377,7 @@ extension UpdateServicePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServicePipelineOutput: Swift.Equatable {
+public struct UpdateServicePipelineOutput {
     /// The pipeline details that are returned by Proton.
     /// This member is required.
     public var pipeline: ProtonClientTypes.ServicePipeline?
@@ -18390,7 +18390,7 @@ public struct UpdateServicePipelineOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServicePipelineOutputBody: Swift.Equatable {
+struct UpdateServicePipelineOutputBody {
     let pipeline: ProtonClientTypes.ServicePipeline?
 }
 
@@ -18446,7 +18446,7 @@ extension UpdateServiceSyncBlockerInput {
     }
 }
 
-public struct UpdateServiceSyncBlockerInput: Swift.Equatable {
+public struct UpdateServiceSyncBlockerInput {
     /// The ID of the service sync blocker.
     /// This member is required.
     public var id: Swift.String?
@@ -18464,7 +18464,7 @@ public struct UpdateServiceSyncBlockerInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceSyncBlockerInputBody: Swift.Equatable {
+struct UpdateServiceSyncBlockerInputBody {
     let id: Swift.String?
     let resolvedReason: Swift.String?
 }
@@ -18500,7 +18500,7 @@ extension UpdateServiceSyncBlockerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServiceSyncBlockerOutput: Swift.Equatable {
+public struct UpdateServiceSyncBlockerOutput {
     /// The name of the service instance that you want to update the service sync blocker for.
     public var serviceInstanceName: Swift.String?
     /// The name of the service that you want to update the service sync blocker for.
@@ -18522,7 +18522,7 @@ public struct UpdateServiceSyncBlockerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceSyncBlockerOutputBody: Swift.Equatable {
+struct UpdateServiceSyncBlockerOutputBody {
     let serviceName: Swift.String?
     let serviceInstanceName: Swift.String?
     let serviceSyncBlocker: ProtonClientTypes.SyncBlocker?
@@ -18598,7 +18598,7 @@ extension UpdateServiceSyncConfigInput {
     }
 }
 
-public struct UpdateServiceSyncConfigInput: Swift.Equatable {
+public struct UpdateServiceSyncConfigInput {
     /// The name of the code repository branch where the Proton Ops file is found.
     /// This member is required.
     public var branch: Swift.String?
@@ -18631,7 +18631,7 @@ public struct UpdateServiceSyncConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceSyncConfigInputBody: Swift.Equatable {
+struct UpdateServiceSyncConfigInputBody {
     let serviceName: Swift.String?
     let repositoryProvider: ProtonClientTypes.RepositoryProvider?
     let repositoryName: Swift.String?
@@ -18675,7 +18675,7 @@ extension UpdateServiceSyncConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServiceSyncConfigOutput: Swift.Equatable {
+public struct UpdateServiceSyncConfigOutput {
     /// The detailed data of the Proton Ops file.
     public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
 
@@ -18687,7 +18687,7 @@ public struct UpdateServiceSyncConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceSyncConfigOutputBody: Swift.Equatable {
+struct UpdateServiceSyncConfigOutputBody {
     let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
 }
 
@@ -18752,7 +18752,7 @@ extension UpdateServiceTemplateInput {
     }
 }
 
-public struct UpdateServiceTemplateInput: Swift.Equatable {
+public struct UpdateServiceTemplateInput {
     /// A description of the service template update.
     public var description: Swift.String?
     /// The name of the service template to update that's displayed in the developer interface.
@@ -18773,7 +18773,7 @@ public struct UpdateServiceTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceTemplateInputBody: Swift.Equatable {
+struct UpdateServiceTemplateInputBody {
     let name: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -18809,7 +18809,7 @@ extension UpdateServiceTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServiceTemplateOutput: Swift.Equatable {
+public struct UpdateServiceTemplateOutput {
     /// The service template detail data that's returned by Proton.
     /// This member is required.
     public var serviceTemplate: ProtonClientTypes.ServiceTemplate?
@@ -18822,7 +18822,7 @@ public struct UpdateServiceTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceTemplateOutputBody: Swift.Equatable {
+struct UpdateServiceTemplateOutputBody {
     let serviceTemplate: ProtonClientTypes.ServiceTemplate?
 }
 
@@ -18909,7 +18909,7 @@ extension UpdateServiceTemplateVersionInput {
     }
 }
 
-public struct UpdateServiceTemplateVersionInput: Swift.Equatable {
+public struct UpdateServiceTemplateVersionInput {
     /// An array of environment template objects that are compatible with this service template version. A service instance based on this service template version can run in environments based on compatible templates.
     public var compatibleEnvironmentTemplates: [ProtonClientTypes.CompatibleEnvironmentTemplateInput]?
     /// A description of a service template version to update.
@@ -18948,7 +18948,7 @@ public struct UpdateServiceTemplateVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceTemplateVersionInputBody: Swift.Equatable {
+struct UpdateServiceTemplateVersionInputBody {
     let templateName: Swift.String?
     let majorVersion: Swift.String?
     let minorVersion: Swift.String?
@@ -19018,7 +19018,7 @@ extension UpdateServiceTemplateVersionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateServiceTemplateVersionOutput: Swift.Equatable {
+public struct UpdateServiceTemplateVersionOutput {
     /// The service template version detail data that's returned by Proton.
     /// This member is required.
     public var serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
@@ -19031,7 +19031,7 @@ public struct UpdateServiceTemplateVersionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceTemplateVersionOutputBody: Swift.Equatable {
+struct UpdateServiceTemplateVersionOutputBody {
     let serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion?
 }
 
@@ -19103,7 +19103,7 @@ extension UpdateTemplateSyncConfigInput {
     }
 }
 
-public struct UpdateTemplateSyncConfigInput: Swift.Equatable {
+public struct UpdateTemplateSyncConfigInput {
     /// The repository branch for your template.
     /// This member is required.
     public var branch: Swift.String?
@@ -19140,7 +19140,7 @@ public struct UpdateTemplateSyncConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplateSyncConfigInputBody: Swift.Equatable {
+struct UpdateTemplateSyncConfigInputBody {
     let templateName: Swift.String?
     let templateType: ProtonClientTypes.TemplateType?
     let repositoryProvider: ProtonClientTypes.RepositoryProvider?
@@ -19188,7 +19188,7 @@ extension UpdateTemplateSyncConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTemplateSyncConfigOutput: Swift.Equatable {
+public struct UpdateTemplateSyncConfigOutput {
     /// The template sync configuration detail data that's returned by Proton.
     public var templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
 
@@ -19200,7 +19200,7 @@ public struct UpdateTemplateSyncConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplateSyncConfigOutputBody: Swift.Equatable {
+struct UpdateTemplateSyncConfigOutputBody {
     let templateSyncConfig: ProtonClientTypes.TemplateSyncConfig?
 }
 
@@ -19277,7 +19277,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

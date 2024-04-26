@@ -74,7 +74,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -117,7 +117,7 @@ extension CreateSuiteDefinitionInput {
     }
 }
 
-public struct CreateSuiteDefinitionInput: Swift.Equatable {
+public struct CreateSuiteDefinitionInput {
     /// Creates a Device Advisor test suite with suite definition configuration.
     /// This member is required.
     public var suiteDefinitionConfiguration: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration?
@@ -134,7 +134,7 @@ public struct CreateSuiteDefinitionInput: Swift.Equatable {
     }
 }
 
-struct CreateSuiteDefinitionInputBody: Swift.Equatable {
+struct CreateSuiteDefinitionInputBody {
     let suiteDefinitionConfiguration: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration?
     let tags: [Swift.String:Swift.String]?
 }
@@ -181,7 +181,7 @@ extension CreateSuiteDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSuiteDefinitionOutput: Swift.Equatable {
+public struct CreateSuiteDefinitionOutput {
     /// The timestamp of when the test suite was created.
     public var createdAt: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) of the test suite.
@@ -205,7 +205,7 @@ public struct CreateSuiteDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct CreateSuiteDefinitionOutputBody: Swift.Equatable {
+struct CreateSuiteDefinitionOutputBody {
     let suiteDefinitionId: Swift.String?
     let suiteDefinitionArn: Swift.String?
     let suiteDefinitionName: Swift.String?
@@ -255,7 +255,7 @@ extension DeleteSuiteDefinitionInput {
     }
 }
 
-public struct DeleteSuiteDefinitionInput: Swift.Equatable {
+public struct DeleteSuiteDefinitionInput {
     /// Suite definition ID of the test suite to be deleted.
     /// This member is required.
     public var suiteDefinitionId: Swift.String?
@@ -268,7 +268,7 @@ public struct DeleteSuiteDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteSuiteDefinitionInputBody: Swift.Equatable {
+struct DeleteSuiteDefinitionInputBody {
 }
 
 extension DeleteSuiteDefinitionInputBody: Swift.Decodable {
@@ -282,7 +282,7 @@ extension DeleteSuiteDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSuiteDefinitionOutput: Swift.Equatable {
+public struct DeleteSuiteDefinitionOutput {
 
     public init() { }
 }
@@ -332,7 +332,7 @@ extension IotDeviceAdvisorClientTypes.DeviceUnderTest: Swift.Codable {
 
 extension IotDeviceAdvisorClientTypes {
     /// Information of a test device. A thing ARN, certificate ARN or device role ARN is required.
-    public struct DeviceUnderTest: Swift.Equatable {
+    public struct DeviceUnderTest {
         /// Lists device's certificate ARN.
         public var certificateArn: Swift.String?
         /// Lists device's role ARN.
@@ -385,7 +385,7 @@ extension GetEndpointInput {
     }
 }
 
-public struct GetEndpointInput: Swift.Equatable {
+public struct GetEndpointInput {
     /// The authentication method used during the device connection.
     public var authenticationMethod: IotDeviceAdvisorClientTypes.AuthenticationMethod?
     /// The certificate ARN of the device. This is an optional parameter.
@@ -409,7 +409,7 @@ public struct GetEndpointInput: Swift.Equatable {
     }
 }
 
-struct GetEndpointInputBody: Swift.Equatable {
+struct GetEndpointInputBody {
 }
 
 extension GetEndpointInputBody: Swift.Decodable {
@@ -430,7 +430,7 @@ extension GetEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEndpointOutput: Swift.Equatable {
+public struct GetEndpointOutput {
     /// The response of an Device Advisor endpoint.
     public var endpoint: Swift.String?
 
@@ -442,7 +442,7 @@ public struct GetEndpointOutput: Swift.Equatable {
     }
 }
 
-struct GetEndpointOutputBody: Swift.Equatable {
+struct GetEndpointOutputBody {
     let endpoint: Swift.String?
 }
 
@@ -493,7 +493,7 @@ extension GetSuiteDefinitionInput {
     }
 }
 
-public struct GetSuiteDefinitionInput: Swift.Equatable {
+public struct GetSuiteDefinitionInput {
     /// Suite definition ID of the test suite to get.
     /// This member is required.
     public var suiteDefinitionId: Swift.String?
@@ -510,7 +510,7 @@ public struct GetSuiteDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetSuiteDefinitionInputBody: Swift.Equatable {
+struct GetSuiteDefinitionInputBody {
 }
 
 extension GetSuiteDefinitionInputBody: Swift.Decodable {
@@ -545,7 +545,7 @@ extension GetSuiteDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSuiteDefinitionOutput: Swift.Equatable {
+public struct GetSuiteDefinitionOutput {
     /// Date (in Unix epoch time) when the suite definition was created.
     public var createdAt: ClientRuntime.Date?
     /// Date (in Unix epoch time) when the suite definition was last modified.
@@ -585,7 +585,7 @@ public struct GetSuiteDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetSuiteDefinitionOutputBody: Swift.Equatable {
+struct GetSuiteDefinitionOutputBody {
     let suiteDefinitionId: Swift.String?
     let suiteDefinitionArn: Swift.String?
     let suiteDefinitionVersion: Swift.String?
@@ -664,7 +664,7 @@ extension GetSuiteRunInput {
     }
 }
 
-public struct GetSuiteRunInput: Swift.Equatable {
+public struct GetSuiteRunInput {
     /// Suite definition ID for the test suite run.
     /// This member is required.
     public var suiteDefinitionId: Swift.String?
@@ -682,7 +682,7 @@ public struct GetSuiteRunInput: Swift.Equatable {
     }
 }
 
-struct GetSuiteRunInputBody: Swift.Equatable {
+struct GetSuiteRunInputBody {
 }
 
 extension GetSuiteRunInputBody: Swift.Decodable {
@@ -723,7 +723,7 @@ extension GetSuiteRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSuiteRunOutput: Swift.Equatable {
+public struct GetSuiteRunOutput {
     /// Date (in Unix epoch time) when the test suite run ended.
     public var endTime: ClientRuntime.Date?
     /// Error reason for any test suite run failure.
@@ -775,7 +775,7 @@ public struct GetSuiteRunOutput: Swift.Equatable {
     }
 }
 
-struct GetSuiteRunOutputBody: Swift.Equatable {
+struct GetSuiteRunOutputBody {
     let suiteDefinitionId: Swift.String?
     let suiteDefinitionVersion: Swift.String?
     let suiteRunId: Swift.String?
@@ -866,7 +866,7 @@ extension GetSuiteRunReportInput {
     }
 }
 
-public struct GetSuiteRunReportInput: Swift.Equatable {
+public struct GetSuiteRunReportInput {
     /// Suite definition ID of the test suite.
     /// This member is required.
     public var suiteDefinitionId: Swift.String?
@@ -884,7 +884,7 @@ public struct GetSuiteRunReportInput: Swift.Equatable {
     }
 }
 
-struct GetSuiteRunReportInputBody: Swift.Equatable {
+struct GetSuiteRunReportInputBody {
 }
 
 extension GetSuiteRunReportInputBody: Swift.Decodable {
@@ -905,7 +905,7 @@ extension GetSuiteRunReportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSuiteRunReportOutput: Swift.Equatable {
+public struct GetSuiteRunReportOutput {
     /// Download URL of the qualification report.
     public var qualificationReportDownloadUrl: Swift.String?
 
@@ -917,7 +917,7 @@ public struct GetSuiteRunReportOutput: Swift.Equatable {
     }
 }
 
-struct GetSuiteRunReportOutputBody: Swift.Equatable {
+struct GetSuiteRunReportOutputBody {
     let qualificationReportDownloadUrl: Swift.String?
 }
 
@@ -991,7 +991,7 @@ extension IotDeviceAdvisorClientTypes.GroupResult: Swift.Codable {
 
 extension IotDeviceAdvisorClientTypes {
     /// Show Group Result.
-    public struct GroupResult: Swift.Equatable {
+    public struct GroupResult {
         /// Group result ID.
         public var groupId: Swift.String?
         /// Group Result Name.
@@ -1053,7 +1053,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1094,7 +1094,7 @@ extension ListSuiteDefinitionsInput {
     }
 }
 
-public struct ListSuiteDefinitionsInput: Swift.Equatable {
+public struct ListSuiteDefinitionsInput {
     /// The maximum number of results to return at once.
     public var maxResults: Swift.Int?
     /// A token used to get the next set of results.
@@ -1110,7 +1110,7 @@ public struct ListSuiteDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListSuiteDefinitionsInputBody: Swift.Equatable {
+struct ListSuiteDefinitionsInputBody {
 }
 
 extension ListSuiteDefinitionsInputBody: Swift.Decodable {
@@ -1133,7 +1133,7 @@ extension ListSuiteDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSuiteDefinitionsOutput: Swift.Equatable {
+public struct ListSuiteDefinitionsOutput {
     /// A token used to get the next set of results.
     public var nextToken: Swift.String?
     /// An array of objects that provide summaries of information about the suite definitions in the list.
@@ -1149,7 +1149,7 @@ public struct ListSuiteDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSuiteDefinitionsOutputBody: Swift.Equatable {
+struct ListSuiteDefinitionsOutputBody {
     let suiteDefinitionInformationList: [IotDeviceAdvisorClientTypes.SuiteDefinitionInformation]?
     let nextToken: Swift.String?
 }
@@ -1221,7 +1221,7 @@ extension ListSuiteRunsInput {
     }
 }
 
-public struct ListSuiteRunsInput: Swift.Equatable {
+public struct ListSuiteRunsInput {
     /// The maximum number of results to return at once.
     public var maxResults: Swift.Int?
     /// A token to retrieve the next set of results.
@@ -1245,7 +1245,7 @@ public struct ListSuiteRunsInput: Swift.Equatable {
     }
 }
 
-struct ListSuiteRunsInputBody: Swift.Equatable {
+struct ListSuiteRunsInputBody {
 }
 
 extension ListSuiteRunsInputBody: Swift.Decodable {
@@ -1268,7 +1268,7 @@ extension ListSuiteRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSuiteRunsOutput: Swift.Equatable {
+public struct ListSuiteRunsOutput {
     /// A token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// An array of objects that provide summaries of information about the suite runs in the list.
@@ -1284,7 +1284,7 @@ public struct ListSuiteRunsOutput: Swift.Equatable {
     }
 }
 
-struct ListSuiteRunsOutputBody: Swift.Equatable {
+struct ListSuiteRunsOutputBody {
     let suiteRunsList: [IotDeviceAdvisorClientTypes.SuiteRunInformation]?
     let nextToken: Swift.String?
 }
@@ -1335,7 +1335,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The resource ARN of the IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1348,7 +1348,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -1369,7 +1369,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags attached to the IoT Device Advisor resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1381,7 +1381,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1497,7 +1497,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1547,7 +1547,7 @@ extension StartSuiteRunInput {
     }
 }
 
-public struct StartSuiteRunInput: Swift.Equatable {
+public struct StartSuiteRunInput {
     /// Suite definition ID of the test suite.
     /// This member is required.
     public var suiteDefinitionId: Swift.String?
@@ -1573,7 +1573,7 @@ public struct StartSuiteRunInput: Swift.Equatable {
     }
 }
 
-struct StartSuiteRunInputBody: Swift.Equatable {
+struct StartSuiteRunInputBody {
     let suiteDefinitionVersion: Swift.String?
     let suiteRunConfiguration: IotDeviceAdvisorClientTypes.SuiteRunConfiguration?
     let tags: [Swift.String:Swift.String]?
@@ -1624,7 +1624,7 @@ extension StartSuiteRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSuiteRunOutput: Swift.Equatable {
+public struct StartSuiteRunOutput {
     /// Starts a Device Advisor test suite run based on suite create time.
     public var createdAt: ClientRuntime.Date?
     /// The response of an Device Advisor test endpoint.
@@ -1648,7 +1648,7 @@ public struct StartSuiteRunOutput: Swift.Equatable {
     }
 }
 
-struct StartSuiteRunOutputBody: Swift.Equatable {
+struct StartSuiteRunOutputBody {
     let suiteRunId: Swift.String?
     let suiteRunArn: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -1755,7 +1755,7 @@ extension StopSuiteRunInput {
     }
 }
 
-public struct StopSuiteRunInput: Swift.Equatable {
+public struct StopSuiteRunInput {
     /// Suite definition ID of the test suite run to be stopped.
     /// This member is required.
     public var suiteDefinitionId: Swift.String?
@@ -1773,7 +1773,7 @@ public struct StopSuiteRunInput: Swift.Equatable {
     }
 }
 
-struct StopSuiteRunInputBody: Swift.Equatable {
+struct StopSuiteRunInputBody {
 }
 
 extension StopSuiteRunInputBody: Swift.Decodable {
@@ -1787,7 +1787,7 @@ extension StopSuiteRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopSuiteRunOutput: Swift.Equatable {
+public struct StopSuiteRunOutput {
 
     public init() { }
 }
@@ -1874,7 +1874,7 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration: Swift.Codabl
 
 extension IotDeviceAdvisorClientTypes {
     /// Gets the suite definition configuration.
-    public struct SuiteDefinitionConfiguration: Swift.Equatable {
+    public struct SuiteDefinitionConfiguration {
         /// Gets the device permission ARN. This is a required parameter.
         /// This member is required.
         public var devicePermissionRoleArn: Swift.String?
@@ -1984,7 +1984,7 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionInformation: Swift.Codable 
 
 extension IotDeviceAdvisorClientTypes {
     /// Information about the suite definition.
-    public struct SuiteDefinitionInformation: Swift.Equatable {
+    public struct SuiteDefinitionInformation {
         /// Date (in Unix epoch time) when the test suite was created.
         public var createdAt: ClientRuntime.Date?
         /// Specifies the devices that are under test for the test suite.
@@ -2067,7 +2067,7 @@ extension IotDeviceAdvisorClientTypes.SuiteRunConfiguration: Swift.Codable {
 
 extension IotDeviceAdvisorClientTypes {
     /// Gets suite run configuration.
-    public struct SuiteRunConfiguration: Swift.Equatable {
+    public struct SuiteRunConfiguration {
         /// TRUE if multiple test suites run in parallel.
         public var parallelRun: Swift.Bool?
         /// Sets the primary device for the test suite run. This requires a thing ARN or a certificate ARN.
@@ -2165,7 +2165,7 @@ extension IotDeviceAdvisorClientTypes.SuiteRunInformation: Swift.Codable {
 
 extension IotDeviceAdvisorClientTypes {
     /// Information about the suite run. Requires permission to access the [SuiteRunInformation](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
-    public struct SuiteRunInformation: Swift.Equatable {
+    public struct SuiteRunInformation {
         /// Date (in Unix epoch time) when the suite run was created.
         public var createdAt: ClientRuntime.Date?
         /// Date (in Unix epoch time) when the suite run ended.
@@ -2294,7 +2294,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2312,7 +2312,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2342,7 +2342,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2447,7 +2447,7 @@ extension IotDeviceAdvisorClientTypes.TestCaseRun: Swift.Codable {
 
 extension IotDeviceAdvisorClientTypes {
     /// Provides the test case run.
-    public struct TestCaseRun: Swift.Equatable {
+    public struct TestCaseRun {
         /// Provides test case run end time.
         public var endTime: ClientRuntime.Date?
         /// Provides test case run failure result.
@@ -2558,7 +2558,7 @@ extension IotDeviceAdvisorClientTypes.TestCaseScenario: Swift.Codable {
 
 extension IotDeviceAdvisorClientTypes {
     /// Provides test case scenario.
-    public struct TestCaseScenario: Swift.Equatable {
+    public struct TestCaseScenario {
         /// Provides test case scenario failure result.
         public var failure: Swift.String?
         /// Provides the test case scenario status. Status is one of the following:
@@ -2726,7 +2726,7 @@ extension IotDeviceAdvisorClientTypes.TestResult: Swift.Codable {
 
 extension IotDeviceAdvisorClientTypes {
     /// Show each group result.
-    public struct TestResult: Swift.Equatable {
+    public struct TestResult {
         /// Show each group of test results.
         public var groups: [IotDeviceAdvisorClientTypes.GroupResult]?
 
@@ -2766,7 +2766,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2784,7 +2784,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -2798,7 +2798,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -2839,7 +2839,7 @@ extension UpdateSuiteDefinitionInput {
     }
 }
 
-public struct UpdateSuiteDefinitionInput: Swift.Equatable {
+public struct UpdateSuiteDefinitionInput {
     /// Updates a Device Advisor test suite with suite definition configuration.
     /// This member is required.
     public var suiteDefinitionConfiguration: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration?
@@ -2857,7 +2857,7 @@ public struct UpdateSuiteDefinitionInput: Swift.Equatable {
     }
 }
 
-struct UpdateSuiteDefinitionInputBody: Swift.Equatable {
+struct UpdateSuiteDefinitionInputBody {
     let suiteDefinitionConfiguration: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration?
 }
 
@@ -2895,7 +2895,7 @@ extension UpdateSuiteDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSuiteDefinitionOutput: Swift.Equatable {
+public struct UpdateSuiteDefinitionOutput {
     /// Timestamp of when the test suite was created.
     public var createdAt: ClientRuntime.Date?
     /// Timestamp of when the test suite was updated.
@@ -2927,7 +2927,7 @@ public struct UpdateSuiteDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSuiteDefinitionOutputBody: Swift.Equatable {
+struct UpdateSuiteDefinitionOutputBody {
     let suiteDefinitionId: Swift.String?
     let suiteDefinitionArn: Swift.String?
     let suiteDefinitionName: Swift.String?
@@ -3015,7 +3015,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

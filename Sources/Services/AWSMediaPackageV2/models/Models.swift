@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -163,7 +163,7 @@ extension MediaPackageV2ClientTypes.ChannelGroupListConfiguration: Swift.Codable
 
 extension MediaPackageV2ClientTypes {
     /// The configuration of the channel group.
-    public struct ChannelGroupListConfiguration: Swift.Equatable {
+    public struct ChannelGroupListConfiguration {
         /// The Amazon Resource Name (ARN) associated with the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -248,7 +248,7 @@ extension MediaPackageV2ClientTypes.ChannelListConfiguration: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// The configuration of the channel.
-    public struct ChannelListConfiguration: Swift.Equatable {
+    public struct ChannelListConfiguration {
         /// The Amazon Resource Name (ARN) associated with the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -364,7 +364,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let conflictExceptionType: MediaPackageV2ClientTypes.ConflictExceptionType?
 }
@@ -496,7 +496,7 @@ extension CreateChannelGroupInput {
     }
 }
 
-public struct CreateChannelGroupInput: Swift.Equatable {
+public struct CreateChannelGroupInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. You can't use spaces in the name. You can't change the name after you create the channel group.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -522,7 +522,7 @@ public struct CreateChannelGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateChannelGroupInputBody: Swift.Equatable {
+struct CreateChannelGroupInputBody {
     let channelGroupName: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -581,7 +581,7 @@ extension CreateChannelGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateChannelGroupOutput: Swift.Equatable {
+public struct CreateChannelGroupOutput {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -626,7 +626,7 @@ public struct CreateChannelGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateChannelGroupOutputBody: Swift.Equatable {
+struct CreateChannelGroupOutputBody {
     let channelGroupName: Swift.String?
     let arn: Swift.String?
     let egressDomain: Swift.String?
@@ -741,7 +741,7 @@ extension CreateChannelInput {
     }
 }
 
-public struct CreateChannelInput: Swift.Equatable {
+public struct CreateChannelInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -772,7 +772,7 @@ public struct CreateChannelInput: Swift.Equatable {
     }
 }
 
-struct CreateChannelInputBody: Swift.Equatable {
+struct CreateChannelInputBody {
     let channelName: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -833,7 +833,7 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateChannelOutput: Swift.Equatable {
+public struct CreateChannelOutput {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -882,7 +882,7 @@ public struct CreateChannelOutput: Swift.Equatable {
     }
 }
 
-struct CreateChannelOutputBody: Swift.Equatable {
+struct CreateChannelOutputBody {
     let arn: Swift.String?
     let channelName: Swift.String?
     let channelGroupName: Swift.String?
@@ -1058,7 +1058,7 @@ extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration: Swift.Codab
 
 extension MediaPackageV2ClientTypes {
     /// Create a DASH manifest configuration.
-    public struct CreateDashManifestConfiguration: Swift.Equatable {
+    public struct CreateDashManifestConfiguration {
         /// Determines how the DASH manifest signals the DRM content.
         public var drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -1166,7 +1166,7 @@ extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration: Swift.Codabl
 
 extension MediaPackageV2ClientTypes {
     /// Create an HTTP live streaming (HLS) manifest configuration.
-    public struct CreateHlsManifestConfiguration: Swift.Equatable {
+    public struct CreateHlsManifestConfiguration {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index, with an added suffix to distinguish it from the manifest name. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -1252,7 +1252,7 @@ extension MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration: Sw
 
 extension MediaPackageV2ClientTypes {
     /// Create a low-latency HTTP live streaming (HLS) manifest configuration.
-    public struct CreateLowLatencyHlsManifestConfiguration: Swift.Equatable {
+    public struct CreateLowLatencyHlsManifestConfiguration {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index, with an added suffix to distinguish it from the manifest name. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -1368,7 +1368,7 @@ extension CreateOriginEndpointInput {
     }
 }
 
-public struct CreateOriginEndpointInput: Swift.Equatable {
+public struct CreateOriginEndpointInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -1429,7 +1429,7 @@ public struct CreateOriginEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreateOriginEndpointInputBody: Swift.Equatable {
+struct CreateOriginEndpointInputBody {
     let originEndpointName: Swift.String?
     let containerType: MediaPackageV2ClientTypes.ContainerType?
     let segment: MediaPackageV2ClientTypes.Segment?
@@ -1553,7 +1553,7 @@ extension CreateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOriginEndpointOutput: Swift.Equatable {
+public struct CreateOriginEndpointOutput {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -1629,7 +1629,7 @@ public struct CreateOriginEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreateOriginEndpointOutputBody: Swift.Equatable {
+struct CreateOriginEndpointOutputBody {
     let arn: Swift.String?
     let channelGroupName: Swift.String?
     let channelName: Swift.String?
@@ -1883,7 +1883,7 @@ extension MediaPackageV2ClientTypes.DashUtcTiming: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
-    public struct DashUtcTiming: Swift.Equatable {
+    public struct DashUtcTiming {
         /// The UTC timing mode.
         public var timingMode: MediaPackageV2ClientTypes.DashUtcTimingMode?
         /// The the method that the player uses to synchronize to coordinated universal time (UTC) wall clock time.
@@ -1949,7 +1949,7 @@ extension DeleteChannelGroupInput {
     }
 }
 
-public struct DeleteChannelGroupInput: Swift.Equatable {
+public struct DeleteChannelGroupInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -1962,7 +1962,7 @@ public struct DeleteChannelGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteChannelGroupInputBody: Swift.Equatable {
+struct DeleteChannelGroupInputBody {
 }
 
 extension DeleteChannelGroupInputBody: Swift.Decodable {
@@ -1976,7 +1976,7 @@ extension DeleteChannelGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteChannelGroupOutput: Swift.Equatable {
+public struct DeleteChannelGroupOutput {
 
     public init() { }
 }
@@ -2009,7 +2009,7 @@ extension DeleteChannelInput {
     }
 }
 
-public struct DeleteChannelInput: Swift.Equatable {
+public struct DeleteChannelInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2027,7 +2027,7 @@ public struct DeleteChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteChannelInputBody: Swift.Equatable {
+struct DeleteChannelInputBody {
 }
 
 extension DeleteChannelInputBody: Swift.Decodable {
@@ -2041,7 +2041,7 @@ extension DeleteChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteChannelOutput: Swift.Equatable {
+public struct DeleteChannelOutput {
 
     public init() { }
 }
@@ -2074,7 +2074,7 @@ extension DeleteChannelPolicyInput {
     }
 }
 
-public struct DeleteChannelPolicyInput: Swift.Equatable {
+public struct DeleteChannelPolicyInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2092,7 +2092,7 @@ public struct DeleteChannelPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteChannelPolicyInputBody: Swift.Equatable {
+struct DeleteChannelPolicyInputBody {
 }
 
 extension DeleteChannelPolicyInputBody: Swift.Decodable {
@@ -2106,7 +2106,7 @@ extension DeleteChannelPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteChannelPolicyOutput: Swift.Equatable {
+public struct DeleteChannelPolicyOutput {
 
     public init() { }
 }
@@ -2142,7 +2142,7 @@ extension DeleteOriginEndpointInput {
     }
 }
 
-public struct DeleteOriginEndpointInput: Swift.Equatable {
+public struct DeleteOriginEndpointInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2165,7 +2165,7 @@ public struct DeleteOriginEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteOriginEndpointInputBody: Swift.Equatable {
+struct DeleteOriginEndpointInputBody {
 }
 
 extension DeleteOriginEndpointInputBody: Swift.Decodable {
@@ -2179,7 +2179,7 @@ extension DeleteOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOriginEndpointOutput: Swift.Equatable {
+public struct DeleteOriginEndpointOutput {
 
     public init() { }
 }
@@ -2214,7 +2214,7 @@ extension DeleteOriginEndpointPolicyInput {
     }
 }
 
-public struct DeleteOriginEndpointPolicyInput: Swift.Equatable {
+public struct DeleteOriginEndpointPolicyInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2237,7 +2237,7 @@ public struct DeleteOriginEndpointPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteOriginEndpointPolicyInputBody: Swift.Equatable {
+struct DeleteOriginEndpointPolicyInputBody {
 }
 
 extension DeleteOriginEndpointPolicyInputBody: Swift.Decodable {
@@ -2251,7 +2251,7 @@ extension DeleteOriginEndpointPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOriginEndpointPolicyOutput: Swift.Equatable {
+public struct DeleteOriginEndpointPolicyOutput {
 
     public init() { }
 }
@@ -2348,7 +2348,7 @@ extension MediaPackageV2ClientTypes.Encryption: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// The parameters for encrypting content.
-    public struct Encryption: Swift.Equatable {
+    public struct Encryption {
         /// A 128-bit, 16-byte hex value represented by a 32-character string, used in conjunction with the key for encrypting content. If you don't specify a value, then MediaPackage creates the constant initialization vector (IV).
         public var constantInitializationVector: Swift.String?
         /// The encryption method to use.
@@ -2403,7 +2403,7 @@ extension MediaPackageV2ClientTypes.EncryptionContractConfiguration: Swift.Codab
 
 extension MediaPackageV2ClientTypes {
     /// Configure one or more content encryption keys for your endpoints that use SPEKE Version 2.0. The encryption contract defines which content keys are used to encrypt the audio and video tracks in your stream. To configure the encryption contract, specify which audio and video encryption presets to use.
-    public struct EncryptionContractConfiguration: Swift.Equatable {
+    public struct EncryptionContractConfiguration {
         /// A collection of audio encryption presets. Value description:
         ///
         /// * PRESET-AUDIO-1 - Use one content key to encrypt all of the audio tracks in your stream.
@@ -2480,7 +2480,7 @@ extension MediaPackageV2ClientTypes.EncryptionMethod: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// The encryption type.
-    public struct EncryptionMethod: Swift.Equatable {
+    public struct EncryptionMethod {
         /// The encryption method to use.
         public var cmafEncryptionMethod: MediaPackageV2ClientTypes.CmafEncryptionMethod?
         /// The encryption method to use.
@@ -2537,7 +2537,7 @@ extension MediaPackageV2ClientTypes.FilterConfiguration: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
-    public struct FilterConfiguration: Swift.Equatable {
+    public struct FilterConfiguration {
         /// Optionally specify the end time for all of your manifest egress requests. When you include end time, note that you cannot use end time query parameters for this manifest's endpoint URL.
         public var end: ClientRuntime.Date?
         /// Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.
@@ -2573,7 +2573,7 @@ extension GetChannelGroupInput {
     }
 }
 
-public struct GetChannelGroupInput: Swift.Equatable {
+public struct GetChannelGroupInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2586,7 +2586,7 @@ public struct GetChannelGroupInput: Swift.Equatable {
     }
 }
 
-struct GetChannelGroupInputBody: Swift.Equatable {
+struct GetChannelGroupInputBody {
 }
 
 extension GetChannelGroupInputBody: Swift.Decodable {
@@ -2621,7 +2621,7 @@ extension GetChannelGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChannelGroupOutput: Swift.Equatable {
+public struct GetChannelGroupOutput {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -2666,7 +2666,7 @@ public struct GetChannelGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetChannelGroupOutputBody: Swift.Equatable {
+struct GetChannelGroupOutputBody {
     let channelGroupName: Swift.String?
     let arn: Swift.String?
     let egressDomain: Swift.String?
@@ -2747,7 +2747,7 @@ extension GetChannelInput {
     }
 }
 
-public struct GetChannelInput: Swift.Equatable {
+public struct GetChannelInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2765,7 +2765,7 @@ public struct GetChannelInput: Swift.Equatable {
     }
 }
 
-struct GetChannelInputBody: Swift.Equatable {
+struct GetChannelInputBody {
 }
 
 extension GetChannelInputBody: Swift.Decodable {
@@ -2802,7 +2802,7 @@ extension GetChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChannelOutput: Swift.Equatable {
+public struct GetChannelOutput {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -2851,7 +2851,7 @@ public struct GetChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetChannelOutputBody: Swift.Equatable {
+struct GetChannelOutputBody {
     let arn: Swift.String?
     let channelName: Swift.String?
     let channelGroupName: Swift.String?
@@ -2945,7 +2945,7 @@ extension GetChannelPolicyInput {
     }
 }
 
-public struct GetChannelPolicyInput: Swift.Equatable {
+public struct GetChannelPolicyInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2963,7 +2963,7 @@ public struct GetChannelPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetChannelPolicyInputBody: Swift.Equatable {
+struct GetChannelPolicyInputBody {
 }
 
 extension GetChannelPolicyInputBody: Swift.Decodable {
@@ -2988,7 +2988,7 @@ extension GetChannelPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChannelPolicyOutput: Swift.Equatable {
+public struct GetChannelPolicyOutput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -3011,7 +3011,7 @@ public struct GetChannelPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetChannelPolicyOutputBody: Swift.Equatable {
+struct GetChannelPolicyOutputBody {
     let channelGroupName: Swift.String?
     let channelName: Swift.String?
     let policy: Swift.String?
@@ -3149,7 +3149,7 @@ extension MediaPackageV2ClientTypes.GetDashManifestConfiguration: Swift.Codable 
 
 extension MediaPackageV2ClientTypes {
     /// Retrieve the DASH manifest configuration.
-    public struct GetDashManifestConfiguration: Swift.Equatable {
+    public struct GetDashManifestConfiguration {
         /// Determines how the DASH manifest signals the DRM content.
         public var drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -3268,7 +3268,7 @@ extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// Retrieve the HTTP live streaming (HLS) manifest configuration.
-    public struct GetHlsManifestConfiguration: Swift.Equatable {
+    public struct GetHlsManifestConfiguration {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -3365,7 +3365,7 @@ extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration: Swift
 
 extension MediaPackageV2ClientTypes {
     /// Retrieve the low-latency HTTP live streaming (HLS) manifest configuration.
-    public struct GetLowLatencyHlsManifestConfiguration: Swift.Equatable {
+    public struct GetLowLatencyHlsManifestConfiguration {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -3421,7 +3421,7 @@ extension GetOriginEndpointInput {
     }
 }
 
-public struct GetOriginEndpointInput: Swift.Equatable {
+public struct GetOriginEndpointInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -3444,7 +3444,7 @@ public struct GetOriginEndpointInput: Swift.Equatable {
     }
 }
 
-struct GetOriginEndpointInputBody: Swift.Equatable {
+struct GetOriginEndpointInputBody {
 }
 
 extension GetOriginEndpointInputBody: Swift.Decodable {
@@ -3493,7 +3493,7 @@ extension GetOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOriginEndpointOutput: Swift.Equatable {
+public struct GetOriginEndpointOutput {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -3569,7 +3569,7 @@ public struct GetOriginEndpointOutput: Swift.Equatable {
     }
 }
 
-struct GetOriginEndpointOutputBody: Swift.Equatable {
+struct GetOriginEndpointOutputBody {
     let arn: Swift.String?
     let channelGroupName: Swift.String?
     let channelName: Swift.String?
@@ -3708,7 +3708,7 @@ extension GetOriginEndpointPolicyInput {
     }
 }
 
-public struct GetOriginEndpointPolicyInput: Swift.Equatable {
+public struct GetOriginEndpointPolicyInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -3731,7 +3731,7 @@ public struct GetOriginEndpointPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetOriginEndpointPolicyInputBody: Swift.Equatable {
+struct GetOriginEndpointPolicyInputBody {
 }
 
 extension GetOriginEndpointPolicyInputBody: Swift.Decodable {
@@ -3758,7 +3758,7 @@ extension GetOriginEndpointPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOriginEndpointPolicyOutput: Swift.Equatable {
+public struct GetOriginEndpointPolicyOutput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -3786,7 +3786,7 @@ public struct GetOriginEndpointPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetOriginEndpointPolicyOutputBody: Swift.Equatable {
+struct GetOriginEndpointPolicyOutputBody {
     let channelGroupName: Swift.String?
     let channelName: Swift.String?
     let originEndpointName: Swift.String?
@@ -3856,7 +3856,7 @@ extension MediaPackageV2ClientTypes.IngestEndpoint: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// The ingest domain URL where the source stream should be sent.
-    public struct IngestEndpoint: Swift.Equatable {
+    public struct IngestEndpoint {
         /// The system-generated unique identifier for the IngestEndpoint.
         public var id: Swift.String?
         /// The ingest domain URL where the source stream should be sent.
@@ -3913,7 +3913,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -3952,7 +3952,7 @@ extension ListChannelGroupsInput {
     }
 }
 
-public struct ListChannelGroupsInput: Swift.Equatable {
+public struct ListChannelGroupsInput {
     /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
     /// The pagination token from the GET list request. Use the token to fetch the next page of results.
@@ -3968,7 +3968,7 @@ public struct ListChannelGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListChannelGroupsInputBody: Swift.Equatable {
+struct ListChannelGroupsInputBody {
 }
 
 extension ListChannelGroupsInputBody: Swift.Decodable {
@@ -3991,7 +3991,7 @@ extension ListChannelGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChannelGroupsOutput: Swift.Equatable {
+public struct ListChannelGroupsOutput {
     /// The objects being returned.
     public var items: [MediaPackageV2ClientTypes.ChannelGroupListConfiguration]?
     /// The pagination token from the GET list request. Use the token to fetch the next page of results.
@@ -4007,7 +4007,7 @@ public struct ListChannelGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListChannelGroupsOutputBody: Swift.Equatable {
+struct ListChannelGroupsOutputBody {
     let items: [MediaPackageV2ClientTypes.ChannelGroupListConfiguration]?
     let nextToken: Swift.String?
 }
@@ -4076,7 +4076,7 @@ extension ListChannelsInput {
     }
 }
 
-public struct ListChannelsInput: Swift.Equatable {
+public struct ListChannelsInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -4097,7 +4097,7 @@ public struct ListChannelsInput: Swift.Equatable {
     }
 }
 
-struct ListChannelsInputBody: Swift.Equatable {
+struct ListChannelsInputBody {
 }
 
 extension ListChannelsInputBody: Swift.Decodable {
@@ -4120,7 +4120,7 @@ extension ListChannelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChannelsOutput: Swift.Equatable {
+public struct ListChannelsOutput {
     /// The objects being returned.
     public var items: [MediaPackageV2ClientTypes.ChannelListConfiguration]?
     /// The pagination token from the GET list request.
@@ -4136,7 +4136,7 @@ public struct ListChannelsOutput: Swift.Equatable {
     }
 }
 
-struct ListChannelsOutputBody: Swift.Equatable {
+struct ListChannelsOutputBody {
     let items: [MediaPackageV2ClientTypes.ChannelListConfiguration]?
     let nextToken: Swift.String?
 }
@@ -4207,7 +4207,7 @@ extension MediaPackageV2ClientTypes.ListDashManifestConfiguration: Swift.Codable
 
 extension MediaPackageV2ClientTypes {
     /// List the DASH manifest configuration.
-    public struct ListDashManifestConfiguration: Swift.Equatable {
+    public struct ListDashManifestConfiguration {
         /// A short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index.
         /// This member is required.
         public var manifestName: Swift.String?
@@ -4259,7 +4259,7 @@ extension MediaPackageV2ClientTypes.ListHlsManifestConfiguration: Swift.Codable 
 
 extension MediaPackageV2ClientTypes {
     /// List the HTTP live streaming (HLS) manifest configuration.
-    public struct ListHlsManifestConfiguration: Swift.Equatable {
+    public struct ListHlsManifestConfiguration {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
@@ -4315,7 +4315,7 @@ extension MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration: Swif
 
 extension MediaPackageV2ClientTypes {
     /// List the low-latency HTTP live streaming (HLS) manifest configuration.
-    public struct ListLowLatencyHlsManifestConfiguration: Swift.Equatable {
+    public struct ListLowLatencyHlsManifestConfiguration {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
@@ -4367,7 +4367,7 @@ extension ListOriginEndpointsInput {
     }
 }
 
-public struct ListOriginEndpointsInput: Swift.Equatable {
+public struct ListOriginEndpointsInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -4393,7 +4393,7 @@ public struct ListOriginEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListOriginEndpointsInputBody: Swift.Equatable {
+struct ListOriginEndpointsInputBody {
 }
 
 extension ListOriginEndpointsInputBody: Swift.Decodable {
@@ -4416,7 +4416,7 @@ extension ListOriginEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOriginEndpointsOutput: Swift.Equatable {
+public struct ListOriginEndpointsOutput {
     /// The objects being returned.
     public var items: [MediaPackageV2ClientTypes.OriginEndpointListConfiguration]?
     /// The pagination token from the GET list request. Use the token to fetch the next page of results.
@@ -4432,7 +4432,7 @@ public struct ListOriginEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListOriginEndpointsOutputBody: Swift.Equatable {
+struct ListOriginEndpointsOutputBody {
     let items: [MediaPackageV2ClientTypes.OriginEndpointListConfiguration]?
     let nextToken: Swift.String?
 }
@@ -4486,7 +4486,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the CloudWatch resource that you want to view tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4499,7 +4499,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -4520,7 +4520,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -4532,7 +4532,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4687,7 +4687,7 @@ extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration: Swift.Codab
 
 extension MediaPackageV2ClientTypes {
     /// The configuration of the origin endpoint.
-    public struct OriginEndpointListConfiguration: Swift.Equatable {
+    public struct OriginEndpointListConfiguration {
         /// The Amazon Resource Name (ARN) associated with the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -4869,7 +4869,7 @@ extension PutChannelPolicyInput {
     }
 }
 
-public struct PutChannelPolicyInput: Swift.Equatable {
+public struct PutChannelPolicyInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -4892,7 +4892,7 @@ public struct PutChannelPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutChannelPolicyInputBody: Swift.Equatable {
+struct PutChannelPolicyInputBody {
     let policy: Swift.String?
 }
 
@@ -4913,7 +4913,7 @@ extension PutChannelPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutChannelPolicyOutput: Swift.Equatable {
+public struct PutChannelPolicyOutput {
 
     public init() { }
 }
@@ -4963,7 +4963,7 @@ extension PutOriginEndpointPolicyInput {
     }
 }
 
-public struct PutOriginEndpointPolicyInput: Swift.Equatable {
+public struct PutOriginEndpointPolicyInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -4991,7 +4991,7 @@ public struct PutOriginEndpointPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutOriginEndpointPolicyInputBody: Swift.Equatable {
+struct PutOriginEndpointPolicyInputBody {
     let policy: Swift.String?
 }
 
@@ -5012,7 +5012,7 @@ extension PutOriginEndpointPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutOriginEndpointPolicyOutput: Swift.Equatable {
+public struct PutOriginEndpointPolicyOutput {
 
     public init() { }
 }
@@ -5078,7 +5078,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceTypeNotFound: MediaPackageV2ClientTypes.ResourceTypeNotFound?
 }
@@ -5166,7 +5166,7 @@ extension MediaPackageV2ClientTypes.Scte: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// The SCTE configuration.
-    public struct Scte: Swift.Equatable {
+    public struct Scte {
         /// The SCTE-35 message types that you want to be treated as ad markers in the output.
         public var scteFilter: [MediaPackageV2ClientTypes.ScteFilter]?
 
@@ -5201,7 +5201,7 @@ extension MediaPackageV2ClientTypes.ScteDash: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// The SCTE configuration.
-    public struct ScteDash: Swift.Equatable {
+    public struct ScteDash {
         /// Choose how ad markers are included in the packaged content. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Value description:
         ///
         /// * Binary - The SCTE-35 marker is expressed as a hex-string (Base64 string) rather than full XML.
@@ -5293,7 +5293,7 @@ extension MediaPackageV2ClientTypes.ScteHls: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// The SCTE configuration.
-    public struct ScteHls: Swift.Equatable {
+    public struct ScteHls {
         /// Ad markers indicate when ads should be inserted during playback. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Choose what you want MediaPackage to do with the ad markers. Value description:
         ///
         /// * DATERANGE - Insert EXT-X-DATERANGE tags to signal ad and program transition events in TS and CMAF manifests. If you use DATERANGE, you must set a programDateTimeIntervalSeconds value of 1 or higher. To learn more about DATERANGE, see [SCTE-35 Ad Marker EXT-X-DATERANGE](http://docs.aws.amazon.com/mediapackage/latest/ug/scte-35-ad-marker-ext-x-daterange.html).
@@ -5366,7 +5366,7 @@ extension MediaPackageV2ClientTypes.Segment: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// The segment configuration, including the segment name, duration, and other configuration values.
-    public struct Segment: Swift.Equatable {
+    public struct Segment {
         /// The parameters for encrypting content.
         public var encryption: MediaPackageV2ClientTypes.Encryption?
         /// When selected, the stream set includes an additional I-frame only stream, along with the other tracks. If false, this extra stream is not included. MediaPackage generates an I-frame only stream from the first rendition in the manifest. The service inserts EXT-I-FRAMES-ONLY tags in the output manifest, and then generates and includes an I-frames only playlist in the stream. This playlist permits player functionality like fast forward and rewind.
@@ -5443,7 +5443,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5516,7 +5516,7 @@ extension MediaPackageV2ClientTypes.SpekeKeyProvider: Swift.Codable {
 
 extension MediaPackageV2ClientTypes {
     /// The parameters for the SPEKE key provider.
-    public struct SpekeKeyProvider: Swift.Equatable {
+    public struct SpekeKeyProvider {
         /// The DRM solution provider you're using to protect your content during distribution.
         /// This member is required.
         public var drmSystems: [MediaPackageV2ClientTypes.DrmSystem]?
@@ -5577,7 +5577,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the MediaPackage resource that you're adding tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5595,7 +5595,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5625,7 +5625,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -5680,7 +5680,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -5754,7 +5754,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the MediaPackage resource that you're removing tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5772,7 +5772,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -5786,7 +5786,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -5836,7 +5836,7 @@ extension UpdateChannelGroupInput {
     }
 }
 
-public struct UpdateChannelGroupInput: Swift.Equatable {
+public struct UpdateChannelGroupInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -5857,7 +5857,7 @@ public struct UpdateChannelGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelGroupInputBody: Swift.Equatable {
+struct UpdateChannelGroupInputBody {
     let description: Swift.String?
 }
 
@@ -5899,7 +5899,7 @@ extension UpdateChannelGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateChannelGroupOutput: Swift.Equatable {
+public struct UpdateChannelGroupOutput {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -5944,7 +5944,7 @@ public struct UpdateChannelGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelGroupOutputBody: Swift.Equatable {
+struct UpdateChannelGroupOutputBody {
     let channelGroupName: Swift.String?
     let arn: Swift.String?
     let egressDomain: Swift.String?
@@ -6050,7 +6050,7 @@ extension UpdateChannelInput {
     }
 }
 
-public struct UpdateChannelInput: Swift.Equatable {
+public struct UpdateChannelInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -6076,7 +6076,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelInputBody: Swift.Equatable {
+struct UpdateChannelInputBody {
     let description: Swift.String?
 }
 
@@ -6120,7 +6120,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateChannelOutput: Swift.Equatable {
+public struct UpdateChannelOutput {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -6169,7 +6169,7 @@ public struct UpdateChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateChannelOutputBody: Swift.Equatable {
+struct UpdateChannelOutputBody {
     let arn: Swift.String?
     let channelName: Swift.String?
     let channelGroupName: Swift.String?
@@ -6324,7 +6324,7 @@ extension UpdateOriginEndpointInput {
     }
 }
 
-public struct UpdateOriginEndpointInput: Swift.Equatable {
+public struct UpdateOriginEndpointInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -6380,7 +6380,7 @@ public struct UpdateOriginEndpointInput: Swift.Equatable {
     }
 }
 
-struct UpdateOriginEndpointInputBody: Swift.Equatable {
+struct UpdateOriginEndpointInputBody {
     let containerType: MediaPackageV2ClientTypes.ContainerType?
     let segment: MediaPackageV2ClientTypes.Segment?
     let description: Swift.String?
@@ -6487,7 +6487,7 @@ extension UpdateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateOriginEndpointOutput: Swift.Equatable {
+public struct UpdateOriginEndpointOutput {
     /// The ARN associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -6563,7 +6563,7 @@ public struct UpdateOriginEndpointOutput: Swift.Equatable {
     }
 }
 
-struct UpdateOriginEndpointOutputBody: Swift.Equatable {
+struct UpdateOriginEndpointOutputBody {
     let arn: Swift.String?
     let channelGroupName: Swift.String?
     let channelName: Swift.String?
@@ -6733,7 +6733,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let validationExceptionType: MediaPackageV2ClientTypes.ValidationExceptionType?
 }

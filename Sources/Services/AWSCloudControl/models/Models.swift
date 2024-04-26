@@ -41,7 +41,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct AlreadyExistsExceptionBody: Swift.Equatable {
+struct AlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -77,7 +77,7 @@ extension CancelResourceRequestInput {
     }
 }
 
-public struct CancelResourceRequestInput: Swift.Equatable {
+public struct CancelResourceRequestInput {
     /// The RequestToken of the ProgressEvent object returned by the resource operation request.
     /// This member is required.
     public var requestToken: Swift.String?
@@ -90,7 +90,7 @@ public struct CancelResourceRequestInput: Swift.Equatable {
     }
 }
 
-struct CancelResourceRequestInputBody: Swift.Equatable {
+struct CancelResourceRequestInputBody {
     let requestToken: Swift.String?
 }
 
@@ -118,7 +118,7 @@ extension CancelResourceRequestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelResourceRequestOutput: Swift.Equatable {
+public struct CancelResourceRequestOutput {
     /// Represents the current status of a resource operation request. For more information, see [Managing resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html) in the Amazon Web Services Cloud Control API User Guide.
     public var progressEvent: CloudControlClientTypes.ProgressEvent?
 
@@ -130,7 +130,7 @@ public struct CancelResourceRequestOutput: Swift.Equatable {
     }
 }
 
-struct CancelResourceRequestOutputBody: Swift.Equatable {
+struct CancelResourceRequestOutputBody {
     let progressEvent: CloudControlClientTypes.ProgressEvent?
 }
 
@@ -197,7 +197,7 @@ public struct ClientTokenConflictException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ClientTokenConflictExceptionBody: Swift.Equatable {
+struct ClientTokenConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -254,7 +254,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -309,7 +309,7 @@ public struct ConcurrentOperationException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ConcurrentOperationExceptionBody: Swift.Equatable {
+struct ConcurrentOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -366,7 +366,7 @@ extension CreateResourceInput {
     }
 }
 
-public struct CreateResourceInput: Swift.Equatable {
+public struct CreateResourceInput {
     /// A unique identifier to ensure the idempotency of the resource request. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distinguish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully received. A client token is valid for 36 hours once used. After that, a resource request with the same client token is treated as a new request. If you do not specify a client token, one is generated for inclusion in the request. For more information, see [Ensuring resource operation requests are unique](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency) in the Amazon Web Services Cloud Control API User Guide.
     public var clientToken: Swift.String?
     /// Structured data format representing the desired state of the resource, consisting of that resource's properties and their desired values. Cloud Control API currently supports JSON as a structured data format. Specify the desired state as one of the following:
@@ -403,7 +403,7 @@ public struct CreateResourceInput: Swift.Equatable {
     }
 }
 
-struct CreateResourceInputBody: Swift.Equatable {
+struct CreateResourceInputBody {
     let typeName: Swift.String?
     let typeVersionId: Swift.String?
     let roleArn: Swift.String?
@@ -447,7 +447,7 @@ extension CreateResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateResourceOutput: Swift.Equatable {
+public struct CreateResourceOutput {
     /// Represents the current status of the resource creation request. After you have initiated a resource creation request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by CreateResource.
     public var progressEvent: CloudControlClientTypes.ProgressEvent?
 
@@ -459,7 +459,7 @@ public struct CreateResourceOutput: Swift.Equatable {
     }
 }
 
-struct CreateResourceOutputBody: Swift.Equatable {
+struct CreateResourceOutputBody {
     let progressEvent: CloudControlClientTypes.ProgressEvent?
 }
 
@@ -540,7 +540,7 @@ extension DeleteResourceInput {
     }
 }
 
-public struct DeleteResourceInput: Swift.Equatable {
+public struct DeleteResourceInput {
     /// A unique identifier to ensure the idempotency of the resource request. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distinguish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully received. A client token is valid for 36 hours once used. After that, a resource request with the same client token is treated as a new request. If you do not specify a client token, one is generated for inclusion in the request. For more information, see [Ensuring resource operation requests are unique](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency) in the Amazon Web Services Cloud Control API User Guide.
     public var clientToken: Swift.String?
     /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by |. For more information, see [Identifying resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html) in the Amazon Web Services Cloud Control API User Guide.
@@ -570,7 +570,7 @@ public struct DeleteResourceInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourceInputBody: Swift.Equatable {
+struct DeleteResourceInputBody {
     let typeName: Swift.String?
     let typeVersionId: Swift.String?
     let roleArn: Swift.String?
@@ -614,7 +614,7 @@ extension DeleteResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourceOutput: Swift.Equatable {
+public struct DeleteResourceOutput {
     /// Represents the current status of the resource deletion request. After you have initiated a resource deletion request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by DeleteResource.
     public var progressEvent: CloudControlClientTypes.ProgressEvent?
 
@@ -626,7 +626,7 @@ public struct DeleteResourceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteResourceOutputBody: Swift.Equatable {
+struct DeleteResourceOutputBody {
     let progressEvent: CloudControlClientTypes.ProgressEvent?
 }
 
@@ -710,7 +710,7 @@ public struct GeneralServiceException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct GeneralServiceExceptionBody: Swift.Equatable {
+struct GeneralServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -758,7 +758,7 @@ extension GetResourceInput {
     }
 }
 
-public struct GetResourceInput: Swift.Equatable {
+public struct GetResourceInput {
     /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by |. For more information, see [Identifying resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html) in the Amazon Web Services Cloud Control API User Guide.
     /// This member is required.
     public var identifier: Swift.String?
@@ -784,7 +784,7 @@ public struct GetResourceInput: Swift.Equatable {
     }
 }
 
-struct GetResourceInputBody: Swift.Equatable {
+struct GetResourceInputBody {
     let typeName: Swift.String?
     let typeVersionId: Swift.String?
     let roleArn: Swift.String?
@@ -826,7 +826,7 @@ extension GetResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceOutput: Swift.Equatable {
+public struct GetResourceOutput {
     /// Represents information about a provisioned resource.
     public var resourceDescription: CloudControlClientTypes.ResourceDescription?
     /// The name of the resource type.
@@ -842,7 +842,7 @@ public struct GetResourceOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceOutputBody: Swift.Equatable {
+struct GetResourceOutputBody {
     let typeName: Swift.String?
     let resourceDescription: CloudControlClientTypes.ResourceDescription?
 }
@@ -909,7 +909,7 @@ extension GetResourceRequestStatusInput {
     }
 }
 
-public struct GetResourceRequestStatusInput: Swift.Equatable {
+public struct GetResourceRequestStatusInput {
     /// A unique token used to track the progress of the resource operation request. Request tokens are included in the ProgressEvent type returned by a resource operation request.
     /// This member is required.
     public var requestToken: Swift.String?
@@ -922,7 +922,7 @@ public struct GetResourceRequestStatusInput: Swift.Equatable {
     }
 }
 
-struct GetResourceRequestStatusInputBody: Swift.Equatable {
+struct GetResourceRequestStatusInputBody {
     let requestToken: Swift.String?
 }
 
@@ -950,7 +950,7 @@ extension GetResourceRequestStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceRequestStatusOutput: Swift.Equatable {
+public struct GetResourceRequestStatusOutput {
     /// Represents the current status of the resource operation request.
     public var progressEvent: CloudControlClientTypes.ProgressEvent?
 
@@ -962,7 +962,7 @@ public struct GetResourceRequestStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceRequestStatusOutputBody: Swift.Equatable {
+struct GetResourceRequestStatusOutputBody {
     let progressEvent: CloudControlClientTypes.ProgressEvent?
 }
 
@@ -1099,7 +1099,7 @@ public struct HandlerFailureException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct HandlerFailureExceptionBody: Swift.Equatable {
+struct HandlerFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -1154,7 +1154,7 @@ public struct HandlerInternalFailureException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct HandlerInternalFailureExceptionBody: Swift.Equatable {
+struct HandlerInternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -1209,7 +1209,7 @@ public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidCredentialsExceptionBody: Swift.Equatable {
+struct InvalidCredentialsExceptionBody {
     let message: Swift.String?
 }
 
@@ -1264,7 +1264,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -1308,7 +1308,7 @@ extension ListResourceRequestsInput {
     }
 }
 
-public struct ListResourceRequestsInput: Swift.Equatable {
+public struct ListResourceRequestsInput {
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. The default is 20.
     public var maxResults: Swift.Int?
     /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -1328,7 +1328,7 @@ public struct ListResourceRequestsInput: Swift.Equatable {
     }
 }
 
-struct ListResourceRequestsInputBody: Swift.Equatable {
+struct ListResourceRequestsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let resourceRequestStatusFilter: CloudControlClientTypes.ResourceRequestStatusFilter?
@@ -1366,7 +1366,7 @@ extension ListResourceRequestsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourceRequestsOutput: Swift.Equatable {
+public struct ListResourceRequestsOutput {
     /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListResources again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
     public var nextToken: Swift.String?
     /// The requests that match the specified filter criteria.
@@ -1382,7 +1382,7 @@ public struct ListResourceRequestsOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceRequestsOutputBody: Swift.Equatable {
+struct ListResourceRequestsOutputBody {
     let resourceRequestStatusSummaries: [CloudControlClientTypes.ProgressEvent]?
     let nextToken: Swift.String?
 }
@@ -1466,7 +1466,7 @@ extension ListResourcesInput {
     }
 }
 
-public struct ListResourcesInput: Swift.Equatable {
+public struct ListResourcesInput {
     /// Reserved.
     public var maxResults: Swift.Int?
     /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
@@ -1499,7 +1499,7 @@ public struct ListResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListResourcesInputBody: Swift.Equatable {
+struct ListResourcesInputBody {
     let typeName: Swift.String?
     let typeVersionId: Swift.String?
     let roleArn: Swift.String?
@@ -1551,7 +1551,7 @@ extension ListResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourcesOutput: Swift.Equatable {
+public struct ListResourcesOutput {
     /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListResources again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
     public var nextToken: Swift.String?
     /// Information about the specified resources, including primary identifier and resource model.
@@ -1571,7 +1571,7 @@ public struct ListResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListResourcesOutputBody: Swift.Equatable {
+struct ListResourcesOutputBody {
     let typeName: Swift.String?
     let resourceDescriptions: [CloudControlClientTypes.ResourceDescription]?
     let nextToken: Swift.String?
@@ -1670,7 +1670,7 @@ public struct NetworkFailureException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct NetworkFailureExceptionBody: Swift.Equatable {
+struct NetworkFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -1725,7 +1725,7 @@ public struct NotStabilizedException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct NotStabilizedExceptionBody: Swift.Equatable {
+struct NotStabilizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -1780,7 +1780,7 @@ public struct NotUpdatableException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct NotUpdatableExceptionBody: Swift.Equatable {
+struct NotUpdatableExceptionBody {
     let message: Swift.String?
 }
 
@@ -1914,7 +1914,7 @@ public struct PrivateTypeException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct PrivateTypeExceptionBody: Swift.Equatable {
+struct PrivateTypeExceptionBody {
     let message: Swift.String?
 }
 
@@ -2010,7 +2010,7 @@ extension CloudControlClientTypes.ProgressEvent: Swift.CustomDebugStringConverti
 
 extension CloudControlClientTypes {
     /// Represents the current status of a resource operation request. For more information, see [Managing resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html) in the Amazon Web Services Cloud Control API User Guide.
-    public struct ProgressEvent: Swift.Equatable {
+    public struct ProgressEvent {
         /// For requests with a status of FAILED, the associated error code. For error code definitions, see [Handler error codes](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test-contract-errors.html) in the CloudFormation Command Line Interface User Guide for Extension Development.
         public var errorCode: CloudControlClientTypes.HandlerErrorCode?
         /// When the resource operation request was initiated.
@@ -2111,7 +2111,7 @@ public struct RequestTokenNotFoundException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct RequestTokenNotFoundExceptionBody: Swift.Equatable {
+struct RequestTokenNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2166,7 +2166,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceConflictExceptionBody: Swift.Equatable {
+struct ResourceConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -2214,7 +2214,7 @@ extension CloudControlClientTypes.ResourceDescription: Swift.CustomDebugStringCo
 
 extension CloudControlClientTypes {
     /// Represents information about a provisioned resource.
-    public struct ResourceDescription: Swift.Equatable {
+    public struct ResourceDescription {
         /// The primary identifier for the resource. For more information, see [Identifying resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html) in the Amazon Web Services Cloud Control API User Guide.
         public var identifier: Swift.String?
         /// A list of the resource properties and their current values.
@@ -2271,7 +2271,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2338,7 +2338,7 @@ extension CloudControlClientTypes.ResourceRequestStatusFilter: Swift.Codable {
 
 extension CloudControlClientTypes {
     /// The filter criteria to use in determining the requests returned.
-    public struct ResourceRequestStatusFilter: Swift.Equatable {
+    public struct ResourceRequestStatusFilter {
         /// The operation statuses to include in the filter.
         ///
         /// * PENDING: The operation has been requested, but not yet initiated.
@@ -2407,7 +2407,7 @@ public struct ServiceInternalErrorException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceInternalErrorExceptionBody: Swift.Equatable {
+struct ServiceInternalErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -2462,7 +2462,7 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceLimitExceededExceptionBody: Swift.Equatable {
+struct ServiceLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2517,7 +2517,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -2572,7 +2572,7 @@ public struct TypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct TypeNotFoundExceptionBody: Swift.Equatable {
+struct TypeNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2627,7 +2627,7 @@ public struct UnsupportedActionException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct UnsupportedActionExceptionBody: Swift.Equatable {
+struct UnsupportedActionExceptionBody {
     let message: Swift.String?
 }
 
@@ -2688,7 +2688,7 @@ extension UpdateResourceInput {
     }
 }
 
-public struct UpdateResourceInput: Swift.Equatable {
+public struct UpdateResourceInput {
     /// A unique identifier to ensure the idempotency of the resource request. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distinguish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully received. A client token is valid for 36 hours once used. After that, a resource request with the same client token is treated as a new request. If you do not specify a client token, one is generated for inclusion in the request. For more information, see [Ensuring resource operation requests are unique](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations.html#resource-operations-idempotency) in the Amazon Web Services Cloud Control API User Guide.
     public var clientToken: Swift.String?
     /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by |. For more information, see [Identifying resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-identifier.html) in the Amazon Web Services Cloud Control API User Guide.
@@ -2723,7 +2723,7 @@ public struct UpdateResourceInput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceInputBody: Swift.Equatable {
+struct UpdateResourceInputBody {
     let typeName: Swift.String?
     let typeVersionId: Swift.String?
     let roleArn: Swift.String?
@@ -2771,7 +2771,7 @@ extension UpdateResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResourceOutput: Swift.Equatable {
+public struct UpdateResourceOutput {
     /// Represents the current status of the resource update request. Use the RequestToken of the ProgressEvent with [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) to return the current status of a resource operation request.
     public var progressEvent: CloudControlClientTypes.ProgressEvent?
 
@@ -2783,7 +2783,7 @@ public struct UpdateResourceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceOutputBody: Swift.Equatable {
+struct UpdateResourceOutputBody {
     let progressEvent: CloudControlClientTypes.ProgressEvent?
 }
 

@@ -41,7 +41,7 @@ public struct AccountSuspendedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct AccountSuspendedExceptionBody: Swift.Equatable {
+struct AccountSuspendedExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct AlreadyExistsExceptionBody: Swift.Equatable {
+struct AlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -151,7 +151,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -233,7 +233,7 @@ extension PinpointEmailClientTypes.BlacklistEntry: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that contains information about a blacklisting event that impacts one of the dedicated IP addresses that is associated with your account.
-    public struct BlacklistEntry: Swift.Equatable {
+    public struct BlacklistEntry {
         /// Additional information about the blacklisting event, as provided by the blacklist maintainer.
         public var description: Swift.String?
         /// The time when the blacklisting event occurred, shown in Unix time format.
@@ -282,7 +282,7 @@ extension PinpointEmailClientTypes.Body: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// Represents the body of the email message.
-    public struct Body: Swift.Equatable {
+    public struct Body {
         /// An object that represents the version of the message that is displayed in email clients that support HTML. HTML messages can include formatted text, hyperlinks, images, and more.
         public var html: PinpointEmailClientTypes.Content?
         /// An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering.
@@ -333,7 +333,7 @@ extension PinpointEmailClientTypes.CloudWatchDestination: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
-    public struct CloudWatchDestination: Swift.Equatable {
+    public struct CloudWatchDestination {
         /// An array of objects that define the dimensions to use when you send email events to Amazon CloudWatch.
         /// This member is required.
         public var dimensionConfigurations: [PinpointEmailClientTypes.CloudWatchDimensionConfiguration]?
@@ -381,7 +381,7 @@ extension PinpointEmailClientTypes.CloudWatchDimensionConfiguration: Swift.Codab
 
 extension PinpointEmailClientTypes {
     /// An object that defines the dimension configuration to use when you send Amazon Pinpoint email events to Amazon CloudWatch.
-    public struct CloudWatchDimensionConfiguration: Swift.Equatable {
+    public struct CloudWatchDimensionConfiguration {
         /// The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:
         ///
         /// * It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
@@ -453,7 +453,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -496,7 +496,7 @@ extension PinpointEmailClientTypes.Content: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that represents the content of the email, and optionally a character set specification.
-    public struct Content: Swift.Equatable {
+    public struct Content {
         /// The character set for the content. Because of the constraints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8, ISO-8859-1, or Shift_JIS.
         public var charset: Swift.String?
         /// The content of the message itself.
@@ -543,7 +543,7 @@ extension CreateConfigurationSetEventDestinationInput {
 }
 
 /// A request to add an event destination to a configuration set.
-public struct CreateConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct CreateConfigurationSetEventDestinationInput {
     /// The name of the configuration set that you want to add an event destination to.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -566,7 +566,7 @@ public struct CreateConfigurationSetEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationSetEventDestinationInputBody: Swift.Equatable {
+struct CreateConfigurationSetEventDestinationInputBody {
     let eventDestinationName: Swift.String?
     let eventDestination: PinpointEmailClientTypes.EventDestinationDefinition?
 }
@@ -592,7 +592,7 @@ extension CreateConfigurationSetEventDestinationOutput: ClientRuntime.HttpRespon
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct CreateConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct CreateConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -656,7 +656,7 @@ extension CreateConfigurationSetInput {
 }
 
 /// A request to create a configuration set.
-public struct CreateConfigurationSetInput: Swift.Equatable {
+public struct CreateConfigurationSetInput {
     /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -689,7 +689,7 @@ public struct CreateConfigurationSetInput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationSetInputBody: Swift.Equatable {
+struct CreateConfigurationSetInputBody {
     let configurationSetName: Swift.String?
     let trackingOptions: PinpointEmailClientTypes.TrackingOptions?
     let deliveryOptions: PinpointEmailClientTypes.DeliveryOptions?
@@ -740,7 +740,7 @@ extension CreateConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct CreateConfigurationSetOutput: Swift.Equatable {
+public struct CreateConfigurationSetOutput {
 
     public init() { }
 }
@@ -789,7 +789,7 @@ extension CreateDedicatedIpPoolInput {
 }
 
 /// A request to create a new dedicated IP pool.
-public struct CreateDedicatedIpPoolInput: Swift.Equatable {
+public struct CreateDedicatedIpPoolInput {
     /// The name of the dedicated IP pool.
     /// This member is required.
     public var poolName: Swift.String?
@@ -806,7 +806,7 @@ public struct CreateDedicatedIpPoolInput: Swift.Equatable {
     }
 }
 
-struct CreateDedicatedIpPoolInputBody: Swift.Equatable {
+struct CreateDedicatedIpPoolInputBody {
     let poolName: Swift.String?
     let tags: [PinpointEmailClientTypes.Tag]?
 }
@@ -841,7 +841,7 @@ extension CreateDedicatedIpPoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct CreateDedicatedIpPoolOutput: Swift.Equatable {
+public struct CreateDedicatedIpPoolOutput {
 
     public init() { }
 }
@@ -897,7 +897,7 @@ extension CreateDeliverabilityTestReportInput {
 }
 
 /// A request to perform a predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon Pinpoint then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
-public struct CreateDeliverabilityTestReportInput: Swift.Equatable {
+public struct CreateDeliverabilityTestReportInput {
     /// The HTML body of the message that you sent when you performed the predictive inbox placement test.
     /// This member is required.
     public var content: PinpointEmailClientTypes.EmailContent?
@@ -923,7 +923,7 @@ public struct CreateDeliverabilityTestReportInput: Swift.Equatable {
     }
 }
 
-struct CreateDeliverabilityTestReportInputBody: Swift.Equatable {
+struct CreateDeliverabilityTestReportInputBody {
     let reportName: Swift.String?
     let fromEmailAddress: Swift.String?
     let content: PinpointEmailClientTypes.EmailContent?
@@ -975,7 +975,7 @@ extension CreateDeliverabilityTestReportOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// Information about the predictive inbox placement test that you created.
-public struct CreateDeliverabilityTestReportOutput: Swift.Equatable {
+public struct CreateDeliverabilityTestReportOutput {
     /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
     /// This member is required.
     public var deliverabilityTestStatus: PinpointEmailClientTypes.DeliverabilityTestStatus?
@@ -993,7 +993,7 @@ public struct CreateDeliverabilityTestReportOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeliverabilityTestReportOutputBody: Swift.Equatable {
+struct CreateDeliverabilityTestReportOutputBody {
     let reportId: Swift.String?
     let deliverabilityTestStatus: PinpointEmailClientTypes.DeliverabilityTestStatus?
 }
@@ -1060,7 +1060,7 @@ extension CreateEmailIdentityInput {
 }
 
 /// A request to begin the verification process for an email identity (an email address or domain).
-public struct CreateEmailIdentityInput: Swift.Equatable {
+public struct CreateEmailIdentityInput {
     /// The email address or domain that you want to verify.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -1077,7 +1077,7 @@ public struct CreateEmailIdentityInput: Swift.Equatable {
     }
 }
 
-struct CreateEmailIdentityInputBody: Swift.Equatable {
+struct CreateEmailIdentityInputBody {
     let emailIdentity: Swift.String?
     let tags: [PinpointEmailClientTypes.Tag]?
 }
@@ -1123,7 +1123,7 @@ extension CreateEmailIdentityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// If the email identity is a domain, this object contains tokens that you can use to create a set of CNAME records. To sucessfully verify your domain, you have to add these records to the DNS configuration for your domain. If the email identity is an email address, this object is empty.
-public struct CreateEmailIdentityOutput: Swift.Equatable {
+public struct CreateEmailIdentityOutput {
     /// An object that contains information about the DKIM attributes for the identity. This object includes the tokens that you use to create the CNAME records that are required to complete the DKIM verification process.
     public var dkimAttributes: PinpointEmailClientTypes.DkimAttributes?
     /// The email identity type.
@@ -1143,7 +1143,7 @@ public struct CreateEmailIdentityOutput: Swift.Equatable {
     }
 }
 
-struct CreateEmailIdentityOutputBody: Swift.Equatable {
+struct CreateEmailIdentityOutputBody {
     let identityType: PinpointEmailClientTypes.IdentityType?
     let verifiedForSendingStatus: Swift.Bool
     let dkimAttributes: PinpointEmailClientTypes.DkimAttributes?
@@ -1226,7 +1226,7 @@ extension PinpointEmailClientTypes.DailyVolume: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that contains information about the volume of email sent on each day of the analysis period.
-    public struct DailyVolume: Swift.Equatable {
+    public struct DailyVolume {
         /// An object that contains inbox placement metrics for a specified day in the analysis period, broken out by the recipient's email provider.
         public var domainIspPlacements: [PinpointEmailClientTypes.DomainIspPlacement]?
         /// The date that the DailyVolume metrics apply to, in Unix time.
@@ -1287,7 +1287,7 @@ extension PinpointEmailClientTypes.DedicatedIp: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// Contains information about a dedicated IP address that is associated with your Amazon Pinpoint account.
-    public struct DedicatedIp: Swift.Equatable {
+    public struct DedicatedIp {
         /// An IP address that is reserved for use by your Amazon Pinpoint account.
         /// This member is required.
         public var ip: Swift.String?
@@ -1334,7 +1334,7 @@ extension DeleteConfigurationSetEventDestinationInput {
 }
 
 /// A request to delete an event destination from a configuration set.
-public struct DeleteConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct DeleteConfigurationSetEventDestinationInput {
     /// The name of the configuration set that contains the event destination that you want to delete.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -1352,7 +1352,7 @@ public struct DeleteConfigurationSetEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigurationSetEventDestinationInputBody: Swift.Equatable {
+struct DeleteConfigurationSetEventDestinationInputBody {
 }
 
 extension DeleteConfigurationSetEventDestinationInputBody: Swift.Decodable {
@@ -1367,7 +1367,7 @@ extension DeleteConfigurationSetEventDestinationOutput: ClientRuntime.HttpRespon
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct DeleteConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct DeleteConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -1396,7 +1396,7 @@ extension DeleteConfigurationSetInput {
 }
 
 /// A request to delete a configuration set.
-public struct DeleteConfigurationSetInput: Swift.Equatable {
+public struct DeleteConfigurationSetInput {
     /// The name of the configuration set that you want to delete.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -1409,7 +1409,7 @@ public struct DeleteConfigurationSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigurationSetInputBody: Swift.Equatable {
+struct DeleteConfigurationSetInputBody {
 }
 
 extension DeleteConfigurationSetInputBody: Swift.Decodable {
@@ -1424,7 +1424,7 @@ extension DeleteConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct DeleteConfigurationSetOutput: Swift.Equatable {
+public struct DeleteConfigurationSetOutput {
 
     public init() { }
 }
@@ -1454,7 +1454,7 @@ extension DeleteDedicatedIpPoolInput {
 }
 
 /// A request to delete a dedicated IP pool.
-public struct DeleteDedicatedIpPoolInput: Swift.Equatable {
+public struct DeleteDedicatedIpPoolInput {
     /// The name of the dedicated IP pool that you want to delete.
     /// This member is required.
     public var poolName: Swift.String?
@@ -1467,7 +1467,7 @@ public struct DeleteDedicatedIpPoolInput: Swift.Equatable {
     }
 }
 
-struct DeleteDedicatedIpPoolInputBody: Swift.Equatable {
+struct DeleteDedicatedIpPoolInputBody {
 }
 
 extension DeleteDedicatedIpPoolInputBody: Swift.Decodable {
@@ -1482,7 +1482,7 @@ extension DeleteDedicatedIpPoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct DeleteDedicatedIpPoolOutput: Swift.Equatable {
+public struct DeleteDedicatedIpPoolOutput {
 
     public init() { }
 }
@@ -1512,7 +1512,7 @@ extension DeleteEmailIdentityInput {
 }
 
 /// A request to delete an existing email identity. When you delete an identity, you lose the ability to use Amazon Pinpoint to send email from that identity. You can restore your ability to send email by completing the verification process for the identity again.
-public struct DeleteEmailIdentityInput: Swift.Equatable {
+public struct DeleteEmailIdentityInput {
     /// The identity (that is, the email address or domain) that you want to delete from your Amazon Pinpoint account.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -1525,7 +1525,7 @@ public struct DeleteEmailIdentityInput: Swift.Equatable {
     }
 }
 
-struct DeleteEmailIdentityInputBody: Swift.Equatable {
+struct DeleteEmailIdentityInputBody {
 }
 
 extension DeleteEmailIdentityInputBody: Swift.Decodable {
@@ -1540,7 +1540,7 @@ extension DeleteEmailIdentityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct DeleteEmailIdentityOutput: Swift.Equatable {
+public struct DeleteEmailIdentityOutput {
 
     public init() { }
 }
@@ -1646,7 +1646,7 @@ extension PinpointEmailClientTypes.DeliverabilityTestReport: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that contains metadata related to a predictive inbox placement test.
-    public struct DeliverabilityTestReport: Swift.Equatable {
+    public struct DeliverabilityTestReport {
         /// The date and time when the predictive inbox placement test was created, in Unix time format.
         public var createDate: ClientRuntime.Date?
         /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
@@ -1740,7 +1740,7 @@ extension PinpointEmailClientTypes.DeliveryOptions: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// Used to associate a configuration set with a dedicated IP pool.
-    public struct DeliveryOptions: Swift.Equatable {
+    public struct DeliveryOptions {
         /// The name of the dedicated IP pool that you want to associate with the configuration set.
         public var sendingPoolName: Swift.String?
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
@@ -1827,7 +1827,7 @@ extension PinpointEmailClientTypes.Destination: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that describes the recipients for an email.
-    public struct Destination: Swift.Equatable {
+    public struct Destination {
         /// An array that contains the email addresses of the "BCC" (blind carbon copy) recipients for the email.
         public var bccAddresses: [Swift.String]?
         /// An array that contains the email addresses of the "CC" (carbon copy) recipients for the email.
@@ -1930,7 +1930,7 @@ extension PinpointEmailClientTypes.DkimAttributes: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that contains information about the DKIM configuration for an email identity.
-    public struct DkimAttributes: Swift.Equatable {
+    public struct DkimAttributes {
         /// If the value is true, then the messages that Amazon Pinpoint sends from the identity are DKIM-signed. If the value is false, then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
         public var signingEnabled: Swift.Bool
         /// Describes whether or not Amazon Pinpoint has successfully located the DKIM records in the DNS records for the domain. The status can be one of the following:
@@ -2137,7 +2137,7 @@ extension PinpointEmailClientTypes.DomainDeliverabilityCampaign: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that contains the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
-    public struct DomainDeliverabilityCampaign: Swift.Equatable {
+    public struct DomainDeliverabilityCampaign {
         /// The unique identifier for the campaign. Amazon Pinpoint automatically generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.
         public var campaignId: Swift.String?
         /// The percentage of email messages that were deleted by recipients, without being opened first. Due to technical limitations, this value only includes recipients who opened the message by using an email client that supports images.
@@ -2236,7 +2236,7 @@ extension PinpointEmailClientTypes.DomainDeliverabilityTrackingOption: Swift.Cod
 
 extension PinpointEmailClientTypes {
     /// An object that contains information about the Deliverability dashboard subscription for a verified domain that you use to send email and currently has an active Deliverability dashboard subscription. If a Deliverability dashboard subscription is active for a domain, you gain access to reputation, inbox placement, and other metrics for the domain.
-    public struct DomainDeliverabilityTrackingOption: Swift.Equatable {
+    public struct DomainDeliverabilityTrackingOption {
         /// A verified domain that’s associated with your AWS account and currently has an active Deliverability dashboard subscription.
         public var domain: Swift.String?
         /// An object that contains information about the inbox placement data settings for the domain.
@@ -2303,7 +2303,7 @@ extension PinpointEmailClientTypes.DomainIspPlacement: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that contains inbox placement data for email sent from one of your email domains to a specific email provider.
-    public struct DomainIspPlacement: Swift.Equatable {
+    public struct DomainIspPlacement {
         /// The percentage of messages that were sent from the selected domain to the specified email provider that arrived in recipients' inboxes.
         public var inboxPercentage: Swift.Double?
         /// The total number of messages that were sent from the selected domain to the specified email provider that arrived in recipients' inboxes.
@@ -2366,7 +2366,7 @@ extension PinpointEmailClientTypes.EmailContent: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that defines the entire content of the email, including the message headers and the body content. You can create a simple email message, in which you specify the subject and the text and HTML versions of the message body. You can also create raw messages, in which you specify a complete MIME-formatted message. Raw messages can include attachments and custom headers.
-    public struct EmailContent: Swift.Equatable {
+    public struct EmailContent {
         /// The raw email message. The message has to meet the following criteria:
         ///
         /// * The message has to contain a header and a body, separated by one blank line.
@@ -2471,7 +2471,7 @@ extension PinpointEmailClientTypes.EventDestination: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
-    public struct EventDestination: Swift.Equatable {
+    public struct EventDestination {
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public var cloudWatchDestination: PinpointEmailClientTypes.CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
@@ -2574,7 +2574,7 @@ extension PinpointEmailClientTypes.EventDestinationDefinition: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that defines the event destination. Specifically, it defines which services receive events from emails sent using the configuration set that the event destination is associated with. Also defines the types of events that are sent to the event destination.
-    public struct EventDestinationDefinition: Swift.Equatable {
+    public struct EventDestinationDefinition {
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public var cloudWatchDestination: PinpointEmailClientTypes.CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
@@ -2667,12 +2667,12 @@ extension GetAccountInput {
 }
 
 /// A request to obtain information about the email-sending capabilities of your Amazon Pinpoint account.
-public struct GetAccountInput: Swift.Equatable {
+public struct GetAccountInput {
 
     public init() { }
 }
 
-struct GetAccountInputBody: Swift.Equatable {
+struct GetAccountInputBody {
 }
 
 extension GetAccountInputBody: Swift.Decodable {
@@ -2702,7 +2702,7 @@ extension GetAccountOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of details about the email-sending capabilities of your Amazon Pinpoint account in the current AWS Region.
-public struct GetAccountOutput: Swift.Equatable {
+public struct GetAccountOutput {
     /// Indicates whether or not the automatic warm-up feature is enabled for dedicated IP addresses that are associated with your account.
     public var dedicatedIpAutoWarmupEnabled: Swift.Bool
     /// The reputation status of your Amazon Pinpoint account. The status can be one of the following:
@@ -2736,7 +2736,7 @@ public struct GetAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountOutputBody: Swift.Equatable {
+struct GetAccountOutputBody {
     let sendQuota: PinpointEmailClientTypes.SendQuota?
     let sendingEnabled: Swift.Bool
     let dedicatedIpAutoWarmupEnabled: Swift.Bool
@@ -2804,7 +2804,7 @@ extension GetBlacklistReportsInput {
 }
 
 /// A request to retrieve a list of the blacklists that your dedicated IP addresses appear on.
-public struct GetBlacklistReportsInput: Swift.Equatable {
+public struct GetBlacklistReportsInput {
     /// A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon Pinpoint or Amazon SES.
     /// This member is required.
     public var blacklistItemNames: [Swift.String]?
@@ -2817,7 +2817,7 @@ public struct GetBlacklistReportsInput: Swift.Equatable {
     }
 }
 
-struct GetBlacklistReportsInputBody: Swift.Equatable {
+struct GetBlacklistReportsInputBody {
 }
 
 extension GetBlacklistReportsInputBody: Swift.Decodable {
@@ -2839,7 +2839,7 @@ extension GetBlacklistReportsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An object that contains information about blacklist events.
-public struct GetBlacklistReportsOutput: Swift.Equatable {
+public struct GetBlacklistReportsOutput {
     /// An object that contains information about a blacklist that one of your dedicated IP addresses appears on.
     /// This member is required.
     public var blacklistReport: [Swift.String:[PinpointEmailClientTypes.BlacklistEntry]]?
@@ -2852,7 +2852,7 @@ public struct GetBlacklistReportsOutput: Swift.Equatable {
     }
 }
 
-struct GetBlacklistReportsOutputBody: Swift.Equatable {
+struct GetBlacklistReportsOutputBody {
     let blacklistReport: [Swift.String:[PinpointEmailClientTypes.BlacklistEntry]]?
 }
 
@@ -2908,7 +2908,7 @@ extension GetConfigurationSetEventDestinationsInput {
 }
 
 /// A request to obtain information about the event destinations for a configuration set.
-public struct GetConfigurationSetEventDestinationsInput: Swift.Equatable {
+public struct GetConfigurationSetEventDestinationsInput {
     /// The name of the configuration set that contains the event destination.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -2921,7 +2921,7 @@ public struct GetConfigurationSetEventDestinationsInput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationSetEventDestinationsInputBody: Swift.Equatable {
+struct GetConfigurationSetEventDestinationsInputBody {
 }
 
 extension GetConfigurationSetEventDestinationsInputBody: Swift.Decodable {
@@ -2943,7 +2943,7 @@ extension GetConfigurationSetEventDestinationsOutput: ClientRuntime.HttpResponse
 }
 
 /// Information about an event destination for a configuration set.
-public struct GetConfigurationSetEventDestinationsOutput: Swift.Equatable {
+public struct GetConfigurationSetEventDestinationsOutput {
     /// An array that includes all of the events destinations that have been configured for the configuration set.
     public var eventDestinations: [PinpointEmailClientTypes.EventDestination]?
 
@@ -2955,7 +2955,7 @@ public struct GetConfigurationSetEventDestinationsOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationSetEventDestinationsOutputBody: Swift.Equatable {
+struct GetConfigurationSetEventDestinationsOutputBody {
     let eventDestinations: [PinpointEmailClientTypes.EventDestination]?
 }
 
@@ -3004,7 +3004,7 @@ extension GetConfigurationSetInput {
 }
 
 /// A request to obtain information about a configuration set.
-public struct GetConfigurationSetInput: Swift.Equatable {
+public struct GetConfigurationSetInput {
     /// The name of the configuration set that you want to obtain more information about.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -3017,7 +3017,7 @@ public struct GetConfigurationSetInput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationSetInputBody: Swift.Equatable {
+struct GetConfigurationSetInputBody {
 }
 
 extension GetConfigurationSetInputBody: Swift.Decodable {
@@ -3049,7 +3049,7 @@ extension GetConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about a configuration set.
-public struct GetConfigurationSetOutput: Swift.Equatable {
+public struct GetConfigurationSetOutput {
     /// The name of the configuration set.
     public var configurationSetName: Swift.String?
     /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
@@ -3081,7 +3081,7 @@ public struct GetConfigurationSetOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationSetOutputBody: Swift.Equatable {
+struct GetConfigurationSetOutputBody {
     let configurationSetName: Swift.String?
     let trackingOptions: PinpointEmailClientTypes.TrackingOptions?
     let deliveryOptions: PinpointEmailClientTypes.DeliveryOptions?
@@ -3150,7 +3150,7 @@ extension GetDedicatedIpInput {
 }
 
 /// A request to obtain more information about a dedicated IP address.
-public struct GetDedicatedIpInput: Swift.Equatable {
+public struct GetDedicatedIpInput {
     /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Pinpoint account.
     /// This member is required.
     public var ip: Swift.String?
@@ -3163,7 +3163,7 @@ public struct GetDedicatedIpInput: Swift.Equatable {
     }
 }
 
-struct GetDedicatedIpInputBody: Swift.Equatable {
+struct GetDedicatedIpInputBody {
 }
 
 extension GetDedicatedIpInputBody: Swift.Decodable {
@@ -3185,7 +3185,7 @@ extension GetDedicatedIpOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about a dedicated IP address.
-public struct GetDedicatedIpOutput: Swift.Equatable {
+public struct GetDedicatedIpOutput {
     /// An object that contains information about a dedicated IP address.
     public var dedicatedIp: PinpointEmailClientTypes.DedicatedIp?
 
@@ -3197,7 +3197,7 @@ public struct GetDedicatedIpOutput: Swift.Equatable {
     }
 }
 
-struct GetDedicatedIpOutputBody: Swift.Equatable {
+struct GetDedicatedIpOutputBody {
     let dedicatedIp: PinpointEmailClientTypes.DedicatedIp?
 }
 
@@ -3254,7 +3254,7 @@ extension GetDedicatedIpsInput {
 }
 
 /// A request to obtain more information about dedicated IP pools.
-public struct GetDedicatedIpsInput: Swift.Equatable {
+public struct GetDedicatedIpsInput {
     /// A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to GetDedicatedIpsRequest. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -3274,7 +3274,7 @@ public struct GetDedicatedIpsInput: Swift.Equatable {
     }
 }
 
-struct GetDedicatedIpsInputBody: Swift.Equatable {
+struct GetDedicatedIpsInputBody {
 }
 
 extension GetDedicatedIpsInputBody: Swift.Decodable {
@@ -3298,7 +3298,7 @@ extension GetDedicatedIpsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about the dedicated IP addresses that are associated with your Amazon Pinpoint account.
-public struct GetDedicatedIpsOutput: Swift.Equatable {
+public struct GetDedicatedIpsOutput {
     /// A list of dedicated IP addresses that are reserved for use by your Amazon Pinpoint account.
     public var dedicatedIps: [PinpointEmailClientTypes.DedicatedIp]?
     /// A token that indicates that there are additional dedicated IP addresses to list. To view additional addresses, issue another request to GetDedicatedIps, passing this token in the NextToken parameter.
@@ -3314,7 +3314,7 @@ public struct GetDedicatedIpsOutput: Swift.Equatable {
     }
 }
 
-struct GetDedicatedIpsOutputBody: Swift.Equatable {
+struct GetDedicatedIpsOutputBody {
     let dedicatedIps: [PinpointEmailClientTypes.DedicatedIp]?
     let nextToken: Swift.String?
 }
@@ -3364,12 +3364,12 @@ extension GetDeliverabilityDashboardOptionsInput {
 }
 
 /// Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
-public struct GetDeliverabilityDashboardOptionsInput: Swift.Equatable {
+public struct GetDeliverabilityDashboardOptionsInput {
 
     public init() { }
 }
 
-struct GetDeliverabilityDashboardOptionsInputBody: Swift.Equatable {
+struct GetDeliverabilityDashboardOptionsInputBody {
 }
 
 extension GetDeliverabilityDashboardOptionsInputBody: Swift.Decodable {
@@ -3399,7 +3399,7 @@ extension GetDeliverabilityDashboardOptionsOutput: ClientRuntime.HttpResponseBin
 }
 
 /// An object that shows the status of the Deliverability dashboard for your Amazon Pinpoint account.
-public struct GetDeliverabilityDashboardOptionsOutput: Swift.Equatable {
+public struct GetDeliverabilityDashboardOptionsOutput {
     /// The current status of your Deliverability dashboard subscription. If this value is PENDING_EXPIRATION, your subscription is scheduled to expire at the end of the current calendar month.
     public var accountStatus: PinpointEmailClientTypes.DeliverabilityDashboardAccountStatus?
     /// An array of objects, one for each verified domain that you use to send email and currently has an active Deliverability dashboard subscription that isn’t scheduled to expire at the end of the current calendar month.
@@ -3428,7 +3428,7 @@ public struct GetDeliverabilityDashboardOptionsOutput: Swift.Equatable {
     }
 }
 
-struct GetDeliverabilityDashboardOptionsOutputBody: Swift.Equatable {
+struct GetDeliverabilityDashboardOptionsOutputBody {
     let dashboardEnabled: Swift.Bool
     let subscriptionExpiryDate: ClientRuntime.Date?
     let accountStatus: PinpointEmailClientTypes.DeliverabilityDashboardAccountStatus?
@@ -3502,7 +3502,7 @@ extension GetDeliverabilityTestReportInput {
 }
 
 /// A request to retrieve the results of a predictive inbox placement test.
-public struct GetDeliverabilityTestReportInput: Swift.Equatable {
+public struct GetDeliverabilityTestReportInput {
     /// A unique string that identifies the predictive inbox placement test.
     /// This member is required.
     public var reportId: Swift.String?
@@ -3515,7 +3515,7 @@ public struct GetDeliverabilityTestReportInput: Swift.Equatable {
     }
 }
 
-struct GetDeliverabilityTestReportInputBody: Swift.Equatable {
+struct GetDeliverabilityTestReportInputBody {
 }
 
 extension GetDeliverabilityTestReportInputBody: Swift.Decodable {
@@ -3545,7 +3545,7 @@ extension GetDeliverabilityTestReportOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The results of the predictive inbox placement test.
-public struct GetDeliverabilityTestReportOutput: Swift.Equatable {
+public struct GetDeliverabilityTestReportOutput {
     /// An object that contains the results of the predictive inbox placement test.
     /// This member is required.
     public var deliverabilityTestReport: PinpointEmailClientTypes.DeliverabilityTestReport?
@@ -3576,7 +3576,7 @@ public struct GetDeliverabilityTestReportOutput: Swift.Equatable {
     }
 }
 
-struct GetDeliverabilityTestReportOutputBody: Swift.Equatable {
+struct GetDeliverabilityTestReportOutputBody {
     let deliverabilityTestReport: PinpointEmailClientTypes.DeliverabilityTestReport?
     let overallPlacement: PinpointEmailClientTypes.PlacementStatistics?
     let ispPlacements: [PinpointEmailClientTypes.IspPlacement]?
@@ -3650,7 +3650,7 @@ extension GetDomainDeliverabilityCampaignInput {
 }
 
 /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
-public struct GetDomainDeliverabilityCampaignInput: Swift.Equatable {
+public struct GetDomainDeliverabilityCampaignInput {
     /// The unique identifier for the campaign. Amazon Pinpoint automatically generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.
     /// This member is required.
     public var campaignId: Swift.String?
@@ -3663,7 +3663,7 @@ public struct GetDomainDeliverabilityCampaignInput: Swift.Equatable {
     }
 }
 
-struct GetDomainDeliverabilityCampaignInputBody: Swift.Equatable {
+struct GetDomainDeliverabilityCampaignInputBody {
 }
 
 extension GetDomainDeliverabilityCampaignInputBody: Swift.Decodable {
@@ -3685,7 +3685,7 @@ extension GetDomainDeliverabilityCampaignOutput: ClientRuntime.HttpResponseBindi
 }
 
 /// An object that contains all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
-public struct GetDomainDeliverabilityCampaignOutput: Swift.Equatable {
+public struct GetDomainDeliverabilityCampaignOutput {
     /// An object that contains the deliverability data for the campaign.
     /// This member is required.
     public var domainDeliverabilityCampaign: PinpointEmailClientTypes.DomainDeliverabilityCampaign?
@@ -3698,7 +3698,7 @@ public struct GetDomainDeliverabilityCampaignOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainDeliverabilityCampaignOutputBody: Swift.Equatable {
+struct GetDomainDeliverabilityCampaignOutputBody {
     let domainDeliverabilityCampaign: PinpointEmailClientTypes.DomainDeliverabilityCampaign?
 }
 
@@ -3758,7 +3758,7 @@ extension GetDomainStatisticsReportInput {
 }
 
 /// A request to obtain deliverability metrics for a domain.
-public struct GetDomainStatisticsReportInput: Swift.Equatable {
+public struct GetDomainStatisticsReportInput {
     /// The domain that you want to obtain deliverability metrics for.
     /// This member is required.
     public var domain: Swift.String?
@@ -3781,7 +3781,7 @@ public struct GetDomainStatisticsReportInput: Swift.Equatable {
     }
 }
 
-struct GetDomainStatisticsReportInputBody: Swift.Equatable {
+struct GetDomainStatisticsReportInputBody {
 }
 
 extension GetDomainStatisticsReportInputBody: Swift.Decodable {
@@ -3805,7 +3805,7 @@ extension GetDomainStatisticsReportOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An object that includes statistics that are related to the domain that you specified.
-public struct GetDomainStatisticsReportOutput: Swift.Equatable {
+public struct GetDomainStatisticsReportOutput {
     /// An object that contains deliverability metrics for the domain that you specified. This object contains data for each day, starting on the StartDate and ending on the EndDate.
     /// This member is required.
     public var dailyVolumes: [PinpointEmailClientTypes.DailyVolume]?
@@ -3823,7 +3823,7 @@ public struct GetDomainStatisticsReportOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainStatisticsReportOutputBody: Swift.Equatable {
+struct GetDomainStatisticsReportOutputBody {
     let overallVolume: PinpointEmailClientTypes.OverallVolume?
     let dailyVolumes: [PinpointEmailClientTypes.DailyVolume]?
 }
@@ -3876,7 +3876,7 @@ extension GetEmailIdentityInput {
 }
 
 /// A request to return details about an email identity.
-public struct GetEmailIdentityInput: Swift.Equatable {
+public struct GetEmailIdentityInput {
     /// The email identity that you want to retrieve details for.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -3889,7 +3889,7 @@ public struct GetEmailIdentityInput: Swift.Equatable {
     }
 }
 
-struct GetEmailIdentityInputBody: Swift.Equatable {
+struct GetEmailIdentityInputBody {
 }
 
 extension GetEmailIdentityInputBody: Swift.Decodable {
@@ -3921,7 +3921,7 @@ extension GetEmailIdentityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Details about an email identity.
-public struct GetEmailIdentityOutput: Swift.Equatable {
+public struct GetEmailIdentityOutput {
     /// An object that contains information about the DKIM attributes for the identity. This object includes the tokens that you use to create the CNAME records that are required to complete the DKIM verification process.
     public var dkimAttributes: PinpointEmailClientTypes.DkimAttributes?
     /// The feedback forwarding configuration for the identity. If the value is true, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you set this value to false, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
@@ -3953,7 +3953,7 @@ public struct GetEmailIdentityOutput: Swift.Equatable {
     }
 }
 
-struct GetEmailIdentityOutputBody: Swift.Equatable {
+struct GetEmailIdentityOutputBody {
     let identityType: PinpointEmailClientTypes.IdentityType?
     let feedbackForwardingStatus: Swift.Bool
     let verifiedForSendingStatus: Swift.Bool
@@ -4044,7 +4044,7 @@ extension PinpointEmailClientTypes.IdentityInfo: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// Information about an email identity.
-    public struct IdentityInfo: Swift.Equatable {
+    public struct IdentityInfo {
         /// The address or domain of the identity.
         public var identityName: Swift.String?
         /// The email identity type. The identity type can be one of the following:
@@ -4151,7 +4151,7 @@ extension PinpointEmailClientTypes.InboxPlacementTrackingOption: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that contains information about the inbox placement data settings for a verified domain that’s associated with your AWS account. This data is available only if you enabled the Deliverability dashboard for the domain (PutDeliverabilityDashboardOption operation).
-    public struct InboxPlacementTrackingOption: Swift.Equatable {
+    public struct InboxPlacementTrackingOption {
         /// Specifies whether inbox placement data is being tracked for the domain.
         public var global: Swift.Bool
         /// An array of strings, one for each major email provider that the inbox placement data applies to.
@@ -4196,7 +4196,7 @@ extension PinpointEmailClientTypes.IspPlacement: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that describes how email sent during the predictive inbox placement test was handled by a certain email provider.
-    public struct IspPlacement: Swift.Equatable {
+    public struct IspPlacement {
         /// The name of the email provider that the inbox placement data applies to.
         public var ispName: Swift.String?
         /// An object that contains inbox placement metrics for a specific email provider.
@@ -4241,7 +4241,7 @@ extension PinpointEmailClientTypes.KinesisFirehoseDestination: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
-    public struct KinesisFirehoseDestination: Swift.Equatable {
+    public struct KinesisFirehoseDestination {
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream that Amazon Pinpoint sends email events to.
         /// This member is required.
         public var deliveryStreamArn: Swift.String?
@@ -4300,7 +4300,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4340,7 +4340,7 @@ extension ListConfigurationSetsInput {
 }
 
 /// A request to obtain a list of configuration sets for your Amazon Pinpoint account in the current AWS Region.
-public struct ListConfigurationSetsInput: Swift.Equatable {
+public struct ListConfigurationSetsInput {
     /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -4356,7 +4356,7 @@ public struct ListConfigurationSetsInput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationSetsInputBody: Swift.Equatable {
+struct ListConfigurationSetsInputBody {
 }
 
 extension ListConfigurationSetsInputBody: Swift.Decodable {
@@ -4380,7 +4380,7 @@ extension ListConfigurationSetsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of configuration sets in your Amazon Pinpoint account in the current AWS Region.
-public struct ListConfigurationSetsOutput: Swift.Equatable {
+public struct ListConfigurationSetsOutput {
     /// An array that contains all of the configuration sets in your Amazon Pinpoint account in the current AWS Region.
     public var configurationSets: [Swift.String]?
     /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListConfigurationSets, and pass this token in the NextToken parameter.
@@ -4396,7 +4396,7 @@ public struct ListConfigurationSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationSetsOutputBody: Swift.Equatable {
+struct ListConfigurationSetsOutputBody {
     let configurationSets: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -4461,7 +4461,7 @@ extension ListDedicatedIpPoolsInput {
 }
 
 /// A request to obtain a list of dedicated IP pools.
-public struct ListDedicatedIpPoolsInput: Swift.Equatable {
+public struct ListDedicatedIpPoolsInput {
     /// A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListDedicatedIpPools. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -4477,7 +4477,7 @@ public struct ListDedicatedIpPoolsInput: Swift.Equatable {
     }
 }
 
-struct ListDedicatedIpPoolsInputBody: Swift.Equatable {
+struct ListDedicatedIpPoolsInputBody {
 }
 
 extension ListDedicatedIpPoolsInputBody: Swift.Decodable {
@@ -4501,7 +4501,7 @@ extension ListDedicatedIpPoolsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of dedicated IP pools.
-public struct ListDedicatedIpPoolsOutput: Swift.Equatable {
+public struct ListDedicatedIpPoolsOutput {
     /// A list of all of the dedicated IP pools that are associated with your Amazon Pinpoint account.
     public var dedicatedIpPools: [Swift.String]?
     /// A token that indicates that there are additional IP pools to list. To view additional IP pools, issue another request to ListDedicatedIpPools, passing this token in the NextToken parameter.
@@ -4517,7 +4517,7 @@ public struct ListDedicatedIpPoolsOutput: Swift.Equatable {
     }
 }
 
-struct ListDedicatedIpPoolsOutputBody: Swift.Equatable {
+struct ListDedicatedIpPoolsOutputBody {
     let dedicatedIpPools: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -4582,7 +4582,7 @@ extension ListDeliverabilityTestReportsInput {
 }
 
 /// A request to list all of the predictive inbox placement tests that you've performed.
-public struct ListDeliverabilityTestReportsInput: Swift.Equatable {
+public struct ListDeliverabilityTestReportsInput {
     /// A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListDeliverabilityTestReports. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
@@ -4598,7 +4598,7 @@ public struct ListDeliverabilityTestReportsInput: Swift.Equatable {
     }
 }
 
-struct ListDeliverabilityTestReportsInputBody: Swift.Equatable {
+struct ListDeliverabilityTestReportsInputBody {
 }
 
 extension ListDeliverabilityTestReportsInputBody: Swift.Decodable {
@@ -4622,7 +4622,7 @@ extension ListDeliverabilityTestReportsOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// A list of the predictive inbox placement test reports that are available for your account, regardless of whether or not those tests are complete.
-public struct ListDeliverabilityTestReportsOutput: Swift.Equatable {
+public struct ListDeliverabilityTestReportsOutput {
     /// An object that contains a lists of predictive inbox placement tests that you've performed.
     /// This member is required.
     public var deliverabilityTestReports: [PinpointEmailClientTypes.DeliverabilityTestReport]?
@@ -4639,7 +4639,7 @@ public struct ListDeliverabilityTestReportsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeliverabilityTestReportsOutputBody: Swift.Equatable {
+struct ListDeliverabilityTestReportsOutputBody {
     let deliverabilityTestReports: [PinpointEmailClientTypes.DeliverabilityTestReport]?
     let nextToken: Swift.String?
 }
@@ -4720,7 +4720,7 @@ extension ListDomainDeliverabilityCampaignsInput {
 }
 
 /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain.
-public struct ListDomainDeliverabilityCampaignsInput: Swift.Equatable {
+public struct ListDomainDeliverabilityCampaignsInput {
     /// The last day, in Unix time format, that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
     /// This member is required.
     public var endDate: ClientRuntime.Date?
@@ -4751,7 +4751,7 @@ public struct ListDomainDeliverabilityCampaignsInput: Swift.Equatable {
     }
 }
 
-struct ListDomainDeliverabilityCampaignsInputBody: Swift.Equatable {
+struct ListDomainDeliverabilityCampaignsInputBody {
 }
 
 extension ListDomainDeliverabilityCampaignsInputBody: Swift.Decodable {
@@ -4775,7 +4775,7 @@ extension ListDomainDeliverabilityCampaignsOutput: ClientRuntime.HttpResponseBin
 }
 
 /// An array of objects that provide deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain.
-public struct ListDomainDeliverabilityCampaignsOutput: Swift.Equatable {
+public struct ListDomainDeliverabilityCampaignsOutput {
     /// An array of responses, one for each campaign that used the domain to send email during the specified time range.
     /// This member is required.
     public var domainDeliverabilityCampaigns: [PinpointEmailClientTypes.DomainDeliverabilityCampaign]?
@@ -4792,7 +4792,7 @@ public struct ListDomainDeliverabilityCampaignsOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainDeliverabilityCampaignsOutputBody: Swift.Equatable {
+struct ListDomainDeliverabilityCampaignsOutputBody {
     let domainDeliverabilityCampaigns: [PinpointEmailClientTypes.DomainDeliverabilityCampaign]?
     let nextToken: Swift.String?
 }
@@ -4858,7 +4858,7 @@ extension ListEmailIdentitiesInput {
 }
 
 /// A request to list all of the email identities associated with your Amazon Pinpoint account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified.
-public struct ListEmailIdentitiesInput: Swift.Equatable {
+public struct ListEmailIdentitiesInput {
     /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
@@ -4874,7 +4874,7 @@ public struct ListEmailIdentitiesInput: Swift.Equatable {
     }
 }
 
-struct ListEmailIdentitiesInputBody: Swift.Equatable {
+struct ListEmailIdentitiesInputBody {
 }
 
 extension ListEmailIdentitiesInputBody: Swift.Decodable {
@@ -4898,7 +4898,7 @@ extension ListEmailIdentitiesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of all of the identities that you've attempted to verify for use with Amazon Pinpoint, regardless of whether or not those identities were successfully verified.
-public struct ListEmailIdentitiesOutput: Swift.Equatable {
+public struct ListEmailIdentitiesOutput {
     /// An array that includes all of the identities associated with your Amazon Pinpoint account.
     public var emailIdentities: [PinpointEmailClientTypes.IdentityInfo]?
     /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListEmailIdentities, and pass this token in the NextToken parameter.
@@ -4914,7 +4914,7 @@ public struct ListEmailIdentitiesOutput: Swift.Equatable {
     }
 }
 
-struct ListEmailIdentitiesOutputBody: Swift.Equatable {
+struct ListEmailIdentitiesOutputBody {
     let emailIdentities: [PinpointEmailClientTypes.IdentityInfo]?
     let nextToken: Swift.String?
 }
@@ -4976,7 +4976,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4989,7 +4989,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -5010,7 +5010,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// An array that lists all the tags that are associated with the resource. Each tag consists of a required tag key (Key) and an associated tag value (Value)
     /// This member is required.
     public var tags: [PinpointEmailClientTypes.Tag]?
@@ -5023,7 +5023,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [PinpointEmailClientTypes.Tag]?
 }
 
@@ -5094,7 +5094,7 @@ extension PinpointEmailClientTypes.MailFromAttributes: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// A list of attributes that are associated with a MAIL FROM domain.
-    public struct MailFromAttributes: Swift.Equatable {
+    public struct MailFromAttributes {
         /// The action that Amazon Pinpoint to takes if it can't read the required MX record for a custom MAIL FROM domain. When you set this value to UseDefaultValue, Amazon Pinpoint uses amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, Amazon Pinpoint returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
         /// This member is required.
         public var behaviorOnMxFailure: PinpointEmailClientTypes.BehaviorOnMxFailure?
@@ -5166,7 +5166,7 @@ public struct MailFromDomainNotVerifiedException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct MailFromDomainNotVerifiedExceptionBody: Swift.Equatable {
+struct MailFromDomainNotVerifiedExceptionBody {
     let message: Swift.String?
 }
 
@@ -5256,7 +5256,7 @@ extension PinpointEmailClientTypes.Message: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// Represents the email message that you're sending. The Message object consists of a subject line and a message body.
-    public struct Message: Swift.Equatable {
+    public struct Message {
         /// The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both.
         /// This member is required.
         public var body: PinpointEmailClientTypes.Body?
@@ -5315,7 +5315,7 @@ public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct MessageRejectedBody: Swift.Equatable {
+struct MessageRejectedBody {
     let message: Swift.String?
 }
 
@@ -5358,7 +5358,7 @@ extension PinpointEmailClientTypes.MessageTag: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// Contains the name and value of a tag that you apply to an email. You can use message tags when you publish email sending events.
-    public struct MessageTag: Swift.Equatable {
+    public struct MessageTag {
         /// The name of the message tag. The message tag name has to meet the following criteria:
         ///
         /// * It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).
@@ -5425,7 +5425,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5486,7 +5486,7 @@ extension PinpointEmailClientTypes.OverallVolume: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that contains information about email that was sent from the selected domain.
-    public struct OverallVolume: Swift.Equatable {
+    public struct OverallVolume {
         /// An object that contains inbox and junk mail placement metrics for individual email providers.
         public var domainIspPlacements: [PinpointEmailClientTypes.DomainIspPlacement]?
         /// The percentage of emails that were sent from the domain that were read by their recipients.
@@ -5529,7 +5529,7 @@ extension PinpointEmailClientTypes.PinpointDestination: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that defines a Amazon Pinpoint destination for email events. You can use Amazon Pinpoint events to create attributes in Amazon Pinpoint projects. You can use these attributes to create segments for your campaigns.
-    public struct PinpointDestination: Swift.Equatable {
+    public struct PinpointDestination {
         /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want to send email events to.
         public var applicationArn: Swift.String?
 
@@ -5590,7 +5590,7 @@ extension PinpointEmailClientTypes.PlacementStatistics: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that contains inbox placement data for an email provider.
-    public struct PlacementStatistics: Swift.Equatable {
+    public struct PlacementStatistics {
         /// The percentage of emails that were authenticated by using DomainKeys Identified Mail (DKIM) during the predictive inbox placement test.
         public var dkimPercentage: Swift.Double?
         /// The percentage of emails that arrived in recipients' inboxes during the predictive inbox placement test.
@@ -5641,7 +5641,7 @@ extension PutAccountDedicatedIpWarmupAttributesInput {
 }
 
 /// A request to enable or disable the automatic IP address warm-up feature.
-public struct PutAccountDedicatedIpWarmupAttributesInput: Swift.Equatable {
+public struct PutAccountDedicatedIpWarmupAttributesInput {
     /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon Pinpoint account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
     public var autoWarmupEnabled: Swift.Bool?
 
@@ -5653,7 +5653,7 @@ public struct PutAccountDedicatedIpWarmupAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutAccountDedicatedIpWarmupAttributesInputBody: Swift.Equatable {
+struct PutAccountDedicatedIpWarmupAttributesInputBody {
     let autoWarmupEnabled: Swift.Bool?
 }
 
@@ -5675,7 +5675,7 @@ extension PutAccountDedicatedIpWarmupAttributesOutput: ClientRuntime.HttpRespons
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutAccountDedicatedIpWarmupAttributesOutput: Swift.Equatable {
+public struct PutAccountDedicatedIpWarmupAttributesOutput {
 
     public init() { }
 }
@@ -5713,7 +5713,7 @@ extension PutAccountSendingAttributesInput {
 }
 
 /// A request to change the ability of your account to send email.
-public struct PutAccountSendingAttributesInput: Swift.Equatable {
+public struct PutAccountSendingAttributesInput {
     /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending. If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
     public var sendingEnabled: Swift.Bool?
 
@@ -5725,7 +5725,7 @@ public struct PutAccountSendingAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutAccountSendingAttributesInputBody: Swift.Equatable {
+struct PutAccountSendingAttributesInputBody {
     let sendingEnabled: Swift.Bool?
 }
 
@@ -5747,7 +5747,7 @@ extension PutAccountSendingAttributesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutAccountSendingAttributesOutput: Swift.Equatable {
+public struct PutAccountSendingAttributesOutput {
 
     public init() { }
 }
@@ -5792,7 +5792,7 @@ extension PutConfigurationSetDeliveryOptionsInput {
 }
 
 /// A request to associate a configuration set with a dedicated IP pool.
-public struct PutConfigurationSetDeliveryOptionsInput: Swift.Equatable {
+public struct PutConfigurationSetDeliveryOptionsInput {
     /// The name of the configuration set that you want to associate with a dedicated IP pool.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -5813,7 +5813,7 @@ public struct PutConfigurationSetDeliveryOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutConfigurationSetDeliveryOptionsInputBody: Swift.Equatable {
+struct PutConfigurationSetDeliveryOptionsInputBody {
     let tlsPolicy: PinpointEmailClientTypes.TlsPolicy?
     let sendingPoolName: Swift.String?
 }
@@ -5839,7 +5839,7 @@ extension PutConfigurationSetDeliveryOptionsOutput: ClientRuntime.HttpResponseBi
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetDeliveryOptionsOutput: Swift.Equatable {
+public struct PutConfigurationSetDeliveryOptionsOutput {
 
     public init() { }
 }
@@ -5881,7 +5881,7 @@ extension PutConfigurationSetReputationOptionsInput {
 }
 
 /// A request to enable or disable tracking of reputation metrics for a configuration set.
-public struct PutConfigurationSetReputationOptionsInput: Swift.Equatable {
+public struct PutConfigurationSetReputationOptionsInput {
     /// The name of the configuration set that you want to enable or disable reputation metric tracking for.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -5898,7 +5898,7 @@ public struct PutConfigurationSetReputationOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutConfigurationSetReputationOptionsInputBody: Swift.Equatable {
+struct PutConfigurationSetReputationOptionsInputBody {
     let reputationMetricsEnabled: Swift.Bool?
 }
 
@@ -5920,7 +5920,7 @@ extension PutConfigurationSetReputationOptionsOutput: ClientRuntime.HttpResponse
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetReputationOptionsOutput: Swift.Equatable {
+public struct PutConfigurationSetReputationOptionsOutput {
 
     public init() { }
 }
@@ -5962,7 +5962,7 @@ extension PutConfigurationSetSendingOptionsInput {
 }
 
 /// A request to enable or disable the ability of Amazon Pinpoint to send emails that use a specific configuration set.
-public struct PutConfigurationSetSendingOptionsInput: Swift.Equatable {
+public struct PutConfigurationSetSendingOptionsInput {
     /// The name of the configuration set that you want to enable or disable email sending for.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -5979,7 +5979,7 @@ public struct PutConfigurationSetSendingOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutConfigurationSetSendingOptionsInputBody: Swift.Equatable {
+struct PutConfigurationSetSendingOptionsInputBody {
     let sendingEnabled: Swift.Bool?
 }
 
@@ -6001,7 +6001,7 @@ extension PutConfigurationSetSendingOptionsOutput: ClientRuntime.HttpResponseBin
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetSendingOptionsOutput: Swift.Equatable {
+public struct PutConfigurationSetSendingOptionsOutput {
 
     public init() { }
 }
@@ -6043,7 +6043,7 @@ extension PutConfigurationSetTrackingOptionsInput {
 }
 
 /// A request to add a custom domain for tracking open and click events to a configuration set.
-public struct PutConfigurationSetTrackingOptionsInput: Swift.Equatable {
+public struct PutConfigurationSetTrackingOptionsInput {
     /// The name of the configuration set that you want to add a custom tracking domain to.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -6060,7 +6060,7 @@ public struct PutConfigurationSetTrackingOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutConfigurationSetTrackingOptionsInputBody: Swift.Equatable {
+struct PutConfigurationSetTrackingOptionsInputBody {
     let customRedirectDomain: Swift.String?
 }
 
@@ -6082,7 +6082,7 @@ extension PutConfigurationSetTrackingOptionsOutput: ClientRuntime.HttpResponseBi
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetTrackingOptionsOutput: Swift.Equatable {
+public struct PutConfigurationSetTrackingOptionsOutput {
 
     public init() { }
 }
@@ -6124,7 +6124,7 @@ extension PutDedicatedIpInPoolInput {
 }
 
 /// A request to move a dedicated IP address to a dedicated IP pool.
-public struct PutDedicatedIpInPoolInput: Swift.Equatable {
+public struct PutDedicatedIpInPoolInput {
     /// The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
     /// This member is required.
     public var destinationPoolName: Swift.String?
@@ -6142,7 +6142,7 @@ public struct PutDedicatedIpInPoolInput: Swift.Equatable {
     }
 }
 
-struct PutDedicatedIpInPoolInputBody: Swift.Equatable {
+struct PutDedicatedIpInPoolInputBody {
     let destinationPoolName: Swift.String?
 }
 
@@ -6164,7 +6164,7 @@ extension PutDedicatedIpInPoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutDedicatedIpInPoolOutput: Swift.Equatable {
+public struct PutDedicatedIpInPoolOutput {
 
     public init() { }
 }
@@ -6206,7 +6206,7 @@ extension PutDedicatedIpWarmupAttributesInput {
 }
 
 /// A request to change the warm-up attributes for a dedicated IP address. This operation is useful when you want to resume the warm-up process for an existing IP address.
-public struct PutDedicatedIpWarmupAttributesInput: Swift.Equatable {
+public struct PutDedicatedIpWarmupAttributesInput {
     /// The dedicated IP address that you want to update the warm-up attributes for.
     /// This member is required.
     public var ip: Swift.String?
@@ -6224,7 +6224,7 @@ public struct PutDedicatedIpWarmupAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutDedicatedIpWarmupAttributesInputBody: Swift.Equatable {
+struct PutDedicatedIpWarmupAttributesInputBody {
     let warmupPercentage: Swift.Int?
 }
 
@@ -6246,7 +6246,7 @@ extension PutDedicatedIpWarmupAttributesOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutDedicatedIpWarmupAttributesOutput: Swift.Equatable {
+public struct PutDedicatedIpWarmupAttributesOutput {
 
     public init() { }
 }
@@ -6292,7 +6292,7 @@ extension PutDeliverabilityDashboardOptionInput {
 }
 
 /// Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
-public struct PutDeliverabilityDashboardOptionInput: Swift.Equatable {
+public struct PutDeliverabilityDashboardOptionInput {
     /// Specifies whether to enable the Deliverability dashboard for your Amazon Pinpoint account. To enable the dashboard, set this value to true.
     /// This member is required.
     public var dashboardEnabled: Swift.Bool?
@@ -6309,7 +6309,7 @@ public struct PutDeliverabilityDashboardOptionInput: Swift.Equatable {
     }
 }
 
-struct PutDeliverabilityDashboardOptionInputBody: Swift.Equatable {
+struct PutDeliverabilityDashboardOptionInputBody {
     let dashboardEnabled: Swift.Bool?
     let subscribedDomains: [PinpointEmailClientTypes.DomainDeliverabilityTrackingOption]?
 }
@@ -6344,7 +6344,7 @@ extension PutDeliverabilityDashboardOptionOutput: ClientRuntime.HttpResponseBind
 }
 
 /// A response that indicates whether the Deliverability dashboard is enabled for your Amazon Pinpoint account.
-public struct PutDeliverabilityDashboardOptionOutput: Swift.Equatable {
+public struct PutDeliverabilityDashboardOptionOutput {
 
     public init() { }
 }
@@ -6388,7 +6388,7 @@ extension PutEmailIdentityDkimAttributesInput {
 }
 
 /// A request to enable or disable DKIM signing of email that you send from an email identity.
-public struct PutEmailIdentityDkimAttributesInput: Swift.Equatable {
+public struct PutEmailIdentityDkimAttributesInput {
     /// The email identity that you want to change the DKIM settings for.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -6405,7 +6405,7 @@ public struct PutEmailIdentityDkimAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutEmailIdentityDkimAttributesInputBody: Swift.Equatable {
+struct PutEmailIdentityDkimAttributesInputBody {
     let signingEnabled: Swift.Bool?
 }
 
@@ -6427,7 +6427,7 @@ extension PutEmailIdentityDkimAttributesOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutEmailIdentityDkimAttributesOutput: Swift.Equatable {
+public struct PutEmailIdentityDkimAttributesOutput {
 
     public init() { }
 }
@@ -6469,7 +6469,7 @@ extension PutEmailIdentityFeedbackAttributesInput {
 }
 
 /// A request to set the attributes that control how bounce and complaint events are processed.
-public struct PutEmailIdentityFeedbackAttributesInput: Swift.Equatable {
+public struct PutEmailIdentityFeedbackAttributesInput {
     /// Sets the feedback forwarding configuration for the identity. If the value is true, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you set this value to false, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
     public var emailForwardingEnabled: Swift.Bool?
     /// The email identity that you want to configure bounce and complaint feedback forwarding for.
@@ -6486,7 +6486,7 @@ public struct PutEmailIdentityFeedbackAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutEmailIdentityFeedbackAttributesInputBody: Swift.Equatable {
+struct PutEmailIdentityFeedbackAttributesInputBody {
     let emailForwardingEnabled: Swift.Bool?
 }
 
@@ -6508,7 +6508,7 @@ extension PutEmailIdentityFeedbackAttributesOutput: ClientRuntime.HttpResponseBi
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutEmailIdentityFeedbackAttributesOutput: Swift.Equatable {
+public struct PutEmailIdentityFeedbackAttributesOutput {
 
     public init() { }
 }
@@ -6554,7 +6554,7 @@ extension PutEmailIdentityMailFromAttributesInput {
 }
 
 /// A request to configure the custom MAIL FROM domain for a verified identity.
-public struct PutEmailIdentityMailFromAttributesInput: Swift.Equatable {
+public struct PutEmailIdentityMailFromAttributesInput {
     /// The action that you want Amazon Pinpoint to take if it can't read the required MX record when you send an email. When you set this value to UseDefaultValue, Amazon Pinpoint uses amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, Amazon Pinpoint returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
     public var behaviorOnMxFailure: PinpointEmailClientTypes.BehaviorOnMxFailure?
     /// The verified email identity that you want to set up the custom MAIL FROM domain for.
@@ -6581,7 +6581,7 @@ public struct PutEmailIdentityMailFromAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutEmailIdentityMailFromAttributesInputBody: Swift.Equatable {
+struct PutEmailIdentityMailFromAttributesInputBody {
     let mailFromDomain: Swift.String?
     let behaviorOnMxFailure: PinpointEmailClientTypes.BehaviorOnMxFailure?
 }
@@ -6607,7 +6607,7 @@ extension PutEmailIdentityMailFromAttributesOutput: ClientRuntime.HttpResponseBi
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutEmailIdentityMailFromAttributesOutput: Swift.Equatable {
+public struct PutEmailIdentityMailFromAttributesOutput {
 
     public init() { }
 }
@@ -6646,7 +6646,7 @@ extension PinpointEmailClientTypes.RawMessage: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// The raw email message.
-    public struct RawMessage: Swift.Equatable {
+    public struct RawMessage {
         /// The raw email message. The message has to meet the following criteria:
         ///
         /// * The message has to contain a header and a body, separated by one blank line.
@@ -6702,7 +6702,7 @@ extension PinpointEmailClientTypes.ReputationOptions: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// Enable or disable collection of reputation metrics for emails that you send using this configuration set in the current AWS Region.
-    public struct ReputationOptions: Swift.Equatable {
+    public struct ReputationOptions {
         /// The date and time (in Unix time) when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
         public var lastFreshStart: ClientRuntime.Date?
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
@@ -6771,7 +6771,7 @@ extension SendEmailInput {
 }
 
 /// A request to send an email message.
-public struct SendEmailInput: Swift.Equatable {
+public struct SendEmailInput {
     /// The name of the configuration set that you want to use when sending the email.
     public var configurationSetName: Swift.String?
     /// An object that contains the body of the message. You can send either a Simple message or a Raw message.
@@ -6809,7 +6809,7 @@ public struct SendEmailInput: Swift.Equatable {
     }
 }
 
-struct SendEmailInputBody: Swift.Equatable {
+struct SendEmailInputBody {
     let fromEmailAddress: Swift.String?
     let destination: PinpointEmailClientTypes.Destination?
     let replyToAddresses: [Swift.String]?
@@ -6880,7 +6880,7 @@ extension SendEmailOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A unique message ID that you receive when Amazon Pinpoint accepts an email for sending.
-public struct SendEmailOutput: Swift.Equatable {
+public struct SendEmailOutput {
     /// A unique identifier for the message that is generated when Amazon Pinpoint accepts the message. It is possible for Amazon Pinpoint to accept a message without sending it. This can happen when the message you're trying to send has an attachment doesn't pass a virus check, or when you send a templated email that contains invalid personalization content, for example.
     public var messageId: Swift.String?
 
@@ -6892,7 +6892,7 @@ public struct SendEmailOutput: Swift.Equatable {
     }
 }
 
-struct SendEmailOutputBody: Swift.Equatable {
+struct SendEmailOutputBody {
     let messageId: Swift.String?
 }
 
@@ -6959,7 +6959,7 @@ extension PinpointEmailClientTypes.SendQuota: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that contains information about the per-day and per-second sending limits for your Amazon Pinpoint account in the current AWS Region.
-    public struct SendQuota: Swift.Equatable {
+    public struct SendQuota {
         /// The maximum number of emails that you can send in the current AWS Region over a 24-hour period. This value is also called your sending quota.
         public var max24HourSend: Swift.Double
         /// The maximum number of emails that you can send per second in the current AWS Region. This value is also called your maximum sending rate or your maximum TPS (transactions per second) rate.
@@ -7002,7 +7002,7 @@ extension PinpointEmailClientTypes.SendingOptions: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// Used to enable or disable email sending for messages that use this configuration set in the current AWS Region.
-    public struct SendingOptions: Swift.Equatable {
+    public struct SendingOptions {
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
         public var sendingEnabled: Swift.Bool
 
@@ -7055,7 +7055,7 @@ public struct SendingPausedException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct SendingPausedExceptionBody: Swift.Equatable {
+struct SendingPausedExceptionBody {
     let message: Swift.String?
 }
 
@@ -7092,7 +7092,7 @@ extension PinpointEmailClientTypes.SnsDestination: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
-    public struct SnsDestination: Swift.Equatable {
+    public struct SnsDestination {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish email events to. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
         /// This member is required.
         public var topicArn: Swift.String?
@@ -7142,7 +7142,7 @@ extension PinpointEmailClientTypes {
     /// * The aws: prefix is reserved for use by AWS; you can’t use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Tags that use this prefix don’t count against the limit of 50 tags per resource.
     ///
     /// * You can associate tags with public or shared resources, but the tags are available only for your AWS account, not any other accounts that share the resource. In addition, the tags are available only for resources that are located in the specified AWS Region for your AWS account.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
         /// This member is required.
         public var key: Swift.String?
@@ -7189,7 +7189,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to add one or more tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7207,7 +7207,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [PinpointEmailClientTypes.Tag]?
 }
@@ -7241,7 +7241,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -7286,7 +7286,7 @@ extension PinpointEmailClientTypes.Template: Swift.Codable {
 }
 
 extension PinpointEmailClientTypes {
-    public struct Template: Swift.Equatable {
+    public struct Template {
         /// The Amazon Resource Name (ARN) of the template.
         public var templateArn: Swift.String?
         /// An object that defines the values to use for message variables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable.
@@ -7376,7 +7376,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -7413,7 +7413,7 @@ extension PinpointEmailClientTypes.TrackingOptions: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that defines the tracking options for a configuration set. When you use Amazon Pinpoint to send an email, it contains an invisible image that's used to track when recipients open your email. If your email contains links, those links are changed slightly in order to track when recipients click them. These images and links include references to a domain operated by AWS. You can optionally configure Amazon Pinpoint to use a domain that you operate for these images and links.
-    public struct TrackingOptions: Swift.Equatable {
+    public struct TrackingOptions {
         /// The domain that you want to use for tracking open and click events.
         /// This member is required.
         public var customRedirectDomain: Swift.String?
@@ -7457,7 +7457,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to remove one or more tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7475,7 +7475,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -7489,7 +7489,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -7535,7 +7535,7 @@ extension UpdateConfigurationSetEventDestinationInput {
 }
 
 /// A request to change the settings for an event destination for a configuration set.
-public struct UpdateConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct UpdateConfigurationSetEventDestinationInput {
     /// The name of the configuration set that contains the event destination that you want to modify.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -7558,7 +7558,7 @@ public struct UpdateConfigurationSetEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfigurationSetEventDestinationInputBody: Swift.Equatable {
+struct UpdateConfigurationSetEventDestinationInputBody {
     let eventDestination: PinpointEmailClientTypes.EventDestinationDefinition?
 }
 
@@ -7580,7 +7580,7 @@ extension UpdateConfigurationSetEventDestinationOutput: ClientRuntime.HttpRespon
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct UpdateConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct UpdateConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -7637,7 +7637,7 @@ extension PinpointEmailClientTypes.VolumeStatistics: Swift.Codable {
 
 extension PinpointEmailClientTypes {
     /// An object that contains information about the amount of email that was delivered to recipients.
-    public struct VolumeStatistics: Swift.Equatable {
+    public struct VolumeStatistics {
         /// The total number of emails that arrived in recipients' inboxes.
         public var inboxRawCount: Swift.Int?
         /// An estimate of the percentage of emails sent from the current domain that will arrive in recipients' inboxes.

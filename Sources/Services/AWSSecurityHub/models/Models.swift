@@ -26,7 +26,7 @@ extension AcceptAdministratorInvitationInput {
     }
 }
 
-public struct AcceptAdministratorInvitationInput: Swift.Equatable {
+public struct AcceptAdministratorInvitationInput {
     /// The account ID of the Security Hub administrator account that sent the invitation.
     /// This member is required.
     public var administratorId: Swift.String?
@@ -44,7 +44,7 @@ public struct AcceptAdministratorInvitationInput: Swift.Equatable {
     }
 }
 
-struct AcceptAdministratorInvitationInputBody: Swift.Equatable {
+struct AcceptAdministratorInvitationInputBody {
     let administratorId: Swift.String?
     let invitationId: Swift.String?
 }
@@ -69,7 +69,7 @@ extension AcceptAdministratorInvitationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct AcceptAdministratorInvitationOutput: Swift.Equatable {
+public struct AcceptAdministratorInvitationOutput {
 
     public init() { }
 }
@@ -113,7 +113,7 @@ extension AcceptInvitationInput {
     }
 }
 
-public struct AcceptInvitationInput: Swift.Equatable {
+public struct AcceptInvitationInput {
     /// The identifier of the invitation sent from the Security Hub administrator account.
     /// This member is required.
     public var invitationId: Swift.String?
@@ -131,7 +131,7 @@ public struct AcceptInvitationInput: Swift.Equatable {
     }
 }
 
-struct AcceptInvitationInputBody: Swift.Equatable {
+struct AcceptInvitationInputBody {
     let masterId: Swift.String?
     let invitationId: Swift.String?
 }
@@ -156,7 +156,7 @@ extension AcceptInvitationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcceptInvitationOutput: Swift.Equatable {
+public struct AcceptInvitationOutput {
 
     public init() { }
 }
@@ -220,7 +220,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -267,7 +267,7 @@ extension SecurityHubClientTypes.AccountDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The details of an Amazon Web Services account.
-    public struct AccountDetails: Swift.Equatable {
+    public struct AccountDetails {
         /// The ID of an Amazon Web Services account.
         /// This member is required.
         public var accountId: Swift.String?
@@ -339,7 +339,7 @@ extension SecurityHubClientTypes {
     /// * A remote IP address attempted to connect to an EC2 instance
     ///
     /// * A remote IP address attempted a port probe on an EC2 instance
-    public struct Action: Swift.Equatable {
+    public struct Action {
         /// The type of action that was detected. The possible action types are:
         ///
         /// * NETWORK_CONNECTION
@@ -398,7 +398,7 @@ extension SecurityHubClientTypes.ActionLocalIpDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about the IP address where the scanned port is located.
-    public struct ActionLocalIpDetails: Swift.Equatable {
+    public struct ActionLocalIpDetails {
         /// The IP address.
         public var ipAddressV4: Swift.String?
 
@@ -439,7 +439,7 @@ extension SecurityHubClientTypes.ActionLocalPortDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// For NetworkConnectionAction and PortProbeDetails, LocalPortDetails provides information about the local port that was involved in the action.
-    public struct ActionLocalPortDetails: Swift.Equatable {
+    public struct ActionLocalPortDetails {
         /// The number of the port.
         public var port: Swift.Int?
         /// The port name of the local connection.
@@ -502,7 +502,7 @@ extension SecurityHubClientTypes.ActionRemoteIpDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// For AwsApiAction, NetworkConnectionAction, and PortProbeAction, RemoteIpDetails provides information about the remote IP address that was involved in the action.
-    public struct ActionRemoteIpDetails: Swift.Equatable {
+    public struct ActionRemoteIpDetails {
         /// The city where the remote IP address is located.
         public var city: SecurityHubClientTypes.City?
         /// The country where the remote IP address is located.
@@ -559,7 +559,7 @@ extension SecurityHubClientTypes.ActionRemotePortDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about the remote port that was involved in an attempted network connection.
-    public struct ActionRemotePortDetails: Swift.Equatable {
+    public struct ActionRemotePortDetails {
         /// The number of the port.
         public var port: Swift.Int?
         /// The port name of the remote connection.
@@ -610,7 +610,7 @@ extension SecurityHubClientTypes.ActionTarget: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An ActionTarget object.
-    public struct ActionTarget: Swift.Equatable {
+    public struct ActionTarget {
         /// The ARN for the target action.
         /// This member is required.
         public var actionTargetArn: Swift.String?
@@ -662,7 +662,7 @@ extension SecurityHubClientTypes.Adjustment: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An adjustment to the CVSS metric.
-    public struct Adjustment: Swift.Equatable {
+    public struct Adjustment {
         /// The metric to adjust.
         public var metric: Swift.String?
         /// The reason for the adjustment.
@@ -707,7 +707,7 @@ extension SecurityHubClientTypes.AdminAccount: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Represents a Security Hub administrator account designated by an organization management account.
-    public struct AdminAccount: Swift.Equatable {
+    public struct AdminAccount {
         /// The Amazon Web Services account identifier of the Security Hub administrator account.
         public var accountId: Swift.String?
         /// The current status of the Security Hub administrator account. Indicates whether the account is currently enabled as a Security Hub administrator.
@@ -778,7 +778,7 @@ extension SecurityHubClientTypes.AssociatedStandard: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an enabled security standard in which a security control is enabled.
-    public struct AssociatedStandard: Swift.Equatable {
+    public struct AssociatedStandard {
         /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the Amazon Resource Name (ARN) returned for a standard in the [DescribeStandards](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandards.html) API response.
         public var standardsId: Swift.String?
 
@@ -825,7 +825,7 @@ extension SecurityHubClientTypes.AssociationFilters: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Options for filtering the ListConfigurationPolicyAssociations response. You can filter by the Amazon Resource Name (ARN) or universally unique identifier (UUID) of a configuration policy, AssociationType, or AssociationStatus.
-    public struct AssociationFilters: Swift.Equatable {
+    public struct AssociationFilters {
         /// The current status of the association between a target and a configuration policy.
         public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
         /// Indicates whether the association between a target and a configuration was directly applied by the Security Hub delegated administrator or inherited from a parent.
@@ -898,7 +898,7 @@ extension SecurityHubClientTypes.AssociationSetDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The associations between a route table and one or more subnets or a gateway.
-    public struct AssociationSetDetails: Swift.Equatable {
+    public struct AssociationSetDetails {
         /// The state of the association between a route table and a subnet or gateway.
         public var associationState: SecurityHubClientTypes.AssociationStateDetails?
         /// The ID of the internet gateway or virtual private gateway.
@@ -959,7 +959,7 @@ extension SecurityHubClientTypes.AssociationStateDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Describes the state of an association between a route table and a subnet or gateway.
-    public struct AssociationStateDetails: Swift.Equatable {
+    public struct AssociationStateDetails {
         /// The state of the association.
         public var state: Swift.String?
         /// The status message, if applicable.
@@ -1100,7 +1100,7 @@ extension SecurityHubClientTypes.AutomationRulesAction: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// One or more actions to update finding fields if a finding matches the defined criteria of the rule.
-    public struct AutomationRulesAction: Swift.Equatable {
+    public struct AutomationRulesAction {
         /// Specifies that the automation rule action is an update to a finding field.
         public var findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate?
         /// Specifies that the rule action should update the Types finding field. The Types finding field classifies findings in the format of namespace/category/classifier. For more information, see [Types taxonomy for ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html) in the Security Hub User Guide.
@@ -1240,7 +1240,7 @@ extension SecurityHubClientTypes.AutomationRulesConfig: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Defines the configuration of an automation rule.
-    public struct AutomationRulesConfig: Swift.Equatable {
+    public struct AutomationRulesConfig {
         /// One or more actions to update finding fields if a finding matches the defined criteria of the rule.
         public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
         /// A timestamp that indicates when the rule was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -1419,7 +1419,7 @@ extension SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// Identifies the finding fields that the automation rule action updates when a finding matches the defined criteria.
-    public struct AutomationRulesFindingFieldsUpdate: Swift.Equatable {
+    public struct AutomationRulesFindingFieldsUpdate {
         /// The rule action updates the Confidence field of a finding.
         public var confidence: Swift.Int?
         /// The rule action updates the Criticality field of a finding.
@@ -2164,7 +2164,7 @@ extension SecurityHubClientTypes.AutomationRulesFindingFilters: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The criteria that determine which findings a rule applies to.
-    public struct AutomationRulesFindingFilters: Swift.Equatable {
+    public struct AutomationRulesFindingFilters {
         /// The Amazon Web Services account ID in which a finding was generated. Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public var awsAccountId: [SecurityHubClientTypes.StringFilter]?
         /// The name of the Amazon Web Services account in which a finding was generated. Array Members: Minimum number of 1 item. Maximum number of 20 items.
@@ -2460,7 +2460,7 @@ extension SecurityHubClientTypes.AutomationRulesMetadata: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Metadata for automation rules in the calling account. The response includes rules with a RuleStatus of ENABLED and DISABLED.
-    public struct AutomationRulesMetadata: Swift.Equatable {
+    public struct AutomationRulesMetadata {
         /// A timestamp that indicates when the rule was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
         /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
@@ -2553,7 +2553,7 @@ extension SecurityHubClientTypes.AvailabilityZone: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an Availability Zone.
-    public struct AvailabilityZone: Swift.Equatable {
+    public struct AvailabilityZone {
         /// The ID of the subnet. You can specify one subnet per Availability Zone.
         public var subnetId: Swift.String?
         /// The name of the Availability Zone.
@@ -2730,7 +2730,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an Amazon MQ message broker. A message broker allows software applications and components to communicate using various programming languages, operating systems, and formal messaging protocols.
-    public struct AwsAmazonMqBrokerDetails: Swift.Equatable {
+    public struct AwsAmazonMqBrokerDetails {
         /// The authentication strategy used to secure the broker. The default is SIMPLE.
         public var authenticationStrategy: Swift.String?
         /// Whether automatically upgrade new minor versions for brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window of the broker or after a manual broker reboot.
@@ -2839,7 +2839,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerEncryptionOptionsDetails: Swif
 
 extension SecurityHubClientTypes {
     /// Provides details about broker encryption options.
-    public struct AwsAmazonMqBrokerEncryptionOptionsDetails: Swift.Equatable {
+    public struct AwsAmazonMqBrokerEncryptionOptionsDetails {
         /// The KMS key that’s used to encrypt your data at rest. If not provided, Amazon MQ will use a default KMS key to encrypt your data.
         public var kmsKeyId: Swift.String?
         /// Specifies that an KMS key should be used for at-rest encryption. Set to true by default if no value is provided (for example, for RabbitMQ brokers).
@@ -2944,7 +2944,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerLdapServerMetadataDetails: Swi
 
 extension SecurityHubClientTypes {
     /// The metadata of the Lightweight Directory Access Protocol (LDAP) server used to authenticate and authorize connections to the broker. This is an optional failover server.
-    public struct AwsAmazonMqBrokerLdapServerMetadataDetails: Swift.Equatable {
+    public struct AwsAmazonMqBrokerLdapServerMetadataDetails {
         /// Specifies the location of the LDAP server, such as Amazon Web Services Directory Service for Microsoft Active Directory.
         public var hosts: [Swift.String]?
         /// The distinguished name of the node in the directory information tree (DIT) to search for roles or groups.
@@ -3039,7 +3039,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerLogsDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about logs to be activated for the specified broker.
-    public struct AwsAmazonMqBrokerLogsDetails: Swift.Equatable {
+    public struct AwsAmazonMqBrokerLogsDetails {
         /// Activates audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged. Doesn't apply to RabbitMQ brokers.
         public var audit: Swift.Bool?
         /// The location of the CloudWatch Logs log group where audit logs are sent.
@@ -3096,7 +3096,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerLogsPendingDetails: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// Provides information about logs to be activated for the specified broker.
-    public struct AwsAmazonMqBrokerLogsPendingDetails: Swift.Equatable {
+    public struct AwsAmazonMqBrokerLogsPendingDetails {
         /// Activates audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged. Doesn't apply to RabbitMQ brokers.
         public var audit: Swift.Bool?
         /// Activates general logging.
@@ -3147,7 +3147,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerMaintenanceWindowStartTimeDeta
 
 extension SecurityHubClientTypes {
     /// The scheduled time period (UTC) during which Amazon MQ begins to apply pending updates or patches to the broker.
-    public struct AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails: Swift.Equatable {
+    public struct AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails {
         /// The day of the week on which the maintenance window falls.
         public var dayOfWeek: Swift.String?
         /// The time, in 24-hour format, on which the maintenance window falls.
@@ -3196,7 +3196,7 @@ extension SecurityHubClientTypes.AwsAmazonMqBrokerUsersDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about the broker usernames for the specified broker. Doesn't apply to RabbitMQ brokers.
-    public struct AwsAmazonMqBrokerUsersDetails: Swift.Equatable {
+    public struct AwsAmazonMqBrokerUsersDetails {
         /// The type of change pending for the broker user.
         public var pendingChange: Swift.String?
         /// The username of the broker user.
@@ -3289,7 +3289,7 @@ extension SecurityHubClientTypes.AwsApiCallAction: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provided if ActionType is AWS_API_CALL. It provides details about the API call that was detected.
-    public struct AwsApiCallAction: Swift.Equatable {
+    public struct AwsApiCallAction {
         /// Identifies the resources that were affected by the API call.
         public var affectedResources: [Swift.String:Swift.String]?
         /// The name of the API method that was issued.
@@ -3372,7 +3372,7 @@ extension SecurityHubClientTypes.AwsApiCallActionDomainDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provided if CallerType is domain. It provides information about the DNS domain that issued the API call.
-    public struct AwsApiCallActionDomainDetails: Swift.Equatable {
+    public struct AwsApiCallActionDomainDetails {
         /// The name of the DNS domain that issued the API call.
         public var domain: Swift.String?
 
@@ -3413,7 +3413,7 @@ extension SecurityHubClientTypes.AwsApiGatewayAccessLogSettings: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about settings for logging access for the stage.
-    public struct AwsApiGatewayAccessLogSettings: Swift.Equatable {
+    public struct AwsApiGatewayAccessLogSettings {
         /// The ARN of the CloudWatch Logs log group that receives the access logs.
         public var destinationArn: Swift.String?
         /// A single-line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId.
@@ -3482,7 +3482,7 @@ extension SecurityHubClientTypes.AwsApiGatewayCanarySettings: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about settings for canary deployment in the stage.
-    public struct AwsApiGatewayCanarySettings: Swift.Equatable {
+    public struct AwsApiGatewayCanarySettings {
         /// The deployment identifier for the canary deployment.
         public var deploymentId: Swift.String?
         /// The percentage of traffic that is diverted to a canary deployment.
@@ -3541,7 +3541,7 @@ extension SecurityHubClientTypes.AwsApiGatewayEndpointConfiguration: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// Contains information about the endpoints for the API.
-    public struct AwsApiGatewayEndpointConfiguration: Swift.Equatable {
+    public struct AwsApiGatewayEndpointConfiguration {
         /// A list of endpoint types for the REST API. For an edge-optimized API, the endpoint type is EDGE. For a Regional API, the endpoint type is REGIONAL. For a private API, the endpoint type is PRIVATE.
         public var types: [Swift.String]?
 
@@ -3642,7 +3642,7 @@ extension SecurityHubClientTypes.AwsApiGatewayMethodSettings: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Defines settings for a method for the stage.
-    public struct AwsApiGatewayMethodSettings: Swift.Equatable {
+    public struct AwsApiGatewayMethodSettings {
         /// Indicates whether the cached responses are encrypted.
         public var cacheDataEncrypted: Swift.Bool?
         /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response is cached.
@@ -3781,7 +3781,7 @@ extension SecurityHubClientTypes.AwsApiGatewayRestApiDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about a REST API in version 1 of Amazon API Gateway.
-    public struct AwsApiGatewayRestApiDetails: Swift.Equatable {
+    public struct AwsApiGatewayRestApiDetails {
         /// The source of the API key for metering requests according to a usage plan. HEADER indicates whether to read the API key from the X-API-Key header of a request. AUTHORIZER indicates whether to read the API key from the UsageIdentifierKey from a custom authorizer.
         public var apiKeySource: Swift.String?
         /// The list of binary media types supported by the REST API.
@@ -3972,7 +3972,7 @@ extension SecurityHubClientTypes.AwsApiGatewayStageDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about a version 1 Amazon API Gateway stage.
-    public struct AwsApiGatewayStageDetails: Swift.Equatable {
+    public struct AwsApiGatewayStageDetails {
         /// Settings for logging access for the stage.
         public var accessLogSettings: SecurityHubClientTypes.AwsApiGatewayAccessLogSettings?
         /// Indicates whether a cache cluster is enabled for the stage.
@@ -4147,7 +4147,7 @@ extension SecurityHubClientTypes.AwsApiGatewayV2ApiDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about a version 2 API in Amazon API Gateway.
-    public struct AwsApiGatewayV2ApiDetails: Swift.Equatable {
+    public struct AwsApiGatewayV2ApiDetails {
         /// The URI of the API. Uses the format  .execute-api..amazonaws.com The stage name is typically appended to the URI to form a complete path to a deployed API stage.
         public var apiEndpoint: Swift.String?
         /// The identifier of the API.
@@ -4252,7 +4252,7 @@ extension SecurityHubClientTypes.AwsApiGatewayV2RouteSettings: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains route settings for a stage.
-    public struct AwsApiGatewayV2RouteSettings: Swift.Equatable {
+    public struct AwsApiGatewayV2RouteSettings {
         /// Indicates whether data trace logging is enabled. Data trace logging affects the log entries that are pushed to CloudWatch Logs. Supported only for WebSocket APIs.
         public var dataTraceEnabled: Swift.Bool?
         /// Indicates whether detailed metrics are enabled.
@@ -4387,7 +4387,7 @@ extension SecurityHubClientTypes.AwsApiGatewayV2StageDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about a version 2 stage for Amazon API Gateway.
-    public struct AwsApiGatewayV2StageDetails: Swift.Equatable {
+    public struct AwsApiGatewayV2StageDetails {
         /// Information about settings for logging access for the stage.
         public var accessLogSettings: SecurityHubClientTypes.AwsApiGatewayAccessLogSettings?
         /// Indicates whether the stage is managed by API Gateway.
@@ -4514,7 +4514,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiAdditionalAuthenticationPro
 
 extension SecurityHubClientTypes {
     /// A list of additional authentication providers for the GraphqlApi API.
-    public struct AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails: Swift.Equatable {
+    public struct AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails {
         /// The type of security configuration for your GraphQL API: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
         public var authenticationType: Swift.String?
         /// The configuration for Lambda function authorization.
@@ -4639,7 +4639,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an AppSync Graph QL API, which lets you query multiple databases, microservices, and APIs from a single GraphQL endpoint.
-    public struct AwsAppSyncGraphQlApiDetails: Swift.Equatable {
+    public struct AwsAppSyncGraphQlApiDetails {
         /// A list of additional authentication providers for the GraphQL API.
         public var additionalAuthenticationProviders: [SecurityHubClientTypes.AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails]?
         /// The unique identifier for the API.
@@ -4730,7 +4730,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetai
 
 extension SecurityHubClientTypes {
     /// Specifies the authorization configuration for using an Lambda function with your AppSync GraphQL API endpoint.
-    public struct AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails: Swift.Equatable {
+    public struct AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails {
         /// The number of seconds a response should be cached for. The default is 5 minutes (300 seconds).
         public var authorizerResultTtlInSeconds: Swift.Int?
         /// The Amazon Resource Name (ARN) of the Lambda function to be called for authorization. This can be a standard Lambda ARN, a version ARN (.../v3), or an alias ARN.
@@ -4785,7 +4785,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiLogConfigDetails: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// Specifies the logging configuration when writing GraphQL operations and tracing to Amazon CloudWatch for an AppSync GraphQL API.
-    public struct AwsAppSyncGraphQlApiLogConfigDetails: Swift.Equatable {
+    public struct AwsAppSyncGraphQlApiLogConfigDetails {
         /// The Amazon Resource Name (ARN) of the service role that AppSync assumes to publish to CloudWatch Logs in your account.
         public var cloudWatchLogsRoleArn: Swift.String?
         /// Set to TRUE to exclude sections that contain information such as headers, context, and evaluated mapping templates, regardless of logging level.
@@ -4846,7 +4846,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiOpenIdConnectConfigDetails:
 
 extension SecurityHubClientTypes {
     /// Specifies the authorization configuration for using an OpenID Connect compliant service with your AppSync GraphQL API endpoint.
-    public struct AwsAppSyncGraphQlApiOpenIdConnectConfigDetails: Swift.Equatable {
+    public struct AwsAppSyncGraphQlApiOpenIdConnectConfigDetails {
         /// The number of milliseconds that a token is valid after being authenticated.
         public var authTtL: Swift.Int?
         /// The client identifier of the relying party at the OpenID identity provider. This identifier is typically obtained when the relying party is registered with the OpenID identity provider. You can specify a regular expression so that AppSync can validate against multiple client identifiers at a time.
@@ -4911,7 +4911,7 @@ extension SecurityHubClientTypes.AwsAppSyncGraphQlApiUserPoolConfigDetails: Swif
 
 extension SecurityHubClientTypes {
     /// Specifies the authorization configuration for using Amazon Cognito user pools with your AppSync GraphQL API endpoint.
-    public struct AwsAppSyncGraphQlApiUserPoolConfigDetails: Swift.Equatable {
+    public struct AwsAppSyncGraphQlApiUserPoolConfigDetails {
         /// A regular expression for validating the incoming Amazon Cognito user pools app client ID. If this value isn't set, no filtering is applied.
         public var appIdClientRegex: Swift.String?
         /// The Amazon Web Services Region in which the user pool was created.
@@ -4958,7 +4958,7 @@ extension SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationDetails: Swift.C
 
 extension SecurityHubClientTypes {
     /// The configuration of the workgroup, which includes the location in Amazon Simple Storage Service (Amazon S3) where query results are stored, the encryption option, if any, used for query results, whether Amazon CloudWatch metrics are enabled for the workgroup, and the limit for the amount of bytes scanned (cutoff) per query, if it is specified.
-    public struct AwsAthenaWorkGroupConfigurationDetails: Swift.Equatable {
+    public struct AwsAthenaWorkGroupConfigurationDetails {
         /// The location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query and calculation results. These are known as client-side settings. If workgroup settings override client-side settings, then the query uses the workgroup settings.
         public var resultConfiguration: SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationDetails?
 
@@ -4993,7 +4993,7 @@ extension SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurat
 
 extension SecurityHubClientTypes {
     /// The location in Amazon Simple Storage Service (Amazon S3) where query and calculation results are stored and the encryption option, if any, used for query and calculation results. These are known as client-side settings. If workgroup settings override client-side settings, then the query uses the workgroup settings.
-    public struct AwsAthenaWorkGroupConfigurationResultConfigurationDetails: Swift.Equatable {
+    public struct AwsAthenaWorkGroupConfigurationResultConfigurationDetails {
         /// Specifies the method used to encrypt the user’s data stores in the Athena workgroup.
         public var encryptionConfiguration: SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails?
 
@@ -5034,7 +5034,7 @@ extension SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationResultConfigurat
 
 extension SecurityHubClientTypes {
     /// Specifies the method used to encrypt the user’s data stores in the Athena workgroup.
-    public struct AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails: Swift.Equatable {
+    public struct AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails {
         /// Indicates whether Amazon Simple Storage Service (Amazon S3) server-side encryption with Amazon S3 managed keys (SSE_S3), server-side encryption with KMS keys (SSE_KMS), or client-side encryption with KMS customer managed keys (CSE_KMS) is used.
         public var encryptionOption: Swift.String?
         /// For SSE_KMS and CSE_KMS, this is the KMS key Amazon Resource Name (ARN) or ID.
@@ -5091,7 +5091,7 @@ extension SecurityHubClientTypes.AwsAthenaWorkGroupDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an Amazon Athena workgroup.
-    public struct AwsAthenaWorkGroupDetails: Swift.Equatable {
+    public struct AwsAthenaWorkGroupDetails {
         /// The configuration of the workgroup, which includes the location in Amazon Simple Storage Service (Amazon S3) where query results are stored, the encryption option, if any, used for query results, whether Amazon CloudWatch metrics are enabled for the workgroup, and the limit for the amount of bytes scanned (cutoff) per query, if it is specified.
         public var configuration: SecurityHubClientTypes.AwsAthenaWorkGroupConfigurationDetails?
         /// The workgroup description.
@@ -5138,7 +5138,7 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupAvailabilityZones
 
 extension SecurityHubClientTypes {
     /// An Availability Zone for the automatic scaling group.
-    public struct AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails: Swift.Equatable {
+    public struct AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails {
         /// The name of the Availability Zone.
         public var value: Swift.String?
 
@@ -5245,7 +5245,7 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupDetails: Swift.Co
 
 extension SecurityHubClientTypes {
     /// Provides details about an auto scaling group.
-    public struct AwsAutoScalingAutoScalingGroupDetails: Swift.Equatable {
+    public struct AwsAutoScalingAutoScalingGroupDetails {
         /// The list of Availability Zones for the automatic scaling group.
         public var availabilityZones: [SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails]?
         /// Indicates whether capacity rebalancing is enabled.
@@ -5334,7 +5334,7 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupLaunchTemplateLau
 
 extension SecurityHubClientTypes {
     /// Details about the launch template to use.
-    public struct AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification: Swift.Equatable {
+    public struct AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification {
         /// The identifier of the launch template. You must specify either LaunchTemplateId or LaunchTemplateName.
         public var launchTemplateId: Swift.String?
         /// The name of the launch template. You must specify either LaunchTemplateId or LaunchTemplateName.
@@ -5383,7 +5383,7 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPol
 
 extension SecurityHubClientTypes {
     /// The mixed instances policy for the automatic scaling group.
-    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails: Swift.Equatable {
+    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails {
         /// The instances distribution. The instances distribution specifies the distribution of On-Demand Instances and Spot Instances, the maximum price to pay for Spot Instances, and how the Auto Scaling group allocates instance types to fulfill On-Demand and Spot capacity.
         public var instancesDistribution: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails?
         /// The launch template to use and the instance types (overrides) to use to provision EC2 instances to fulfill On-Demand and Spot capacities.
@@ -5452,7 +5452,7 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPol
 
 extension SecurityHubClientTypes {
     /// Information about the instances distribution.
-    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails: Swift.Equatable {
+    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails {
         /// How to allocate instance types to fulfill On-Demand capacity. The valid value is prioritized.
         public var onDemandAllocationStrategy: Swift.String?
         /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances.
@@ -5531,7 +5531,7 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPol
 
 extension SecurityHubClientTypes {
     /// Describes a launch template and overrides for a mixed instances policy.
-    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails: Swift.Equatable {
+    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails {
         /// The launch template to use for a mixed instances policy.
         public var launchTemplateSpecification: SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification?
         /// Property values to use to override the values in the launch template.
@@ -5582,7 +5582,7 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPol
 
 extension SecurityHubClientTypes {
     /// Details about the launch template to use for a mixed instances policy.
-    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification: Swift.Equatable {
+    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification {
         /// The identifier of the launch template. You must specify either LaunchTemplateId or LaunchTemplateName.
         public var launchTemplateId: Swift.String?
         /// The name of the launch template. You must specify either LaunchTemplateId or LaunchTemplateName.
@@ -5631,7 +5631,7 @@ extension SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupMixedInstancesPol
 
 extension SecurityHubClientTypes {
     /// Property values to use to override the values in the launch template.
-    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails: Swift.Equatable {
+    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails {
         /// The instance type. For example, m3.xlarge.
         public var instanceType: Swift.String?
         /// The number of capacity units provided by the specified instance type in terms of virtual CPUs, memory, storage, throughput, or other relative performance characteristic.
@@ -5688,7 +5688,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMap
 
 extension SecurityHubClientTypes {
     /// A block device for the instance.
-    public struct AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails: Swift.Equatable {
+    public struct AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails {
         /// The device name that is exposed to the EC2 instance. For example, /dev/sdh or xvdh.
         public var deviceName: Swift.String?
         /// Parameters that are used to automatically set up Amazon EBS volumes when an instance is launched.
@@ -5765,7 +5765,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationBlockDeviceMap
 
 extension SecurityHubClientTypes {
     /// Parameters that are used to automatically set up EBS volumes when an instance is launched.
-    public struct AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails: Swift.Equatable {
+    public struct AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails {
         /// Whether to delete the volume when the instance is terminated.
         public var deleteOnTermination: Swift.Bool?
         /// Whether to encrypt the volume.
@@ -5987,7 +5987,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationDetails: Swift
 
 extension SecurityHubClientTypes {
     /// Details about a launch configuration.
-    public struct AwsAutoScalingLaunchConfigurationDetails: Swift.Equatable {
+    public struct AwsAutoScalingLaunchConfigurationDetails {
         /// For Auto Scaling groups that run in a VPC, specifies whether to assign a public IP address to the group's instances.
         public var associatePublicIpAddress: Swift.Bool?
         /// Specifies the block devices for the instance.
@@ -6104,7 +6104,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationInstanceMonito
 
 extension SecurityHubClientTypes {
     /// Information about the type of monitoring for instances in the group.
-    public struct AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails: Swift.Equatable {
+    public struct AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails {
         /// If set to true, then instances in the group launch with detailed monitoring. If set to false, then instances in the group launch with basic monitoring.
         public var enabled: Swift.Bool?
 
@@ -6151,7 +6151,7 @@ extension SecurityHubClientTypes.AwsAutoScalingLaunchConfigurationMetadataOption
 
 extension SecurityHubClientTypes {
     /// The metadata options for the instances.
-    public struct AwsAutoScalingLaunchConfigurationMetadataOptions: Swift.Equatable {
+    public struct AwsAutoScalingLaunchConfigurationMetadataOptions {
         /// Enables or disables the HTTP metadata endpoint on your instances. By default, the metadata endpoint is enabled.
         public var httpEndpoint: Swift.String?
         /// The HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel.
@@ -6212,7 +6212,7 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanAdvancedBackupSettingsDetail
 
 extension SecurityHubClientTypes {
     /// Provides a list of backup options for each resource type.
-    public struct AwsBackupBackupPlanAdvancedBackupSettingsDetails: Swift.Equatable {
+    public struct AwsBackupBackupPlanAdvancedBackupSettingsDetails {
         /// Specifies the backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values are as follows:
         ///
         /// * Set to WindowsVSS: enabled to enable the WindowsVSS backup option and create a Windows VSS backup.
@@ -6291,7 +6291,7 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanBackupPlanDetails: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// Provides details about an Backup backup plan and an array of BackupRule objects, each of which specifies a backup rule.
-    public struct AwsBackupBackupPlanBackupPlanDetails: Swift.Equatable {
+    public struct AwsBackupBackupPlanBackupPlanDetails {
         /// A list of backup options for each resource type.
         public var advancedBackupSettings: [SecurityHubClientTypes.AwsBackupBackupPlanAdvancedBackupSettingsDetails]?
         /// The display name of a backup plan.
@@ -6352,7 +6352,7 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an Backup backup plan and an array of BackupRule objects, each of which specifies a backup rule.
-    public struct AwsBackupBackupPlanDetails: Swift.Equatable {
+    public struct AwsBackupBackupPlanDetails {
         /// Uniquely identifies the backup plan to be associated with the selection of resources.
         public var backupPlan: SecurityHubClientTypes.AwsBackupBackupPlanBackupPlanDetails?
         /// An Amazon Resource Name (ARN) that uniquely identifies the backup plan.
@@ -6405,7 +6405,7 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanLifecycleDetails: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// Provides lifecycle details for the backup plan. A lifecycle defines when a backup is transitioned to cold storage and when it expires.
-    public struct AwsBackupBackupPlanLifecycleDetails: Swift.Equatable {
+    public struct AwsBackupBackupPlanLifecycleDetails {
         /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than 90 days plus MoveToColdStorageAfterDays.
         public var deleteAfterDays: Swift.Int?
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
@@ -6450,7 +6450,7 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanRuleCopyActionsDetails: Swif
 
 extension SecurityHubClientTypes {
     /// An array of CopyAction objects, each of which contains details of the copy operation.
-    public struct AwsBackupBackupPlanRuleCopyActionsDetails: Swift.Equatable {
+    public struct AwsBackupBackupPlanRuleCopyActionsDetails {
         /// An Amazon Resource Name (ARN) that uniquely identifies the destination backup vault for the copied backup.
         public var destinationBackupVaultArn: Swift.String?
         /// Defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. If you do not specify a lifecycle, Backup applies the lifecycle policy of the source backup to the destination backup. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days.
@@ -6549,7 +6549,7 @@ extension SecurityHubClientTypes.AwsBackupBackupPlanRuleDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
-    public struct AwsBackupBackupPlanRuleDetails: Swift.Equatable {
+    public struct AwsBackupBackupPlanRuleDetails {
         /// A value in minutes after a backup job is successfully started before it must be completed, or it is canceled by Backup.
         public var completionWindowMinutes: Swift.Int?
         /// An array of CopyAction objects, each of which contains details of the copy operation.
@@ -6640,7 +6640,7 @@ extension SecurityHubClientTypes.AwsBackupBackupVaultDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an Backup backup vault. In Backup, a backup vault is a container that stores and organizes your backups.
-    public struct AwsBackupBackupVaultDetails: Swift.Equatable {
+    public struct AwsBackupBackupVaultDetails {
         /// A resource-based policy that is used to manage access permissions on the target backup vault.
         public var accessPolicy: Swift.String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault.
@@ -6709,7 +6709,7 @@ extension SecurityHubClientTypes.AwsBackupBackupVaultNotificationsDetails: Swift
 
 extension SecurityHubClientTypes {
     /// Provides details about the Amazon SNS event notifications for the specified backup vault.
-    public struct AwsBackupBackupVaultNotificationsDetails: Swift.Equatable {
+    public struct AwsBackupBackupVaultNotificationsDetails {
         /// An array of events that indicate the status of jobs to back up resources to the backup vault. The following events are supported:
         ///
         /// * BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED
@@ -6762,7 +6762,7 @@ extension SecurityHubClientTypes.AwsBackupRecoveryPointCalculatedLifecycleDetail
 
 extension SecurityHubClientTypes {
     /// Specifies how long in days before a recovery point transitions to cold storage or is deleted.
-    public struct AwsBackupRecoveryPointCalculatedLifecycleDetails: Swift.Equatable {
+    public struct AwsBackupRecoveryPointCalculatedLifecycleDetails {
         /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than 90 days plus MoveToColdStorageAfterDays.
         public var deleteAt: Swift.String?
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
@@ -6819,7 +6819,7 @@ extension SecurityHubClientTypes.AwsBackupRecoveryPointCreatedByDetails: Swift.C
 
 extension SecurityHubClientTypes {
     /// Contains information about the backup plan and rule that Backup used to initiate the recovery point backup.
-    public struct AwsBackupRecoveryPointCreatedByDetails: Swift.Equatable {
+    public struct AwsBackupRecoveryPointCreatedByDetails {
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan.
         public var backupPlanArn: Swift.String?
         /// Uniquely identifies a backup plan.
@@ -6974,7 +6974,7 @@ extension SecurityHubClientTypes.AwsBackupRecoveryPointDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains detailed information about the recovery points stored in an Backup backup vault. A backup, or recovery point, represents the content of a resource at a specified time.
-    public struct AwsBackupRecoveryPointDetails: Swift.Equatable {
+    public struct AwsBackupRecoveryPointDetails {
         /// The size, in bytes, of a backup.
         public var backupSizeInBytes: Swift.Int?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault.
@@ -7101,7 +7101,7 @@ extension SecurityHubClientTypes.AwsBackupRecoveryPointLifecycleDetails: Swift.C
 
 extension SecurityHubClientTypes {
     /// Contains an array of Transition objects specifying how long in days before a recovery point transitions to cold storage or is deleted.
-    public struct AwsBackupRecoveryPointLifecycleDetails: Swift.Equatable {
+    public struct AwsBackupRecoveryPointLifecycleDetails {
         /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than 90 days plus MoveToColdStorageAfterDays.
         public var deleteAfterDays: Swift.Int?
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
@@ -7332,7 +7332,7 @@ extension SecurityHubClientTypes.AwsCertificateManagerCertificateDetails: Swift.
 
 extension SecurityHubClientTypes {
     /// Provides details about an Certificate Manager certificate.
-    public struct AwsCertificateManagerCertificateDetails: Swift.Equatable {
+    public struct AwsCertificateManagerCertificateDetails {
         /// The ARN of the private certificate authority (CA) that will be used to issue the certificate.
         public var certificateAuthorityArn: Swift.String?
         /// Indicates when the certificate was requested. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -7551,7 +7551,7 @@ extension SecurityHubClientTypes {
     /// * The initial validation of each domain name that occurs as a result of the RequestCertificate request
     ///
     /// * The validation of each domain name in the certificate, as it pertains to Certificate Manager managed renewal
-    public struct AwsCertificateManagerCertificateDomainValidationOption: Swift.Equatable {
+    public struct AwsCertificateManagerCertificateDomainValidationOption {
         /// A fully qualified domain name (FQDN) in the certificate.
         public var domainName: Swift.String?
         /// The CNAME record that is added to the DNS database for domain validation.
@@ -7612,7 +7612,7 @@ extension SecurityHubClientTypes.AwsCertificateManagerCertificateExtendedKeyUsag
 
 extension SecurityHubClientTypes {
     /// Contains information about an extended key usage X.509 v3 extension object.
-    public struct AwsCertificateManagerCertificateExtendedKeyUsage: Swift.Equatable {
+    public struct AwsCertificateManagerCertificateExtendedKeyUsage {
         /// The name of an extension value. Indicates the purpose for which the certificate public key can be used.
         public var name: Swift.String?
         /// An object identifier (OID) for the extension value. The format is numbers separated by periods.
@@ -7651,7 +7651,7 @@ extension SecurityHubClientTypes.AwsCertificateManagerCertificateKeyUsage: Swift
 
 extension SecurityHubClientTypes {
     /// Contains information about a key usage X.509 v3 extension object.
-    public struct AwsCertificateManagerCertificateKeyUsage: Swift.Equatable {
+    public struct AwsCertificateManagerCertificateKeyUsage {
         /// The key usage extension name.
         public var name: Swift.String?
 
@@ -7686,7 +7686,7 @@ extension SecurityHubClientTypes.AwsCertificateManagerCertificateOptions: Swift.
 
 extension SecurityHubClientTypes {
     /// Contains other options for the certificate.
-    public struct AwsCertificateManagerCertificateOptions: Swift.Equatable {
+    public struct AwsCertificateManagerCertificateOptions {
         /// Whether to add the certificate to a transparency log. Valid values: DISABLED | ENABLED
         public var certificateTransparencyLoggingPreference: Swift.String?
 
@@ -7751,7 +7751,7 @@ extension SecurityHubClientTypes.AwsCertificateManagerCertificateRenewalSummary:
 
 extension SecurityHubClientTypes {
     /// Contains information about the Certificate Manager managed renewal for an AMAZON_ISSUED certificate.
-    public struct AwsCertificateManagerCertificateRenewalSummary: Swift.Equatable {
+    public struct AwsCertificateManagerCertificateRenewalSummary {
         /// Information about the validation of each domain name in the certificate, as it pertains to Certificate Manager managed renewal. Provided only when the certificate type is AMAZON_ISSUED.
         public var domainValidationOptions: [SecurityHubClientTypes.AwsCertificateManagerCertificateDomainValidationOption]?
         /// The status of the Certificate Manager managed renewal of the certificate. Valid values: PENDING_AUTO_RENEWAL | PENDING_VALIDATION | SUCCESS | FAILED
@@ -7820,7 +7820,7 @@ extension SecurityHubClientTypes.AwsCertificateManagerCertificateResourceRecord:
 
 extension SecurityHubClientTypes {
     /// Provides details about the CNAME record that is added to the DNS database for domain validation.
-    public struct AwsCertificateManagerCertificateResourceRecord: Swift.Equatable {
+    public struct AwsCertificateManagerCertificateResourceRecord {
         /// The name of the resource.
         public var name: Swift.String?
         /// The type of resource.
@@ -7983,7 +7983,7 @@ extension SecurityHubClientTypes.AwsCloudFormationStackDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Nests a stack as a resource in a top-level template. Nested stacks are stacks created as resources for another stack.
-    public struct AwsCloudFormationStackDetails: Swift.Equatable {
+    public struct AwsCloudFormationStackDetails {
         /// The capabilities allowed in the stack.
         public var capabilities: [Swift.String]?
         /// The time at which the stack was created.
@@ -8074,7 +8074,7 @@ extension SecurityHubClientTypes.AwsCloudFormationStackDriftInformationDetails: 
 
 extension SecurityHubClientTypes {
     /// Provides information about the stack's conformity to its expected template configuration.
-    public struct AwsCloudFormationStackDriftInformationDetails: Swift.Equatable {
+    public struct AwsCloudFormationStackDriftInformationDetails {
         /// Status of the stack's actual configuration compared to its expected template configuration.
         public var stackDriftStatus: Swift.String?
 
@@ -8121,7 +8121,7 @@ extension SecurityHubClientTypes.AwsCloudFormationStackOutputsDetails: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// Provides information about the CloudFormation stack output.
-    public struct AwsCloudFormationStackOutputsDetails: Swift.Equatable {
+    public struct AwsCloudFormationStackOutputsDetails {
         /// A user-defined description associated with the output.
         public var description: Swift.String?
         /// The key associated with the output.
@@ -8164,7 +8164,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionCacheBehavior: Swift.C
 
 extension SecurityHubClientTypes {
     /// Information about a cache behavior for the distribution.
-    public struct AwsCloudFrontDistributionCacheBehavior: Swift.Equatable {
+    public struct AwsCloudFrontDistributionCacheBehavior {
         /// The protocol that viewers can use to access the files in an origin. You can specify the following options:
         ///
         /// * allow-all - Viewers can use HTTP or HTTPS.
@@ -8217,7 +8217,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionCacheBehaviors: Swift.
 
 extension SecurityHubClientTypes {
     /// Provides information about caching for the CloudFront distribution.
-    public struct AwsCloudFrontDistributionCacheBehaviors: Swift.Equatable {
+    public struct AwsCloudFrontDistributionCacheBehaviors {
         /// The cache behaviors for the distribution.
         public var items: [SecurityHubClientTypes.AwsCloudFrontDistributionCacheBehavior]?
 
@@ -8252,7 +8252,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionDefaultCacheBehavior: 
 
 extension SecurityHubClientTypes {
     /// Contains information about the default cache configuration for the CloudFront distribution.
-    public struct AwsCloudFrontDistributionDefaultCacheBehavior: Swift.Equatable {
+    public struct AwsCloudFrontDistributionDefaultCacheBehavior {
         /// The protocol that viewers can use to access the files in an origin. You can specify the following options:
         ///
         /// * allow-all - Viewers can use HTTP or HTTPS.
@@ -8359,7 +8359,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionDetails: Swift.Codable
 
 extension SecurityHubClientTypes {
     /// A CloudFront distribution configuration.
-    public struct AwsCloudFrontDistributionDetails: Swift.Equatable {
+    public struct AwsCloudFrontDistributionDetails {
         /// Provides information about the cache configuration for the distribution.
         public var cacheBehaviors: SecurityHubClientTypes.AwsCloudFrontDistributionCacheBehaviors?
         /// The default cache behavior for the configuration.
@@ -8466,7 +8466,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionLogging: Swift.Codable
 
 extension SecurityHubClientTypes {
     /// A complex type that controls whether access logs are written for the CloudFront distribution.
-    public struct AwsCloudFrontDistributionLogging: Swift.Equatable {
+    public struct AwsCloudFrontDistributionLogging {
         /// The S3 bucket to store the access logs in.
         public var bucket: Swift.String?
         /// With this field, you can enable or disable the selected distribution.
@@ -8543,7 +8543,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginCustomOriginConf
 
 extension SecurityHubClientTypes {
     /// A custom origin. A custom origin is any origin that is not an Amazon S3 bucket, with one exception. An Amazon S3 bucket that is [configured with static website hosting](https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html) is a custom origin.
-    public struct AwsCloudFrontDistributionOriginCustomOriginConfig: Swift.Equatable {
+    public struct AwsCloudFrontDistributionOriginCustomOriginConfig {
         /// The HTTP port that CloudFront uses to connect to the origin.
         public var httpPort: Swift.Int?
         /// The HTTPS port that CloudFront uses to connect to the origin.
@@ -8598,7 +8598,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroup: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// Information about an origin group for the CloudFront distribution.
-    public struct AwsCloudFrontDistributionOriginGroup: Swift.Equatable {
+    public struct AwsCloudFrontDistributionOriginGroup {
         /// Provides the criteria for an origin group to fail over.
         public var failoverCriteria: SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroupFailover?
 
@@ -8633,7 +8633,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroupFailover: S
 
 extension SecurityHubClientTypes {
     /// Provides information about when an origin group fails over.
-    public struct AwsCloudFrontDistributionOriginGroupFailover: Swift.Equatable {
+    public struct AwsCloudFrontDistributionOriginGroupFailover {
         /// Information about the status codes that cause an origin group to fail over.
         public var statusCodes: SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroupFailoverStatusCodes?
 
@@ -8686,7 +8686,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroupFailoverSta
 
 extension SecurityHubClientTypes {
     /// The status codes that cause an origin group to fail over.
-    public struct AwsCloudFrontDistributionOriginGroupFailoverStatusCodes: Swift.Equatable {
+    public struct AwsCloudFrontDistributionOriginGroupFailoverStatusCodes {
         /// The list of status code values that can cause a failover to the next origin.
         public var items: [Swift.Int]?
         /// The number of status codes that can cause a failover.
@@ -8737,7 +8737,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroups: Swift.Co
 
 extension SecurityHubClientTypes {
     /// Provides information about origin groups that are associated with the CloudFront distribution.
-    public struct AwsCloudFrontDistributionOriginGroups: Swift.Equatable {
+    public struct AwsCloudFrontDistributionOriginGroups {
         /// The list of origin groups.
         public var items: [SecurityHubClientTypes.AwsCloudFrontDistributionOriginGroup]?
 
@@ -8796,7 +8796,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginItem: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// A complex type that describes the Amazon S3 bucket, HTTP server (for example, a web server), Elemental MediaStore, or other server from which CloudFront gets your files.
-    public struct AwsCloudFrontDistributionOriginItem: Swift.Equatable {
+    public struct AwsCloudFrontDistributionOriginItem {
         /// An origin that is not an Amazon S3 bucket, with one exception. If the Amazon S3 bucket is configured with static website hosting, use this attribute. If the Amazon S3 bucket is not configured with static website hosting, use the S3OriginConfig type instead.
         public var customOriginConfig: SecurityHubClientTypes.AwsCloudFrontDistributionOriginCustomOriginConfig?
         /// Amazon S3 origins: The DNS name of the S3 bucket from which you want CloudFront to get objects for this origin.
@@ -8847,7 +8847,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginS3OriginConfig: 
 
 extension SecurityHubClientTypes {
     /// Information about an origin that is an Amazon S3 bucket that is not configured with static website hosting.
-    public struct AwsCloudFrontDistributionOriginS3OriginConfig: Swift.Equatable {
+    public struct AwsCloudFrontDistributionOriginS3OriginConfig {
         /// The CloudFront origin access identity to associate with the origin.
         public var originAccessIdentity: Swift.String?
 
@@ -8900,7 +8900,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginSslProtocols: Sw
 
 extension SecurityHubClientTypes {
     /// A complex type that contains information about the SSL/TLS protocols that CloudFront can use when establishing an HTTPS connection with your origin.
-    public struct AwsCloudFrontDistributionOriginSslProtocols: Swift.Equatable {
+    public struct AwsCloudFrontDistributionOriginSslProtocols {
         /// A list that contains allowed SSL/TLS protocols for this distribution.
         public var items: [Swift.String]?
         /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin.
@@ -8951,7 +8951,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOrigins: Swift.Codable
 
 extension SecurityHubClientTypes {
     /// A complex type that contains information about origins and origin groups for this CloudFront distribution.
-    public struct AwsCloudFrontDistributionOrigins: Swift.Equatable {
+    public struct AwsCloudFrontDistributionOrigins {
         /// A complex type that contains origins or origin groups for this distribution.
         public var items: [SecurityHubClientTypes.AwsCloudFrontDistributionOriginItem]?
 
@@ -9022,7 +9022,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionViewerCertificate: Swi
 
 extension SecurityHubClientTypes {
     /// Provides information about the TLS/SSL configuration that the CloudFront distribution uses to communicate with viewers.
-    public struct AwsCloudFrontDistributionViewerCertificate: Swift.Equatable {
+    public struct AwsCloudFrontDistributionViewerCertificate {
         /// The ARN of the ACM certificate. Used if the certificate is stored in ACM. If you provide an ACM certificate ARN, you must also provide MinimumCertificateVersion and SslSupportMethod.
         public var acmCertificateArn: Swift.String?
         /// The identifier of the certificate. Note that in CloudFront, this attribute is deprecated.
@@ -9165,7 +9165,7 @@ extension SecurityHubClientTypes.AwsCloudTrailTrailDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about a CloudTrail trail.
-    public struct AwsCloudTrailTrailDetails: Swift.Equatable {
+    public struct AwsCloudTrailTrailDetails {
         /// The ARN of the log group that CloudTrail logs are delivered to.
         public var cloudWatchLogsLogGroupArn: Swift.String?
         /// The ARN of the role that the CloudWatch Events endpoint assumes when it writes to the log group.
@@ -9430,7 +9430,7 @@ extension SecurityHubClientTypes.AwsCloudWatchAlarmDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Specifies an alarm and associates it with the specified metric or metric math expression.
-    public struct AwsCloudWatchAlarmDetails: Swift.Equatable {
+    public struct AwsCloudWatchAlarmDetails {
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public var actionsEnabled: Swift.Bool?
         /// The list of actions, specified as Amazon Resource Names (ARNs) to execute when this alarm transitions into an ALARM state from any other state.
@@ -9555,7 +9555,7 @@ extension SecurityHubClientTypes.AwsCloudWatchAlarmDimensionsDetails: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// Details about the dimensions for the metric associated with the alarm.
-    public struct AwsCloudWatchAlarmDimensionsDetails: Swift.Equatable {
+    public struct AwsCloudWatchAlarmDimensionsDetails {
         /// The name of a dimension.
         public var name: Swift.String?
         /// The value of a dimension.
@@ -9642,7 +9642,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectArtifactsDetails: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// Information about the build artifacts for the CodeBuild project.
-    public struct AwsCodeBuildProjectArtifactsDetails: Swift.Equatable {
+    public struct AwsCodeBuildProjectArtifactsDetails {
         /// An identifier for the artifact definition.
         public var artifactIdentifier: Swift.String?
         /// Indicates whether to disable encryption on the artifact. Only valid when Type is S3.
@@ -9781,7 +9781,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an CodeBuild project.
-    public struct AwsCodeBuildProjectDetails: Swift.Equatable {
+    public struct AwsCodeBuildProjectDetails {
         /// Information about the build artifacts for the CodeBuild project.
         public var artifacts: [SecurityHubClientTypes.AwsCodeBuildProjectArtifactsDetails]?
         /// The KMS key used to encrypt the build output artifacts. You can specify either the ARN of the KMS key or, if available, the KMS key alias (using the format alias/alias-name).
@@ -9890,7 +9890,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectEnvironment: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the build environment for this build project.
-    public struct AwsCodeBuildProjectEnvironment: Swift.Equatable {
+    public struct AwsCodeBuildProjectEnvironment {
         /// The certificate to use with this build project.
         public var certificate: Swift.String?
         /// A set of environment variables to make available to builds for the build project.
@@ -9964,7 +9964,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectEnvironmentEnvironmentVariab
 
 extension SecurityHubClientTypes {
     /// Information about an environment variable that is available to builds for the build project.
-    public struct AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails: Swift.Equatable {
+    public struct AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails {
         /// The name of the environment variable.
         public var name: Swift.String?
         /// The type of environment variable.
@@ -10013,7 +10013,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectEnvironmentRegistryCredentia
 
 extension SecurityHubClientTypes {
     /// The credentials for access to a private registry.
-    public struct AwsCodeBuildProjectEnvironmentRegistryCredential: Swift.Equatable {
+    public struct AwsCodeBuildProjectEnvironmentRegistryCredential {
         /// The ARN or name of credentials created using Secrets Manager. The credential can use the name of the credentials only if they exist in your current Amazon Web Services Region.
         public var credential: Swift.String?
         /// The service that created the credentials to access a private Docker registry. The valid value, SECRETS_MANAGER, is for Secrets Manager.
@@ -10064,7 +10064,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectLogsConfigCloudWatchLogsDeta
 
 extension SecurityHubClientTypes {
     /// Information about CloudWatch Logs for the build project.
-    public struct AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails: Swift.Equatable {
+    public struct AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails {
         /// The group name of the logs in CloudWatch Logs.
         public var groupName: Swift.String?
         /// The current status of the logs in CloudWatch Logs for a build project.
@@ -10113,7 +10113,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectLogsConfigDetails: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// Information about logs for the build project.
-    public struct AwsCodeBuildProjectLogsConfigDetails: Swift.Equatable {
+    public struct AwsCodeBuildProjectLogsConfigDetails {
         /// Information about CloudWatch Logs for the build project.
         public var cloudWatchLogs: SecurityHubClientTypes.AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails?
         /// Information about logs built to an S3 bucket for a build project.
@@ -10164,7 +10164,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectLogsConfigS3LogsDetails: Swi
 
 extension SecurityHubClientTypes {
     /// Information about logs built to an S3 bucket for a build project.
-    public struct AwsCodeBuildProjectLogsConfigS3LogsDetails: Swift.Equatable {
+    public struct AwsCodeBuildProjectLogsConfigS3LogsDetails {
         /// Whether to disable encryption of the S3 build log output.
         public var encryptionDisabled: Swift.Bool?
         /// The ARN of the S3 bucket and the path prefix for S3 logs.
@@ -10225,7 +10225,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectSource: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the build input source code for this build project.
-    public struct AwsCodeBuildProjectSource: Swift.Equatable {
+    public struct AwsCodeBuildProjectSource {
         /// Information about the Git clone depth for the build project.
         public var gitCloneDepth: Swift.Int?
         /// Whether to ignore SSL warnings while connecting to the project source code.
@@ -10339,7 +10339,7 @@ extension SecurityHubClientTypes.AwsCodeBuildProjectVpcConfig: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the VPC configuration that CodeBuild accesses.
-    public struct AwsCodeBuildProjectVpcConfig: Swift.Equatable {
+    public struct AwsCodeBuildProjectVpcConfig {
         /// A list of one or more security group IDs in your VPC.
         public var securityGroupIds: [Swift.String]?
         /// A list of one or more subnet IDs in your VPC.
@@ -10460,7 +10460,7 @@ extension SecurityHubClientTypes.AwsCorsConfiguration: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains the cross-origin resource sharing (CORS) configuration for the API. CORS is only supported for HTTP APIs.
-    public struct AwsCorsConfiguration: Swift.Equatable {
+    public struct AwsCorsConfiguration {
         /// Indicates whether the CORS request includes credentials.
         public var allowCredentials: Swift.Bool?
         /// The allowed headers for CORS requests.
@@ -10587,7 +10587,7 @@ extension SecurityHubClientTypes.AwsDmsEndpointDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an Database Migration Service (DMS) endpoint. An endpoint provides connection, data store type, and location information about your data store.
-    public struct AwsDmsEndpointDetails: Swift.Equatable {
+    public struct AwsDmsEndpointDetails {
         /// The Amazon Resource Name (ARN) for the SSL certificate that encrypts connections between the DMS endpoint and the replication instance.
         public var certificateArn: Swift.String?
         /// The name of the endpoint database.
@@ -10748,7 +10748,7 @@ extension SecurityHubClientTypes.AwsDmsReplicationInstanceDetails: Swift.Codable
 
 extension SecurityHubClientTypes {
     /// Provides details about an Database Migration Service (DMS) replication instance. DMS uses a replication instance to connect to your source data store, read the source data, and format the data for consumption by the target data store.
-    public struct AwsDmsReplicationInstanceDetails: Swift.Equatable {
+    public struct AwsDmsReplicationInstanceDetails {
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
         public var allocatedStorage: Swift.Int?
         /// Indicates whether minor engine upgrades are applied automatically to the replication instance during the maintenance window.
@@ -10827,7 +10827,7 @@ extension SecurityHubClientTypes.AwsDmsReplicationInstanceReplicationSubnetGroup
 
 extension SecurityHubClientTypes {
     /// Provides details about the replication subnet group.
-    public struct AwsDmsReplicationInstanceReplicationSubnetGroupDetails: Swift.Equatable {
+    public struct AwsDmsReplicationInstanceReplicationSubnetGroupDetails {
         /// The identifier of the replication subnet group.
         public var replicationSubnetGroupIdentifier: Swift.String?
 
@@ -10862,7 +10862,7 @@ extension SecurityHubClientTypes.AwsDmsReplicationInstanceVpcSecurityGroupsDetai
 
 extension SecurityHubClientTypes {
     /// Provides details about the virtual private cloud (VPC) security group that’s associated with the replication instance.
-    public struct AwsDmsReplicationInstanceVpcSecurityGroupsDetails: Swift.Equatable {
+    public struct AwsDmsReplicationInstanceVpcSecurityGroupsDetails {
         /// The identifier of the VPC security group that’s associated with the replication instance.
         public var vpcSecurityGroupId: Swift.String?
 
@@ -10969,7 +10969,7 @@ extension SecurityHubClientTypes.AwsDmsReplicationTaskDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an Database Migration Service (DMS) replication task. A replication task moves a set of data from the source endpoint to the target endpoint.
-    public struct AwsDmsReplicationTaskDetails: Swift.Equatable {
+    public struct AwsDmsReplicationTaskDetails {
         /// Indicates when you want a change data capture (CDC) operation to start. CCdcStartPosition or CCdcStartTime specifies when you want a CDC operation to start. Only a value for one of these fields is included.
         public var cdcStartPosition: Swift.String?
         /// Indicates the start time for a CDC operation. CdcStartPosition or CCdcStartTime specifies when you want a CDC operation to start. Only a value for one of these fields is included.
@@ -11058,7 +11058,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableAttributeDefinition: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// Contains a definition of an attribute for the table.
-    public struct AwsDynamoDbTableAttributeDefinition: Swift.Equatable {
+    public struct AwsDynamoDbTableAttributeDefinition {
         /// The name of the attribute.
         public var attributeName: Swift.String?
         /// The type of the attribute.
@@ -11103,7 +11103,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableBillingModeSummary: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// Provides information about the billing for read/write capacity on the table.
-    public struct AwsDynamoDbTableBillingModeSummary: Swift.Equatable {
+    public struct AwsDynamoDbTableBillingModeSummary {
         /// The method used to charge for read and write throughput and to manage capacity.
         public var billingMode: Swift.String?
         /// If the billing mode is PAY_PER_REQUEST, indicates when the billing mode was set to that value. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -11326,7 +11326,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about a DynamoDB table.
-    public struct AwsDynamoDbTableDetails: Swift.Equatable {
+    public struct AwsDynamoDbTableDetails {
         /// A list of attribute definitions for the table.
         public var attributeDefinitions: [SecurityHubClientTypes.AwsDynamoDbTableAttributeDefinition]?
         /// Information about the billing for read/write capacity on the table.
@@ -11521,7 +11521,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableGlobalSecondaryIndex: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// Information abut a global secondary index for the table.
-    public struct AwsDynamoDbTableGlobalSecondaryIndex: Swift.Equatable {
+    public struct AwsDynamoDbTableGlobalSecondaryIndex {
         /// Whether the index is currently backfilling.
         public var backfilling: Swift.Bool?
         /// The ARN of the index.
@@ -11602,7 +11602,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableKeySchema: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A component of the key schema for the DynamoDB table, a global secondary index, or a local secondary index.
-    public struct AwsDynamoDbTableKeySchema: Swift.Equatable {
+    public struct AwsDynamoDbTableKeySchema {
         /// The name of the key schema attribute.
         public var attributeName: Swift.String?
         /// The type of key used for the key schema attribute. Valid values are HASH or RANGE.
@@ -11671,7 +11671,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableLocalSecondaryIndex: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// Information about a local secondary index for a DynamoDB table.
-    public struct AwsDynamoDbTableLocalSecondaryIndex: Swift.Equatable {
+    public struct AwsDynamoDbTableLocalSecondaryIndex {
         /// The ARN of the index.
         public var indexArn: Swift.String?
         /// The name of the index.
@@ -11736,7 +11736,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableProjection: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// For global and local secondary indexes, identifies the attributes that are copied from the table into the index.
-    public struct AwsDynamoDbTableProjection: Swift.Equatable {
+    public struct AwsDynamoDbTableProjection {
         /// The nonkey attributes that are projected into the index. For each attribute, provide the attribute name.
         public var nonKeyAttributes: [Swift.String]?
         /// The types of attributes that are projected into the index. Valid values are as follows:
@@ -11805,7 +11805,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableProvisionedThroughput: Swift.Co
 
 extension SecurityHubClientTypes {
     /// Information about the provisioned throughput for the table or for a global secondary index.
-    public struct AwsDynamoDbTableProvisionedThroughput: Swift.Equatable {
+    public struct AwsDynamoDbTableProvisionedThroughput {
         /// Indicates when the provisioned throughput was last decreased. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
         /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
@@ -11876,7 +11876,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableProvisionedThroughputOverride: 
 
 extension SecurityHubClientTypes {
     /// Replica-specific configuration for the provisioned throughput.
-    public struct AwsDynamoDbTableProvisionedThroughputOverride: Swift.Equatable {
+    public struct AwsDynamoDbTableProvisionedThroughputOverride {
         /// The read capacity units for the replica.
         public var readCapacityUnits: Swift.Int?
 
@@ -11953,7 +11953,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableReplica: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about a replica of a DynamoDB table.
-    public struct AwsDynamoDbTableReplica: Swift.Equatable {
+    public struct AwsDynamoDbTableReplica {
         /// List of global secondary indexes for the replica.
         public var globalSecondaryIndexes: [SecurityHubClientTypes.AwsDynamoDbTableReplicaGlobalSecondaryIndex]?
         /// The identifier of the KMS key that will be used for KMS encryption for the replica.
@@ -12024,7 +12024,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableReplicaGlobalSecondaryIndex: Sw
 
 extension SecurityHubClientTypes {
     /// Information about a global secondary index for a DynamoDB table replica.
-    public struct AwsDynamoDbTableReplicaGlobalSecondaryIndex: Swift.Equatable {
+    public struct AwsDynamoDbTableReplicaGlobalSecondaryIndex {
         /// The name of the index.
         public var indexName: Swift.String?
         /// Replica-specific configuration for the provisioned throughput for the index.
@@ -12081,7 +12081,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableRestoreSummary: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the restore for the table.
-    public struct AwsDynamoDbTableRestoreSummary: Swift.Equatable {
+    public struct AwsDynamoDbTableRestoreSummary {
         /// Indicates the point in time that the table was restored to. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
         /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
@@ -12156,7 +12156,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableSseDescription: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the server-side encryption for the table.
-    public struct AwsDynamoDbTableSseDescription: Swift.Equatable {
+    public struct AwsDynamoDbTableSseDescription {
         /// If the key is inaccessible, the date and time when DynamoDB detected that the key was inaccessible. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
         /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
@@ -12219,7 +12219,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableStreamSpecification: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// The current DynamoDB Streams configuration for the table.
-    public struct AwsDynamoDbTableStreamSpecification: Swift.Equatable {
+    public struct AwsDynamoDbTableStreamSpecification {
         /// Indicates whether DynamoDB Streams is enabled on the table.
         public var streamEnabled: Swift.Bool?
         /// Determines the information that is written to the table.
@@ -12258,7 +12258,7 @@ extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsAct
 
 extension SecurityHubClientTypes {
     /// Provides details about an Active Directory that’s used to authenticate an Client VPN endpoint.
-    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails: Swift.Equatable {
+    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails {
         /// The ID of the Active Directory used for authentication.
         public var directoryId: Swift.String?
 
@@ -12311,7 +12311,7 @@ extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDet
 
 extension SecurityHubClientTypes {
     /// Information about the authentication method used by the Client VPN endpoint.
-    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsDetails: Swift.Equatable {
+    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsDetails {
         /// Information about the Active Directory, if applicable. With Active Directory authentication, clients are authenticated against existing Active Directory groups.
         public var activeDirectory: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails?
         /// Information about the IAM SAML identity provider, if applicable.
@@ -12364,7 +12364,7 @@ extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsFed
 
 extension SecurityHubClientTypes {
     /// Describes the IAM SAML identity providers used for federated authentication.
-    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails: Swift.Equatable {
+    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails {
         /// The Amazon Resource Name (ARN) of the IAM SAML identity provider.
         public var samlProviderArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM SAML identity provider for the self-service portal.
@@ -12403,7 +12403,7 @@ extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsMut
 
 extension SecurityHubClientTypes {
     /// Information about the client certificate used for authentication.
-    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails: Swift.Equatable {
+    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails {
         /// The Amazon Resource Name (ARN) of the client certificate.
         public var clientRootCertificateChain: Swift.String?
 
@@ -12450,7 +12450,7 @@ extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsDeta
 
 extension SecurityHubClientTypes {
     /// The options for managing connection authorization for new client connections.
-    public struct AwsEc2ClientVpnEndpointClientConnectOptionsDetails: Swift.Equatable {
+    public struct AwsEc2ClientVpnEndpointClientConnectOptionsDetails {
         /// Indicates whether client connect options are enabled.
         public var enabled: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the Lambda function used for connection authorization.
@@ -12499,7 +12499,7 @@ extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsStat
 
 extension SecurityHubClientTypes {
     /// Describes the status of the Client VPN endpoint attribute.
-    public struct AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails: Swift.Equatable {
+    public struct AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails {
         /// The status code.
         public var code: Swift.String?
         /// The status message.
@@ -12544,7 +12544,7 @@ extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientLoginBannerOptions
 
 extension SecurityHubClientTypes {
     /// Options for enabling a customizable text banner that will be displayed on Amazon Web Services provided clients when a VPN session is established.
-    public struct AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails: Swift.Equatable {
+    public struct AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails {
         /// Customizable text that will be displayed in a banner on Amazon Web Services provided clients when a VPN session is established.
         public var bannerText: Swift.String?
         /// Current state of text banner feature.
@@ -12595,7 +12595,7 @@ extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointConnectionLogOptionsDeta
 
 extension SecurityHubClientTypes {
     /// Information about the client connection logging options for the Client VPN endpoint.
-    public struct AwsEc2ClientVpnEndpointConnectionLogOptionsDetails: Swift.Equatable {
+    public struct AwsEc2ClientVpnEndpointConnectionLogOptionsDetails {
         /// The name of the Amazon CloudWatch Logs log group to which connection logging data is published.
         public var cloudwatchLogGroup: Swift.String?
         /// The name of the Amazon CloudWatch Logs log stream to which connection logging data is published.
@@ -12764,7 +12764,7 @@ extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Describes an Client VPN endpoint. A Client VPN endpoint is the resource that you create and configure to enable and manage client VPN sessions. It's the termination point for all client VPN sessions.
-    public struct AwsEc2ClientVpnEndpointDetails: Swift.Equatable {
+    public struct AwsEc2ClientVpnEndpointDetails {
         /// Information about the authentication method used by the Client VPN endpoint.
         public var authenticationOptions: [SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails]?
         /// The IPv4 address range, in CIDR notation, from which client IP addresses are assigned.
@@ -12913,7 +12913,7 @@ extension SecurityHubClientTypes.AwsEc2EipDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an Elastic IP address.
-    public struct AwsEc2EipDetails: Swift.Equatable {
+    public struct AwsEc2EipDetails {
         /// The identifier that Amazon Web Services assigns to represent the allocation of the Elastic IP address for use with Amazon VPC.
         public var allocationId: Swift.String?
         /// The identifier that represents the association of the Elastic IP address with an EC2 instance.
@@ -13092,7 +13092,7 @@ extension SecurityHubClientTypes.AwsEc2InstanceDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The details of an Amazon EC2 instance.
-    public struct AwsEc2InstanceDetails: Swift.Equatable {
+    public struct AwsEc2InstanceDetails {
         /// The IAM profile ARN of the instance.
         public var iamInstanceProfileArn: Swift.String?
         /// The Amazon Machine Image (AMI) ID of the instance.
@@ -13209,7 +13209,7 @@ extension SecurityHubClientTypes.AwsEc2InstanceMetadataOptions: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Metadata options that allow you to configure and secure the Amazon EC2 instance.
-    public struct AwsEc2InstanceMetadataOptions: Swift.Equatable {
+    public struct AwsEc2InstanceMetadataOptions {
         /// Enables or disables the HTTP metadata endpoint on the instance.
         public var httpEndpoint: Swift.String?
         /// Enables or disables the IPv6 endpoint for the instance metadata service.
@@ -13260,7 +13260,7 @@ extension SecurityHubClientTypes.AwsEc2InstanceMonitoringDetails: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// The type of monitoring that’s turned on for an Amazon EC2 instance.
-    public struct AwsEc2InstanceMonitoringDetails: Swift.Equatable {
+    public struct AwsEc2InstanceMonitoringDetails {
         /// Indicates whether detailed monitoring is turned on. Otherwise, basic monitoring is turned on.
         public var state: Swift.String?
 
@@ -13295,7 +13295,7 @@ extension SecurityHubClientTypes.AwsEc2InstanceNetworkInterfacesDetails: Swift.C
 
 extension SecurityHubClientTypes {
     /// Identifies a network interface for the Amazon EC2 instance.
-    public struct AwsEc2InstanceNetworkInterfacesDetails: Swift.Equatable {
+    public struct AwsEc2InstanceNetworkInterfacesDetails {
         /// The identifier of the network interface. The details are in a corresponding AwsEc2NetworkInterfacesDetails object.
         public var networkInterfaceId: Swift.String?
 
@@ -13348,7 +13348,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetDe
 
 extension SecurityHubClientTypes {
     /// Information about a block device mapping for an Amazon Elastic Compute Cloud (Amazon EC2) launch template.
-    public struct AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails {
         /// The device name.
         public var deviceName: Swift.String?
         /// Parameters used to automatically set up Amazon EBS volumes when the instance is launched.
@@ -13437,7 +13437,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetEb
 
 extension SecurityHubClientTypes {
     /// Parameters for a block device for an Amazon Elastic Block Store (Amazon EBS) volume in an Amazon EC2 launch template.
-    public struct AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails {
         /// Indicates whether the EBS volume is deleted on instance termination.
         public var deleteOnTermination: Swift.Bool?
         /// Indicates whether the EBS volume is encrypted. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. If you're creating a volume from a snapshot, you can't specify an encryption value.
@@ -13506,7 +13506,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpec
 
 extension SecurityHubClientTypes {
     /// Information about the target Capacity Reservation or Capacity Reservation group in which to run an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails {
         /// The ID of the Capacity Reservation in which to run the instance.
         public var capacityReservationId: Swift.String?
         /// The Amazon Resource Name (ARN) of the Capacity Reservation resource group in which to run the instance.
@@ -13551,7 +13551,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpec
 
 extension SecurityHubClientTypes {
     /// Specifies the Capacity Reservation targeting option of an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails {
         /// Indicates the instance's Capacity Reservation preferences. If equal to open, the instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone). If equal to none, the instance avoids running in a Capacity Reservation even if one is available. The instance runs in On-Demand capacity.
         public var capacityReservationPreference: Swift.String?
         /// Specifies a target Capacity Reservation.
@@ -13596,7 +13596,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataCpuOptionsDetails: Swif
 
 extension SecurityHubClientTypes {
     /// Specifies the CPU options for an Amazon EC2 instance. For more information, see [Optimize CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) in the Amazon Elastic Compute Cloud User Guide.
-    public struct AwsEc2LaunchTemplateDataCpuOptionsDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataCpuOptionsDetails {
         /// The number of CPU cores for the instance.
         public var coreCount: Swift.Int?
         /// The number of threads per CPU core. A value of 1 disables multithreading for the instance, The default value is 2.
@@ -13635,7 +13635,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataCreditSpecificationDeta
 
 extension SecurityHubClientTypes {
     /// Specifies the credit option for CPU usage of a T2, T3, or T3a Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataCreditSpecificationDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataCreditSpecificationDetails {
         /// The credit option for CPU usage of a T instance.
         public var cpuCredits: Swift.String?
 
@@ -13928,7 +13928,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataDetails: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// The information to include in an Amazon Elastic Compute Cloud (Amazon EC2) launch template.
-    public struct AwsEc2LaunchTemplateDataDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataDetails {
         /// Information about a block device mapping for an Amazon EC2 launch template.
         public var blockDeviceMappingSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails]?
         /// Specifies an instance's Capacity Reservation targeting option. You can specify only one option at a time.
@@ -14079,7 +14079,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticGpuSpecification
 
 extension SecurityHubClientTypes {
     /// Provides details about an Elastic Graphics specification for an Amazon EC2 launch template.
-    public struct AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails {
         /// The type of Elastic Graphics accelerator.
         public var type: Swift.String?
 
@@ -14120,7 +14120,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticInferenceAcceler
 
 extension SecurityHubClientTypes {
     /// Provides details for an Amazon Elastic Inference accelerator.
-    public struct AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails {
         /// The number of Elastic Inference accelerators to attach to the instance.
         public var count: Swift.Int?
         /// The type of Elastic Inference accelerator.
@@ -14159,7 +14159,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataEnclaveOptionsDetails: 
 
 extension SecurityHubClientTypes {
     /// Indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.
-    public struct AwsEc2LaunchTemplateDataEnclaveOptionsDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataEnclaveOptionsDetails {
         /// If this parameter is set to true, the instance is enabled for Amazon Web Services Nitro Enclaves.
         public var enabled: Swift.Bool?
 
@@ -14194,7 +14194,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataHibernationOptionsDetai
 
 extension SecurityHubClientTypes {
     /// Specifies whether your Amazon EC2 instance is configured for hibernation.
-    public struct AwsEc2LaunchTemplateDataHibernationOptionsDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataHibernationOptionsDetails {
         /// If you set this parameter to true, the instance is enabled for hibernation.
         public var configured: Swift.Bool?
 
@@ -14235,7 +14235,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataIamInstanceProfileDetai
 
 extension SecurityHubClientTypes {
     /// Provides details for an Identity and Access Management (IAM) instance profile, which is a container for an IAM role for your instance.
-    public struct AwsEc2LaunchTemplateDataIamInstanceProfileDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataIamInstanceProfileDetails {
         /// The Amazon Resource Name (ARN) of the instance profile.
         public var arn: Swift.String?
         /// The name of the instance profile.
@@ -14280,7 +14280,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsDe
 
 extension SecurityHubClientTypes {
     /// Provides details about the market (purchasing) option for an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails {
         /// The market type.
         public var marketType: Swift.String?
         /// The options for Spot Instances.
@@ -14343,7 +14343,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsSp
 
 extension SecurityHubClientTypes {
     /// Provides details about the market (purchasing) options for Spot Instances.
-    public struct AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails {
         /// Deprecated.
         public var blockDurationMinutes: Swift.Int?
         /// The behavior when a Spot Instance is interrupted.
@@ -14400,7 +14400,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcc
 
 extension SecurityHubClientTypes {
     /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails {
         /// The maximum number of accelerators. If this parameter isn't specified, there's no maximum limit. To exclude accelerator-enabled instance types, set Max to 0.
         public var max: Swift.Int?
         /// The minimum number of accelerators. If this parameter isn't specified, there's no minimum limit.
@@ -14445,7 +14445,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcc
 
 extension SecurityHubClientTypes {
     /// The minimum and maximum amount of memory, in MiB, for the accelerators on an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails {
         /// The maximum amount of memory, in MiB. If this parameter isn't specified, there's no maximum limit.
         public var max: Swift.Int?
         /// The minimum amount of memory, in MiB. If 0 is specified, there's no maximum limit.
@@ -14490,7 +14490,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsBas
 
 extension SecurityHubClientTypes {
     /// The minimum and maximum baseline bandwidth to Amazon Elastic Block Store (Amazon EBS), in Mbps. For more information, see [Amazon EBS–optimized instances ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide.
-    public struct AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails {
         /// The maximum baseline bandwidth, in Mbps. If this parameter is omitted, there's no maximum limit.
         public var max: Swift.Int?
         /// The minimum baseline bandwidth, in Mbps. If this parameter is omitted, there's no minimum limit.
@@ -14733,7 +14733,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsDet
 
 extension SecurityHubClientTypes {
     /// The attributes for the Amazon EC2 instance types.
-    public struct AwsEc2LaunchTemplateDataInstanceRequirementsDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsDetails {
         /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an instance.
         public var acceleratorCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails?
         /// Indicates whether instance types must have accelerators by specific manufacturers.
@@ -14854,7 +14854,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMem
 
 extension SecurityHubClientTypes {
     /// The minimum and maximum amount of memory per vCPU, in GiB.
-    public struct AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails {
         /// The maximum amount of memory per vCPU, in GiB. If this parameter is omitted, there's no maximum limit.
         public var max: Swift.Double?
         /// The minimum amount of memory per vCPU, in GiB. If this parameter is omitted, there's no maximum limit.
@@ -14899,7 +14899,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMem
 
 extension SecurityHubClientTypes {
     /// The minimum and maximum amount of memory, in MiB, for an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails {
         /// The maximum amount of memory, in MiB.
         public var max: Swift.Int?
         /// The minimum amount of memory, in MiB.
@@ -14944,7 +14944,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsNet
 
 extension SecurityHubClientTypes {
     /// The minimum and maximum number of network interfaces to be attached to an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails {
         /// The maximum number of network interfaces.
         public var max: Swift.Int?
         /// The minimum number of network interfaces.
@@ -14989,7 +14989,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsTot
 
 extension SecurityHubClientTypes {
     /// The minimum and maximum amount of total local storage, in GB, that an Amazon EC2 instance uses.
-    public struct AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails {
         /// The maximum amount of total local storage, in GB.
         public var max: Swift.Double?
         /// The minimum amount of total local storage, in GB.
@@ -15034,7 +15034,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsVCp
 
 extension SecurityHubClientTypes {
     /// The minimum and maximum number of vCPUs for an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails {
         /// The maximum number of vCPUs.
         public var max: Swift.Int?
         /// The minimum number of vCPUs.
@@ -15073,7 +15073,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataLicenseSetDetails: Swif
 
 extension SecurityHubClientTypes {
     /// Provides details about the license configuration for an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataLicenseSetDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataLicenseSetDetails {
         /// The Amazon Resource Name (ARN) of the license configuration.
         public var licenseConfigurationArn: Swift.String?
 
@@ -15108,7 +15108,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataMaintenanceOptionsDetai
 
 extension SecurityHubClientTypes {
     /// The maintenance options of an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataMaintenanceOptionsDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataMaintenanceOptionsDetails {
         /// Disables the automatic recovery behavior of your instance or sets it to default.
         public var autoRecovery: Swift.String?
 
@@ -15167,7 +15167,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataMetadataOptionsDetails:
 
 extension SecurityHubClientTypes {
     /// Specifies the metadata options for an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataMetadataOptionsDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataMetadataOptionsDetails {
         /// Enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled, and you won't be able to access your instance metadata.
         public var httpEndpoint: Swift.String?
         /// Enables or disables the IPv6 endpoint for the instance metadata service.
@@ -15218,7 +15218,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataMonitoringDetails: Swif
 
 extension SecurityHubClientTypes {
     /// The monitoring for an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataMonitoringDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataMonitoringDetails {
         /// Enables detailed monitoring when true is specified. Otherwise, basic monitoring is enabled. For more information about detailed monitoring, see [Enable or turn off detailed monitoring for your instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch-new.html) in the Amazon EC2 User Guide.
         public var enabled: Swift.Bool?
 
@@ -15421,7 +15421,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDeta
 
 extension SecurityHubClientTypes {
     /// One or more network interfaces to attach to an Amazon EC2 instance. If you specify a network interface, you must specify security groups and subnets as part of the network interface.
-    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails {
         /// Indicates whether to associate a Carrier IP address with eth0 for a new network interface. You use this option when you launch an instance in a Wavelength Zone and want to associate a Carrier IP address with the network interface. For more information, see [Carrier IP address](https://docs.aws.amazon.com/wavelength/latest/developerguide/how-wavelengths-work.html#provider-owned-ip) in the Wavelength Developer Guide.
         public var associateCarrierIpAddress: Swift.Bool?
         /// Associates a public IPv4 address with eth0 for a new network interface.
@@ -15528,7 +15528,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4
 
 extension SecurityHubClientTypes {
     /// Provides details on one or more IPv4 prefixes for a network interface.
-    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails {
         /// The IPv4 prefix. For more information, see [Assigning prefixes to Amazon EC2 network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html) in the Amazon Elastic Compute Cloud User Guide.
         public var ipv4Prefix: Swift.String?
 
@@ -15563,7 +15563,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6
 
 extension SecurityHubClientTypes {
     /// Specifies an IPv6 address in an Amazon EC2 launch template.
-    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails {
         /// One or more specific IPv6 addresses from the IPv6 CIDR block range of your subnet.
         public var ipv6Address: Swift.String?
 
@@ -15598,7 +15598,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6
 
 extension SecurityHubClientTypes {
     /// Provides details on one or more IPv6 prefixes to be assigned to the network interface.
-    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails {
         /// The IPv6 prefix.
         public var ipv6Prefix: Swift.String?
 
@@ -15639,7 +15639,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPriv
 
 extension SecurityHubClientTypes {
     /// One or more private IPv4 addresses.
-    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails {
         /// Indicates whether the private IPv4 address is the primary private IPv4 address. Only one IPv4 address can be designated as primary.
         public var primary: Swift.Bool?
         /// The private IPv4 address.
@@ -15720,7 +15720,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataPlacementDetails: Swift
 
 extension SecurityHubClientTypes {
     /// Provides details about the placement of an Amazon EC2 instance.
-    public struct AwsEc2LaunchTemplateDataPlacementDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataPlacementDetails {
         /// The affinity setting for an instance on an EC2 Dedicated Host.
         public var affinity: Swift.String?
         /// The Availability Zone for the instance.
@@ -15795,7 +15795,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDe
 
 extension SecurityHubClientTypes {
     /// Describes the options for Amazon EC2 instance hostnames.
-    public struct AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails {
         /// Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
         public var enableResourceNameDnsAAAARecord: Swift.Bool?
         /// Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
@@ -15862,7 +15862,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Specifies the properties for creating an Amazon Elastic Compute Cloud (Amazon EC2) launch template.
-    public struct AwsEc2LaunchTemplateDetails: Swift.Equatable {
+    public struct AwsEc2LaunchTemplateDetails {
         /// The default version of the launch template.
         public var defaultVersionNumber: Swift.Int?
         /// An ID for the launch template.
@@ -15925,7 +15925,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkAclAssociation: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An association between the network ACL and a subnet.
-    public struct AwsEc2NetworkAclAssociation: Swift.Equatable {
+    public struct AwsEc2NetworkAclAssociation {
         /// The identifier of the association between the network ACL and the subnet.
         public var networkAclAssociationId: Swift.String?
         /// The identifier of the network ACL.
@@ -16022,7 +16022,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkAclDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains details about an Amazon EC2 network access control list (ACL).
-    public struct AwsEc2NetworkAclDetails: Swift.Equatable {
+    public struct AwsEc2NetworkAclDetails {
         /// Associations between the network ACL and subnets.
         public var associations: [SecurityHubClientTypes.AwsEc2NetworkAclAssociation]?
         /// The set of rules in the network ACL.
@@ -16119,7 +16119,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkAclEntry: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A rule for the network ACL. Each rule allows or denies access based on the IP address, traffic direction, port, and protocol.
-    public struct AwsEc2NetworkAclEntry: Swift.Equatable {
+    public struct AwsEc2NetworkAclEntry {
         /// The IPV4 network range for which to deny or allow access.
         public var cidrBlock: Swift.String?
         /// Whether the rule is an egress rule. An egress rule is a rule that applies to traffic that leaves the subnet.
@@ -16218,7 +16218,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkInterfaceAttachment: Swift.Codable
 
 extension SecurityHubClientTypes {
     /// Information about the network interface attachment.
-    public struct AwsEc2NetworkInterfaceAttachment: Swift.Equatable {
+    public struct AwsEc2NetworkInterfaceAttachment {
         /// Indicates when the attachment initiated. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
         /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
@@ -16365,7 +16365,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkInterfaceDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about the network interface
-    public struct AwsEc2NetworkInterfaceDetails: Swift.Equatable {
+    public struct AwsEc2NetworkInterfaceDetails {
         /// The network interface attachment.
         public var attachment: SecurityHubClientTypes.AwsEc2NetworkInterfaceAttachment?
         /// The IPv6 addresses associated with the network interface.
@@ -16428,7 +16428,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkInterfaceIpV6AddressDetail: Swift.
 
 extension SecurityHubClientTypes {
     /// Provides information about an IPV6 address that is associated with the network interface.
-    public struct AwsEc2NetworkInterfaceIpV6AddressDetail: Swift.Equatable {
+    public struct AwsEc2NetworkInterfaceIpV6AddressDetail {
         /// The IPV6 address.
         public var ipV6Address: Swift.String?
 
@@ -16469,7 +16469,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkInterfacePrivateIpAddressDetail: S
 
 extension SecurityHubClientTypes {
     /// Provides information about a private IPv4 address that is with the network interface.
-    public struct AwsEc2NetworkInterfacePrivateIpAddressDetail: Swift.Equatable {
+    public struct AwsEc2NetworkInterfacePrivateIpAddressDetail {
         /// The private DNS name for the IP address.
         public var privateDnsName: Swift.String?
         /// The IP address.
@@ -16514,7 +16514,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkInterfaceSecurityGroup: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// A security group associated with the network interface.
-    public struct AwsEc2NetworkInterfaceSecurityGroup: Swift.Equatable {
+    public struct AwsEc2NetworkInterfaceSecurityGroup {
         /// The ID of the security group.
         public var groupId: Swift.String?
         /// The name of the security group.
@@ -16619,7 +16619,7 @@ extension SecurityHubClientTypes.AwsEc2RouteTableDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about a route table for the specified VPC.
-    public struct AwsEc2RouteTableDetails: Swift.Equatable {
+    public struct AwsEc2RouteTableDetails {
         /// The associations between a route table and one or more subnets or a gateway.
         public var associationSet: [SecurityHubClientTypes.AssociationSetDetails]?
         /// The ID of the Amazon Web Services account that owns the route table.
@@ -16728,7 +16728,7 @@ extension SecurityHubClientTypes.AwsEc2SecurityGroupDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an Amazon EC2 security group.
-    public struct AwsEc2SecurityGroupDetails: Swift.Equatable {
+    public struct AwsEc2SecurityGroupDetails {
         /// The ID of the security group.
         public var groupId: Swift.String?
         /// The name of the security group.
@@ -16867,7 +16867,7 @@ extension SecurityHubClientTypes.AwsEc2SecurityGroupIpPermission: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// An IP permission for an EC2 security group.
-    public struct AwsEc2SecurityGroupIpPermission: Swift.Equatable {
+    public struct AwsEc2SecurityGroupIpPermission {
         /// The start of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number. A value of -1 indicates all ICMP/ICMPv6 types. If you specify all ICMP/ICMPv6 types, you must specify all codes.
         public var fromPort: Swift.Int?
         /// The IP protocol name (tcp, udp, icmp, icmpv6) or number. [VPC only] Use -1 to specify all protocols. When authorizing security group rules, specifying -1 or a protocol number other than tcp, udp, icmp, or icmpv6 allows traffic on all ports, regardless of any port range you specify. For tcp, udp, and icmp, you must specify a port range. For icmpv6, the port range is optional. If you omit the port range, traffic for all types and codes is allowed.
@@ -16926,7 +16926,7 @@ extension SecurityHubClientTypes.AwsEc2SecurityGroupIpRange: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A range of IPv4 addresses.
-    public struct AwsEc2SecurityGroupIpRange: Swift.Equatable {
+    public struct AwsEc2SecurityGroupIpRange {
         /// The IPv4 CIDR range. You can specify either a CIDR range or a source security group, but not both. To specify a single IPv4 address, use the /32 prefix length.
         public var cidrIp: Swift.String?
 
@@ -16961,7 +16961,7 @@ extension SecurityHubClientTypes.AwsEc2SecurityGroupIpv6Range: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A range of IPv6 addresses.
-    public struct AwsEc2SecurityGroupIpv6Range: Swift.Equatable {
+    public struct AwsEc2SecurityGroupIpv6Range {
         /// The IPv6 CIDR range. You can specify either a CIDR range or a source security group, but not both. To specify a single IPv6 address, use the /128 prefix length.
         public var cidrIpv6: Swift.String?
 
@@ -16996,7 +16996,7 @@ extension SecurityHubClientTypes.AwsEc2SecurityGroupPrefixListId: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// A prefix list ID.
-    public struct AwsEc2SecurityGroupPrefixListId: Swift.Equatable {
+    public struct AwsEc2SecurityGroupPrefixListId {
         /// The ID of the prefix.
         public var prefixListId: Swift.String?
 
@@ -17061,7 +17061,7 @@ extension SecurityHubClientTypes.AwsEc2SecurityGroupUserIdGroupPair: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// A relationship between a security group and a user.
-    public struct AwsEc2SecurityGroupUserIdGroupPair: Swift.Equatable {
+    public struct AwsEc2SecurityGroupUserIdGroupPair {
         /// The ID of the security group.
         public var groupId: Swift.String?
         /// The name of the security group.
@@ -17200,7 +17200,7 @@ extension SecurityHubClientTypes.AwsEc2SubnetDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about a subnet in Amazon EC2.
-    public struct AwsEc2SubnetDetails: Swift.Equatable {
+    public struct AwsEc2SubnetDetails {
         /// Whether to assign an IPV6 address to a network interface that is created in this subnet.
         public var assignIpv6AddressOnCreation: Swift.Bool?
         /// The Availability Zone for the subnet.
@@ -17361,7 +17361,7 @@ extension SecurityHubClientTypes.AwsEc2TransitGatewayDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an Amazon Web Services Amazon EC2 Transit Gateway that interconnects virtual private clouds (VPCs) and on-premises networks.
-    public struct AwsEc2TransitGatewayDetails: Swift.Equatable {
+    public struct AwsEc2TransitGatewayDetails {
         /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session.
         public var amazonSideAsn: Swift.Int?
         /// The ID of the default association route table.
@@ -17458,7 +17458,7 @@ extension SecurityHubClientTypes.AwsEc2VolumeAttachment: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An attachment to an Amazon EC2 volume.
-    public struct AwsEc2VolumeAttachment: Swift.Equatable {
+    public struct AwsEc2VolumeAttachment {
         /// The datetime when the attachment initiated.
         public var attachTime: Swift.String?
         /// Whether the EBS volume is deleted when the EC2 instance is terminated.
@@ -17587,7 +17587,7 @@ extension SecurityHubClientTypes.AwsEc2VolumeDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an EC2 volume.
-    public struct AwsEc2VolumeDetails: Swift.Equatable {
+    public struct AwsEc2VolumeDetails {
         /// The volume attachments.
         public var attachments: [SecurityHubClientTypes.AwsEc2VolumeAttachment]?
         /// Indicates when the volume was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -17726,7 +17726,7 @@ extension SecurityHubClientTypes.AwsEc2VpcDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an EC2 VPC.
-    public struct AwsEc2VpcDetails: Swift.Equatable {
+    public struct AwsEc2VpcDetails {
         /// Information about the IPv4 CIDR blocks associated with the VPC.
         public var cidrBlockAssociationSet: [SecurityHubClientTypes.CidrBlockAssociation]?
         /// The identifier of the set of Dynamic Host Configuration Protocol (DHCP) options that are associated with the VPC. If the default options are associated with the VPC, then this is default.
@@ -17893,7 +17893,7 @@ extension SecurityHubClientTypes.AwsEc2VpcEndpointServiceDetails: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// Contains details about the service configuration for a VPC endpoint service.
-    public struct AwsEc2VpcEndpointServiceDetails: Swift.Equatable {
+    public struct AwsEc2VpcEndpointServiceDetails {
         /// Whether requests from other Amazon Web Services accounts to create an endpoint to the service must first be accepted.
         public var acceptanceRequired: Swift.Bool?
         /// The Availability Zones where the service is available.
@@ -17978,7 +17978,7 @@ extension SecurityHubClientTypes.AwsEc2VpcEndpointServiceServiceTypeDetails: Swi
 
 extension SecurityHubClientTypes {
     /// The service type information for a VPC endpoint service.
-    public struct AwsEc2VpcEndpointServiceServiceTypeDetails: Swift.Equatable {
+    public struct AwsEc2VpcEndpointServiceServiceTypeDetails {
         /// The type of service.
         public var serviceType: Swift.String?
 
@@ -18037,7 +18037,7 @@ extension SecurityHubClientTypes.AwsEc2VpcPeeringConnectionDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// Provides information about a VPC peering connection between two VPCs: a requester VPC that you own and an accepter VPC with which to create the connection.
-    public struct AwsEc2VpcPeeringConnectionDetails: Swift.Equatable {
+    public struct AwsEc2VpcPeeringConnectionDetails {
         /// Information about the accepter VPC.
         public var accepterVpcInfo: SecurityHubClientTypes.AwsEc2VpcPeeringConnectionVpcInfoDetails?
         /// The time at which an unaccepted VPC peering connection will expire.
@@ -18094,7 +18094,7 @@ extension SecurityHubClientTypes.AwsEc2VpcPeeringConnectionStatusDetails: Swift.
 
 extension SecurityHubClientTypes {
     /// Details about the status of the VPC peering connection.
-    public struct AwsEc2VpcPeeringConnectionStatusDetails: Swift.Equatable {
+    public struct AwsEc2VpcPeeringConnectionStatusDetails {
         /// The status of the VPC peering connection.
         public var code: Swift.String?
         /// A message that provides more information about the status, if applicable.
@@ -18193,7 +18193,7 @@ extension SecurityHubClientTypes.AwsEc2VpcPeeringConnectionVpcInfoDetails: Swift
 
 extension SecurityHubClientTypes {
     /// Describes a VPC in a VPC peering connection.
-    public struct AwsEc2VpcPeeringConnectionVpcInfoDetails: Swift.Equatable {
+    public struct AwsEc2VpcPeeringConnectionVpcInfoDetails {
         /// The IPv4 CIDR block for the VPC.
         public var cidrBlock: Swift.String?
         /// Information about the IPv4 CIDR blocks for the VPC.
@@ -18336,7 +18336,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an Amazon EC2 VPN connection.
-    public struct AwsEc2VpnConnectionDetails: Swift.Equatable {
+    public struct AwsEc2VpnConnectionDetails {
         /// The category of the VPN connection. VPN indicates an Amazon Web Services VPN connection. VPN-Classic indicates an Amazon Web Services Classic VPN connection.
         public var category: Swift.String?
         /// The configuration information for the VPN connection's customer gateway, in the native XML format.
@@ -18437,7 +18437,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionOptionsDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// VPN connection options.
-    public struct AwsEc2VpnConnectionOptionsDetails: Swift.Equatable {
+    public struct AwsEc2VpnConnectionOptionsDetails {
         /// Whether the VPN connection uses static routes only.
         public var staticRoutesOnly: Swift.Bool?
         /// The VPN tunnel options.
@@ -18650,7 +18650,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionOptionsTunnelOptionsDetails:
 
 extension SecurityHubClientTypes {
     /// The VPN tunnel options.
-    public struct AwsEc2VpnConnectionOptionsTunnelOptionsDetails: Swift.Equatable {
+    public struct AwsEc2VpnConnectionOptionsTunnelOptionsDetails {
         /// The number of seconds after which a Dead Peer Detection (DPD) timeout occurs.
         public var dpdTimeoutSeconds: Swift.Int?
         /// The Internet Key Exchange (IKE) versions that are permitted for the VPN tunnel.
@@ -18751,7 +18751,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionRoutesDetails: Swift.Codable
 
 extension SecurityHubClientTypes {
     /// A static routes associated with the VPN connection.
-    public struct AwsEc2VpnConnectionRoutesDetails: Swift.Equatable {
+    public struct AwsEc2VpnConnectionRoutesDetails {
         /// The CIDR block associated with the local subnet of the customer data center.
         public var destinationCidrBlock: Swift.String?
         /// The current state of the static route.
@@ -18820,7 +18820,7 @@ extension SecurityHubClientTypes.AwsEc2VpnConnectionVgwTelemetryDetails: Swift.C
 
 extension SecurityHubClientTypes {
     /// Information about the VPN tunnel.
-    public struct AwsEc2VpnConnectionVgwTelemetryDetails: Swift.Equatable {
+    public struct AwsEc2VpnConnectionVgwTelemetryDetails {
         /// The number of accepted routes.
         public var acceptedRouteCount: Swift.Int?
         /// The ARN of the VPN tunnel endpoint certificate.
@@ -18927,7 +18927,7 @@ extension SecurityHubClientTypes.AwsEcrContainerImageDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an Amazon ECR image.
-    public struct AwsEcrContainerImageDetails: Swift.Equatable {
+    public struct AwsEcrContainerImageDetails {
         /// The architecture of the image. Valid values are as follows:
         ///
         /// * arm64
@@ -19028,7 +19028,7 @@ extension SecurityHubClientTypes.AwsEcrRepositoryDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an Amazon Elastic Container Registry repository.
-    public struct AwsEcrRepositoryDetails: Swift.Equatable {
+    public struct AwsEcrRepositoryDetails {
         /// The ARN of the repository.
         public var arn: Swift.String?
         /// The image scanning configuration for a repository.
@@ -19083,7 +19083,7 @@ extension SecurityHubClientTypes.AwsEcrRepositoryImageScanningConfigurationDetai
 
 extension SecurityHubClientTypes {
     /// The image scanning configuration for a repository.
-    public struct AwsEcrRepositoryImageScanningConfigurationDetails: Swift.Equatable {
+    public struct AwsEcrRepositoryImageScanningConfigurationDetails {
         /// Whether to scan images after they are pushed to a repository.
         public var scanOnPush: Swift.Bool?
 
@@ -19124,7 +19124,7 @@ extension SecurityHubClientTypes.AwsEcrRepositoryLifecyclePolicyDetails: Swift.C
 
 extension SecurityHubClientTypes {
     /// Information about the lifecycle policy for the repository.
-    public struct AwsEcrRepositoryLifecyclePolicyDetails: Swift.Equatable {
+    public struct AwsEcrRepositoryLifecyclePolicyDetails {
         /// The text of the lifecycle policy.
         public var lifecyclePolicyText: Swift.String?
         /// The Amazon Web Services account identifier that is associated with the registry that contains the repository.
@@ -19169,7 +19169,7 @@ extension SecurityHubClientTypes.AwsEcsClusterClusterSettingsDetails: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// Indicates whether to enable CloudWatch Container Insights for the ECS cluster.
-    public struct AwsEcsClusterClusterSettingsDetails: Swift.Equatable {
+    public struct AwsEcsClusterClusterSettingsDetails {
         /// The name of the setting. The valid value is containerInsights.
         public var name: Swift.String?
         /// The value of the setting. Valid values are disabled or enabled.
@@ -19208,7 +19208,7 @@ extension SecurityHubClientTypes.AwsEcsClusterConfigurationDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// The run command configuration for the cluster.
-    public struct AwsEcsClusterConfigurationDetails: Swift.Equatable {
+    public struct AwsEcsClusterConfigurationDetails {
         /// Contains the run command configuration for the cluster.
         public var executeCommandConfiguration: SecurityHubClientTypes.AwsEcsClusterConfigurationExecuteCommandConfigurationDetails?
 
@@ -19255,7 +19255,7 @@ extension SecurityHubClientTypes.AwsEcsClusterConfigurationExecuteCommandConfigu
 
 extension SecurityHubClientTypes {
     /// Contains the run command configuration for the cluster.
-    public struct AwsEcsClusterConfigurationExecuteCommandConfigurationDetails: Swift.Equatable {
+    public struct AwsEcsClusterConfigurationExecuteCommandConfigurationDetails {
         /// The identifier of the KMS key that is used to encrypt the data between the local client and the container.
         public var kmsKeyId: Swift.String?
         /// The log configuration for the results of the run command actions. Required if Logging is NONE.
@@ -19322,7 +19322,7 @@ extension SecurityHubClientTypes.AwsEcsClusterConfigurationExecuteCommandConfigu
 
 extension SecurityHubClientTypes {
     /// The log configuration for the results of the run command actions.
-    public struct AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails: Swift.Equatable {
+    public struct AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails {
         /// Whether to enable encryption on the CloudWatch logs.
         public var cloudWatchEncryptionEnabled: Swift.Bool?
         /// The name of the CloudWatch log group to send the logs to.
@@ -19385,7 +19385,7 @@ extension SecurityHubClientTypes.AwsEcsClusterDefaultCapacityProviderStrategyDet
 
 extension SecurityHubClientTypes {
     /// The default capacity provider strategy for the cluster. The default capacity provider strategy is used when services or tasks are run without a specified launch type or capacity provider strategy.
-    public struct AwsEcsClusterDefaultCapacityProviderStrategyDetails: Swift.Equatable {
+    public struct AwsEcsClusterDefaultCapacityProviderStrategyDetails {
         /// The minimum number of tasks to run on the specified capacity provider.
         public var base: Swift.Int?
         /// The name of the capacity provider.
@@ -19518,7 +19518,7 @@ extension SecurityHubClientTypes.AwsEcsClusterDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an Amazon ECS cluster.
-    public struct AwsEcsClusterDetails: Swift.Equatable {
+    public struct AwsEcsClusterDetails {
         /// The number of services that are running on the cluster in an ACTIVE state. You can view these services with the Amazon ECS [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html) API operation.
         public var activeServicesCount: Swift.Int?
         /// The short name of one or more capacity providers to associate with the cluster.
@@ -19619,7 +19619,7 @@ extension SecurityHubClientTypes.AwsEcsContainerDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an Amazon ECS container.
-    public struct AwsEcsContainerDetails: Swift.Equatable {
+    public struct AwsEcsContainerDetails {
         /// The image used for the container.
         public var image: Swift.String?
         /// The mount points for data volumes in your container.
@@ -19678,7 +19678,7 @@ extension SecurityHubClientTypes.AwsEcsServiceCapacityProviderStrategyDetails: S
 
 extension SecurityHubClientTypes {
     /// Strategy item for the capacity provider strategy that the service uses.
-    public struct AwsEcsServiceCapacityProviderStrategyDetails: Swift.Equatable {
+    public struct AwsEcsServiceCapacityProviderStrategyDetails {
         /// The minimum number of tasks to run on the capacity provider. Only one strategy item can specify a value for Base. The value must be between 0 and 100000.
         public var base: Swift.Int?
         /// The short name of the capacity provider.
@@ -19727,7 +19727,7 @@ extension SecurityHubClientTypes.AwsEcsServiceDeploymentConfigurationDeploymentC
 
 extension SecurityHubClientTypes {
     /// Determines whether a service deployment fails if a service cannot reach a steady state.
-    public struct AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails: Swift.Equatable {
+    public struct AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails {
         /// Whether to enable the deployment circuit breaker logic for the service.
         public var enable: Swift.Bool?
         /// Whether to roll back the service if a service deployment fails. If rollback is enabled, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
@@ -19778,7 +19778,7 @@ extension SecurityHubClientTypes.AwsEcsServiceDeploymentConfigurationDetails: Sw
 
 extension SecurityHubClientTypes {
     /// Optional deployment parameters for the service.
-    public struct AwsEcsServiceDeploymentConfigurationDetails: Swift.Equatable {
+    public struct AwsEcsServiceDeploymentConfigurationDetails {
         /// Determines whether a service deployment fails if a service cannot reach a steady state.
         public var deploymentCircuitBreaker: SecurityHubClientTypes.AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails?
         /// For a service that uses the rolling update (ECS) deployment type, the maximum number of tasks in a service that are allowed in the RUNNING or PENDING state during a deployment, and for tasks that use the EC2 launch type, when any container instances are in the DRAINING state. Provided as a percentage of the desired number of tasks. The default value is 200%. For a service that uses the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and tasks that use the EC2 launch type, the maximum number of tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. For the Fargate launch type, the maximum percent value is not used.
@@ -19821,7 +19821,7 @@ extension SecurityHubClientTypes.AwsEcsServiceDeploymentControllerDetails: Swift
 
 extension SecurityHubClientTypes {
     /// Information about the deployment controller type that the service uses.
-    public struct AwsEcsServiceDeploymentControllerDetails: Swift.Equatable {
+    public struct AwsEcsServiceDeploymentControllerDetails {
         /// The rolling update (ECS) deployment type replaces the current running version of the container with the latest version. The blue/green (CODE_DEPLOY) deployment type uses the blue/green deployment model that is powered by CodeDeploy. This deployment model a new deployment of a service can be verified before production traffic is sent to it. The external (EXTERNAL) deployment type allows the use of any third-party deployment controller for full control over the deployment process for an Amazon ECS service. Valid values: ECS | CODE_DEPLOY | EXTERNAL
         public var type: Swift.String?
 
@@ -20042,7 +20042,7 @@ extension SecurityHubClientTypes.AwsEcsServiceDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about a service within an ECS cluster.
-    public struct AwsEcsServiceDetails: Swift.Equatable {
+    public struct AwsEcsServiceDetails {
         /// The capacity provider strategy that the service uses.
         public var capacityProviderStrategy: [SecurityHubClientTypes.AwsEcsServiceCapacityProviderStrategyDetails]?
         /// The ARN of the cluster that hosts the service.
@@ -20179,7 +20179,7 @@ extension SecurityHubClientTypes.AwsEcsServiceLoadBalancersDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// Information about a load balancer that the service uses.
-    public struct AwsEcsServiceLoadBalancersDetails: Swift.Equatable {
+    public struct AwsEcsServiceLoadBalancersDetails {
         /// The name of the container to associate with the load balancer.
         public var containerName: Swift.String?
         /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the task definition the tasks in the service are using. For tasks that use the EC2 launch type, the container instance they are launched on must allow ingress traffic on the hostPort of the port mapping.
@@ -20262,7 +20262,7 @@ extension SecurityHubClientTypes.AwsEcsServiceNetworkConfigurationAwsVpcConfigur
 
 extension SecurityHubClientTypes {
     /// For tasks that use the awsvpc networking mode, the VPC subnet and security group configuration.
-    public struct AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails: Swift.Equatable {
+    public struct AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails {
         /// Whether the task's elastic network interface receives a public IP address. The default value is DISABLED. Valid values: ENABLED | DISABLED
         public var assignPublicIp: Swift.String?
         /// The IDs of the security groups associated with the task or service. You can provide up to five security groups.
@@ -20305,7 +20305,7 @@ extension SecurityHubClientTypes.AwsEcsServiceNetworkConfigurationDetails: Swift
 
 extension SecurityHubClientTypes {
     /// For tasks that use the awsvpc networking mode, the VPC subnet and security group configuration.
-    public struct AwsEcsServiceNetworkConfigurationDetails: Swift.Equatable {
+    public struct AwsEcsServiceNetworkConfigurationDetails {
         /// The VPC subnet and security group configuration.
         public var awsVpcConfiguration: SecurityHubClientTypes.AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails?
 
@@ -20346,7 +20346,7 @@ extension SecurityHubClientTypes.AwsEcsServicePlacementConstraintsDetails: Swift
 
 extension SecurityHubClientTypes {
     /// A placement constraint for the tasks in the service.
-    public struct AwsEcsServicePlacementConstraintsDetails: Swift.Equatable {
+    public struct AwsEcsServicePlacementConstraintsDetails {
         /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance.
         public var expression: Swift.String?
         /// The type of constraint. Use distinctInstance to run each task in a particular group on a different container instance. Use memberOf to restrict the selection to a group of valid candidates. Valid values: distinctInstance | memberOf
@@ -20391,7 +20391,7 @@ extension SecurityHubClientTypes.AwsEcsServicePlacementStrategiesDetails: Swift.
 
 extension SecurityHubClientTypes {
     /// A placement strategy that determines how to place the tasks for the service.
-    public struct AwsEcsServicePlacementStrategiesDetails: Swift.Equatable {
+    public struct AwsEcsServicePlacementStrategiesDetails {
         /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host, which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this attribute is not used.
         public var field: Swift.String?
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the value of Field. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified in Field. Valid values: random | spread | binpack
@@ -20448,7 +20448,7 @@ extension SecurityHubClientTypes.AwsEcsServiceServiceRegistriesDetails: Swift.Co
 
 extension SecurityHubClientTypes {
     /// Information about a service discovery registry to assign to the service.
-    public struct AwsEcsServiceServiceRegistriesDetails: Swift.Equatable {
+    public struct AwsEcsServiceServiceRegistriesDetails {
         /// The container name value to use for the service discovery service. If the task definition uses the bridge or host network mode, you must specify ContainerName and ContainerPort. If the task definition uses the awsvpc network mode and a type SRV DNS record, you must specify either ContainerName and ContainerPort, or Port , but not both.
         public var containerName: Swift.String?
         /// The port value to use for the service discovery service. If the task definition uses the bridge or host network mode, you must specify ContainerName and ContainerPort. If the task definition uses the awsvpc network mode and a type SRV DNS record, you must specify either ContainerName and ContainerPort, or Port , but not both.
@@ -20501,7 +20501,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDepends
 
 extension SecurityHubClientTypes {
     /// A dependency that is defined for container startup and shutdown.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails {
         /// The dependency condition of the dependent container. Indicates the required status of the dependent container before the current container can start. Valid values are as follows:
         ///
         /// * COMPLETE
@@ -20992,7 +20992,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails
 
 extension SecurityHubClientTypes {
     /// A container definition that describes a container in the task.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsDetails {
         /// The command that is passed to the container.
         public var command: [Swift.String]?
         /// The number of CPU units reserved for the container.
@@ -21197,7 +21197,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsEnviron
 
 extension SecurityHubClientTypes {
     /// An environment variable to pass to the container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails {
         /// The name of the environment variable.
         public var name: Swift.String?
         /// The value of the environment variable.
@@ -21242,7 +21242,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsEnviron
 
 extension SecurityHubClientTypes {
     /// A file that contain environment variables to pass to a container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails {
         /// The type of environment file. The valid value is s3.
         public var type: Swift.String?
         /// The ARN of the S3 object that contains the environment variable file.
@@ -21287,7 +21287,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsExtraHo
 
 extension SecurityHubClientTypes {
     /// A hostname and IP address mapping to append to the /etc/hosts file on the container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails {
         /// The hostname to use in the /etc/hosts entry.
         public var hostname: Swift.String?
         /// The IP address to use in the /etc/hosts entry.
@@ -21344,7 +21344,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsFirelen
 
 extension SecurityHubClientTypes {
     /// The FireLens configuration for the container. The configuration specifies and configures a log router for container logs.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails {
         /// The options to use to configure the log router. The valid option keys are as follows:
         ///
         /// * enable-ecs-log-metadata. The value can be true or false.
@@ -21425,7 +21425,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsHealthC
 
 extension SecurityHubClientTypes {
     /// The container health check command and associated configuration parameters for the container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails {
         /// The command that the container runs to determine whether it is healthy.
         public var command: [Swift.String]?
         /// The time period in seconds between each health check execution. The default value is 30 seconds.
@@ -21506,7 +21506,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxPa
 
 extension SecurityHubClientTypes {
     /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails {
         /// The Linux capabilities for the container that are added to the default configuration provided by Docker. Valid values are as follows: Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM"
         public var add: [Swift.String]?
         /// The Linux capabilities for the container that are dropped from the default configuration provided by Docker. Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM"
@@ -21605,7 +21605,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxPa
 
 extension SecurityHubClientTypes {
     /// >Linux-specific modifications that are applied to the container, such as Linux kernel capabilities.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails {
         /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.
         public var capabilities: SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails?
         /// The host devices to expose to the container.
@@ -21688,7 +21688,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxPa
 
 extension SecurityHubClientTypes {
     /// A host device to expose to the container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails {
         /// The path inside the container at which to expose the host device.
         public var containerPath: Swift.String?
         /// The path for the device on the host container instance.
@@ -21755,7 +21755,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLinuxPa
 
 extension SecurityHubClientTypes {
     /// The container path, mount options, and size (in MiB) of a tmpfs mount.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails {
         /// The absolute file path where the tmpfs volume is to be mounted.
         public var containerPath: Swift.String?
         /// The list of tmpfs volume mount options. Valid values: "defaults" | "ro" | "rw" | "suid" | "nosuid" | "dev" | "nodev" | "exec" | "noexec" | "sync" | "async" | "dirsync" | "remount" | "mand" | "nomand" | "atime" | "noatime" | "diratime" | "nodiratime" | "bind" | "rbind" | "unbindable" | "runbindable" | "private" | "rprivate" | "shared" | "rshared" | "slave" | "rslave" | "relatime" | "norelatime" | "strictatime" | "nostrictatime" | "mode" | "uid" | "gid" | "nr_inodes" | "nr_blocks" | "mpol"
@@ -21834,7 +21834,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLogConf
 
 extension SecurityHubClientTypes {
     /// The log configuration specification for the container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails {
         /// The log driver to use for the container. Valid values on Fargate are as follows:
         ///
         /// * awsfirelens
@@ -21910,7 +21910,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsLogConf
 
 extension SecurityHubClientTypes {
     /// A secret to pass to the log configuration.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails {
         /// The name of the secret.
         public var name: Swift.String?
         /// The secret to expose to the container. The value is either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the Systems Manager Parameter Store.
@@ -21961,7 +21961,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsMountPo
 
 extension SecurityHubClientTypes {
     /// A mount point for the data volumes in the container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails {
         /// The path on the container to mount the host volume at.
         public var containerPath: Swift.String?
         /// Whether the container has read-only access to the volume.
@@ -22016,7 +22016,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsPortMap
 
 extension SecurityHubClientTypes {
     /// A port mapping for the container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails {
         /// The port number on the container that is bound to the user-specified or automatically assigned host port.
         public var containerPort: Swift.Int?
         /// The port number on the container instance to reserve for the container.
@@ -22059,7 +22059,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsReposit
 
 extension SecurityHubClientTypes {
     /// The private repository authentication credentials to use.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails {
         /// The ARN of the secret that contains the private repository credentials.
         public var credentialsParameter: Swift.String?
 
@@ -22100,7 +22100,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsResourc
 
 extension SecurityHubClientTypes {
     /// A resource to assign to a container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails {
         /// The type of resource to assign to a container. Valid values are GPU or InferenceAccelerator.
         public var type: Swift.String?
         /// The value for the specified resource type. For GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. For InferenceAccelerator, the value should match the DeviceName attribute of an entry in InferenceAccelerators.
@@ -22145,7 +22145,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsSecrets
 
 extension SecurityHubClientTypes {
     /// A secret to pass to the container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails {
         /// The name of the secret.
         public var name: Swift.String?
         /// The secret to expose to the container. The value is either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the Systems Manager Parameter Store.
@@ -22190,7 +22190,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsSystemC
 
 extension SecurityHubClientTypes {
     /// A namespaced kernel parameter to set in the container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails {
         /// The namespaced kernel parameter for which to set a value.
         public var namespace: Swift.String?
         /// The value of the parameter.
@@ -22241,7 +22241,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsUlimits
 
 extension SecurityHubClientTypes {
     /// A ulimit to set in the container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails {
         /// The hard limit for the ulimit type.
         public var hardLimit: Swift.Int?
         /// The type of the ulimit. Valid values are as follows:
@@ -22320,7 +22320,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsVolumes
 
 extension SecurityHubClientTypes {
     /// A data volume to mount from another container.
-    public struct AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails {
         /// Whether the container has read-only access to the volume.
         public var readOnly: Swift.Bool?
         /// The name of another container within the same task definition from which to mount volumes.
@@ -22503,7 +22503,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about a task definition. A task definition describes the container and volume definitions of an Amazon Elastic Container Service task.
-    public struct AwsEcsTaskDefinitionDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionDetails {
         /// The container definitions that describe the containers that make up the task.
         public var containerDefinitions: [SecurityHubClientTypes.AwsEcsTaskDefinitionContainerDefinitionsDetails]?
         /// The number of CPU units used by the task.Valid values are as follows:
@@ -22624,7 +22624,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionInferenceAcceleratorsDetail
 
 extension SecurityHubClientTypes {
     /// An Elastic Inference accelerator to use for the containers in the task.
-    public struct AwsEcsTaskDefinitionInferenceAcceleratorsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionInferenceAcceleratorsDetails {
         /// The Elastic Inference accelerator device name.
         public var deviceName: Swift.String?
         /// The Elastic Inference accelerator type to use.
@@ -22669,7 +22669,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionPlacementConstraintsDetails
 
 extension SecurityHubClientTypes {
     /// A placement constraint object to use for tasks.
-    public struct AwsEcsTaskDefinitionPlacementConstraintsDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionPlacementConstraintsDetails {
         /// A cluster query language expression to apply to the constraint.
         public var expression: Swift.String?
         /// The type of constraint.
@@ -22732,7 +22732,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionProxyConfigurationDetails: 
 
 extension SecurityHubClientTypes {
     /// The configuration details for the App Mesh proxy.
-    public struct AwsEcsTaskDefinitionProxyConfigurationDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionProxyConfigurationDetails {
         /// The name of the container that will serve as the App Mesh proxy.
         public var containerName: Swift.String?
         /// The set of network configuration parameters to provide to the Container Network Interface (CNI) plugin, specified as key-value pairs.
@@ -22781,7 +22781,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionProxyConfigurationProxyConf
 
 extension SecurityHubClientTypes {
     /// A network configuration parameter to provide to the Container Network Interface (CNI) plugin.
-    public struct AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails {
         /// The name of the property.
         public var name: Swift.String?
         /// The value of the property.
@@ -22838,7 +22838,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesDetails: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// A data volume to mount from another container.
-    public struct AwsEcsTaskDefinitionVolumesDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionVolumesDetails {
         /// Information about a Docker volume.
         public var dockerVolumeConfiguration: SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails?
         /// Information about the Amazon Elastic File System file system that is used for task storage.
@@ -22933,7 +22933,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesDockerVolumeConfigur
 
 extension SecurityHubClientTypes {
     /// Information about a Docker volume.
-    public struct AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails {
         /// Whether to create the Docker volume automatically if it does not already exist.
         public var autoprovision: Swift.Bool?
         /// The Docker volume driver to use.
@@ -22990,7 +22990,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesEfsVolumeConfigurati
 
 extension SecurityHubClientTypes {
     ///
-    public struct AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails {
         /// The Amazon EFS access point identifier to use.
         public var accessPointId: Swift.String?
         /// Whether to use the Amazon ECS task IAM role defined in a task definition when mounting the Amazon EFS file system.
@@ -23053,7 +23053,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesEfsVolumeConfigurati
 
 extension SecurityHubClientTypes {
     /// Information about the Amazon Elastic File System file system that is used for task storage.
-    public struct AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails {
         /// The authorization configuration details for the Amazon EFS file system.
         public var authorizationConfig: SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails?
         /// The Amazon EFS file system identifier to use.
@@ -23104,7 +23104,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDefinitionVolumesHostDetails: Swift.C
 
 extension SecurityHubClientTypes {
     /// Information about a bind mount host volume.
-    public struct AwsEcsTaskDefinitionVolumesHostDetails: Swift.Equatable {
+    public struct AwsEcsTaskDefinitionVolumesHostDetails {
         /// The path on the host container instance that is presented to the container.
         public var sourcePath: Swift.String?
 
@@ -23211,7 +23211,7 @@ extension SecurityHubClientTypes.AwsEcsTaskDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about a task in a cluster.
-    public struct AwsEcsTaskDetails: Swift.Equatable {
+    public struct AwsEcsTaskDetails {
         /// The Amazon Resource Name (ARN) of the cluster that hosts the task.
         public var clusterArn: Swift.String?
         /// The containers that are associated with the task.
@@ -23284,7 +23284,7 @@ extension SecurityHubClientTypes.AwsEcsTaskVolumeDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about a data volume that's used in a task definition.
-    public struct AwsEcsTaskVolumeDetails: Swift.Equatable {
+    public struct AwsEcsTaskVolumeDetails {
         /// This parameter is specified when you use bind mount host volumes. The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it's stored.
         public var host: SecurityHubClientTypes.AwsEcsTaskVolumeHostDetails?
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
@@ -23323,7 +23323,7 @@ extension SecurityHubClientTypes.AwsEcsTaskVolumeHostDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details on a container instance bind mount host volume.
-    public struct AwsEcsTaskVolumeHostDetails: Swift.Equatable {
+    public struct AwsEcsTaskVolumeHostDetails {
         /// When the host parameter is used, specify a sourcePath to declare the path on the host container instance that's presented to the container.
         public var sourcePath: Swift.String?
 
@@ -23388,7 +23388,7 @@ extension SecurityHubClientTypes.AwsEfsAccessPointDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an Amazon EFS access point.
-    public struct AwsEfsAccessPointDetails: Swift.Equatable {
+    public struct AwsEfsAccessPointDetails {
         /// The ID of the Amazon EFS access point.
         public var accessPointId: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon EFS access point.
@@ -23467,7 +23467,7 @@ extension SecurityHubClientTypes.AwsEfsAccessPointPosixUserDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// Provides details for all file system operations using this Amazon EFS access point.
-    public struct AwsEfsAccessPointPosixUserDetails: Swift.Equatable {
+    public struct AwsEfsAccessPointPosixUserDetails {
         /// The POSIX group ID used for all file system operations using this access point.
         public var gid: Swift.String?
         /// Secondary POSIX group IDs used for all file system operations using this access point.
@@ -23522,7 +23522,7 @@ extension SecurityHubClientTypes.AwsEfsAccessPointRootDirectoryCreationInfoDetai
 
 extension SecurityHubClientTypes {
     /// Provides information about the settings that Amazon EFS uses to create the root directory when a client connects to an access point.
-    public struct AwsEfsAccessPointRootDirectoryCreationInfoDetails: Swift.Equatable {
+    public struct AwsEfsAccessPointRootDirectoryCreationInfoDetails {
         /// Specifies the POSIX group ID to apply to the root directory.
         public var ownerGid: Swift.String?
         /// Specifies the POSIX user ID to apply to the root directory.
@@ -23571,7 +23571,7 @@ extension SecurityHubClientTypes.AwsEfsAccessPointRootDirectoryDetails: Swift.Co
 
 extension SecurityHubClientTypes {
     /// Provides information about the directory on the Amazon EFS file system that the access point exposes as the root directory to NFS clients using the access point.
-    public struct AwsEfsAccessPointRootDirectoryDetails: Swift.Equatable {
+    public struct AwsEfsAccessPointRootDirectoryDetails {
         /// Specifies the POSIX IDs and permissions to apply to the access point's root directory.
         public var creationInfo: SecurityHubClientTypes.AwsEfsAccessPointRootDirectoryCreationInfoDetails?
         /// Specifies the path on the Amazon EFS file system to expose as the root directory to NFS clients using the access point to access the EFS file system. A path can have up to four subdirectories. If the specified path does not exist, you are required to provide CreationInfo.
@@ -23658,7 +23658,7 @@ extension SecurityHubClientTypes.AwsEksClusterDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an Amazon EKS cluster.
-    public struct AwsEksClusterDetails: Swift.Equatable {
+    public struct AwsEksClusterDetails {
         /// The ARN of the cluster.
         public var arn: Swift.String?
         /// The certificate authority data for the cluster.
@@ -23755,7 +23755,7 @@ extension SecurityHubClientTypes.AwsEksClusterLoggingClusterLoggingDetails: Swif
 
 extension SecurityHubClientTypes {
     /// Details for a cluster logging configuration.
-    public struct AwsEksClusterLoggingClusterLoggingDetails: Swift.Equatable {
+    public struct AwsEksClusterLoggingClusterLoggingDetails {
         /// Whether the logging types that are listed in Types are enabled.
         public var enabled: Swift.Bool?
         /// A list of logging types. Valid values are as follows:
@@ -23816,7 +23816,7 @@ extension SecurityHubClientTypes.AwsEksClusterLoggingDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The logging configuration for an Amazon EKS cluster.
-    public struct AwsEksClusterLoggingDetails: Swift.Equatable {
+    public struct AwsEksClusterLoggingDetails {
         /// Cluster logging configurations.
         public var clusterLogging: [SecurityHubClientTypes.AwsEksClusterLoggingClusterLoggingDetails]?
 
@@ -23887,7 +23887,7 @@ extension SecurityHubClientTypes.AwsEksClusterResourcesVpcConfigDetails: Swift.C
 
 extension SecurityHubClientTypes {
     /// Information about the VPC configuration used by the cluster control plane.
-    public struct AwsEksClusterResourcesVpcConfigDetails: Swift.Equatable {
+    public struct AwsEksClusterResourcesVpcConfigDetails {
         /// Indicates whether the Amazon EKS public API server endpoint is turned on. If the Amazon EKS public API server endpoint is turned off, your cluster's Kubernetes API server can only receive requests that originate from within the cluster VPC.
         public var endpointPublicAccess: Swift.Bool?
         /// The security groups that are associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Amazon EKS control plane.
@@ -24044,7 +24044,7 @@ extension SecurityHubClientTypes.AwsElasticBeanstalkEnvironmentDetails: Swift.Co
 
 extension SecurityHubClientTypes {
     /// Contains details about an Elastic Beanstalk environment.
-    public struct AwsElasticBeanstalkEnvironmentDetails: Swift.Equatable {
+    public struct AwsElasticBeanstalkEnvironmentDetails {
         /// The name of the application that is associated with the environment.
         public var applicationName: Swift.String?
         /// The URL to the CNAME for this environment.
@@ -24161,7 +24161,7 @@ extension SecurityHubClientTypes.AwsElasticBeanstalkEnvironmentEnvironmentLink: 
 
 extension SecurityHubClientTypes {
     /// Contains information about a link to another environment that is in the same group.
-    public struct AwsElasticBeanstalkEnvironmentEnvironmentLink: Swift.Equatable {
+    public struct AwsElasticBeanstalkEnvironmentEnvironmentLink {
         /// The name of the linked environment.
         public var environmentName: Swift.String?
         /// The name of the environment link.
@@ -24218,7 +24218,7 @@ extension SecurityHubClientTypes.AwsElasticBeanstalkEnvironmentOptionSetting: Sw
 
 extension SecurityHubClientTypes {
     /// A configuration option setting for the environment.
-    public struct AwsElasticBeanstalkEnvironmentOptionSetting: Swift.Equatable {
+    public struct AwsElasticBeanstalkEnvironmentOptionSetting {
         /// The type of resource that the configuration option is associated with.
         public var namespace: Swift.String?
         /// The name of the option.
@@ -24277,7 +24277,7 @@ extension SecurityHubClientTypes.AwsElasticBeanstalkEnvironmentTier: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// Contains information about the tier of the environment.
-    public struct AwsElasticBeanstalkEnvironmentTier: Swift.Equatable {
+    public struct AwsElasticBeanstalkEnvironmentTier {
         /// The name of the environment tier. Valid values are WebServer or Worker.
         public var name: Swift.String?
         /// The type of environment tier. Valid values are Standard or SQS/HTTP.
@@ -24404,7 +24404,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an Elasticsearch domain.
-    public struct AwsElasticsearchDomainDetails: Swift.Equatable {
+    public struct AwsElasticsearchDomainDetails {
         /// IAM policy document specifying the access policies for the new Elasticsearch domain.
         public var accessPolicies: Swift.String?
         /// Additional options for the domain endpoint.
@@ -24493,7 +24493,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainDomainEndpointOptions: Sw
 
 extension SecurityHubClientTypes {
     /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
-    public struct AwsElasticsearchDomainDomainEndpointOptions: Swift.Equatable {
+    public struct AwsElasticsearchDomainDomainEndpointOptions {
         /// Whether to require that all traffic to the domain arrive over HTTPS.
         public var enforceHTTPS: Swift.Bool?
         /// The TLS security policy to apply to the HTTPS endpoint of the OpenSearch domain. Valid values:
@@ -24572,7 +24572,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainElasticsearchClusterConfi
 
 extension SecurityHubClientTypes {
     /// details about the configuration of an OpenSearch cluster.
-    public struct AwsElasticsearchDomainElasticsearchClusterConfigDetails: Swift.Equatable {
+    public struct AwsElasticsearchDomainElasticsearchClusterConfigDetails {
         /// The number of instances to use for the master node. If this attribute is specified, then DedicatedMasterEnabled must be true.
         public var dedicatedMasterCount: Swift.Int?
         /// Whether to use a dedicated master node for the Elasticsearch domain. A dedicated master node performs cluster management tasks, but doesn't hold data or respond to data upload requests.
@@ -24631,7 +24631,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainElasticsearchClusterConfi
 
 extension SecurityHubClientTypes {
     /// Configuration options for zone awareness.
-    public struct AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails: Swift.Equatable {
+    public struct AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails {
         /// he number of Availability Zones that the domain uses. Valid values are 2 and 3. The default is 2.
         public var availabilityZoneCount: Swift.Int?
 
@@ -24672,7 +24672,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainEncryptionAtRestOptions: 
 
 extension SecurityHubClientTypes {
     /// Details about the configuration for encryption at rest.
-    public struct AwsElasticsearchDomainEncryptionAtRestOptions: Swift.Equatable {
+    public struct AwsElasticsearchDomainEncryptionAtRestOptions {
         /// Whether encryption at rest is enabled.
         public var enabled: Swift.Bool?
         /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
@@ -24723,7 +24723,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainLogPublishingOptions: Swi
 
 extension SecurityHubClientTypes {
     /// configures the CloudWatch Logs to publish for the Elasticsearch domain.
-    public struct AwsElasticsearchDomainLogPublishingOptions: Swift.Equatable {
+    public struct AwsElasticsearchDomainLogPublishingOptions {
         /// The log configuration.
         public var auditLogs: SecurityHubClientTypes.AwsElasticsearchDomainLogPublishingOptionsLogConfig?
         /// Configures the OpenSearch index logs publishing.
@@ -24772,7 +24772,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainLogPublishingOptionsLogCo
 
 extension SecurityHubClientTypes {
     /// The log configuration.
-    public struct AwsElasticsearchDomainLogPublishingOptionsLogConfig: Swift.Equatable {
+    public struct AwsElasticsearchDomainLogPublishingOptionsLogConfig {
         /// The ARN of the CloudWatch Logs group to publish the logs to.
         public var cloudWatchLogsLogGroupArn: Swift.String?
         /// Whether the log publishing is enabled.
@@ -24811,7 +24811,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainNodeToNodeEncryptionOptio
 
 extension SecurityHubClientTypes {
     /// Details about the configuration for node-to-node encryption.
-    public struct AwsElasticsearchDomainNodeToNodeEncryptionOptions: Swift.Equatable {
+    public struct AwsElasticsearchDomainNodeToNodeEncryptionOptions {
         /// Whether node-to-node encryption is enabled.
         public var enabled: Swift.Bool?
 
@@ -24882,7 +24882,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainServiceSoftwareOptions: S
 
 extension SecurityHubClientTypes {
     /// Information about the state of the domain relative to the latest service software.
-    public struct AwsElasticsearchDomainServiceSoftwareOptions: Swift.Equatable {
+    public struct AwsElasticsearchDomainServiceSoftwareOptions {
         /// The epoch time when the deployment window closes for required updates. After this time, Amazon OpenSearch Service schedules the software upgrade automatically.
         public var automatedUpdateDate: Swift.String?
         /// Whether a request to update the domain can be canceled.
@@ -25005,7 +25005,7 @@ extension SecurityHubClientTypes.AwsElasticsearchDomainVPCOptions: Swift.Codable
 
 extension SecurityHubClientTypes {
     /// Information that OpenSearch derives based on VPCOptions for the domain.
-    public struct AwsElasticsearchDomainVPCOptions: Swift.Equatable {
+    public struct AwsElasticsearchDomainVPCOptions {
         /// The list of Availability Zones associated with the VPC subnets.
         public var availabilityZones: [Swift.String]?
         /// The list of security group IDs associated with the VPC endpoints for the domain.
@@ -25058,7 +25058,7 @@ extension SecurityHubClientTypes.AwsElbAppCookieStickinessPolicy: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// Contains information about a stickiness policy that was created using CreateAppCookieStickinessPolicy.
-    public struct AwsElbAppCookieStickinessPolicy: Swift.Equatable {
+    public struct AwsElbAppCookieStickinessPolicy {
         /// The name of the application cookie used for stickiness.
         public var cookieName: Swift.String?
         /// The mnemonic name for the policy being created. The name must be unique within the set of policies for the load balancer.
@@ -25103,7 +25103,7 @@ extension SecurityHubClientTypes.AwsElbLbCookieStickinessPolicy: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about a stickiness policy that was created using CreateLBCookieStickinessPolicy.
-    public struct AwsElbLbCookieStickinessPolicy: Swift.Equatable {
+    public struct AwsElbLbCookieStickinessPolicy {
         /// The amount of time, in seconds, after which the cookie is considered stale. If an expiration period is not specified, the stickiness session lasts for the duration of the browser session.
         public var cookieExpirationPeriod: Swift.Int?
         /// The name of the policy. The name must be unique within the set of policies for the load balancer.
@@ -25160,7 +25160,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerAccessLog: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about the access log configuration for the load balancer.
-    public struct AwsElbLoadBalancerAccessLog: Swift.Equatable {
+    public struct AwsElbLoadBalancerAccessLog {
         /// The interval in minutes for publishing the access logs. You can publish access logs either every 5 minutes or every 60 minutes.
         public var emitInterval: Swift.Int?
         /// Indicates whether access logs are enabled for the load balancer.
@@ -25213,7 +25213,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerAdditionalAttribute: Swift.Co
 
 extension SecurityHubClientTypes {
     /// Provides information about additional attributes for the load balancer.
-    public struct AwsElbLoadBalancerAdditionalAttribute: Swift.Equatable {
+    public struct AwsElbLoadBalancerAdditionalAttribute {
         /// The name of the attribute.
         public var key: Swift.String?
         /// The value of the attribute.
@@ -25288,7 +25288,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerAttributes: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains attributes for the load balancer.
-    public struct AwsElbLoadBalancerAttributes: Swift.Equatable {
+    public struct AwsElbLoadBalancerAttributes {
         /// Information about the access log configuration for the load balancer. If the access log is enabled, the load balancer captures detailed information about all requests. It delivers the information to a specified S3 bucket.
         public var accessLog: SecurityHubClientTypes.AwsElbLoadBalancerAccessLog?
         /// Any additional attributes for a load balancer.
@@ -25357,7 +25357,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerBackendServerDescription: Swi
 
 extension SecurityHubClientTypes {
     /// Provides information about the configuration of an EC2 instance for the load balancer.
-    public struct AwsElbLoadBalancerBackendServerDescription: Swift.Equatable {
+    public struct AwsElbLoadBalancerBackendServerDescription {
         /// The port on which the EC2 instance is listening.
         public var instancePort: Swift.Int?
         /// The names of the policies that are enabled for the EC2 instance.
@@ -25402,7 +25402,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerConnectionDraining: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// Contains information about the connection draining configuration for the load balancer.
-    public struct AwsElbLoadBalancerConnectionDraining: Swift.Equatable {
+    public struct AwsElbLoadBalancerConnectionDraining {
         /// Indicates whether connection draining is enabled for the load balancer.
         public var enabled: Swift.Bool?
         /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
@@ -25441,7 +25441,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerConnectionSettings: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// Contains connection settings for the load balancer.
-    public struct AwsElbLoadBalancerConnectionSettings: Swift.Equatable {
+    public struct AwsElbLoadBalancerConnectionSettings {
         /// The time, in seconds, that the connection can be idle (no data is sent over the connection) before it is closed by the load balancer.
         public var idleTimeout: Swift.Int?
 
@@ -25476,7 +25476,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerCrossZoneLoadBalancing: Swift
 
 extension SecurityHubClientTypes {
     /// Contains cross-zone load balancing settings for the load balancer.
-    public struct AwsElbLoadBalancerCrossZoneLoadBalancing: Swift.Equatable {
+    public struct AwsElbLoadBalancerCrossZoneLoadBalancing {
         /// Indicates whether cross-zone load balancing is enabled for the load balancer.
         public var enabled: Swift.Bool?
 
@@ -25679,7 +25679,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains details about a Classic Load Balancer.
-    public struct AwsElbLoadBalancerDetails: Swift.Equatable {
+    public struct AwsElbLoadBalancerDetails {
         /// The list of Availability Zones for the load balancer.
         public var availabilityZones: [Swift.String]?
         /// Information about the configuration of the EC2 instances.
@@ -25812,7 +25812,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerHealthCheck: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about the health checks that are conducted on the load balancer.
-    public struct AwsElbLoadBalancerHealthCheck: Swift.Equatable {
+    public struct AwsElbLoadBalancerHealthCheck {
         /// The number of consecutive health check successes required before the instance is moved to the Healthy state.
         public var healthyThreshold: Swift.Int?
         /// The approximate interval, in seconds, between health checks of an individual instance.
@@ -25863,7 +25863,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerInstance: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an EC2 instance for a load balancer.
-    public struct AwsElbLoadBalancerInstance: Swift.Equatable {
+    public struct AwsElbLoadBalancerInstance {
         /// The instance identifier.
         public var instanceId: Swift.String?
 
@@ -25922,7 +25922,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerListener: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about a load balancer listener.
-    public struct AwsElbLoadBalancerListener: Swift.Equatable {
+    public struct AwsElbLoadBalancerListener {
         /// The port on which the instance is listening.
         public var instancePort: Swift.Int?
         /// The protocol to use to route traffic to instances. Valid values: HTTP | HTTPS | TCP | SSL
@@ -25991,7 +25991,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerListenerDescription: Swift.Co
 
 extension SecurityHubClientTypes {
     /// Lists the policies that are enabled for a load balancer listener.
-    public struct AwsElbLoadBalancerListenerDescription: Swift.Equatable {
+    public struct AwsElbLoadBalancerListenerDescription {
         /// Information about the listener.
         public var listener: SecurityHubClientTypes.AwsElbLoadBalancerListener?
         /// The policies enabled for the listener.
@@ -26078,7 +26078,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerPolicies: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about the policies for a load balancer.
-    public struct AwsElbLoadBalancerPolicies: Swift.Equatable {
+    public struct AwsElbLoadBalancerPolicies {
         /// The stickiness policies that are created using CreateAppCookieStickinessPolicy.
         public var appCookieStickinessPolicies: [SecurityHubClientTypes.AwsElbAppCookieStickinessPolicy]?
         /// The stickiness policies that are created using CreateLBCookieStickinessPolicy.
@@ -26127,7 +26127,7 @@ extension SecurityHubClientTypes.AwsElbLoadBalancerSourceSecurityGroup: Swift.Co
 
 extension SecurityHubClientTypes {
     /// Contains information about the security group for the load balancer.
-    public struct AwsElbLoadBalancerSourceSecurityGroup: Swift.Equatable {
+    public struct AwsElbLoadBalancerSourceSecurityGroup {
         /// The name of the security group.
         public var groupName: Swift.String?
         /// The owner of the security group.
@@ -26172,7 +26172,7 @@ extension SecurityHubClientTypes.AwsElbv2LoadBalancerAttribute: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A load balancer attribute.
-    public struct AwsElbv2LoadBalancerAttribute: Swift.Equatable {
+    public struct AwsElbv2LoadBalancerAttribute {
         /// The name of the load balancer attribute.
         public var key: Swift.String?
         /// The value of the load balancer attribute.
@@ -26307,7 +26307,7 @@ extension SecurityHubClientTypes.AwsElbv2LoadBalancerDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about a load balancer.
-    public struct AwsElbv2LoadBalancerDetails: Swift.Equatable {
+    public struct AwsElbv2LoadBalancerDetails {
         /// The Availability Zones for the load balancer.
         public var availabilityZones: [SecurityHubClientTypes.AvailabilityZone]?
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
@@ -26404,7 +26404,7 @@ extension SecurityHubClientTypes.AwsEventSchemasRegistryDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A schema defines the structure of events that are sent to Amazon EventBridge. Schema registries are containers for schemas. They collect and organize schemas so that your schemas are in logical groups.
-    public struct AwsEventSchemasRegistryDetails: Swift.Equatable {
+    public struct AwsEventSchemasRegistryDetails {
         /// A description of the registry to be created.
         public var description: Swift.String?
         /// The Amazon Resource Name (ARN) of the registry.
@@ -26519,7 +26519,7 @@ extension SecurityHubClientTypes.AwsEventsEndpointDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an Amazon EventBridge global endpoint. The endpoint can improve your application’s availability by making it Regional-fault tolerant.
-    public struct AwsEventsEndpointDetails: Swift.Equatable {
+    public struct AwsEventsEndpointDetails {
         /// The Amazon Resource Name (ARN) of the endpoint.
         public var arn: Swift.String?
         /// A description of the endpoint.
@@ -26594,7 +26594,7 @@ extension SecurityHubClientTypes.AwsEventsEndpointEventBusesDetails: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// Provides details about the Amazon EventBridge event buses that the endpoint is associated with.
-    public struct AwsEventsEndpointEventBusesDetails: Swift.Equatable {
+    public struct AwsEventsEndpointEventBusesDetails {
         /// The Amazon Resource Name (ARN) of the event bus that the endpoint is associated with.
         public var eventBusArn: Swift.String?
 
@@ -26629,7 +26629,7 @@ extension SecurityHubClientTypes.AwsEventsEndpointReplicationConfigDetails: Swif
 
 extension SecurityHubClientTypes {
     /// Indicates whether replication is enabled or disabled for the endpoint. If enabled, the endpoint can replicate all events to a secondary Amazon Web Services Region.
-    public struct AwsEventsEndpointReplicationConfigDetails: Swift.Equatable {
+    public struct AwsEventsEndpointReplicationConfigDetails {
         /// The state of event replication.
         public var state: Swift.String?
 
@@ -26664,7 +26664,7 @@ extension SecurityHubClientTypes.AwsEventsEndpointRoutingConfigDetails: Swift.Co
 
 extension SecurityHubClientTypes {
     /// Provides details about the routing configuration of the endpoint.
-    public struct AwsEventsEndpointRoutingConfigDetails: Swift.Equatable {
+    public struct AwsEventsEndpointRoutingConfigDetails {
         /// The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered.
         public var failoverConfig: SecurityHubClientTypes.AwsEventsEndpointRoutingConfigFailoverConfigDetails?
 
@@ -26705,7 +26705,7 @@ extension SecurityHubClientTypes.AwsEventsEndpointRoutingConfigFailoverConfigDet
 
 extension SecurityHubClientTypes {
     /// The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered.
-    public struct AwsEventsEndpointRoutingConfigFailoverConfigDetails: Swift.Equatable {
+    public struct AwsEventsEndpointRoutingConfigFailoverConfigDetails {
         /// The main Region of the endpoint.
         public var primary: SecurityHubClientTypes.AwsEventsEndpointRoutingConfigFailoverConfigPrimaryDetails?
         /// The Region that events are routed to when failover is triggered or event replication is enabled.
@@ -26744,7 +26744,7 @@ extension SecurityHubClientTypes.AwsEventsEndpointRoutingConfigFailoverConfigPri
 
 extension SecurityHubClientTypes {
     /// Provides details about the primary Amazon Web Services Region of the endpoint.
-    public struct AwsEventsEndpointRoutingConfigFailoverConfigPrimaryDetails: Swift.Equatable {
+    public struct AwsEventsEndpointRoutingConfigFailoverConfigPrimaryDetails {
         /// The Amazon Resource Name (ARN) of the health check used by the endpoint to determine whether failover is triggered.
         public var healthCheck: Swift.String?
 
@@ -26779,7 +26779,7 @@ extension SecurityHubClientTypes.AwsEventsEndpointRoutingConfigFailoverConfigSec
 
 extension SecurityHubClientTypes {
     /// The Amazon Web Services Region that events are routed to when failover is triggered or event replication is enabled.
-    public struct AwsEventsEndpointRoutingConfigFailoverConfigSecondaryDetails: Swift.Equatable {
+    public struct AwsEventsEndpointRoutingConfigFailoverConfigSecondaryDetails {
         /// Defines the secondary Region.
         public var route: Swift.String?
 
@@ -26826,7 +26826,7 @@ extension SecurityHubClientTypes.AwsEventsEventbusDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about Amazon EventBridge event bus. An event bus is a router that receives events and delivers them to zero or more destinations, or targets. This can be a custom event bus which you can use to receive events from your custom applications and services, or it can be a partner event bus which can be matched to a partner event source.
-    public struct AwsEventsEventbusDetails: Swift.Equatable {
+    public struct AwsEventsEventbusDetails {
         /// The Amazon Resource Name (ARN) of the account permitted to write events to the current account.
         public var arn: Swift.String?
         /// The name of the event bus.
@@ -26869,7 +26869,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesCloudTrailDetail
 
 extension SecurityHubClientTypes {
     /// An object that contains information on the status of CloudTrail as a data source for the detector.
-    public struct AwsGuardDutyDetectorDataSourcesCloudTrailDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorDataSourcesCloudTrailDetails {
         /// Specifies whether CloudTrail is activated as a data source for the detector.
         public var status: Swift.String?
 
@@ -26934,7 +26934,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesDetails: Swift.C
 
 extension SecurityHubClientTypes {
     /// Describes which data sources are activated for the detector.
-    public struct AwsGuardDutyDetectorDataSourcesDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorDataSourcesDetails {
         /// An object that contains information on the status of CloudTrail as a data source for the detector.
         public var cloudTrail: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesCloudTrailDetails?
         /// An object that contains information on the status of DNS logs as a data source for the detector.
@@ -26989,7 +26989,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesDnsLogsDetails: 
 
 extension SecurityHubClientTypes {
     /// An object that contains information on the status of DNS logs as a data source for the detector.
-    public struct AwsGuardDutyDetectorDataSourcesDnsLogsDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorDataSourcesDnsLogsDetails {
         /// Describes whether DNS logs is enabled as a data source for the detector.
         public var status: Swift.String?
 
@@ -27024,7 +27024,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesFlowLogsDetails:
 
 extension SecurityHubClientTypes {
     /// An object that contains information on the status of VPC Flow Logs as a data source for the detector.
-    public struct AwsGuardDutyDetectorDataSourcesFlowLogsDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorDataSourcesFlowLogsDetails {
         /// Describes whether VPC Flow Logs are activated as a data source for the detector.
         public var status: Swift.String?
 
@@ -27059,7 +27059,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesAuditL
 
 extension SecurityHubClientTypes {
     /// An object that contains information on the status of Kubernetes audit logs as a data source for the detector.
-    public struct AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails {
         /// Describes whether Kubernetes audit logs are activated as a data source for the detector.
         public var status: Swift.String?
 
@@ -27094,7 +27094,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesDetail
 
 extension SecurityHubClientTypes {
     /// An object that contains information on the status of Kubernetes data sources for the detector.
-    public struct AwsGuardDutyDetectorDataSourcesKubernetesDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorDataSourcesKubernetesDetails {
         /// Describes whether Kubernetes audit logs are activated as a data source for the detector.
         public var auditLogs: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails?
 
@@ -27135,7 +27135,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectio
 
 extension SecurityHubClientTypes {
     /// An object that contains information on the status of Malware Protection as a data source for the detector.
-    public struct AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails {
         /// Describes the configuration of Malware Protection for EC2 instances with findings.
         public var scanEc2InstanceWithFindings: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails?
         /// The GuardDuty Malware Protection service role.
@@ -27174,7 +27174,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectio
 
 extension SecurityHubClientTypes {
     /// Describes the configuration of Malware Protection for EC2 instances with findings.
-    public struct AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails {
         /// Describes the configuration of scanning EBS volumes (Malware Protection) as a data source.
         public var ebsVolumes: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails?
 
@@ -27215,7 +27215,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesMalwareProtectio
 
 extension SecurityHubClientTypes {
     /// Describes the configuration of scanning EBS volumes (Malware Protection) as a data source.
-    public struct AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails {
         /// Specifies the reason why scanning EBS volumes (Malware Protection) isn’t activated as a data source.
         public var reason: Swift.String?
         /// Describes whether scanning EBS volumes is activated as a data source for the detector.
@@ -27254,7 +27254,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesS3LogsDetails: S
 
 extension SecurityHubClientTypes {
     /// An object that contains information on the status of S3 data event logs as a data source for the detector.
-    public struct AwsGuardDutyDetectorDataSourcesS3LogsDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorDataSourcesS3LogsDetails {
         /// A value that describes whether S3 data event logs are automatically enabled for new members of an organization.
         public var status: Swift.String?
 
@@ -27325,7 +27325,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an Amazon GuardDuty detector. A detector is an object that represents the GuardDuty service. A detector is required for GuardDuty to become operational.
-    public struct AwsGuardDutyDetectorDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorDetails {
         /// Describes which data sources are activated for the detector.
         public var dataSources: SecurityHubClientTypes.AwsGuardDutyDetectorDataSourcesDetails?
         /// Describes which features are activated for the detector.
@@ -27382,7 +27382,7 @@ extension SecurityHubClientTypes.AwsGuardDutyDetectorFeaturesDetails: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// Describes which features are activated for the detector.
-    public struct AwsGuardDutyDetectorFeaturesDetails: Swift.Equatable {
+    public struct AwsGuardDutyDetectorFeaturesDetails {
         /// Indicates the name of the feature that is activated for the detector.
         public var name: Swift.String?
         /// Indicates the status of the feature that is activated for the detector.
@@ -27469,7 +27469,7 @@ extension SecurityHubClientTypes.AwsIamAccessKeyDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// IAM access key details related to a finding.
-    public struct AwsIamAccessKeyDetails: Swift.Equatable {
+    public struct AwsIamAccessKeyDetails {
         /// The identifier of the access key.
         public var accessKeyId: Swift.String?
         /// The Amazon Web Services account ID of the account for the key.
@@ -27553,7 +27553,7 @@ extension SecurityHubClientTypes.AwsIamAccessKeySessionContext: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about the session that the key was used for.
-    public struct AwsIamAccessKeySessionContext: Swift.Equatable {
+    public struct AwsIamAccessKeySessionContext {
         /// Attributes of the session that the key was used for.
         public var attributes: SecurityHubClientTypes.AwsIamAccessKeySessionContextAttributes?
         /// Information about the entity that created the session.
@@ -27598,7 +27598,7 @@ extension SecurityHubClientTypes.AwsIamAccessKeySessionContextAttributes: Swift.
 
 extension SecurityHubClientTypes {
     /// Attributes of the session that the key was used for.
-    public struct AwsIamAccessKeySessionContextAttributes: Swift.Equatable {
+    public struct AwsIamAccessKeySessionContextAttributes {
         /// Indicates when the session was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
         /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
@@ -27671,7 +27671,7 @@ extension SecurityHubClientTypes.AwsIamAccessKeySessionContextSessionIssuer: Swi
 
 extension SecurityHubClientTypes {
     /// Information about the entity that created the session.
-    public struct AwsIamAccessKeySessionContextSessionIssuer: Swift.Equatable {
+    public struct AwsIamAccessKeySessionContextSessionIssuer {
         /// The identifier of the Amazon Web Services account that created the session.
         public var accountId: Swift.String?
         /// The ARN of the session.
@@ -27760,7 +27760,7 @@ extension SecurityHubClientTypes.AwsIamAttachedManagedPolicy: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A managed policy that is attached to an IAM principal.
-    public struct AwsIamAttachedManagedPolicy: Swift.Equatable {
+    public struct AwsIamAttachedManagedPolicy {
         /// The ARN of the policy.
         public var policyArn: Swift.String?
         /// The name of the policy.
@@ -27853,7 +27853,7 @@ extension SecurityHubClientTypes.AwsIamGroupDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains details about an IAM group.
-    public struct AwsIamGroupDetails: Swift.Equatable {
+    public struct AwsIamGroupDetails {
         /// A list of the managed policies that are attached to the IAM group.
         public var attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]?
         /// Indicates when the IAM group was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -27918,7 +27918,7 @@ extension SecurityHubClientTypes.AwsIamGroupPolicy: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A managed policy that is attached to the IAM group.
-    public struct AwsIamGroupPolicy: Swift.Equatable {
+    public struct AwsIamGroupPolicy {
         /// The name of the policy.
         public var policyName: Swift.String?
 
@@ -27995,7 +27995,7 @@ extension SecurityHubClientTypes.AwsIamInstanceProfile: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an instance profile.
-    public struct AwsIamInstanceProfile: Swift.Equatable {
+    public struct AwsIamInstanceProfile {
         /// The ARN of the instance profile.
         public var arn: Swift.String?
         /// Indicates when the instance profile was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -28090,7 +28090,7 @@ extension SecurityHubClientTypes.AwsIamInstanceProfileRole: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about a role associated with an instance profile.
-    public struct AwsIamInstanceProfileRole: Swift.Equatable {
+    public struct AwsIamInstanceProfileRole {
         /// The ARN of the role.
         public var arn: Swift.String?
         /// The policy that grants an entity permission to assume the role.
@@ -28161,7 +28161,7 @@ extension SecurityHubClientTypes.AwsIamPermissionsBoundary: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the policy used to set the permissions boundary for an IAM principal.
-    public struct AwsIamPermissionsBoundary: Swift.Equatable {
+    public struct AwsIamPermissionsBoundary {
         /// The ARN of the policy used to set the permissions boundary.
         public var permissionsBoundaryArn: Swift.String?
         /// The usage type for the permissions boundary.
@@ -28272,7 +28272,7 @@ extension SecurityHubClientTypes.AwsIamPolicyDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Represents an IAM permissions policy.
-    public struct AwsIamPolicyDetails: Swift.Equatable {
+    public struct AwsIamPolicyDetails {
         /// The number of users, groups, and roles that the policy is attached to.
         public var attachmentCount: Swift.Int?
         /// When the policy was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -28379,7 +28379,7 @@ extension SecurityHubClientTypes.AwsIamPolicyVersion: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A version of an IAM policy.
-    public struct AwsIamPolicyVersion: Swift.Equatable {
+    public struct AwsIamPolicyVersion {
         /// Indicates when the version was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
         /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
@@ -28522,7 +28522,7 @@ extension SecurityHubClientTypes.AwsIamRoleDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about an IAM role, including all of the role's policies.
-    public struct AwsIamRoleDetails: Swift.Equatable {
+    public struct AwsIamRoleDetails {
         /// The trust policy that grants permission to assume the role.
         public var assumeRolePolicyDocument: Swift.String?
         /// The list of the managed policies that are attached to the role.
@@ -28603,7 +28603,7 @@ extension SecurityHubClientTypes.AwsIamRolePolicy: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An inline policy that is embedded in the role.
-    public struct AwsIamRolePolicy: Swift.Equatable {
+    public struct AwsIamRolePolicy {
         /// The name of the policy.
         public var policyName: Swift.String?
 
@@ -28716,7 +28716,7 @@ extension SecurityHubClientTypes.AwsIamUserDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an IAM user.
-    public struct AwsIamUserDetails: Swift.Equatable {
+    public struct AwsIamUserDetails {
         /// A list of the managed policies that are attached to the user.
         public var attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]?
         /// Indicates when the user was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -28789,7 +28789,7 @@ extension SecurityHubClientTypes.AwsIamUserPolicy: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an inline policy that is embedded in the user.
-    public struct AwsIamUserPolicy: Swift.Equatable {
+    public struct AwsIamUserPolicy {
         /// The name of the policy.
         public var policyName: Swift.String?
 
@@ -28848,7 +28848,7 @@ extension SecurityHubClientTypes.AwsKinesisStreamDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an Amazon Kinesis data stream.
-    public struct AwsKinesisStreamDetails: Swift.Equatable {
+    public struct AwsKinesisStreamDetails {
         /// The Amazon Resource Name (ARN) of the Kinesis data stream.
         public var arn: Swift.String?
         /// The name of the Kinesis stream. If you don't specify a name, CloudFront generates a unique physical ID and uses that ID for the stream name.
@@ -28905,7 +28905,7 @@ extension SecurityHubClientTypes.AwsKinesisStreamStreamEncryptionDetails: Swift.
 
 extension SecurityHubClientTypes {
     /// Provides information about stream encryption.
-    public struct AwsKinesisStreamStreamEncryptionDetails: Swift.Equatable {
+    public struct AwsKinesisStreamStreamEncryptionDetails {
         /// The encryption type to use.
         public var encryptionType: Swift.String?
         /// The globally unique identifier for the customer-managed KMS key to use for encryption.
@@ -28986,7 +28986,7 @@ extension SecurityHubClientTypes.AwsKmsKeyDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains metadata about an KMS key.
-    public struct AwsKmsKeyDetails: Swift.Equatable {
+    public struct AwsKmsKeyDetails {
         /// The twelve-digit account ID of the Amazon Web Services account that owns the KMS key.
         public var awsAccountId: Swift.String?
         /// Indicates when the KMS key was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -29087,7 +29087,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionCode: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The code for the Lambda function. You can specify either an object in Amazon S3, or upload a deployment package directly.
-    public struct AwsLambdaFunctionCode: Swift.Equatable {
+    public struct AwsLambdaFunctionCode {
         /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account.
         public var s3Bucket: Swift.String?
         /// The Amazon S3 key of the deployment package.
@@ -29134,7 +29134,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionDeadLetterConfig: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// The dead-letter queue for failed asynchronous invocations.
-    public struct AwsLambdaFunctionDeadLetterConfig: Swift.Equatable {
+    public struct AwsLambdaFunctionDeadLetterConfig {
         /// The ARN of an SQS queue or SNS topic.
         public var targetArn: Swift.String?
 
@@ -29307,7 +29307,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an Lambda function's configuration.
-    public struct AwsLambdaFunctionDetails: Swift.Equatable {
+    public struct AwsLambdaFunctionDetails {
         /// The instruction set architecture that the function uses. Valid values are x86_64 or arm64.
         public var architectures: [Swift.String]?
         /// An AwsLambdaFunctionCode object.
@@ -29446,7 +29446,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionEnvironment: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A function's environment variable settings.
-    public struct AwsLambdaFunctionEnvironment: Swift.Equatable {
+    public struct AwsLambdaFunctionEnvironment {
         /// An AwsLambdaFunctionEnvironmentError object.
         public var error: SecurityHubClientTypes.AwsLambdaFunctionEnvironmentError?
         /// Environment variable key-value pairs.
@@ -29491,7 +29491,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionEnvironmentError: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// Error messages for environment variables that could not be applied.
-    public struct AwsLambdaFunctionEnvironmentError: Swift.Equatable {
+    public struct AwsLambdaFunctionEnvironmentError {
         /// The error code.
         public var errorCode: Swift.String?
         /// The error message.
@@ -29536,7 +29536,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionLayer: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An Lambda layer.
-    public struct AwsLambdaFunctionLayer: Swift.Equatable {
+    public struct AwsLambdaFunctionLayer {
         /// The ARN of the function layer.
         public var arn: Swift.String?
         /// The size of the layer archive in bytes.
@@ -29575,7 +29575,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionTracingConfig: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The function's X-Ray tracing configuration.
-    public struct AwsLambdaFunctionTracingConfig: Swift.Equatable {
+    public struct AwsLambdaFunctionTracingConfig {
         /// The tracing mode.
         public var mode: Swift.String?
 
@@ -29646,7 +29646,7 @@ extension SecurityHubClientTypes.AwsLambdaFunctionVpcConfig: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The VPC security groups and subnets that are attached to a Lambda function.
-    public struct AwsLambdaFunctionVpcConfig: Swift.Equatable {
+    public struct AwsLambdaFunctionVpcConfig {
         /// A list of VPC security groups IDs.
         public var securityGroupIds: [Swift.String]?
         /// A list of VPC subnet IDs.
@@ -29713,7 +29713,7 @@ extension SecurityHubClientTypes.AwsLambdaLayerVersionDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about a Lambda layer version.
-    public struct AwsLambdaLayerVersionDetails: Swift.Equatable {
+    public struct AwsLambdaLayerVersionDetails {
         /// The layer's compatible [function runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy) in the Lambda Developer Guide. Array Members: Maximum number of 5 items. Valid Values: nodejs | nodejs4.3 | nodejs6.10 | nodejs8.10 | nodejs10.x | nodejs12.x | nodejs14.x | nodejs16.x | java8 | java8.al2 | java11 | python2.7 | python3.6 | python3.7 | python3.8 | python3.9 | dotnetcore1.0 | dotnetcore2.0 | dotnetcore2.1 | dotnetcore3.1 | dotnet6 | nodejs4.3-edge | go1.x | ruby2.5 | ruby2.7 | provided | provided.al2 | nodejs18.x | python3.10 | java17 | ruby3.2 | python3.11 | nodejs20.x | provided.al2023 | python3.12 | java21
         public var compatibleRuntimes: [Swift.String]?
         /// Indicates when the version was created. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -29772,7 +29772,7 @@ extension SecurityHubClientTypes.AwsMountPoint: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details for a volume mount point that's used in a container definition.
-    public struct AwsMountPoint: Swift.Equatable {
+    public struct AwsMountPoint {
         /// The path on the container to mount the host volume at.
         public var containerPath: Swift.String?
         /// The name of the volume to mount. Must be a volume name referenced in the name parameter of task definition volume.
@@ -29823,7 +29823,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationDet
 
 extension SecurityHubClientTypes {
     /// Provides details about different modes of client authentication.
-    public struct AwsMskClusterClusterInfoClientAuthenticationDetails: Swift.Equatable {
+    public struct AwsMskClusterClusterInfoClientAuthenticationDetails {
         /// Provides details for client authentication using SASL.
         public var sasl: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationSaslDetails?
         /// Provides details for client authentication using TLS.
@@ -29872,7 +29872,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationSas
 
 extension SecurityHubClientTypes {
     /// Provides details for client authentication using SASL.
-    public struct AwsMskClusterClusterInfoClientAuthenticationSaslDetails: Swift.Equatable {
+    public struct AwsMskClusterClusterInfoClientAuthenticationSaslDetails {
         /// Provides details for SASL client authentication using IAM.
         public var iam: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails?
         /// Details for SASL client authentication using SCRAM.
@@ -29911,7 +29911,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationSas
 
 extension SecurityHubClientTypes {
     /// Details for SASL/IAM client authentication.
-    public struct AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails: Swift.Equatable {
+    public struct AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails {
         /// Indicates whether SASL/IAM authentication is enabled or not.
         public var enabled: Swift.Bool?
 
@@ -29946,7 +29946,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationSas
 
 extension SecurityHubClientTypes {
     /// Details for SASL/SCRAM client authentication.
-    public struct AwsMskClusterClusterInfoClientAuthenticationSaslScramDetails: Swift.Equatable {
+    public struct AwsMskClusterClusterInfoClientAuthenticationSaslScramDetails {
         /// Indicates whether SASL/SCRAM authentication is enabled or not.
         public var enabled: Swift.Bool?
 
@@ -29999,7 +29999,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationTls
 
 extension SecurityHubClientTypes {
     /// Provides details for client authentication using TLS.
-    public struct AwsMskClusterClusterInfoClientAuthenticationTlsDetails: Swift.Equatable {
+    public struct AwsMskClusterClusterInfoClientAuthenticationTlsDetails {
         /// List of Amazon Web Services Private CA Amazon Resource Names (ARNs). Amazon Web Services Private CA enables creation of private certificate authority (CA) hierarchies, including root and subordinate CAs, without the investment and maintenance costs of operating an on-premises CA.
         public var certificateAuthorityArnList: [Swift.String]?
         /// Indicates whether TLS authentication is enabled or not.
@@ -30038,7 +30038,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationUna
 
 extension SecurityHubClientTypes {
     /// Provides details for allowing no client authentication.
-    public struct AwsMskClusterClusterInfoClientAuthenticationUnauthenticatedDetails: Swift.Equatable {
+    public struct AwsMskClusterClusterInfoClientAuthenticationUnauthenticatedDetails {
         /// Indicates whether unauthenticated is allowed or not.
         public var enabled: Swift.Bool?
 
@@ -30103,7 +30103,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// Provide details about an Amazon Managed Streaming for Apache Kafka (Amazon MSK) cluster.
-    public struct AwsMskClusterClusterInfoDetails: Swift.Equatable {
+    public struct AwsMskClusterClusterInfoDetails {
         /// Provides information for different modes of client authentication.
         public var clientAuthentication: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationDetails?
         /// The name of the cluster.
@@ -30164,7 +30164,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails: 
 
 extension SecurityHubClientTypes {
     /// Includes encryption-related information, such as the KMS key used for encrypting data at rest and whether you want MSK to encrypt your data in transit.
-    public struct AwsMskClusterClusterInfoEncryptionInfoDetails: Swift.Equatable {
+    public struct AwsMskClusterClusterInfoEncryptionInfoDetails {
         /// The data-volume encryption details. You can't update encryption at rest settings for existing clusters.
         public var encryptionAtRest: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoEncryptionAtRestDetails?
         /// The settings for encrypting data in transit.
@@ -30203,7 +30203,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoEncryptio
 
 extension SecurityHubClientTypes {
     /// The data-volume encryption details. You can't update encryption at rest settings for existing clusters.
-    public struct AwsMskClusterClusterInfoEncryptionInfoEncryptionAtRestDetails: Swift.Equatable {
+    public struct AwsMskClusterClusterInfoEncryptionInfoEncryptionAtRestDetails {
         /// The Amazon Resource Name (ARN) of the KMS key for encrypting data at rest. If you don't specify a KMS key, MSK creates one for you and uses it.
         public var dataVolumeKMSKeyId: Swift.String?
 
@@ -30244,7 +30244,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoEncryptio
 
 extension SecurityHubClientTypes {
     /// The settings for encrypting data in transit.
-    public struct AwsMskClusterClusterInfoEncryptionInfoEncryptionInTransitDetails: Swift.Equatable {
+    public struct AwsMskClusterClusterInfoEncryptionInfoEncryptionInTransitDetails {
         /// Indicates the encryption setting for data in transit between clients and brokers.
         public var clientBroker: Swift.String?
         /// When set to true, it indicates that data communication among the broker nodes of the cluster is encrypted. When set to false, the communication happens in plain text. The default value is true.
@@ -30283,7 +30283,7 @@ extension SecurityHubClientTypes.AwsMskClusterDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an Amazon Managed Streaming for Apache Kafka (Amazon MSK) cluster.
-    public struct AwsMskClusterDetails: Swift.Equatable {
+    public struct AwsMskClusterDetails {
         /// Provides information about a cluster.
         public var clusterInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoDetails?
 
@@ -30384,7 +30384,7 @@ extension SecurityHubClientTypes.AwsNetworkFirewallFirewallDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// Details about an Network Firewall firewall.
-    public struct AwsNetworkFirewallFirewallDetails: Swift.Equatable {
+    public struct AwsNetworkFirewallFirewallDetails {
         /// Whether the firewall is protected from deletion. If set to true, then the firewall cannot be deleted.
         public var deleteProtection: Swift.Bool?
         /// A description of the firewall.
@@ -30479,7 +30479,7 @@ extension SecurityHubClientTypes.AwsNetworkFirewallFirewallPolicyDetails: Swift.
 
 extension SecurityHubClientTypes {
     /// Details about a firewall policy. A firewall policy defines the behavior of a network firewall.
-    public struct AwsNetworkFirewallFirewallPolicyDetails: Swift.Equatable {
+    public struct AwsNetworkFirewallFirewallPolicyDetails {
         /// A description of the firewall policy.
         public var description: Swift.String?
         /// The firewall policy configuration.
@@ -30530,7 +30530,7 @@ extension SecurityHubClientTypes.AwsNetworkFirewallFirewallSubnetMappingsDetails
 
 extension SecurityHubClientTypes {
     /// A public subnet that Network Firewall uses for the firewall.
-    public struct AwsNetworkFirewallFirewallSubnetMappingsDetails: Swift.Equatable {
+    public struct AwsNetworkFirewallFirewallSubnetMappingsDetails {
         /// The identifier of the subnet
         public var subnetId: Swift.String?
 
@@ -30601,7 +30601,7 @@ extension SecurityHubClientTypes.AwsNetworkFirewallRuleGroupDetails: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// Details about an Network Firewall rule group. Rule groups are used to inspect and control network traffic. Stateless rule groups apply to individual packets. Stateful rule groups apply to packets in the context of their traffic flow. Rule groups are referenced in firewall policies.
-    public struct AwsNetworkFirewallRuleGroupDetails: Swift.Equatable {
+    public struct AwsNetworkFirewallRuleGroupDetails {
         /// The maximum number of operating resources that this rule group can use.
         public var capacity: Swift.Int?
         /// A description of the rule group.
@@ -30672,7 +30672,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainAdvancedSecurityOptio
 
 extension SecurityHubClientTypes {
     /// Provides information about domain access control options.
-    public struct AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails {
         /// Enables fine-grained access control.
         public var enabled: Swift.Bool?
         /// Enables the internal user database.
@@ -30769,7 +30769,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainClusterConfigDetails:
 
 extension SecurityHubClientTypes {
     /// Details about the configuration of an OpenSearch cluster.
-    public struct AwsOpenSearchServiceDomainClusterConfigDetails: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainClusterConfigDetails {
         /// The number of instances to use for the master node. If this attribute is specified, then DedicatedMasterEnabled must be true.
         public var dedicatedMasterCount: Swift.Int?
         /// Whether to use a dedicated master node for the OpenSearch domain. A dedicated master node performs cluster management tasks, but does not hold data or respond to data upload requests.
@@ -30840,7 +30840,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainClusterConfigZoneAwar
 
 extension SecurityHubClientTypes {
     /// Configuration options for zone awareness.
-    public struct AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails {
         /// The number of Availability Zones that the domain uses. Valid values are 2 or 3. The default is 2.
         public var availabilityZoneCount: Swift.Int?
 
@@ -30971,7 +30971,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// Information about an Amazon OpenSearch Service domain.
-    public struct AwsOpenSearchServiceDomainDetails: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainDetails {
         /// IAM policy document that specifies the access policies for the OpenSearch Service domain.
         public var accessPolicies: Swift.String?
         /// Specifies options for fine-grained access control.
@@ -31086,7 +31086,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainDomainEndpointOptions
 
 extension SecurityHubClientTypes {
     /// Information about additional options for the domain endpoint.
-    public struct AwsOpenSearchServiceDomainDomainEndpointOptionsDetails: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainDomainEndpointOptionsDetails {
         /// The fully qualified URL for the custom endpoint.
         public var customEndpoint: Swift.String?
         /// The ARN for the security certificate. The certificate is managed in ACM.
@@ -31143,7 +31143,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainEncryptionAtRestOptio
 
 extension SecurityHubClientTypes {
     /// Details about the configuration for encryption at rest for the OpenSearch domain.
-    public struct AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails {
         /// Whether encryption at rest is enabled.
         public var enabled: Swift.Bool?
         /// The KMS key ID.
@@ -31188,7 +31188,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainLogPublishingOption: 
 
 extension SecurityHubClientTypes {
     /// Configuration details for a log publishing option.
-    public struct AwsOpenSearchServiceDomainLogPublishingOption: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainLogPublishingOption {
         /// The ARN of the CloudWatch Logs group to publish the logs to.
         public var cloudWatchLogsLogGroupArn: Swift.String?
         /// Whether the log publishing is enabled.
@@ -31239,7 +31239,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainLogPublishingOptionsD
 
 extension SecurityHubClientTypes {
     /// Configures the CloudWatch Logs to publish for the OpenSearch domain.
-    public struct AwsOpenSearchServiceDomainLogPublishingOptionsDetails: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainLogPublishingOptionsDetails {
         /// Configures the OpenSearch audit logs publishing.
         public var auditLogs: SecurityHubClientTypes.AwsOpenSearchServiceDomainLogPublishingOption?
         /// Configures the OpenSearch index logs publishing.
@@ -31294,7 +31294,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainMasterUserOptionsDeta
 
 extension SecurityHubClientTypes {
     /// Specifies information about the master user of the domain.
-    public struct AwsOpenSearchServiceDomainMasterUserOptionsDetails: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainMasterUserOptionsDetails {
         /// The Amazon Resource Name (ARN) for the master user.
         public var masterUserArn: Swift.String?
         /// The username for the master user.
@@ -31337,7 +31337,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainNodeToNodeEncryptionO
 
 extension SecurityHubClientTypes {
     /// Provides details about the configuration for node-to-node encryption.
-    public struct AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails {
         /// Whether node-to-node encryption is enabled.
         public var enabled: Swift.Bool?
 
@@ -31414,7 +31414,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainServiceSoftwareOption
 
 extension SecurityHubClientTypes {
     /// Provides information about the state of the domain relative to the latest service software.
-    public struct AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails {
         /// The epoch time when the deployment window closes for required updates. After this time, OpenSearch Service schedules the software upgrade automatically.
         public var automatedUpdateDate: Swift.String?
         /// Whether a request to update the domain can be canceled.
@@ -31517,7 +31517,7 @@ extension SecurityHubClientTypes.AwsOpenSearchServiceDomainVpcOptionsDetails: Sw
 
 extension SecurityHubClientTypes {
     /// Contains information that OpenSearch Service derives based on the VPCOptions for the domain.
-    public struct AwsOpenSearchServiceDomainVpcOptionsDetails: Swift.Equatable {
+    public struct AwsOpenSearchServiceDomainVpcOptionsDetails {
         /// The list of security group IDs that are associated with the VPC endpoints for the domain.
         public var securityGroupIds: [Swift.String]?
         /// A list of subnet IDs that are associated with the VPC endpoints for the domain.
@@ -31562,7 +31562,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterAssociatedRole: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An IAM role that is associated with the Amazon RDS DB cluster.
-    public struct AwsRdsDbClusterAssociatedRole: Swift.Equatable {
+    public struct AwsRdsDbClusterAssociatedRole {
         /// The ARN of the IAM role.
         public var roleArn: Swift.String?
         /// The status of the association between the IAM role and the DB cluster. Valid values are as follows:
@@ -31937,7 +31937,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an Amazon RDS DB cluster.
-    public struct AwsRdsDbClusterDetails: Swift.Equatable {
+    public struct AwsRdsDbClusterDetails {
         /// The status of the database activity stream. Valid values are as follows:
         ///
         /// * started
@@ -32172,7 +32172,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterMember: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an instance in the DB cluster.
-    public struct AwsRdsDbClusterMember: Swift.Equatable {
+    public struct AwsRdsDbClusterMember {
         /// The status of the DB cluster parameter group for this member of the DB cluster.
         public var dbClusterParameterGroupStatus: Swift.String?
         /// The instance identifier for this member of the DB cluster.
@@ -32225,7 +32225,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterOptionGroupMembership: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// Information about an option group membership for a DB cluster.
-    public struct AwsRdsDbClusterOptionGroupMembership: Swift.Equatable {
+    public struct AwsRdsDbClusterOptionGroupMembership {
         /// The name of the DB cluster option group.
         public var dbClusterOptionGroupName: Swift.String?
         /// The status of the DB cluster option group.
@@ -32282,7 +32282,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDbClusterSnapshotAttribu
 
 extension SecurityHubClientTypes {
     /// Contains the name and values of a manual Amazon Relational Database Service (RDS) DB cluster snapshot attribute.
-    public struct AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute: Swift.Equatable {
+    public struct AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute {
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of Amazon Web Services accounts that have permission to copy or restore the manual DB cluster snapshot.
         public var attributeName: Swift.String?
         /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the Amazon Web Services accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any Amazon Web Services account to copy or restore.
@@ -32453,7 +32453,7 @@ extension SecurityHubClientTypes.AwsRdsDbClusterSnapshotDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an Amazon RDS DB cluster snapshot.
-    public struct AwsRdsDbClusterSnapshotDetails: Swift.Equatable {
+    public struct AwsRdsDbClusterSnapshotDetails {
         /// Specifies the allocated storage size in gibibytes (GiB).
         public var allocatedStorage: Swift.Int?
         /// A list of Availability Zones where instances in the DB cluster can be created.
@@ -32598,7 +32598,7 @@ extension SecurityHubClientTypes.AwsRdsDbDomainMembership: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about an Active Directory domain membership record associated with the DB instance.
-    public struct AwsRdsDbDomainMembership: Swift.Equatable {
+    public struct AwsRdsDbDomainMembership {
         /// The identifier of the Active Directory domain.
         public var domain: Swift.String?
         /// The fully qualified domain name of the Active Directory domain.
@@ -32657,7 +32657,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceAssociatedRole: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An IAM role associated with the DB instance.
-    public struct AwsRdsDbInstanceAssociatedRole: Swift.Equatable {
+    public struct AwsRdsDbInstanceAssociatedRole {
         /// The name of the feature associated with the IAM role.
         public var featureName: Swift.String?
         /// The ARN of the IAM role that is associated with the DB instance.
@@ -33174,7 +33174,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains the details of an Amazon RDS DB instance.
-    public struct AwsRdsDbInstanceDetails: Swift.Equatable {
+    public struct AwsRdsDbInstanceDetails {
         /// The amount of storage (in gigabytes) to initially allocate for the DB instance.
         public var allocatedStorage: Swift.Int?
         /// The IAM roles associated with the DB instance.
@@ -33471,7 +33471,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceEndpoint: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Specifies the connection endpoint.
-    public struct AwsRdsDbInstanceEndpoint: Swift.Equatable {
+    public struct AwsRdsDbInstanceEndpoint {
         /// Specifies the DNS address of the DB instance.
         public var address: Swift.String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
@@ -33520,7 +33520,7 @@ extension SecurityHubClientTypes.AwsRdsDbInstanceVpcSecurityGroup: Swift.Codable
 
 extension SecurityHubClientTypes {
     /// A VPC security groups that the DB instance belongs to.
-    public struct AwsRdsDbInstanceVpcSecurityGroup: Swift.Equatable {
+    public struct AwsRdsDbInstanceVpcSecurityGroup {
         /// The status of the VPC security group.
         public var status: Swift.String?
         /// The name of the VPC security group.
@@ -33565,7 +33565,7 @@ extension SecurityHubClientTypes.AwsRdsDbOptionGroupMembership: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An option group membership.
-    public struct AwsRdsDbOptionGroupMembership: Swift.Equatable {
+    public struct AwsRdsDbOptionGroupMembership {
         /// The name of the option group.
         public var optionGroupName: Swift.String?
         /// The status of the option group membership.
@@ -33610,7 +33610,7 @@ extension SecurityHubClientTypes.AwsRdsDbParameterGroup: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about a parameter group for a DB instance.
-    public struct AwsRdsDbParameterGroup: Swift.Equatable {
+    public struct AwsRdsDbParameterGroup {
         /// The name of the parameter group.
         public var dbParameterGroupName: Swift.String?
         /// The status of parameter updates.
@@ -33745,7 +33745,7 @@ extension SecurityHubClientTypes.AwsRdsDbPendingModifiedValues: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Changes to a DB instance that are currently pending.
-    public struct AwsRdsDbPendingModifiedValues: Swift.Equatable {
+    public struct AwsRdsDbPendingModifiedValues {
         /// The new value of the allocated storage for the DB instance.
         public var allocatedStorage: Swift.Int?
         /// The new backup retention period for the DB instance.
@@ -33842,7 +33842,7 @@ extension SecurityHubClientTypes.AwsRdsDbProcessorFeature: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A processor feature.
-    public struct AwsRdsDbProcessorFeature: Swift.Equatable {
+    public struct AwsRdsDbProcessorFeature {
         /// The name of the processor feature. Valid values are coreCount or threadsPerCore.
         public var name: Swift.String?
         /// The value of the processor feature.
@@ -33941,7 +33941,7 @@ extension SecurityHubClientTypes.AwsRdsDbSecurityGroupDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an Amazon RDS DB security group.
-    public struct AwsRdsDbSecurityGroupDetails: Swift.Equatable {
+    public struct AwsRdsDbSecurityGroupDetails {
         /// The ARN for the DB security group.
         public var dbSecurityGroupArn: Swift.String?
         /// Provides the description of the DB security group.
@@ -34018,7 +34018,7 @@ extension SecurityHubClientTypes.AwsRdsDbSecurityGroupEc2SecurityGroup: Swift.Co
 
 extension SecurityHubClientTypes {
     /// EC2 security group information for an RDS DB security group.
-    public struct AwsRdsDbSecurityGroupEc2SecurityGroup: Swift.Equatable {
+    public struct AwsRdsDbSecurityGroupEc2SecurityGroup {
         /// Specifies the ID for the EC2 security group.
         public var ec2SecurityGroupId: Swift.String?
         /// Specifies the name of the EC2 security group.
@@ -34071,7 +34071,7 @@ extension SecurityHubClientTypes.AwsRdsDbSecurityGroupIpRange: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// IP range information for an RDS DB security group.
-    public struct AwsRdsDbSecurityGroupIpRange: Swift.Equatable {
+    public struct AwsRdsDbSecurityGroupIpRange {
         /// Specifies the IP range.
         public var cidrIp: Swift.String?
         /// Specifies the status of the IP range.
@@ -34278,7 +34278,7 @@ extension SecurityHubClientTypes.AwsRdsDbSnapshotDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about an Amazon RDS DB cluster snapshot.
-    public struct AwsRdsDbSnapshotDetails: Swift.Equatable {
+    public struct AwsRdsDbSnapshotDetails {
         /// The amount of storage (in gigabytes) to be initially allocated for the database instance.
         public var allocatedStorage: Swift.Int?
         /// Specifies the name of the Availability Zone in which the DB instance was located at the time of the DB snapshot.
@@ -34469,7 +34469,7 @@ extension SecurityHubClientTypes.AwsRdsDbStatusInfo: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the status of a read replica.
-    public struct AwsRdsDbStatusInfo: Swift.Equatable {
+    public struct AwsRdsDbStatusInfo {
         /// If the read replica is currently in an error state, provides the error details.
         public var message: Swift.String?
         /// Whether the read replica instance is operating normally.
@@ -34558,7 +34558,7 @@ extension SecurityHubClientTypes.AwsRdsDbSubnetGroup: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the subnet group for the database instance.
-    public struct AwsRdsDbSubnetGroup: Swift.Equatable {
+    public struct AwsRdsDbSubnetGroup {
         /// The ARN of the subnet group.
         public var dbSubnetGroupArn: Swift.String?
         /// The description of the subnet group.
@@ -34625,7 +34625,7 @@ extension SecurityHubClientTypes.AwsRdsDbSubnetGroupSubnet: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about a subnet in a subnet group.
-    public struct AwsRdsDbSubnetGroupSubnet: Swift.Equatable {
+    public struct AwsRdsDbSubnetGroupSubnet {
         /// Information about the Availability Zone for a subnet in the subnet group.
         public var subnetAvailabilityZone: SecurityHubClientTypes.AwsRdsDbSubnetGroupSubnetAvailabilityZone?
         /// The identifier of a subnet in the subnet group.
@@ -34668,7 +34668,7 @@ extension SecurityHubClientTypes.AwsRdsDbSubnetGroupSubnetAvailabilityZone: Swif
 
 extension SecurityHubClientTypes {
     /// An Availability Zone for a subnet in a subnet group.
-    public struct AwsRdsDbSubnetGroupSubnetAvailabilityZone: Swift.Equatable {
+    public struct AwsRdsDbSubnetGroupSubnetAvailabilityZone {
         /// The name of the Availability Zone for a subnet in the subnet group.
         public var name: Swift.String?
 
@@ -34781,7 +34781,7 @@ extension SecurityHubClientTypes.AwsRdsEventSubscriptionDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an Amazon RDS event notification subscription. The subscription allows Amazon RDS to post events to an SNS topic.
-    public struct AwsRdsEventSubscriptionDetails: Swift.Equatable {
+    public struct AwsRdsEventSubscriptionDetails {
         /// The identifier of the account that is associated with the event notification subscription.
         public var custSubscriptionId: Swift.String?
         /// The identifier of the event notification subscription.
@@ -34892,7 +34892,7 @@ extension SecurityHubClientTypes.AwsRdsPendingCloudWatchLogsExports: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// Identifies the log types to enable and disable.
-    public struct AwsRdsPendingCloudWatchLogsExports: Swift.Equatable {
+    public struct AwsRdsPendingCloudWatchLogsExports {
         /// A list of log types that are being disabled.
         public var logTypesToDisable: [Swift.String]?
         /// A list of log types that are being enabled.
@@ -34943,7 +34943,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterClusterNode: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A node in an Amazon Redshift cluster.
-    public struct AwsRedshiftClusterClusterNode: Swift.Equatable {
+    public struct AwsRedshiftClusterClusterNode {
         /// The role of the node. A node might be a leader node or a compute node.
         public var nodeRole: Swift.String?
         /// The private IP address of the node.
@@ -35010,7 +35010,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterClusterParameterGroup: Swift.
 
 extension SecurityHubClientTypes {
     /// A cluster parameter group that is associated with an Amazon Redshift cluster.
-    public struct AwsRedshiftClusterClusterParameterGroup: Swift.Equatable {
+    public struct AwsRedshiftClusterClusterParameterGroup {
         /// The list of parameter statuses.
         public var clusterParameterStatusList: [SecurityHubClientTypes.AwsRedshiftClusterClusterParameterStatus]?
         /// The status of updates to the parameters.
@@ -35065,7 +35065,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterClusterParameterStatus: Swift
 
 extension SecurityHubClientTypes {
     /// The status of a parameter in a cluster parameter group for an Amazon Redshift cluster.
-    public struct AwsRedshiftClusterClusterParameterStatus: Swift.Equatable {
+    public struct AwsRedshiftClusterClusterParameterStatus {
         /// The error that prevented the parameter from being applied to the database.
         public var parameterApplyErrorDescription: Swift.String?
         /// The status of the parameter. Indicates whether the parameter is in sync with the database, waiting for a cluster reboot, or encountered an error when it was applied. Valid values: in-sync | pending-reboot | applying | invalid-parameter | apply-deferred | apply-error | unknown-error
@@ -35114,7 +35114,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterClusterSecurityGroup: Swift.C
 
 extension SecurityHubClientTypes {
     /// A security group that is associated with the cluster.
-    public struct AwsRedshiftClusterClusterSecurityGroup: Swift.Equatable {
+    public struct AwsRedshiftClusterClusterSecurityGroup {
         /// The name of the cluster security group.
         public var clusterSecurityGroupName: Swift.String?
         /// The status of the cluster security group.
@@ -35171,7 +35171,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterClusterSnapshotCopyStatus: Sw
 
 extension SecurityHubClientTypes {
     /// You can configure Amazon Redshift to copy snapshots for a cluster to another Amazon Web Services Region. This parameter provides information about a cross-Region snapshot copy.
-    public struct AwsRedshiftClusterClusterSnapshotCopyStatus: Swift.Equatable {
+    public struct AwsRedshiftClusterClusterSnapshotCopyStatus {
         /// The destination Region that snapshots are automatically copied to when cross-Region snapshot copy is enabled.
         public var destinationRegion: Swift.String?
         /// The number of days that manual snapshots are retained in the destination Region after they are copied from a source Region. If the value is -1, then the manual snapshot is retained indefinitely. Valid values: Either -1 or an integer between 1 and 3,653
@@ -35230,7 +35230,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDeferredMaintenanceWindow: Sw
 
 extension SecurityHubClientTypes {
     /// A time windows during which maintenance was deferred for an Amazon Redshift cluster.
-    public struct AwsRedshiftClusterDeferredMaintenanceWindow: Swift.Equatable {
+    public struct AwsRedshiftClusterDeferredMaintenanceWindow {
         /// The end of the time window for which maintenance was deferred. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
         /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
@@ -35635,7 +35635,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an Amazon Redshift cluster.
-    public struct AwsRedshiftClusterDetails: Swift.Equatable {
+    public struct AwsRedshiftClusterDetails {
         /// Indicates whether major version upgrades are applied automatically to the cluster during the maintenance window.
         public var allowVersionUpgrade: Swift.Bool?
         /// The number of days that automatic cluster snapshots are retained.
@@ -35888,7 +35888,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterElasticIpStatus: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// The status of the elastic IP (EIP) address for an Amazon Redshift cluster.
-    public struct AwsRedshiftClusterElasticIpStatus: Swift.Equatable {
+    public struct AwsRedshiftClusterElasticIpStatus {
         /// The elastic IP address for the cluster.
         public var elasticIp: Swift.String?
         /// The status of the elastic IP address.
@@ -35933,7 +35933,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterEndpoint: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The connection endpoint for an Amazon Redshift cluster.
-    public struct AwsRedshiftClusterEndpoint: Swift.Equatable {
+    public struct AwsRedshiftClusterEndpoint {
         /// The DNS address of the cluster.
         public var address: Swift.String?
         /// The port that the database engine listens on.
@@ -35984,7 +35984,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterHsmStatus: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about whether an Amazon Redshift cluster finished applying any hardware changes to security module (HSM) settings that were specified in a modify cluster command.
-    public struct AwsRedshiftClusterHsmStatus: Swift.Equatable {
+    public struct AwsRedshiftClusterHsmStatus {
         /// The name of the HSM client certificate that the Amazon Redshift cluster uses to retrieve the data encryption keys that are stored in an HSM.
         public var hsmClientCertificateIdentifier: Swift.String?
         /// The name of the HSM configuration that contains the information that the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
@@ -36033,7 +36033,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterIamRole: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An IAM role that the cluster can use to access other Amazon Web Services services.
-    public struct AwsRedshiftClusterIamRole: Swift.Equatable {
+    public struct AwsRedshiftClusterIamRole {
         /// The status of the IAM role's association with the cluster. Valid values: in-sync | adding | removing
         public var applyStatus: Swift.String?
         /// The ARN of the IAM role.
@@ -36102,7 +36102,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterLoggingStatus: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// Provides information about the logging status of the cluster.
-    public struct AwsRedshiftClusterLoggingStatus: Swift.Equatable {
+    public struct AwsRedshiftClusterLoggingStatus {
         /// The name of the S3 bucket where the log files are stored.
         public var bucketName: Swift.String?
         /// The message indicating that the logs failed to be delivered.
@@ -36237,7 +36237,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterPendingModifiedValues: Swift.
 
 extension SecurityHubClientTypes {
     /// Changes to the Amazon Redshift cluster that are currently pending.
-    public struct AwsRedshiftClusterPendingModifiedValues: Swift.Equatable {
+    public struct AwsRedshiftClusterPendingModifiedValues {
         /// The pending or in-progress change to the automated snapshot retention period.
         public var automatedSnapshotRetentionPeriod: Swift.Int?
         /// The pending or in-progress change to the identifier for the cluster.
@@ -36318,7 +36318,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterResizeInfo: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the resize operation for the cluster.
-    public struct AwsRedshiftClusterResizeInfo: Swift.Equatable {
+    public struct AwsRedshiftClusterResizeInfo {
         /// Indicates whether the resize operation can be canceled.
         public var allowCancelResize: Swift.Bool?
         /// The type of resize operation. Valid values: ClassicResize
@@ -36387,7 +36387,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterRestoreStatus: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// Information about the status of a cluster restore action. It only applies if the cluster was created by restoring a snapshot.
-    public struct AwsRedshiftClusterRestoreStatus: Swift.Equatable {
+    public struct AwsRedshiftClusterRestoreStatus {
         /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup. This field is only updated when you restore to DC2 and DS2 node types.
         public var currentRestoreRateInMegaBytesPerSecond: Swift.Double?
         /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish. This field is only updated when you restore to DC2 and DS2 node types.
@@ -36448,7 +36448,7 @@ extension SecurityHubClientTypes.AwsRedshiftClusterVpcSecurityGroup: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// A VPC security group that the cluster belongs to, if the cluster is in a VPC.
-    public struct AwsRedshiftClusterVpcSecurityGroup: Swift.Equatable {
+    public struct AwsRedshiftClusterVpcSecurityGroup {
         /// The status of the VPC security group.
         public var status: Swift.String?
         /// The identifier of the VPC security group.
@@ -36487,7 +36487,7 @@ extension SecurityHubClientTypes.AwsRoute53HostedZoneConfigDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// An object that contains an optional comment about your Amazon Route 53 hosted zone.
-    public struct AwsRoute53HostedZoneConfigDetails: Swift.Equatable {
+    public struct AwsRoute53HostedZoneConfigDetails {
         /// Any comments that you include about the hosted zone.
         public var comment: Swift.String?
 
@@ -36564,7 +36564,7 @@ extension SecurityHubClientTypes.AwsRoute53HostedZoneDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about a specified Amazon Route 53 hosted zone, including the four name servers assigned to the hosted zone. A hosted zone represents a collection of records that can be managed together, belonging to a single parent domain name.
-    public struct AwsRoute53HostedZoneDetails: Swift.Equatable {
+    public struct AwsRoute53HostedZoneDetails {
         /// An object that contains information about the specified hosted zone.
         public var hostedZone: SecurityHubClientTypes.AwsRoute53HostedZoneObjectDetails?
         /// An object that contains a list of the authoritative name servers for a hosted zone or for a reusable delegation set.
@@ -36623,7 +36623,7 @@ extension SecurityHubClientTypes.AwsRoute53HostedZoneObjectDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// An object that contains information about an Amazon Route 53 hosted zone.
-    public struct AwsRoute53HostedZoneObjectDetails: Swift.Equatable {
+    public struct AwsRoute53HostedZoneObjectDetails {
         /// An object that includes the Comment element.
         public var config: SecurityHubClientTypes.AwsRoute53HostedZoneConfigDetails?
         /// The ID that Route 53 assigns to the hosted zone when you create it.
@@ -36672,7 +36672,7 @@ extension SecurityHubClientTypes.AwsRoute53HostedZoneVpcDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// For private hosted zones, this is a complex type that contains information about an Amazon VPC.
-    public struct AwsRoute53HostedZoneVpcDetails: Swift.Equatable {
+    public struct AwsRoute53HostedZoneVpcDetails {
         /// The identifier of an Amazon VPC.
         public var id: Swift.String?
         /// The Amazon Web Services Region that an Amazon VPC was created in.
@@ -36711,7 +36711,7 @@ extension SecurityHubClientTypes.AwsRoute53QueryLoggingConfigDetails: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// Provides details about a specified Amazon Route 53 configuration for DNS query logging.
-    public struct AwsRoute53QueryLoggingConfigDetails: Swift.Equatable {
+    public struct AwsRoute53QueryLoggingConfigDetails {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log group that Route 53 is publishing logs to.
         public var cloudWatchLogsLogGroupArn: SecurityHubClientTypes.CloudWatchLogsLogGroupArnConfigDetails?
 
@@ -36788,7 +36788,7 @@ extension SecurityHubClientTypes.AwsS3AccessPointDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Returns configuration information about the specified Amazon S3 access point. S3 access points are named network endpoints that are attached to buckets that you can use to perform S3 object operations.
-    public struct AwsS3AccessPointDetails: Swift.Equatable {
+    public struct AwsS3AccessPointDetails {
         /// The Amazon Resource Name (ARN) of the access point.
         public var accessPointArn: Swift.String?
         /// The name or alias of the access point.
@@ -36851,7 +36851,7 @@ extension SecurityHubClientTypes.AwsS3AccessPointVpcConfigurationDetails: Swift.
 
 extension SecurityHubClientTypes {
     /// The virtual private cloud (VPC) configuration for an Amazon S3 access point.
-    public struct AwsS3AccessPointVpcConfigurationDetails: Swift.Equatable {
+    public struct AwsS3AccessPointVpcConfigurationDetails {
         /// If this field is specified, this access point will only allow connections from the specified VPC ID.
         public var vpcId: Swift.String?
 
@@ -36904,7 +36904,7 @@ extension SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// provides information about the Amazon S3 Public Access Block configuration for accounts.
-    public struct AwsS3AccountPublicAccessBlockDetails: Swift.Equatable {
+    public struct AwsS3AccountPublicAccessBlockDetails {
         /// Indicates whether to reject calls to update an S3 bucket if the calls include a public access control list (ACL).
         public var blockPublicAcls: Swift.Bool?
         /// Indicates whether to reject calls to update the access policy for an S3 bucket or access point if the policy allows public access.
@@ -36963,7 +36963,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationDetails:
 
 extension SecurityHubClientTypes {
     /// The lifecycle configuration for the objects in the S3 bucket.
-    public struct AwsS3BucketBucketLifecycleConfigurationDetails: Swift.Equatable {
+    public struct AwsS3BucketBucketLifecycleConfigurationDetails {
         /// The lifecycle rules.
         public var rules: [SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesDetails]?
 
@@ -36998,7 +36998,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesAbo
 
 extension SecurityHubClientTypes {
     /// Information about what Amazon S3 does when a multipart upload is incomplete.
-    public struct AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails: Swift.Equatable {
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails {
         /// The number of days after which Amazon S3 cancels an incomplete multipart upload.
         public var daysAfterInitiation: Swift.Int?
 
@@ -37117,7 +37117,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesDet
 
 extension SecurityHubClientTypes {
     /// Configuration for a lifecycle rule.
-    public struct AwsS3BucketBucketLifecycleConfigurationRulesDetails: Swift.Equatable {
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesDetails {
         /// How Amazon S3 responds when a multipart upload is incomplete. Specifically, provides a number of days before Amazon S3 cancels the entire upload.
         public var abortIncompleteMultipartUpload: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails?
         /// The date when objects are moved or deleted. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -37202,7 +37202,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFil
 
 extension SecurityHubClientTypes {
     /// Identifies the objects that a rule applies to.
-    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails: Swift.Equatable {
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails {
         /// The configuration for the filter.
         public var predicate: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails?
 
@@ -37267,7 +37267,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFil
 
 extension SecurityHubClientTypes {
     /// The configuration for the filter.
-    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails: Swift.Equatable {
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails {
         /// The values to use for the filter.
         public var operands: [SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails]?
         /// A prefix filter.
@@ -37326,7 +37326,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFil
 
 extension SecurityHubClientTypes {
     /// A value to use for the filter.
-    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails: Swift.Equatable {
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails {
         /// Prefix text for matching objects.
         public var `prefix`: Swift.String?
         /// A tag that is assigned to matching objects.
@@ -37375,7 +37375,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFil
 
 extension SecurityHubClientTypes {
     /// A tag that is assigned to matching objects.
-    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails: Swift.Equatable {
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails {
         /// The tag key.
         public var key: Swift.String?
         /// The tag value.
@@ -37420,7 +37420,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesFil
 
 extension SecurityHubClientTypes {
     /// A tag filter.
-    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails: Swift.Equatable {
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails {
         /// The tag key.
         public var key: Swift.String?
         /// The tag value
@@ -37465,7 +37465,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesNon
 
 extension SecurityHubClientTypes {
     /// A transition rule that describes when noncurrent objects transition to a specified storage class.
-    public struct AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails: Swift.Equatable {
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails {
         /// The number of days that an object is noncurrent before Amazon S3 can perform the associated action.
         public var days: Swift.Int?
         /// The class of storage to change the object to after the object is noncurrent for the specified number of days.
@@ -37516,7 +37516,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesTra
 
 extension SecurityHubClientTypes {
     /// A rule for when objects transition to specific storage classes.
-    public struct AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails: Swift.Equatable {
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails {
         /// A date on which to transition objects to the specified storage class. If you provide Date, you cannot provide Days. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
         /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
@@ -37585,7 +37585,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketVersioningConfiguration: Swift
 
 extension SecurityHubClientTypes {
     /// Describes the versioning state of an S3 bucket.
-    public struct AwsS3BucketBucketVersioningConfiguration: Swift.Equatable {
+    public struct AwsS3BucketBucketVersioningConfiguration {
         /// Specifies whether MFA delete is currently enabled in the S3 bucket versioning configuration. If the S3 bucket was never configured with MFA delete, then this attribute is not included.
         public var isMfaDeleteEnabled: Swift.Bool?
         /// The versioning status of the S3 bucket. Valid values are Enabled or Suspended.
@@ -37702,7 +37702,7 @@ extension SecurityHubClientTypes.AwsS3BucketDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The details of an Amazon Simple Storage Service (Amazon S3) bucket.
-    public struct AwsS3BucketDetails: Swift.Equatable {
+    public struct AwsS3BucketDetails {
         /// The access control list for the S3 bucket.
         public var accessControlList: Swift.String?
         /// The lifecycle configuration for objects in the specified bucket.
@@ -37805,7 +37805,7 @@ extension SecurityHubClientTypes.AwsS3BucketLoggingConfiguration: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// Information about logging for the S3 bucket
-    public struct AwsS3BucketLoggingConfiguration: Swift.Equatable {
+    public struct AwsS3BucketLoggingConfiguration {
         /// The name of the S3 bucket where log files for the S3 bucket are stored.
         public var destinationBucketName: Swift.String?
         /// The prefix added to log files for the S3 bucket.
@@ -37856,7 +37856,7 @@ extension SecurityHubClientTypes.AwsS3BucketNotificationConfiguration: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// The notification configuration for the S3 bucket.
-    public struct AwsS3BucketNotificationConfiguration: Swift.Equatable {
+    public struct AwsS3BucketNotificationConfiguration {
         /// Configurations for S3 bucket notifications.
         public var configurations: [SecurityHubClientTypes.AwsS3BucketNotificationConfigurationDetail]?
 
@@ -37921,7 +37921,7 @@ extension SecurityHubClientTypes.AwsS3BucketNotificationConfigurationDetail: Swi
 
 extension SecurityHubClientTypes {
     /// Details for an S3 bucket notification configuration.
-    public struct AwsS3BucketNotificationConfigurationDetail: Swift.Equatable {
+    public struct AwsS3BucketNotificationConfigurationDetail {
         /// The ARN of the Lambda function, Amazon SQS queue, or Amazon SNS topic that generates the notification.
         public var destination: Swift.String?
         /// The list of events that trigger a notification.
@@ -37974,7 +37974,7 @@ extension SecurityHubClientTypes.AwsS3BucketNotificationConfigurationFilter: Swi
 
 extension SecurityHubClientTypes {
     /// Filtering information for the notifications. The filtering is based on Amazon S3 key names.
-    public struct AwsS3BucketNotificationConfigurationFilter: Swift.Equatable {
+    public struct AwsS3BucketNotificationConfigurationFilter {
         /// Details for an Amazon S3 filter.
         public var s3KeyFilter: SecurityHubClientTypes.AwsS3BucketNotificationConfigurationS3KeyFilter?
 
@@ -38021,7 +38021,7 @@ extension SecurityHubClientTypes.AwsS3BucketNotificationConfigurationS3KeyFilter
 
 extension SecurityHubClientTypes {
     /// Details for an Amazon S3 filter.
-    public struct AwsS3BucketNotificationConfigurationS3KeyFilter: Swift.Equatable {
+    public struct AwsS3BucketNotificationConfigurationS3KeyFilter {
         /// The filter rules for the filter.
         public var filterRules: [SecurityHubClientTypes.AwsS3BucketNotificationConfigurationS3KeyFilterRule]?
 
@@ -38062,7 +38062,7 @@ extension SecurityHubClientTypes.AwsS3BucketNotificationConfigurationS3KeyFilter
 
 extension SecurityHubClientTypes {
     /// Details for a filter rule.
-    public struct AwsS3BucketNotificationConfigurationS3KeyFilterRule: Swift.Equatable {
+    public struct AwsS3BucketNotificationConfigurationS3KeyFilterRule {
         /// Indicates whether the filter is based on the prefix or suffix of the Amazon S3 key.
         public var name: SecurityHubClientTypes.AwsS3BucketNotificationConfigurationS3KeyFilterRuleName?
         /// The filter value.
@@ -38139,7 +38139,7 @@ extension SecurityHubClientTypes.AwsS3BucketObjectLockConfiguration: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// The container element for S3 Object Lock configuration parameters. In Amazon S3, Object Lock can help prevent objects from being deleted or overwritten for a fixed amount of time or indefinitely.
-    public struct AwsS3BucketObjectLockConfiguration: Swift.Equatable {
+    public struct AwsS3BucketObjectLockConfiguration {
         /// Indicates whether the bucket has an Object Lock configuration enabled.
         public var objectLockEnabled: Swift.String?
         /// Specifies the Object Lock rule for the specified object.
@@ -38190,7 +38190,7 @@ extension SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDefaultRe
 
 extension SecurityHubClientTypes {
     /// The default S3 Object Lock retention mode and period that you want to apply to new objects placed in the specified Amazon S3 bucket.
-    public struct AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails: Swift.Equatable {
+    public struct AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails {
         /// The number of days that you want to specify for the default retention period.
         public var days: Swift.Int?
         /// The default Object Lock retention mode you want to apply to new objects placed in the specified bucket.
@@ -38233,7 +38233,7 @@ extension SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDetails: 
 
 extension SecurityHubClientTypes {
     /// Specifies the S3 Object Lock rule for the specified object. In Amazon S3, Object Lock can help prevent objects from being deleted or overwritten for a fixed amount of time or indefinitely.
-    public struct AwsS3BucketObjectLockConfigurationRuleDetails: Swift.Equatable {
+    public struct AwsS3BucketObjectLockConfigurationRuleDetails {
         /// The default Object Lock retention mode and period that you want to apply to new objects placed in the specified bucket.
         public var defaultRetention: SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails?
 
@@ -38274,7 +38274,7 @@ extension SecurityHubClientTypes.AwsS3BucketServerSideEncryptionByDefault: Swift
 
 extension SecurityHubClientTypes {
     /// Specifies the default server-side encryption to apply to new objects in the bucket.
-    public struct AwsS3BucketServerSideEncryptionByDefault: Swift.Equatable {
+    public struct AwsS3BucketServerSideEncryptionByDefault {
         /// KMS key ID to use for the default encryption.
         public var kmsMasterKeyID: Swift.String?
         /// Server-side encryption algorithm to use for the default encryption. Valid values are aws: kms or AES256.
@@ -38325,7 +38325,7 @@ extension SecurityHubClientTypes.AwsS3BucketServerSideEncryptionConfiguration: S
 
 extension SecurityHubClientTypes {
     /// The encryption configuration for the S3 bucket.
-    public struct AwsS3BucketServerSideEncryptionConfiguration: Swift.Equatable {
+    public struct AwsS3BucketServerSideEncryptionConfiguration {
         /// The encryption rules that are applied to the S3 bucket.
         public var rules: [SecurityHubClientTypes.AwsS3BucketServerSideEncryptionRule]?
 
@@ -38360,7 +38360,7 @@ extension SecurityHubClientTypes.AwsS3BucketServerSideEncryptionRule: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// An encryption rule to apply to the S3 bucket.
-    public struct AwsS3BucketServerSideEncryptionRule: Swift.Equatable {
+    public struct AwsS3BucketServerSideEncryptionRule {
         /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT object request doesn't specify any server-side encryption, this default encryption is applied.
         public var applyServerSideEncryptionByDefault: SecurityHubClientTypes.AwsS3BucketServerSideEncryptionByDefault?
 
@@ -38425,7 +38425,7 @@ extension SecurityHubClientTypes.AwsS3BucketWebsiteConfiguration: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// Website parameters for the S3 bucket.
-    public struct AwsS3BucketWebsiteConfiguration: Swift.Equatable {
+    public struct AwsS3BucketWebsiteConfiguration {
         /// The name of the error document for the website.
         public var errorDocument: Swift.String?
         /// The name of the index document for the website.
@@ -38478,7 +38478,7 @@ extension SecurityHubClientTypes.AwsS3BucketWebsiteConfigurationRedirectTo: Swif
 
 extension SecurityHubClientTypes {
     /// The redirect behavior for requests to the website.
-    public struct AwsS3BucketWebsiteConfigurationRedirectTo: Swift.Equatable {
+    public struct AwsS3BucketWebsiteConfigurationRedirectTo {
         /// The name of the host to redirect requests to.
         public var hostname: Swift.String?
         /// The protocol to use when redirecting requests. By default, this field uses the same protocol as the original request. Valid values are http or https.
@@ -38523,7 +38523,7 @@ extension SecurityHubClientTypes.AwsS3BucketWebsiteConfigurationRoutingRule: Swi
 
 extension SecurityHubClientTypes {
     /// A rule for redirecting requests to the website.
-    public struct AwsS3BucketWebsiteConfigurationRoutingRule: Swift.Equatable {
+    public struct AwsS3BucketWebsiteConfigurationRoutingRule {
         /// Provides the condition that must be met in order to apply the routing rule.
         public var condition: SecurityHubClientTypes.AwsS3BucketWebsiteConfigurationRoutingRuleCondition?
         /// Provides the rules to redirect the request if the condition in Condition is met.
@@ -38568,7 +38568,7 @@ extension SecurityHubClientTypes.AwsS3BucketWebsiteConfigurationRoutingRuleCondi
 
 extension SecurityHubClientTypes {
     /// The condition that must be met in order to apply the routing rule.
-    public struct AwsS3BucketWebsiteConfigurationRoutingRuleCondition: Swift.Equatable {
+    public struct AwsS3BucketWebsiteConfigurationRoutingRuleCondition {
         /// Indicates to redirect the request if the HTTP error code matches this value.
         public var httpErrorCodeReturnedEquals: Swift.String?
         /// Indicates to redirect the request if the key prefix matches this value.
@@ -38631,7 +38631,7 @@ extension SecurityHubClientTypes.AwsS3BucketWebsiteConfigurationRoutingRuleRedir
 
 extension SecurityHubClientTypes {
     /// The rules to redirect the request if the condition in Condition is met.
-    public struct AwsS3BucketWebsiteConfigurationRoutingRuleRedirect: Swift.Equatable {
+    public struct AwsS3BucketWebsiteConfigurationRoutingRuleRedirect {
         /// The host name to use in the redirect request.
         public var hostname: Swift.String?
         /// The HTTP redirect code to use in the response.
@@ -38712,7 +38712,7 @@ extension SecurityHubClientTypes.AwsS3ObjectDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an Amazon S3 object.
-    public struct AwsS3ObjectDetails: Swift.Equatable {
+    public struct AwsS3ObjectDetails {
         /// A standard MIME type describing the format of the object data.
         public var contentType: Swift.String?
         /// The opaque identifier assigned by a web server to a specific version of a resource found at a URL.
@@ -38927,7 +38927,7 @@ extension SecurityHubClientTypes.AwsSageMakerNotebookInstanceDetails: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// Provides details about an Amazon SageMaker notebook instance.
-    public struct AwsSageMakerNotebookInstanceDetails: Swift.Equatable {
+    public struct AwsSageMakerNotebookInstanceDetails {
         /// A list of Amazon Elastic Inference instance types to associate with the notebook instance. Currently, only one instance type can be associated with a notebook instance.
         public var acceleratorTypes: [Swift.String]?
         /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git repositories with SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html) in the Amazon SageMaker Developer Guide.
@@ -39038,7 +39038,7 @@ extension SecurityHubClientTypes.AwsSageMakerNotebookInstanceMetadataServiceConf
 
 extension SecurityHubClientTypes {
     /// Information on the instance metadata service (IMDS) configuration of the notebook instance.
-    public struct AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails: Swift.Equatable {
+    public struct AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails {
         /// Indicates the minimum IMDS version that the notebook instance supports.
         public var minimumInstanceMetadataServiceVersion: Swift.String?
 
@@ -39115,7 +39115,7 @@ extension SecurityHubClientTypes.AwsSecretsManagerSecretDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an Secrets Manager secret.
-    public struct AwsSecretsManagerSecretDetails: Swift.Equatable {
+    public struct AwsSecretsManagerSecretDetails {
         /// Whether the secret is deleted.
         public var deleted: Swift.Bool?
         /// The user-provided description of the secret.
@@ -39178,7 +39178,7 @@ extension SecurityHubClientTypes.AwsSecretsManagerSecretRotationRules: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// Defines the rotation schedule for the secret.
-    public struct AwsSecretsManagerSecretRotationRules: Swift.Equatable {
+    public struct AwsSecretsManagerSecretRotationRules {
         /// The number of days after the previous rotation to rotate the secret.
         public var automaticallyAfterDays: Swift.Int?
 
@@ -39591,7 +39591,7 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides a consistent format for Security Hub findings. AwsSecurityFinding format allows you to share findings between Amazon Web Services security services and third-party solutions. A finding is a potential security issue generated either by Amazon Web Services services or by the integrated third-party solutions and standards checks.
-    public struct AwsSecurityFinding: Swift.Equatable {
+    public struct AwsSecurityFinding {
         /// Provides details about an action that affects or that was taken on a resource.
         public var action: SecurityHubClientTypes.Action?
         /// The Amazon Web Services account ID that a finding is generated in.
@@ -41725,7 +41725,7 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A collection of filters that are applied to all active findings aggregated by Security Hub. You can filter by up to ten finding attributes. For each attribute, you can provide up to 20 filter values.
-    public struct AwsSecurityFindingFilters: Swift.Equatable {
+    public struct AwsSecurityFindingFilters {
         /// The Amazon Web Services account ID in which a finding is generated.
         public var awsAccountId: [SecurityHubClientTypes.StringFilter]?
         /// The name of the Amazon Web Services account in which a finding is generated.
@@ -42281,7 +42281,7 @@ extension SecurityHubClientTypes.AwsSecurityFindingIdentifier: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Identifies which finding to get the finding history for.
-    public struct AwsSecurityFindingIdentifier: Swift.Equatable {
+    public struct AwsSecurityFindingIdentifier {
         /// The identifier of the finding that was specified by the finding provider.
         /// This member is required.
         public var id: Swift.String?
@@ -42394,7 +42394,7 @@ extension SecurityHubClientTypes.AwsSnsTopicDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an Amazon SNS topic to which notifications can be published.
-    public struct AwsSnsTopicDetails: Swift.Equatable {
+    public struct AwsSnsTopicDetails {
         /// Indicates failed message delivery status for an Amazon SNS topic that is subscribed to a platform application endpoint.
         public var applicationSuccessFeedbackRoleArn: Swift.String?
         /// Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an Amazon Kinesis Data Firehose endpoint.
@@ -42475,7 +42475,7 @@ extension SecurityHubClientTypes.AwsSnsTopicSubscription: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A wrapper type for the attributes of an Amazon SNS subscription.
-    public struct AwsSnsTopicSubscription: Swift.Equatable {
+    public struct AwsSnsTopicSubscription {
         /// The subscription's endpoint (format depends on the protocol).
         public var endpoint: Swift.String?
         /// The subscription's protocol.
@@ -42532,7 +42532,7 @@ extension SecurityHubClientTypes.AwsSqsQueueDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Data about a queue.
-    public struct AwsSqsQueueDetails: Swift.Equatable {
+    public struct AwsSqsQueueDetails {
         /// The ARN of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
         public var deadLetterTargetArn: Swift.String?
         /// The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling KMS again.
@@ -42681,7 +42681,7 @@ extension SecurityHubClientTypes.AwsSsmComplianceSummary: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides the details about the compliance status for a patch.
-    public struct AwsSsmComplianceSummary: Swift.Equatable {
+    public struct AwsSsmComplianceSummary {
         /// The type of resource for which the compliance was determined. For AwsSsmPatchCompliance, ComplianceType is Patch.
         public var complianceType: Swift.String?
         /// For the patches that are compliant, the number that have a severity of CRITICAL.
@@ -42802,7 +42802,7 @@ extension SecurityHubClientTypes.AwsSsmPatch: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about the compliance for a patch.
-    public struct AwsSsmPatch: Swift.Equatable {
+    public struct AwsSsmPatch {
         /// The compliance status details for the patch.
         public var complianceSummary: SecurityHubClientTypes.AwsSsmComplianceSummary?
 
@@ -42837,7 +42837,7 @@ extension SecurityHubClientTypes.AwsSsmPatchComplianceDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about the state of a patch on an instance based on the patch baseline that was used to patch the instance.
-    public struct AwsSsmPatchComplianceDetails: Swift.Equatable {
+    public struct AwsSsmPatchComplianceDetails {
         /// Information about the status of a patch.
         public var patch: SecurityHubClientTypes.AwsSsmPatch?
 
@@ -42914,7 +42914,7 @@ extension SecurityHubClientTypes.AwsStepFunctionStateMachineDetails: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// Provides details about an Step Functions state machine, which is a workflow consisting of a series of event- driven steps.
-    public struct AwsStepFunctionStateMachineDetails: Swift.Equatable {
+    public struct AwsStepFunctionStateMachineDetails {
         /// A user-defined or an auto-generated string that identifies a Map state. This parameter is present only if the stateMachineArn specified in input is a qualified state machine ARN.
         public var label: Swift.String?
         /// Used to set CloudWatch Logs options.
@@ -42977,7 +42977,7 @@ extension SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfiguration
 
 extension SecurityHubClientTypes {
     /// An object describing a CloudWatch log group. For more information, see [ Amazon Web Services::Logs::LogGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html) in the CloudFormation User Guide.
-    public struct AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails: Swift.Equatable {
+    public struct AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails {
         /// The ARN (ends with :*) of the CloudWatch Logs log group to which you want your logs emitted.
         public var logGroupArn: Swift.String?
 
@@ -43012,7 +43012,7 @@ extension SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfiguration
 
 extension SecurityHubClientTypes {
     /// An array of objects that describes where your execution history events will be logged.
-    public struct AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails: Swift.Equatable {
+    public struct AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails {
         /// An object describing a CloudWatch Logs log group. For more information, see [ Amazon Web Services::Logs::LogGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html) in the CloudFormation User Guide.
         public var cloudWatchLogsLogGroup: SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails?
 
@@ -43071,7 +43071,7 @@ extension SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfiguration
 
 extension SecurityHubClientTypes {
     /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
-    public struct AwsStepFunctionStateMachineLoggingConfigurationDetails: Swift.Equatable {
+    public struct AwsStepFunctionStateMachineLoggingConfigurationDetails {
         /// An array of objects that describes where your execution history events will be logged.
         public var destinations: [SecurityHubClientTypes.AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails]?
         /// Determines whether execution data is included in your log. When set to false, data is excluded.
@@ -43114,7 +43114,7 @@ extension SecurityHubClientTypes.AwsStepFunctionStateMachineTracingConfiguration
 
 extension SecurityHubClientTypes {
     /// Specifies whether X-Ray tracing is enabled.
-    public struct AwsStepFunctionStateMachineTracingConfigurationDetails: Swift.Equatable {
+    public struct AwsStepFunctionStateMachineTracingConfigurationDetails {
         /// When set to true, X-Ray tracing is enabled.
         public var enabled: Swift.Bool?
 
@@ -43191,7 +43191,7 @@ extension SecurityHubClientTypes.AwsWafRateBasedRuleDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about a rate-based rule for global resources. A rate-based rule provides settings to indicate when to allow, block, or count a request. Rate-based rules include the number of requests that arrive over a specified period of time.
-    public struct AwsWafRateBasedRuleDetails: Swift.Equatable {
+    public struct AwsWafRateBasedRuleDetails {
         /// The predicates to include in the rate-based rule.
         public var matchPredicates: [SecurityHubClientTypes.AwsWafRateBasedRuleMatchPredicate]?
         /// The name of the metrics for the rate-based rule.
@@ -43258,7 +43258,7 @@ extension SecurityHubClientTypes.AwsWafRateBasedRuleMatchPredicate: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// A match predicate. A predicate might look for characteristics such as specific IP addresses, geographic locations, or sizes.
-    public struct AwsWafRateBasedRuleMatchPredicate: Swift.Equatable {
+    public struct AwsWafRateBasedRuleMatchPredicate {
         /// The unique identifier for the predicate.
         public var dataId: Swift.String?
         /// If set to true, then the rule actions are performed on requests that match the predicate settings. If set to false, then the rule actions are performed on all requests except those that match the predicate settings.
@@ -43357,7 +43357,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRateBasedRuleDetails: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// contains details about a rate-based rule for Regional resources. A rate-based rule provides settings to indicate when to allow, block, or count a request. Rate-based rules include the number of requests that arrive over a specified period of time.
-    public struct AwsWafRegionalRateBasedRuleDetails: Swift.Equatable {
+    public struct AwsWafRegionalRateBasedRuleDetails {
         /// The predicates to include in the rate-based rule.
         public var matchPredicates: [SecurityHubClientTypes.AwsWafRegionalRateBasedRuleMatchPredicate]?
         /// The name of the metrics for the rate-based rule.
@@ -43424,7 +43424,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRateBasedRuleMatchPredicate: Swif
 
 extension SecurityHubClientTypes {
     /// Details for a match predicate. A predicate might look for characteristics such as specific IP addresses, geographic locations, or sizes.
-    public struct AwsWafRegionalRateBasedRuleMatchPredicate: Swift.Equatable {
+    public struct AwsWafRegionalRateBasedRuleMatchPredicate {
         /// The unique identifier for the predicate.
         public var dataId: Swift.String?
         /// If set to true, then the rule actions are performed on requests that match the predicate settings. If set to false, then the rule actions are performed on all requests except those that match the predicate settings.
@@ -43511,7 +43511,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRuleDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an WAF Regional rule. This rule identifies the web requests that you want to allow, block, or count.
-    public struct AwsWafRegionalRuleDetails: Swift.Equatable {
+    public struct AwsWafRegionalRuleDetails {
         /// A name for the metrics for the rule.
         public var metricName: Swift.String?
         /// A descriptive name for the rule.
@@ -43588,7 +43588,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRuleGroupDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an WAF Regional rule group. The rule group is a collection of rules for inspecting and controlling web requests.
-    public struct AwsWafRegionalRuleGroupDetails: Swift.Equatable {
+    public struct AwsWafRegionalRuleGroupDetails {
         /// A name for the metrics for this rule group.
         public var metricName: Swift.String?
         /// The descriptive name of the rule group.
@@ -43635,7 +43635,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRuleGroupRulesActionDetails: Swif
 
 extension SecurityHubClientTypes {
     /// Describes the action that WAF should take on a web request when it matches the criteria defined in the rule.
-    public struct AwsWafRegionalRuleGroupRulesActionDetails: Swift.Equatable {
+    public struct AwsWafRegionalRuleGroupRulesActionDetails {
         /// Specifies the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, and SizeConstraintSet objects that you want to add to a rule and, for each object, indicates whether you want to negate the settings.
         public var type: Swift.String?
 
@@ -43688,7 +43688,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRuleGroupRulesDetails: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// Provides information about the rules attached to a rule group
-    public struct AwsWafRegionalRuleGroupRulesDetails: Swift.Equatable {
+    public struct AwsWafRegionalRuleGroupRulesDetails {
         /// The action that WAF should take on a web request when it matches the criteria defined in the rule.
         public var action: SecurityHubClientTypes.AwsWafRegionalRuleGroupRulesActionDetails?
         /// If you define more than one rule in a web ACL, WAF evaluates each request against the rules in order based on the value of Priority.
@@ -43747,7 +43747,7 @@ extension SecurityHubClientTypes.AwsWafRegionalRulePredicateListDetails: Swift.C
 
 extension SecurityHubClientTypes {
     /// Provides details about the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, and SizeConstraintSet objects that you want to add to a rule and, for each object, indicates whether you want to negate the settings.
-    public struct AwsWafRegionalRulePredicateListDetails: Swift.Equatable {
+    public struct AwsWafRegionalRulePredicateListDetails {
         /// A unique identifier for a predicate in a rule, such as ByteMatchSetId or IPSetId.
         public var dataId: Swift.String?
         /// Specifies if you want WAF to allow, block, or count requests based on the settings in the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, or SizeConstraintSet.
@@ -43826,7 +43826,7 @@ extension SecurityHubClientTypes.AwsWafRegionalWebAclDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about the web access control list (web ACL). The web ACL contains the rules that identify the requests that you want to allow, block, or count.
-    public struct AwsWafRegionalWebAclDetails: Swift.Equatable {
+    public struct AwsWafRegionalWebAclDetails {
         /// The action to perform if none of the rules contained in the web ACL match.
         public var defaultAction: Swift.String?
         /// A name for the metrics for this web ACL.
@@ -43877,7 +43877,7 @@ extension SecurityHubClientTypes.AwsWafRegionalWebAclRulesListActionDetails: Swi
 
 extension SecurityHubClientTypes {
     /// The action that WAF takes when a web request matches all conditions in the rule, such as allow, block, or count the request.
-    public struct AwsWafRegionalWebAclRulesListActionDetails: Swift.Equatable {
+    public struct AwsWafRegionalWebAclRulesListActionDetails {
         /// For actions that are associated with a rule, the action that WAF takes when a web request matches all conditions in a rule.
         public var type: Swift.String?
 
@@ -43936,7 +43936,7 @@ extension SecurityHubClientTypes.AwsWafRegionalWebAclRulesListDetails: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// A combination of ByteMatchSet, IPSet, and/or SqlInjectionMatchSet objects that identify the web requests that you want to allow, block, or count.
-    public struct AwsWafRegionalWebAclRulesListDetails: Swift.Equatable {
+    public struct AwsWafRegionalWebAclRulesListDetails {
         /// The action that WAF takes when a web request matches all conditions in the rule, such as allow, block, or count the request.
         public var action: SecurityHubClientTypes.AwsWafRegionalWebAclRulesListActionDetails?
         /// Overrides the rule evaluation result in the rule group.
@@ -43987,7 +43987,7 @@ extension SecurityHubClientTypes.AwsWafRegionalWebAclRulesListOverrideActionDeta
 
 extension SecurityHubClientTypes {
     /// Provides details about the action to use in the place of the action that results from the rule group evaluation.
-    public struct AwsWafRegionalWebAclRulesListOverrideActionDetails: Swift.Equatable {
+    public struct AwsWafRegionalWebAclRulesListOverrideActionDetails {
         /// Overrides the rule evaluation result in the rule group.
         public var type: Swift.String?
 
@@ -44052,7 +44052,7 @@ extension SecurityHubClientTypes.AwsWafRuleDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about a WAF rule. This rule specifies the web requests that you want to allow, block, or count.
-    public struct AwsWafRuleDetails: Swift.Equatable {
+    public struct AwsWafRuleDetails {
         /// The name of the metrics for this rule.
         public var metricName: Swift.String?
         /// A descriptive name for the rule.
@@ -44129,7 +44129,7 @@ extension SecurityHubClientTypes.AwsWafRuleGroupDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an WAF rule group. A rule group is a collection of rules for inspecting and controlling web requests.
-    public struct AwsWafRuleGroupDetails: Swift.Equatable {
+    public struct AwsWafRuleGroupDetails {
         /// The name of the metrics for this rule group.
         public var metricName: Swift.String?
         /// The name of the rule group.
@@ -44176,7 +44176,7 @@ extension SecurityHubClientTypes.AwsWafRuleGroupRulesActionDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// Provides information about what action WAF should take on a web request when it matches the criteria defined in the rule.
-    public struct AwsWafRuleGroupRulesActionDetails: Swift.Equatable {
+    public struct AwsWafRuleGroupRulesActionDetails {
         /// The action that WAF should take on a web request when it matches the rule's statement.
         public var type: Swift.String?
 
@@ -44229,7 +44229,7 @@ extension SecurityHubClientTypes.AwsWafRuleGroupRulesDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about the rules attached to the rule group. These rules identify the web requests that you want to allow, block, or count.
-    public struct AwsWafRuleGroupRulesDetails: Swift.Equatable {
+    public struct AwsWafRuleGroupRulesDetails {
         /// Provides information about what action WAF should take on a web request when it matches the criteria defined in the rule.
         public var action: SecurityHubClientTypes.AwsWafRuleGroupRulesActionDetails?
         /// If you define more than one rule in a web ACL, WAF evaluates each request against the rules in order based on the value of Priority.
@@ -44288,7 +44288,7 @@ extension SecurityHubClientTypes.AwsWafRulePredicateListDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, and SizeConstraintSet objects that you want to add to a rule and, for each object, indicates whether you want to negate the settings.
-    public struct AwsWafRulePredicateListDetails: Swift.Equatable {
+    public struct AwsWafRulePredicateListDetails {
         /// A unique identifier for a predicate in a rule, such as ByteMatchSetId or IPSetId.
         public var dataId: Swift.String?
         /// Specifies if you want WAF to allow, block, or count requests based on the settings in the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, or SizeConstraintSet.
@@ -44361,7 +44361,7 @@ extension SecurityHubClientTypes.AwsWafWebAclDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an WAF web access control list (web ACL).
-    public struct AwsWafWebAclDetails: Swift.Equatable {
+    public struct AwsWafWebAclDetails {
         /// The action to perform if none of the rules contained in the web ACL match.
         public var defaultAction: Swift.String?
         /// A friendly name or description of the web ACL. You can't change the name of a web ACL after you create it.
@@ -44450,7 +44450,7 @@ extension SecurityHubClientTypes.AwsWafWebAclRule: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details for a rule in an WAF web ACL.
-    public struct AwsWafWebAclRule: Swift.Equatable {
+    public struct AwsWafWebAclRule {
         /// Specifies the action that CloudFront or WAF takes when a web request matches the conditions in the rule.
         public var action: SecurityHubClientTypes.WafAction?
         /// Rules to exclude from a rule group.
@@ -44505,7 +44505,7 @@ extension SecurityHubClientTypes.AwsWafv2ActionAllowDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Specifies that WAF should allow the request and optionally defines additional custom handling for the request.
-    public struct AwsWafv2ActionAllowDetails: Swift.Equatable {
+    public struct AwsWafv2ActionAllowDetails {
         /// Defines custom handling for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide..
         public var customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails?
 
@@ -44540,7 +44540,7 @@ extension SecurityHubClientTypes.AwsWafv2ActionBlockDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Specifies that WAF should block the request and optionally defines additional custom handling for the response to the web request.
-    public struct AwsWafv2ActionBlockDetails: Swift.Equatable {
+    public struct AwsWafv2ActionBlockDetails {
         /// Defines a custom response for the web request. For information, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide..
         public var customResponse: SecurityHubClientTypes.AwsWafv2CustomResponseDetails?
 
@@ -44581,7 +44581,7 @@ extension SecurityHubClientTypes.AwsWafv2CustomHttpHeader: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A custom header for custom request and response handling.
-    public struct AwsWafv2CustomHttpHeader: Swift.Equatable {
+    public struct AwsWafv2CustomHttpHeader {
         /// The name of the custom header.
         public var name: Swift.String?
         /// The value of the custom header.
@@ -44632,7 +44632,7 @@ extension SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// Custom request handling behavior that inserts custom headers into a web request. WAF uses custom request handling when the rule action doesn't block the request.
-    public struct AwsWafv2CustomRequestHandlingDetails: Swift.Equatable {
+    public struct AwsWafv2CustomRequestHandlingDetails {
         /// The HTTP headers to insert into the request.
         public var insertHeaders: [SecurityHubClientTypes.AwsWafv2CustomHttpHeader]?
 
@@ -44691,7 +44691,7 @@ extension SecurityHubClientTypes.AwsWafv2CustomResponseDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A custom response to send to the client. You can define a custom response for rule actions and default web ACL actions that are set to block.
-    public struct AwsWafv2CustomResponseDetails: Swift.Equatable {
+    public struct AwsWafv2CustomResponseDetails {
         /// References the response body that you want WAF to return to the web request client. You can define a custom response for a rule action or a default web ACL action that is set to block.
         public var customResponseBodyKey: Swift.String?
         /// The HTTP status code to return to the client. For a list of status codes that you can use in your custom responses, see [Supported status codes for custom response](https://docs.aws.amazon.com/waf/latest/developerguide/customizing-the-response-status-codes.html) in the WAF Developer Guide.
@@ -44788,7 +44788,7 @@ extension SecurityHubClientTypes.AwsWafv2RuleGroupDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an WAFv2 rule group.
-    public struct AwsWafv2RuleGroupDetails: Swift.Equatable {
+    public struct AwsWafv2RuleGroupDetails {
         /// The Amazon Resource Name (ARN) of the entity.
         public var arn: Swift.String?
         /// The web ACL capacity units (WCUs) required for this rule group.
@@ -44851,7 +44851,7 @@ extension SecurityHubClientTypes.AwsWafv2RulesActionCaptchaDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// Specifies that WAF should run a CAPTCHA check against the request.
-    public struct AwsWafv2RulesActionCaptchaDetails: Swift.Equatable {
+    public struct AwsWafv2RulesActionCaptchaDetails {
         /// Defines custom handling for the web request, used when the CAPTCHA inspection determines that the request's token is valid and unexpired. For more information, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide..
         public var customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails?
 
@@ -44886,7 +44886,7 @@ extension SecurityHubClientTypes.AwsWafv2RulesActionCountDetails: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// Specifies that WAF should count the request.
-    public struct AwsWafv2RulesActionCountDetails: Swift.Equatable {
+    public struct AwsWafv2RulesActionCountDetails {
         /// Defines custom handling for the web request. For more information, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide..
         public var customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails?
 
@@ -44939,7 +44939,7 @@ extension SecurityHubClientTypes.AwsWafv2RulesActionDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The action that WAF should take on a web request when it matches a rule's statement. Settings at the web ACL level can override the rule action setting.
-    public struct AwsWafv2RulesActionDetails: Swift.Equatable {
+    public struct AwsWafv2RulesActionDetails {
         /// Instructs WAF to allow the web request.
         public var allow: SecurityHubClientTypes.AwsWafv2ActionAllowDetails?
         /// Instructs WAF to block the web request.
@@ -45010,7 +45010,7 @@ extension SecurityHubClientTypes.AwsWafv2RulesDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about rules in a rule group. A rule identifies web requests that you want to allow, block, or count. Each rule includes one top-level Statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
-    public struct AwsWafv2RulesDetails: Swift.Equatable {
+    public struct AwsWafv2RulesDetails {
         /// The action that WAF should take on a web request when it matches the rule statement. Settings at the web ACL level can override the rule action setting.
         public var action: SecurityHubClientTypes.AwsWafv2RulesActionDetails?
         /// The name of the rule.
@@ -45073,7 +45073,7 @@ extension SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
-    public struct AwsWafv2VisibilityConfigDetails: Swift.Equatable {
+    public struct AwsWafv2VisibilityConfigDetails {
         /// A boolean indicating whether the associated resource sends metrics to Amazon CloudWatch. For the list of available metrics, see [WAF metrics and dimensions](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics) in the WAF Developer Guide.
         public var cloudWatchMetricsEnabled: Swift.Bool?
         /// A name of the Amazon CloudWatch metric.
@@ -45122,7 +45122,7 @@ extension SecurityHubClientTypes.AwsWafv2WebAclActionDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Specifies the action that Amazon CloudFront or WAF takes when a web request matches the conditions in the rule.
-    public struct AwsWafv2WebAclActionDetails: Swift.Equatable {
+    public struct AwsWafv2WebAclActionDetails {
         /// Specifies that WAF should allow requests by default.
         public var allow: SecurityHubClientTypes.AwsWafv2ActionAllowDetails?
         /// Specifies that WAF should block requests by default.
@@ -45161,7 +45161,7 @@ extension SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigDetails: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings.
-    public struct AwsWafv2WebAclCaptchaConfigDetails: Swift.Equatable {
+    public struct AwsWafv2WebAclCaptchaConfigDetails {
         /// Determines how long a CAPTCHA timestamp in the token remains valid after the client successfully solves a CAPTCHA puzzle.
         public var immunityTimeProperty: SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails?
 
@@ -45196,7 +45196,7 @@ extension SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigImmunityTimeProperty
 
 extension SecurityHubClientTypes {
     /// Used for CAPTCHA and challenge token settings. Determines how long a CAPTCHA or challenge timestamp remains valid after WAF updates it for a successful CAPTCHA or challenge response.
-    public struct AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails: Swift.Equatable {
+    public struct AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails {
         /// The amount of time, in seconds, that a CAPTCHA or challenge timestamp is considered valid by WAF.
         public var immunityTime: Swift.Int?
 
@@ -45297,7 +45297,7 @@ extension SecurityHubClientTypes.AwsWafv2WebAclDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an WAFv2 web Access Control List (ACL).
-    public struct AwsWafv2WebAclDetails: Swift.Equatable {
+    public struct AwsWafv2WebAclDetails {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         public var arn: Swift.String?
         /// The web ACL capacity units (WCUs) currently being used by this web ACL.
@@ -45380,7 +45380,7 @@ extension SecurityHubClientTypes.AwsXrayEncryptionConfigDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the encryption configuration for X-Ray.
-    public struct AwsXrayEncryptionConfigDetails: Swift.Equatable {
+    public struct AwsXrayEncryptionConfigDetails {
         /// The identifier of the KMS key that is used for encryption. Provided if Type is KMS.
         public var keyId: Swift.String?
         /// The current status of the encryption configuration. Valid values are ACTIVE or UPDATING. When Status is equal to UPDATING, X-Ray might use both the old and new encryption.
@@ -45425,7 +45425,7 @@ extension BatchDeleteAutomationRulesInput {
     }
 }
 
-public struct BatchDeleteAutomationRulesInput: Swift.Equatable {
+public struct BatchDeleteAutomationRulesInput {
     /// A list of Amazon Resource Names (ARNs) for the rules that are to be deleted.
     /// This member is required.
     public var automationRulesArns: [Swift.String]?
@@ -45438,7 +45438,7 @@ public struct BatchDeleteAutomationRulesInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteAutomationRulesInputBody: Swift.Equatable {
+struct BatchDeleteAutomationRulesInputBody {
     let automationRulesArns: [Swift.String]?
 }
 
@@ -45477,7 +45477,7 @@ extension BatchDeleteAutomationRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteAutomationRulesOutput: Swift.Equatable {
+public struct BatchDeleteAutomationRulesOutput {
     /// A list of properly processed rule ARNs.
     public var processedAutomationRules: [Swift.String]?
     /// A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter tells you which automation rules the request didn't delete and why.
@@ -45493,7 +45493,7 @@ public struct BatchDeleteAutomationRulesOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteAutomationRulesOutputBody: Swift.Equatable {
+struct BatchDeleteAutomationRulesOutputBody {
     let processedAutomationRules: [Swift.String]?
     let unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]?
 }
@@ -45569,7 +45569,7 @@ extension BatchDisableStandardsInput {
     }
 }
 
-public struct BatchDisableStandardsInput: Swift.Equatable {
+public struct BatchDisableStandardsInput {
     /// The ARNs of the standards subscriptions to disable.
     /// This member is required.
     public var standardsSubscriptionArns: [Swift.String]?
@@ -45582,7 +45582,7 @@ public struct BatchDisableStandardsInput: Swift.Equatable {
     }
 }
 
-struct BatchDisableStandardsInputBody: Swift.Equatable {
+struct BatchDisableStandardsInputBody {
     let standardsSubscriptionArns: [Swift.String]?
 }
 
@@ -45619,7 +45619,7 @@ extension BatchDisableStandardsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDisableStandardsOutput: Swift.Equatable {
+public struct BatchDisableStandardsOutput {
     /// The details of the standards subscriptions that were disabled.
     public var standardsSubscriptions: [SecurityHubClientTypes.StandardsSubscription]?
 
@@ -45631,7 +45631,7 @@ public struct BatchDisableStandardsOutput: Swift.Equatable {
     }
 }
 
-struct BatchDisableStandardsOutputBody: Swift.Equatable {
+struct BatchDisableStandardsOutputBody {
     let standardsSubscriptions: [SecurityHubClientTypes.StandardsSubscription]?
 }
 
@@ -45694,7 +45694,7 @@ extension BatchEnableStandardsInput {
     }
 }
 
-public struct BatchEnableStandardsInput: Swift.Equatable {
+public struct BatchEnableStandardsInput {
     /// The list of standards checks to enable.
     /// This member is required.
     public var standardsSubscriptionRequests: [SecurityHubClientTypes.StandardsSubscriptionRequest]?
@@ -45707,7 +45707,7 @@ public struct BatchEnableStandardsInput: Swift.Equatable {
     }
 }
 
-struct BatchEnableStandardsInputBody: Swift.Equatable {
+struct BatchEnableStandardsInputBody {
     let standardsSubscriptionRequests: [SecurityHubClientTypes.StandardsSubscriptionRequest]?
 }
 
@@ -45744,7 +45744,7 @@ extension BatchEnableStandardsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchEnableStandardsOutput: Swift.Equatable {
+public struct BatchEnableStandardsOutput {
     /// The details of the standards subscriptions that were enabled.
     public var standardsSubscriptions: [SecurityHubClientTypes.StandardsSubscription]?
 
@@ -45756,7 +45756,7 @@ public struct BatchEnableStandardsOutput: Swift.Equatable {
     }
 }
 
-struct BatchEnableStandardsOutputBody: Swift.Equatable {
+struct BatchEnableStandardsOutputBody {
     let standardsSubscriptions: [SecurityHubClientTypes.StandardsSubscription]?
 }
 
@@ -45819,7 +45819,7 @@ extension BatchGetAutomationRulesInput {
     }
 }
 
-public struct BatchGetAutomationRulesInput: Swift.Equatable {
+public struct BatchGetAutomationRulesInput {
     /// A list of rule ARNs to get details for.
     /// This member is required.
     public var automationRulesArns: [Swift.String]?
@@ -45832,7 +45832,7 @@ public struct BatchGetAutomationRulesInput: Swift.Equatable {
     }
 }
 
-struct BatchGetAutomationRulesInputBody: Swift.Equatable {
+struct BatchGetAutomationRulesInputBody {
     let automationRulesArns: [Swift.String]?
 }
 
@@ -45871,7 +45871,7 @@ extension BatchGetAutomationRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetAutomationRulesOutput: Swift.Equatable {
+public struct BatchGetAutomationRulesOutput {
     /// A list of rule details for the provided rule ARNs.
     public var rules: [SecurityHubClientTypes.AutomationRulesConfig]?
     /// A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter tells you which automation rules the request didn't retrieve and why.
@@ -45887,7 +45887,7 @@ public struct BatchGetAutomationRulesOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetAutomationRulesOutputBody: Swift.Equatable {
+struct BatchGetAutomationRulesOutputBody {
     let rules: [SecurityHubClientTypes.AutomationRulesConfig]?
     let unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]?
 }
@@ -45964,7 +45964,7 @@ extension BatchGetConfigurationPolicyAssociationsInput {
     }
 }
 
-public struct BatchGetConfigurationPolicyAssociationsInput: Swift.Equatable {
+public struct BatchGetConfigurationPolicyAssociationsInput {
     /// Specifies one or more target account IDs, organizational unit (OU) IDs, or the root ID to retrieve associations for.
     /// This member is required.
     public var configurationPolicyAssociationIdentifiers: [SecurityHubClientTypes.ConfigurationPolicyAssociation]?
@@ -45977,7 +45977,7 @@ public struct BatchGetConfigurationPolicyAssociationsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetConfigurationPolicyAssociationsInputBody: Swift.Equatable {
+struct BatchGetConfigurationPolicyAssociationsInputBody {
     let configurationPolicyAssociationIdentifiers: [SecurityHubClientTypes.ConfigurationPolicyAssociation]?
 }
 
@@ -46016,7 +46016,7 @@ extension BatchGetConfigurationPolicyAssociationsOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct BatchGetConfigurationPolicyAssociationsOutput: Swift.Equatable {
+public struct BatchGetConfigurationPolicyAssociationsOutput {
     /// Describes associations for the target accounts, OUs, or the root.
     public var configurationPolicyAssociations: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]?
     /// An array of configuration policy associations, one for each configuration policy association identifier, that was specified in the request but couldn’t be processed due to an error.
@@ -46032,7 +46032,7 @@ public struct BatchGetConfigurationPolicyAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetConfigurationPolicyAssociationsOutputBody: Swift.Equatable {
+struct BatchGetConfigurationPolicyAssociationsOutputBody {
     let configurationPolicyAssociations: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]?
     let unprocessedConfigurationPolicyAssociations: [SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation]?
 }
@@ -46109,7 +46109,7 @@ extension BatchGetSecurityControlsInput {
     }
 }
 
-public struct BatchGetSecurityControlsInput: Swift.Equatable {
+public struct BatchGetSecurityControlsInput {
     /// A list of security controls (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters). The security control ID or Amazon Resource Name (ARN) is the same across standards.
     /// This member is required.
     public var securityControlIds: [Swift.String]?
@@ -46122,7 +46122,7 @@ public struct BatchGetSecurityControlsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetSecurityControlsInputBody: Swift.Equatable {
+struct BatchGetSecurityControlsInputBody {
     let securityControlIds: [Swift.String]?
 }
 
@@ -46161,7 +46161,7 @@ extension BatchGetSecurityControlsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetSecurityControlsOutput: Swift.Equatable {
+public struct BatchGetSecurityControlsOutput {
     /// An array that returns the identifier, Amazon Resource Name (ARN), and other details about a security control. The same information is returned whether the request includes SecurityControlId or SecurityControlArn.
     /// This member is required.
     public var securityControls: [SecurityHubClientTypes.SecurityControl]?
@@ -46178,7 +46178,7 @@ public struct BatchGetSecurityControlsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetSecurityControlsOutputBody: Swift.Equatable {
+struct BatchGetSecurityControlsOutputBody {
     let securityControls: [SecurityHubClientTypes.SecurityControl]?
     let unprocessedIds: [SecurityHubClientTypes.UnprocessedSecurityControl]?
 }
@@ -46253,7 +46253,7 @@ extension BatchGetStandardsControlAssociationsInput {
     }
 }
 
-public struct BatchGetStandardsControlAssociationsInput: Swift.Equatable {
+public struct BatchGetStandardsControlAssociationsInput {
     /// An array with one or more objects that includes a security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. This field is used to query the enablement status of a control in a specified standard. The security control ID or ARN is the same across standards.
     /// This member is required.
     public var standardsControlAssociationIds: [SecurityHubClientTypes.StandardsControlAssociationId]?
@@ -46266,7 +46266,7 @@ public struct BatchGetStandardsControlAssociationsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetStandardsControlAssociationsInputBody: Swift.Equatable {
+struct BatchGetStandardsControlAssociationsInputBody {
     let standardsControlAssociationIds: [SecurityHubClientTypes.StandardsControlAssociationId]?
 }
 
@@ -46305,7 +46305,7 @@ extension BatchGetStandardsControlAssociationsOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct BatchGetStandardsControlAssociationsOutput: Swift.Equatable {
+public struct BatchGetStandardsControlAssociationsOutput {
     /// Provides the enablement status of a security control in a specified standard and other details for the control in relation to the specified standard.
     /// This member is required.
     public var standardsControlAssociationDetails: [SecurityHubClientTypes.StandardsControlAssociationDetail]?
@@ -46322,7 +46322,7 @@ public struct BatchGetStandardsControlAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetStandardsControlAssociationsOutputBody: Swift.Equatable {
+struct BatchGetStandardsControlAssociationsOutputBody {
     let standardsControlAssociationDetails: [SecurityHubClientTypes.StandardsControlAssociationDetail]?
     let unprocessedAssociations: [SecurityHubClientTypes.UnprocessedStandardsControlAssociation]?
 }
@@ -46397,7 +46397,7 @@ extension BatchImportFindingsInput {
     }
 }
 
-public struct BatchImportFindingsInput: Swift.Equatable {
+public struct BatchImportFindingsInput {
     /// A list of findings to import. To successfully import a finding, it must follow the [Amazon Web Services Security Finding Format](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html). Maximum of 100 findings per request.
     /// This member is required.
     public var findings: [SecurityHubClientTypes.AwsSecurityFinding]?
@@ -46410,7 +46410,7 @@ public struct BatchImportFindingsInput: Swift.Equatable {
     }
 }
 
-struct BatchImportFindingsInputBody: Swift.Equatable {
+struct BatchImportFindingsInputBody {
     let findings: [SecurityHubClientTypes.AwsSecurityFinding]?
 }
 
@@ -46451,7 +46451,7 @@ extension BatchImportFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchImportFindingsOutput: Swift.Equatable {
+public struct BatchImportFindingsOutput {
     /// The number of findings that failed to import.
     /// This member is required.
     public var failedCount: Swift.Int?
@@ -46473,7 +46473,7 @@ public struct BatchImportFindingsOutput: Swift.Equatable {
     }
 }
 
-struct BatchImportFindingsOutputBody: Swift.Equatable {
+struct BatchImportFindingsOutputBody {
     let failedCount: Swift.Int?
     let successCount: Swift.Int?
     let failedFindings: [SecurityHubClientTypes.ImportFindingsError]?
@@ -46543,7 +46543,7 @@ extension BatchUpdateAutomationRulesInput {
     }
 }
 
-public struct BatchUpdateAutomationRulesInput: Swift.Equatable {
+public struct BatchUpdateAutomationRulesInput {
     /// An array of ARNs for the rules that are to be updated. Optionally, you can also include RuleStatus and RuleOrder.
     /// This member is required.
     public var updateAutomationRulesRequestItems: [SecurityHubClientTypes.UpdateAutomationRulesRequestItem]?
@@ -46556,7 +46556,7 @@ public struct BatchUpdateAutomationRulesInput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateAutomationRulesInputBody: Swift.Equatable {
+struct BatchUpdateAutomationRulesInputBody {
     let updateAutomationRulesRequestItems: [SecurityHubClientTypes.UpdateAutomationRulesRequestItem]?
 }
 
@@ -46595,7 +46595,7 @@ extension BatchUpdateAutomationRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchUpdateAutomationRulesOutput: Swift.Equatable {
+public struct BatchUpdateAutomationRulesOutput {
     /// A list of properly processed rule ARNs.
     public var processedAutomationRules: [Swift.String]?
     /// A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter tells you which automation rules the request didn't update and why.
@@ -46611,7 +46611,7 @@ public struct BatchUpdateAutomationRulesOutput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateAutomationRulesOutputBody: Swift.Equatable {
+struct BatchUpdateAutomationRulesOutputBody {
     let processedAutomationRules: [Swift.String]?
     let unprocessedAutomationRules: [SecurityHubClientTypes.UnprocessedAutomationRule]?
 }
@@ -46732,7 +46732,7 @@ extension BatchUpdateFindingsInput {
     }
 }
 
-public struct BatchUpdateFindingsInput: Swift.Equatable {
+public struct BatchUpdateFindingsInput {
     /// The updated value for the finding confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
     public var confidence: Swift.Int?
     /// The updated value for the level of importance assigned to the resources associated with the findings. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
@@ -46799,7 +46799,7 @@ public struct BatchUpdateFindingsInput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateFindingsInputBody: Swift.Equatable {
+struct BatchUpdateFindingsInputBody {
     let findingIdentifiers: [SecurityHubClientTypes.AwsSecurityFindingIdentifier]?
     let note: SecurityHubClientTypes.NoteUpdate?
     let severity: SecurityHubClientTypes.SeverityUpdate?
@@ -46901,7 +46901,7 @@ extension BatchUpdateFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchUpdateFindingsOutput: Swift.Equatable {
+public struct BatchUpdateFindingsOutput {
     /// The list of findings that were updated successfully.
     /// This member is required.
     public var processedFindings: [SecurityHubClientTypes.AwsSecurityFindingIdentifier]?
@@ -46919,7 +46919,7 @@ public struct BatchUpdateFindingsOutput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateFindingsOutputBody: Swift.Equatable {
+struct BatchUpdateFindingsOutputBody {
     let processedFindings: [SecurityHubClientTypes.AwsSecurityFindingIdentifier]?
     let unprocessedFindings: [SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding]?
 }
@@ -47004,7 +47004,7 @@ extension SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding: Swift.Co
 
 extension SecurityHubClientTypes {
     /// A finding from a BatchUpdateFindings request that Security Hub was unable to update.
-    public struct BatchUpdateFindingsUnprocessedFinding: Swift.Equatable {
+    public struct BatchUpdateFindingsUnprocessedFinding {
         /// The code associated with the error. Possible values are:
         ///
         /// * ConcurrentUpdateError - Another request attempted to update the finding while this request was being processed. This error may also occur if you call [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) and [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) at the same time.
@@ -47076,7 +47076,7 @@ extension BatchUpdateStandardsControlAssociationsInput {
     }
 }
 
-public struct BatchUpdateStandardsControlAssociationsInput: Swift.Equatable {
+public struct BatchUpdateStandardsControlAssociationsInput {
     /// Updates the enablement status of a security control in a specified standard.
     /// This member is required.
     public var standardsControlAssociationUpdates: [SecurityHubClientTypes.StandardsControlAssociationUpdate]?
@@ -47089,7 +47089,7 @@ public struct BatchUpdateStandardsControlAssociationsInput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateStandardsControlAssociationsInputBody: Swift.Equatable {
+struct BatchUpdateStandardsControlAssociationsInputBody {
     let standardsControlAssociationUpdates: [SecurityHubClientTypes.StandardsControlAssociationUpdate]?
 }
 
@@ -47126,7 +47126,7 @@ extension BatchUpdateStandardsControlAssociationsOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct BatchUpdateStandardsControlAssociationsOutput: Swift.Equatable {
+public struct BatchUpdateStandardsControlAssociationsOutput {
     /// A security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) whose enablement status in a specified standard couldn't be updated.
     public var unprocessedAssociationUpdates: [SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate]?
 
@@ -47138,7 +47138,7 @@ public struct BatchUpdateStandardsControlAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateStandardsControlAssociationsOutputBody: Swift.Equatable {
+struct BatchUpdateStandardsControlAssociationsOutputBody {
     let unprocessedAssociationUpdates: [SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate]?
 }
 
@@ -47199,7 +47199,7 @@ extension SecurityHubClientTypes.BooleanConfigurationOptions: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The options for customizing a security control parameter with a boolean. For a boolean parameter, the options are true and false.
-    public struct BooleanConfigurationOptions: Swift.Equatable {
+    public struct BooleanConfigurationOptions {
         /// The Security Hub default value for a boolean parameter.
         public var defaultValue: Swift.Bool?
 
@@ -47234,7 +47234,7 @@ extension SecurityHubClientTypes.BooleanFilter: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Boolean filter for querying findings.
-    public struct BooleanFilter: Swift.Equatable {
+    public struct BooleanFilter {
         /// The value of the boolean.
         public var value: Swift.Bool?
 
@@ -47287,7 +47287,7 @@ extension SecurityHubClientTypes.Cell: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An occurrence of sensitive data detected in a Microsoft Excel workbook, comma-separated value (CSV) file, or tab-separated value (TSV) file.
-    public struct Cell: Swift.Equatable {
+    public struct Cell {
         /// For a Microsoft Excel workbook, provides the location of the cell, as an absolute cell reference, that contains the data. For example, Sheet2!C5 for cell C5 on Sheet2.
         public var cellReference: Swift.String?
         /// The column number of the column that contains the data. For a Microsoft Excel workbook, the column number corresponds to the alphabetical column identifiers. For example, a value of 1 for Column corresponds to the A column in the workbook.
@@ -47346,7 +47346,7 @@ extension SecurityHubClientTypes.CidrBlockAssociation: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An IPv4 CIDR block association.
-    public struct CidrBlockAssociation: Swift.Equatable {
+    public struct CidrBlockAssociation {
         /// The association ID for the IPv4 CIDR block.
         public var associationId: Swift.String?
         /// The IPv4 CIDR block.
@@ -47389,7 +47389,7 @@ extension SecurityHubClientTypes.City: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about a city.
-    public struct City: Swift.Equatable {
+    public struct City {
         /// The name of the city.
         public var cityName: Swift.String?
 
@@ -47466,7 +47466,7 @@ extension SecurityHubClientTypes.ClassificationResult: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about the sensitive data that was detected on the resource.
-    public struct ClassificationResult: Swift.Equatable {
+    public struct ClassificationResult {
         /// Indicates whether there are additional occurrences of sensitive data that are not included in the finding. This occurs when the number of occurrences exceeds the maximum that can be included.
         public var additionalOccurrences: Swift.Bool?
         /// Provides details about sensitive data that was identified based on customer-defined configuration.
@@ -47527,7 +47527,7 @@ extension SecurityHubClientTypes.ClassificationStatus: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about the current status of the sensitive data detection.
-    public struct ClassificationStatus: Swift.Equatable {
+    public struct ClassificationStatus {
         /// The code that represents the status of the sensitive data detection.
         public var code: Swift.String?
         /// A longer description of the current status of the sensitive data detection.
@@ -47578,7 +47578,7 @@ extension SecurityHubClientTypes.CloudWatchLogsLogGroupArnConfigDetails: Swift.C
 
 extension SecurityHubClientTypes {
     /// The Amazon Resource Name (ARN) and other details of the Amazon CloudWatch Logs log group that Amazon Route 53 is publishing logs to.
-    public struct CloudWatchLogsLogGroupArnConfigDetails: Swift.Equatable {
+    public struct CloudWatchLogsLogGroupArnConfigDetails {
         /// The ARN of the CloudWatch Logs log group that Route 53 is publishing logs to.
         public var cloudWatchLogsLogGroupArn: Swift.String?
         /// The ID of the hosted zone that CloudWatch Logs is logging queries for.
@@ -47639,7 +47639,7 @@ extension SecurityHubClientTypes.CodeVulnerabilitiesFilePath: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about where a code vulnerability is located in your Lambda function.
-    public struct CodeVulnerabilitiesFilePath: Swift.Equatable {
+    public struct CodeVulnerabilitiesFilePath {
         /// The line number of the last line of code in which the vulnerability is located.
         public var endLine: Swift.Int?
         /// The name of the file in which the code vulnerability is located.
@@ -47764,7 +47764,7 @@ extension SecurityHubClientTypes.Compliance: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains finding details that are specific to control-based findings. Only returned for findings generated from controls.
-    public struct Compliance: Swift.Equatable {
+    public struct Compliance {
         /// The enabled security standards in which a security control is currently enabled.
         public var associatedStandards: [SecurityHubClientTypes.AssociatedStandard]?
         /// For a control, the industry or regulatory framework requirements that are related to the control. The check for that control is aligned with these requirements.
@@ -47930,7 +47930,7 @@ extension SecurityHubClientTypes.ConfigurationOptions: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The options for customizing a security control parameter.
-    public enum ConfigurationOptions: Swift.Equatable {
+    public enum ConfigurationOptions {
         /// The options for customizing a security control parameter that is an integer.
         case integer(SecurityHubClientTypes.IntegerConfigurationOptions)
         /// The options for customizing a security control parameter that is a list of integers.
@@ -47973,7 +47973,7 @@ extension SecurityHubClientTypes.ConfigurationPolicyAssociation: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about the association between an Security Hub configuration and a target account, organizational unit, or the root. An association can exist between a target and a configuration policy, or between a target and self-managed behavior.
-    public struct ConfigurationPolicyAssociation: Swift.Equatable {
+    public struct ConfigurationPolicyAssociation {
         /// The target account, organizational unit, or the root.
         public var target: SecurityHubClientTypes.Target?
 
@@ -48079,7 +48079,7 @@ extension SecurityHubClientTypes.ConfigurationPolicyAssociationSummary: Swift.Co
 
 extension SecurityHubClientTypes {
     /// An object that contains the details of a configuration policy association that’s returned in a ListConfigurationPolicyAssociations request.
-    public struct ConfigurationPolicyAssociationSummary: Swift.Equatable {
+    public struct ConfigurationPolicyAssociationSummary {
         /// The current status of the association between the specified target and the configuration.
         public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
         /// The explanation for a FAILED value for AssociationStatus.
@@ -48168,7 +48168,7 @@ extension SecurityHubClientTypes.ConfigurationPolicySummary: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An object that contains the details of an Security Hub configuration policy that’s returned in a ListConfigurationPolicies request.
-    public struct ConfigurationPolicySummary: Swift.Equatable {
+    public struct ConfigurationPolicySummary {
         /// The Amazon Resource Name (ARN) of the configuration policy.
         public var arn: Swift.String?
         /// The description of the configuration policy.
@@ -48271,7 +48271,7 @@ extension SecurityHubClientTypes.ContainerDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Container details related to a finding.
-    public struct ContainerDetails: Swift.Equatable {
+    public struct ContainerDetails {
         /// The runtime of the container.
         public var containerRuntime: Swift.String?
         /// The identifier of the container image related to a finding.
@@ -48410,7 +48410,7 @@ extension SecurityHubClientTypes.Country: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about a country.
-    public struct Country: Swift.Equatable {
+    public struct Country {
         /// The 2-letter ISO 3166 country code for the country.
         public var countryCode: Swift.String?
         /// The name of the country.
@@ -48456,7 +48456,7 @@ extension CreateActionTargetInput {
     }
 }
 
-public struct CreateActionTargetInput: Swift.Equatable {
+public struct CreateActionTargetInput {
     /// The description for the custom action target.
     /// This member is required.
     public var description: Swift.String?
@@ -48479,7 +48479,7 @@ public struct CreateActionTargetInput: Swift.Equatable {
     }
 }
 
-struct CreateActionTargetInputBody: Swift.Equatable {
+struct CreateActionTargetInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let id: Swift.String?
@@ -48515,7 +48515,7 @@ extension CreateActionTargetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateActionTargetOutput: Swift.Equatable {
+public struct CreateActionTargetOutput {
     /// The Amazon Resource Name (ARN) for the custom action target.
     /// This member is required.
     public var actionTargetArn: Swift.String?
@@ -48528,7 +48528,7 @@ public struct CreateActionTargetOutput: Swift.Equatable {
     }
 }
 
-struct CreateActionTargetOutputBody: Swift.Equatable {
+struct CreateActionTargetOutputBody {
     let actionTargetArn: Swift.String?
 }
 
@@ -48613,7 +48613,7 @@ extension CreateAutomationRuleInput {
     }
 }
 
-public struct CreateAutomationRuleInput: Swift.Equatable {
+public struct CreateAutomationRuleInput {
     /// One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
     /// This member is required.
     public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
@@ -48658,7 +48658,7 @@ public struct CreateAutomationRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateAutomationRuleInputBody: Swift.Equatable {
+struct CreateAutomationRuleInputBody {
     let tags: [Swift.String:Swift.String]?
     let ruleStatus: SecurityHubClientTypes.RuleStatus?
     let ruleOrder: Swift.Int?
@@ -48732,7 +48732,7 @@ extension CreateAutomationRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAutomationRuleOutput: Swift.Equatable {
+public struct CreateAutomationRuleOutput {
     /// The Amazon Resource Name (ARN) of the automation rule that you created.
     public var ruleArn: Swift.String?
 
@@ -48744,7 +48744,7 @@ public struct CreateAutomationRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateAutomationRuleOutputBody: Swift.Equatable {
+struct CreateAutomationRuleOutputBody {
     let ruleArn: Swift.String?
 }
 
@@ -48810,7 +48810,7 @@ extension CreateConfigurationPolicyInput {
     }
 }
 
-public struct CreateConfigurationPolicyInput: Swift.Equatable {
+public struct CreateConfigurationPolicyInput {
     /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
     /// This member is required.
     public var configurationPolicy: SecurityHubClientTypes.Policy?
@@ -48836,7 +48836,7 @@ public struct CreateConfigurationPolicyInput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationPolicyInputBody: Swift.Equatable {
+struct CreateConfigurationPolicyInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let configurationPolicy: SecurityHubClientTypes.Policy?
@@ -48897,7 +48897,7 @@ extension CreateConfigurationPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConfigurationPolicyOutput: Swift.Equatable {
+public struct CreateConfigurationPolicyOutput {
     /// The Amazon Resource Name (ARN) of the configuration policy.
     public var arn: Swift.String?
     /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the request included a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If the request included a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
@@ -48933,7 +48933,7 @@ public struct CreateConfigurationPolicyOutput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationPolicyOutputBody: Swift.Equatable {
+struct CreateConfigurationPolicyOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -49016,7 +49016,7 @@ extension CreateFindingAggregatorInput {
     }
 }
 
-public struct CreateFindingAggregatorInput: Swift.Equatable {
+public struct CreateFindingAggregatorInput {
     /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:
     ///
     /// * ALL_REGIONS - Indicates to aggregate findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
@@ -49039,7 +49039,7 @@ public struct CreateFindingAggregatorInput: Swift.Equatable {
     }
 }
 
-struct CreateFindingAggregatorInputBody: Swift.Equatable {
+struct CreateFindingAggregatorInputBody {
     let regionLinkingMode: Swift.String?
     let regions: [Swift.String]?
 }
@@ -49086,7 +49086,7 @@ extension CreateFindingAggregatorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFindingAggregatorOutput: Swift.Equatable {
+public struct CreateFindingAggregatorOutput {
     /// The aggregation Region.
     public var findingAggregationRegion: Swift.String?
     /// The ARN of the finding aggregator. You use the finding aggregator ARN to retrieve details for, update, and stop finding aggregation.
@@ -49110,7 +49110,7 @@ public struct CreateFindingAggregatorOutput: Swift.Equatable {
     }
 }
 
-struct CreateFindingAggregatorOutputBody: Swift.Equatable {
+struct CreateFindingAggregatorOutputBody {
     let findingAggregatorArn: Swift.String?
     let findingAggregationRegion: Swift.String?
     let regionLinkingMode: Swift.String?
@@ -49190,7 +49190,7 @@ extension CreateInsightInput {
     }
 }
 
-public struct CreateInsightInput: Swift.Equatable {
+public struct CreateInsightInput {
     /// One or more attributes used to filter the findings included in the insight. The insight only includes findings that match the criteria defined in the filters.
     /// This member is required.
     public var filters: SecurityHubClientTypes.AwsSecurityFindingFilters?
@@ -49213,7 +49213,7 @@ public struct CreateInsightInput: Swift.Equatable {
     }
 }
 
-struct CreateInsightInputBody: Swift.Equatable {
+struct CreateInsightInputBody {
     let name: Swift.String?
     let filters: SecurityHubClientTypes.AwsSecurityFindingFilters?
     let groupByAttribute: Swift.String?
@@ -49249,7 +49249,7 @@ extension CreateInsightOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateInsightOutput: Swift.Equatable {
+public struct CreateInsightOutput {
     /// The ARN of the insight created.
     /// This member is required.
     public var insightArn: Swift.String?
@@ -49262,7 +49262,7 @@ public struct CreateInsightOutput: Swift.Equatable {
     }
 }
 
-struct CreateInsightOutputBody: Swift.Equatable {
+struct CreateInsightOutputBody {
     let insightArn: Swift.String?
 }
 
@@ -49316,7 +49316,7 @@ extension CreateMembersInput {
     }
 }
 
-public struct CreateMembersInput: Swift.Equatable {
+public struct CreateMembersInput {
     /// The list of accounts to associate with the Security Hub administrator account. For each account, the list includes the account ID and optionally the email address.
     /// This member is required.
     public var accountDetails: [SecurityHubClientTypes.AccountDetails]?
@@ -49329,7 +49329,7 @@ public struct CreateMembersInput: Swift.Equatable {
     }
 }
 
-struct CreateMembersInputBody: Swift.Equatable {
+struct CreateMembersInputBody {
     let accountDetails: [SecurityHubClientTypes.AccountDetails]?
 }
 
@@ -49366,7 +49366,7 @@ extension CreateMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMembersOutput: Swift.Equatable {
+public struct CreateMembersOutput {
     /// The list of Amazon Web Services accounts that were not processed. For each account, the list includes the account ID and the email address.
     public var unprocessedAccounts: [SecurityHubClientTypes.Result]?
 
@@ -49378,7 +49378,7 @@ public struct CreateMembersOutput: Swift.Equatable {
     }
 }
 
-struct CreateMembersOutputBody: Swift.Equatable {
+struct CreateMembersOutputBody {
     let unprocessedAccounts: [SecurityHubClientTypes.Result]?
 }
 
@@ -49458,7 +49458,7 @@ extension SecurityHubClientTypes.CustomDataIdentifiersDetections: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// The list of detected instances of sensitive data.
-    public struct CustomDataIdentifiersDetections: Swift.Equatable {
+    public struct CustomDataIdentifiersDetections {
         /// The ARN of the custom identifier that was used to detect the sensitive data.
         public var arn: Swift.String?
         /// The total number of occurrences of sensitive data that were detected.
@@ -49523,7 +49523,7 @@ extension SecurityHubClientTypes.CustomDataIdentifiersResult: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains an instance of sensitive data that was detected by a customer-defined identifier.
-    public struct CustomDataIdentifiersResult: Swift.Equatable {
+    public struct CustomDataIdentifiersResult {
         /// The list of detected instances of sensitive data.
         public var detections: [SecurityHubClientTypes.CustomDataIdentifiersDetections]?
         /// The total number of occurrences of sensitive data.
@@ -49598,7 +49598,7 @@ extension SecurityHubClientTypes.Cvss: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// CVSS scores from the advisory related to the vulnerability.
-    public struct Cvss: Swift.Equatable {
+    public struct Cvss {
         /// Adjustments to the CVSS metrics.
         public var adjustments: [SecurityHubClientTypes.Adjustment]?
         /// The base CVSS score.
@@ -49655,7 +49655,7 @@ extension SecurityHubClientTypes.DataClassificationDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about sensitive data that was detected on a resource.
-    public struct DataClassificationDetails: Swift.Equatable {
+    public struct DataClassificationDetails {
         /// The path to the folder or file that contains the sensitive data.
         public var detailedResultsLocation: Swift.String?
         /// The details about the sensitive data that was detected on the resource.
@@ -49706,7 +49706,7 @@ extension SecurityHubClientTypes.DateFilter: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A date filter for querying findings.
-    public struct DateFilter: Swift.Equatable {
+    public struct DateFilter {
         /// A date range for the date filter.
         public var dateRange: SecurityHubClientTypes.DateRange?
         /// A timestamp that provides the end date for the date filter. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -49775,7 +49775,7 @@ extension SecurityHubClientTypes.DateRange: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A date range for the date filter.
-    public struct DateRange: Swift.Equatable {
+    public struct DateRange {
         /// A date range unit for the date filter.
         public var unit: SecurityHubClientTypes.DateRangeUnit?
         /// A date range value for the date filter.
@@ -49845,7 +49845,7 @@ extension DeclineInvitationsInput {
     }
 }
 
-public struct DeclineInvitationsInput: Swift.Equatable {
+public struct DeclineInvitationsInput {
     /// The list of prospective member account IDs for which to decline an invitation.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -49858,7 +49858,7 @@ public struct DeclineInvitationsInput: Swift.Equatable {
     }
 }
 
-struct DeclineInvitationsInputBody: Swift.Equatable {
+struct DeclineInvitationsInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -49895,7 +49895,7 @@ extension DeclineInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeclineInvitationsOutput: Swift.Equatable {
+public struct DeclineInvitationsOutput {
     /// The list of Amazon Web Services accounts that were not processed. For each account, the list includes the account ID and the email address.
     public var unprocessedAccounts: [SecurityHubClientTypes.Result]?
 
@@ -49907,7 +49907,7 @@ public struct DeclineInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct DeclineInvitationsOutputBody: Swift.Equatable {
+struct DeclineInvitationsOutputBody {
     let unprocessedAccounts: [SecurityHubClientTypes.Result]?
 }
 
@@ -49956,7 +49956,7 @@ extension DeleteActionTargetInput {
     }
 }
 
-public struct DeleteActionTargetInput: Swift.Equatable {
+public struct DeleteActionTargetInput {
     /// The Amazon Resource Name (ARN) of the custom action target to delete.
     /// This member is required.
     public var actionTargetArn: Swift.String?
@@ -49969,7 +49969,7 @@ public struct DeleteActionTargetInput: Swift.Equatable {
     }
 }
 
-struct DeleteActionTargetInputBody: Swift.Equatable {
+struct DeleteActionTargetInputBody {
 }
 
 extension DeleteActionTargetInputBody: Swift.Decodable {
@@ -49990,7 +49990,7 @@ extension DeleteActionTargetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteActionTargetOutput: Swift.Equatable {
+public struct DeleteActionTargetOutput {
     /// The ARN of the custom action target that was deleted.
     /// This member is required.
     public var actionTargetArn: Swift.String?
@@ -50003,7 +50003,7 @@ public struct DeleteActionTargetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteActionTargetOutputBody: Swift.Equatable {
+struct DeleteActionTargetOutputBody {
     let actionTargetArn: Swift.String?
 }
 
@@ -50043,7 +50043,7 @@ extension DeleteConfigurationPolicyInput {
     }
 }
 
-public struct DeleteConfigurationPolicyInput: Swift.Equatable {
+public struct DeleteConfigurationPolicyInput {
     /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
     /// This member is required.
     public var identifier: Swift.String?
@@ -50056,7 +50056,7 @@ public struct DeleteConfigurationPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigurationPolicyInputBody: Swift.Equatable {
+struct DeleteConfigurationPolicyInputBody {
 }
 
 extension DeleteConfigurationPolicyInputBody: Swift.Decodable {
@@ -50070,7 +50070,7 @@ extension DeleteConfigurationPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConfigurationPolicyOutput: Swift.Equatable {
+public struct DeleteConfigurationPolicyOutput {
 
     public init() { }
 }
@@ -50102,7 +50102,7 @@ extension DeleteFindingAggregatorInput {
     }
 }
 
-public struct DeleteFindingAggregatorInput: Swift.Equatable {
+public struct DeleteFindingAggregatorInput {
     /// The ARN of the finding aggregator to delete. To obtain the ARN, use ListFindingAggregators.
     /// This member is required.
     public var findingAggregatorArn: Swift.String?
@@ -50115,7 +50115,7 @@ public struct DeleteFindingAggregatorInput: Swift.Equatable {
     }
 }
 
-struct DeleteFindingAggregatorInputBody: Swift.Equatable {
+struct DeleteFindingAggregatorInputBody {
 }
 
 extension DeleteFindingAggregatorInputBody: Swift.Decodable {
@@ -50129,7 +50129,7 @@ extension DeleteFindingAggregatorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFindingAggregatorOutput: Swift.Equatable {
+public struct DeleteFindingAggregatorOutput {
 
     public init() { }
 }
@@ -50160,7 +50160,7 @@ extension DeleteInsightInput {
     }
 }
 
-public struct DeleteInsightInput: Swift.Equatable {
+public struct DeleteInsightInput {
     /// The ARN of the insight to delete.
     /// This member is required.
     public var insightArn: Swift.String?
@@ -50173,7 +50173,7 @@ public struct DeleteInsightInput: Swift.Equatable {
     }
 }
 
-struct DeleteInsightInputBody: Swift.Equatable {
+struct DeleteInsightInputBody {
 }
 
 extension DeleteInsightInputBody: Swift.Decodable {
@@ -50194,7 +50194,7 @@ extension DeleteInsightOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInsightOutput: Swift.Equatable {
+public struct DeleteInsightOutput {
     /// The ARN of the insight that was deleted.
     /// This member is required.
     public var insightArn: Swift.String?
@@ -50207,7 +50207,7 @@ public struct DeleteInsightOutput: Swift.Equatable {
     }
 }
 
-struct DeleteInsightOutputBody: Swift.Equatable {
+struct DeleteInsightOutputBody {
     let insightArn: Swift.String?
 }
 
@@ -50261,7 +50261,7 @@ extension DeleteInvitationsInput {
     }
 }
 
-public struct DeleteInvitationsInput: Swift.Equatable {
+public struct DeleteInvitationsInput {
     /// The list of member account IDs that received the invitations you want to delete.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -50274,7 +50274,7 @@ public struct DeleteInvitationsInput: Swift.Equatable {
     }
 }
 
-struct DeleteInvitationsInputBody: Swift.Equatable {
+struct DeleteInvitationsInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -50311,7 +50311,7 @@ extension DeleteInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInvitationsOutput: Swift.Equatable {
+public struct DeleteInvitationsOutput {
     /// The list of Amazon Web Services accounts for which the invitations were not deleted. For each account, the list includes the account ID and the email address.
     public var unprocessedAccounts: [SecurityHubClientTypes.Result]?
 
@@ -50323,7 +50323,7 @@ public struct DeleteInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct DeleteInvitationsOutputBody: Swift.Equatable {
+struct DeleteInvitationsOutputBody {
     let unprocessedAccounts: [SecurityHubClientTypes.Result]?
 }
 
@@ -50386,7 +50386,7 @@ extension DeleteMembersInput {
     }
 }
 
-public struct DeleteMembersInput: Swift.Equatable {
+public struct DeleteMembersInput {
     /// The list of account IDs for the member accounts to delete.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -50399,7 +50399,7 @@ public struct DeleteMembersInput: Swift.Equatable {
     }
 }
 
-struct DeleteMembersInputBody: Swift.Equatable {
+struct DeleteMembersInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -50436,7 +50436,7 @@ extension DeleteMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMembersOutput: Swift.Equatable {
+public struct DeleteMembersOutput {
     /// The list of Amazon Web Services accounts that were not deleted. For each account, the list includes the account ID and the email address.
     public var unprocessedAccounts: [SecurityHubClientTypes.Result]?
 
@@ -50448,7 +50448,7 @@ public struct DeleteMembersOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMembersOutputBody: Swift.Equatable {
+struct DeleteMembersOutputBody {
     let unprocessedAccounts: [SecurityHubClientTypes.Result]?
 }
 
@@ -50519,7 +50519,7 @@ extension DescribeActionTargetsInput {
     }
 }
 
-public struct DescribeActionTargetsInput: Swift.Equatable {
+public struct DescribeActionTargetsInput {
     /// A list of custom action target ARNs for the custom action targets to retrieve.
     public var actionTargetArns: [Swift.String]?
     /// The maximum number of results to return.
@@ -50539,7 +50539,7 @@ public struct DescribeActionTargetsInput: Swift.Equatable {
     }
 }
 
-struct DescribeActionTargetsInputBody: Swift.Equatable {
+struct DescribeActionTargetsInputBody {
     let actionTargetArns: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -50586,7 +50586,7 @@ extension DescribeActionTargetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeActionTargetsOutput: Swift.Equatable {
+public struct DescribeActionTargetsOutput {
     /// A list of ActionTarget objects. Each object includes the ActionTargetArn, Description, and Name of a custom action target available in Security Hub.
     /// This member is required.
     public var actionTargets: [SecurityHubClientTypes.ActionTarget]?
@@ -50603,7 +50603,7 @@ public struct DescribeActionTargetsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeActionTargetsOutputBody: Swift.Equatable {
+struct DescribeActionTargetsOutputBody {
     let actionTargets: [SecurityHubClientTypes.ActionTarget]?
     let nextToken: Swift.String?
 }
@@ -50665,7 +50665,7 @@ extension DescribeHubInput {
     }
 }
 
-public struct DescribeHubInput: Swift.Equatable {
+public struct DescribeHubInput {
     /// The ARN of the Hub resource to retrieve.
     public var hubArn: Swift.String?
 
@@ -50677,7 +50677,7 @@ public struct DescribeHubInput: Swift.Equatable {
     }
 }
 
-struct DescribeHubInputBody: Swift.Equatable {
+struct DescribeHubInputBody {
 }
 
 extension DescribeHubInputBody: Swift.Decodable {
@@ -50704,7 +50704,7 @@ extension DescribeHubOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeHubOutput: Swift.Equatable {
+public struct DescribeHubOutput {
     /// Whether to automatically enable new controls when they are added to standards that are enabled. If set to true, then new controls for enabled standards are enabled automatically. If set to false, then new controls are not enabled.
     public var autoEnableControls: Swift.Bool?
     /// Specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
@@ -50728,7 +50728,7 @@ public struct DescribeHubOutput: Swift.Equatable {
     }
 }
 
-struct DescribeHubOutputBody: Swift.Equatable {
+struct DescribeHubOutputBody {
     let hubArn: Swift.String?
     let subscribedAt: Swift.String?
     let autoEnableControls: Swift.Bool?
@@ -50778,12 +50778,12 @@ extension DescribeOrganizationConfigurationInput {
     }
 }
 
-public struct DescribeOrganizationConfigurationInput: Swift.Equatable {
+public struct DescribeOrganizationConfigurationInput {
 
     public init() { }
 }
 
-struct DescribeOrganizationConfigurationInputBody: Swift.Equatable {
+struct DescribeOrganizationConfigurationInputBody {
 }
 
 extension DescribeOrganizationConfigurationInputBody: Swift.Decodable {
@@ -50810,7 +50810,7 @@ extension DescribeOrganizationConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
+public struct DescribeOrganizationConfigurationOutput {
     /// Whether to automatically enable Security Hub in new member accounts when they join the organization. If set to true, then Security Hub is automatically enabled in new accounts. If set to false, then Security Hub isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub is enabled and associate the policy with new organization accounts.
     public var autoEnable: Swift.Bool?
     /// Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) in new member accounts when they join the organization. If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts. The default value of this parameter is equal to DEFAULT. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to NONE and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which specific security standards are enabled and associate the policy with new organization accounts.
@@ -50834,7 +50834,7 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationConfigurationOutputBody: Swift.Equatable {
+struct DescribeOrganizationConfigurationOutputBody {
     let autoEnable: Swift.Bool?
     let memberAccountLimitReached: Swift.Bool?
     let autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
@@ -50903,7 +50903,7 @@ extension DescribeProductsInput {
     }
 }
 
-public struct DescribeProductsInput: Swift.Equatable {
+public struct DescribeProductsInput {
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the DescribeProducts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -50923,7 +50923,7 @@ public struct DescribeProductsInput: Swift.Equatable {
     }
 }
 
-struct DescribeProductsInputBody: Swift.Equatable {
+struct DescribeProductsInputBody {
 }
 
 extension DescribeProductsInputBody: Swift.Decodable {
@@ -50946,7 +50946,7 @@ extension DescribeProductsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProductsOutput: Swift.Equatable {
+public struct DescribeProductsOutput {
     /// The pagination token to use to request the next page of results.
     public var nextToken: Swift.String?
     /// A list of products, including details for each product.
@@ -50963,7 +50963,7 @@ public struct DescribeProductsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProductsOutputBody: Swift.Equatable {
+struct DescribeProductsOutputBody {
     let products: [SecurityHubClientTypes.Product]?
     let nextToken: Swift.String?
 }
@@ -51032,7 +51032,7 @@ extension DescribeStandardsControlsInput {
     }
 }
 
-public struct DescribeStandardsControlsInput: Swift.Equatable {
+public struct DescribeStandardsControlsInput {
     /// The maximum number of security standard controls to return.
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the DescribeStandardsControls operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -51053,7 +51053,7 @@ public struct DescribeStandardsControlsInput: Swift.Equatable {
     }
 }
 
-struct DescribeStandardsControlsInputBody: Swift.Equatable {
+struct DescribeStandardsControlsInputBody {
 }
 
 extension DescribeStandardsControlsInputBody: Swift.Decodable {
@@ -51076,7 +51076,7 @@ extension DescribeStandardsControlsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeStandardsControlsOutput: Swift.Equatable {
+public struct DescribeStandardsControlsOutput {
     /// A list of security standards controls.
     public var controls: [SecurityHubClientTypes.StandardsControl]?
     /// The pagination token to use to request the next page of results.
@@ -51092,7 +51092,7 @@ public struct DescribeStandardsControlsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStandardsControlsOutputBody: Swift.Equatable {
+struct DescribeStandardsControlsOutputBody {
     let controls: [SecurityHubClientTypes.StandardsControl]?
     let nextToken: Swift.String?
 }
@@ -51158,7 +51158,7 @@ extension DescribeStandardsInput {
     }
 }
 
-public struct DescribeStandardsInput: Swift.Equatable {
+public struct DescribeStandardsInput {
     /// The maximum number of standards to return.
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -51174,7 +51174,7 @@ public struct DescribeStandardsInput: Swift.Equatable {
     }
 }
 
-struct DescribeStandardsInputBody: Swift.Equatable {
+struct DescribeStandardsInputBody {
 }
 
 extension DescribeStandardsInputBody: Swift.Decodable {
@@ -51197,7 +51197,7 @@ extension DescribeStandardsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeStandardsOutput: Swift.Equatable {
+public struct DescribeStandardsOutput {
     /// The pagination token to use to request the next page of results.
     public var nextToken: Swift.String?
     /// A list of available standards.
@@ -51213,7 +51213,7 @@ public struct DescribeStandardsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStandardsOutputBody: Swift.Equatable {
+struct DescribeStandardsOutputBody {
     let standards: [SecurityHubClientTypes.Standard]?
     let nextToken: Swift.String?
 }
@@ -51265,7 +51265,7 @@ extension DisableImportFindingsForProductInput {
     }
 }
 
-public struct DisableImportFindingsForProductInput: Swift.Equatable {
+public struct DisableImportFindingsForProductInput {
     /// The ARN of the integrated product to disable the integration for.
     /// This member is required.
     public var productSubscriptionArn: Swift.String?
@@ -51278,7 +51278,7 @@ public struct DisableImportFindingsForProductInput: Swift.Equatable {
     }
 }
 
-struct DisableImportFindingsForProductInputBody: Swift.Equatable {
+struct DisableImportFindingsForProductInputBody {
 }
 
 extension DisableImportFindingsForProductInputBody: Swift.Decodable {
@@ -51292,7 +51292,7 @@ extension DisableImportFindingsForProductOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DisableImportFindingsForProductOutput: Swift.Equatable {
+public struct DisableImportFindingsForProductOutput {
 
     public init() { }
 }
@@ -51332,7 +51332,7 @@ extension DisableOrganizationAdminAccountInput {
     }
 }
 
-public struct DisableOrganizationAdminAccountInput: Swift.Equatable {
+public struct DisableOrganizationAdminAccountInput {
     /// The Amazon Web Services account identifier of the Security Hub administrator account.
     /// This member is required.
     public var adminAccountId: Swift.String?
@@ -51345,7 +51345,7 @@ public struct DisableOrganizationAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct DisableOrganizationAdminAccountInputBody: Swift.Equatable {
+struct DisableOrganizationAdminAccountInputBody {
     let adminAccountId: Swift.String?
 }
 
@@ -51366,7 +51366,7 @@ extension DisableOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DisableOrganizationAdminAccountOutput: Swift.Equatable {
+public struct DisableOrganizationAdminAccountOutput {
 
     public init() { }
 }
@@ -51393,12 +51393,12 @@ extension DisableSecurityHubInput {
     }
 }
 
-public struct DisableSecurityHubInput: Swift.Equatable {
+public struct DisableSecurityHubInput {
 
     public init() { }
 }
 
-struct DisableSecurityHubInputBody: Swift.Equatable {
+struct DisableSecurityHubInputBody {
 }
 
 extension DisableSecurityHubInputBody: Swift.Decodable {
@@ -51412,7 +51412,7 @@ extension DisableSecurityHubOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableSecurityHubOutput: Swift.Equatable {
+public struct DisableSecurityHubOutput {
 
     public init() { }
 }
@@ -51439,12 +51439,12 @@ extension DisassociateFromAdministratorAccountInput {
     }
 }
 
-public struct DisassociateFromAdministratorAccountInput: Swift.Equatable {
+public struct DisassociateFromAdministratorAccountInput {
 
     public init() { }
 }
 
-struct DisassociateFromAdministratorAccountInputBody: Swift.Equatable {
+struct DisassociateFromAdministratorAccountInputBody {
 }
 
 extension DisassociateFromAdministratorAccountInputBody: Swift.Decodable {
@@ -51458,7 +51458,7 @@ extension DisassociateFromAdministratorAccountOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DisassociateFromAdministratorAccountOutput: Swift.Equatable {
+public struct DisassociateFromAdministratorAccountOutput {
 
     public init() { }
 }
@@ -51485,12 +51485,12 @@ extension DisassociateFromMasterAccountInput {
     }
 }
 
-public struct DisassociateFromMasterAccountInput: Swift.Equatable {
+public struct DisassociateFromMasterAccountInput {
 
     public init() { }
 }
 
-struct DisassociateFromMasterAccountInputBody: Swift.Equatable {
+struct DisassociateFromMasterAccountInputBody {
 }
 
 extension DisassociateFromMasterAccountInputBody: Swift.Decodable {
@@ -51504,7 +51504,7 @@ extension DisassociateFromMasterAccountOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DisassociateFromMasterAccountOutput: Swift.Equatable {
+public struct DisassociateFromMasterAccountOutput {
 
     public init() { }
 }
@@ -51547,7 +51547,7 @@ extension DisassociateMembersInput {
     }
 }
 
-public struct DisassociateMembersInput: Swift.Equatable {
+public struct DisassociateMembersInput {
     /// The account IDs of the member accounts to disassociate from the administrator account.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -51560,7 +51560,7 @@ public struct DisassociateMembersInput: Swift.Equatable {
     }
 }
 
-struct DisassociateMembersInputBody: Swift.Equatable {
+struct DisassociateMembersInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -51590,7 +51590,7 @@ extension DisassociateMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateMembersOutput: Swift.Equatable {
+public struct DisassociateMembersOutput {
 
     public init() { }
 }
@@ -51644,7 +51644,7 @@ extension SecurityHubClientTypes.DnsRequestAction: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provided if ActionType is DNS_REQUEST. It provides details about the DNS request that was detected.
-    public struct DnsRequestAction: Swift.Equatable {
+    public struct DnsRequestAction {
         /// Indicates whether the DNS request was blocked.
         public var blocked: Swift.Bool?
         /// The DNS domain that is associated with the DNS request.
@@ -51699,7 +51699,7 @@ extension SecurityHubClientTypes.DoubleConfigurationOptions: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The options for customizing a security control parameter that is a double.
-    public struct DoubleConfigurationOptions: Swift.Equatable {
+    public struct DoubleConfigurationOptions {
         /// The Security Hub default value for a control parameter that is a double.
         public var defaultValue: Swift.Double?
         /// The maximum valid value for a control parameter that is a double.
@@ -51741,7 +51741,7 @@ extension EnableImportFindingsForProductInput {
     }
 }
 
-public struct EnableImportFindingsForProductInput: Swift.Equatable {
+public struct EnableImportFindingsForProductInput {
     /// The ARN of the product to enable the integration for.
     /// This member is required.
     public var productArn: Swift.String?
@@ -51754,7 +51754,7 @@ public struct EnableImportFindingsForProductInput: Swift.Equatable {
     }
 }
 
-struct EnableImportFindingsForProductInputBody: Swift.Equatable {
+struct EnableImportFindingsForProductInputBody {
     let productArn: Swift.String?
 }
 
@@ -51782,7 +51782,7 @@ extension EnableImportFindingsForProductOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct EnableImportFindingsForProductOutput: Swift.Equatable {
+public struct EnableImportFindingsForProductOutput {
     /// The ARN of your subscription to the product to enable integrations for.
     public var productSubscriptionArn: Swift.String?
 
@@ -51794,7 +51794,7 @@ public struct EnableImportFindingsForProductOutput: Swift.Equatable {
     }
 }
 
-struct EnableImportFindingsForProductOutputBody: Swift.Equatable {
+struct EnableImportFindingsForProductOutputBody {
     let productSubscriptionArn: Swift.String?
 }
 
@@ -51845,7 +51845,7 @@ extension EnableOrganizationAdminAccountInput {
     }
 }
 
-public struct EnableOrganizationAdminAccountInput: Swift.Equatable {
+public struct EnableOrganizationAdminAccountInput {
     /// The Amazon Web Services account identifier of the account to designate as the Security Hub administrator account.
     /// This member is required.
     public var adminAccountId: Swift.String?
@@ -51858,7 +51858,7 @@ public struct EnableOrganizationAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct EnableOrganizationAdminAccountInputBody: Swift.Equatable {
+struct EnableOrganizationAdminAccountInputBody {
     let adminAccountId: Swift.String?
 }
 
@@ -51879,7 +51879,7 @@ extension EnableOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct EnableOrganizationAdminAccountOutput: Swift.Equatable {
+public struct EnableOrganizationAdminAccountOutput {
 
     public init() { }
 }
@@ -51930,7 +51930,7 @@ extension EnableSecurityHubInput {
     }
 }
 
-public struct EnableSecurityHubInput: Swift.Equatable {
+public struct EnableSecurityHubInput {
     /// This field, used when enabling Security Hub, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
     public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
     /// Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
@@ -51950,7 +51950,7 @@ public struct EnableSecurityHubInput: Swift.Equatable {
     }
 }
 
-struct EnableSecurityHubInputBody: Swift.Equatable {
+struct EnableSecurityHubInputBody {
     let tags: [Swift.String:Swift.String]?
     let enableDefaultStandards: Swift.Bool?
     let controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
@@ -51988,7 +51988,7 @@ extension EnableSecurityHubOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableSecurityHubOutput: Swift.Equatable {
+public struct EnableSecurityHubOutput {
 
     public init() { }
 }
@@ -52047,7 +52047,7 @@ extension SecurityHubClientTypes.EnumConfigurationOptions: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The options for customizing a security control parameter that is an enum.
-    public struct EnumConfigurationOptions: Swift.Equatable {
+    public struct EnumConfigurationOptions {
         /// The valid values for a control parameter that is an enum.
         public var allowedValues: [Swift.String]?
         /// The Security Hub default value for a control parameter that is an enum.
@@ -52122,7 +52122,7 @@ extension SecurityHubClientTypes.EnumListConfigurationOptions: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The options for customizing a security control parameter that is a list of enums.
-    public struct EnumListConfigurationOptions: Swift.Equatable {
+    public struct EnumListConfigurationOptions {
         /// The valid values for a control parameter that is a list of enums.
         public var allowedValues: [Swift.String]?
         /// The Security Hub default value for a control parameter that is a list of enums.
@@ -52183,7 +52183,7 @@ extension SecurityHubClientTypes.FilePaths: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about the file paths that were affected by the threat.
-    public struct FilePaths: Swift.Equatable {
+    public struct FilePaths {
         /// The name of the infected or suspicious file corresponding to the hash.
         public var fileName: Swift.String?
         /// Path to the infected or suspicious file on the resource it was detected on.
@@ -52230,7 +52230,7 @@ extension SecurityHubClientTypes.FindingAggregator: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A finding aggregator. A finding aggregator contains the configuration for finding aggregation.
-    public struct FindingAggregator: Swift.Equatable {
+    public struct FindingAggregator {
         /// The ARN of the finding aggregator. You use the finding aggregator ARN to retrieve details for, update, and delete the finding aggregator.
         public var findingAggregatorArn: Swift.String?
 
@@ -52307,7 +52307,7 @@ extension SecurityHubClientTypes.FindingHistoryRecord: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A list of events that changed the specified finding during the specified time period. Each record represents a single finding change event.
-    public struct FindingHistoryRecord: Swift.Equatable {
+    public struct FindingHistoryRecord {
         /// Identifies whether the event marks the creation of a new finding. A value of True means that the finding is newly created. A value of False means that the finding isn’t newly created.
         public var findingCreated: Swift.Bool?
         /// Identifies which finding to get the finding history for.
@@ -52384,7 +52384,7 @@ extension SecurityHubClientTypes.FindingHistoryUpdate: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An array of objects that provides details about a change to a finding, including the Amazon Web Services Security Finding Format (ASFF) field that changed, the value of the field before the change, and the value of the field after the change.
-    public struct FindingHistoryUpdate: Swift.Equatable {
+    public struct FindingHistoryUpdate {
         /// The value of the ASFF field after the finding change event. To preserve storage and readability, Security Hub omits this value if [FindingHistoryRecord](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_FindingHistoryRecord.html) exceeds database limits.
         public var newValue: Swift.String?
         /// The value of the ASFF field before the finding change event.
@@ -52433,7 +52433,7 @@ extension SecurityHubClientTypes.FindingHistoryUpdateSource: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Identifies the source of the finding change event.
-    public struct FindingHistoryUpdateSource: Swift.Equatable {
+    public struct FindingHistoryUpdateSource {
         /// The identity of the source that initiated the finding change event. For example, the Amazon Resource Name (ARN) of a partner that calls BatchImportFindings or of a customer that calls BatchUpdateFindings.
         public var identity: Swift.String?
         /// Describes the type of finding change event, such as a call to [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) (by an integrated Amazon Web Service or third party partner integration) or [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) (by a Security Hub customer).
@@ -52552,7 +52552,7 @@ extension SecurityHubClientTypes.FindingProviderFields: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update values for confidence, criticality, related findings, severity, and types.
-    public struct FindingProviderFields: Swift.Equatable {
+    public struct FindingProviderFields {
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public var confidence: Swift.Int?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
@@ -52609,7 +52609,7 @@ extension SecurityHubClientTypes.FindingProviderSeverity: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The severity assigned to the finding by the finding provider.
-    public struct FindingProviderSeverity: Swift.Equatable {
+    public struct FindingProviderSeverity {
         /// The severity label assigned to the finding by the finding provider.
         public var label: SecurityHubClientTypes.SeverityLabel?
         /// The finding provider's original value for the severity.
@@ -52732,7 +52732,7 @@ extension SecurityHubClientTypes.FirewallPolicyDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Defines the behavior of the firewall.
-    public struct FirewallPolicyDetails: Swift.Equatable {
+    public struct FirewallPolicyDetails {
         /// The stateful rule groups that are used in the firewall policy.
         public var statefulRuleGroupReferences: [SecurityHubClientTypes.FirewallPolicyStatefulRuleGroupReferencesDetails]?
         /// The custom action definitions that are available to use in the firewall policy's StatelessDefaultActions setting.
@@ -52783,7 +52783,7 @@ extension SecurityHubClientTypes.FirewallPolicyStatefulRuleGroupReferencesDetail
 
 extension SecurityHubClientTypes {
     /// A stateful rule group that is used by the firewall policy.
-    public struct FirewallPolicyStatefulRuleGroupReferencesDetails: Swift.Equatable {
+    public struct FirewallPolicyStatefulRuleGroupReferencesDetails {
         /// The ARN of the stateful rule group.
         public var resourceArn: Swift.String?
 
@@ -52824,7 +52824,7 @@ extension SecurityHubClientTypes.FirewallPolicyStatelessCustomActionsDetails: Sw
 
 extension SecurityHubClientTypes {
     /// A custom action that can be used for stateless packet handling.
-    public struct FirewallPolicyStatelessCustomActionsDetails: Swift.Equatable {
+    public struct FirewallPolicyStatelessCustomActionsDetails {
         /// The definition of the custom action.
         public var actionDefinition: SecurityHubClientTypes.StatelessCustomActionDefinition?
         /// The name of the custom action.
@@ -52869,7 +52869,7 @@ extension SecurityHubClientTypes.FirewallPolicyStatelessRuleGroupReferencesDetai
 
 extension SecurityHubClientTypes {
     /// A stateless rule group that is used by the firewall policy.
-    public struct FirewallPolicyStatelessRuleGroupReferencesDetails: Swift.Equatable {
+    public struct FirewallPolicyStatelessRuleGroupReferencesDetails {
         /// The order in which to run the stateless rule group.
         public var priority: Swift.Int?
         /// The ARN of the stateless rule group.
@@ -52932,7 +52932,7 @@ extension SecurityHubClientTypes.GeneratorDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides metadata for the Amazon CodeGuru detector associated with a finding. This field pertains to findings that relate to Lambda functions. Amazon Inspector identifies policy violations and vulnerabilities in Lambda function code based on internal detectors developed in collaboration with Amazon CodeGuru. Security Hub receives those findings.
-    public struct GeneratorDetails: Swift.Equatable {
+    public struct GeneratorDetails {
         /// The description of the detector used to identify the code vulnerability.
         public var description: Swift.String?
         /// An array of tags used to identify the detector associated with the finding.
@@ -52981,7 +52981,7 @@ extension SecurityHubClientTypes.GeoLocation: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides the latitude and longitude coordinates of a location.
-    public struct GeoLocation: Swift.Equatable {
+    public struct GeoLocation {
         /// The latitude of the location.
         public var lat: Swift.Double?
         /// The longitude of the location.
@@ -53006,12 +53006,12 @@ extension GetAdministratorAccountInput {
     }
 }
 
-public struct GetAdministratorAccountInput: Swift.Equatable {
+public struct GetAdministratorAccountInput {
 
     public init() { }
 }
 
-struct GetAdministratorAccountInputBody: Swift.Equatable {
+struct GetAdministratorAccountInputBody {
 }
 
 extension GetAdministratorAccountInputBody: Swift.Decodable {
@@ -53032,7 +53032,7 @@ extension GetAdministratorAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAdministratorAccountOutput: Swift.Equatable {
+public struct GetAdministratorAccountOutput {
     /// Details about an invitation.
     public var administrator: SecurityHubClientTypes.Invitation?
 
@@ -53044,7 +53044,7 @@ public struct GetAdministratorAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetAdministratorAccountOutputBody: Swift.Equatable {
+struct GetAdministratorAccountOutputBody {
     let administrator: SecurityHubClientTypes.Invitation?
 }
 
@@ -53095,7 +53095,7 @@ extension GetConfigurationPolicyAssociationInput {
     }
 }
 
-public struct GetConfigurationPolicyAssociationInput: Swift.Equatable {
+public struct GetConfigurationPolicyAssociationInput {
     /// The target account ID, organizational unit ID, or the root ID to retrieve the association for.
     /// This member is required.
     public var target: SecurityHubClientTypes.Target?
@@ -53108,7 +53108,7 @@ public struct GetConfigurationPolicyAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationPolicyAssociationInputBody: Swift.Equatable {
+struct GetConfigurationPolicyAssociationInputBody {
     let target: SecurityHubClientTypes.Target?
 }
 
@@ -53148,7 +53148,7 @@ extension GetConfigurationPolicyAssociationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetConfigurationPolicyAssociationOutput: Swift.Equatable {
+public struct GetConfigurationPolicyAssociationOutput {
     /// The current status of the association between the specified target and the configuration.
     public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
     /// The explanation for a FAILED value for AssociationStatus.
@@ -53184,7 +53184,7 @@ public struct GetConfigurationPolicyAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationPolicyAssociationOutputBody: Swift.Equatable {
+struct GetConfigurationPolicyAssociationOutputBody {
     let configurationPolicyId: Swift.String?
     let targetId: Swift.String?
     let targetType: SecurityHubClientTypes.TargetType?
@@ -53250,7 +53250,7 @@ extension GetConfigurationPolicyInput {
     }
 }
 
-public struct GetConfigurationPolicyInput: Swift.Equatable {
+public struct GetConfigurationPolicyInput {
     /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
     /// This member is required.
     public var identifier: Swift.String?
@@ -53263,7 +53263,7 @@ public struct GetConfigurationPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationPolicyInputBody: Swift.Equatable {
+struct GetConfigurationPolicyInputBody {
 }
 
 extension GetConfigurationPolicyInputBody: Swift.Decodable {
@@ -53296,7 +53296,7 @@ extension GetConfigurationPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConfigurationPolicyOutput: Swift.Equatable {
+public struct GetConfigurationPolicyOutput {
     /// The ARN of the configuration policy.
     public var arn: Swift.String?
     /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the policy includes a list of security controls that are enabled, Security Hub disables all other controls (including newly released controls). If the policy includes a list of security controls that are disabled, Security Hub enables all other controls (including newly released controls).
@@ -53332,7 +53332,7 @@ public struct GetConfigurationPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationPolicyOutputBody: Swift.Equatable {
+struct GetConfigurationPolicyOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -53419,7 +53419,7 @@ extension GetEnabledStandardsInput {
     }
 }
 
-public struct GetEnabledStandardsInput: Swift.Equatable {
+public struct GetEnabledStandardsInput {
     /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -53439,7 +53439,7 @@ public struct GetEnabledStandardsInput: Swift.Equatable {
     }
 }
 
-struct GetEnabledStandardsInputBody: Swift.Equatable {
+struct GetEnabledStandardsInputBody {
     let standardsSubscriptionArns: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -53486,7 +53486,7 @@ extension GetEnabledStandardsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnabledStandardsOutput: Swift.Equatable {
+public struct GetEnabledStandardsOutput {
     /// The pagination token to use to request the next page of results.
     public var nextToken: Swift.String?
     /// The list of StandardsSubscriptions objects that include information about the enabled standards.
@@ -53502,7 +53502,7 @@ public struct GetEnabledStandardsOutput: Swift.Equatable {
     }
 }
 
-struct GetEnabledStandardsOutputBody: Swift.Equatable {
+struct GetEnabledStandardsOutputBody {
     let standardsSubscriptions: [SecurityHubClientTypes.StandardsSubscription]?
     let nextToken: Swift.String?
 }
@@ -53555,7 +53555,7 @@ extension GetFindingAggregatorInput {
     }
 }
 
-public struct GetFindingAggregatorInput: Swift.Equatable {
+public struct GetFindingAggregatorInput {
     /// The ARN of the finding aggregator to return details for. To obtain the ARN, use ListFindingAggregators.
     /// This member is required.
     public var findingAggregatorArn: Swift.String?
@@ -53568,7 +53568,7 @@ public struct GetFindingAggregatorInput: Swift.Equatable {
     }
 }
 
-struct GetFindingAggregatorInputBody: Swift.Equatable {
+struct GetFindingAggregatorInputBody {
 }
 
 extension GetFindingAggregatorInputBody: Swift.Decodable {
@@ -53595,7 +53595,7 @@ extension GetFindingAggregatorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFindingAggregatorOutput: Swift.Equatable {
+public struct GetFindingAggregatorOutput {
     /// The aggregation Region.
     public var findingAggregationRegion: Swift.String?
     /// The ARN of the finding aggregator.
@@ -53619,7 +53619,7 @@ public struct GetFindingAggregatorOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingAggregatorOutputBody: Swift.Equatable {
+struct GetFindingAggregatorOutputBody {
     let findingAggregatorArn: Swift.String?
     let findingAggregationRegion: Swift.String?
     let regionLinkingMode: Swift.String?
@@ -53708,7 +53708,7 @@ extension GetFindingHistoryInput {
     }
 }
 
-public struct GetFindingHistoryInput: Swift.Equatable {
+public struct GetFindingHistoryInput {
     /// An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results, and the maximum time period is limited to 90 days. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
     ///
     /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
@@ -53757,7 +53757,7 @@ public struct GetFindingHistoryInput: Swift.Equatable {
     }
 }
 
-struct GetFindingHistoryInputBody: Swift.Equatable {
+struct GetFindingHistoryInputBody {
     let findingIdentifier: SecurityHubClientTypes.AwsSecurityFindingIdentifier?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -53803,7 +53803,7 @@ extension GetFindingHistoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFindingHistoryOutput: Swift.Equatable {
+public struct GetFindingHistoryOutput {
     /// A token for pagination purposes. Provide this token in the subsequent request to GetFindingsHistory to get up to an additional 100 results of history for the same finding that you specified in your initial request.
     public var nextToken: Swift.String?
     /// A list of events that altered the specified finding during the specified time period.
@@ -53819,7 +53819,7 @@ public struct GetFindingHistoryOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingHistoryOutputBody: Swift.Equatable {
+struct GetFindingHistoryOutputBody {
     let records: [SecurityHubClientTypes.FindingHistoryRecord]?
     let nextToken: Swift.String?
 }
@@ -53897,7 +53897,7 @@ extension GetFindingsInput {
     }
 }
 
-public struct GetFindingsInput: Swift.Equatable {
+public struct GetFindingsInput {
     /// The finding attributes used to define a condition to filter the returned findings. You can filter by up to 10 finding attributes. For each attribute, you can provide up to 20 filter values. Note that in the available filter fields, WorkflowState is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
     public var filters: SecurityHubClientTypes.AwsSecurityFindingFilters?
     /// The maximum number of findings to return.
@@ -53921,7 +53921,7 @@ public struct GetFindingsInput: Swift.Equatable {
     }
 }
 
-struct GetFindingsInputBody: Swift.Equatable {
+struct GetFindingsInputBody {
     let filters: SecurityHubClientTypes.AwsSecurityFindingFilters?
     let sortCriteria: [SecurityHubClientTypes.SortCriterion]?
     let nextToken: Swift.String?
@@ -53972,7 +53972,7 @@ extension GetFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFindingsOutput: Swift.Equatable {
+public struct GetFindingsOutput {
     /// The findings that matched the filters specified in the request.
     /// This member is required.
     public var findings: [SecurityHubClientTypes.AwsSecurityFinding]?
@@ -53989,7 +53989,7 @@ public struct GetFindingsOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingsOutputBody: Swift.Equatable {
+struct GetFindingsOutputBody {
     let findings: [SecurityHubClientTypes.AwsSecurityFinding]?
     let nextToken: Swift.String?
 }
@@ -54042,7 +54042,7 @@ extension GetInsightResultsInput {
     }
 }
 
-public struct GetInsightResultsInput: Swift.Equatable {
+public struct GetInsightResultsInput {
     /// The ARN of the insight for which to return results.
     /// This member is required.
     public var insightArn: Swift.String?
@@ -54055,7 +54055,7 @@ public struct GetInsightResultsInput: Swift.Equatable {
     }
 }
 
-struct GetInsightResultsInputBody: Swift.Equatable {
+struct GetInsightResultsInputBody {
 }
 
 extension GetInsightResultsInputBody: Swift.Decodable {
@@ -54076,7 +54076,7 @@ extension GetInsightResultsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInsightResultsOutput: Swift.Equatable {
+public struct GetInsightResultsOutput {
     /// The insight results returned by the operation.
     /// This member is required.
     public var insightResults: SecurityHubClientTypes.InsightResults?
@@ -54089,7 +54089,7 @@ public struct GetInsightResultsOutput: Swift.Equatable {
     }
 }
 
-struct GetInsightResultsOutputBody: Swift.Equatable {
+struct GetInsightResultsOutputBody {
     let insightResults: SecurityHubClientTypes.InsightResults?
 }
 
@@ -54151,7 +54151,7 @@ extension GetInsightsInput {
     }
 }
 
-public struct GetInsightsInput: Swift.Equatable {
+public struct GetInsightsInput {
     /// The ARNs of the insights to describe. If you do not provide any insight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights.
     public var insightArns: [Swift.String]?
     /// The maximum number of items to return in the response.
@@ -54171,7 +54171,7 @@ public struct GetInsightsInput: Swift.Equatable {
     }
 }
 
-struct GetInsightsInputBody: Swift.Equatable {
+struct GetInsightsInputBody {
     let insightArns: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -54218,7 +54218,7 @@ extension GetInsightsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInsightsOutput: Swift.Equatable {
+public struct GetInsightsOutput {
     /// The insights returned by the operation.
     /// This member is required.
     public var insights: [SecurityHubClientTypes.Insight]?
@@ -54235,7 +54235,7 @@ public struct GetInsightsOutput: Swift.Equatable {
     }
 }
 
-struct GetInsightsOutputBody: Swift.Equatable {
+struct GetInsightsOutputBody {
     let insights: [SecurityHubClientTypes.Insight]?
     let nextToken: Swift.String?
 }
@@ -54286,12 +54286,12 @@ extension GetInvitationsCountInput {
     }
 }
 
-public struct GetInvitationsCountInput: Swift.Equatable {
+public struct GetInvitationsCountInput {
 
     public init() { }
 }
 
-struct GetInvitationsCountInputBody: Swift.Equatable {
+struct GetInvitationsCountInputBody {
 }
 
 extension GetInvitationsCountInputBody: Swift.Decodable {
@@ -54312,7 +54312,7 @@ extension GetInvitationsCountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInvitationsCountOutput: Swift.Equatable {
+public struct GetInvitationsCountOutput {
     /// The number of all membership invitations sent to this Security Hub member account, not including the currently accepted invitation.
     public var invitationsCount: Swift.Int?
 
@@ -54324,7 +54324,7 @@ public struct GetInvitationsCountOutput: Swift.Equatable {
     }
 }
 
-struct GetInvitationsCountOutputBody: Swift.Equatable {
+struct GetInvitationsCountOutputBody {
     let invitationsCount: Swift.Int?
 }
 
@@ -54361,12 +54361,12 @@ extension GetMasterAccountInput {
     }
 }
 
-public struct GetMasterAccountInput: Swift.Equatable {
+public struct GetMasterAccountInput {
 
     public init() { }
 }
 
-struct GetMasterAccountInputBody: Swift.Equatable {
+struct GetMasterAccountInputBody {
 }
 
 extension GetMasterAccountInputBody: Swift.Decodable {
@@ -54387,7 +54387,7 @@ extension GetMasterAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMasterAccountOutput: Swift.Equatable {
+public struct GetMasterAccountOutput {
     /// A list of details about the Security Hub administrator account for the current member account.
     public var master: SecurityHubClientTypes.Invitation?
 
@@ -54399,7 +54399,7 @@ public struct GetMasterAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetMasterAccountOutputBody: Swift.Equatable {
+struct GetMasterAccountOutputBody {
     let master: SecurityHubClientTypes.Invitation?
 }
 
@@ -54453,7 +54453,7 @@ extension GetMembersInput {
     }
 }
 
-public struct GetMembersInput: Swift.Equatable {
+public struct GetMembersInput {
     /// The list of account IDs for the Security Hub member accounts to return the details for.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -54466,7 +54466,7 @@ public struct GetMembersInput: Swift.Equatable {
     }
 }
 
-struct GetMembersInputBody: Swift.Equatable {
+struct GetMembersInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -54505,7 +54505,7 @@ extension GetMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMembersOutput: Swift.Equatable {
+public struct GetMembersOutput {
     /// The list of details about the Security Hub member accounts.
     public var members: [SecurityHubClientTypes.Member]?
     /// The list of Amazon Web Services accounts that could not be processed. For each account, the list includes the account ID and the email address.
@@ -54521,7 +54521,7 @@ public struct GetMembersOutput: Swift.Equatable {
     }
 }
 
-struct GetMembersOutputBody: Swift.Equatable {
+struct GetMembersOutputBody {
     let members: [SecurityHubClientTypes.Member]?
     let unprocessedAccounts: [SecurityHubClientTypes.Result]?
 }
@@ -54595,7 +54595,7 @@ extension GetSecurityControlDefinitionInput {
     }
 }
 
-public struct GetSecurityControlDefinitionInput: Swift.Equatable {
+public struct GetSecurityControlDefinitionInput {
     /// The ID of the security control to retrieve the definition for. This field doesn’t accept an Amazon Resource Name (ARN).
     /// This member is required.
     public var securityControlId: Swift.String?
@@ -54608,7 +54608,7 @@ public struct GetSecurityControlDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetSecurityControlDefinitionInputBody: Swift.Equatable {
+struct GetSecurityControlDefinitionInputBody {
 }
 
 extension GetSecurityControlDefinitionInputBody: Swift.Decodable {
@@ -54629,7 +54629,7 @@ extension GetSecurityControlDefinitionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetSecurityControlDefinitionOutput: Swift.Equatable {
+public struct GetSecurityControlDefinitionOutput {
     /// Provides metadata for a security control, including its unique standard-agnostic identifier, title, description, severity, availability in Amazon Web Services Regions, and a link to remediation steps.
     /// This member is required.
     public var securityControlDefinition: SecurityHubClientTypes.SecurityControlDefinition?
@@ -54642,7 +54642,7 @@ public struct GetSecurityControlDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetSecurityControlDefinitionOutputBody: Swift.Equatable {
+struct GetSecurityControlDefinitionOutputBody {
     let securityControlDefinition: SecurityHubClientTypes.SecurityControlDefinition?
 }
 
@@ -54700,7 +54700,7 @@ extension SecurityHubClientTypes.IcmpTypeCode: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An Internet Control Message Protocol (ICMP) type and code.
-    public struct IcmpTypeCode: Swift.Equatable {
+    public struct IcmpTypeCode {
         /// The ICMP code for which to deny or allow access. To deny or allow all codes, use the value -1.
         public var code: Swift.Int?
         /// The ICMP type for which to deny or allow access. To deny or allow all types, use the value -1.
@@ -54751,7 +54751,7 @@ extension SecurityHubClientTypes.ImportFindingsError: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The list of the findings that cannot be imported. For each finding, the list provides the error.
-    public struct ImportFindingsError: Swift.Equatable {
+    public struct ImportFindingsError {
         /// The code of the error returned by the BatchImportFindings operation.
         /// This member is required.
         public var errorCode: Swift.String?
@@ -54815,7 +54815,7 @@ extension SecurityHubClientTypes.Insight: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains information about a Security Hub insight.
-    public struct Insight: Swift.Equatable {
+    public struct Insight {
         /// One or more attributes used to filter the findings included in the insight. You can filter by up to ten finding attributes. For each attribute, you can provide up to 20 filter values. The insight only includes findings that match the criteria defined in the filters.
         /// This member is required.
         public var filters: SecurityHubClientTypes.AwsSecurityFindingFilters?
@@ -54872,7 +54872,7 @@ extension SecurityHubClientTypes.InsightResultValue: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The insight result values returned by the GetInsightResults operation.
-    public struct InsightResultValue: Swift.Equatable {
+    public struct InsightResultValue {
         /// The number of findings returned for each GroupByAttributeValue.
         /// This member is required.
         public var count: Swift.Int?
@@ -54937,7 +54937,7 @@ extension SecurityHubClientTypes.InsightResults: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The insight results returned by the GetInsightResults operation.
-    public struct InsightResults: Swift.Equatable {
+    public struct InsightResults {
         /// The attribute that the findings are grouped by for the insight whose results are returned by the GetInsightResults operation.
         /// This member is required.
         public var groupByAttribute: Swift.String?
@@ -54995,7 +54995,7 @@ extension SecurityHubClientTypes.IntegerConfigurationOptions: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The options for customizing a security control parameter that is an integer.
-    public struct IntegerConfigurationOptions: Swift.Equatable {
+    public struct IntegerConfigurationOptions {
         /// The Security Hub default value for a control parameter that is an integer.
         public var defaultValue: Swift.Int?
         /// The maximum valid value for a control parameter that is an integer.
@@ -55068,7 +55068,7 @@ extension SecurityHubClientTypes.IntegerListConfigurationOptions: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// The options for customizing a security control parameter that is a list of integers.
-    public struct IntegerListConfigurationOptions: Swift.Equatable {
+    public struct IntegerListConfigurationOptions {
         /// The Security Hub default value for a control parameter that is a list of integers.
         public var defaultValue: [Swift.Int]?
         /// The maximum valid value for a control parameter that is a list of integers.
@@ -55173,7 +55173,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InternalExceptionBody: Swift.Equatable {
+struct InternalExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -55237,7 +55237,7 @@ public struct InvalidAccessException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidAccessExceptionBody: Swift.Equatable {
+struct InvalidAccessExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -55301,7 +55301,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -55360,7 +55360,7 @@ extension SecurityHubClientTypes.Invitation: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an invitation.
-    public struct Invitation: Swift.Equatable {
+    public struct Invitation {
         /// The account ID of the Security Hub administrator account that the invitation was sent from.
         public var accountId: Swift.String?
         /// The ID of the invitation sent to the member account.
@@ -55409,7 +55409,7 @@ extension InviteMembersInput {
     }
 }
 
-public struct InviteMembersInput: Swift.Equatable {
+public struct InviteMembersInput {
     /// The list of account IDs of the Amazon Web Services accounts to invite to Security Hub as members.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -55422,7 +55422,7 @@ public struct InviteMembersInput: Swift.Equatable {
     }
 }
 
-struct InviteMembersInputBody: Swift.Equatable {
+struct InviteMembersInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -55459,7 +55459,7 @@ extension InviteMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InviteMembersOutput: Swift.Equatable {
+public struct InviteMembersOutput {
     /// The list of Amazon Web Services accounts that could not be processed. For each account, the list includes the account ID and the email address.
     public var unprocessedAccounts: [SecurityHubClientTypes.Result]?
 
@@ -55471,7 +55471,7 @@ public struct InviteMembersOutput: Swift.Equatable {
     }
 }
 
-struct InviteMembersOutputBody: Swift.Equatable {
+struct InviteMembersOutputBody {
     let unprocessedAccounts: [SecurityHubClientTypes.Result]?
 }
 
@@ -55532,7 +55532,7 @@ extension SecurityHubClientTypes.IpFilter: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The IP filter for querying findings.
-    public struct IpFilter: Swift.Equatable {
+    public struct IpFilter {
         /// A finding's CIDR value.
         public var cidr: Swift.String?
 
@@ -55585,7 +55585,7 @@ extension SecurityHubClientTypes.IpOrganizationDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about an internet provider.
-    public struct IpOrganizationDetails: Swift.Equatable {
+    public struct IpOrganizationDetails {
         /// The Autonomous System Number (ASN) of the internet provider
         public var asn: Swift.Int?
         /// The name of the organization that registered the ASN.
@@ -55644,7 +55644,7 @@ extension SecurityHubClientTypes.Ipv6CidrBlockAssociation: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An IPV6 CIDR block association.
-    public struct Ipv6CidrBlockAssociation: Swift.Equatable {
+    public struct Ipv6CidrBlockAssociation {
         /// The association ID for the IPv6 CIDR block.
         public var associationId: Swift.String?
         /// Information about the state of the CIDR block. Valid values are as follows:
@@ -55699,7 +55699,7 @@ extension SecurityHubClientTypes.KeywordFilter: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A keyword filter for querying findings.
-    public struct KeywordFilter: Swift.Equatable {
+    public struct KeywordFilter {
         /// A value for the keyword.
         public var value: Swift.String?
 
@@ -55757,7 +55757,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -55800,7 +55800,7 @@ extension ListAutomationRulesInput {
     }
 }
 
-public struct ListAutomationRulesInput: Swift.Equatable {
+public struct ListAutomationRulesInput {
     /// The maximum number of rules to return in the response. This currently ranges from 1 to 100.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating the response. This is the NextToken from a previously truncated response. On your first call to the ListAutomationRules API, set the value of this parameter to NULL.
@@ -55816,7 +55816,7 @@ public struct ListAutomationRulesInput: Swift.Equatable {
     }
 }
 
-struct ListAutomationRulesInputBody: Swift.Equatable {
+struct ListAutomationRulesInputBody {
 }
 
 extension ListAutomationRulesInputBody: Swift.Decodable {
@@ -55839,7 +55839,7 @@ extension ListAutomationRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAutomationRulesOutput: Swift.Equatable {
+public struct ListAutomationRulesOutput {
     /// Metadata for rules in the calling account. The response includes rules with a RuleStatus of ENABLED and DISABLED.
     public var automationRulesMetadata: [SecurityHubClientTypes.AutomationRulesMetadata]?
     /// A pagination token for the response.
@@ -55855,7 +55855,7 @@ public struct ListAutomationRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListAutomationRulesOutputBody: Swift.Equatable {
+struct ListAutomationRulesOutputBody {
     let automationRulesMetadata: [SecurityHubClientTypes.AutomationRulesMetadata]?
     let nextToken: Swift.String?
 }
@@ -55922,7 +55922,7 @@ extension ListConfigurationPoliciesInput {
     }
 }
 
-public struct ListConfigurationPoliciesInput: Swift.Equatable {
+public struct ListConfigurationPoliciesInput {
     /// The maximum number of results that's returned by ListConfigurationPolicies in each page of the response. When this parameter is used, ListConfigurationPolicies returns the specified number of results in a single page and a NextToken response element. You can see the remaining results of the initial request by sending another ListConfigurationPolicies request with the returned NextToken value. A valid range for MaxResults is between 1 and 100.
     public var maxResults: Swift.Int?
     /// The NextToken value that's returned from a previous paginated ListConfigurationPolicies request where MaxResults was used but the results exceeded the value of that parameter. Pagination continues from the MaxResults was used but the results exceeded the value of that parameter. Pagination continues from the end of the previous response that returned the NextToken value. This value is null when there are no more results to return.
@@ -55938,7 +55938,7 @@ public struct ListConfigurationPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationPoliciesInputBody: Swift.Equatable {
+struct ListConfigurationPoliciesInputBody {
 }
 
 extension ListConfigurationPoliciesInputBody: Swift.Decodable {
@@ -55961,7 +55961,7 @@ extension ListConfigurationPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConfigurationPoliciesOutput: Swift.Equatable {
+public struct ListConfigurationPoliciesOutput {
     /// Provides metadata for each of your configuration policies.
     public var configurationPolicySummaries: [SecurityHubClientTypes.ConfigurationPolicySummary]?
     /// The NextToken value to include in the next ListConfigurationPolicies request. When the results of a ListConfigurationPolicies request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -55977,7 +55977,7 @@ public struct ListConfigurationPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationPoliciesOutputBody: Swift.Equatable {
+struct ListConfigurationPoliciesOutputBody {
     let configurationPolicySummaries: [SecurityHubClientTypes.ConfigurationPolicySummary]?
     let nextToken: Swift.String?
 }
@@ -56049,7 +56049,7 @@ extension ListConfigurationPolicyAssociationsInput {
     }
 }
 
-public struct ListConfigurationPolicyAssociationsInput: Swift.Equatable {
+public struct ListConfigurationPolicyAssociationsInput {
     /// Options for filtering the ListConfigurationPolicyAssociations response. You can filter by the Amazon Resource Name (ARN) or universally unique identifier (UUID) of a configuration, AssociationType, or AssociationStatus.
     public var filters: SecurityHubClientTypes.AssociationFilters?
     /// The maximum number of results that's returned by ListConfigurationPolicies in each page of the response. When this parameter is used, ListConfigurationPolicyAssociations returns the specified number of results in a single page and a NextToken response element. You can see the remaining results of the initial request by sending another ListConfigurationPolicyAssociations request with the returned NextToken value. A valid range for MaxResults is between 1 and 100.
@@ -56069,7 +56069,7 @@ public struct ListConfigurationPolicyAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationPolicyAssociationsInputBody: Swift.Equatable {
+struct ListConfigurationPolicyAssociationsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: SecurityHubClientTypes.AssociationFilters?
@@ -56107,7 +56107,7 @@ extension ListConfigurationPolicyAssociationsOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListConfigurationPolicyAssociationsOutput: Swift.Equatable {
+public struct ListConfigurationPolicyAssociationsOutput {
     /// An object that contains the details of each configuration policy association that’s returned in a ListConfigurationPolicyAssociations request.
     public var configurationPolicyAssociationSummaries: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]?
     /// The NextToken value to include in the next ListConfigurationPolicyAssociations request. When the results of a ListConfigurationPolicyAssociations request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -56123,7 +56123,7 @@ public struct ListConfigurationPolicyAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationPolicyAssociationsOutputBody: Swift.Equatable {
+struct ListConfigurationPolicyAssociationsOutputBody {
     let configurationPolicyAssociationSummaries: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -56190,7 +56190,7 @@ extension ListEnabledProductsForImportInput {
     }
 }
 
-public struct ListEnabledProductsForImportInput: Swift.Equatable {
+public struct ListEnabledProductsForImportInput {
     /// The maximum number of items to return in the response.
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -56206,7 +56206,7 @@ public struct ListEnabledProductsForImportInput: Swift.Equatable {
     }
 }
 
-struct ListEnabledProductsForImportInputBody: Swift.Equatable {
+struct ListEnabledProductsForImportInputBody {
 }
 
 extension ListEnabledProductsForImportInputBody: Swift.Decodable {
@@ -56229,7 +56229,7 @@ extension ListEnabledProductsForImportOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListEnabledProductsForImportOutput: Swift.Equatable {
+public struct ListEnabledProductsForImportOutput {
     /// The pagination token to use to request the next page of results.
     public var nextToken: Swift.String?
     /// The list of ARNs for the resources that represent your subscriptions to products.
@@ -56245,7 +56245,7 @@ public struct ListEnabledProductsForImportOutput: Swift.Equatable {
     }
 }
 
-struct ListEnabledProductsForImportOutputBody: Swift.Equatable {
+struct ListEnabledProductsForImportOutputBody {
     let productSubscriptions: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -56310,7 +56310,7 @@ extension ListFindingAggregatorsInput {
     }
 }
 
-public struct ListFindingAggregatorsInput: Swift.Equatable {
+public struct ListFindingAggregatorsInput {
     /// The maximum number of results to return. This operation currently only returns a single result.
     public var maxResults: Swift.Int?
     /// The token returned with the previous set of results. Identifies the next set of results to return.
@@ -56326,7 +56326,7 @@ public struct ListFindingAggregatorsInput: Swift.Equatable {
     }
 }
 
-struct ListFindingAggregatorsInputBody: Swift.Equatable {
+struct ListFindingAggregatorsInputBody {
 }
 
 extension ListFindingAggregatorsInputBody: Swift.Decodable {
@@ -56349,7 +56349,7 @@ extension ListFindingAggregatorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFindingAggregatorsOutput: Swift.Equatable {
+public struct ListFindingAggregatorsOutput {
     /// The list of finding aggregators. This operation currently only returns a single result.
     public var findingAggregators: [SecurityHubClientTypes.FindingAggregator]?
     /// If there are more results, this is the token to provide in the next call to ListFindingAggregators. This operation currently only returns a single result.
@@ -56365,7 +56365,7 @@ public struct ListFindingAggregatorsOutput: Swift.Equatable {
     }
 }
 
-struct ListFindingAggregatorsOutputBody: Swift.Equatable {
+struct ListFindingAggregatorsOutputBody {
     let findingAggregators: [SecurityHubClientTypes.FindingAggregator]?
     let nextToken: Swift.String?
 }
@@ -56432,7 +56432,7 @@ extension ListInvitationsInput {
     }
 }
 
-public struct ListInvitationsInput: Swift.Equatable {
+public struct ListInvitationsInput {
     /// The maximum number of items to return in the response.
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -56448,7 +56448,7 @@ public struct ListInvitationsInput: Swift.Equatable {
     }
 }
 
-struct ListInvitationsInputBody: Swift.Equatable {
+struct ListInvitationsInputBody {
 }
 
 extension ListInvitationsInputBody: Swift.Decodable {
@@ -56471,7 +56471,7 @@ extension ListInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInvitationsOutput: Swift.Equatable {
+public struct ListInvitationsOutput {
     /// The details of the invitations returned by the operation.
     public var invitations: [SecurityHubClientTypes.Invitation]?
     /// The pagination token to use to request the next page of results.
@@ -56487,7 +56487,7 @@ public struct ListInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct ListInvitationsOutputBody: Swift.Equatable {
+struct ListInvitationsOutputBody {
     let invitations: [SecurityHubClientTypes.Invitation]?
     let nextToken: Swift.String?
 }
@@ -56557,7 +56557,7 @@ extension ListMembersInput {
     }
 }
 
-public struct ListMembersInput: Swift.Equatable {
+public struct ListMembersInput {
     /// The maximum number of items to return in the response.
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -56577,7 +56577,7 @@ public struct ListMembersInput: Swift.Equatable {
     }
 }
 
-struct ListMembersInputBody: Swift.Equatable {
+struct ListMembersInputBody {
 }
 
 extension ListMembersInputBody: Swift.Decodable {
@@ -56600,7 +56600,7 @@ extension ListMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMembersOutput: Swift.Equatable {
+public struct ListMembersOutput {
     /// Member details returned by the operation.
     public var members: [SecurityHubClientTypes.Member]?
     /// The pagination token to use to request the next page of results.
@@ -56616,7 +56616,7 @@ public struct ListMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListMembersOutputBody: Swift.Equatable {
+struct ListMembersOutputBody {
     let members: [SecurityHubClientTypes.Member]?
     let nextToken: Swift.String?
 }
@@ -56682,7 +56682,7 @@ extension ListOrganizationAdminAccountsInput {
     }
 }
 
-public struct ListOrganizationAdminAccountsInput: Swift.Equatable {
+public struct ListOrganizationAdminAccountsInput {
     /// The maximum number of items to return in the response.
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -56698,7 +56698,7 @@ public struct ListOrganizationAdminAccountsInput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationAdminAccountsInputBody: Swift.Equatable {
+struct ListOrganizationAdminAccountsInputBody {
 }
 
 extension ListOrganizationAdminAccountsInputBody: Swift.Decodable {
@@ -56721,7 +56721,7 @@ extension ListOrganizationAdminAccountsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListOrganizationAdminAccountsOutput: Swift.Equatable {
+public struct ListOrganizationAdminAccountsOutput {
     /// The list of Security Hub administrator accounts.
     public var adminAccounts: [SecurityHubClientTypes.AdminAccount]?
     /// The pagination token to use to request the next page of results.
@@ -56737,7 +56737,7 @@ public struct ListOrganizationAdminAccountsOutput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationAdminAccountsOutputBody: Swift.Equatable {
+struct ListOrganizationAdminAccountsOutputBody {
     let adminAccounts: [SecurityHubClientTypes.AdminAccount]?
     let nextToken: Swift.String?
 }
@@ -56807,7 +56807,7 @@ extension ListSecurityControlDefinitionsInput {
     }
 }
 
-public struct ListSecurityControlDefinitionsInput: Swift.Equatable {
+public struct ListSecurityControlDefinitionsInput {
     /// An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 security controls that apply to the specified standard. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 controls. This repeats until all controls for the standard are returned.
     public var maxResults: Swift.Int?
     /// Optional pagination parameter.
@@ -56827,7 +56827,7 @@ public struct ListSecurityControlDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListSecurityControlDefinitionsInputBody: Swift.Equatable {
+struct ListSecurityControlDefinitionsInputBody {
 }
 
 extension ListSecurityControlDefinitionsInputBody: Swift.Decodable {
@@ -56850,7 +56850,7 @@ extension ListSecurityControlDefinitionsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListSecurityControlDefinitionsOutput: Swift.Equatable {
+public struct ListSecurityControlDefinitionsOutput {
     /// A pagination parameter that's included in the response only if it was included in the request.
     public var nextToken: Swift.String?
     /// An array of controls that apply to the specified standard.
@@ -56867,7 +56867,7 @@ public struct ListSecurityControlDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSecurityControlDefinitionsOutputBody: Swift.Equatable {
+struct ListSecurityControlDefinitionsOutputBody {
     let securityControlDefinitions: [SecurityHubClientTypes.SecurityControlDefinition]?
     let nextToken: Swift.String?
 }
@@ -56939,7 +56939,7 @@ extension ListStandardsControlAssociationsInput {
     }
 }
 
-public struct ListStandardsControlAssociationsInput: Swift.Equatable {
+public struct ListStandardsControlAssociationsInput {
     /// An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 standard and control associations. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 associations. This repeats until all associations for the specified control are returned. The number of results is limited by the number of supported Security Hub standards that you've enabled in the calling account.
     public var maxResults: Swift.Int?
     /// Optional pagination parameter.
@@ -56960,7 +56960,7 @@ public struct ListStandardsControlAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListStandardsControlAssociationsInputBody: Swift.Equatable {
+struct ListStandardsControlAssociationsInputBody {
 }
 
 extension ListStandardsControlAssociationsInputBody: Swift.Decodable {
@@ -56983,7 +56983,7 @@ extension ListStandardsControlAssociationsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListStandardsControlAssociationsOutput: Swift.Equatable {
+public struct ListStandardsControlAssociationsOutput {
     /// A pagination parameter that's included in the response only if it was included in the request.
     public var nextToken: Swift.String?
     /// An array that provides the enablement status and other details for each security control that applies to each enabled standard.
@@ -57000,7 +57000,7 @@ public struct ListStandardsControlAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListStandardsControlAssociationsOutputBody: Swift.Equatable {
+struct ListStandardsControlAssociationsOutputBody {
     let standardsControlAssociationSummaries: [SecurityHubClientTypes.StandardsControlAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -57053,7 +57053,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource to retrieve tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -57066,7 +57066,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -57087,7 +57087,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags associated with a resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -57099,7 +57099,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -57164,7 +57164,7 @@ extension SecurityHubClientTypes.LoadBalancerState: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the state of the load balancer.
-    public struct LoadBalancerState: Swift.Equatable {
+    public struct LoadBalancerState {
         /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If the load balancer could not be set up, its state is failed.
         public var code: Swift.String?
         /// A description of the state.
@@ -57221,7 +57221,7 @@ extension SecurityHubClientTypes.Malware: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A list of malware related to a finding.
-    public struct Malware: Swift.Equatable {
+    public struct Malware {
         /// The name of the malware that was observed.
         /// This member is required.
         public var name: Swift.String?
@@ -57387,7 +57387,7 @@ extension SecurityHubClientTypes.MapFilter: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A map filter for filtering Security Hub findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
-    public struct MapFilter: Swift.Equatable {
+    public struct MapFilter {
         /// The condition to apply to the key value when filtering Security Hub findings with a map filter. To search for values that have the filter value, use one of the following comparison operators:
         ///
         /// * To search for values that include the filter value, use CONTAINS. For example, for the ResourceTags field, the filter Department CONTAINS Security matches findings that include the value Security for the Department tag. In the same example, a finding with a value of Security team for the Department tag is a match.
@@ -57518,7 +57518,7 @@ extension SecurityHubClientTypes.Member: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The details about a member account.
-    public struct Member: Swift.Equatable {
+    public struct Member {
         /// The Amazon Web Services account ID of the member account.
         public var accountId: Swift.String?
         /// The Amazon Web Services account ID of the Security Hub administrator account associated with this member account.
@@ -57658,7 +57658,7 @@ extension SecurityHubClientTypes.Network: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The details of network-related information about a finding.
-    public struct Network: Swift.Equatable {
+    public struct Network {
         /// The destination domain of network-related information about a finding.
         public var destinationDomain: Swift.String?
         /// The destination IPv4 address of network-related information about a finding.
@@ -57767,7 +57767,7 @@ extension SecurityHubClientTypes.NetworkConnectionAction: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provided if ActionType is NETWORK_CONNECTION. It provides details about the attempted network connection that was detected.
-    public struct NetworkConnectionAction: Swift.Equatable {
+    public struct NetworkConnectionAction {
         /// Indicates whether the network connection attempt was blocked.
         public var blocked: Swift.Bool?
         /// The direction of the network connection request (IN or OUT).
@@ -57866,7 +57866,7 @@ extension SecurityHubClientTypes.NetworkHeader: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about a network path component that occurs before or after the current component.
-    public struct NetworkHeader: Swift.Equatable {
+    public struct NetworkHeader {
         /// Information about the destination of the component.
         public var destination: SecurityHubClientTypes.NetworkPathComponentDetails?
         /// The protocol used for the component.
@@ -57927,7 +57927,7 @@ extension SecurityHubClientTypes.NetworkPathComponent: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about a network path component.
-    public struct NetworkPathComponent: Swift.Equatable {
+    public struct NetworkPathComponent {
         /// The identifier of a component in the network path.
         public var componentId: Swift.String?
         /// The type of component.
@@ -58004,7 +58004,7 @@ extension SecurityHubClientTypes.NetworkPathComponentDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about the destination of the next component in the network path.
-    public struct NetworkPathComponentDetails: Swift.Equatable {
+    public struct NetworkPathComponentDetails {
         /// The IP addresses of the destination.
         public var address: [Swift.String]?
         /// A list of port ranges for the destination.
@@ -58055,7 +58055,7 @@ extension SecurityHubClientTypes.Note: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A user-defined note added to a finding.
-    public struct Note: Swift.Equatable {
+    public struct Note {
         /// The text of a note.
         /// This member is required.
         public var text: Swift.String?
@@ -58117,7 +58117,7 @@ extension SecurityHubClientTypes.NoteUpdate: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The updated note.
-    public struct NoteUpdate: Swift.Equatable {
+    public struct NoteUpdate {
         /// The updated note text.
         /// This member is required.
         public var text: Swift.String?
@@ -58182,7 +58182,7 @@ extension SecurityHubClientTypes.NumberFilter: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A number filter for querying findings.
-    public struct NumberFilter: Swift.Equatable {
+    public struct NumberFilter {
         /// The equal-to condition to be applied to a single field when querying for findings.
         public var eq: Swift.Double?
         /// The greater-than condition to be applied to a single field when querying for findings.
@@ -58317,7 +58317,7 @@ extension SecurityHubClientTypes.Occurrences: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The detected occurrences of sensitive data.
-    public struct Occurrences: Swift.Equatable {
+    public struct Occurrences {
         /// Occurrences of sensitive data detected in Microsoft Excel workbooks, comma-separated value (CSV) files, or tab-separated value (TSV) files.
         public var cells: [SecurityHubClientTypes.Cell]?
         /// Occurrences of sensitive data detected in a non-binary text file or a Microsoft Word file. Non-binary text files include files such as HTML, XML, JSON, and TXT files.
@@ -58380,7 +58380,7 @@ extension SecurityHubClientTypes.OrganizationConfiguration: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about the way an organization is configured in Security Hub.
-    public struct OrganizationConfiguration: Swift.Equatable {
+    public struct OrganizationConfiguration {
         /// Indicates whether the organization uses local or central configuration. If you use local configuration, the Security Hub delegated administrator can set AutoEnable to true and AutoEnableStandards to DEFAULT. This automatically enables Security Hub and default security standards in new organization accounts. These new account settings must be set separately in each Amazon Web Services Region, and settings may be different in each Region. If you use central configuration, the delegated administrator can create configuration policies. Configuration policies can be used to configure Security Hub, security standards, and security controls in multiple accounts and Regions. If you want new organization accounts to use a specific configuration, you can create a configuration policy and associate it with the root or specific organizational units (OUs). New accounts will inherit the policy from the root or their assigned OU.
         public var configurationType: SecurityHubClientTypes.OrganizationConfigurationConfigurationType?
         /// Describes whether central configuration could be enabled as the ConfigurationType for the organization. If your ConfigurationType is local configuration, then the value of Status is always ENABLED.
@@ -58502,7 +58502,7 @@ extension SecurityHubClientTypes.Page: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An occurrence of sensitive data in an Adobe Portable Document Format (PDF) file.
-    public struct Page: Swift.Equatable {
+    public struct Page {
         /// An occurrence of sensitive data detected in a non-binary text file or a Microsoft Word file. Non-binary text files include files such as HTML, XML, JSON, and TXT files.
         public var lineRange: SecurityHubClientTypes.Range?
         /// An occurrence of sensitive data detected in a binary text file.
@@ -58551,7 +58551,7 @@ extension SecurityHubClientTypes.ParameterConfiguration: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An object that provides the current value of a security control parameter and identifies whether it has been customized.
-    public struct ParameterConfiguration: Swift.Equatable {
+    public struct ParameterConfiguration {
         /// The current value of a control parameter.
         public var value: SecurityHubClientTypes.ParameterValue?
         /// Identifies whether a control parameter uses a custom user-defined value or subscribes to the default Security Hub behavior. When ValueType is set equal to DEFAULT, the default behavior can be a specific Security Hub default value, or the default behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT, Security Hub ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM, the Value field can't be empty.
@@ -58597,7 +58597,7 @@ extension SecurityHubClientTypes.ParameterDefinition: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An object that describes a security control parameter and the options for customizing it.
-    public struct ParameterDefinition: Swift.Equatable {
+    public struct ParameterDefinition {
         /// The options for customizing a control parameter. Customization options vary based on the data type of the parameter.
         /// This member is required.
         public var configurationOptions: SecurityHubClientTypes.ConfigurationOptions?
@@ -58738,7 +58738,7 @@ extension SecurityHubClientTypes.ParameterValue: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An object that includes the data type of a security control parameter and its current value.
-    public enum ParameterValue: Swift.Equatable {
+    public enum ParameterValue {
         /// A control parameter that is an integer.
         case integer(Swift.Int)
         /// A control parameter that is a list of integers.
@@ -58908,7 +58908,7 @@ extension SecurityHubClientTypes.PatchSummary: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides an overview of the patch compliance status for an instance against a selected compliance standard.
-    public struct PatchSummary: Swift.Equatable {
+    public struct PatchSummary {
         /// The number of patches from the compliance standard that failed to install.
         public var failedCount: Swift.Int?
         /// The identifier of the compliance standard that was used to determine the patch compliance status.
@@ -59012,7 +59012,7 @@ extension SecurityHubClientTypes.Policy: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
-    public enum Policy: Swift.Equatable {
+    public enum Policy {
         /// The Amazon Web Service that the configuration policy applies to.
         case securityhub(SecurityHubClientTypes.SecurityHubPolicy)
         case sdkUnknown(Swift.String)
@@ -59059,7 +59059,7 @@ extension SecurityHubClientTypes.PortProbeAction: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provided if ActionType is PORT_PROBE. It provides details about the attempted port probe that was detected.
-    public struct PortProbeAction: Swift.Equatable {
+    public struct PortProbeAction {
         /// Indicates whether the port probe was blocked.
         public var blocked: Swift.Bool?
         /// Information about the ports affected by the port probe.
@@ -59110,7 +59110,7 @@ extension SecurityHubClientTypes.PortProbeDetail: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A port scan that was part of the port probe. For each scan, PortProbeDetails provides information about the local IP address and port that were scanned, and the remote IP address that the scan originated from.
-    public struct PortProbeDetail: Swift.Equatable {
+    public struct PortProbeDetail {
         /// Provides information about the IP address where the scanned port is located.
         public var localIpDetails: SecurityHubClientTypes.ActionLocalIpDetails?
         /// Provides information about the port that was scanned.
@@ -59159,7 +59159,7 @@ extension SecurityHubClientTypes.PortRange: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A range of ports.
-    public struct PortRange: Swift.Equatable {
+    public struct PortRange {
         /// The first port in the port range.
         public var begin: Swift.Int?
         /// The last port in the port range.
@@ -59204,7 +59204,7 @@ extension SecurityHubClientTypes.PortRangeFromTo: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A range of ports.
-    public struct PortRangeFromTo: Swift.Equatable {
+    public struct PortRangeFromTo {
         /// The first port in the port range.
         public var from: Swift.Int?
         /// The last port in the port range.
@@ -59273,7 +59273,7 @@ extension SecurityHubClientTypes.ProcessDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The details of process-related information about a finding.
-    public struct ProcessDetails: Swift.Equatable {
+    public struct ProcessDetails {
         /// Indicates when the process was launched. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
         ///
         /// * YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)
@@ -59420,7 +59420,7 @@ extension SecurityHubClientTypes.Product: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains details about a product.
-    public struct Product: Swift.Equatable {
+    public struct Product {
         /// The URL to the service or product documentation about the integration with Security Hub, including how to activate the integration.
         public var activationUrl: Swift.String?
         /// The categories assigned to the product.
@@ -59494,7 +59494,7 @@ extension SecurityHubClientTypes.PropagatingVgwSetDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Describes a virtual private gateway propagating route.
-    public struct PropagatingVgwSetDetails: Swift.Equatable {
+    public struct PropagatingVgwSetDetails {
         /// The ID of the virtual private gateway.
         public var gatewayId: Swift.String?
 
@@ -59541,7 +59541,7 @@ extension SecurityHubClientTypes.Range: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Identifies where the sensitive data begins and ends.
-    public struct Range: Swift.Equatable {
+    public struct Range {
         /// The number of lines (for a line range) or characters (for an offset range) from the beginning of the file to the end of the sensitive data.
         public var end: Swift.Int?
         /// The number of lines (for a line range) or characters (for an offset range) from the beginning of the file to the end of the sensitive data.
@@ -59590,7 +59590,7 @@ extension SecurityHubClientTypes.Recommendation: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A recommendation on how to remediate the issue identified in a finding.
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// Describes the recommended steps to take to remediate an issue identified in a finding.
         public var text: Swift.String?
         /// A URL to a page or site that contains information about how to remediate a finding.
@@ -59635,7 +59635,7 @@ extension SecurityHubClientTypes.Record: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An occurrence of sensitive data in an Apache Avro object container or an Apache Parquet file.
-    public struct Record: Swift.Equatable {
+    public struct Record {
         /// The path, as a JSONPath expression, to the field in the record that contains the data. If the field name is longer than 20 characters, it is truncated. If the path is longer than 250 characters, it is truncated.
         public var jsonPath: Swift.String?
         /// The record index, starting from 0, for the record that contains the data.
@@ -59744,7 +59744,7 @@ extension SecurityHubClientTypes.RelatedFinding: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about a related finding.
-    public struct RelatedFinding: Swift.Equatable {
+    public struct RelatedFinding {
         /// The product-generated identifier for a related finding.
         /// This member is required.
         public var id: Swift.String?
@@ -59785,7 +59785,7 @@ extension SecurityHubClientTypes.Remediation: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about the remediation steps for a finding.
-    public struct Remediation: Swift.Equatable {
+    public struct Remediation {
         /// A recommendation on the steps to take to remediate the issue identified by a finding.
         public var recommendation: SecurityHubClientTypes.Recommendation?
 
@@ -59886,7 +59886,7 @@ extension SecurityHubClientTypes.Resource: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A resource related to a finding.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The Amazon Resource Name (ARN) of the application that is related to a finding.
         public var applicationArn: Swift.String?
         /// The name of the application that is related to a finding.
@@ -59982,7 +59982,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceConflictExceptionBody: Swift.Equatable {
+struct ResourceConflictExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -60623,7 +60623,7 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Additional details about a resource related to a finding. To provide the details, use the object that corresponds to the resource type. For example, if the resource type is AwsEc2Instance, then you use the AwsEc2Instance object to provide the details. If the type-specific object does not contain all of the fields you want to populate, then you use the Other object to populate those additional fields. You also use the Other object to populate the details when the selected type does not have a corresponding object.
-    public struct ResourceDetails: Swift.Equatable {
+    public struct ResourceDetails {
         /// Provides details about AppSync message broker. A message broker allows software applications and components to communicate using various programming languages, operating systems, and formal messaging protocols.
         public var awsAmazonMqBroker: SecurityHubClientTypes.AwsAmazonMqBrokerDetails?
         /// Provides information about a REST API in version 1 of Amazon API Gateway.
@@ -61077,7 +61077,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -61141,7 +61141,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -61188,7 +61188,7 @@ extension SecurityHubClientTypes.Result: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about the account that was not processed.
-    public struct Result: Swift.Equatable {
+    public struct Result {
         /// An Amazon Web Services account ID of the account that was not processed.
         public var accountId: Swift.String?
         /// The reason that the account was not processed.
@@ -61317,7 +61317,7 @@ extension SecurityHubClientTypes.RouteSetDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about the routes in the route table.
-    public struct RouteSetDetails: Swift.Equatable {
+    public struct RouteSetDetails {
         /// The ID of the carrier gateway.
         public var carrierGatewayId: Swift.String?
         /// The Amazon Resource Name (ARN) of the core network.
@@ -61418,7 +61418,7 @@ extension SecurityHubClientTypes.RuleGroupDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about the rule group.
-    public struct RuleGroupDetails: Swift.Equatable {
+    public struct RuleGroupDetails {
         /// Additional settings to use in the specified rules.
         public var ruleVariables: SecurityHubClientTypes.RuleGroupVariables?
         /// The rules and actions for the rule group. For stateful rule groups, can contain RulesString, RulesSourceList, or StatefulRules. For stateless rule groups, contains StatelessRulesAndCustomActions.
@@ -61487,7 +61487,7 @@ extension SecurityHubClientTypes.RuleGroupSource: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The rules and actions for the rule group.
-    public struct RuleGroupSource: Swift.Equatable {
+    public struct RuleGroupSource {
         /// Stateful inspection criteria for a domain list rule group. A domain list rule group determines access by specific protocols to specific domains.
         public var rulesSourceList: SecurityHubClientTypes.RuleGroupSourceListDetails?
         /// Stateful inspection criteria, provided in Suricata compatible intrusion prevention system (IPS) rules.
@@ -61540,7 +61540,7 @@ extension SecurityHubClientTypes.RuleGroupSourceCustomActionsDetails: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// A custom action definition. A custom action is an optional, non-standard action to use for stateless packet handling.
-    public struct RuleGroupSourceCustomActionsDetails: Swift.Equatable {
+    public struct RuleGroupSourceCustomActionsDetails {
         /// The definition of a custom action.
         public var actionDefinition: SecurityHubClientTypes.StatelessCustomActionDefinition?
         /// A descriptive name of the custom action.
@@ -61615,7 +61615,7 @@ extension SecurityHubClientTypes.RuleGroupSourceListDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Stateful inspection criteria for a domain list rule group.
-    public struct RuleGroupSourceListDetails: Swift.Equatable {
+    public struct RuleGroupSourceListDetails {
         /// Indicates whether to allow or deny access to the domains listed in Targets.
         public var generatedRulesType: Swift.String?
         /// The protocols that you want to inspect. Specify LS_SNI for HTTPS. Specify HTTP_HOST for HTTP. You can specify either or both.
@@ -61682,7 +61682,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatefulRulesDetails: Swift.Coda
 
 extension SecurityHubClientTypes {
     /// A Suricata rule specification.
-    public struct RuleGroupSourceStatefulRulesDetails: Swift.Equatable {
+    public struct RuleGroupSourceStatefulRulesDetails {
         /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria.
         public var action: Swift.String?
         /// The stateful inspection criteria for the rule.
@@ -61755,7 +61755,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatefulRulesHeaderDetails: Swif
 
 extension SecurityHubClientTypes {
     /// The inspection criteria for a stateful rule.
-    public struct RuleGroupSourceStatefulRulesHeaderDetails: Swift.Equatable {
+    public struct RuleGroupSourceStatefulRulesHeaderDetails {
         /// The destination IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.
         public var destination: Swift.String?
         /// The destination port to inspect for. You can specify an individual port, such as 1994. You also can specify a port range, such as 1990:1994. To match with any port, specify ANY.
@@ -61828,7 +61828,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatefulRulesOptionsDetails: Swi
 
 extension SecurityHubClientTypes {
     /// A rule option for a stateful rule.
-    public struct RuleGroupSourceStatefulRulesOptionsDetails: Swift.Equatable {
+    public struct RuleGroupSourceStatefulRulesOptionsDetails {
         /// A keyword to look for.
         public var keyword: Swift.String?
         /// A list of settings.
@@ -61885,7 +61885,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRuleDefinition: Swift.C
 
 extension SecurityHubClientTypes {
     /// The definition of the stateless rule.
-    public struct RuleGroupSourceStatelessRuleDefinition: Swift.Equatable {
+    public struct RuleGroupSourceStatelessRuleDefinition {
         /// The actions to take on a packet that matches one of the stateless rule definition's match attributes. You must specify a standard action (aws:pass, aws:drop, or aws:forward_to_sfe). You can then add custom actions.
         public var actions: [Swift.String]?
         /// The criteria for Network Firewall to use to inspect an individual packet in a stateless rule inspection.
@@ -62026,7 +62026,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributes: Sw
 
 extension SecurityHubClientTypes {
     /// Criteria for the stateless rule.
-    public struct RuleGroupSourceStatelessRuleMatchAttributes: Swift.Equatable {
+    public struct RuleGroupSourceStatelessRuleMatchAttributes {
         /// A list of port ranges to specify the destination ports to inspect for.
         public var destinationPorts: [SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts]?
         /// The destination IP addresses and address ranges to inspect for, in CIDR notation.
@@ -62087,7 +62087,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributesDest
 
 extension SecurityHubClientTypes {
     /// A port range to specify the destination ports to inspect for.
-    public struct RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts: Swift.Equatable {
+    public struct RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts {
         /// The starting port value for the port range.
         public var fromPort: Swift.Int?
         /// The ending port value for the port range.
@@ -62126,7 +62126,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributesDest
 
 extension SecurityHubClientTypes {
     /// A destination IP address or range.
-    public struct RuleGroupSourceStatelessRuleMatchAttributesDestinations: Swift.Equatable {
+    public struct RuleGroupSourceStatelessRuleMatchAttributesDestinations {
         /// An IP address or a block of IP addresses.
         public var addressDefinition: Swift.String?
 
@@ -62167,7 +62167,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributesSour
 
 extension SecurityHubClientTypes {
     /// A port range to specify the source ports to inspect for.
-    public struct RuleGroupSourceStatelessRuleMatchAttributesSourcePorts: Swift.Equatable {
+    public struct RuleGroupSourceStatelessRuleMatchAttributesSourcePorts {
         /// The starting port value for the port range.
         public var fromPort: Swift.Int?
         /// The ending port value for the port range.
@@ -62206,7 +62206,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributesSour
 
 extension SecurityHubClientTypes {
     /// A source IP addresses and address range to inspect for.
-    public struct RuleGroupSourceStatelessRuleMatchAttributesSources: Swift.Equatable {
+    public struct RuleGroupSourceStatelessRuleMatchAttributesSources {
         /// An IP address or a block of IP addresses.
         public var addressDefinition: Swift.String?
 
@@ -62271,7 +62271,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRuleMatchAttributesTcpF
 
 extension SecurityHubClientTypes {
     /// A set of TCP flags and masks to inspect for.
-    public struct RuleGroupSourceStatelessRuleMatchAttributesTcpFlags: Swift.Equatable {
+    public struct RuleGroupSourceStatelessRuleMatchAttributesTcpFlags {
         /// Defines the flags from the Masks setting that must be set in order for the packet to match. Flags that are listed must be set. Flags that are not listed must not be set.
         public var flags: [Swift.String]?
         /// The set of flags to consider in the inspection. If not specified, then all flags are inspected.
@@ -62340,7 +62340,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRulesAndCustomActionsDe
 
 extension SecurityHubClientTypes {
     /// Stateless rules and custom actions for a stateless rule group.
-    public struct RuleGroupSourceStatelessRulesAndCustomActionsDetails: Swift.Equatable {
+    public struct RuleGroupSourceStatelessRulesAndCustomActionsDetails {
         /// Custom actions for the rule group.
         public var customActions: [SecurityHubClientTypes.RuleGroupSourceCustomActionsDetails]?
         /// Stateless rules for the rule group.
@@ -62385,7 +62385,7 @@ extension SecurityHubClientTypes.RuleGroupSourceStatelessRulesDetails: Swift.Cod
 
 extension SecurityHubClientTypes {
     /// A stateless rule in the rule group.
-    public struct RuleGroupSourceStatelessRulesDetails: Swift.Equatable {
+    public struct RuleGroupSourceStatelessRulesDetails {
         /// Indicates the order in which to run this rule relative to all of the rules in the stateless rule group.
         public var priority: Swift.Int?
         /// Provides the definition of the stateless rule.
@@ -62430,7 +62430,7 @@ extension SecurityHubClientTypes.RuleGroupVariables: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Additional settings to use in the specified rules.
-    public struct RuleGroupVariables: Swift.Equatable {
+    public struct RuleGroupVariables {
         /// A list of IP addresses and address ranges, in CIDR notation.
         public var ipSets: SecurityHubClientTypes.RuleGroupVariablesIpSetsDetails?
         /// A list of port ranges.
@@ -62481,7 +62481,7 @@ extension SecurityHubClientTypes.RuleGroupVariablesIpSetsDetails: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// A list of IP addresses and address ranges, in CIDR notation.
-    public struct RuleGroupVariablesIpSetsDetails: Swift.Equatable {
+    public struct RuleGroupVariablesIpSetsDetails {
         /// The list of IP addresses and ranges.
         public var definition: [Swift.String]?
 
@@ -62528,7 +62528,7 @@ extension SecurityHubClientTypes.RuleGroupVariablesPortSetsDetails: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// A list of port ranges.
-    public struct RuleGroupVariablesPortSetsDetails: Swift.Equatable {
+    public struct RuleGroupVariablesPortSetsDetails {
         /// The list of port ranges.
         public var definition: [Swift.String]?
 
@@ -62661,7 +62661,7 @@ extension SecurityHubClientTypes.SecurityControl: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A security control in Security Hub describes a security best practice related to a specific resource.
-    public struct SecurityControl: Swift.Equatable {
+    public struct SecurityControl {
         /// The description of a security control across standards. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
         /// This member is required.
         public var description: Swift.String?
@@ -62757,7 +62757,7 @@ extension SecurityHubClientTypes.SecurityControlCustomParameter: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A list of security controls and control parameter values that are included in a configuration policy.
-    public struct SecurityControlCustomParameter: Swift.Equatable {
+    public struct SecurityControlCustomParameter {
         /// An object that specifies parameter values for a control in a configuration policy.
         public var parameters: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]?
         /// The ID of the security control.
@@ -62862,7 +62862,7 @@ extension SecurityHubClientTypes.SecurityControlDefinition: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides metadata for a security control, including its unique standard-agnostic identifier, title, description, severity, availability in Amazon Web Services Regions, and a link to remediation steps.
-    public struct SecurityControlDefinition: Swift.Equatable {
+    public struct SecurityControlDefinition {
         /// Specifies whether a security control is available in the current Amazon Web Services Region.
         /// This member is required.
         public var currentRegionAvailability: SecurityHubClientTypes.RegionAvailabilityStatus?
@@ -62949,7 +62949,7 @@ extension SecurityHubClientTypes.SecurityControlParameter: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A parameter that a security control accepts.
-    public struct SecurityControlParameter: Swift.Equatable {
+    public struct SecurityControlParameter {
         /// The name of a
         public var name: Swift.String?
         /// The current value of a control parameter.
@@ -63065,7 +63065,7 @@ extension SecurityHubClientTypes.SecurityControlsConfiguration: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An object that defines which security controls are enabled in an Security Hub configuration policy. The enablement status of a control is aligned across all of the enabled standards in an account.
-    public struct SecurityControlsConfiguration: Swift.Equatable {
+    public struct SecurityControlsConfiguration {
         /// A list of security controls that are disabled in the configuration policy. Security Hub enables all other controls (including newly released controls) other than the listed controls.
         public var disabledSecurityControlIdentifiers: [Swift.String]?
         /// A list of security controls that are enabled in the configuration policy. Security Hub disables all other controls (including newly released controls) other than the listed controls.
@@ -63134,7 +63134,7 @@ extension SecurityHubClientTypes.SecurityHubPolicy: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An object that defines how Security Hub is configured. The configuration policy includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
-    public struct SecurityHubPolicy: Swift.Equatable {
+    public struct SecurityHubPolicy {
         /// A list that defines which security standards are enabled in the configuration policy.
         public var enabledStandardIdentifiers: [Swift.String]?
         /// An object that defines which security controls are enabled in the configuration policy. The enablement status of a control is aligned across all of the enabled standards in an account.
@@ -63189,7 +63189,7 @@ extension SecurityHubClientTypes.SensitiveDataDetections: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The list of detected instances of sensitive data.
-    public struct SensitiveDataDetections: Swift.Equatable {
+    public struct SensitiveDataDetections {
         /// The total number of occurrences of sensitive data that were detected.
         public var count: Swift.Int?
         /// Details about the sensitive data that was detected.
@@ -63256,7 +63256,7 @@ extension SecurityHubClientTypes.SensitiveDataResult: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Contains a detected instance of sensitive data that are based on built-in identifiers.
-    public struct SensitiveDataResult: Swift.Equatable {
+    public struct SensitiveDataResult {
         /// The category of sensitive data that was detected. For example, the category can indicate that the sensitive data involved credentials, financial information, or personal information.
         public var category: Swift.String?
         /// The list of detected instances of sensitive data.
@@ -63317,7 +63317,7 @@ extension SecurityHubClientTypes.Severity: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The severity of the finding. The finding provider can provide the initial severity. The finding provider can only update the severity if it hasn't been updated using BatchUpdateFindings. The finding must have either Label or Normalized populated. If only one of these attributes is populated, then Security Hub automatically populates the other one. If neither attribute is populated, then the finding is invalid. Label is the preferred attribute.
-    public struct Severity: Swift.Equatable {
+    public struct Severity {
         /// The severity value of the finding. The allowed values are the following.
         ///
         /// * INFORMATIONAL - No issue was found.
@@ -63488,7 +63488,7 @@ extension SecurityHubClientTypes.SeverityUpdate: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Updates to the severity information for a finding.
-    public struct SeverityUpdate: Swift.Equatable {
+    public struct SeverityUpdate {
         /// The severity value of the finding. The allowed values are the following.
         ///
         /// * INFORMATIONAL - No issue was found.
@@ -63611,7 +63611,7 @@ extension SecurityHubClientTypes.SoftwarePackage: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Information about a software package.
-    public struct SoftwarePackage: Swift.Equatable {
+    public struct SoftwarePackage {
         /// The architecture used for the software package.
         public var architecture: Swift.String?
         /// The epoch of the software package.
@@ -63692,7 +63692,7 @@ extension SecurityHubClientTypes.SortCriterion: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A collection of finding attributes used to sort findings.
-    public struct SortCriterion: Swift.Equatable {
+    public struct SortCriterion {
         /// The finding attribute used to sort findings.
         public var field: Swift.String?
         /// The order used to sort findings.
@@ -63787,7 +63787,7 @@ extension SecurityHubClientTypes.Standard: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about a specific security standard.
-    public struct Standard: Swift.Equatable {
+    public struct Standard {
         /// A description of the standard.
         public var description: Swift.String?
         /// Whether the standard is enabled by default. When Security Hub is enabled from the console, if a standard is enabled by default, the check box for that standard is selected by default. When Security Hub is enabled using the EnableSecurityHub API operation, the standard is enabled by default unless EnableDefaultStandards is set to false.
@@ -63904,7 +63904,7 @@ extension SecurityHubClientTypes.StandardsControl: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details for an individual security standard control.
-    public struct StandardsControl: Swift.Equatable {
+    public struct StandardsControl {
         /// The identifier of the security standard control.
         public var controlId: Swift.String?
         /// The current status of the security standard control. Indicates whether the control is enabled or disabled. Security Hub does not check against disabled controls.
@@ -64053,7 +64053,7 @@ extension SecurityHubClientTypes.StandardsControlAssociationDetail: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// Provides details about a control's enablement status in a specified standard.
-    public struct StandardsControlAssociationDetail: Swift.Equatable {
+    public struct StandardsControlAssociationDetail {
         /// Specifies whether a control is enabled or disabled in a specified standard.
         /// This member is required.
         public var associationStatus: SecurityHubClientTypes.AssociationStatus?
@@ -64134,7 +64134,7 @@ extension SecurityHubClientTypes.StandardsControlAssociationId: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// An array with one or more objects that includes a security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. The security control ID or ARN is the same across standards.
-    public struct StandardsControlAssociationId: Swift.Equatable {
+    public struct StandardsControlAssociationId {
         /// The unique identifier (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) of a security control across standards.
         /// This member is required.
         public var securityControlId: Swift.String?
@@ -64235,7 +64235,7 @@ extension SecurityHubClientTypes.StandardsControlAssociationSummary: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// An array that provides the enablement status and other details for each control that applies to each enabled standard.
-    public struct StandardsControlAssociationSummary: Swift.Equatable {
+    public struct StandardsControlAssociationSummary {
         /// The enablement status of a control in a specific standard.
         /// This member is required.
         public var associationStatus: SecurityHubClientTypes.AssociationStatus?
@@ -64324,7 +64324,7 @@ extension SecurityHubClientTypes.StandardsControlAssociationUpdate: Swift.Codabl
 
 extension SecurityHubClientTypes {
     /// An array of requested updates to the enablement status of controls in specified standards. The objects in the array include a security control ID, the Amazon Resource Name (ARN) of the standard, the requested enablement status, and the reason for updating the enablement status.
-    public struct StandardsControlAssociationUpdate: Swift.Equatable {
+    public struct StandardsControlAssociationUpdate {
         /// The desired enablement status of the control in the standard.
         /// This member is required.
         public var associationStatus: SecurityHubClientTypes.AssociationStatus?
@@ -64380,7 +64380,7 @@ extension SecurityHubClientTypes.StandardsManagedBy: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about the management of a security standard.
-    public struct StandardsManagedBy: Swift.Equatable {
+    public struct StandardsManagedBy {
         /// An identifier for the company that manages a specific security standard. For existing standards, the value is equal to Amazon Web Services.
         public var company: Swift.String?
         /// An identifier for the product that manages a specific security standard. For existing standards, the value is equal to the Amazon Web Services service that manages the standard.
@@ -64460,7 +64460,7 @@ extension SecurityHubClientTypes.StandardsStatusReason: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The reason for the current status of a standard subscription.
-    public struct StandardsStatusReason: Swift.Equatable {
+    public struct StandardsStatusReason {
         /// The reason code that represents the reason for the current status of a standard subscription.
         /// This member is required.
         public var statusReasonCode: SecurityHubClientTypes.StatusReasonCode?
@@ -64532,7 +64532,7 @@ extension SecurityHubClientTypes.StandardsSubscription: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A resource that represents your subscription to a supported standard.
-    public struct StandardsSubscription: Swift.Equatable {
+    public struct StandardsSubscription {
         /// The ARN of a standard.
         /// This member is required.
         public var standardsArn: Swift.String?
@@ -64615,7 +64615,7 @@ extension SecurityHubClientTypes.StandardsSubscriptionRequest: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The standard that you want to enable.
-    public struct StandardsSubscriptionRequest: Swift.Equatable {
+    public struct StandardsSubscriptionRequest {
         /// The ARN of the standard that you want to enable. To view the list of available standards and their ARNs, use the DescribeStandards operation.
         /// This member is required.
         public var standardsArn: Swift.String?
@@ -64658,7 +64658,7 @@ extension StartConfigurationPolicyAssociationInput {
     }
 }
 
-public struct StartConfigurationPolicyAssociationInput: Swift.Equatable {
+public struct StartConfigurationPolicyAssociationInput {
     /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
     /// This member is required.
     public var configurationPolicyIdentifier: Swift.String?
@@ -64676,7 +64676,7 @@ public struct StartConfigurationPolicyAssociationInput: Swift.Equatable {
     }
 }
 
-struct StartConfigurationPolicyAssociationInputBody: Swift.Equatable {
+struct StartConfigurationPolicyAssociationInputBody {
     let configurationPolicyIdentifier: Swift.String?
     let target: SecurityHubClientTypes.Target?
 }
@@ -64720,7 +64720,7 @@ extension StartConfigurationPolicyAssociationOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct StartConfigurationPolicyAssociationOutput: Swift.Equatable {
+public struct StartConfigurationPolicyAssociationOutput {
     /// The current status of the association between the specified target and the configuration.
     public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
     /// An explanation for a FAILED value for AssociationStatus.
@@ -64756,7 +64756,7 @@ public struct StartConfigurationPolicyAssociationOutput: Swift.Equatable {
     }
 }
 
-struct StartConfigurationPolicyAssociationOutputBody: Swift.Equatable {
+struct StartConfigurationPolicyAssociationOutputBody {
     let configurationPolicyId: Swift.String?
     let targetId: Swift.String?
     let targetType: SecurityHubClientTypes.TargetType?
@@ -64836,7 +64836,7 @@ extension StartConfigurationPolicyDisassociationInput {
     }
 }
 
-public struct StartConfigurationPolicyDisassociationInput: Swift.Equatable {
+public struct StartConfigurationPolicyDisassociationInput {
     /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
     /// This member is required.
     public var configurationPolicyIdentifier: Swift.String?
@@ -64853,7 +64853,7 @@ public struct StartConfigurationPolicyDisassociationInput: Swift.Equatable {
     }
 }
 
-struct StartConfigurationPolicyDisassociationInputBody: Swift.Equatable {
+struct StartConfigurationPolicyDisassociationInputBody {
     let target: SecurityHubClientTypes.Target?
     let configurationPolicyIdentifier: Swift.String?
 }
@@ -64878,7 +64878,7 @@ extension StartConfigurationPolicyDisassociationOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct StartConfigurationPolicyDisassociationOutput: Swift.Equatable {
+public struct StartConfigurationPolicyDisassociationOutput {
 
     public init() { }
 }
@@ -64920,7 +64920,7 @@ extension SecurityHubClientTypes.StatelessCustomActionDefinition: Swift.Codable 
 
 extension SecurityHubClientTypes {
     /// The definition of a custom action that can be used for stateless packet handling.
-    public struct StatelessCustomActionDefinition: Swift.Equatable {
+    public struct StatelessCustomActionDefinition {
         /// Information about metrics to publish to CloudWatch.
         public var publishMetricAction: SecurityHubClientTypes.StatelessCustomPublishMetricAction?
 
@@ -64967,7 +64967,7 @@ extension SecurityHubClientTypes.StatelessCustomPublishMetricAction: Swift.Codab
 
 extension SecurityHubClientTypes {
     /// Information about metrics to publish to CloudWatch.
-    public struct StatelessCustomPublishMetricAction: Swift.Equatable {
+    public struct StatelessCustomPublishMetricAction {
         /// Defines CloudWatch dimension values to publish.
         public var dimensions: [SecurityHubClientTypes.StatelessCustomPublishMetricActionDimension]?
 
@@ -65002,7 +65002,7 @@ extension SecurityHubClientTypes.StatelessCustomPublishMetricActionDimension: Sw
 
 extension SecurityHubClientTypes {
     /// Defines a CloudWatch dimension value to publish.
-    public struct StatelessCustomPublishMetricActionDimension: Swift.Equatable {
+    public struct StatelessCustomPublishMetricActionDimension {
         /// The value to use for the custom metric dimension.
         public var value: Swift.String?
 
@@ -65043,7 +65043,7 @@ extension SecurityHubClientTypes.StatusReason: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides additional context for the value of Compliance.Status.
-    public struct StatusReason: Swift.Equatable {
+    public struct StatusReason {
         /// The corresponding description for the status reason code.
         public var description: Swift.String?
         /// A code that represents a reason for the control status. For the list of status reason codes and their meanings, see [Standards-related information in the ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-results.html#securityhub-standards-results-asff) in the Security Hub User Guide.
@@ -65127,7 +65127,7 @@ extension SecurityHubClientTypes.StringConfigurationOptions: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The options for customizing a security control parameter that is a string.
-    public struct StringConfigurationOptions: Swift.Equatable {
+    public struct StringConfigurationOptions {
         /// The Security Hub default value for a control parameter that is a string.
         public var defaultValue: Swift.String?
         /// The description of the RE2 regular expression.
@@ -65176,7 +65176,7 @@ extension SecurityHubClientTypes.StringFilter: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A string filter for filtering Security Hub findings.
-    public struct StringFilter: Swift.Equatable {
+    public struct StringFilter {
         /// The condition to apply to a string value when filtering Security Hub findings. To search for values that have the filter value, use one of the following comparison operators:
         ///
         /// * To search for values that include the filter value, use CONTAINS. For example, the filter Title CONTAINS CloudFront matches findings that have a Title that includes the string CloudFront.
@@ -65318,7 +65318,7 @@ extension SecurityHubClientTypes.StringListConfigurationOptions: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The options for customizing a security control parameter that is a list of strings.
-    public struct StringListConfigurationOptions: Swift.Equatable {
+    public struct StringListConfigurationOptions {
         /// The Security Hub default value for a control parameter that is a list of strings.
         public var defaultValue: [Swift.String]?
         /// The description of the RE2 regular expression.
@@ -65370,7 +65370,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource to apply the tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -65388,7 +65388,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -65418,7 +65418,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -65481,7 +65481,7 @@ extension SecurityHubClientTypes.Target: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// The target account, organizational unit, or the root that is associated with an Security Hub configuration. The configuration can be a configuration policy or self-managed behavior.
-    public enum Target: Swift.Equatable {
+    public enum Target {
         /// The Amazon Web Services account ID of the target account.
         case accountid(Swift.String)
         /// The organizational unit ID of the target organizational unit.
@@ -65576,7 +65576,7 @@ extension SecurityHubClientTypes.Threat: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about the threat detected in a security finding and the file paths that were affected by the threat.
-    public struct Threat: Swift.Equatable {
+    public struct Threat {
         /// Provides information about the file paths that were affected by the threat.
         public var filePaths: [SecurityHubClientTypes.FilePaths]?
         /// This total number of items in which the threat has been detected.
@@ -65653,7 +65653,7 @@ extension SecurityHubClientTypes.ThreatIntelIndicator: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about the threat intelligence related to a finding.
-    public struct ThreatIntelIndicator: Swift.Equatable {
+    public struct ThreatIntelIndicator {
         /// The category of a threat intelligence indicator.
         public var category: SecurityHubClientTypes.ThreatIntelIndicatorCategory?
         /// Indicates when the most recent instance of a threat intelligence indicator was observed. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -65833,7 +65833,7 @@ extension SecurityHubClientTypes.UnprocessedAutomationRule: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter tells you which automation rules the request didn't process and why.
-    public struct UnprocessedAutomationRule: Swift.Equatable {
+    public struct UnprocessedAutomationRule {
         /// The error code associated with the unprocessed automation rule.
         public var errorCode: Swift.Int?
         /// An error message describing why a request didn't process a specific rule.
@@ -65888,7 +65888,7 @@ extension SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation: Swif
 
 extension SecurityHubClientTypes {
     /// An array of configuration policy associations, one for each configuration policy association identifier, that was specified in a BatchGetConfigurationPolicyAssociations request but couldn’t be processed due to an error.
-    public struct UnprocessedConfigurationPolicyAssociation: Swift.Equatable {
+    public struct UnprocessedConfigurationPolicyAssociation {
         /// Configuration policy association identifiers that were specified in a BatchGetConfigurationPolicyAssociations request but couldn’t be processed due to an error.
         public var configurationPolicyAssociationIdentifiers: SecurityHubClientTypes.ConfigurationPolicyAssociation?
         /// An HTTP status code that identifies why the configuration policy association failed.
@@ -65981,7 +65981,7 @@ extension SecurityHubClientTypes.UnprocessedSecurityControl: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about a security control for which a response couldn't be returned.
-    public struct UnprocessedSecurityControl: Swift.Equatable {
+    public struct UnprocessedSecurityControl {
         /// The error code for the unprocessed security control.
         /// This member is required.
         public var errorCode: SecurityHubClientTypes.UnprocessedErrorCode?
@@ -66038,7 +66038,7 @@ extension SecurityHubClientTypes.UnprocessedStandardsControlAssociation: Swift.C
 
 extension SecurityHubClientTypes {
     /// Provides details about which control's enablement status couldn't be retrieved in a specified standard when calling [BatchUpdateStandardsControlAssociations](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html). This parameter also provides details about why the request was unprocessed.
-    public struct UnprocessedStandardsControlAssociation: Swift.Equatable {
+    public struct UnprocessedStandardsControlAssociation {
         /// The error code for the unprocessed standard and control association.
         /// This member is required.
         public var errorCode: SecurityHubClientTypes.UnprocessedErrorCode?
@@ -66095,7 +66095,7 @@ extension SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate: S
 
 extension SecurityHubClientTypes {
     /// Provides details about which control's enablement status could not be updated in a specified standard when calling the [BatchUpdateStandardsControlAssociations](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html) API. This parameter also provides details about why the request was unprocessed.
-    public struct UnprocessedStandardsControlAssociationUpdate: Swift.Equatable {
+    public struct UnprocessedStandardsControlAssociationUpdate {
         /// The error code for the unprocessed update of the control's enablement status in the specified standard.
         /// This member is required.
         public var errorCode: SecurityHubClientTypes.UnprocessedErrorCode?
@@ -66145,7 +66145,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource to remove the tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -66163,7 +66163,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -66177,7 +66177,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -66222,7 +66222,7 @@ extension UpdateActionTargetInput {
     }
 }
 
-public struct UpdateActionTargetInput: Swift.Equatable {
+public struct UpdateActionTargetInput {
     /// The ARN of the custom action target to update.
     /// This member is required.
     public var actionTargetArn: Swift.String?
@@ -66243,7 +66243,7 @@ public struct UpdateActionTargetInput: Swift.Equatable {
     }
 }
 
-struct UpdateActionTargetInputBody: Swift.Equatable {
+struct UpdateActionTargetInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -66268,7 +66268,7 @@ extension UpdateActionTargetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateActionTargetOutput: Swift.Equatable {
+public struct UpdateActionTargetOutput {
 
     public init() { }
 }
@@ -66362,7 +66362,7 @@ extension SecurityHubClientTypes.UpdateAutomationRulesRequestItem: Swift.Codable
 
 extension SecurityHubClientTypes {
     /// Specifies the parameters to update in an existing automation rule.
-    public struct UpdateAutomationRulesRequestItem: Swift.Equatable {
+    public struct UpdateAutomationRulesRequestItem {
         /// One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
         public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
         /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
@@ -66440,7 +66440,7 @@ extension UpdateConfigurationPolicyInput {
     }
 }
 
-public struct UpdateConfigurationPolicyInput: Swift.Equatable {
+public struct UpdateConfigurationPolicyInput {
     /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls). When updating a configuration policy, provide a complete list of standards that you want to enable and a complete list of controls that you want to enable or disable. The updated configuration replaces the current configuration.
     public var configurationPolicy: SecurityHubClientTypes.Policy?
     /// The description of the configuration policy.
@@ -66469,7 +66469,7 @@ public struct UpdateConfigurationPolicyInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfigurationPolicyInputBody: Swift.Equatable {
+struct UpdateConfigurationPolicyInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let updatedReason: Swift.String?
@@ -66521,7 +66521,7 @@ extension UpdateConfigurationPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConfigurationPolicyOutput: Swift.Equatable {
+public struct UpdateConfigurationPolicyOutput {
     /// The ARN of the configuration policy.
     public var arn: Swift.String?
     /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the request included a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If the request included a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
@@ -66557,7 +66557,7 @@ public struct UpdateConfigurationPolicyOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConfigurationPolicyOutputBody: Swift.Equatable {
+struct UpdateConfigurationPolicyOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -66645,7 +66645,7 @@ extension UpdateFindingAggregatorInput {
     }
 }
 
-public struct UpdateFindingAggregatorInput: Swift.Equatable {
+public struct UpdateFindingAggregatorInput {
     /// The ARN of the finding aggregator. To obtain the ARN, use ListFindingAggregators.
     /// This member is required.
     public var findingAggregatorArn: Swift.String?
@@ -66673,7 +66673,7 @@ public struct UpdateFindingAggregatorInput: Swift.Equatable {
     }
 }
 
-struct UpdateFindingAggregatorInputBody: Swift.Equatable {
+struct UpdateFindingAggregatorInputBody {
     let findingAggregatorArn: Swift.String?
     let regionLinkingMode: Swift.String?
     let regions: [Swift.String]?
@@ -66724,7 +66724,7 @@ extension UpdateFindingAggregatorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFindingAggregatorOutput: Swift.Equatable {
+public struct UpdateFindingAggregatorOutput {
     /// The aggregation Region.
     public var findingAggregationRegion: Swift.String?
     /// The ARN of the finding aggregator.
@@ -66748,7 +66748,7 @@ public struct UpdateFindingAggregatorOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFindingAggregatorOutputBody: Swift.Equatable {
+struct UpdateFindingAggregatorOutputBody {
     let findingAggregatorArn: Swift.String?
     let findingAggregationRegion: Swift.String?
     let regionLinkingMode: Swift.String?
@@ -66829,7 +66829,7 @@ extension UpdateFindingsInput {
     }
 }
 
-public struct UpdateFindingsInput: Swift.Equatable {
+public struct UpdateFindingsInput {
     /// A collection of attributes that specify which findings you want to update.
     /// This member is required.
     public var filters: SecurityHubClientTypes.AwsSecurityFindingFilters?
@@ -66850,7 +66850,7 @@ public struct UpdateFindingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateFindingsInputBody: Swift.Equatable {
+struct UpdateFindingsInputBody {
     let filters: SecurityHubClientTypes.AwsSecurityFindingFilters?
     let note: SecurityHubClientTypes.NoteUpdate?
     let recordState: SecurityHubClientTypes.RecordState?
@@ -66879,7 +66879,7 @@ extension UpdateFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFindingsOutput: Swift.Equatable {
+public struct UpdateFindingsOutput {
 
     public init() { }
 }
@@ -66930,7 +66930,7 @@ extension UpdateInsightInput {
     }
 }
 
-public struct UpdateInsightInput: Swift.Equatable {
+public struct UpdateInsightInput {
     /// The updated filters that define this insight.
     public var filters: SecurityHubClientTypes.AwsSecurityFindingFilters?
     /// The updated GroupBy attribute that defines this insight.
@@ -66955,7 +66955,7 @@ public struct UpdateInsightInput: Swift.Equatable {
     }
 }
 
-struct UpdateInsightInputBody: Swift.Equatable {
+struct UpdateInsightInputBody {
     let name: Swift.String?
     let filters: SecurityHubClientTypes.AwsSecurityFindingFilters?
     let groupByAttribute: Swift.String?
@@ -66984,7 +66984,7 @@ extension UpdateInsightOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateInsightOutput: Swift.Equatable {
+public struct UpdateInsightOutput {
 
     public init() { }
 }
@@ -67032,7 +67032,7 @@ extension UpdateOrganizationConfigurationInput {
     }
 }
 
-public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
+public struct UpdateOrganizationConfigurationInput {
     /// Whether to automatically enable Security Hub in new member accounts when they join the organization. If set to true, then Security Hub is automatically enabled in new accounts. If set to false, then Security Hub isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub is enabled and associate the policy with new organization accounts.
     /// This member is required.
     public var autoEnable: Swift.Bool?
@@ -67053,7 +67053,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateOrganizationConfigurationInputBody: Swift.Equatable {
+struct UpdateOrganizationConfigurationInputBody {
     let autoEnable: Swift.Bool?
     let autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
     let organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration?
@@ -67082,7 +67082,7 @@ extension UpdateOrganizationConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateOrganizationConfigurationOutput: Swift.Equatable {
+public struct UpdateOrganizationConfigurationOutput {
 
     public init() { }
 }
@@ -67135,7 +67135,7 @@ extension UpdateSecurityControlInput {
     }
 }
 
-public struct UpdateSecurityControlInput: Swift.Equatable {
+public struct UpdateSecurityControlInput {
     /// The most recent reason for updating the properties of the security control. This field accepts alphanumeric characters in addition to white spaces, dashes, and underscores.
     public var lastUpdateReason: Swift.String?
     /// An object that specifies which security control parameters to update.
@@ -67157,7 +67157,7 @@ public struct UpdateSecurityControlInput: Swift.Equatable {
     }
 }
 
-struct UpdateSecurityControlInputBody: Swift.Equatable {
+struct UpdateSecurityControlInputBody {
     let securityControlId: Swift.String?
     let parameters: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]?
     let lastUpdateReason: Swift.String?
@@ -67195,7 +67195,7 @@ extension UpdateSecurityControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSecurityControlOutput: Swift.Equatable {
+public struct UpdateSecurityControlOutput {
 
     public init() { }
 }
@@ -67241,7 +67241,7 @@ extension UpdateSecurityHubConfigurationInput {
     }
 }
 
-public struct UpdateSecurityHubConfigurationInput: Swift.Equatable {
+public struct UpdateSecurityHubConfigurationInput {
     /// Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false.
     public var autoEnableControls: Swift.Bool?
     /// Updates whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. For accounts that are part of an organization, this value can only be updated in the administrator account.
@@ -67257,7 +67257,7 @@ public struct UpdateSecurityHubConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateSecurityHubConfigurationInputBody: Swift.Equatable {
+struct UpdateSecurityHubConfigurationInputBody {
     let autoEnableControls: Swift.Bool?
     let controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
 }
@@ -67282,7 +67282,7 @@ extension UpdateSecurityHubConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateSecurityHubConfigurationOutput: Swift.Equatable {
+public struct UpdateSecurityHubConfigurationOutput {
 
     public init() { }
 }
@@ -67330,7 +67330,7 @@ extension UpdateStandardsControlInput {
     }
 }
 
-public struct UpdateStandardsControlInput: Swift.Equatable {
+public struct UpdateStandardsControlInput {
     /// The updated status of the security standard control.
     public var controlStatus: SecurityHubClientTypes.ControlStatus?
     /// A description of the reason why you are disabling a security standard control. If you are disabling a control, then this is required.
@@ -67351,7 +67351,7 @@ public struct UpdateStandardsControlInput: Swift.Equatable {
     }
 }
 
-struct UpdateStandardsControlInputBody: Swift.Equatable {
+struct UpdateStandardsControlInputBody {
     let controlStatus: SecurityHubClientTypes.ControlStatus?
     let disabledReason: Swift.String?
 }
@@ -67376,7 +67376,7 @@ extension UpdateStandardsControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateStandardsControlOutput: Swift.Equatable {
+public struct UpdateStandardsControlOutput {
 
     public init() { }
 }
@@ -67493,7 +67493,7 @@ extension SecurityHubClientTypes.VolumeMount: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Describes the mounting of a volume in a container.
-    public struct VolumeMount: Swift.Equatable {
+    public struct VolumeMount {
         /// The path in the container at which the volume should be mounted.
         public var mountPath: Swift.String?
         /// The name of the volume.
@@ -67532,7 +67532,7 @@ extension SecurityHubClientTypes.VpcInfoCidrBlockSetDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about the IPv4 CIDR blocks for the VPC.
-    public struct VpcInfoCidrBlockSetDetails: Swift.Equatable {
+    public struct VpcInfoCidrBlockSetDetails {
         /// The IPv4 CIDR block for the VPC.
         public var cidrBlock: Swift.String?
 
@@ -67567,7 +67567,7 @@ extension SecurityHubClientTypes.VpcInfoIpv6CidrBlockSetDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about the IPv6 CIDR blocks for the VPC.
-    public struct VpcInfoIpv6CidrBlockSetDetails: Swift.Equatable {
+    public struct VpcInfoIpv6CidrBlockSetDetails {
         /// The IPv6 CIDR block for the VPC.
         public var ipv6CidrBlock: Swift.String?
 
@@ -67614,7 +67614,7 @@ extension SecurityHubClientTypes.VpcInfoPeeringOptionsDetails: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides information about the VPC peering connection options for the accepter or requester VPC.
-    public struct VpcInfoPeeringOptionsDetails: Swift.Equatable {
+    public struct VpcInfoPeeringOptionsDetails {
         /// Indicates whether a local VPC can resolve public DNS hostnames to private IP addresses when queried from instances in a peer VPC.
         public var allowDnsResolutionFromRemoteVpc: Swift.Bool?
         /// Indicates whether a local ClassicLink connection can communicate with the peer VPC over the VPC peering connection.
@@ -67777,7 +67777,7 @@ extension SecurityHubClientTypes.Vulnerability: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A vulnerability associated with a finding.
-    public struct Vulnerability: Swift.Equatable {
+    public struct Vulnerability {
         /// The vulnerabilities found in your Lambda function code. This field pertains to findings that Security Hub receives from Amazon Inspector.
         public var codeVulnerabilities: [SecurityHubClientTypes.VulnerabilityCodeVulnerabilities]?
         /// CVSS scores from the advisory related to the vulnerability.
@@ -67883,7 +67883,7 @@ extension SecurityHubClientTypes.VulnerabilityCodeVulnerabilities: Swift.Codable
 
 extension SecurityHubClientTypes {
     /// Provides details about the vulnerabilities found in your Lambda function code. This field pertains to findings that Security Hub receives from Amazon Inspector.
-    public struct VulnerabilityCodeVulnerabilities: Swift.Equatable {
+    public struct VulnerabilityCodeVulnerabilities {
         /// The Common Weakness Enumeration (CWE) item associated with the detected code vulnerability.
         public var cwes: [Swift.String]?
         /// Provides details about where a code vulnerability is located in your Lambda function.
@@ -68017,7 +68017,7 @@ extension SecurityHubClientTypes.VulnerabilityVendor: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// A vendor that generates a vulnerability report.
-    public struct VulnerabilityVendor: Swift.Equatable {
+    public struct VulnerabilityVendor {
         /// The name of the vendor.
         /// This member is required.
         public var name: Swift.String?
@@ -68089,7 +68089,7 @@ extension SecurityHubClientTypes.WafAction: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about the action that CloudFront or WAF takes when a web request matches the conditions in the rule.
-    public struct WafAction: Swift.Equatable {
+    public struct WafAction {
         /// Specifies how you want WAF to respond to requests that match the settings in a rule. Valid settings include the following:
         ///
         /// * ALLOW - WAF allows requests
@@ -68130,7 +68130,7 @@ extension SecurityHubClientTypes.WafExcludedRule: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about a rule to exclude from a rule group.
-    public struct WafExcludedRule: Swift.Equatable {
+    public struct WafExcludedRule {
         /// The unique identifier for the rule to exclude from the rule group.
         public var ruleId: Swift.String?
 
@@ -68165,7 +68165,7 @@ extension SecurityHubClientTypes.WafOverrideAction: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Details about an override action for a rule.
-    public struct WafOverrideAction: Swift.Equatable {
+    public struct WafOverrideAction {
         /// COUNT overrides the action specified by the individual rule within a RuleGroup . If set to NONE, the rule's action takes place.
         public var type: Swift.String?
 
@@ -68200,7 +68200,7 @@ extension SecurityHubClientTypes.Workflow: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Provides details about the status of the investigation into a finding.
-    public struct Workflow: Swift.Equatable {
+    public struct Workflow {
         /// The status of the investigation into the finding. The workflow status is specific to an individual finding. It does not affect the generation of new findings. For example, setting the workflow status to SUPPRESSED or RESOLVED does not prevent a new finding for the same issue. The allowed values are the following.
         ///
         /// * NEW - The initial state of a finding, before it is reviewed. Security Hub also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:
@@ -68330,7 +68330,7 @@ extension SecurityHubClientTypes.WorkflowUpdate: Swift.Codable {
 
 extension SecurityHubClientTypes {
     /// Used to update information about the investigation into the finding.
-    public struct WorkflowUpdate: Swift.Equatable {
+    public struct WorkflowUpdate {
         /// The status of the investigation into the finding. The workflow status is specific to an individual finding. It does not affect the generation of new findings. For example, setting the workflow status to SUPPRESSED or RESOLVED does not prevent a new finding for the same issue. The allowed values are the following.
         ///
         /// * NEW - The initial state of a finding, before it is reviewed. Security Hub also resets WorkFlowStatus from NOTIFIED or RESOLVED to NEW in the following cases:

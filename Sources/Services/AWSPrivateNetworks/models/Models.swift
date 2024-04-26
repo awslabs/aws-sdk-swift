@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -77,7 +77,7 @@ extension AcknowledgeOrderReceiptInput {
     }
 }
 
-public struct AcknowledgeOrderReceiptInput: Swift.Equatable {
+public struct AcknowledgeOrderReceiptInput {
     /// The Amazon Resource Name (ARN) of the order.
     /// This member is required.
     public var orderArn: Swift.String?
@@ -90,7 +90,7 @@ public struct AcknowledgeOrderReceiptInput: Swift.Equatable {
     }
 }
 
-struct AcknowledgeOrderReceiptInputBody: Swift.Equatable {
+struct AcknowledgeOrderReceiptInputBody {
     let orderArn: Swift.String?
 }
 
@@ -118,7 +118,7 @@ extension AcknowledgeOrderReceiptOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcknowledgeOrderReceiptOutput: Swift.Equatable {
+public struct AcknowledgeOrderReceiptOutput {
     /// Information about the order.
     /// This member is required.
     public var order: PrivateNetworksClientTypes.Order?
@@ -131,7 +131,7 @@ public struct AcknowledgeOrderReceiptOutput: Swift.Equatable {
     }
 }
 
-struct AcknowledgeOrderReceiptOutputBody: Swift.Equatable {
+struct AcknowledgeOrderReceiptOutputBody {
     let order: PrivateNetworksClientTypes.Order?
 }
 
@@ -219,7 +219,7 @@ extension ActivateDeviceIdentifierInput {
     }
 }
 
-public struct ActivateDeviceIdentifierInput: Swift.Equatable {
+public struct ActivateDeviceIdentifierInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the device identifier.
@@ -236,7 +236,7 @@ public struct ActivateDeviceIdentifierInput: Swift.Equatable {
     }
 }
 
-struct ActivateDeviceIdentifierInputBody: Swift.Equatable {
+struct ActivateDeviceIdentifierInputBody {
     let deviceIdentifierArn: Swift.String?
     let clientToken: Swift.String?
 }
@@ -275,7 +275,7 @@ extension ActivateDeviceIdentifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ActivateDeviceIdentifierOutput: Swift.Equatable {
+public struct ActivateDeviceIdentifierOutput {
     /// Information about the device identifier.
     /// This member is required.
     public var deviceIdentifier: PrivateNetworksClientTypes.DeviceIdentifier?
@@ -292,7 +292,7 @@ public struct ActivateDeviceIdentifierOutput: Swift.Equatable {
     }
 }
 
-struct ActivateDeviceIdentifierOutputBody: Swift.Equatable {
+struct ActivateDeviceIdentifierOutputBody {
     let deviceIdentifier: PrivateNetworksClientTypes.DeviceIdentifier?
     let tags: [Swift.String:Swift.String]?
 }
@@ -366,7 +366,7 @@ extension ActivateNetworkSiteInput {
     }
 }
 
-public struct ActivateNetworkSiteInput: Swift.Equatable {
+public struct ActivateNetworkSiteInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// Determines the duration and renewal status of the commitment period for all pending radio units. If you include commitmentConfiguration in the ActivateNetworkSiteRequest action, you must specify the following:
@@ -399,7 +399,7 @@ public struct ActivateNetworkSiteInput: Swift.Equatable {
     }
 }
 
-struct ActivateNetworkSiteInputBody: Swift.Equatable {
+struct ActivateNetworkSiteInputBody {
     let networkSiteArn: Swift.String?
     let shippingAddress: PrivateNetworksClientTypes.Address?
     let clientToken: Swift.String?
@@ -439,7 +439,7 @@ extension ActivateNetworkSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ActivateNetworkSiteOutput: Swift.Equatable {
+public struct ActivateNetworkSiteOutput {
     /// Information about the network site.
     public var networkSite: PrivateNetworksClientTypes.NetworkSite?
 
@@ -451,7 +451,7 @@ public struct ActivateNetworkSiteOutput: Swift.Equatable {
     }
 }
 
-struct ActivateNetworkSiteOutputBody: Swift.Equatable {
+struct ActivateNetworkSiteOutputBody {
     let networkSite: PrivateNetworksClientTypes.NetworkSite?
 }
 
@@ -566,7 +566,7 @@ extension PrivateNetworksClientTypes.Address: Swift.CustomDebugStringConvertible
 
 extension PrivateNetworksClientTypes {
     /// Information about an address.
-    public struct Address: Swift.Equatable {
+    public struct Address {
         /// The city for this address.
         /// This member is required.
         public var city: Swift.String?
@@ -653,7 +653,7 @@ extension PrivateNetworksClientTypes.CommitmentConfiguration: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Determines the duration and renewal status of the commitment period for a radio unit. For pricing, see [Amazon Web Services Private 5G Pricing](http://aws.amazon.com/private5g/pricing).
-    public struct CommitmentConfiguration: Swift.Equatable {
+    public struct CommitmentConfiguration {
         /// Determines whether the commitment period for a radio unit is set to automatically renew for an additional 1 year after your current commitment period expires. Set to True, if you want your commitment period to automatically renew. Set to False if you do not want your commitment to automatically renew. You can do the following:
         ///
         /// * Set a 1-year commitment to automatically renew for an additional 1 year. The hourly rate for the additional year will continue to be the same as your existing 1-year rate.
@@ -715,7 +715,7 @@ extension PrivateNetworksClientTypes.CommitmentInformation: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Shows the duration, the date and time that the contract started and ends, and the renewal status of the commitment period for the radio unit.
-    public struct CommitmentInformation: Swift.Equatable {
+    public struct CommitmentInformation {
         /// The duration and renewal status of the commitment period for the radio unit.
         /// This member is required.
         public var commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration?
@@ -818,7 +818,7 @@ extension ConfigureAccessPointInput {
     }
 }
 
-public struct ConfigureAccessPointInput: Swift.Equatable {
+public struct ConfigureAccessPointInput {
     /// The Amazon Resource Name (ARN) of the network resource.
     /// This member is required.
     public var accessPointArn: Swift.String?
@@ -851,7 +851,7 @@ public struct ConfigureAccessPointInput: Swift.Equatable {
     }
 }
 
-struct ConfigureAccessPointInputBody: Swift.Equatable {
+struct ConfigureAccessPointInputBody {
     let accessPointArn: Swift.String?
     let position: PrivateNetworksClientTypes.Position?
     let cpiUsername: Swift.String?
@@ -899,7 +899,7 @@ extension ConfigureAccessPointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ConfigureAccessPointOutput: Swift.Equatable {
+public struct ConfigureAccessPointOutput {
     /// Information about the network resource.
     /// This member is required.
     public var accessPoint: PrivateNetworksClientTypes.NetworkResource?
@@ -912,7 +912,7 @@ public struct ConfigureAccessPointOutput: Swift.Equatable {
     }
 }
 
-struct ConfigureAccessPointOutputBody: Swift.Equatable {
+struct ConfigureAccessPointOutputBody {
     let accessPoint: PrivateNetworksClientTypes.NetworkResource?
 }
 
@@ -981,7 +981,7 @@ extension CreateNetworkInput {
     }
 }
 
-public struct CreateNetworkInput: Swift.Equatable {
+public struct CreateNetworkInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The description of the network.
@@ -1006,7 +1006,7 @@ public struct CreateNetworkInput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkInputBody: Swift.Equatable {
+struct CreateNetworkInputBody {
     let networkName: Swift.String?
     let description: Swift.String?
     let clientToken: Swift.String?
@@ -1062,7 +1062,7 @@ extension CreateNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNetworkOutput: Swift.Equatable {
+public struct CreateNetworkOutput {
     /// Information about the network.
     /// This member is required.
     public var network: PrivateNetworksClientTypes.Network?
@@ -1079,7 +1079,7 @@ public struct CreateNetworkOutput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkOutputBody: Swift.Equatable {
+struct CreateNetworkOutputBody {
     let network: PrivateNetworksClientTypes.Network?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1177,7 +1177,7 @@ extension CreateNetworkSiteInput {
     }
 }
 
-public struct CreateNetworkSiteInput: Swift.Equatable {
+public struct CreateNetworkSiteInput {
     /// The Availability Zone that is the parent of this site. You can't change the Availability Zone after you create the site.
     public var availabilityZone: Swift.String?
     /// The ID of the Availability Zone that is the parent of this site. You can't change the Availability Zone after you create the site.
@@ -1219,7 +1219,7 @@ public struct CreateNetworkSiteInput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkSiteInputBody: Swift.Equatable {
+struct CreateNetworkSiteInputBody {
     let networkSiteName: Swift.String?
     let description: Swift.String?
     let networkArn: Swift.String?
@@ -1291,7 +1291,7 @@ extension CreateNetworkSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNetworkSiteOutput: Swift.Equatable {
+public struct CreateNetworkSiteOutput {
     /// Information about the network site.
     public var networkSite: PrivateNetworksClientTypes.NetworkSite?
     /// The network site tags.
@@ -1307,7 +1307,7 @@ public struct CreateNetworkSiteOutput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkSiteOutputBody: Swift.Equatable {
+struct CreateNetworkSiteOutputBody {
     let networkSite: PrivateNetworksClientTypes.NetworkSite?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1373,7 +1373,7 @@ extension DeactivateDeviceIdentifierInput {
     }
 }
 
-public struct DeactivateDeviceIdentifierInput: Swift.Equatable {
+public struct DeactivateDeviceIdentifierInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the device identifier.
@@ -1390,7 +1390,7 @@ public struct DeactivateDeviceIdentifierInput: Swift.Equatable {
     }
 }
 
-struct DeactivateDeviceIdentifierInputBody: Swift.Equatable {
+struct DeactivateDeviceIdentifierInputBody {
     let deviceIdentifierArn: Swift.String?
     let clientToken: Swift.String?
 }
@@ -1422,7 +1422,7 @@ extension DeactivateDeviceIdentifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeactivateDeviceIdentifierOutput: Swift.Equatable {
+public struct DeactivateDeviceIdentifierOutput {
     /// Information about the device identifier.
     /// This member is required.
     public var deviceIdentifier: PrivateNetworksClientTypes.DeviceIdentifier?
@@ -1435,7 +1435,7 @@ public struct DeactivateDeviceIdentifierOutput: Swift.Equatable {
     }
 }
 
-struct DeactivateDeviceIdentifierOutputBody: Swift.Equatable {
+struct DeactivateDeviceIdentifierOutputBody {
     let deviceIdentifier: PrivateNetworksClientTypes.DeviceIdentifier?
 }
 
@@ -1486,7 +1486,7 @@ extension DeleteNetworkInput {
     }
 }
 
-public struct DeleteNetworkInput: Swift.Equatable {
+public struct DeleteNetworkInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the network.
@@ -1503,7 +1503,7 @@ public struct DeleteNetworkInput: Swift.Equatable {
     }
 }
 
-struct DeleteNetworkInputBody: Swift.Equatable {
+struct DeleteNetworkInputBody {
 }
 
 extension DeleteNetworkInputBody: Swift.Decodable {
@@ -1524,7 +1524,7 @@ extension DeleteNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNetworkOutput: Swift.Equatable {
+public struct DeleteNetworkOutput {
     /// Information about the network.
     /// This member is required.
     public var network: PrivateNetworksClientTypes.Network?
@@ -1537,7 +1537,7 @@ public struct DeleteNetworkOutput: Swift.Equatable {
     }
 }
 
-struct DeleteNetworkOutputBody: Swift.Equatable {
+struct DeleteNetworkOutputBody {
     let network: PrivateNetworksClientTypes.Network?
 }
 
@@ -1589,7 +1589,7 @@ extension DeleteNetworkSiteInput {
     }
 }
 
-public struct DeleteNetworkSiteInput: Swift.Equatable {
+public struct DeleteNetworkSiteInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the network site.
@@ -1606,7 +1606,7 @@ public struct DeleteNetworkSiteInput: Swift.Equatable {
     }
 }
 
-struct DeleteNetworkSiteInputBody: Swift.Equatable {
+struct DeleteNetworkSiteInputBody {
 }
 
 extension DeleteNetworkSiteInputBody: Swift.Decodable {
@@ -1627,7 +1627,7 @@ extension DeleteNetworkSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNetworkSiteOutput: Swift.Equatable {
+public struct DeleteNetworkSiteOutput {
     /// Information about the network site.
     public var networkSite: PrivateNetworksClientTypes.NetworkSite?
 
@@ -1639,7 +1639,7 @@ public struct DeleteNetworkSiteOutput: Swift.Equatable {
     }
 }
 
-struct DeleteNetworkSiteOutputBody: Swift.Equatable {
+struct DeleteNetworkSiteOutputBody {
     let networkSite: PrivateNetworksClientTypes.NetworkSite?
 }
 
@@ -1743,7 +1743,7 @@ extension PrivateNetworksClientTypes.DeviceIdentifier: Swift.CustomDebugStringCo
 
 extension PrivateNetworksClientTypes {
     /// Information about a subscriber of a device that can use a network.
-    public struct DeviceIdentifier: Swift.Equatable {
+    public struct DeviceIdentifier {
         /// The creation time of this device identifier.
         public var createdAt: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the device identifier.
@@ -1928,7 +1928,7 @@ extension GetDeviceIdentifierInput {
     }
 }
 
-public struct GetDeviceIdentifierInput: Swift.Equatable {
+public struct GetDeviceIdentifierInput {
     /// The Amazon Resource Name (ARN) of the device identifier.
     /// This member is required.
     public var deviceIdentifierArn: Swift.String?
@@ -1941,7 +1941,7 @@ public struct GetDeviceIdentifierInput: Swift.Equatable {
     }
 }
 
-struct GetDeviceIdentifierInputBody: Swift.Equatable {
+struct GetDeviceIdentifierInputBody {
 }
 
 extension GetDeviceIdentifierInputBody: Swift.Decodable {
@@ -1969,7 +1969,7 @@ extension GetDeviceIdentifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeviceIdentifierOutput: Swift.Equatable {
+public struct GetDeviceIdentifierOutput {
     /// Information about the device identifier.
     public var deviceIdentifier: PrivateNetworksClientTypes.DeviceIdentifier?
     /// The device identifier tags.
@@ -1985,7 +1985,7 @@ public struct GetDeviceIdentifierOutput: Swift.Equatable {
     }
 }
 
-struct GetDeviceIdentifierOutputBody: Swift.Equatable {
+struct GetDeviceIdentifierOutputBody {
     let deviceIdentifier: PrivateNetworksClientTypes.DeviceIdentifier?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2037,7 +2037,7 @@ extension GetNetworkInput {
     }
 }
 
-public struct GetNetworkInput: Swift.Equatable {
+public struct GetNetworkInput {
     /// The Amazon Resource Name (ARN) of the network.
     /// This member is required.
     public var networkArn: Swift.String?
@@ -2050,7 +2050,7 @@ public struct GetNetworkInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkInputBody: Swift.Equatable {
+struct GetNetworkInputBody {
 }
 
 extension GetNetworkInputBody: Swift.Decodable {
@@ -2078,7 +2078,7 @@ extension GetNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNetworkOutput: Swift.Equatable {
+public struct GetNetworkOutput {
     /// Information about the network.
     /// This member is required.
     public var network: PrivateNetworksClientTypes.Network?
@@ -2095,7 +2095,7 @@ public struct GetNetworkOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkOutputBody: Swift.Equatable {
+struct GetNetworkOutputBody {
     let network: PrivateNetworksClientTypes.Network?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2147,7 +2147,7 @@ extension GetNetworkResourceInput {
     }
 }
 
-public struct GetNetworkResourceInput: Swift.Equatable {
+public struct GetNetworkResourceInput {
     /// The Amazon Resource Name (ARN) of the network resource.
     /// This member is required.
     public var networkResourceArn: Swift.String?
@@ -2160,7 +2160,7 @@ public struct GetNetworkResourceInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkResourceInputBody: Swift.Equatable {
+struct GetNetworkResourceInputBody {
 }
 
 extension GetNetworkResourceInputBody: Swift.Decodable {
@@ -2188,7 +2188,7 @@ extension GetNetworkResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNetworkResourceOutput: Swift.Equatable {
+public struct GetNetworkResourceOutput {
     /// Information about the network resource.
     /// This member is required.
     public var networkResource: PrivateNetworksClientTypes.NetworkResource?
@@ -2205,7 +2205,7 @@ public struct GetNetworkResourceOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkResourceOutputBody: Swift.Equatable {
+struct GetNetworkResourceOutputBody {
     let networkResource: PrivateNetworksClientTypes.NetworkResource?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2257,7 +2257,7 @@ extension GetNetworkSiteInput {
     }
 }
 
-public struct GetNetworkSiteInput: Swift.Equatable {
+public struct GetNetworkSiteInput {
     /// The Amazon Resource Name (ARN) of the network site.
     /// This member is required.
     public var networkSiteArn: Swift.String?
@@ -2270,7 +2270,7 @@ public struct GetNetworkSiteInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkSiteInputBody: Swift.Equatable {
+struct GetNetworkSiteInputBody {
 }
 
 extension GetNetworkSiteInputBody: Swift.Decodable {
@@ -2298,7 +2298,7 @@ extension GetNetworkSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNetworkSiteOutput: Swift.Equatable {
+public struct GetNetworkSiteOutput {
     /// Information about the network site.
     public var networkSite: PrivateNetworksClientTypes.NetworkSite?
     /// The network site tags.
@@ -2314,7 +2314,7 @@ public struct GetNetworkSiteOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkSiteOutputBody: Swift.Equatable {
+struct GetNetworkSiteOutputBody {
     let networkSite: PrivateNetworksClientTypes.NetworkSite?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2366,7 +2366,7 @@ extension GetOrderInput {
     }
 }
 
-public struct GetOrderInput: Swift.Equatable {
+public struct GetOrderInput {
     /// The Amazon Resource Name (ARN) of the order.
     /// This member is required.
     public var orderArn: Swift.String?
@@ -2379,7 +2379,7 @@ public struct GetOrderInput: Swift.Equatable {
     }
 }
 
-struct GetOrderInputBody: Swift.Equatable {
+struct GetOrderInputBody {
 }
 
 extension GetOrderInputBody: Swift.Decodable {
@@ -2407,7 +2407,7 @@ extension GetOrderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOrderOutput: Swift.Equatable {
+public struct GetOrderOutput {
     /// Information about the order.
     /// This member is required.
     public var order: PrivateNetworksClientTypes.Order?
@@ -2424,7 +2424,7 @@ public struct GetOrderOutput: Swift.Equatable {
     }
 }
 
-struct GetOrderOutputBody: Swift.Equatable {
+struct GetOrderOutputBody {
     let order: PrivateNetworksClientTypes.Order?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2551,7 +2551,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2607,7 +2607,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2661,7 +2661,7 @@ extension ListDeviceIdentifiersInput {
     }
 }
 
-public struct ListDeviceIdentifiersInput: Swift.Equatable {
+public struct ListDeviceIdentifiersInput {
     /// The filters.
     ///
     /// * ORDER - The Amazon Resource Name (ARN) of the order.
@@ -2695,7 +2695,7 @@ public struct ListDeviceIdentifiersInput: Swift.Equatable {
     }
 }
 
-struct ListDeviceIdentifiersInputBody: Swift.Equatable {
+struct ListDeviceIdentifiersInputBody {
     let filters: [Swift.String:[Swift.String]]?
     let networkArn: Swift.String?
     let startToken: Swift.String?
@@ -2753,7 +2753,7 @@ extension ListDeviceIdentifiersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeviceIdentifiersOutput: Swift.Equatable {
+public struct ListDeviceIdentifiersOutput {
     /// Information about the device identifiers.
     public var deviceIdentifiers: [PrivateNetworksClientTypes.DeviceIdentifier]?
     /// The token for the next page of results.
@@ -2769,7 +2769,7 @@ public struct ListDeviceIdentifiersOutput: Swift.Equatable {
     }
 }
 
-struct ListDeviceIdentifiersOutputBody: Swift.Equatable {
+struct ListDeviceIdentifiersOutputBody {
     let deviceIdentifiers: [PrivateNetworksClientTypes.DeviceIdentifier]?
     let nextToken: Swift.String?
 }
@@ -2849,7 +2849,7 @@ extension ListNetworkResourcesInput {
     }
 }
 
-public struct ListNetworkResourcesInput: Swift.Equatable {
+public struct ListNetworkResourcesInput {
     /// The filters.
     ///
     /// * ORDER - The Amazon Resource Name (ARN) of the order.
@@ -2881,7 +2881,7 @@ public struct ListNetworkResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListNetworkResourcesInputBody: Swift.Equatable {
+struct ListNetworkResourcesInputBody {
     let filters: [Swift.String:[Swift.String]]?
     let networkArn: Swift.String?
     let startToken: Swift.String?
@@ -2939,7 +2939,7 @@ extension ListNetworkResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNetworkResourcesOutput: Swift.Equatable {
+public struct ListNetworkResourcesOutput {
     /// Information about network resources.
     public var networkResources: [PrivateNetworksClientTypes.NetworkResource]?
     /// The token for the next page of results.
@@ -2955,7 +2955,7 @@ public struct ListNetworkResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListNetworkResourcesOutputBody: Swift.Equatable {
+struct ListNetworkResourcesOutputBody {
     let networkResources: [PrivateNetworksClientTypes.NetworkResource]?
     let nextToken: Swift.String?
 }
@@ -3035,7 +3035,7 @@ extension ListNetworkSitesInput {
     }
 }
 
-public struct ListNetworkSitesInput: Swift.Equatable {
+public struct ListNetworkSitesInput {
     /// The filters. Add filters to your request to return a more specific list of results. Use filters to match the status of the network sites.
     ///
     /// * STATUS - The status (AVAILABLE | CREATED | DELETED | DEPROVISIONING | PROVISIONING).
@@ -3065,7 +3065,7 @@ public struct ListNetworkSitesInput: Swift.Equatable {
     }
 }
 
-struct ListNetworkSitesInputBody: Swift.Equatable {
+struct ListNetworkSitesInputBody {
     let filters: [Swift.String:[Swift.String]]?
     let networkArn: Swift.String?
     let startToken: Swift.String?
@@ -3123,7 +3123,7 @@ extension ListNetworkSitesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNetworkSitesOutput: Swift.Equatable {
+public struct ListNetworkSitesOutput {
     /// Information about the network sites.
     public var networkSites: [PrivateNetworksClientTypes.NetworkSite]?
     /// The token for the next page of results.
@@ -3139,7 +3139,7 @@ public struct ListNetworkSitesOutput: Swift.Equatable {
     }
 }
 
-struct ListNetworkSitesOutputBody: Swift.Equatable {
+struct ListNetworkSitesOutputBody {
     let networkSites: [PrivateNetworksClientTypes.NetworkSite]?
     let nextToken: Swift.String?
 }
@@ -3215,7 +3215,7 @@ extension ListNetworksInput {
     }
 }
 
-public struct ListNetworksInput: Swift.Equatable {
+public struct ListNetworksInput {
     /// The filters.
     ///
     /// * STATUS - The status (AVAILABLE | CREATED | DELETED | DEPROVISIONING | PROVISIONING).
@@ -3240,7 +3240,7 @@ public struct ListNetworksInput: Swift.Equatable {
     }
 }
 
-struct ListNetworksInputBody: Swift.Equatable {
+struct ListNetworksInputBody {
     let filters: [Swift.String:[Swift.String]]?
     let startToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3294,7 +3294,7 @@ extension ListNetworksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNetworksOutput: Swift.Equatable {
+public struct ListNetworksOutput {
     /// The networks.
     public var networks: [PrivateNetworksClientTypes.Network]?
     /// The token for the next page of results.
@@ -3310,7 +3310,7 @@ public struct ListNetworksOutput: Swift.Equatable {
     }
 }
 
-struct ListNetworksOutputBody: Swift.Equatable {
+struct ListNetworksOutputBody {
     let networks: [PrivateNetworksClientTypes.Network]?
     let nextToken: Swift.String?
 }
@@ -3390,7 +3390,7 @@ extension ListOrdersInput {
     }
 }
 
-public struct ListOrdersInput: Swift.Equatable {
+public struct ListOrdersInput {
     /// The filters.
     ///
     /// * NETWORK_SITE - The Amazon Resource Name (ARN) of the network site.
@@ -3422,7 +3422,7 @@ public struct ListOrdersInput: Swift.Equatable {
     }
 }
 
-struct ListOrdersInputBody: Swift.Equatable {
+struct ListOrdersInputBody {
     let networkArn: Swift.String?
     let startToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3480,7 +3480,7 @@ extension ListOrdersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOrdersOutput: Swift.Equatable {
+public struct ListOrdersOutput {
     /// The token for the next page of results.
     public var nextToken: Swift.String?
     /// Information about the orders.
@@ -3496,7 +3496,7 @@ public struct ListOrdersOutput: Swift.Equatable {
     }
 }
 
-struct ListOrdersOutputBody: Swift.Equatable {
+struct ListOrdersOutputBody {
     let orders: [PrivateNetworksClientTypes.Order]?
     let nextToken: Swift.String?
 }
@@ -3548,7 +3548,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3561,7 +3561,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3587,7 +3587,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The resource tags.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3599,7 +3599,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3666,7 +3666,7 @@ extension PrivateNetworksClientTypes.NameValuePair: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Information about a name/value pair.
-    public struct NameValuePair: Swift.Equatable {
+    public struct NameValuePair {
         /// The name of the pair.
         /// This member is required.
         public var name: Swift.String?
@@ -3736,7 +3736,7 @@ extension PrivateNetworksClientTypes.Network: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Information about a network.
-    public struct Network: Swift.Equatable {
+    public struct Network {
         /// The creation time of the network.
         public var createdAt: ClientRuntime.Date?
         /// The description of the network.
@@ -3931,7 +3931,7 @@ extension PrivateNetworksClientTypes.NetworkResource: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Information about a network resource.
-    public struct NetworkResource: Swift.Equatable {
+    public struct NetworkResource {
         /// The attributes of the network resource.
         public var attributes: [PrivateNetworksClientTypes.NameValuePair]?
         /// Information about the commitment period for the radio unit. Shows the duration, the date and time that the contract started and ends, and the renewal status of the commitment period.
@@ -4054,7 +4054,7 @@ extension PrivateNetworksClientTypes.NetworkResourceDefinition: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Information about a network resource definition.
-    public struct NetworkResourceDefinition: Swift.Equatable {
+    public struct NetworkResourceDefinition {
         /// The count in the network resource definition.
         /// This member is required.
         public var count: Swift.Int?
@@ -4305,7 +4305,7 @@ extension PrivateNetworksClientTypes.NetworkSite: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Information about a network site.
-    public struct NetworkSite: Swift.Equatable {
+    public struct NetworkSite {
         /// The parent Availability Zone for the network site.
         public var availabilityZone: Swift.String?
         /// The parent Availability Zone ID for the network site.
@@ -4561,7 +4561,7 @@ extension PrivateNetworksClientTypes.Order: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Information about an order.
-    public struct Order: Swift.Equatable {
+    public struct Order {
         /// The acknowledgement status of the order.
         public var acknowledgmentStatus: PrivateNetworksClientTypes.AcknowledgmentStatus?
         /// The creation time of the order.
@@ -4668,7 +4668,7 @@ extension PrivateNetworksClientTypes.OrderedResourceDefinition: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Details of the network resources in the order.
-    public struct OrderedResourceDefinition: Swift.Equatable {
+    public struct OrderedResourceDefinition {
         /// The duration and renewal status of the commitment period for each radio unit in the order. Does not show details if the resource type is DEVICE_IDENTIFIER.
         public var commitmentConfiguration: PrivateNetworksClientTypes.CommitmentConfiguration?
         /// The number of network resources in the order.
@@ -4699,12 +4699,12 @@ extension PingInput {
     }
 }
 
-public struct PingInput: Swift.Equatable {
+public struct PingInput {
 
     public init() { }
 }
 
-struct PingInputBody: Swift.Equatable {
+struct PingInputBody {
 }
 
 extension PingInputBody: Swift.Decodable {
@@ -4725,7 +4725,7 @@ extension PingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PingOutput: Swift.Equatable {
+public struct PingOutput {
     /// Information about the health of the service.
     public var status: Swift.String?
 
@@ -4737,7 +4737,7 @@ public struct PingOutput: Swift.Equatable {
     }
 }
 
-struct PingOutputBody: Swift.Equatable {
+struct PingOutputBody {
     let status: Swift.String?
 }
 
@@ -4809,7 +4809,7 @@ extension PrivateNetworksClientTypes.Position: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Information about a position.
-    public struct Position: Swift.Equatable {
+    public struct Position {
         /// The elevation of the equipment at this position.
         public var elevation: Swift.Double?
         /// The reference point from which elevation is reported.
@@ -4896,7 +4896,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -4959,7 +4959,7 @@ extension PrivateNetworksClientTypes.ReturnInformation: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Information about a request to return a network resource.
-    public struct ReturnInformation: Swift.Equatable {
+    public struct ReturnInformation {
         /// The Amazon Resource Name (ARN) of the replacement order.
         public var replacementOrderArn: Swift.String?
         /// The reason for the return. If the return request did not include a reason for the return, this value is null.
@@ -5036,7 +5036,7 @@ extension PrivateNetworksClientTypes.SitePlan: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Information about a site plan.
-    public struct SitePlan: Swift.Equatable {
+    public struct SitePlan {
         /// The options of the plan.
         public var options: [PrivateNetworksClientTypes.NameValuePair]?
         /// The resource definitions of the plan.
@@ -5090,7 +5090,7 @@ extension StartNetworkResourceUpdateInput {
     }
 }
 
-public struct StartNetworkResourceUpdateInput: Swift.Equatable {
+public struct StartNetworkResourceUpdateInput {
     /// Use this action to extend and automatically renew the commitment period for the radio unit. You can do the following:
     ///
     /// * Change a 60-day commitment to a 1-year or 3-year commitment. The change is immediate and the hourly rate decreases to the rate for the new commitment period.
@@ -5139,7 +5139,7 @@ public struct StartNetworkResourceUpdateInput: Swift.Equatable {
     }
 }
 
-struct StartNetworkResourceUpdateInputBody: Swift.Equatable {
+struct StartNetworkResourceUpdateInputBody {
     let networkResourceArn: Swift.String?
     let updateType: PrivateNetworksClientTypes.UpdateType?
     let shippingAddress: PrivateNetworksClientTypes.Address?
@@ -5183,7 +5183,7 @@ extension StartNetworkResourceUpdateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartNetworkResourceUpdateOutput: Swift.Equatable {
+public struct StartNetworkResourceUpdateOutput {
     /// The network resource.
     public var networkResource: PrivateNetworksClientTypes.NetworkResource?
 
@@ -5195,7 +5195,7 @@ public struct StartNetworkResourceUpdateOutput: Swift.Equatable {
     }
 }
 
-struct StartNetworkResourceUpdateOutputBody: Swift.Equatable {
+struct StartNetworkResourceUpdateOutputBody {
     let networkResource: PrivateNetworksClientTypes.NetworkResource?
 }
 
@@ -5255,7 +5255,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5273,7 +5273,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5303,7 +5303,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -5362,7 +5362,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -5399,7 +5399,7 @@ extension PrivateNetworksClientTypes.TrackingInformation: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Information about tracking a shipment.
-    public struct TrackingInformation: Swift.Equatable {
+    public struct TrackingInformation {
         /// The tracking number of the shipment.
         public var trackingNumber: Swift.String?
 
@@ -5444,7 +5444,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5462,7 +5462,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -5476,7 +5476,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -5524,7 +5524,7 @@ extension UpdateNetworkSiteInput {
     }
 }
 
-public struct UpdateNetworkSiteInput: Swift.Equatable {
+public struct UpdateNetworkSiteInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The description.
@@ -5545,7 +5545,7 @@ public struct UpdateNetworkSiteInput: Swift.Equatable {
     }
 }
 
-struct UpdateNetworkSiteInputBody: Swift.Equatable {
+struct UpdateNetworkSiteInputBody {
     let networkSiteArn: Swift.String?
     let clientToken: Swift.String?
     let description: Swift.String?
@@ -5588,7 +5588,7 @@ extension UpdateNetworkSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNetworkSiteOutput: Swift.Equatable {
+public struct UpdateNetworkSiteOutput {
     /// Information about the network site.
     public var networkSite: PrivateNetworksClientTypes.NetworkSite?
     /// The network site tags.
@@ -5604,7 +5604,7 @@ public struct UpdateNetworkSiteOutput: Swift.Equatable {
     }
 }
 
-struct UpdateNetworkSiteOutputBody: Swift.Equatable {
+struct UpdateNetworkSiteOutputBody {
     let networkSite: PrivateNetworksClientTypes.NetworkSite?
     let tags: [Swift.String:Swift.String]?
 }
@@ -5674,7 +5674,7 @@ extension UpdateNetworkSitePlanInput {
     }
 }
 
-public struct UpdateNetworkSitePlanInput: Swift.Equatable {
+public struct UpdateNetworkSitePlanInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the network site.
@@ -5696,7 +5696,7 @@ public struct UpdateNetworkSitePlanInput: Swift.Equatable {
     }
 }
 
-struct UpdateNetworkSitePlanInputBody: Swift.Equatable {
+struct UpdateNetworkSitePlanInputBody {
     let networkSiteArn: Swift.String?
     let pendingPlan: PrivateNetworksClientTypes.SitePlan?
     let clientToken: Swift.String?
@@ -5739,7 +5739,7 @@ extension UpdateNetworkSitePlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNetworkSitePlanOutput: Swift.Equatable {
+public struct UpdateNetworkSitePlanOutput {
     /// Information about the network site.
     public var networkSite: PrivateNetworksClientTypes.NetworkSite?
     /// The network site tags.
@@ -5755,7 +5755,7 @@ public struct UpdateNetworkSitePlanOutput: Swift.Equatable {
     }
 }
 
-struct UpdateNetworkSitePlanOutputBody: Swift.Equatable {
+struct UpdateNetworkSitePlanOutputBody {
     let networkSite: PrivateNetworksClientTypes.NetworkSite?
     let tags: [Swift.String:Swift.String]?
 }
@@ -5886,7 +5886,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: PrivateNetworksClientTypes.ValidationExceptionReason?
     let fieldList: [PrivateNetworksClientTypes.ValidationExceptionField]?
@@ -5946,7 +5946,7 @@ extension PrivateNetworksClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension PrivateNetworksClientTypes {
     /// Information about a field that failed validation.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The message about the validation failure.
         /// This member is required.
         public var message: Swift.String?

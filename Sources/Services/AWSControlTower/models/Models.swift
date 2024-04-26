@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -109,7 +109,7 @@ extension ControlTowerClientTypes.BaselineOperation: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// An object of shape BaselineOperation, returning details about the specified Baseline operation ID.
-    public struct BaselineOperation: Swift.Equatable {
+    public struct BaselineOperation {
         /// The end time of the operation (if applicable), in ISO 8601 format.
         public var endTime: ClientRuntime.Date?
         /// The identifier of the specified operation.
@@ -249,7 +249,7 @@ extension ControlTowerClientTypes.BaselineSummary: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// Returns a summary of information about a Baseline object.
-    public struct BaselineSummary: Swift.Equatable {
+    public struct BaselineSummary {
         /// The full ARN of a Baseline.
         /// This member is required.
         public var arn: Swift.String?
@@ -313,7 +313,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -374,7 +374,7 @@ extension ControlTowerClientTypes.ControlOperation: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// An operation performed by the control.
-    public struct ControlOperation: Swift.Equatable {
+    public struct ControlOperation {
         /// The time that the operation finished.
         public var endTime: ClientRuntime.Date?
         /// One of ENABLE_CONTROL or DISABLE_CONTROL.
@@ -507,7 +507,7 @@ extension CreateLandingZoneInput {
     }
 }
 
-public struct CreateLandingZoneInput: Swift.Equatable {
+public struct CreateLandingZoneInput {
     /// The manifest.yaml file is a text file that describes your Amazon Web Services resources. For examples, review [The manifest file](https://docs.aws.amazon.com/controltower/latest/userguide/the-manifest-file).
     /// This member is required.
     public var manifest: ClientRuntime.Document?
@@ -529,7 +529,7 @@ public struct CreateLandingZoneInput: Swift.Equatable {
     }
 }
 
-struct CreateLandingZoneInputBody: Swift.Equatable {
+struct CreateLandingZoneInputBody {
     let version: Swift.String?
     let manifest: ClientRuntime.Document?
     let tags: [Swift.String:Swift.String]?
@@ -576,7 +576,7 @@ extension CreateLandingZoneOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLandingZoneOutput: Swift.Equatable {
+public struct CreateLandingZoneOutput {
     /// The ARN of the landing zone resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -594,7 +594,7 @@ public struct CreateLandingZoneOutput: Swift.Equatable {
     }
 }
 
-struct CreateLandingZoneOutputBody: Swift.Equatable {
+struct CreateLandingZoneOutputBody {
     let arn: Swift.String?
     let operationIdentifier: Swift.String?
 }
@@ -649,7 +649,7 @@ extension DeleteLandingZoneInput {
     }
 }
 
-public struct DeleteLandingZoneInput: Swift.Equatable {
+public struct DeleteLandingZoneInput {
     /// The unique identifier of the landing zone.
     /// This member is required.
     public var landingZoneIdentifier: Swift.String?
@@ -662,7 +662,7 @@ public struct DeleteLandingZoneInput: Swift.Equatable {
     }
 }
 
-struct DeleteLandingZoneInputBody: Swift.Equatable {
+struct DeleteLandingZoneInputBody {
     let landingZoneIdentifier: Swift.String?
 }
 
@@ -690,7 +690,7 @@ extension DeleteLandingZoneOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLandingZoneOutput: Swift.Equatable {
+public struct DeleteLandingZoneOutput {
     /// >A unique identifier assigned to a DeleteLandingZone operation. You can use this identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
     /// This member is required.
     public var operationIdentifier: Swift.String?
@@ -703,7 +703,7 @@ public struct DeleteLandingZoneOutput: Swift.Equatable {
     }
 }
 
-struct DeleteLandingZoneOutputBody: Swift.Equatable {
+struct DeleteLandingZoneOutputBody {
     let operationIdentifier: Swift.String?
 }
 
@@ -755,7 +755,7 @@ extension DisableBaselineInput {
     }
 }
 
-public struct DisableBaselineInput: Swift.Equatable {
+public struct DisableBaselineInput {
     /// Identifier of the EnabledBaseline resource to be deactivated, in ARN format.
     /// This member is required.
     public var enabledBaselineIdentifier: Swift.String?
@@ -768,7 +768,7 @@ public struct DisableBaselineInput: Swift.Equatable {
     }
 }
 
-struct DisableBaselineInputBody: Swift.Equatable {
+struct DisableBaselineInputBody {
     let enabledBaselineIdentifier: Swift.String?
 }
 
@@ -796,7 +796,7 @@ extension DisableBaselineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableBaselineOutput: Swift.Equatable {
+public struct DisableBaselineOutput {
     /// The ID (in UUID format) of the asynchronous DisableBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
     /// This member is required.
     public var operationIdentifier: Swift.String?
@@ -809,7 +809,7 @@ public struct DisableBaselineOutput: Swift.Equatable {
     }
 }
 
-struct DisableBaselineOutputBody: Swift.Equatable {
+struct DisableBaselineOutputBody {
     let operationIdentifier: Swift.String?
 }
 
@@ -866,7 +866,7 @@ extension DisableControlInput {
     }
 }
 
-public struct DisableControlInput: Swift.Equatable {
+public struct DisableControlInput {
     /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
     /// This member is required.
     public var controlIdentifier: Swift.String?
@@ -884,7 +884,7 @@ public struct DisableControlInput: Swift.Equatable {
     }
 }
 
-struct DisableControlInputBody: Swift.Equatable {
+struct DisableControlInputBody {
     let controlIdentifier: Swift.String?
     let targetIdentifier: Swift.String?
 }
@@ -916,7 +916,7 @@ extension DisableControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableControlOutput: Swift.Equatable {
+public struct DisableControlOutput {
     /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
     /// This member is required.
     public var operationIdentifier: Swift.String?
@@ -929,7 +929,7 @@ public struct DisableControlOutput: Swift.Equatable {
     }
 }
 
-struct DisableControlOutputBody: Swift.Equatable {
+struct DisableControlOutputBody {
     let operationIdentifier: Swift.String?
 }
 
@@ -1021,7 +1021,7 @@ extension ControlTowerClientTypes.DriftStatusSummary: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// The drift summary of the enabled control. Amazon Web Services Control Tower expects the enabled control configuration to include all supported and governed Regions. If the enabled control differs from the expected configuration, it is defined to be in a state of drift. You can repair this drift by resetting the enabled control.
-    public struct DriftStatusSummary: Swift.Equatable {
+    public struct DriftStatusSummary {
         /// The drift status of the enabled control. Valid values:
         ///
         /// * DRIFTED: The enabledControl deployed in this configuration doesn’t match the configuration that Amazon Web Services Control Tower expected.
@@ -1085,7 +1085,7 @@ extension EnableBaselineInput {
     }
 }
 
-public struct EnableBaselineInput: Swift.Equatable {
+public struct EnableBaselineInput {
     /// The ARN of the baseline to be enabled.
     /// This member is required.
     public var baselineIdentifier: Swift.String?
@@ -1116,7 +1116,7 @@ public struct EnableBaselineInput: Swift.Equatable {
     }
 }
 
-struct EnableBaselineInputBody: Swift.Equatable {
+struct EnableBaselineInputBody {
     let baselineVersion: Swift.String?
     let parameters: [ControlTowerClientTypes.EnabledBaselineParameter]?
     let baselineIdentifier: Swift.String?
@@ -1180,7 +1180,7 @@ extension EnableBaselineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableBaselineOutput: Swift.Equatable {
+public struct EnableBaselineOutput {
     /// The ARN of the EnabledBaseline resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -1198,7 +1198,7 @@ public struct EnableBaselineOutput: Swift.Equatable {
     }
 }
 
-struct EnableBaselineOutputBody: Swift.Equatable {
+struct EnableBaselineOutputBody {
     let operationIdentifier: Swift.String?
     let arn: Swift.String?
 }
@@ -1273,7 +1273,7 @@ extension EnableControlInput {
     }
 }
 
-public struct EnableControlInput: Swift.Equatable {
+public struct EnableControlInput {
     /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
     /// This member is required.
     public var controlIdentifier: Swift.String?
@@ -1299,7 +1299,7 @@ public struct EnableControlInput: Swift.Equatable {
     }
 }
 
-struct EnableControlInputBody: Swift.Equatable {
+struct EnableControlInputBody {
     let controlIdentifier: Swift.String?
     let targetIdentifier: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -1359,7 +1359,7 @@ extension EnableControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableControlOutput: Swift.Equatable {
+public struct EnableControlOutput {
     /// The ARN of the EnabledControl resource.
     public var arn: Swift.String?
     /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
@@ -1376,7 +1376,7 @@ public struct EnableControlOutput: Swift.Equatable {
     }
 }
 
-struct EnableControlOutputBody: Swift.Equatable {
+struct EnableControlOutputBody {
     let operationIdentifier: Swift.String?
     let arn: Swift.String?
 }
@@ -1476,7 +1476,7 @@ extension ControlTowerClientTypes.EnabledBaselineDetails: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// Details of the EnabledBaseline resource.
-    public struct EnabledBaselineDetails: Swift.Equatable {
+    public struct EnabledBaselineDetails {
         /// The ARN of the EnabledBaseline resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -1565,7 +1565,7 @@ extension ControlTowerClientTypes.EnabledBaselineFilter: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// A filter applied on the ListEnabledBaseline operation. Allowed filters are baselineIdentifiers and targetIdentifiers. The filter can be applied for either, or both.
-    public struct EnabledBaselineFilter: Swift.Equatable {
+    public struct EnabledBaselineFilter {
         /// Identifiers for the Baseline objects returned as part of the filter operation.
         public var baselineIdentifiers: [Swift.String]?
         /// Identifiers for the targets of the Baseline filter operation.
@@ -1610,7 +1610,7 @@ extension ControlTowerClientTypes.EnabledBaselineParameter: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// A key-value parameter to an EnabledBaseline resource.
-    public struct EnabledBaselineParameter: Swift.Equatable {
+    public struct EnabledBaselineParameter {
         /// A string denoting the parameter key.
         /// This member is required.
         public var key: Swift.String?
@@ -1657,7 +1657,7 @@ extension ControlTowerClientTypes.EnabledBaselineParameterSummary: Swift.Codable
 
 extension ControlTowerClientTypes {
     /// Summary of an applied parameter to an EnabledBaseline resource.
-    public struct EnabledBaselineParameterSummary: Swift.Equatable {
+    public struct EnabledBaselineParameterSummary {
         /// A string denoting the parameter key.
         /// This member is required.
         public var key: Swift.String?
@@ -1722,7 +1722,7 @@ extension ControlTowerClientTypes.EnabledBaselineSummary: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// Returns a summary of information about an EnabledBaseline object.
-    public struct EnabledBaselineSummary: Swift.Equatable {
+    public struct EnabledBaselineSummary {
         /// The ARN of the EnabledBaseline resource
         /// This member is required.
         public var arn: Swift.String?
@@ -1837,7 +1837,7 @@ extension ControlTowerClientTypes.EnabledControlDetails: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// Information about the enabled control.
-    public struct EnabledControlDetails: Swift.Equatable {
+    public struct EnabledControlDetails {
         /// The ARN of the enabled control.
         public var arn: Swift.String?
         /// The control identifier of the enabled control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
@@ -1902,7 +1902,7 @@ extension ControlTowerClientTypes.EnabledControlParameter: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// A key/value pair, where Key is of type String and Value is of type Document.
-    public struct EnabledControlParameter: Swift.Equatable {
+    public struct EnabledControlParameter {
         /// The key of a key/value pair.
         /// This member is required.
         public var key: Swift.String?
@@ -1949,7 +1949,7 @@ extension ControlTowerClientTypes.EnabledControlParameterSummary: Swift.Codable 
 
 extension ControlTowerClientTypes {
     /// Returns a summary of information about the parameters of an enabled control.
-    public struct EnabledControlParameterSummary: Swift.Equatable {
+    public struct EnabledControlParameterSummary {
         /// The key of a key/value pair.
         /// This member is required.
         public var key: Swift.String?
@@ -2014,7 +2014,7 @@ extension ControlTowerClientTypes.EnabledControlSummary: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// Returns a summary of information about an enabled control.
-    public struct EnabledControlSummary: Swift.Equatable {
+    public struct EnabledControlSummary {
         /// The ARN of the enabled control.
         public var arn: Swift.String?
         /// The controlIdentifier of the enabled control.
@@ -2106,7 +2106,7 @@ extension ControlTowerClientTypes.EnablementStatusSummary: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// The deployment summary of the enabled control.
-    public struct EnablementStatusSummary: Swift.Equatable {
+    public struct EnablementStatusSummary {
         /// The last operation identifier for the enabled control.
         public var lastOperationIdentifier: Swift.String?
         /// The deployment status of the enabled control. Valid values:
@@ -2150,7 +2150,7 @@ extension GetBaselineInput {
     }
 }
 
-public struct GetBaselineInput: Swift.Equatable {
+public struct GetBaselineInput {
     /// The ARN of the Baseline resource to be retrieved.
     /// This member is required.
     public var baselineIdentifier: Swift.String?
@@ -2163,7 +2163,7 @@ public struct GetBaselineInput: Swift.Equatable {
     }
 }
 
-struct GetBaselineInputBody: Swift.Equatable {
+struct GetBaselineInputBody {
     let baselineIdentifier: Swift.String?
 }
 
@@ -2199,7 +2199,7 @@ extension GetBaselineOperationInput {
     }
 }
 
-public struct GetBaselineOperationInput: Swift.Equatable {
+public struct GetBaselineOperationInput {
     /// The operation ID returned from mutating asynchronous APIs (Enable, Disable, Update, Reset).
     /// This member is required.
     public var operationIdentifier: Swift.String?
@@ -2212,7 +2212,7 @@ public struct GetBaselineOperationInput: Swift.Equatable {
     }
 }
 
-struct GetBaselineOperationInputBody: Swift.Equatable {
+struct GetBaselineOperationInputBody {
     let operationIdentifier: Swift.String?
 }
 
@@ -2240,7 +2240,7 @@ extension GetBaselineOperationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBaselineOperationOutput: Swift.Equatable {
+public struct GetBaselineOperationOutput {
     /// A baselineOperation object that shows information about the specified operation ID.
     /// This member is required.
     public var baselineOperation: ControlTowerClientTypes.BaselineOperation?
@@ -2253,7 +2253,7 @@ public struct GetBaselineOperationOutput: Swift.Equatable {
     }
 }
 
-struct GetBaselineOperationOutputBody: Swift.Equatable {
+struct GetBaselineOperationOutputBody {
     let baselineOperation: ControlTowerClientTypes.BaselineOperation?
 }
 
@@ -2300,7 +2300,7 @@ extension GetBaselineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBaselineOutput: Swift.Equatable {
+public struct GetBaselineOutput {
     /// The baseline ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -2322,7 +2322,7 @@ public struct GetBaselineOutput: Swift.Equatable {
     }
 }
 
-struct GetBaselineOutputBody: Swift.Equatable {
+struct GetBaselineOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -2381,7 +2381,7 @@ extension GetControlOperationInput {
     }
 }
 
-public struct GetControlOperationInput: Swift.Equatable {
+public struct GetControlOperationInput {
     /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
     /// This member is required.
     public var operationIdentifier: Swift.String?
@@ -2394,7 +2394,7 @@ public struct GetControlOperationInput: Swift.Equatable {
     }
 }
 
-struct GetControlOperationInputBody: Swift.Equatable {
+struct GetControlOperationInputBody {
     let operationIdentifier: Swift.String?
 }
 
@@ -2422,7 +2422,7 @@ extension GetControlOperationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetControlOperationOutput: Swift.Equatable {
+public struct GetControlOperationOutput {
     /// An operation performed by the control.
     /// This member is required.
     public var controlOperation: ControlTowerClientTypes.ControlOperation?
@@ -2435,7 +2435,7 @@ public struct GetControlOperationOutput: Swift.Equatable {
     }
 }
 
-struct GetControlOperationOutputBody: Swift.Equatable {
+struct GetControlOperationOutputBody {
     let controlOperation: ControlTowerClientTypes.ControlOperation?
 }
 
@@ -2486,7 +2486,7 @@ extension GetEnabledBaselineInput {
     }
 }
 
-public struct GetEnabledBaselineInput: Swift.Equatable {
+public struct GetEnabledBaselineInput {
     /// Identifier of the EnabledBaseline resource to be retrieved, in ARN format.
     /// This member is required.
     public var enabledBaselineIdentifier: Swift.String?
@@ -2499,7 +2499,7 @@ public struct GetEnabledBaselineInput: Swift.Equatable {
     }
 }
 
-struct GetEnabledBaselineInputBody: Swift.Equatable {
+struct GetEnabledBaselineInputBody {
     let enabledBaselineIdentifier: Swift.String?
 }
 
@@ -2527,7 +2527,7 @@ extension GetEnabledBaselineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnabledBaselineOutput: Swift.Equatable {
+public struct GetEnabledBaselineOutput {
     /// Details of the EnabledBaseline resource.
     public var enabledBaselineDetails: ControlTowerClientTypes.EnabledBaselineDetails?
 
@@ -2539,7 +2539,7 @@ public struct GetEnabledBaselineOutput: Swift.Equatable {
     }
 }
 
-struct GetEnabledBaselineOutputBody: Swift.Equatable {
+struct GetEnabledBaselineOutputBody {
     let enabledBaselineDetails: ControlTowerClientTypes.EnabledBaselineDetails?
 }
 
@@ -2590,7 +2590,7 @@ extension GetEnabledControlInput {
     }
 }
 
-public struct GetEnabledControlInput: Swift.Equatable {
+public struct GetEnabledControlInput {
     /// The controlIdentifier of the enabled control.
     /// This member is required.
     public var enabledControlIdentifier: Swift.String?
@@ -2603,7 +2603,7 @@ public struct GetEnabledControlInput: Swift.Equatable {
     }
 }
 
-struct GetEnabledControlInputBody: Swift.Equatable {
+struct GetEnabledControlInputBody {
     let enabledControlIdentifier: Swift.String?
 }
 
@@ -2631,7 +2631,7 @@ extension GetEnabledControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnabledControlOutput: Swift.Equatable {
+public struct GetEnabledControlOutput {
     /// Information about the enabled control.
     /// This member is required.
     public var enabledControlDetails: ControlTowerClientTypes.EnabledControlDetails?
@@ -2644,7 +2644,7 @@ public struct GetEnabledControlOutput: Swift.Equatable {
     }
 }
 
-struct GetEnabledControlOutputBody: Swift.Equatable {
+struct GetEnabledControlOutputBody {
     let enabledControlDetails: ControlTowerClientTypes.EnabledControlDetails?
 }
 
@@ -2695,7 +2695,7 @@ extension GetLandingZoneInput {
     }
 }
 
-public struct GetLandingZoneInput: Swift.Equatable {
+public struct GetLandingZoneInput {
     /// The unique identifier of the landing zone.
     /// This member is required.
     public var landingZoneIdentifier: Swift.String?
@@ -2708,7 +2708,7 @@ public struct GetLandingZoneInput: Swift.Equatable {
     }
 }
 
-struct GetLandingZoneInputBody: Swift.Equatable {
+struct GetLandingZoneInputBody {
     let landingZoneIdentifier: Swift.String?
 }
 
@@ -2744,7 +2744,7 @@ extension GetLandingZoneOperationInput {
     }
 }
 
-public struct GetLandingZoneOperationInput: Swift.Equatable {
+public struct GetLandingZoneOperationInput {
     /// A unique identifier assigned to a landing zone operation.
     /// This member is required.
     public var operationIdentifier: Swift.String?
@@ -2757,7 +2757,7 @@ public struct GetLandingZoneOperationInput: Swift.Equatable {
     }
 }
 
-struct GetLandingZoneOperationInputBody: Swift.Equatable {
+struct GetLandingZoneOperationInputBody {
     let operationIdentifier: Swift.String?
 }
 
@@ -2785,7 +2785,7 @@ extension GetLandingZoneOperationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLandingZoneOperationOutput: Swift.Equatable {
+public struct GetLandingZoneOperationOutput {
     /// Details about a landing zone operation.
     /// This member is required.
     public var operationDetails: ControlTowerClientTypes.LandingZoneOperationDetail?
@@ -2798,7 +2798,7 @@ public struct GetLandingZoneOperationOutput: Swift.Equatable {
     }
 }
 
-struct GetLandingZoneOperationOutputBody: Swift.Equatable {
+struct GetLandingZoneOperationOutputBody {
     let operationDetails: ControlTowerClientTypes.LandingZoneOperationDetail?
 }
 
@@ -2841,7 +2841,7 @@ extension GetLandingZoneOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLandingZoneOutput: Swift.Equatable {
+public struct GetLandingZoneOutput {
     /// Information about the landing zone.
     /// This member is required.
     public var landingZone: ControlTowerClientTypes.LandingZoneDetail?
@@ -2854,7 +2854,7 @@ public struct GetLandingZoneOutput: Swift.Equatable {
     }
 }
 
-struct GetLandingZoneOutputBody: Swift.Equatable {
+struct GetLandingZoneOutputBody {
     let landingZone: ControlTowerClientTypes.LandingZoneDetail?
 }
 
@@ -2925,7 +2925,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2992,7 +2992,7 @@ extension ControlTowerClientTypes.LandingZoneDetail: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// Information about the landing zone.
-    public struct LandingZoneDetail: Swift.Equatable {
+    public struct LandingZoneDetail {
         /// The ARN of the landing zone.
         public var arn: Swift.String?
         /// The drift status of the landing zone.
@@ -3081,7 +3081,7 @@ extension ControlTowerClientTypes.LandingZoneDriftStatusSummary: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// The drift status summary of the landing zone. If the landing zone differs from the expected configuration, it is defined to be in a state of drift. You can repair this drift by resetting the landing zone.
-    public struct LandingZoneDriftStatusSummary: Swift.Equatable {
+    public struct LandingZoneDriftStatusSummary {
         /// The drift status of the landing zone. Valid values:
         ///
         /// * DRIFTED: The landing zone deployed in this configuration does not match the configuration that Amazon Web Services Control Tower expected.
@@ -3144,7 +3144,7 @@ extension ControlTowerClientTypes.LandingZoneOperationDetail: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// Information about a landing zone operation.
-    public struct LandingZoneOperationDetail: Swift.Equatable {
+    public struct LandingZoneOperationDetail {
         /// The landing zone operation end time.
         public var endTime: ClientRuntime.Date?
         /// The landing zone operation type. Valid values:
@@ -3317,7 +3317,7 @@ extension ControlTowerClientTypes.LandingZoneSummary: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// Returns a summary of information about a landing zone.
-    public struct LandingZoneSummary: Swift.Equatable {
+    public struct LandingZoneSummary {
         /// The ARN of the landing zone.
         public var arn: Swift.String?
 
@@ -3355,7 +3355,7 @@ extension ListBaselinesInput {
     }
 }
 
-public struct ListBaselinesInput: Swift.Equatable {
+public struct ListBaselinesInput {
     /// The maximum number of results to be shown.
     public var maxResults: Swift.Int?
     /// A pagination token.
@@ -3371,7 +3371,7 @@ public struct ListBaselinesInput: Swift.Equatable {
     }
 }
 
-struct ListBaselinesInputBody: Swift.Equatable {
+struct ListBaselinesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -3405,7 +3405,7 @@ extension ListBaselinesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBaselinesOutput: Swift.Equatable {
+public struct ListBaselinesOutput {
     /// A list of Baseline object details.
     /// This member is required.
     public var baselines: [ControlTowerClientTypes.BaselineSummary]?
@@ -3422,7 +3422,7 @@ public struct ListBaselinesOutput: Swift.Equatable {
     }
 }
 
-struct ListBaselinesOutputBody: Swift.Equatable {
+struct ListBaselinesOutputBody {
     let baselines: [ControlTowerClientTypes.BaselineSummary]?
     let nextToken: Swift.String?
 }
@@ -3493,7 +3493,7 @@ extension ListEnabledBaselinesInput {
     }
 }
 
-public struct ListEnabledBaselinesInput: Swift.Equatable {
+public struct ListEnabledBaselinesInput {
     /// A filter applied on the ListEnabledBaseline operation. Allowed filters are baselineIdentifiers and targetIdentifiers. The filter can be applied for either, or both.
     public var filter: ControlTowerClientTypes.EnabledBaselineFilter?
     /// The maximum number of results to be shown.
@@ -3513,7 +3513,7 @@ public struct ListEnabledBaselinesInput: Swift.Equatable {
     }
 }
 
-struct ListEnabledBaselinesInputBody: Swift.Equatable {
+struct ListEnabledBaselinesInputBody {
     let filter: ControlTowerClientTypes.EnabledBaselineFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3551,7 +3551,7 @@ extension ListEnabledBaselinesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnabledBaselinesOutput: Swift.Equatable {
+public struct ListEnabledBaselinesOutput {
     /// Retuens a list of summaries of EnabledBaseline resources.
     /// This member is required.
     public var enabledBaselines: [ControlTowerClientTypes.EnabledBaselineSummary]?
@@ -3568,7 +3568,7 @@ public struct ListEnabledBaselinesOutput: Swift.Equatable {
     }
 }
 
-struct ListEnabledBaselinesOutputBody: Swift.Equatable {
+struct ListEnabledBaselinesOutputBody {
     let enabledBaselines: [ControlTowerClientTypes.EnabledBaselineSummary]?
     let nextToken: Swift.String?
 }
@@ -3639,7 +3639,7 @@ extension ListEnabledControlsInput {
     }
 }
 
-public struct ListEnabledControlsInput: Swift.Equatable {
+public struct ListEnabledControlsInput {
     /// How many results to return per API call.
     public var maxResults: Swift.Int?
     /// The token to continue the list from a previous API call with the same parameters.
@@ -3660,7 +3660,7 @@ public struct ListEnabledControlsInput: Swift.Equatable {
     }
 }
 
-struct ListEnabledControlsInputBody: Swift.Equatable {
+struct ListEnabledControlsInputBody {
     let targetIdentifier: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3698,7 +3698,7 @@ extension ListEnabledControlsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnabledControlsOutput: Swift.Equatable {
+public struct ListEnabledControlsOutput {
     /// Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains.
     /// This member is required.
     public var enabledControls: [ControlTowerClientTypes.EnabledControlSummary]?
@@ -3715,7 +3715,7 @@ public struct ListEnabledControlsOutput: Swift.Equatable {
     }
 }
 
-struct ListEnabledControlsOutputBody: Swift.Equatable {
+struct ListEnabledControlsOutputBody {
     let enabledControls: [ControlTowerClientTypes.EnabledControlSummary]?
     let nextToken: Swift.String?
 }
@@ -3783,7 +3783,7 @@ extension ListLandingZonesInput {
     }
 }
 
-public struct ListLandingZonesInput: Swift.Equatable {
+public struct ListLandingZonesInput {
     /// The maximum number of returned landing zone ARNs, which is one.
     public var maxResults: Swift.Int?
     /// The token to continue the list from a previous API call with the same parameters.
@@ -3799,7 +3799,7 @@ public struct ListLandingZonesInput: Swift.Equatable {
     }
 }
 
-struct ListLandingZonesInputBody: Swift.Equatable {
+struct ListLandingZonesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -3833,7 +3833,7 @@ extension ListLandingZonesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLandingZonesOutput: Swift.Equatable {
+public struct ListLandingZonesOutput {
     /// The ARN of the landing zone.
     /// This member is required.
     public var landingZones: [ControlTowerClientTypes.LandingZoneSummary]?
@@ -3850,7 +3850,7 @@ public struct ListLandingZonesOutput: Swift.Equatable {
     }
 }
 
-struct ListLandingZonesOutputBody: Swift.Equatable {
+struct ListLandingZonesOutputBody {
     let landingZones: [ControlTowerClientTypes.LandingZoneSummary]?
     let nextToken: Swift.String?
 }
@@ -3903,7 +3903,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3916,7 +3916,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3937,7 +3937,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags, as key:value strings.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -3950,7 +3950,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4009,7 +4009,7 @@ extension ControlTowerClientTypes.Region: Swift.Codable {
 
 extension ControlTowerClientTypes {
     /// An Amazon Web Services Region in which Amazon Web Services Control Tower expects to find the control deployed. The expected Regions are based on the Regions that are governed by the landing zone. In certain cases, a control is not actually enabled in the Region as expected, such as during drift, or [mixed governance](https://docs.aws.amazon.com/controltower/latest/userguide/region-how.html#mixed-governance).
-    public struct Region: Swift.Equatable {
+    public struct Region {
         /// The Amazon Web Services Region name.
         public var name: Swift.String?
 
@@ -4043,7 +4043,7 @@ extension ResetEnabledBaselineInput {
     }
 }
 
-public struct ResetEnabledBaselineInput: Swift.Equatable {
+public struct ResetEnabledBaselineInput {
     /// Specifies the ID of the EnabledBaseline resource to be re-enabled, in ARN format.
     /// This member is required.
     public var enabledBaselineIdentifier: Swift.String?
@@ -4056,7 +4056,7 @@ public struct ResetEnabledBaselineInput: Swift.Equatable {
     }
 }
 
-struct ResetEnabledBaselineInputBody: Swift.Equatable {
+struct ResetEnabledBaselineInputBody {
     let enabledBaselineIdentifier: Swift.String?
 }
 
@@ -4084,7 +4084,7 @@ extension ResetEnabledBaselineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetEnabledBaselineOutput: Swift.Equatable {
+public struct ResetEnabledBaselineOutput {
     /// The ID (in UUID format) of the asynchronous ResetEnabledBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
     /// This member is required.
     public var operationIdentifier: Swift.String?
@@ -4097,7 +4097,7 @@ public struct ResetEnabledBaselineOutput: Swift.Equatable {
     }
 }
 
-struct ResetEnabledBaselineOutputBody: Swift.Equatable {
+struct ResetEnabledBaselineOutputBody {
     let operationIdentifier: Swift.String?
 }
 
@@ -4150,7 +4150,7 @@ extension ResetLandingZoneInput {
     }
 }
 
-public struct ResetLandingZoneInput: Swift.Equatable {
+public struct ResetLandingZoneInput {
     /// The unique identifier of the landing zone.
     /// This member is required.
     public var landingZoneIdentifier: Swift.String?
@@ -4163,7 +4163,7 @@ public struct ResetLandingZoneInput: Swift.Equatable {
     }
 }
 
-struct ResetLandingZoneInputBody: Swift.Equatable {
+struct ResetLandingZoneInputBody {
     let landingZoneIdentifier: Swift.String?
 }
 
@@ -4191,7 +4191,7 @@ extension ResetLandingZoneOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetLandingZoneOutput: Swift.Equatable {
+public struct ResetLandingZoneOutput {
     /// A unique identifier assigned to a ResetLandingZone operation. You can use this identifier as an input parameter of GetLandingZoneOperation to check the operation's status.
     /// This member is required.
     public var operationIdentifier: Swift.String?
@@ -4204,7 +4204,7 @@ public struct ResetLandingZoneOutput: Swift.Equatable {
     }
 }
 
-struct ResetLandingZoneOutputBody: Swift.Equatable {
+struct ResetLandingZoneOutputBody {
     let operationIdentifier: Swift.String?
 }
 
@@ -4276,7 +4276,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4332,7 +4332,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4374,7 +4374,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource to be tagged.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4392,7 +4392,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4422,7 +4422,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4501,7 +4501,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -4551,7 +4551,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4569,7 +4569,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4583,7 +4583,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4632,7 +4632,7 @@ extension UpdateEnabledBaselineInput {
     }
 }
 
-public struct UpdateEnabledBaselineInput: Swift.Equatable {
+public struct UpdateEnabledBaselineInput {
     /// Specifies the new Baseline version, to which the EnabledBaseline should be updated.
     /// This member is required.
     public var baselineVersion: Swift.String?
@@ -4654,7 +4654,7 @@ public struct UpdateEnabledBaselineInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnabledBaselineInputBody: Swift.Equatable {
+struct UpdateEnabledBaselineInputBody {
     let baselineVersion: Swift.String?
     let parameters: [ControlTowerClientTypes.EnabledBaselineParameter]?
     let enabledBaselineIdentifier: Swift.String?
@@ -4699,7 +4699,7 @@ extension UpdateEnabledBaselineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnabledBaselineOutput: Swift.Equatable {
+public struct UpdateEnabledBaselineOutput {
     /// The ID (in UUID format) of the asynchronous UpdateEnabledBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
     /// This member is required.
     public var operationIdentifier: Swift.String?
@@ -4712,7 +4712,7 @@ public struct UpdateEnabledBaselineOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnabledBaselineOutputBody: Swift.Equatable {
+struct UpdateEnabledBaselineOutputBody {
     let operationIdentifier: Swift.String?
 }
 
@@ -4772,7 +4772,7 @@ extension UpdateEnabledControlInput {
     }
 }
 
-public struct UpdateEnabledControlInput: Swift.Equatable {
+public struct UpdateEnabledControlInput {
     /// The ARN of the enabled control that will be updated.
     /// This member is required.
     public var enabledControlIdentifier: Swift.String?
@@ -4790,7 +4790,7 @@ public struct UpdateEnabledControlInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnabledControlInputBody: Swift.Equatable {
+struct UpdateEnabledControlInputBody {
     let parameters: [ControlTowerClientTypes.EnabledControlParameter]?
     let enabledControlIdentifier: Swift.String?
 }
@@ -4831,7 +4831,7 @@ extension UpdateEnabledControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnabledControlOutput: Swift.Equatable {
+public struct UpdateEnabledControlOutput {
     /// The operation identifier for this UpdateEnabledControl operation.
     /// This member is required.
     public var operationIdentifier: Swift.String?
@@ -4844,7 +4844,7 @@ public struct UpdateEnabledControlOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnabledControlOutputBody: Swift.Equatable {
+struct UpdateEnabledControlOutputBody {
     let operationIdentifier: Swift.String?
 }
 
@@ -4905,7 +4905,7 @@ extension UpdateLandingZoneInput {
     }
 }
 
-public struct UpdateLandingZoneInput: Swift.Equatable {
+public struct UpdateLandingZoneInput {
     /// The unique identifier of the landing zone.
     /// This member is required.
     public var landingZoneIdentifier: Swift.String?
@@ -4928,7 +4928,7 @@ public struct UpdateLandingZoneInput: Swift.Equatable {
     }
 }
 
-struct UpdateLandingZoneInputBody: Swift.Equatable {
+struct UpdateLandingZoneInputBody {
     let version: Swift.String?
     let manifest: ClientRuntime.Document?
     let landingZoneIdentifier: Swift.String?
@@ -4964,7 +4964,7 @@ extension UpdateLandingZoneOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLandingZoneOutput: Swift.Equatable {
+public struct UpdateLandingZoneOutput {
     /// A unique identifier assigned to a UpdateLandingZone operation. You can use this identifier as an input of GetLandingZoneOperation to check the operation's status.
     /// This member is required.
     public var operationIdentifier: Swift.String?
@@ -4977,7 +4977,7 @@ public struct UpdateLandingZoneOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLandingZoneOutputBody: Swift.Equatable {
+struct UpdateLandingZoneOutputBody {
     let operationIdentifier: Swift.String?
 }
 
@@ -5049,7 +5049,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

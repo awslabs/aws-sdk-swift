@@ -91,7 +91,7 @@ extension PipesClientTypes.AwsVpcConfiguration: Swift.Codable {
 
 extension PipesClientTypes {
     /// This structure specifies the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
-    public struct AwsVpcConfiguration: Swift.Equatable {
+    public struct AwsVpcConfiguration {
         /// Specifies whether the task's elastic network interface receives a public IP address. You can specify ENABLED only when LaunchType in EcsParameters is set to FARGATE.
         public var assignPublicIp: PipesClientTypes.AssignPublicIp?
         /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
@@ -135,7 +135,7 @@ extension PipesClientTypes.BatchArrayProperties: Swift.Codable {
 
 extension PipesClientTypes {
     /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an Batch job.
-    public struct BatchArrayProperties: Swift.Equatable {
+    public struct BatchArrayProperties {
         /// The size of the array, if this is an array batch job.
         public var size: Swift.Int?
 
@@ -224,7 +224,7 @@ extension PipesClientTypes.BatchContainerOverrides: Swift.Codable {
 
 extension PipesClientTypes {
     /// The overrides that are sent to a container.
-    public struct BatchContainerOverrides: Swift.Equatable {
+    public struct BatchContainerOverrides {
         /// The command to send to the container that overrides the default command from the Docker image or the task definition.
         public var command: [Swift.String]?
         /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the task definition. Environment variables cannot start with "Batch". This naming convention is reserved for variables that Batch sets.
@@ -277,7 +277,7 @@ extension PipesClientTypes.BatchEnvironmentVariable: Swift.Codable {
 
 extension PipesClientTypes {
     /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the task definition. Environment variables cannot start with "Batch". This naming convention is reserved for variables that Batch sets.
-    public struct BatchEnvironmentVariable: Swift.Equatable {
+    public struct BatchEnvironmentVariable {
         /// The name of the key-value pair. For environment variables, this is the name of the environment variable.
         public var name: Swift.String?
         /// The value of the key-value pair. For environment variables, this is the value of the environment variable.
@@ -322,7 +322,7 @@ extension PipesClientTypes.BatchJobDependency: Swift.Codable {
 
 extension PipesClientTypes {
     /// An object that represents an Batch job dependency.
-    public struct BatchJobDependency: Swift.Equatable {
+    public struct BatchJobDependency {
         /// The job ID of the Batch job that's associated with this dependency.
         public var jobId: Swift.String?
         /// The type of the job dependency.
@@ -399,7 +399,7 @@ extension PipesClientTypes.BatchResourceRequirement: Swift.Codable {
 
 extension PipesClientTypes {
     /// The type and amount of a resource to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
-    public struct BatchResourceRequirement: Swift.Equatable {
+    public struct BatchResourceRequirement {
         /// The type of resource to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         /// This member is required.
         public var type: PipesClientTypes.BatchResourceRequirementType?
@@ -475,7 +475,7 @@ extension PipesClientTypes.BatchRetryStrategy: Swift.Codable {
 
 extension PipesClientTypes {
     /// The retry strategy that's associated with a job. For more information, see [ Automated job retries](https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html) in the Batch User Guide.
-    public struct BatchRetryStrategy: Swift.Equatable {
+    public struct BatchRetryStrategy {
         /// The number of times to move a job to the RUNNABLE status. If the value of attempts is greater than one, the job is retried on failure the same number of attempts as the value.
         public var attempts: Swift.Int?
 
@@ -527,7 +527,7 @@ extension PipesClientTypes.CapacityProviderStrategyItem: Swift.CustomDebugString
 
 extension PipesClientTypes {
     /// The details of a capacity provider strategy. To learn more, see [CapacityProviderStrategyItem](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CapacityProviderStrategyItem.html) in the Amazon ECS API Reference.
-    public struct CapacityProviderStrategyItem: Swift.Equatable {
+    public struct CapacityProviderStrategyItem {
         /// The base value designates how many tasks, at a minimum, to run on the specified capacity provider. Only one capacity provider in a capacity provider strategy can have a base defined. If no value is specified, the default value of 0 is used.
         public var base: Swift.Int
         /// The short name of the capacity provider.
@@ -571,7 +571,7 @@ extension PipesClientTypes.CloudwatchLogsLogDestination: Swift.Codable {
 
 extension PipesClientTypes {
     /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
-    public struct CloudwatchLogsLogDestination: Swift.Equatable {
+    public struct CloudwatchLogsLogDestination {
         /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to which EventBridge sends the log records.
         public var logGroupArn: Swift.String?
 
@@ -606,7 +606,7 @@ extension PipesClientTypes.CloudwatchLogsLogDestinationParameters: Swift.Codable
 
 extension PipesClientTypes {
     /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
-    public struct CloudwatchLogsLogDestinationParameters: Swift.Equatable {
+    public struct CloudwatchLogsLogDestinationParameters {
         /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to which EventBridge sends the log records.
         /// This member is required.
         public var logGroupArn: Swift.String?
@@ -675,7 +675,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -770,7 +770,7 @@ extension CreatePipeInput {
     }
 }
 
-public struct CreatePipeInput: Swift.Equatable {
+public struct CreatePipeInput {
     /// A description of the pipe.
     public var description: Swift.String?
     /// The state the pipe should be in.
@@ -830,7 +830,7 @@ public struct CreatePipeInput: Swift.Equatable {
     }
 }
 
-struct CreatePipeInputBody: Swift.Equatable {
+struct CreatePipeInputBody {
     let description: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
     let source: Swift.String?
@@ -917,7 +917,7 @@ extension CreatePipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePipeOutput: Swift.Equatable {
+public struct CreatePipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -949,7 +949,7 @@ public struct CreatePipeOutput: Swift.Equatable {
     }
 }
 
-struct CreatePipeOutputBody: Swift.Equatable {
+struct CreatePipeOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -1022,7 +1022,7 @@ extension PipesClientTypes.DeadLetterConfig: Swift.Codable {
 
 extension PipesClientTypes {
     /// A DeadLetterConfig object that contains information about a dead-letter queue configuration.
-    public struct DeadLetterConfig: Swift.Equatable {
+    public struct DeadLetterConfig {
         /// The ARN of the specified target for the dead-letter queue. For Amazon Kinesis stream and Amazon DynamoDB stream sources, specify either an Amazon SNS topic or Amazon SQS queue ARN.
         public var arn: Swift.String?
 
@@ -1046,7 +1046,7 @@ extension DeletePipeInput {
     }
 }
 
-public struct DeletePipeInput: Swift.Equatable {
+public struct DeletePipeInput {
     /// The name of the pipe.
     /// This member is required.
     public var name: Swift.String?
@@ -1059,7 +1059,7 @@ public struct DeletePipeInput: Swift.Equatable {
     }
 }
 
-struct DeletePipeInputBody: Swift.Equatable {
+struct DeletePipeInputBody {
 }
 
 extension DeletePipeInputBody: Swift.Decodable {
@@ -1090,7 +1090,7 @@ extension DeletePipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePipeOutput: Swift.Equatable {
+public struct DeletePipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -1122,7 +1122,7 @@ public struct DeletePipeOutput: Swift.Equatable {
     }
 }
 
-struct DeletePipeOutputBody: Swift.Equatable {
+struct DeletePipeOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeStateDescribeResponse?
@@ -1183,7 +1183,7 @@ extension DescribePipeInput {
     }
 }
 
-public struct DescribePipeInput: Swift.Equatable {
+public struct DescribePipeInput {
     /// The name of the pipe.
     /// This member is required.
     public var name: Swift.String?
@@ -1196,7 +1196,7 @@ public struct DescribePipeInput: Swift.Equatable {
     }
 }
 
-struct DescribePipeInputBody: Swift.Equatable {
+struct DescribePipeInputBody {
 }
 
 extension DescribePipeInputBody: Swift.Decodable {
@@ -1254,7 +1254,7 @@ extension DescribePipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePipeOutput: Swift.Equatable {
+public struct DescribePipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -1330,7 +1330,7 @@ public struct DescribePipeOutput: Swift.Equatable {
     }
 }
 
-struct DescribePipeOutputBody: Swift.Equatable {
+struct DescribePipeOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -1576,7 +1576,7 @@ extension PipesClientTypes.EcsContainerOverride: Swift.Codable {
 
 extension PipesClientTypes {
     /// The overrides that are sent to a container. An empty container override can be passed in. An example of an empty container override is {"containerOverrides": [ ] }. If a non-empty container override is specified, the name parameter must be included.
-    public struct EcsContainerOverride: Swift.Equatable {
+    public struct EcsContainerOverride {
         /// The command to send to the container that overrides the default command from the Docker image or the task definition. You must also specify a container name.
         public var command: [Swift.String]?
         /// The number of cpu units reserved for the container, instead of the default value from the task definition. You must also specify a container name.
@@ -1649,7 +1649,7 @@ extension PipesClientTypes {
     /// * Linux platform version 1.4.0 or later.
     ///
     /// * Windows platform version 1.0.0 or later.
-    public struct EcsEnvironmentFile: Swift.Equatable {
+    public struct EcsEnvironmentFile {
         /// The file type to use. The only supported value is s3.
         /// This member is required.
         public var type: PipesClientTypes.EcsEnvironmentFileType?
@@ -1725,7 +1725,7 @@ extension PipesClientTypes.EcsEnvironmentVariable: Swift.Codable {
 
 extension PipesClientTypes {
     /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the task definition. You must also specify a container name.
-    public struct EcsEnvironmentVariable: Swift.Equatable {
+    public struct EcsEnvironmentVariable {
         /// The name of the key-value pair. For environment variables, this is the name of the environment variable.
         public var name: Swift.String?
         /// The value of the key-value pair. For environment variables, this is the value of the environment variable.
@@ -1764,7 +1764,7 @@ extension PipesClientTypes.EcsEphemeralStorage: Swift.Codable {
 
 extension PipesClientTypes {
     /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Fargate task storage](https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html) in the Amazon ECS User Guide for Fargate. This parameter is only supported for tasks hosted on Fargate using Linux platform version 1.4.0 or later. This parameter is not supported for Windows containers on Fargate.
-    public struct EcsEphemeralStorage: Swift.Equatable {
+    public struct EcsEphemeralStorage {
         /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
         /// This member is required.
         public var sizeInGiB: Swift.Int?
@@ -1806,7 +1806,7 @@ extension PipesClientTypes.EcsInferenceAcceleratorOverride: Swift.Codable {
 
 extension PipesClientTypes {
     /// Details on an Elastic Inference accelerator task override. This parameter is used to override the Elastic Inference accelerator specified in the task definition. For more information, see [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/userguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct EcsInferenceAcceleratorOverride: Swift.Equatable {
+    public struct EcsInferenceAcceleratorOverride {
         /// The Elastic Inference accelerator device name to override for the task. This parameter must match a deviceName specified in the task definition.
         public var deviceName: Swift.String?
         /// The Elastic Inference accelerator type to use.
@@ -1851,7 +1851,7 @@ extension PipesClientTypes.EcsResourceRequirement: Swift.Codable {
 
 extension PipesClientTypes {
     /// The type and amount of a resource to assign to a container. The supported resource types are GPUs and Elastic Inference accelerators. For more information, see [Working with GPUs on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-gpu.html) or [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide
-    public struct EcsResourceRequirement: Swift.Equatable {
+    public struct EcsResourceRequirement {
         /// The type of resource to assign to a container. The supported values are GPU or InferenceAccelerator.
         /// This member is required.
         public var type: PipesClientTypes.EcsResourceRequirementType?
@@ -1984,7 +1984,7 @@ extension PipesClientTypes.EcsTaskOverride: Swift.Codable {
 
 extension PipesClientTypes {
     /// The overrides that are associated with a task.
-    public struct EcsTaskOverride: Swift.Equatable {
+    public struct EcsTaskOverride {
         /// One or more container overrides that are sent to a task.
         public var containerOverrides: [PipesClientTypes.EcsContainerOverride]?
         /// The cpu override for the task.
@@ -2052,7 +2052,7 @@ extension PipesClientTypes.Filter: Swift.CustomDebugStringConvertible {
 
 extension PipesClientTypes {
     /// Filter events using an event pattern. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The event pattern.
         public var pattern: Swift.String?
 
@@ -2099,7 +2099,7 @@ extension PipesClientTypes.FilterCriteria: Swift.Codable {
 
 extension PipesClientTypes {
     /// The collection of event patterns used to filter events. To remove a filter, specify a FilterCriteria object with an empty array of Filter objects. For more information, see [Events and Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html) in the Amazon EventBridge User Guide.
-    public struct FilterCriteria: Swift.Equatable {
+    public struct FilterCriteria {
         /// The event patterns.
         public var filters: [PipesClientTypes.Filter]?
 
@@ -2134,7 +2134,7 @@ extension PipesClientTypes.FirehoseLogDestination: Swift.Codable {
 
 extension PipesClientTypes {
     /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
-    public struct FirehoseLogDestination: Swift.Equatable {
+    public struct FirehoseLogDestination {
         /// The Amazon Resource Name (ARN) of the Kinesis Data Firehose delivery stream to which EventBridge delivers the pipe log records.
         public var deliveryStreamArn: Swift.String?
 
@@ -2169,7 +2169,7 @@ extension PipesClientTypes.FirehoseLogDestinationParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
-    public struct FirehoseLogDestinationParameters: Swift.Equatable {
+    public struct FirehoseLogDestinationParameters {
         /// Specifies the Amazon Resource Name (ARN) of the Kinesis Data Firehose delivery stream to which EventBridge delivers the pipe log records.
         /// This member is required.
         public var deliveryStreamArn: Swift.String?
@@ -2262,7 +2262,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InternalExceptionBody: Swift.Equatable {
+struct InternalExceptionBody {
     let message: Swift.String?
 }
 
@@ -2396,7 +2396,7 @@ extension ListPipesInput {
     }
 }
 
-public struct ListPipesInput: Swift.Equatable {
+public struct ListPipesInput {
     /// The state the pipe is in.
     public var currentState: PipesClientTypes.PipeState?
     /// The state the pipe should be in.
@@ -2432,7 +2432,7 @@ public struct ListPipesInput: Swift.Equatable {
     }
 }
 
-struct ListPipesInputBody: Swift.Equatable {
+struct ListPipesInputBody {
 }
 
 extension ListPipesInputBody: Swift.Decodable {
@@ -2460,7 +2460,7 @@ extension ListPipesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPipesOutput: Swift.Equatable {
+public struct ListPipesOutput {
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The pipes returned by the call.
@@ -2476,7 +2476,7 @@ public struct ListPipesOutput: Swift.Equatable {
     }
 }
 
-struct ListPipesOutputBody: Swift.Equatable {
+struct ListPipesOutputBody {
     let pipes: [PipesClientTypes.Pipe]?
     let nextToken: Swift.String?
 }
@@ -2528,7 +2528,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the pipe for which you want to view tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2541,7 +2541,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2562,7 +2562,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of key-value pairs to associate with the pipe.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2574,7 +2574,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2679,7 +2679,7 @@ extension PipesClientTypes.MQBrokerAccessCredentials: Swift.Codable {
 
 extension PipesClientTypes {
     /// The Secrets Manager secret that stores your broker credentials.
-    public enum MQBrokerAccessCredentials: Swift.Equatable {
+    public enum MQBrokerAccessCredentials {
         /// The ARN of the Secrets Manager secret.
         case basicauth(Swift.String)
         case sdkUnknown(Swift.String)
@@ -2724,7 +2724,7 @@ extension PipesClientTypes.MSKAccessCredentials: Swift.Codable {
 
 extension PipesClientTypes {
     /// The Secrets Manager secret that stores your stream credentials.
-    public enum MSKAccessCredentials: Swift.Equatable {
+    public enum MSKAccessCredentials {
         /// The ARN of the Secrets Manager secret.
         case saslscram512auth(Swift.String)
         /// The ARN of the Secrets Manager secret.
@@ -2787,7 +2787,7 @@ extension PipesClientTypes.NetworkConfiguration: Swift.Codable {
 
 extension PipesClientTypes {
     /// This structure specifies the network configuration for an Amazon ECS task.
-    public struct NetworkConfiguration: Swift.Equatable {
+    public struct NetworkConfiguration {
         /// Use this structure to specify the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public var awsvpcConfiguration: PipesClientTypes.AwsVpcConfiguration?
 
@@ -2840,7 +2840,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2960,7 +2960,7 @@ extension PipesClientTypes.Pipe: Swift.Codable {
 
 extension PipesClientTypes {
     /// An object that represents a pipe. Amazon EventBridgePipes connect event sources to targets and reduces the need for specialized knowledge and integration code.
-    public struct Pipe: Swift.Equatable {
+    public struct Pipe {
         /// The ARN of the pipe.
         public var arn: Swift.String?
         /// The time the pipe was created.
@@ -3079,7 +3079,7 @@ extension PipesClientTypes.PipeEnrichmentHttpParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// These are custom parameter to be used when the target is an API Gateway REST APIs or EventBridge ApiDestinations. In the latter case, these are merged with any InvocationParameters specified on the Connection, with any values from the Connection taking precedence.
-    public struct PipeEnrichmentHttpParameters: Swift.Equatable {
+    public struct PipeEnrichmentHttpParameters {
         /// The headers that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
         public var headerParameters: [Swift.String:Swift.String]?
         /// The path parameter values to be used to populate API Gateway REST API or EventBridge ApiDestination path wildcards ("*").
@@ -3133,7 +3133,7 @@ extension PipesClientTypes.PipeEnrichmentParameters: Swift.CustomDebugStringConv
 
 extension PipesClientTypes {
     /// The parameters required to set up enrichment on your pipe.
-    public struct PipeEnrichmentParameters: Swift.Equatable {
+    public struct PipeEnrichmentParameters {
         /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint or EventBridge ApiDestination. If you specify an API Gateway REST API or EventBridge ApiDestination as a target, you can use this parameter to specify headers, path parameters, and query string keys/values as part of your target invoking request. If you're using ApiDestinations, the corresponding Connection can also have these values configured. In case of any conflicting keys, values from the Connection take precedence.
         public var httpParameters: PipesClientTypes.PipeEnrichmentHttpParameters?
         /// Valid JSON text passed to the enrichment. In this case, nothing from the event itself is passed to the enrichment. For more information, see [The JavaScript Object Notation (JSON) Data Interchange Format](http://www.rfc-editor.org/rfc/rfc7159.txt). To remove an input template, specify an empty string.
@@ -3208,7 +3208,7 @@ extension PipesClientTypes.PipeLogConfiguration: Swift.Codable {
 
 extension PipesClientTypes {
     /// The logging configuration settings for the pipe.
-    public struct PipeLogConfiguration: Swift.Equatable {
+    public struct PipeLogConfiguration {
         /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
         public var cloudwatchLogsLogDestination: PipesClientTypes.CloudwatchLogsLogDestination?
         /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
@@ -3295,7 +3295,7 @@ extension PipesClientTypes.PipeLogConfigurationParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// Specifies the logging configuration settings for the pipe. When you call UpdatePipe, EventBridge updates the fields in the PipeLogConfigurationParameters object atomically as one and overrides existing values. This is by design. If you don't specify an optional field in any of the Amazon Web Services service parameters objects (CloudwatchLogsLogDestinationParameters, FirehoseLogDestinationParameters, or S3LogDestinationParameters), EventBridge sets that field to its system-default value during the update. For example, suppose when you created the pipe you specified a Kinesis Data Firehose stream log destination. You then update the pipe to add an Amazon S3 log destination. In addition to specifying the S3LogDestinationParameters for the new log destination, you must also specify the fields in the FirehoseLogDestinationParameters object in order to retain the Kinesis Data Firehose stream log destination. For more information on generating pipe log records, see [Log EventBridge Pipes] in the Amazon EventBridge User Guide.
-    public struct PipeLogConfigurationParameters: Swift.Equatable {
+    public struct PipeLogConfigurationParameters {
         /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
         public var cloudwatchLogsLogDestination: PipesClientTypes.CloudwatchLogsLogDestinationParameters?
         /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
@@ -3370,7 +3370,7 @@ extension PipesClientTypes.PipeSourceActiveMQBrokerParameters: Swift.CustomDebug
 
 extension PipesClientTypes {
     /// The parameters for using an Active MQ broker as a source.
-    public struct PipeSourceActiveMQBrokerParameters: Swift.Equatable {
+    public struct PipeSourceActiveMQBrokerParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// The credentials needed to access the resource.
@@ -3461,7 +3461,7 @@ extension PipesClientTypes.PipeSourceDynamoDBStreamParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The parameters for using a DynamoDB stream as a source.
-    public struct PipeSourceDynamoDBStreamParameters: Swift.Equatable {
+    public struct PipeSourceDynamoDBStreamParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// Define the target queue to send dead-letter queue events to.
@@ -3573,7 +3573,7 @@ extension PipesClientTypes.PipeSourceKinesisStreamParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The parameters for using a Kinesis stream as a source.
-    public struct PipeSourceKinesisStreamParameters: Swift.Equatable {
+    public struct PipeSourceKinesisStreamParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// Define the target queue to send dead-letter queue events to.
@@ -3676,7 +3676,7 @@ extension PipesClientTypes.PipeSourceManagedStreamingKafkaParameters: Swift.Cust
 
 extension PipesClientTypes {
     /// The parameters for using an MSK stream as a source.
-    public struct PipeSourceManagedStreamingKafkaParameters: Swift.Equatable {
+    public struct PipeSourceManagedStreamingKafkaParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// The name of the destination queue to consume.
@@ -3774,7 +3774,7 @@ extension PipesClientTypes.PipeSourceParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The parameters required to set up a source for your pipe.
-    public struct PipeSourceParameters: Swift.Equatable {
+    public struct PipeSourceParameters {
         /// The parameters for using an Active MQ broker as a source.
         public var activeMQBrokerParameters: PipesClientTypes.PipeSourceActiveMQBrokerParameters?
         /// The parameters for using a DynamoDB stream as a source.
@@ -3866,7 +3866,7 @@ extension PipesClientTypes.PipeSourceRabbitMQBrokerParameters: Swift.CustomDebug
 
 extension PipesClientTypes {
     /// The parameters for using a Rabbit MQ broker as a source.
-    public struct PipeSourceRabbitMQBrokerParameters: Swift.Equatable {
+    public struct PipeSourceRabbitMQBrokerParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// The credentials needed to access the resource.
@@ -3984,7 +3984,7 @@ extension PipesClientTypes.PipeSourceSelfManagedKafkaParameters: Swift.CustomDeb
 
 extension PipesClientTypes {
     /// The parameters for using a self-managed Apache Kafka stream as a source.
-    public struct PipeSourceSelfManagedKafkaParameters: Swift.Equatable {
+    public struct PipeSourceSelfManagedKafkaParameters {
         /// An array of server URLs.
         public var additionalBootstrapServers: [Swift.String]?
         /// The maximum number of records to include in each batch.
@@ -4058,7 +4058,7 @@ extension PipesClientTypes.PipeSourceSqsQueueParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The parameters for using a Amazon SQS stream as a source.
-    public struct PipeSourceSqsQueueParameters: Swift.Equatable {
+    public struct PipeSourceSqsQueueParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// The maximum length of a time to wait for events.
@@ -4228,7 +4228,7 @@ extension PipesClientTypes.PipeTargetBatchJobParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The parameters for using an Batch job as a target.
-    public struct PipeTargetBatchJobParameters: Swift.Equatable {
+    public struct PipeTargetBatchJobParameters {
         /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an Batch job.
         public var arrayProperties: PipesClientTypes.BatchArrayProperties?
         /// The overrides that are sent to a container.
@@ -4295,7 +4295,7 @@ extension PipesClientTypes.PipeTargetCloudWatchLogsParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The parameters for using an CloudWatch Logs log stream as a target.
-    public struct PipeTargetCloudWatchLogsParameters: Swift.Equatable {
+    public struct PipeTargetCloudWatchLogsParameters {
         /// The name of the log stream.
         public var logStreamName: Swift.String?
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -4471,7 +4471,7 @@ extension PipesClientTypes.PipeTargetEcsTaskParameters: Swift.CustomDebugStringC
 
 extension PipesClientTypes {
     /// The parameters for using an Amazon ECS task as a target.
-    public struct PipeTargetEcsTaskParameters: Swift.Equatable {
+    public struct PipeTargetEcsTaskParameters {
         /// The capacity provider strategy to use for the task. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used.
         public var capacityProviderStrategy: [PipesClientTypes.CapacityProviderStrategyItem]?
         /// Specifies whether to enable Amazon ECS managed tags for the task. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide.
@@ -4604,7 +4604,7 @@ extension PipesClientTypes.PipeTargetEventBridgeEventBusParameters: Swift.Custom
 
 extension PipesClientTypes {
     /// The parameters for using an EventBridge event bus as a target.
-    public struct PipeTargetEventBridgeEventBusParameters: Swift.Equatable {
+    public struct PipeTargetEventBridgeEventBusParameters {
         /// A free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
         public var detailType: Swift.String?
         /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.
@@ -4703,7 +4703,7 @@ extension PipesClientTypes.PipeTargetHttpParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// These are custom parameter to be used when the target is an API Gateway REST APIs or EventBridge ApiDestinations.
-    public struct PipeTargetHttpParameters: Swift.Equatable {
+    public struct PipeTargetHttpParameters {
         /// The headers that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
         public var headerParameters: [Swift.String:Swift.String]?
         /// The path parameter values to be used to populate API Gateway REST API or EventBridge ApiDestination path wildcards ("*").
@@ -4783,7 +4783,7 @@ extension PipesClientTypes.PipeTargetKinesisStreamParameters: Swift.CustomDebugS
 
 extension PipesClientTypes {
     /// The parameters for using a Kinesis stream as a target.
-    public struct PipeTargetKinesisStreamParameters: Swift.Equatable {
+    public struct PipeTargetKinesisStreamParameters {
         /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
         /// This member is required.
         public var partitionKey: Swift.String?
@@ -4819,7 +4819,7 @@ extension PipesClientTypes.PipeTargetLambdaFunctionParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The parameters for using a Lambda function as a target.
-    public struct PipeTargetLambdaFunctionParameters: Swift.Equatable {
+    public struct PipeTargetLambdaFunctionParameters {
         /// Specify whether to invoke the function synchronously or asynchronously.
         ///
         /// * REQUEST_RESPONSE (default) - Invoke synchronously. This corresponds to the RequestResponse option in the InvocationType parameter for the Lambda [Invoke](https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax) API.
@@ -4932,7 +4932,7 @@ extension PipesClientTypes.PipeTargetParameters: Swift.CustomDebugStringConverti
 
 extension PipesClientTypes {
     /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see [Target parameters](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html) in the Amazon EventBridge User Guide.
-    public struct PipeTargetParameters: Swift.Equatable {
+    public struct PipeTargetParameters {
         /// The parameters for using an Batch job as a target.
         public var batchJobParameters: PipesClientTypes.PipeTargetBatchJobParameters?
         /// The parameters for using an CloudWatch Logs log stream as a target.
@@ -5058,7 +5058,7 @@ extension PipesClientTypes.PipeTargetRedshiftDataParameters: Swift.CustomDebugSt
 
 extension PipesClientTypes {
     /// These are custom parameters to be used when the target is a Amazon Redshift cluster to invoke the Amazon Redshift Data API BatchExecuteStatement.
-    public struct PipeTargetRedshiftDataParameters: Swift.Equatable {
+    public struct PipeTargetRedshiftDataParameters {
         /// The name of the database. Required when authenticating using temporary credentials.
         /// This member is required.
         public var database: Swift.String?
@@ -5127,7 +5127,7 @@ extension PipesClientTypes.PipeTargetSageMakerPipelineParameters: Swift.Codable 
 
 extension PipesClientTypes {
     /// The parameters for using a SageMaker pipeline as a target.
-    public struct PipeTargetSageMakerPipelineParameters: Swift.Equatable {
+    public struct PipeTargetSageMakerPipelineParameters {
         /// List of Parameter names and values for SageMaker Model Building Pipeline execution.
         public var pipelineParameterList: [PipesClientTypes.SageMakerPipelineParameter]?
 
@@ -5173,7 +5173,7 @@ extension PipesClientTypes.PipeTargetSqsQueueParameters: Swift.CustomDebugString
 
 extension PipesClientTypes {
     /// The parameters for using a Amazon SQS stream as a target.
-    public struct PipeTargetSqsQueueParameters: Swift.Equatable {
+    public struct PipeTargetSqsQueueParameters {
         /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of sent messages.
         public var messageDeduplicationId: Swift.String?
         /// The FIFO message group ID to use as the target.
@@ -5212,7 +5212,7 @@ extension PipesClientTypes.PipeTargetStateMachineParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The parameters for using a Step Functions state machine as a target.
-    public struct PipeTargetStateMachineParameters: Swift.Equatable {
+    public struct PipeTargetStateMachineParameters {
         /// Specify whether to invoke the Step Functions state machine synchronously or asynchronously.
         ///
         /// * REQUEST_RESPONSE (default) - Invoke synchronously. For more information, see [StartSyncExecution](https://docs.aws.amazon.com/step-functions/latest/apireference/API_StartSyncExecution.html) in the Step Functions API Reference. REQUEST_RESPONSE is not supported for STANDARD state machine workflows.
@@ -5267,7 +5267,7 @@ extension PipesClientTypes.PlacementConstraint: Swift.CustomDebugStringConvertib
 
 extension PipesClientTypes {
     /// An object representing a constraint on task placement. To learn more, see [Task Placement Constraints](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct PlacementConstraint: Swift.Equatable {
+    public struct PlacementConstraint {
         /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. To learn more, see [Cluster Query Language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon Elastic Container Service Developer Guide.
         public var expression: Swift.String?
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
@@ -5349,7 +5349,7 @@ extension PipesClientTypes.PlacementStrategy: Swift.CustomDebugStringConvertible
 
 extension PipesClientTypes {
     /// The task placement strategy for a task or service. To learn more, see [Task Placement Strategies](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html) in the Amazon Elastic Container Service Service Developer Guide.
-    public struct PlacementStrategy: Swift.Equatable {
+    public struct PlacementStrategy {
         /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host, which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this field is not used.
         public var field: Swift.String?
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
@@ -5537,7 +5537,7 @@ extension PipesClientTypes.S3LogDestination: Swift.Codable {
 
 extension PipesClientTypes {
     /// The Amazon S3 logging configuration settings for the pipe.
-    public struct S3LogDestination: Swift.Equatable {
+    public struct S3LogDestination {
         /// The name of the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
         public var bucketName: Swift.String?
         /// The Amazon Web Services account that owns the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
@@ -5608,7 +5608,7 @@ extension PipesClientTypes.S3LogDestinationParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The Amazon S3 logging configuration settings for the pipe.
-    public struct S3LogDestinationParameters: Swift.Equatable {
+    public struct S3LogDestinationParameters {
         /// Specifies the name of the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -5709,7 +5709,7 @@ extension PipesClientTypes.SageMakerPipelineParameter: Swift.CustomDebugStringCo
 
 extension PipesClientTypes {
     /// Name/Value pair of a parameter to start execution of a SageMaker Model Building Pipeline.
-    public struct SageMakerPipelineParameter: Swift.Equatable {
+    public struct SageMakerPipelineParameter {
         /// Name of parameter to start execution of a SageMaker Model Building Pipeline.
         /// This member is required.
         public var name: Swift.String?
@@ -5782,7 +5782,7 @@ extension PipesClientTypes.SelfManagedKafkaAccessConfigurationCredentials: Swift
 
 extension PipesClientTypes {
     /// The Secrets Manager secret that stores your stream credentials.
-    public enum SelfManagedKafkaAccessConfigurationCredentials: Swift.Equatable {
+    public enum SelfManagedKafkaAccessConfigurationCredentials {
         /// The ARN of the Secrets Manager secret.
         case basicauth(Swift.String)
         /// The ARN of the Secrets Manager secret.
@@ -5847,7 +5847,7 @@ extension PipesClientTypes.SelfManagedKafkaAccessConfigurationVpc: Swift.Codable
 
 extension PipesClientTypes {
     /// This structure specifies the VPC subnets and security groups for the stream, and whether a public IP address is to be used.
-    public struct SelfManagedKafkaAccessConfigurationVpc: Swift.Equatable {
+    public struct SelfManagedKafkaAccessConfigurationVpc {
         /// Specifies the security groups associated with the stream. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
         public var securityGroup: [Swift.String]?
         /// Specifies the subnets associated with the stream. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
@@ -5965,7 +5965,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -6007,7 +6007,7 @@ extension StartPipeInput {
     }
 }
 
-public struct StartPipeInput: Swift.Equatable {
+public struct StartPipeInput {
     /// The name of the pipe.
     /// This member is required.
     public var name: Swift.String?
@@ -6020,7 +6020,7 @@ public struct StartPipeInput: Swift.Equatable {
     }
 }
 
-struct StartPipeInputBody: Swift.Equatable {
+struct StartPipeInputBody {
 }
 
 extension StartPipeInputBody: Swift.Decodable {
@@ -6051,7 +6051,7 @@ extension StartPipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartPipeOutput: Swift.Equatable {
+public struct StartPipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -6083,7 +6083,7 @@ public struct StartPipeOutput: Swift.Equatable {
     }
 }
 
-struct StartPipeOutputBody: Swift.Equatable {
+struct StartPipeOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -6144,7 +6144,7 @@ extension StopPipeInput {
     }
 }
 
-public struct StopPipeInput: Swift.Equatable {
+public struct StopPipeInput {
     /// The name of the pipe.
     /// This member is required.
     public var name: Swift.String?
@@ -6157,7 +6157,7 @@ public struct StopPipeInput: Swift.Equatable {
     }
 }
 
-struct StopPipeInputBody: Swift.Equatable {
+struct StopPipeInputBody {
 }
 
 extension StopPipeInputBody: Swift.Decodable {
@@ -6188,7 +6188,7 @@ extension StopPipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopPipeOutput: Swift.Equatable {
+public struct StopPipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -6220,7 +6220,7 @@ public struct StopPipeOutput: Swift.Equatable {
     }
 }
 
-struct StopPipeOutputBody: Swift.Equatable {
+struct StopPipeOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -6303,7 +6303,7 @@ extension PipesClientTypes.Tag: Swift.CustomDebugStringConvertible {
 
 extension PipesClientTypes {
     /// A key-value pair associated with an Amazon Web Services resource. In EventBridge, rules and event buses support tagging.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// A string you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
         /// This member is required.
         public var key: Swift.String?
@@ -6349,7 +6349,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the pipe.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6367,7 +6367,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6397,7 +6397,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -6476,7 +6476,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -6526,7 +6526,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the pipe.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6544,7 +6544,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -6558,7 +6558,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -6636,7 +6636,7 @@ extension UpdatePipeInput {
     }
 }
 
-public struct UpdatePipeInput: Swift.Equatable {
+public struct UpdatePipeInput {
     /// A description of the pipe.
     public var description: Swift.String?
     /// The state the pipe should be in.
@@ -6686,7 +6686,7 @@ public struct UpdatePipeInput: Swift.Equatable {
     }
 }
 
-struct UpdatePipeInputBody: Swift.Equatable {
+struct UpdatePipeInputBody {
     let description: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
     let sourceParameters: PipesClientTypes.UpdatePipeSourceParameters?
@@ -6756,7 +6756,7 @@ extension UpdatePipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePipeOutput: Swift.Equatable {
+public struct UpdatePipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
@@ -6788,7 +6788,7 @@ public struct UpdatePipeOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePipeOutputBody: Swift.Equatable {
+struct UpdatePipeOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let desiredState: PipesClientTypes.RequestedPipeState?
@@ -6872,7 +6872,7 @@ extension PipesClientTypes.UpdatePipeSourceActiveMQBrokerParameters: Swift.Codab
 
 extension PipesClientTypes {
     /// The parameters for using an Active MQ broker as a source.
-    public struct UpdatePipeSourceActiveMQBrokerParameters: Swift.Equatable {
+    public struct UpdatePipeSourceActiveMQBrokerParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// The credentials needed to access the resource.
@@ -6952,7 +6952,7 @@ extension PipesClientTypes.UpdatePipeSourceDynamoDBStreamParameters: Swift.Codab
 
 extension PipesClientTypes {
     /// The parameters for using a DynamoDB stream as a source.
-    public struct UpdatePipeSourceDynamoDBStreamParameters: Swift.Equatable {
+    public struct UpdatePipeSourceDynamoDBStreamParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// Define the target queue to send dead-letter queue events to.
@@ -7047,7 +7047,7 @@ extension PipesClientTypes.UpdatePipeSourceKinesisStreamParameters: Swift.Codabl
 
 extension PipesClientTypes {
     /// The parameters for using a Kinesis stream as a source.
-    public struct UpdatePipeSourceKinesisStreamParameters: Swift.Equatable {
+    public struct UpdatePipeSourceKinesisStreamParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// Define the target queue to send dead-letter queue events to.
@@ -7118,7 +7118,7 @@ extension PipesClientTypes.UpdatePipeSourceManagedStreamingKafkaParameters: Swif
 
 extension PipesClientTypes {
     /// The parameters for using an MSK stream as a source.
-    public struct UpdatePipeSourceManagedStreamingKafkaParameters: Swift.Equatable {
+    public struct UpdatePipeSourceManagedStreamingKafkaParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// The credentials needed to access the resource.
@@ -7203,7 +7203,7 @@ extension PipesClientTypes.UpdatePipeSourceParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The parameters required to set up a source for your pipe.
-    public struct UpdatePipeSourceParameters: Swift.Equatable {
+    public struct UpdatePipeSourceParameters {
         /// The parameters for using an Active MQ broker as a source.
         public var activeMQBrokerParameters: PipesClientTypes.UpdatePipeSourceActiveMQBrokerParameters?
         /// The parameters for using a DynamoDB stream as a source.
@@ -7278,7 +7278,7 @@ extension PipesClientTypes.UpdatePipeSourceRabbitMQBrokerParameters: Swift.Codab
 
 extension PipesClientTypes {
     /// The parameters for using a Rabbit MQ broker as a source.
-    public struct UpdatePipeSourceRabbitMQBrokerParameters: Swift.Equatable {
+    public struct UpdatePipeSourceRabbitMQBrokerParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// The credentials needed to access the resource.
@@ -7346,7 +7346,7 @@ extension PipesClientTypes.UpdatePipeSourceSelfManagedKafkaParameters: Swift.Cod
 
 extension PipesClientTypes {
     /// The parameters for using a self-managed Apache Kafka stream as a source.
-    public struct UpdatePipeSourceSelfManagedKafkaParameters: Swift.Equatable {
+    public struct UpdatePipeSourceSelfManagedKafkaParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// The credentials needed to access the resource.
@@ -7403,7 +7403,7 @@ extension PipesClientTypes.UpdatePipeSourceSqsQueueParameters: Swift.Codable {
 
 extension PipesClientTypes {
     /// The parameters for using a Amazon SQS stream as a source.
-    public struct UpdatePipeSourceSqsQueueParameters: Swift.Equatable {
+    public struct UpdatePipeSourceSqsQueueParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?
         /// The maximum length of a time to wait for events.
@@ -7466,7 +7466,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let fieldList: [PipesClientTypes.ValidationExceptionField]?
 }
@@ -7522,7 +7522,7 @@ extension PipesClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension PipesClientTypes {
     /// Indicates that an error has occurred while performing a validate operation.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The message of the exception.
         /// This member is required.
         public var message: Swift.String?

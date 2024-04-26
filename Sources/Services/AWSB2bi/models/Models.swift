@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -89,7 +89,7 @@ extension B2biClientTypes.CapabilityConfiguration: Swift.Codable {
 
 extension B2biClientTypes {
     /// A capability object. Currently, only EDI (electronic data interchange) capabilities are supported. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
-    public enum CapabilityConfiguration: Swift.Equatable {
+    public enum CapabilityConfiguration {
         /// An EDI (electronic data interchange) configuration object.
         case edi(B2biClientTypes.EdiConfiguration)
         case sdkUnknown(Swift.String)
@@ -142,7 +142,7 @@ extension B2biClientTypes.CapabilitySummary: Swift.Codable {
 
 extension B2biClientTypes {
     /// Returns the capability summary details. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
-    public struct CapabilitySummary: Swift.Equatable {
+    public struct CapabilitySummary {
         /// Returns a system-assigned unique identifier for the capability.
         /// This member is required.
         public var capabilityId: Swift.String?
@@ -245,7 +245,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -307,7 +307,7 @@ extension CreateCapabilityInput {
     }
 }
 
-public struct CreateCapabilityInput: Swift.Equatable {
+public struct CreateCapabilityInput {
     /// Reserved for future use.
     public var clientToken: Swift.String?
     /// Specifies a structure that contains the details for a capability.
@@ -342,7 +342,7 @@ public struct CreateCapabilityInput: Swift.Equatable {
     }
 }
 
-struct CreateCapabilityInputBody: Swift.Equatable {
+struct CreateCapabilityInputBody {
     let name: Swift.String?
     let type: B2biClientTypes.CapabilityType?
     let configuration: B2biClientTypes.CapabilityConfiguration?
@@ -420,7 +420,7 @@ extension CreateCapabilityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCapabilityOutput: Swift.Equatable {
+public struct CreateCapabilityOutput {
     /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var capabilityArn: Swift.String?
@@ -462,7 +462,7 @@ public struct CreateCapabilityOutput: Swift.Equatable {
     }
 }
 
-struct CreateCapabilityOutputBody: Swift.Equatable {
+struct CreateCapabilityOutputBody {
     let capabilityId: Swift.String?
     let capabilityArn: Swift.String?
     let name: Swift.String?
@@ -583,7 +583,7 @@ extension CreatePartnershipInput {
     }
 }
 
-public struct CreatePartnershipInput: Swift.Equatable {
+public struct CreatePartnershipInput {
     /// Specifies a list of the capabilities associated with this partnership.
     public var capabilities: [Swift.String]?
     /// Reserved for future use.
@@ -622,7 +622,7 @@ public struct CreatePartnershipInput: Swift.Equatable {
     }
 }
 
-struct CreatePartnershipInputBody: Swift.Equatable {
+struct CreatePartnershipInputBody {
     let profileId: Swift.String?
     let name: Swift.String?
     let email: Swift.String?
@@ -713,7 +713,7 @@ extension CreatePartnershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePartnershipOutput: Swift.Equatable {
+public struct CreatePartnershipOutput {
     /// Returns one or more capabilities associated with this partnership.
     public var capabilities: [Swift.String]?
     /// Returns a timestamp for creation date and time of the partnership.
@@ -761,7 +761,7 @@ public struct CreatePartnershipOutput: Swift.Equatable {
     }
 }
 
-struct CreatePartnershipOutputBody: Swift.Equatable {
+struct CreatePartnershipOutputBody {
     let profileId: Swift.String?
     let partnershipId: Swift.String?
     let partnershipArn: Swift.String?
@@ -887,7 +887,7 @@ extension CreateProfileInput {
     }
 }
 
-public struct CreateProfileInput: Swift.Equatable {
+public struct CreateProfileInput {
     /// Specifies the name for the business associated with this profile.
     /// This member is required.
     public var businessName: Swift.String?
@@ -927,7 +927,7 @@ public struct CreateProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateProfileInputBody: Swift.Equatable {
+struct CreateProfileInputBody {
     let name: Swift.String?
     let email: Swift.String?
     let phone: Swift.String?
@@ -1009,7 +1009,7 @@ extension CreateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProfileOutput: Swift.Equatable {
+public struct CreateProfileOutput {
     /// Returns the name for the business associated with this profile.
     /// This member is required.
     public var businessName: Swift.String?
@@ -1059,7 +1059,7 @@ public struct CreateProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateProfileOutputBody: Swift.Equatable {
+struct CreateProfileOutputBody {
     let profileId: Swift.String?
     let profileArn: Swift.String?
     let name: Swift.String?
@@ -1171,7 +1171,7 @@ extension CreateTransformerInput {
     }
 }
 
-public struct CreateTransformerInput: Swift.Equatable {
+public struct CreateTransformerInput {
     /// Reserved for future use.
     public var clientToken: Swift.String?
     /// Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
@@ -1211,7 +1211,7 @@ public struct CreateTransformerInput: Swift.Equatable {
     }
 }
 
-struct CreateTransformerInputBody: Swift.Equatable {
+struct CreateTransformerInputBody {
     let name: Swift.String?
     let fileFormat: B2biClientTypes.FileFormat?
     let mappingTemplate: Swift.String?
@@ -1288,7 +1288,7 @@ extension CreateTransformerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTransformerOutput: Swift.Equatable {
+public struct CreateTransformerOutput {
     /// Returns a timestamp for creation date and time of the transformer.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -1340,7 +1340,7 @@ public struct CreateTransformerOutput: Swift.Equatable {
     }
 }
 
-struct CreateTransformerOutputBody: Swift.Equatable {
+struct CreateTransformerOutputBody {
     let transformerId: Swift.String?
     let transformerArn: Swift.String?
     let name: Swift.String?
@@ -1420,7 +1420,7 @@ extension DeleteCapabilityInput {
     }
 }
 
-public struct DeleteCapabilityInput: Swift.Equatable {
+public struct DeleteCapabilityInput {
     /// Specifies a system-assigned unique identifier for the capability.
     /// This member is required.
     public var capabilityId: Swift.String?
@@ -1433,7 +1433,7 @@ public struct DeleteCapabilityInput: Swift.Equatable {
     }
 }
 
-struct DeleteCapabilityInputBody: Swift.Equatable {
+struct DeleteCapabilityInputBody {
 }
 
 extension DeleteCapabilityInputBody: Swift.Decodable {
@@ -1447,7 +1447,7 @@ extension DeleteCapabilityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCapabilityOutput: Swift.Equatable {
+public struct DeleteCapabilityOutput {
 
     public init() { }
 }
@@ -1483,7 +1483,7 @@ extension DeletePartnershipInput {
     }
 }
 
-public struct DeletePartnershipInput: Swift.Equatable {
+public struct DeletePartnershipInput {
     /// Specifies the unique, system-generated identifier for a partnership.
     /// This member is required.
     public var partnershipId: Swift.String?
@@ -1496,7 +1496,7 @@ public struct DeletePartnershipInput: Swift.Equatable {
     }
 }
 
-struct DeletePartnershipInputBody: Swift.Equatable {
+struct DeletePartnershipInputBody {
 }
 
 extension DeletePartnershipInputBody: Swift.Decodable {
@@ -1510,7 +1510,7 @@ extension DeletePartnershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePartnershipOutput: Swift.Equatable {
+public struct DeletePartnershipOutput {
 
     public init() { }
 }
@@ -1546,7 +1546,7 @@ extension DeleteProfileInput {
     }
 }
 
-public struct DeleteProfileInput: Swift.Equatable {
+public struct DeleteProfileInput {
     /// Specifies the unique, system-generated identifier for the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -1559,7 +1559,7 @@ public struct DeleteProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteProfileInputBody: Swift.Equatable {
+struct DeleteProfileInputBody {
 }
 
 extension DeleteProfileInputBody: Swift.Decodable {
@@ -1573,7 +1573,7 @@ extension DeleteProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProfileOutput: Swift.Equatable {
+public struct DeleteProfileOutput {
 
     public init() { }
 }
@@ -1609,7 +1609,7 @@ extension DeleteTransformerInput {
     }
 }
 
-public struct DeleteTransformerInput: Swift.Equatable {
+public struct DeleteTransformerInput {
     /// Specifies the system-assigned unique identifier for the transformer.
     /// This member is required.
     public var transformerId: Swift.String?
@@ -1622,7 +1622,7 @@ public struct DeleteTransformerInput: Swift.Equatable {
     }
 }
 
-struct DeleteTransformerInputBody: Swift.Equatable {
+struct DeleteTransformerInputBody {
 }
 
 extension DeleteTransformerInputBody: Swift.Decodable {
@@ -1636,7 +1636,7 @@ extension DeleteTransformerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTransformerOutput: Swift.Equatable {
+public struct DeleteTransformerOutput {
 
     public init() { }
 }
@@ -1696,7 +1696,7 @@ extension B2biClientTypes.EdiConfiguration: Swift.Codable {
 
 extension B2biClientTypes {
     /// Specifies the details for the EDI (electronic data interchange) transformation.
-    public struct EdiConfiguration: Swift.Equatable {
+    public struct EdiConfiguration {
         /// Contains the Amazon S3 bucket and prefix for the location of the input file, which is contained in an S3Location object.
         /// This member is required.
         public var inputLocation: B2biClientTypes.S3Location?
@@ -1755,7 +1755,7 @@ extension B2biClientTypes.EdiType: Swift.Codable {
 
 extension B2biClientTypes {
     /// Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
-    public enum EdiType: Swift.Equatable {
+    public enum EdiType {
         /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
         case x12details(B2biClientTypes.X12Details)
         case sdkUnknown(Swift.String)
@@ -1810,7 +1810,7 @@ extension GetCapabilityInput {
     }
 }
 
-public struct GetCapabilityInput: Swift.Equatable {
+public struct GetCapabilityInput {
     /// Specifies a system-assigned unique identifier for the capability.
     /// This member is required.
     public var capabilityId: Swift.String?
@@ -1823,7 +1823,7 @@ public struct GetCapabilityInput: Swift.Equatable {
     }
 }
 
-struct GetCapabilityInputBody: Swift.Equatable {
+struct GetCapabilityInputBody {
 }
 
 extension GetCapabilityInputBody: Swift.Decodable {
@@ -1858,7 +1858,7 @@ extension GetCapabilityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCapabilityOutput: Swift.Equatable {
+public struct GetCapabilityOutput {
     /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var capabilityArn: Swift.String?
@@ -1904,7 +1904,7 @@ public struct GetCapabilityOutput: Swift.Equatable {
     }
 }
 
-struct GetCapabilityOutputBody: Swift.Equatable {
+struct GetCapabilityOutputBody {
     let capabilityId: Swift.String?
     let capabilityArn: Swift.String?
     let name: Swift.String?
@@ -1987,7 +1987,7 @@ extension GetPartnershipInput {
     }
 }
 
-public struct GetPartnershipInput: Swift.Equatable {
+public struct GetPartnershipInput {
     /// Specifies the unique, system-generated identifier for a partnership.
     /// This member is required.
     public var partnershipId: Swift.String?
@@ -2000,7 +2000,7 @@ public struct GetPartnershipInput: Swift.Equatable {
     }
 }
 
-struct GetPartnershipInputBody: Swift.Equatable {
+struct GetPartnershipInputBody {
 }
 
 extension GetPartnershipInputBody: Swift.Decodable {
@@ -2044,7 +2044,7 @@ extension GetPartnershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPartnershipOutput: Swift.Equatable {
+public struct GetPartnershipOutput {
     /// Returns one or more capabilities associated with this partnership.
     public var capabilities: [Swift.String]?
     /// Returns a timestamp for creation date and time of the partnership.
@@ -2096,7 +2096,7 @@ public struct GetPartnershipOutput: Swift.Equatable {
     }
 }
 
-struct GetPartnershipOutputBody: Swift.Equatable {
+struct GetPartnershipOutputBody {
     let profileId: Swift.String?
     let partnershipId: Swift.String?
     let partnershipArn: Swift.String?
@@ -2187,7 +2187,7 @@ extension GetProfileInput {
     }
 }
 
-public struct GetProfileInput: Swift.Equatable {
+public struct GetProfileInput {
     /// Specifies the unique, system-generated identifier for the profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -2200,7 +2200,7 @@ public struct GetProfileInput: Swift.Equatable {
     }
 }
 
-struct GetProfileInputBody: Swift.Equatable {
+struct GetProfileInputBody {
 }
 
 extension GetProfileInputBody: Swift.Decodable {
@@ -2244,7 +2244,7 @@ extension GetProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProfileOutput: Swift.Equatable {
+public struct GetProfileOutput {
     /// Returns the name for the business associated with this profile.
     /// This member is required.
     public var businessName: Swift.String?
@@ -2298,7 +2298,7 @@ public struct GetProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetProfileOutputBody: Swift.Equatable {
+struct GetProfileOutputBody {
     let profileId: Swift.String?
     let profileArn: Swift.String?
     let name: Swift.String?
@@ -2380,7 +2380,7 @@ extension GetTransformerInput {
     }
 }
 
-public struct GetTransformerInput: Swift.Equatable {
+public struct GetTransformerInput {
     /// Specifies the system-assigned unique identifier for the transformer.
     /// This member is required.
     public var transformerId: Swift.String?
@@ -2393,7 +2393,7 @@ public struct GetTransformerInput: Swift.Equatable {
     }
 }
 
-struct GetTransformerInputBody: Swift.Equatable {
+struct GetTransformerInputBody {
 }
 
 extension GetTransformerInputBody: Swift.Decodable {
@@ -2424,7 +2424,7 @@ extension GetTransformerJobInput {
     }
 }
 
-public struct GetTransformerJobInput: Swift.Equatable {
+public struct GetTransformerJobInput {
     /// Specifies the system-assigned unique identifier for the transformer.
     /// This member is required.
     public var transformerId: Swift.String?
@@ -2442,7 +2442,7 @@ public struct GetTransformerJobInput: Swift.Equatable {
     }
 }
 
-struct GetTransformerJobInputBody: Swift.Equatable {
+struct GetTransformerJobInputBody {
 }
 
 extension GetTransformerJobInputBody: Swift.Decodable {
@@ -2467,7 +2467,7 @@ extension GetTransformerJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTransformerJobOutput: Swift.Equatable {
+public struct GetTransformerJobOutput {
     /// Returns an optional error message, which gets populated when the job is not run successfully.
     public var message: Swift.String?
     /// Returns the location for the output files. If the caller specified a directory for the output, then this contains the full path to the output file, including the file name generated by the service.
@@ -2488,7 +2488,7 @@ public struct GetTransformerJobOutput: Swift.Equatable {
     }
 }
 
-struct GetTransformerJobOutputBody: Swift.Equatable {
+struct GetTransformerJobOutputBody {
     let status: B2biClientTypes.TransformerJobStatus?
     let outputFiles: [B2biClientTypes.S3Location]?
     let message: Swift.String?
@@ -2566,7 +2566,7 @@ extension GetTransformerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTransformerOutput: Swift.Equatable {
+public struct GetTransformerOutput {
     /// Returns a timestamp for creation date and time of the transformer.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -2622,7 +2622,7 @@ public struct GetTransformerOutput: Swift.Equatable {
     }
 }
 
-struct GetTransformerOutputBody: Swift.Equatable {
+struct GetTransformerOutputBody {
     let transformerId: Swift.String?
     let transformerArn: Swift.String?
     let name: Swift.String?
@@ -2738,7 +2738,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2776,7 +2776,7 @@ extension ListCapabilitiesInput {
     }
 }
 
-public struct ListCapabilitiesInput: Swift.Equatable {
+public struct ListCapabilitiesInput {
     /// Specifies the maximum number of capabilities to return.
     public var maxResults: Swift.Int?
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
@@ -2792,7 +2792,7 @@ public struct ListCapabilitiesInput: Swift.Equatable {
     }
 }
 
-struct ListCapabilitiesInputBody: Swift.Equatable {
+struct ListCapabilitiesInputBody {
 }
 
 extension ListCapabilitiesInputBody: Swift.Decodable {
@@ -2815,7 +2815,7 @@ extension ListCapabilitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCapabilitiesOutput: Swift.Equatable {
+public struct ListCapabilitiesOutput {
     /// Returns one or more capabilities associated with this partnership.
     /// This member is required.
     public var capabilities: [B2biClientTypes.CapabilitySummary]?
@@ -2832,7 +2832,7 @@ public struct ListCapabilitiesOutput: Swift.Equatable {
     }
 }
 
-struct ListCapabilitiesOutputBody: Swift.Equatable {
+struct ListCapabilitiesOutputBody {
     let capabilities: [B2biClientTypes.CapabilitySummary]?
     let nextToken: Swift.String?
 }
@@ -2893,7 +2893,7 @@ extension ListPartnershipsInput {
     }
 }
 
-public struct ListPartnershipsInput: Swift.Equatable {
+public struct ListPartnershipsInput {
     /// Specifies the maximum number of capabilities to return.
     public var maxResults: Swift.Int?
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
@@ -2913,7 +2913,7 @@ public struct ListPartnershipsInput: Swift.Equatable {
     }
 }
 
-struct ListPartnershipsInputBody: Swift.Equatable {
+struct ListPartnershipsInputBody {
 }
 
 extension ListPartnershipsInputBody: Swift.Decodable {
@@ -2936,7 +2936,7 @@ extension ListPartnershipsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPartnershipsOutput: Swift.Equatable {
+public struct ListPartnershipsOutput {
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
     public var nextToken: Swift.String?
     /// Specifies a list of your partnerships.
@@ -2953,7 +2953,7 @@ public struct ListPartnershipsOutput: Swift.Equatable {
     }
 }
 
-struct ListPartnershipsOutputBody: Swift.Equatable {
+struct ListPartnershipsOutputBody {
     let partnerships: [B2biClientTypes.PartnershipSummary]?
     let nextToken: Swift.String?
 }
@@ -3019,7 +3019,7 @@ extension ListProfilesInput {
     }
 }
 
-public struct ListProfilesInput: Swift.Equatable {
+public struct ListProfilesInput {
     /// Specifies the maximum number of profiles to return.
     public var maxResults: Swift.Int?
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
@@ -3035,7 +3035,7 @@ public struct ListProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListProfilesInputBody: Swift.Equatable {
+struct ListProfilesInputBody {
 }
 
 extension ListProfilesInputBody: Swift.Decodable {
@@ -3058,7 +3058,7 @@ extension ListProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProfilesOutput: Swift.Equatable {
+public struct ListProfilesOutput {
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
     public var nextToken: Swift.String?
     /// Returns an array of ProfileSummary objects.
@@ -3075,7 +3075,7 @@ public struct ListProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListProfilesOutputBody: Swift.Equatable {
+struct ListProfilesOutputBody {
     let profiles: [B2biClientTypes.ProfileSummary]?
     let nextToken: Swift.String?
 }
@@ -3129,7 +3129,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// Requests the tags associated with a particular Amazon Resource Name (ARN). An ARN is an identifier for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -3142,7 +3142,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3163,7 +3163,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Returns the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose.
     public var tags: [B2biClientTypes.Tag]?
 
@@ -3175,7 +3175,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [B2biClientTypes.Tag]?
 }
 
@@ -3235,7 +3235,7 @@ extension ListTransformersInput {
     }
 }
 
-public struct ListTransformersInput: Swift.Equatable {
+public struct ListTransformersInput {
     /// Specifies the number of items to return for the API response.
     public var maxResults: Swift.Int?
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
@@ -3251,7 +3251,7 @@ public struct ListTransformersInput: Swift.Equatable {
     }
 }
 
-struct ListTransformersInputBody: Swift.Equatable {
+struct ListTransformersInputBody {
 }
 
 extension ListTransformersInputBody: Swift.Decodable {
@@ -3274,7 +3274,7 @@ extension ListTransformersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTransformersOutput: Swift.Equatable {
+public struct ListTransformersOutput {
     /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
     public var nextToken: Swift.String?
     /// Returns an array of one or more transformer objects. For each transformer, a TransformerSummary object is returned. The TransformerSummary contains all the details for a specific transformer.
@@ -3291,7 +3291,7 @@ public struct ListTransformersOutput: Swift.Equatable {
     }
 }
 
-struct ListTransformersOutputBody: Swift.Equatable {
+struct ListTransformersOutputBody {
     let transformers: [B2biClientTypes.TransformerSummary]?
     let nextToken: Swift.String?
 }
@@ -3431,7 +3431,7 @@ extension B2biClientTypes.PartnershipSummary: Swift.Codable {
 
 extension B2biClientTypes {
     /// A structure that contains the details for a partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
-    public struct PartnershipSummary: Swift.Equatable {
+    public struct PartnershipSummary {
         /// Returns one or more capabilities associated with this partnership.
         public var capabilities: [Swift.String]?
         /// Returns a timestamp for creation date and time of the partnership.
@@ -3529,7 +3529,7 @@ extension B2biClientTypes.ProfileSummary: Swift.Codable {
 
 extension B2biClientTypes {
     /// Contains the details for a profile. A profile is the mechanism used to create the concept of a private network.
-    public struct ProfileSummary: Swift.Equatable {
+    public struct ProfileSummary {
         /// Returns the name for the business associated with this profile.
         /// This member is required.
         public var businessName: Swift.String?
@@ -3611,7 +3611,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3654,7 +3654,7 @@ extension B2biClientTypes.S3Location: Swift.Codable {
 
 extension B2biClientTypes {
     /// Specifies the details for the Amazon S3 file location that is being used with Amazon Web Services B2BI Data Interchange. File locations in Amazon S3 are identified using a combination of the bucket and key.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// Specifies the name of the Amazon S3 bucket.
         public var bucketName: Swift.String?
         /// Specifies the Amazon S3 key for the file location.
@@ -3740,7 +3740,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -3804,7 +3804,7 @@ extension StartTransformerJobInput {
     }
 }
 
-public struct StartTransformerJobInput: Swift.Equatable {
+public struct StartTransformerJobInput {
     /// Reserved for future use.
     public var clientToken: Swift.String?
     /// Specifies the location of the input file for the transformation. The location consists of an Amazon S3 bucket and prefix.
@@ -3831,7 +3831,7 @@ public struct StartTransformerJobInput: Swift.Equatable {
     }
 }
 
-struct StartTransformerJobInputBody: Swift.Equatable {
+struct StartTransformerJobInputBody {
     let inputFile: B2biClientTypes.S3Location?
     let outputLocation: B2biClientTypes.S3Location?
     let transformerId: Swift.String?
@@ -3871,7 +3871,7 @@ extension StartTransformerJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartTransformerJobOutput: Swift.Equatable {
+public struct StartTransformerJobOutput {
     /// Returns the unique, system-generated identifier for a transformer run.
     /// This member is required.
     public var transformerJobId: Swift.String?
@@ -3884,7 +3884,7 @@ public struct StartTransformerJobOutput: Swift.Equatable {
     }
 }
 
-struct StartTransformerJobOutputBody: Swift.Equatable {
+struct StartTransformerJobOutputBody {
     let transformerJobId: Swift.String?
 }
 
@@ -3942,7 +3942,7 @@ extension B2biClientTypes.Tag: Swift.Codable {
 
 extension B2biClientTypes {
     /// Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to capabilities, partnerships, profiles and transformers. A tag key can take more than one value. For example, to group capabilities for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Specifies the name assigned to the tag that you create.
         /// This member is required.
         public var key: Swift.String?
@@ -3985,7 +3985,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -4003,7 +4003,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [B2biClientTypes.Tag]?
 }
 
@@ -4033,7 +4033,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4080,7 +4080,7 @@ extension TestMappingInput {
     }
 }
 
-public struct TestMappingInput: Swift.Equatable {
+public struct TestMappingInput {
     /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
     /// This member is required.
     public var fileFormat: B2biClientTypes.FileFormat?
@@ -4103,7 +4103,7 @@ public struct TestMappingInput: Swift.Equatable {
     }
 }
 
-struct TestMappingInputBody: Swift.Equatable {
+struct TestMappingInputBody {
     let inputFileContent: Swift.String?
     let mappingTemplate: Swift.String?
     let fileFormat: B2biClientTypes.FileFormat?
@@ -4139,7 +4139,7 @@ extension TestMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestMappingOutput: Swift.Equatable {
+public struct TestMappingOutput {
     /// Returns a string for the mapping that can be used to identify the mapping. Similar to a fingerprint
     /// This member is required.
     public var mappedFileContent: Swift.String?
@@ -4152,7 +4152,7 @@ public struct TestMappingOutput: Swift.Equatable {
     }
 }
 
-struct TestMappingOutputBody: Swift.Equatable {
+struct TestMappingOutputBody {
     let mappedFileContent: Swift.String?
 }
 
@@ -4211,7 +4211,7 @@ extension TestParsingInput {
     }
 }
 
-public struct TestParsingInput: Swift.Equatable {
+public struct TestParsingInput {
     /// Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
     /// This member is required.
     public var ediType: B2biClientTypes.EdiType?
@@ -4234,7 +4234,7 @@ public struct TestParsingInput: Swift.Equatable {
     }
 }
 
-struct TestParsingInputBody: Swift.Equatable {
+struct TestParsingInputBody {
     let inputFile: B2biClientTypes.S3Location?
     let fileFormat: B2biClientTypes.FileFormat?
     let ediType: B2biClientTypes.EdiType?
@@ -4270,7 +4270,7 @@ extension TestParsingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestParsingOutput: Swift.Equatable {
+public struct TestParsingOutput {
     /// Returns the contents of the input file being tested, parsed according to the specified EDI (electronic data interchange) type.
     /// This member is required.
     public var parsedFileContent: Swift.String?
@@ -4283,7 +4283,7 @@ public struct TestParsingOutput: Swift.Equatable {
     }
 }
 
-struct TestParsingOutputBody: Swift.Equatable {
+struct TestParsingOutputBody {
     let parsedFileContent: Swift.String?
 }
 
@@ -4363,7 +4363,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4515,7 +4515,7 @@ extension B2biClientTypes.TransformerSummary: Swift.Codable {
 
 extension B2biClientTypes {
     /// Contains the details for a transformer object. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
-    public struct TransformerSummary: Swift.Equatable {
+    public struct TransformerSummary {
         /// Returns a timestamp indicating when the transformer was created. For example, 2023-07-20T19:58:44.624Z.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -4590,7 +4590,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// Specifies an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -4608,7 +4608,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4622,7 +4622,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4671,7 +4671,7 @@ extension UpdateCapabilityInput {
     }
 }
 
-public struct UpdateCapabilityInput: Swift.Equatable {
+public struct UpdateCapabilityInput {
     /// Specifies a system-assigned unique identifier for the capability.
     /// This member is required.
     public var capabilityId: Swift.String?
@@ -4696,7 +4696,7 @@ public struct UpdateCapabilityInput: Swift.Equatable {
     }
 }
 
-struct UpdateCapabilityInputBody: Swift.Equatable {
+struct UpdateCapabilityInputBody {
     let name: Swift.String?
     let configuration: B2biClientTypes.CapabilityConfiguration?
     let instructionsDocuments: [B2biClientTypes.S3Location]?
@@ -4755,7 +4755,7 @@ extension UpdateCapabilityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCapabilityOutput: Swift.Equatable {
+public struct UpdateCapabilityOutput {
     /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
     /// This member is required.
     public var capabilityArn: Swift.String?
@@ -4801,7 +4801,7 @@ public struct UpdateCapabilityOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCapabilityOutputBody: Swift.Equatable {
+struct UpdateCapabilityOutputBody {
     let capabilityId: Swift.String?
     let capabilityArn: Swift.String?
     let name: Swift.String?
@@ -4898,7 +4898,7 @@ extension UpdatePartnershipInput {
     }
 }
 
-public struct UpdatePartnershipInput: Swift.Equatable {
+public struct UpdatePartnershipInput {
     /// List of the capabilities associated with this partnership.
     public var capabilities: [Swift.String]?
     /// The name of the partnership, used to identify it.
@@ -4919,7 +4919,7 @@ public struct UpdatePartnershipInput: Swift.Equatable {
     }
 }
 
-struct UpdatePartnershipInputBody: Swift.Equatable {
+struct UpdatePartnershipInputBody {
     let name: Swift.String?
     let capabilities: [Swift.String]?
 }
@@ -4983,7 +4983,7 @@ extension UpdatePartnershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePartnershipOutput: Swift.Equatable {
+public struct UpdatePartnershipOutput {
     /// Returns one or more capabilities associated with this partnership.
     public var capabilities: [Swift.String]?
     /// Returns a timestamp that identifies the most recent date and time that the partnership was modified.
@@ -5035,7 +5035,7 @@ public struct UpdatePartnershipOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePartnershipOutputBody: Swift.Equatable {
+struct UpdatePartnershipOutputBody {
     let profileId: Swift.String?
     let partnershipId: Swift.String?
     let partnershipArn: Swift.String?
@@ -5150,7 +5150,7 @@ extension UpdateProfileInput {
     }
 }
 
-public struct UpdateProfileInput: Swift.Equatable {
+public struct UpdateProfileInput {
     /// Specifies the name for the business associated with this profile.
     public var businessName: Swift.String?
     /// Specifies the email address associated with this customer profile.
@@ -5179,7 +5179,7 @@ public struct UpdateProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileInputBody: Swift.Equatable {
+struct UpdateProfileInputBody {
     let name: Swift.String?
     let email: Swift.String?
     let phone: Swift.String?
@@ -5242,7 +5242,7 @@ extension UpdateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProfileOutput: Swift.Equatable {
+public struct UpdateProfileOutput {
     /// Returns the name for the business associated with this profile.
     /// This member is required.
     public var businessName: Swift.String?
@@ -5296,7 +5296,7 @@ public struct UpdateProfileOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileOutputBody: Swift.Equatable {
+struct UpdateProfileOutputBody {
     let profileId: Swift.String?
     let profileArn: Swift.String?
     let name: Swift.String?
@@ -5405,7 +5405,7 @@ extension UpdateTransformerInput {
     }
 }
 
-public struct UpdateTransformerInput: Swift.Equatable {
+public struct UpdateTransformerInput {
     /// Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
     public var ediType: B2biClientTypes.EdiType?
     /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
@@ -5442,7 +5442,7 @@ public struct UpdateTransformerInput: Swift.Equatable {
     }
 }
 
-struct UpdateTransformerInputBody: Swift.Equatable {
+struct UpdateTransformerInputBody {
     let name: Swift.String?
     let fileFormat: B2biClientTypes.FileFormat?
     let mappingTemplate: Swift.String?
@@ -5508,7 +5508,7 @@ extension UpdateTransformerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTransformerOutput: Swift.Equatable {
+public struct UpdateTransformerOutput {
     /// Returns a timestamp for creation date and time of the transformer.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -5565,7 +5565,7 @@ public struct UpdateTransformerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTransformerOutputBody: Swift.Equatable {
+struct UpdateTransformerOutputBody {
     let transformerId: Swift.String?
     let transformerArn: Swift.String?
     let name: Swift.String?
@@ -5674,7 +5674,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -5717,7 +5717,7 @@ extension B2biClientTypes.X12Details: Swift.Codable {
 
 extension B2biClientTypes {
     /// A structure that contains the X12 transaction set and version. The X12 structure is used when the system transforms an EDI (electronic data interchange) file. If an EDI input file contains more than one transaction, each transaction must have the same transaction set and version, for example 214/4010. If not, the transformer cannot parse the file.
-    public struct X12Details: Swift.Equatable {
+    public struct X12Details {
         /// Returns an enumerated type where each value identifies an X12 transaction set. Transaction sets are maintained by the X12 Accredited Standards Committee.
         public var transactionSet: B2biClientTypes.X12TransactionSet?
         /// Returns the version to use for the specified X12 transaction set.

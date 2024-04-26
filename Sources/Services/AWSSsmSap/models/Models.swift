@@ -121,7 +121,7 @@ extension SsmSapClientTypes.Application: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// An SAP application registered with AWS Systems Manager for SAP.
-    public struct Application: Swift.Equatable {
+    public struct Application {
         /// The Amazon Resource Name (ARN) of the Application Registry.
         public var appRegistryArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the application.
@@ -205,7 +205,7 @@ extension SsmSapClientTypes.ApplicationCredential: Swift.CustomDebugStringConver
 
 extension SsmSapClientTypes {
     /// The credentials of your SAP application.
-    public struct ApplicationCredential: Swift.Equatable {
+    public struct ApplicationCredential {
         /// The type of the application credentials.
         /// This member is required.
         public var credentialType: SsmSapClientTypes.CredentialType?
@@ -378,7 +378,7 @@ extension SsmSapClientTypes.ApplicationSummary: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// The summary of the SAP application registered with AWS Systems Manager for SAP.
-    public struct ApplicationSummary: Swift.Equatable {
+    public struct ApplicationSummary {
         /// The Amazon Resource Name (ARN) of the application.
         public var arn: Swift.String?
         /// The status of the latest discovery.
@@ -491,7 +491,7 @@ extension SsmSapClientTypes.AssociatedHost: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// Describes the properties of the associated host.
-    public struct AssociatedHost: Swift.Equatable {
+    public struct AssociatedHost {
         /// The ID of the Amazon EC2 instance.
         public var ec2InstanceId: Swift.String?
         /// The name of the host.
@@ -544,7 +544,7 @@ extension SsmSapClientTypes.BackintConfig: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// Configuration parameters for AWS Backint Agent for SAP HANA. You can backup your SAP HANA database with AWS Backup or Amazon S3.
-    public struct BackintConfig: Swift.Equatable {
+    public struct BackintConfig {
         /// AWS service for your database backup.
         /// This member is required.
         public var backintMode: SsmSapClientTypes.BackintMode?
@@ -805,7 +805,7 @@ extension SsmSapClientTypes.Component: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// The SAP component of your application.
-    public struct Component: Swift.Equatable {
+    public struct Component {
         /// The ID of the application.
         public var applicationId: Swift.String?
         /// The Amazon Resource Name (ARN) of the component.
@@ -1015,7 +1015,7 @@ extension SsmSapClientTypes.ComponentSummary: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// The summary of the component.
-    public struct ComponentSummary: Swift.Equatable {
+    public struct ComponentSummary {
         /// The ID of the application.
         public var applicationId: Swift.String?
         /// The Amazon Resource Name (ARN) of the component summary.
@@ -1134,7 +1134,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1272,7 +1272,7 @@ extension SsmSapClientTypes.Database: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// The SAP HANA database of the application registered with AWS Systems Manager for SAP.
-    public struct Database: Swift.Equatable {
+    public struct Database {
         /// The ID of the application.
         public var applicationId: Swift.String?
         /// The Amazon Resource Name (ARN) of the database.
@@ -1359,7 +1359,7 @@ extension SsmSapClientTypes.DatabaseConnection: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// The connection specifications for the database.
-    public struct DatabaseConnection: Swift.Equatable {
+    public struct DatabaseConnection {
         /// The IP address for connection.
         public var connectionIp: Swift.String?
         /// The Amazon Resource Name of the connected SAP HANA database.
@@ -1520,7 +1520,7 @@ extension SsmSapClientTypes.DatabaseSummary: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// The summary of the database.
-    public struct DatabaseSummary: Swift.Equatable {
+    public struct DatabaseSummary {
         /// The ID of the application.
         public var applicationId: Swift.String?
         /// The Amazon Resource Name (ARN) of the database.
@@ -1614,7 +1614,7 @@ extension DeleteResourcePermissionInput {
     }
 }
 
-public struct DeleteResourcePermissionInput: Swift.Equatable {
+public struct DeleteResourcePermissionInput {
     /// Delete or restore the permissions on the target database.
     public var actionType: SsmSapClientTypes.PermissionActionType?
     /// The Amazon Resource Name (ARN) of the resource.
@@ -1635,7 +1635,7 @@ public struct DeleteResourcePermissionInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePermissionInputBody: Swift.Equatable {
+struct DeleteResourcePermissionInputBody {
     let actionType: SsmSapClientTypes.PermissionActionType?
     let sourceResourceArn: Swift.String?
     let resourceArn: Swift.String?
@@ -1671,7 +1671,7 @@ extension DeleteResourcePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePermissionOutput: Swift.Equatable {
+public struct DeleteResourcePermissionOutput {
     /// The policy that removes permissions on the target database.
     public var policy: Swift.String?
 
@@ -1683,7 +1683,7 @@ public struct DeleteResourcePermissionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePermissionOutputBody: Swift.Equatable {
+struct DeleteResourcePermissionOutputBody {
     let policy: Swift.String?
 }
 
@@ -1732,7 +1732,7 @@ extension DeregisterApplicationInput {
     }
 }
 
-public struct DeregisterApplicationInput: Swift.Equatable {
+public struct DeregisterApplicationInput {
     /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -1745,7 +1745,7 @@ public struct DeregisterApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeregisterApplicationInputBody: Swift.Equatable {
+struct DeregisterApplicationInputBody {
     let applicationId: Swift.String?
 }
 
@@ -1766,7 +1766,7 @@ extension DeregisterApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterApplicationOutput: Swift.Equatable {
+public struct DeregisterApplicationOutput {
 
     public init() { }
 }
@@ -1817,7 +1817,7 @@ extension SsmSapClientTypes.Filter: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// A specific result obtained by specifying the name, value, and operator.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The name of the filter. Filter names are case-sensitive.
         /// This member is required.
         public var name: Swift.String?
@@ -1905,7 +1905,7 @@ extension GetApplicationInput {
     }
 }
 
-public struct GetApplicationInput: Swift.Equatable {
+public struct GetApplicationInput {
     /// The Amazon Resource Name (ARN) of the application registry.
     public var appRegistryArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the application.
@@ -1925,7 +1925,7 @@ public struct GetApplicationInput: Swift.Equatable {
     }
 }
 
-struct GetApplicationInputBody: Swift.Equatable {
+struct GetApplicationInputBody {
     let applicationId: Swift.String?
     let applicationArn: Swift.String?
     let appRegistryArn: Swift.String?
@@ -1963,7 +1963,7 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApplicationOutput: Swift.Equatable {
+public struct GetApplicationOutput {
     /// Returns all of the metadata of an application registered with AWS Systems Manager for SAP.
     public var application: SsmSapClientTypes.Application?
     /// The tags of a registered application.
@@ -1979,7 +1979,7 @@ public struct GetApplicationOutput: Swift.Equatable {
     }
 }
 
-struct GetApplicationOutputBody: Swift.Equatable {
+struct GetApplicationOutputBody {
     let application: SsmSapClientTypes.Application?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2044,7 +2044,7 @@ extension GetComponentInput {
     }
 }
 
-public struct GetComponentInput: Swift.Equatable {
+public struct GetComponentInput {
     /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2062,7 +2062,7 @@ public struct GetComponentInput: Swift.Equatable {
     }
 }
 
-struct GetComponentInputBody: Swift.Equatable {
+struct GetComponentInputBody {
     let applicationId: Swift.String?
     let componentId: Swift.String?
 }
@@ -2096,7 +2096,7 @@ extension GetComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetComponentOutput: Swift.Equatable {
+public struct GetComponentOutput {
     /// The component of an application registered with AWS Systems Manager for SAP.
     public var component: SsmSapClientTypes.Component?
     /// The tags of a component.
@@ -2112,7 +2112,7 @@ public struct GetComponentOutput: Swift.Equatable {
     }
 }
 
-struct GetComponentOutputBody: Swift.Equatable {
+struct GetComponentOutputBody {
     let component: SsmSapClientTypes.Component?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2186,7 +2186,7 @@ extension GetDatabaseInput {
     }
 }
 
-public struct GetDatabaseInput: Swift.Equatable {
+public struct GetDatabaseInput {
     /// The ID of the application.
     public var applicationId: Swift.String?
     /// The ID of the component.
@@ -2210,7 +2210,7 @@ public struct GetDatabaseInput: Swift.Equatable {
     }
 }
 
-struct GetDatabaseInputBody: Swift.Equatable {
+struct GetDatabaseInputBody {
     let applicationId: Swift.String?
     let componentId: Swift.String?
     let databaseId: Swift.String?
@@ -2252,7 +2252,7 @@ extension GetDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDatabaseOutput: Swift.Equatable {
+public struct GetDatabaseOutput {
     /// The SAP HANA database of an application registered with AWS Systems Manager for SAP.
     public var database: SsmSapClientTypes.Database?
     /// The tags of a database.
@@ -2268,7 +2268,7 @@ public struct GetDatabaseOutput: Swift.Equatable {
     }
 }
 
-struct GetDatabaseOutputBody: Swift.Equatable {
+struct GetDatabaseOutputBody {
     let database: SsmSapClientTypes.Database?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2329,7 +2329,7 @@ extension GetOperationInput {
     }
 }
 
-public struct GetOperationInput: Swift.Equatable {
+public struct GetOperationInput {
     /// The ID of the operation.
     /// This member is required.
     public var operationId: Swift.String?
@@ -2342,7 +2342,7 @@ public struct GetOperationInput: Swift.Equatable {
     }
 }
 
-struct GetOperationInputBody: Swift.Equatable {
+struct GetOperationInputBody {
     let operationId: Swift.String?
 }
 
@@ -2370,7 +2370,7 @@ extension GetOperationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOperationOutput: Swift.Equatable {
+public struct GetOperationOutput {
     /// Returns the details of an operation.
     public var operation: SsmSapClientTypes.Operation?
 
@@ -2382,7 +2382,7 @@ public struct GetOperationOutput: Swift.Equatable {
     }
 }
 
-struct GetOperationOutputBody: Swift.Equatable {
+struct GetOperationOutputBody {
     let operation: SsmSapClientTypes.Operation?
 }
 
@@ -2434,7 +2434,7 @@ extension GetResourcePermissionInput {
     }
 }
 
-public struct GetResourcePermissionInput: Swift.Equatable {
+public struct GetResourcePermissionInput {
     ///
     public var actionType: SsmSapClientTypes.PermissionActionType?
     /// The Amazon Resource Name (ARN) of the resource.
@@ -2451,7 +2451,7 @@ public struct GetResourcePermissionInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePermissionInputBody: Swift.Equatable {
+struct GetResourcePermissionInputBody {
     let actionType: SsmSapClientTypes.PermissionActionType?
     let resourceArn: Swift.String?
 }
@@ -2483,7 +2483,7 @@ extension GetResourcePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePermissionOutput: Swift.Equatable {
+public struct GetResourcePermissionOutput {
     ///
     public var policy: Swift.String?
 
@@ -2495,7 +2495,7 @@ public struct GetResourcePermissionOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePermissionOutputBody: Swift.Equatable {
+struct GetResourcePermissionOutputBody {
     let policy: Swift.String?
 }
 
@@ -2575,7 +2575,7 @@ extension SsmSapClientTypes.Host: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// Describes the properties of the Dedicated Host.
-    public struct Host: Swift.Equatable {
+    public struct Host {
         /// The ID of Amazon EC2 instance.
         public var ec2InstanceId: Swift.String?
         /// The IP address of the Dedicated Host.
@@ -2686,7 +2686,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2735,7 +2735,7 @@ extension SsmSapClientTypes.IpAddressMember: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// Provides information of the IP address.
-    public struct IpAddressMember: Swift.Equatable {
+    public struct IpAddressMember {
         /// The type of allocation for the IP address.
         public var allocationType: SsmSapClientTypes.AllocationType?
         /// The IP address.
@@ -2788,7 +2788,7 @@ extension ListApplicationsInput {
     }
 }
 
-public struct ListApplicationsInput: Swift.Equatable {
+public struct ListApplicationsInput {
     /// The filter of name, value, and operator.
     public var filters: [SsmSapClientTypes.Filter]?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -2808,7 +2808,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsInputBody: Swift.Equatable {
+struct ListApplicationsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [SsmSapClientTypes.Filter]?
@@ -2855,7 +2855,7 @@ extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationsOutput: Swift.Equatable {
+public struct ListApplicationsOutput {
     /// The applications registered with AWS Systems Manager for SAP.
     public var applications: [SsmSapClientTypes.ApplicationSummary]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2871,7 +2871,7 @@ public struct ListApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsOutputBody: Swift.Equatable {
+struct ListApplicationsOutputBody {
     let applications: [SsmSapClientTypes.ApplicationSummary]?
     let nextToken: Swift.String?
 }
@@ -2941,7 +2941,7 @@ extension ListComponentsInput {
     }
 }
 
-public struct ListComponentsInput: Swift.Equatable {
+public struct ListComponentsInput {
     /// The ID of the application.
     public var applicationId: Swift.String?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you do not specify a value for MaxResults, the request returns 50 items per page by default.
@@ -2961,7 +2961,7 @@ public struct ListComponentsInput: Swift.Equatable {
     }
 }
 
-struct ListComponentsInputBody: Swift.Equatable {
+struct ListComponentsInputBody {
     let applicationId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2999,7 +2999,7 @@ extension ListComponentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentsOutput: Swift.Equatable {
+public struct ListComponentsOutput {
     /// List of components registered with AWS System Manager for SAP.
     public var components: [SsmSapClientTypes.ComponentSummary]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -3015,7 +3015,7 @@ public struct ListComponentsOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentsOutputBody: Swift.Equatable {
+struct ListComponentsOutputBody {
     let components: [SsmSapClientTypes.ComponentSummary]?
     let nextToken: Swift.String?
 }
@@ -3090,7 +3090,7 @@ extension ListDatabasesInput {
     }
 }
 
-public struct ListDatabasesInput: Swift.Equatable {
+public struct ListDatabasesInput {
     /// The ID of the application.
     public var applicationId: Swift.String?
     /// The ID of the component.
@@ -3114,7 +3114,7 @@ public struct ListDatabasesInput: Swift.Equatable {
     }
 }
 
-struct ListDatabasesInputBody: Swift.Equatable {
+struct ListDatabasesInputBody {
     let applicationId: Swift.String?
     let componentId: Swift.String?
     let nextToken: Swift.String?
@@ -3156,7 +3156,7 @@ extension ListDatabasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatabasesOutput: Swift.Equatable {
+public struct ListDatabasesOutput {
     /// The SAP HANA databases of an application.
     public var databases: [SsmSapClientTypes.DatabaseSummary]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -3172,7 +3172,7 @@ public struct ListDatabasesOutput: Swift.Equatable {
     }
 }
 
-struct ListDatabasesOutputBody: Swift.Equatable {
+struct ListDatabasesOutputBody {
     let databases: [SsmSapClientTypes.DatabaseSummary]?
     let nextToken: Swift.String?
 }
@@ -3249,7 +3249,7 @@ extension ListOperationsInput {
     }
 }
 
-public struct ListOperationsInput: Swift.Equatable {
+public struct ListOperationsInput {
     /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3274,7 +3274,7 @@ public struct ListOperationsInput: Swift.Equatable {
     }
 }
 
-struct ListOperationsInputBody: Swift.Equatable {
+struct ListOperationsInputBody {
     let applicationId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3325,7 +3325,7 @@ extension ListOperationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOperationsOutput: Swift.Equatable {
+public struct ListOperationsOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// List of operations performed by AWS Systems Manager for SAP.
@@ -3341,7 +3341,7 @@ public struct ListOperationsOutput: Swift.Equatable {
     }
 }
 
-struct ListOperationsOutputBody: Swift.Equatable {
+struct ListOperationsOutputBody {
     let operations: [SsmSapClientTypes.Operation]?
     let nextToken: Swift.String?
 }
@@ -3392,7 +3392,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3405,7 +3405,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3426,7 +3426,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     ///
     public var tags: [Swift.String:Swift.String]?
 
@@ -3438,7 +3438,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3571,7 +3571,7 @@ extension SsmSapClientTypes.Operation: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// The operations performed by AWS Systems Manager for SAP.
-    public struct Operation: Swift.Equatable {
+    public struct Operation {
         /// The end time of the operation.
         public var endTime: ClientRuntime.Date?
         /// The ID of the operation.
@@ -3758,7 +3758,7 @@ extension PutResourcePermissionInput {
     }
 }
 
-public struct PutResourcePermissionInput: Swift.Equatable {
+public struct PutResourcePermissionInput {
     ///
     /// This member is required.
     public var actionType: SsmSapClientTypes.PermissionActionType?
@@ -3781,7 +3781,7 @@ public struct PutResourcePermissionInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePermissionInputBody: Swift.Equatable {
+struct PutResourcePermissionInputBody {
     let actionType: SsmSapClientTypes.PermissionActionType?
     let sourceResourceArn: Swift.String?
     let resourceArn: Swift.String?
@@ -3817,7 +3817,7 @@ extension PutResourcePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePermissionOutput: Swift.Equatable {
+public struct PutResourcePermissionOutput {
     ///
     public var policy: Swift.String?
 
@@ -3829,7 +3829,7 @@ public struct PutResourcePermissionOutput: Swift.Equatable {
     }
 }
 
-struct PutResourcePermissionOutputBody: Swift.Equatable {
+struct PutResourcePermissionOutputBody {
     let policy: Swift.String?
 }
 
@@ -3915,7 +3915,7 @@ extension RegisterApplicationInput {
     }
 }
 
-public struct RegisterApplicationInput: Swift.Equatable {
+public struct RegisterApplicationInput {
     /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3958,7 +3958,7 @@ public struct RegisterApplicationInput: Swift.Equatable {
     }
 }
 
-struct RegisterApplicationInputBody: Swift.Equatable {
+struct RegisterApplicationInputBody {
     let applicationId: Swift.String?
     let applicationType: SsmSapClientTypes.ApplicationType?
     let instances: [Swift.String]?
@@ -4043,7 +4043,7 @@ extension RegisterApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterApplicationOutput: Swift.Equatable {
+public struct RegisterApplicationOutput {
     /// The application registered with AWS Systems Manager for SAP.
     public var application: SsmSapClientTypes.Application?
     /// The ID of the operation.
@@ -4059,7 +4059,7 @@ public struct RegisterApplicationOutput: Swift.Equatable {
     }
 }
 
-struct RegisterApplicationOutputBody: Swift.Equatable {
+struct RegisterApplicationOutputBody {
     let application: SsmSapClientTypes.Application?
     let operationId: Swift.String?
 }
@@ -4179,7 +4179,7 @@ extension SsmSapClientTypes.Resilience: Swift.Codable {
 
 extension SsmSapClientTypes {
     /// Details of the SAP HANA system replication for the instance.
-    public struct Resilience: Swift.Equatable {
+    public struct Resilience {
         /// The cluster status of the component.
         public var clusterStatus: SsmSapClientTypes.ClusterStatus?
         /// Indicates if or not enqueue replication is enabled for the ASCS component.
@@ -4248,7 +4248,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4286,7 +4286,7 @@ extension StartApplicationRefreshInput {
     }
 }
 
-public struct StartApplicationRefreshInput: Swift.Equatable {
+public struct StartApplicationRefreshInput {
     /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4299,7 +4299,7 @@ public struct StartApplicationRefreshInput: Swift.Equatable {
     }
 }
 
-struct StartApplicationRefreshInputBody: Swift.Equatable {
+struct StartApplicationRefreshInputBody {
     let applicationId: Swift.String?
 }
 
@@ -4327,7 +4327,7 @@ extension StartApplicationRefreshOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartApplicationRefreshOutput: Swift.Equatable {
+public struct StartApplicationRefreshOutput {
     /// The ID of the operation.
     public var operationId: Swift.String?
 
@@ -4339,7 +4339,7 @@ public struct StartApplicationRefreshOutput: Swift.Equatable {
     }
 }
 
-struct StartApplicationRefreshOutputBody: Swift.Equatable {
+struct StartApplicationRefreshOutputBody {
     let operationId: Swift.String?
 }
 
@@ -4396,7 +4396,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4414,7 +4414,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4444,7 +4444,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4501,7 +4501,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -4543,7 +4543,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4561,7 +4561,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4575,7 +4575,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4635,7 +4635,7 @@ extension UpdateApplicationSettingsInput {
     }
 }
 
-public struct UpdateApplicationSettingsInput: Swift.Equatable {
+public struct UpdateApplicationSettingsInput {
     /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4664,7 +4664,7 @@ public struct UpdateApplicationSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationSettingsInputBody: Swift.Equatable {
+struct UpdateApplicationSettingsInputBody {
     let applicationId: Swift.String?
     let credentialsToAddOrUpdate: [SsmSapClientTypes.ApplicationCredential]?
     let credentialsToRemove: [SsmSapClientTypes.ApplicationCredential]?
@@ -4728,7 +4728,7 @@ extension UpdateApplicationSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationSettingsOutput: Swift.Equatable {
+public struct UpdateApplicationSettingsOutput {
     /// The update message.
     public var message: Swift.String?
     /// The IDs of the operations.
@@ -4744,7 +4744,7 @@ public struct UpdateApplicationSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationSettingsOutputBody: Swift.Equatable {
+struct UpdateApplicationSettingsOutputBody {
     let message: Swift.String?
     let operationIds: [Swift.String]?
 }
@@ -4827,7 +4827,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

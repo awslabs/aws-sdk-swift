@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -108,7 +108,7 @@ extension IoTSiteWiseClientTypes.AccessPolicySummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an access policy that defines an identity's access to an IoT SiteWise Monitor resource.
-    public struct AccessPolicySummary: Swift.Equatable {
+    public struct AccessPolicySummary {
         /// The date the access policy was created, in Unix epoch time.
         public var creationDate: ClientRuntime.Date?
         /// The ID of the access policy.
@@ -179,7 +179,7 @@ extension IoTSiteWiseClientTypes.ActionDefinition: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a definition for an action.
-    public struct ActionDefinition: Swift.Equatable {
+    public struct ActionDefinition {
         /// The ID of the action definition.
         /// This member is required.
         public var actionDefinitionId: Swift.String?
@@ -225,7 +225,7 @@ extension IoTSiteWiseClientTypes.ActionPayload: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// The JSON payload of the action.
-    public struct ActionPayload: Swift.Equatable {
+    public struct ActionPayload {
         /// The payload of the action in a JSON string.
         /// This member is required.
         public var stringValue: Swift.String?
@@ -273,7 +273,7 @@ extension IoTSiteWiseClientTypes.ActionSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains the summary of the actions.
-    public struct ActionSummary: Swift.Equatable {
+    public struct ActionSummary {
         /// The ID of the action definition.
         public var actionDefinitionId: Swift.String?
         /// The ID of the action.
@@ -372,7 +372,7 @@ extension IoTSiteWiseClientTypes.AggregatedValue: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains aggregated asset property values (for example, average, minimum, and maximum).
-    public struct AggregatedValue: Swift.Equatable {
+    public struct AggregatedValue {
         /// The quality of the aggregated data.
         public var quality: IoTSiteWiseClientTypes.Quality?
         /// The date the aggregating computations occurred, in Unix epoch time.
@@ -447,7 +447,7 @@ extension IoTSiteWiseClientTypes.Aggregates: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains the (pre-calculated) aggregate values for an asset property.
-    public struct Aggregates: Swift.Equatable {
+    public struct Aggregates {
         /// The average (mean) value of the time series over a time interval window.
         public var average: Swift.Double?
         /// The count of data points in the time series over a time interval window.
@@ -508,7 +508,7 @@ extension IoTSiteWiseClientTypes.Alarms: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal. You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range. For more information, see [Monitoring with alarms](https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html) in the IoT SiteWise Application Guide.
-    public struct Alarms: Swift.Equatable {
+    public struct Alarms {
         /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the IAM role that allows the alarm to perform actions and access Amazon Web Services resources and services, such as IoT Events.
         /// This member is required.
         public var alarmRoleArn: Swift.String?
@@ -590,7 +590,7 @@ extension IoTSiteWiseClientTypes.AssetCompositeModel: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about a composite model in an asset. This object contains the asset's properties that you define in the composite model.
-    public struct AssetCompositeModel: Swift.Equatable {
+    public struct AssetCompositeModel {
         /// The description of the composite model.
         public var description: Swift.String?
         /// The external ID of the asset composite model. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide.
@@ -654,7 +654,7 @@ extension IoTSiteWiseClientTypes.AssetCompositeModelPathSegment: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Represents one level between a composite model and the root of the asset.
-    public struct AssetCompositeModelPathSegment: Swift.Equatable {
+    public struct AssetCompositeModelPathSegment {
         /// The ID of the path segment.
         public var id: Swift.String?
         /// The name of the path segment.
@@ -735,7 +735,7 @@ extension IoTSiteWiseClientTypes.AssetCompositeModelSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of the composite model for a specific asset.
-    public struct AssetCompositeModelSummary: Swift.Equatable {
+    public struct AssetCompositeModelSummary {
         /// A description of the composite model that this summary describes.
         /// This member is required.
         public var description: Swift.String?
@@ -840,7 +840,7 @@ extension IoTSiteWiseClientTypes.AssetErrorDetails: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains error details for the requested associate project asset action.
-    public struct AssetErrorDetails: Swift.Equatable {
+    public struct AssetErrorDetails {
         /// The ID of the asset, in UUID format.
         /// This member is required.
         public var assetId: Swift.String?
@@ -898,7 +898,7 @@ extension IoTSiteWiseClientTypes.AssetHierarchy: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Describes an asset hierarchy that contains a hierarchy's name and ID.
-    public struct AssetHierarchy: Swift.Equatable {
+    public struct AssetHierarchy {
         /// The external ID of the hierarchy, if it has one. When you update an asset hierarchy, you may assign an external ID if it doesn't already have one. You can't change the external ID of an asset hierarchy that already has one. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide.
         public var externalId: Swift.String?
         /// The ID of the hierarchy. This ID is a hierarchyId.
@@ -948,7 +948,7 @@ extension IoTSiteWiseClientTypes.AssetHierarchyInfo: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about a parent asset and a child asset that are related through an asset hierarchy.
-    public struct AssetHierarchyInfo: Swift.Equatable {
+    public struct AssetHierarchyInfo {
         /// The ID of the child asset in this asset relationship.
         public var childAssetId: Swift.String?
         /// The ID of the parent asset in this asset relationship.
@@ -1029,7 +1029,7 @@ extension IoTSiteWiseClientTypes.AssetModelCompositeModel: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about a composite model in an asset model. This object contains the asset property definitions that you define in the composite model.
-    public struct AssetModelCompositeModel: Swift.Equatable {
+    public struct AssetModelCompositeModel {
         /// The description of the composite model.
         public var description: Swift.String?
         /// The external ID of the asset model composite model. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide.
@@ -1128,7 +1128,7 @@ extension IoTSiteWiseClientTypes.AssetModelCompositeModelDefinition: Swift.Codab
 
 extension IoTSiteWiseClientTypes {
     /// Contains a composite model definition in an asset model. This composite model definition is applied to all assets created from the asset model.
-    public struct AssetModelCompositeModelDefinition: Swift.Equatable {
+    public struct AssetModelCompositeModelDefinition {
         /// The description of the composite model.
         public var description: Swift.String?
         /// An external ID to assign to the composite model. The external ID must be unique among composite models within this asset model. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide.
@@ -1191,7 +1191,7 @@ extension IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment: Swift.Coda
 
 extension IoTSiteWiseClientTypes {
     /// Represents one level between a composite model and the root of the asset model.
-    public struct AssetModelCompositeModelPathSegment: Swift.Equatable {
+    public struct AssetModelCompositeModelPathSegment {
         /// The ID of the path segment.
         public var id: Swift.String?
         /// The name of the path segment.
@@ -1272,7 +1272,7 @@ extension IoTSiteWiseClientTypes.AssetModelCompositeModelSummary: Swift.Codable 
 
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of the composite model.
-    public struct AssetModelCompositeModelSummary: Swift.Equatable {
+    public struct AssetModelCompositeModelSummary {
         /// The description of the the composite model that this summary describes..
         public var description: Swift.String?
         /// The external ID of a composite model on this asset model. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide.
@@ -1352,7 +1352,7 @@ extension IoTSiteWiseClientTypes.AssetModelHierarchy: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Describes an asset hierarchy that contains a hierarchy's name, ID, and child asset model ID that specifies the type of asset that can be in this hierarchy.
-    public struct AssetModelHierarchy: Swift.Equatable {
+    public struct AssetModelHierarchy {
         /// The ID of the asset model, in UUID format. All assets in this hierarchy must be instances of the childAssetModelId asset model. IoT SiteWise will always return the actual asset model ID for this value. However, when you are specifying this value as part of a call to [UpdateAssetModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html), you may provide either the asset model ID or else externalId: followed by the asset model's external ID. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide.
         /// This member is required.
         public var childAssetModelId: Swift.String?
@@ -1423,7 +1423,7 @@ extension IoTSiteWiseClientTypes.AssetModelHierarchyDefinition: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an asset model hierarchy used in asset model creation. An asset model hierarchy determines the kind (or type) of asset that can belong to a hierarchy.
-    public struct AssetModelHierarchyDefinition: Swift.Equatable {
+    public struct AssetModelHierarchyDefinition {
         /// The ID of an asset model for this hierarchy. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
         /// This member is required.
         public var childAssetModelId: Swift.String?
@@ -1526,7 +1526,7 @@ extension IoTSiteWiseClientTypes.AssetModelProperty: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about an asset model property.
-    public struct AssetModelProperty: Swift.Equatable {
+    public struct AssetModelProperty {
         /// The data type of the asset model property.
         /// This member is required.
         public var dataType: IoTSiteWiseClientTypes.PropertyDataType?
@@ -1632,7 +1632,7 @@ extension IoTSiteWiseClientTypes.AssetModelPropertyDefinition: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an asset model property definition. This property definition is applied to all assets created from the asset model.
-    public struct AssetModelPropertyDefinition: Swift.Equatable {
+    public struct AssetModelPropertyDefinition {
         /// The data type of the property definition. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this property.
         /// This member is required.
         public var dataType: IoTSiteWiseClientTypes.PropertyDataType?
@@ -1700,7 +1700,7 @@ extension IoTSiteWiseClientTypes.AssetModelPropertyPathSegment: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Represents one level between a property and the root of the asset model.
-    public struct AssetModelPropertyPathSegment: Swift.Equatable {
+    public struct AssetModelPropertyPathSegment {
         /// The ID of the path segment.
         public var id: Swift.String?
         /// The name of the path segment.
@@ -1799,7 +1799,7 @@ extension IoTSiteWiseClientTypes.AssetModelPropertySummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of a property associated with a model.
-    public struct AssetModelPropertySummary: Swift.Equatable {
+    public struct AssetModelPropertySummary {
         /// The ID of the composite model that contains the asset model property.
         public var assetModelCompositeModelId: Swift.String?
         /// The data type of the property.
@@ -1919,7 +1919,7 @@ extension IoTSiteWiseClientTypes.AssetModelStatus: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains current status information for an asset model. For more information, see [Asset and model states](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html) in the IoT SiteWise User Guide.
-    public struct AssetModelStatus: Swift.Equatable {
+    public struct AssetModelStatus {
         /// Contains associated error information, if any.
         public var error: IoTSiteWiseClientTypes.ErrorDetails?
         /// The current state of the asset model.
@@ -2007,7 +2007,7 @@ extension IoTSiteWiseClientTypes.AssetModelSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of an asset model.
-    public struct AssetModelSummary: Swift.Equatable {
+    public struct AssetModelSummary {
         /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the asset model, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
         /// This member is required.
         public var arn: Swift.String?
@@ -2177,7 +2177,7 @@ extension IoTSiteWiseClientTypes.AssetProperty: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains asset property information.
-    public struct AssetProperty: Swift.Equatable {
+    public struct AssetProperty {
         /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see [Mapping industrial data streams to asset properties](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html) in the IoT SiteWise User Guide.
         public var alias: Swift.String?
         /// The data type of the asset property.
@@ -2253,7 +2253,7 @@ extension IoTSiteWiseClientTypes.AssetPropertyPathSegment: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Represents one level between a property and the root of the asset.
-    public struct AssetPropertyPathSegment: Swift.Equatable {
+    public struct AssetPropertyPathSegment {
         /// The ID of the path segment.
         public var id: Swift.String?
         /// The name of the path segment.
@@ -2340,7 +2340,7 @@ extension IoTSiteWiseClientTypes.AssetPropertySummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of a property associated with an asset.
-    public struct AssetPropertySummary: Swift.Equatable {
+    public struct AssetPropertySummary {
         /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see [Mapping industrial data streams to asset properties](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html) in the IoT SiteWise User Guide.
         public var alias: Swift.String?
         /// The ID of the composite model that contains the asset property.
@@ -2412,7 +2412,7 @@ extension IoTSiteWiseClientTypes.AssetPropertyValue: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains asset property value information.
-    public struct AssetPropertyValue: Swift.Equatable {
+    public struct AssetPropertyValue {
         /// The quality of the asset property value.
         public var quality: IoTSiteWiseClientTypes.Quality?
         /// The timestamp of the asset property value.
@@ -2463,7 +2463,7 @@ extension IoTSiteWiseClientTypes.AssetRelationshipSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about assets that are related to one another.
-    public struct AssetRelationshipSummary: Swift.Equatable {
+    public struct AssetRelationshipSummary {
         /// The assets that are related through an asset hierarchy. This object is present if the relationshipType is HIERARCHY.
         public var hierarchyInfo: IoTSiteWiseClientTypes.AssetHierarchyInfo?
         /// The relationship type of the assets in this relationship. This value is one of the following:
@@ -2581,7 +2581,7 @@ extension IoTSiteWiseClientTypes.AssetStatus: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about the current status of an asset. For more information, see [Asset and model states](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html) in the IoT SiteWise User Guide.
-    public struct AssetStatus: Swift.Equatable {
+    public struct AssetStatus {
         /// Contains associated error information, if any.
         public var error: IoTSiteWiseClientTypes.ErrorDetails?
         /// The current status of the asset.
@@ -2687,7 +2687,7 @@ extension IoTSiteWiseClientTypes.AssetSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of an asset.
-    public struct AssetSummary: Swift.Equatable {
+    public struct AssetSummary {
         /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the asset, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
         /// This member is required.
         public var arn: Swift.String?
@@ -2776,7 +2776,7 @@ extension AssociateAssetsInput {
     }
 }
 
-public struct AssociateAssetsInput: Swift.Equatable {
+public struct AssociateAssetsInput {
     /// The ID of the parent asset. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetId: Swift.String?
@@ -2803,7 +2803,7 @@ public struct AssociateAssetsInput: Swift.Equatable {
     }
 }
 
-struct AssociateAssetsInputBody: Swift.Equatable {
+struct AssociateAssetsInputBody {
     let hierarchyId: Swift.String?
     let childAssetId: Swift.String?
     let clientToken: Swift.String?
@@ -2832,7 +2832,7 @@ extension AssociateAssetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateAssetsOutput: Swift.Equatable {
+public struct AssociateAssetsOutput {
 
     public init() { }
 }
@@ -2900,7 +2900,7 @@ extension AssociateTimeSeriesToAssetPropertyInput {
     }
 }
 
-public struct AssociateTimeSeriesToAssetPropertyInput: Swift.Equatable {
+public struct AssociateTimeSeriesToAssetPropertyInput {
     /// The alias that identifies the time series.
     /// This member is required.
     public var alias: Swift.String?
@@ -2927,7 +2927,7 @@ public struct AssociateTimeSeriesToAssetPropertyInput: Swift.Equatable {
     }
 }
 
-struct AssociateTimeSeriesToAssetPropertyInputBody: Swift.Equatable {
+struct AssociateTimeSeriesToAssetPropertyInputBody {
     let clientToken: Swift.String?
 }
 
@@ -2948,7 +2948,7 @@ extension AssociateTimeSeriesToAssetPropertyOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct AssociateTimeSeriesToAssetPropertyOutput: Swift.Equatable {
+public struct AssociateTimeSeriesToAssetPropertyOutput {
 
     public init() { }
 }
@@ -3055,7 +3055,7 @@ extension IoTSiteWiseClientTypes.AssociatedAssetsSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of an associated asset.
-    public struct AssociatedAssetsSummary: Swift.Equatable {
+    public struct AssociatedAssetsSummary {
         /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the asset, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
         /// This member is required.
         public var arn: Swift.String?
@@ -3134,7 +3134,7 @@ extension IoTSiteWiseClientTypes.Attribute: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an asset attribute property. For more information, see [Attributes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#attributes) in the IoT SiteWise User Guide.
-    public struct Attribute: Swift.Equatable {
+    public struct Attribute {
         /// The default value of the asset model property attribute. All assets that you create from the asset model contain this attribute value. You can update an attribute's value after you create an asset. For more information, see [Updating attribute values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-attribute-values.html) in the IoT SiteWise User Guide.
         public var defaultValue: Swift.String?
 
@@ -3210,7 +3210,7 @@ extension BatchAssociateProjectAssetsInput {
     }
 }
 
-public struct BatchAssociateProjectAssetsInput: Swift.Equatable {
+public struct BatchAssociateProjectAssetsInput {
     /// The IDs of the assets to be associated to the project.
     /// This member is required.
     public var assetIds: [Swift.String]?
@@ -3232,7 +3232,7 @@ public struct BatchAssociateProjectAssetsInput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateProjectAssetsInputBody: Swift.Equatable {
+struct BatchAssociateProjectAssetsInputBody {
     let assetIds: [Swift.String]?
     let clientToken: Swift.String?
 }
@@ -3273,7 +3273,7 @@ extension BatchAssociateProjectAssetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchAssociateProjectAssetsOutput: Swift.Equatable {
+public struct BatchAssociateProjectAssetsOutput {
     /// A list of associated error information, if any.
     public var errors: [IoTSiteWiseClientTypes.AssetErrorDetails]?
 
@@ -3285,7 +3285,7 @@ public struct BatchAssociateProjectAssetsOutput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateProjectAssetsOutputBody: Swift.Equatable {
+struct BatchAssociateProjectAssetsOutputBody {
     let errors: [IoTSiteWiseClientTypes.AssetErrorDetails]?
 }
 
@@ -3355,7 +3355,7 @@ extension BatchDisassociateProjectAssetsInput {
     }
 }
 
-public struct BatchDisassociateProjectAssetsInput: Swift.Equatable {
+public struct BatchDisassociateProjectAssetsInput {
     /// The IDs of the assets to be disassociated from the project.
     /// This member is required.
     public var assetIds: [Swift.String]?
@@ -3377,7 +3377,7 @@ public struct BatchDisassociateProjectAssetsInput: Swift.Equatable {
     }
 }
 
-struct BatchDisassociateProjectAssetsInputBody: Swift.Equatable {
+struct BatchDisassociateProjectAssetsInputBody {
     let assetIds: [Swift.String]?
     let clientToken: Swift.String?
 }
@@ -3418,7 +3418,7 @@ extension BatchDisassociateProjectAssetsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct BatchDisassociateProjectAssetsOutput: Swift.Equatable {
+public struct BatchDisassociateProjectAssetsOutput {
     /// A list of associated error information, if any.
     public var errors: [IoTSiteWiseClientTypes.AssetErrorDetails]?
 
@@ -3430,7 +3430,7 @@ public struct BatchDisassociateProjectAssetsOutput: Swift.Equatable {
     }
 }
 
-struct BatchDisassociateProjectAssetsOutputBody: Swift.Equatable {
+struct BatchDisassociateProjectAssetsOutputBody {
     let errors: [IoTSiteWiseClientTypes.AssetErrorDetails]?
 }
 
@@ -3604,7 +3604,7 @@ extension IoTSiteWiseClientTypes {
     /// * The assetId and propertyId of an asset property.
     ///
     /// * A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
-    public struct BatchGetAssetPropertyAggregatesEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyAggregatesEntry {
         /// The data aggregating function.
         /// This member is required.
         public var aggregateTypes: [IoTSiteWiseClientTypes.AggregateType]?
@@ -3727,7 +3727,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry: Swif
 
 extension IoTSiteWiseClientTypes {
     /// Contains error information for an asset property aggregate entry that is associated with the [BatchGetAssetPropertyAggregates](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html) API.
-    public struct BatchGetAssetPropertyAggregatesErrorEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyAggregatesErrorEntry {
         /// The ID of the entry.
         /// This member is required.
         public var entryId: Swift.String?
@@ -3779,7 +3779,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo: Swift
 
 extension IoTSiteWiseClientTypes {
     /// Contains the error code and the timestamp for an asset property aggregate entry that is associated with the [BatchGetAssetPropertyAggregates](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html) API.
-    public struct BatchGetAssetPropertyAggregatesErrorInfo: Swift.Equatable {
+    public struct BatchGetAssetPropertyAggregatesErrorInfo {
         /// The error code.
         /// This member is required.
         public var errorCode: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorCode?
@@ -3830,7 +3830,7 @@ extension BatchGetAssetPropertyAggregatesInput {
     }
 }
 
-public struct BatchGetAssetPropertyAggregatesInput: Swift.Equatable {
+public struct BatchGetAssetPropertyAggregatesInput {
     /// The list of asset property aggregate entries for the batch get request. You can specify up to 16 entries per request.
     /// This member is required.
     public var entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry]?
@@ -3855,7 +3855,7 @@ public struct BatchGetAssetPropertyAggregatesInput: Swift.Equatable {
     }
 }
 
-struct BatchGetAssetPropertyAggregatesInputBody: Swift.Equatable {
+struct BatchGetAssetPropertyAggregatesInputBody {
     let entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3906,7 +3906,7 @@ extension BatchGetAssetPropertyAggregatesOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct BatchGetAssetPropertyAggregatesOutput: Swift.Equatable {
+public struct BatchGetAssetPropertyAggregatesOutput {
     /// A list of the errors (if any) associated with the batch request. Each error entry contains the entryId of the entry that failed.
     /// This member is required.
     public var errorEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry]?
@@ -3933,7 +3933,7 @@ public struct BatchGetAssetPropertyAggregatesOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetAssetPropertyAggregatesOutputBody: Swift.Equatable {
+struct BatchGetAssetPropertyAggregatesOutputBody {
     let errorEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorEntry]?
     let successEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry]?
     let skippedEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry]?
@@ -4035,7 +4035,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry: Sw
 
 extension IoTSiteWiseClientTypes {
     /// Contains information for an entry that has been processed by the previous [BatchGetAssetPropertyAggregates](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html) request.
-    public struct BatchGetAssetPropertyAggregatesSkippedEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyAggregatesSkippedEntry {
         /// The completion status of each entry that is associated with the [BatchGetAssetPropertyAggregates](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html) API.
         /// This member is required.
         public var completionStatus: IoTSiteWiseClientTypes.BatchEntryCompletionStatus?
@@ -4098,7 +4098,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry: Sw
 
 extension IoTSiteWiseClientTypes {
     /// Contains success information for an entry that is associated with the [BatchGetAssetPropertyAggregates](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html) API.
-    public struct BatchGetAssetPropertyAggregatesSuccessEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyAggregatesSuccessEntry {
         /// The requested aggregated asset property values (for example, average, minimum, and maximum).
         /// This member is required.
         public var aggregatedValues: [IoTSiteWiseClientTypes.AggregatedValue]?
@@ -4161,7 +4161,7 @@ extension IoTSiteWiseClientTypes {
     /// * The assetId and propertyId of an asset property.
     ///
     /// * A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
-    public struct BatchGetAssetPropertyValueEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyValueEntry {
         /// The ID of the asset in which the asset property was created.
         public var assetId: Swift.String?
         /// The ID of the entry.
@@ -4256,7 +4256,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry: Swift.Cod
 
 extension IoTSiteWiseClientTypes {
     /// Contains error information for an asset property value entry that is associated with the [BatchGetAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html) API.
-    public struct BatchGetAssetPropertyValueErrorEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyValueErrorEntry {
         /// The ID of the entry.
         /// This member is required.
         public var entryId: Swift.String?
@@ -4308,7 +4308,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorInfo: Swift.Coda
 
 extension IoTSiteWiseClientTypes {
     /// The error information, such as the error code and the timestamp.
-    public struct BatchGetAssetPropertyValueErrorInfo: Swift.Equatable {
+    public struct BatchGetAssetPropertyValueErrorInfo {
         /// The error code.
         /// This member is required.
         public var errorCode: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorCode?
@@ -4407,7 +4407,7 @@ extension IoTSiteWiseClientTypes {
     /// * The assetId and propertyId of an asset property.
     ///
     /// * A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
-    public struct BatchGetAssetPropertyValueHistoryEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyValueHistoryEntry {
         /// The ID of the asset in which the asset property was created.
         public var assetId: Swift.String?
         /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
@@ -4518,7 +4518,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorEntry: Sw
 
 extension IoTSiteWiseClientTypes {
     /// A list of the errors (if any) associated with the batch request. Each error entry contains the entryId of the entry that failed.
-    public struct BatchGetAssetPropertyValueHistoryErrorEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyValueHistoryErrorEntry {
         /// The ID of the entry.
         /// This member is required.
         public var entryId: Swift.String?
@@ -4570,7 +4570,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo: Swi
 
 extension IoTSiteWiseClientTypes {
     /// The error information, such as the error code and the timestamp.
-    public struct BatchGetAssetPropertyValueHistoryErrorInfo: Swift.Equatable {
+    public struct BatchGetAssetPropertyValueHistoryErrorInfo {
         /// The error code.
         /// This member is required.
         public var errorCode: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorCode?
@@ -4621,7 +4621,7 @@ extension BatchGetAssetPropertyValueHistoryInput {
     }
 }
 
-public struct BatchGetAssetPropertyValueHistoryInput: Swift.Equatable {
+public struct BatchGetAssetPropertyValueHistoryInput {
     /// The list of asset property historical value entries for the batch get request. You can specify up to 16 entries per request.
     /// This member is required.
     public var entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry]?
@@ -4646,7 +4646,7 @@ public struct BatchGetAssetPropertyValueHistoryInput: Swift.Equatable {
     }
 }
 
-struct BatchGetAssetPropertyValueHistoryInputBody: Swift.Equatable {
+struct BatchGetAssetPropertyValueHistoryInputBody {
     let entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4697,7 +4697,7 @@ extension BatchGetAssetPropertyValueHistoryOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct BatchGetAssetPropertyValueHistoryOutput: Swift.Equatable {
+public struct BatchGetAssetPropertyValueHistoryOutput {
     /// A list of the errors (if any) associated with the batch request. Each error entry contains the entryId of the entry that failed.
     /// This member is required.
     public var errorEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorEntry]?
@@ -4724,7 +4724,7 @@ public struct BatchGetAssetPropertyValueHistoryOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetAssetPropertyValueHistoryOutputBody: Swift.Equatable {
+struct BatchGetAssetPropertyValueHistoryOutputBody {
     let errorEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorEntry]?
     let successEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry]?
     let skippedEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySkippedEntry]?
@@ -4826,7 +4826,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySkippedEntry: 
 
 extension IoTSiteWiseClientTypes {
     /// Contains information for an entry that has been processed by the previous [BatchGetAssetPropertyValueHistory](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html) request.
-    public struct BatchGetAssetPropertyValueHistorySkippedEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyValueHistorySkippedEntry {
         /// The completion status of each entry that is associated with the [BatchGetAssetPropertyValueHistory](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValueHistory.html) API.
         /// This member is required.
         public var completionStatus: IoTSiteWiseClientTypes.BatchEntryCompletionStatus?
@@ -4889,7 +4889,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry: 
 
 extension IoTSiteWiseClientTypes {
     /// Contains success information for an entry that is associated with the [BatchGetAssetPropertyValueHistory](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html) API.
-    public struct BatchGetAssetPropertyValueHistorySuccessEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyValueHistorySuccessEntry {
         /// The requested historical values for the specified asset property.
         /// This member is required.
         public var assetPropertyValueHistory: [IoTSiteWiseClientTypes.AssetPropertyValue]?
@@ -4936,7 +4936,7 @@ extension BatchGetAssetPropertyValueInput {
     }
 }
 
-public struct BatchGetAssetPropertyValueInput: Swift.Equatable {
+public struct BatchGetAssetPropertyValueInput {
     /// The list of asset property value entries for the batch get request. You can specify up to 128 entries per request.
     /// This member is required.
     public var entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueEntry]?
@@ -4953,7 +4953,7 @@ public struct BatchGetAssetPropertyValueInput: Swift.Equatable {
     }
 }
 
-struct BatchGetAssetPropertyValueInputBody: Swift.Equatable {
+struct BatchGetAssetPropertyValueInputBody {
     let entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueEntry]?
     let nextToken: Swift.String?
 }
@@ -5000,7 +5000,7 @@ extension BatchGetAssetPropertyValueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetAssetPropertyValueOutput: Swift.Equatable {
+public struct BatchGetAssetPropertyValueOutput {
     /// A list of the errors (if any) associated with the batch request. Each error entry contains the entryId of the entry that failed.
     /// This member is required.
     public var errorEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry]?
@@ -5027,7 +5027,7 @@ public struct BatchGetAssetPropertyValueOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetAssetPropertyValueOutputBody: Swift.Equatable {
+struct BatchGetAssetPropertyValueOutputBody {
     let errorEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorEntry]?
     let successEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry]?
     let skippedEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry]?
@@ -5129,7 +5129,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry: Swift.C
 
 extension IoTSiteWiseClientTypes {
     /// Contains information for an entry that has been processed by the previous [BatchGetAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html) request.
-    public struct BatchGetAssetPropertyValueSkippedEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyValueSkippedEntry {
         /// The completion status of each entry that is associated with the [BatchGetAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html) request.
         /// This member is required.
         public var completionStatus: IoTSiteWiseClientTypes.BatchEntryCompletionStatus?
@@ -5180,7 +5180,7 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry: Swift.C
 
 extension IoTSiteWiseClientTypes {
     /// Contains success information for an entry that is associated with the [BatchGetAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html) API.
-    public struct BatchGetAssetPropertyValueSuccessEntry: Swift.Equatable {
+    public struct BatchGetAssetPropertyValueSuccessEntry {
         /// Contains asset property value information.
         public var assetPropertyValue: IoTSiteWiseClientTypes.AssetPropertyValue?
         /// The ID of the entry.
@@ -5244,7 +5244,7 @@ extension IoTSiteWiseClientTypes.BatchPutAssetPropertyError: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains error information from updating a batch of asset property values.
-    public struct BatchPutAssetPropertyError: Swift.Equatable {
+    public struct BatchPutAssetPropertyError {
         /// The error code.
         /// This member is required.
         public var errorCode: IoTSiteWiseClientTypes.BatchPutAssetPropertyValueErrorCode?
@@ -5308,7 +5308,7 @@ extension IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry: Swift.Codable 
 
 extension IoTSiteWiseClientTypes {
     /// Contains error information for asset property value entries that are associated with the [BatchPutAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchPutAssetPropertyValue.html) API.
-    public struct BatchPutAssetPropertyErrorEntry: Swift.Equatable {
+    public struct BatchPutAssetPropertyErrorEntry {
         /// The ID of the failed entry.
         /// This member is required.
         public var entryId: Swift.String?
@@ -5404,7 +5404,7 @@ extension BatchPutAssetPropertyValueInput {
     }
 }
 
-public struct BatchPutAssetPropertyValueInput: Swift.Equatable {
+public struct BatchPutAssetPropertyValueInput {
     /// The list of asset property value entries for the batch put request. You can specify up to 10 entries per request.
     /// This member is required.
     public var entries: [IoTSiteWiseClientTypes.PutAssetPropertyValueEntry]?
@@ -5417,7 +5417,7 @@ public struct BatchPutAssetPropertyValueInput: Swift.Equatable {
     }
 }
 
-struct BatchPutAssetPropertyValueInputBody: Swift.Equatable {
+struct BatchPutAssetPropertyValueInputBody {
     let entries: [IoTSiteWiseClientTypes.PutAssetPropertyValueEntry]?
 }
 
@@ -5454,7 +5454,7 @@ extension BatchPutAssetPropertyValueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchPutAssetPropertyValueOutput: Swift.Equatable {
+public struct BatchPutAssetPropertyValueOutput {
     /// A list of the errors (if any) associated with the batch put request. Each error entry contains the entryId of the entry that failed.
     /// This member is required.
     public var errorEntries: [IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry]?
@@ -5467,7 +5467,7 @@ public struct BatchPutAssetPropertyValueOutput: Swift.Equatable {
     }
 }
 
-struct BatchPutAssetPropertyValueOutputBody: Swift.Equatable {
+struct BatchPutAssetPropertyValueOutputBody {
     let errorEntries: [IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry]?
 }
 
@@ -5574,7 +5574,7 @@ extension IoTSiteWiseClientTypes.ColumnInfo: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// A description of the column in the query results.
-    public struct ColumnInfo: Swift.Equatable {
+    public struct ColumnInfo {
         /// The name of the column description.
         public var name: Swift.String?
         /// The type of the column description.
@@ -5663,7 +5663,7 @@ extension IoTSiteWiseClientTypes.ColumnType: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// The data type of the column.
-    public struct ColumnType: Swift.Equatable {
+    public struct ColumnType {
         /// The allowed data types that the column has as it's value.
         public var scalarType: IoTSiteWiseClientTypes.ScalarType?
 
@@ -5722,7 +5722,7 @@ extension IoTSiteWiseClientTypes.CompositeModelProperty: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about a composite model property on an asset.
-    public struct CompositeModelProperty: Swift.Equatable {
+    public struct CompositeModelProperty {
         /// Contains asset property information.
         /// This member is required.
         public var assetProperty: IoTSiteWiseClientTypes.Property?
@@ -5788,7 +5788,7 @@ extension IoTSiteWiseClientTypes.CompositionDetails: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Metadata for the composition relationship established by using composedAssetModelId in [CreateAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html).
-    public struct CompositionDetails: Swift.Equatable {
+    public struct CompositionDetails {
         /// An array detailing the composition relationship for this composite model.
         public var compositionRelationship: [IoTSiteWiseClientTypes.CompositionRelationshipItem]?
 
@@ -5823,7 +5823,7 @@ extension IoTSiteWiseClientTypes.CompositionRelationshipItem: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Represents a composite model that composed an asset model of type COMPONENT_MODEL.
-    public struct CompositionRelationshipItem: Swift.Equatable {
+    public struct CompositionRelationshipItem {
         /// The ID of the component.
         public var id: Swift.String?
 
@@ -5870,7 +5870,7 @@ extension IoTSiteWiseClientTypes.CompositionRelationshipSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of the components of the composite model.
-    public struct CompositionRelationshipSummary: Swift.Equatable {
+    public struct CompositionRelationshipSummary {
         /// The ID of a composite model on this asset model.
         /// This member is required.
         public var assetModelCompositeModelId: Swift.String?
@@ -5954,7 +5954,7 @@ extension IoTSiteWiseClientTypes.ConfigurationErrorDetails: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains the details of an IoT SiteWise configuration error.
-    public struct ConfigurationErrorDetails: Swift.Equatable {
+    public struct ConfigurationErrorDetails {
         /// The error code.
         /// This member is required.
         public var code: IoTSiteWiseClientTypes.ErrorCode?
@@ -6036,7 +6036,7 @@ extension IoTSiteWiseClientTypes.ConfigurationStatus: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains current status information for the configuration.
-    public struct ConfigurationStatus: Swift.Equatable {
+    public struct ConfigurationStatus {
         /// Contains associated error information, if any.
         public var error: IoTSiteWiseClientTypes.ConfigurationErrorDetails?
         /// The current state of the configuration.
@@ -6109,7 +6109,7 @@ public struct ConflictingOperationException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ConflictingOperationExceptionBody: Swift.Equatable {
+struct ConflictingOperationExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceArn: Swift.String?
@@ -6172,7 +6172,7 @@ extension CreateAccessPolicyInput {
     }
 }
 
-public struct CreateAccessPolicyInput: Swift.Equatable {
+public struct CreateAccessPolicyInput {
     /// The identity for this access policy. Choose an IAM Identity Center user, an IAM Identity Center group, or an IAM user.
     /// This member is required.
     public var accessPolicyIdentity: IoTSiteWiseClientTypes.Identity?
@@ -6203,7 +6203,7 @@ public struct CreateAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct CreateAccessPolicyInputBody: Swift.Equatable {
+struct CreateAccessPolicyInputBody {
     let accessPolicyIdentity: IoTSiteWiseClientTypes.Identity?
     let accessPolicyResource: IoTSiteWiseClientTypes.Resource?
     let accessPolicyPermission: IoTSiteWiseClientTypes.Permission?
@@ -6258,7 +6258,7 @@ extension CreateAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAccessPolicyOutput: Swift.Equatable {
+public struct CreateAccessPolicyOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the access policy, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:access-policy/${AccessPolicyId}
     /// This member is required.
     public var accessPolicyArn: Swift.String?
@@ -6276,7 +6276,7 @@ public struct CreateAccessPolicyOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccessPolicyOutputBody: Swift.Equatable {
+struct CreateAccessPolicyOutputBody {
     let accessPolicyId: Swift.String?
     let accessPolicyArn: Swift.String?
 }
@@ -6358,7 +6358,7 @@ extension CreateAssetInput {
     }
 }
 
-public struct CreateAssetInput: Swift.Equatable {
+public struct CreateAssetInput {
     /// A description for the asset.
     public var assetDescription: Swift.String?
     /// An external ID to assign to the asset. The external ID must be unique within your Amazon Web Services account. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide.
@@ -6396,7 +6396,7 @@ public struct CreateAssetInput: Swift.Equatable {
     }
 }
 
-struct CreateAssetInputBody: Swift.Equatable {
+struct CreateAssetInputBody {
     let assetName: Swift.String?
     let assetModelId: Swift.String?
     let clientToken: Swift.String?
@@ -6503,7 +6503,7 @@ extension CreateAssetModelCompositeModelInput {
     }
 }
 
-public struct CreateAssetModelCompositeModelInput: Swift.Equatable {
+public struct CreateAssetModelCompositeModelInput {
     /// A description for the composite model.
     public var assetModelCompositeModelDescription: Swift.String?
     /// An external ID to assign to the composite model. If the composite model is a derived composite model, or one nested inside a component model, you can only set the external ID using UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
@@ -6554,7 +6554,7 @@ public struct CreateAssetModelCompositeModelInput: Swift.Equatable {
     }
 }
 
-struct CreateAssetModelCompositeModelInputBody: Swift.Equatable {
+struct CreateAssetModelCompositeModelInputBody {
     let parentAssetModelCompositeModelId: Swift.String?
     let assetModelCompositeModelExternalId: Swift.String?
     let assetModelCompositeModelId: Swift.String?
@@ -6627,7 +6627,7 @@ extension CreateAssetModelCompositeModelOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateAssetModelCompositeModelOutput: Swift.Equatable {
+public struct CreateAssetModelCompositeModelOutput {
     /// The ID of the composed asset model. You can use this ID when you call other IoT SiteWise APIs.
     /// This member is required.
     public var assetModelCompositeModelId: Swift.String?
@@ -6650,7 +6650,7 @@ public struct CreateAssetModelCompositeModelOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssetModelCompositeModelOutputBody: Swift.Equatable {
+struct CreateAssetModelCompositeModelOutputBody {
     let assetModelCompositeModelId: Swift.String?
     let assetModelCompositeModelPath: [IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment]?
     let assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
@@ -6768,7 +6768,7 @@ extension CreateAssetModelInput {
     }
 }
 
-public struct CreateAssetModelInput: Swift.Equatable {
+public struct CreateAssetModelInput {
     /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model. When creating custom composite models, you need to use [CreateAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html). For more information, see .
     public var assetModelCompositeModels: [IoTSiteWiseClientTypes.AssetModelCompositeModelDefinition]?
     /// A description for the asset model.
@@ -6821,7 +6821,7 @@ public struct CreateAssetModelInput: Swift.Equatable {
     }
 }
 
-struct CreateAssetModelInputBody: Swift.Equatable {
+struct CreateAssetModelInputBody {
     let assetModelName: Swift.String?
     let assetModelDescription: Swift.String?
     let assetModelProperties: [IoTSiteWiseClientTypes.AssetModelPropertyDefinition]?
@@ -6925,7 +6925,7 @@ extension CreateAssetModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAssetModelOutput: Swift.Equatable {
+public struct CreateAssetModelOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the asset model, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
     /// This member is required.
     public var assetModelArn: Swift.String?
@@ -6948,7 +6948,7 @@ public struct CreateAssetModelOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssetModelOutputBody: Swift.Equatable {
+struct CreateAssetModelOutputBody {
     let assetModelId: Swift.String?
     let assetModelArn: Swift.String?
     let assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
@@ -7005,7 +7005,7 @@ extension CreateAssetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAssetOutput: Swift.Equatable {
+public struct CreateAssetOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the asset, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
     /// This member is required.
     public var assetArn: Swift.String?
@@ -7028,7 +7028,7 @@ public struct CreateAssetOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssetOutputBody: Swift.Equatable {
+struct CreateAssetOutputBody {
     let assetId: Swift.String?
     let assetArn: Swift.String?
     let assetStatus: IoTSiteWiseClientTypes.AssetStatus?
@@ -7116,7 +7116,7 @@ extension CreateBulkImportJobInput {
     }
 }
 
-public struct CreateBulkImportJobInput: Swift.Equatable {
+public struct CreateBulkImportJobInput {
     /// If set to true, ingest new data into IoT SiteWise storage. Measurements with notifications, metrics and transforms are computed. If set to false, historical data is ingested into IoT SiteWise as is.
     public var adaptiveIngestion: Swift.Bool?
     /// If set to true, your data files is deleted from S3, after ingestion into IoT SiteWise storage.
@@ -7157,7 +7157,7 @@ public struct CreateBulkImportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateBulkImportJobInputBody: Swift.Equatable {
+struct CreateBulkImportJobInputBody {
     let jobName: Swift.String?
     let jobRoleArn: Swift.String?
     let files: [IoTSiteWiseClientTypes.File]?
@@ -7222,7 +7222,7 @@ extension CreateBulkImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBulkImportJobOutput: Swift.Equatable {
+public struct CreateBulkImportJobOutput {
     /// The ID of the job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -7257,7 +7257,7 @@ public struct CreateBulkImportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateBulkImportJobOutputBody: Swift.Equatable {
+struct CreateBulkImportJobOutputBody {
     let jobId: Swift.String?
     let jobName: Swift.String?
     let jobStatus: IoTSiteWiseClientTypes.JobStatus?
@@ -7341,7 +7341,7 @@ extension CreateDashboardInput {
     }
 }
 
-public struct CreateDashboardInput: Swift.Equatable {
+public struct CreateDashboardInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// The dashboard definition specified in a JSON literal. For detailed information, see [Creating dashboards (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-using-aws-cli.html) in the IoT SiteWise User Guide.
@@ -7376,7 +7376,7 @@ public struct CreateDashboardInput: Swift.Equatable {
     }
 }
 
-struct CreateDashboardInputBody: Swift.Equatable {
+struct CreateDashboardInputBody {
     let projectId: Swift.String?
     let dashboardName: Swift.String?
     let dashboardDescription: Swift.String?
@@ -7435,7 +7435,7 @@ extension CreateDashboardOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDashboardOutput: Swift.Equatable {
+public struct CreateDashboardOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the dashboard, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:dashboard/${DashboardId}
     /// This member is required.
     public var dashboardArn: Swift.String?
@@ -7453,7 +7453,7 @@ public struct CreateDashboardOutput: Swift.Equatable {
     }
 }
 
-struct CreateDashboardOutputBody: Swift.Equatable {
+struct CreateDashboardOutputBody {
     let dashboardId: Swift.String?
     let dashboardArn: Swift.String?
 }
@@ -7519,7 +7519,7 @@ extension CreateGatewayInput {
     }
 }
 
-public struct CreateGatewayInput: Swift.Equatable {
+public struct CreateGatewayInput {
     /// A unique, friendly name for the gateway.
     /// This member is required.
     public var gatewayName: Swift.String?
@@ -7541,7 +7541,7 @@ public struct CreateGatewayInput: Swift.Equatable {
     }
 }
 
-struct CreateGatewayInputBody: Swift.Equatable {
+struct CreateGatewayInputBody {
     let gatewayName: Swift.String?
     let gatewayPlatform: IoTSiteWiseClientTypes.GatewayPlatform?
     let tags: [Swift.String:Swift.String]?
@@ -7588,7 +7588,7 @@ extension CreateGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGatewayOutput: Swift.Equatable {
+public struct CreateGatewayOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the gateway, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}
     /// This member is required.
     public var gatewayArn: Swift.String?
@@ -7606,7 +7606,7 @@ public struct CreateGatewayOutput: Swift.Equatable {
     }
 }
 
-struct CreateGatewayOutputBody: Swift.Equatable {
+struct CreateGatewayOutputBody {
     let gatewayId: Swift.String?
     let gatewayArn: Swift.String?
 }
@@ -7700,7 +7700,7 @@ extension CreatePortalInput {
     }
 }
 
-public struct CreatePortalInput: Swift.Equatable {
+public struct CreatePortalInput {
     /// Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal. You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range. For more information, see [Monitoring with alarms](https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html) in the IoT SiteWise Application Guide.
     public var alarms: IoTSiteWiseClientTypes.Alarms?
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -7758,7 +7758,7 @@ public struct CreatePortalInput: Swift.Equatable {
     }
 }
 
-struct CreatePortalInputBody: Swift.Equatable {
+struct CreatePortalInputBody {
     let portalName: Swift.String?
     let portalDescription: Swift.String?
     let portalContactEmail: Swift.String?
@@ -7839,7 +7839,7 @@ extension CreatePortalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePortalOutput: Swift.Equatable {
+public struct CreatePortalOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the portal, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId}
     /// This member is required.
     public var portalArn: Swift.String?
@@ -7872,7 +7872,7 @@ public struct CreatePortalOutput: Swift.Equatable {
     }
 }
 
-struct CreatePortalOutputBody: Swift.Equatable {
+struct CreatePortalOutputBody {
     let portalId: Swift.String?
     let portalArn: Swift.String?
     let portalStartUrl: Swift.String?
@@ -7958,7 +7958,7 @@ extension CreateProjectInput {
     }
 }
 
-public struct CreateProjectInput: Swift.Equatable {
+public struct CreateProjectInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// The ID of the portal in which to create the project.
@@ -7988,7 +7988,7 @@ public struct CreateProjectInput: Swift.Equatable {
     }
 }
 
-struct CreateProjectInputBody: Swift.Equatable {
+struct CreateProjectInputBody {
     let portalId: Swift.String?
     let projectName: Swift.String?
     let projectDescription: Swift.String?
@@ -8043,7 +8043,7 @@ extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProjectOutput: Swift.Equatable {
+public struct CreateProjectOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the project, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}
     /// This member is required.
     public var projectArn: Swift.String?
@@ -8061,7 +8061,7 @@ public struct CreateProjectOutput: Swift.Equatable {
     }
 }
 
-struct CreateProjectOutputBody: Swift.Equatable {
+struct CreateProjectOutputBody {
     let projectId: Swift.String?
     let projectArn: Swift.String?
 }
@@ -8129,7 +8129,7 @@ extension IoTSiteWiseClientTypes.Csv: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// A .CSV file.
-    public struct Csv: Swift.Equatable {
+    public struct Csv {
         /// The column names specified in the .csv file.
         /// This member is required.
         public var columnNames: [IoTSiteWiseClientTypes.ColumnName]?
@@ -8171,7 +8171,7 @@ extension IoTSiteWiseClientTypes.CustomerManagedS3Storage: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about a customer managed Amazon S3 bucket.
-    public struct CustomerManagedS3Storage: Swift.Equatable {
+    public struct CustomerManagedS3Storage {
         /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the Identity and Access Management role that allows IoT SiteWise to send data to Amazon S3.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -8236,7 +8236,7 @@ extension IoTSiteWiseClientTypes.DashboardSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a dashboard summary.
-    public struct DashboardSummary: Swift.Equatable {
+    public struct DashboardSummary {
         /// The date the dashboard was created, in Unix epoch time.
         public var creationDate: ClientRuntime.Date?
         /// The dashboard's description.
@@ -8319,7 +8319,7 @@ extension IoTSiteWiseClientTypes.Datum: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Represents a single data point in a query result.
-    public struct Datum: Swift.Equatable {
+    public struct Datum {
         /// Indicates if the data point is an array.
         public var arrayValue: [IoTSiteWiseClientTypes.Datum]?
         /// Indicates if the data point is null.
@@ -8367,7 +8367,7 @@ extension DeleteAccessPolicyInput {
     }
 }
 
-public struct DeleteAccessPolicyInput: Swift.Equatable {
+public struct DeleteAccessPolicyInput {
     /// The ID of the access policy to be deleted.
     /// This member is required.
     public var accessPolicyId: Swift.String?
@@ -8384,7 +8384,7 @@ public struct DeleteAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccessPolicyInputBody: Swift.Equatable {
+struct DeleteAccessPolicyInputBody {
 }
 
 extension DeleteAccessPolicyInputBody: Swift.Decodable {
@@ -8398,7 +8398,7 @@ extension DeleteAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAccessPolicyOutput: Swift.Equatable {
+public struct DeleteAccessPolicyOutput {
 
     public init() { }
 }
@@ -8439,7 +8439,7 @@ extension DeleteAssetInput {
     }
 }
 
-public struct DeleteAssetInput: Swift.Equatable {
+public struct DeleteAssetInput {
     /// The ID of the asset to delete. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetId: Swift.String?
@@ -8456,7 +8456,7 @@ public struct DeleteAssetInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssetInputBody: Swift.Equatable {
+struct DeleteAssetInputBody {
 }
 
 extension DeleteAssetInputBody: Swift.Decodable {
@@ -8490,7 +8490,7 @@ extension DeleteAssetModelCompositeModelInput {
     }
 }
 
-public struct DeleteAssetModelCompositeModelInput: Swift.Equatable {
+public struct DeleteAssetModelCompositeModelInput {
     /// The ID of a composite model on this asset model.
     /// This member is required.
     public var assetModelCompositeModelId: Swift.String?
@@ -8512,7 +8512,7 @@ public struct DeleteAssetModelCompositeModelInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssetModelCompositeModelInputBody: Swift.Equatable {
+struct DeleteAssetModelCompositeModelInputBody {
 }
 
 extension DeleteAssetModelCompositeModelInputBody: Swift.Decodable {
@@ -8533,7 +8533,7 @@ extension DeleteAssetModelCompositeModelOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteAssetModelCompositeModelOutput: Swift.Equatable {
+public struct DeleteAssetModelCompositeModelOutput {
     /// Contains current status information for an asset model. For more information, see [Asset and model states](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
@@ -8546,7 +8546,7 @@ public struct DeleteAssetModelCompositeModelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAssetModelCompositeModelOutputBody: Swift.Equatable {
+struct DeleteAssetModelCompositeModelOutputBody {
     let assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
 }
 
@@ -8599,7 +8599,7 @@ extension DeleteAssetModelInput {
     }
 }
 
-public struct DeleteAssetModelInput: Swift.Equatable {
+public struct DeleteAssetModelInput {
     /// The ID of the asset model to delete. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelId: Swift.String?
@@ -8616,7 +8616,7 @@ public struct DeleteAssetModelInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssetModelInputBody: Swift.Equatable {
+struct DeleteAssetModelInputBody {
 }
 
 extension DeleteAssetModelInputBody: Swift.Decodable {
@@ -8637,7 +8637,7 @@ extension DeleteAssetModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAssetModelOutput: Swift.Equatable {
+public struct DeleteAssetModelOutput {
     /// The status of the asset model, which contains a state (DELETING after successfully calling this operation) and any error message.
     /// This member is required.
     public var assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
@@ -8650,7 +8650,7 @@ public struct DeleteAssetModelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAssetModelOutputBody: Swift.Equatable {
+struct DeleteAssetModelOutputBody {
     let assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
 }
 
@@ -8693,7 +8693,7 @@ extension DeleteAssetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAssetOutput: Swift.Equatable {
+public struct DeleteAssetOutput {
     /// The status of the asset, which contains a state (DELETING after successfully calling this operation) and any error message.
     /// This member is required.
     public var assetStatus: IoTSiteWiseClientTypes.AssetStatus?
@@ -8706,7 +8706,7 @@ public struct DeleteAssetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAssetOutputBody: Swift.Equatable {
+struct DeleteAssetOutputBody {
     let assetStatus: IoTSiteWiseClientTypes.AssetStatus?
 }
 
@@ -8759,7 +8759,7 @@ extension DeleteDashboardInput {
     }
 }
 
-public struct DeleteDashboardInput: Swift.Equatable {
+public struct DeleteDashboardInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// The ID of the dashboard to delete.
@@ -8776,7 +8776,7 @@ public struct DeleteDashboardInput: Swift.Equatable {
     }
 }
 
-struct DeleteDashboardInputBody: Swift.Equatable {
+struct DeleteDashboardInputBody {
 }
 
 extension DeleteDashboardInputBody: Swift.Decodable {
@@ -8790,7 +8790,7 @@ extension DeleteDashboardOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDashboardOutput: Swift.Equatable {
+public struct DeleteDashboardOutput {
 
     public init() { }
 }
@@ -8819,7 +8819,7 @@ extension DeleteGatewayInput {
     }
 }
 
-public struct DeleteGatewayInput: Swift.Equatable {
+public struct DeleteGatewayInput {
     /// The ID of the gateway to delete.
     /// This member is required.
     public var gatewayId: Swift.String?
@@ -8832,7 +8832,7 @@ public struct DeleteGatewayInput: Swift.Equatable {
     }
 }
 
-struct DeleteGatewayInputBody: Swift.Equatable {
+struct DeleteGatewayInputBody {
 }
 
 extension DeleteGatewayInputBody: Swift.Decodable {
@@ -8846,7 +8846,7 @@ extension DeleteGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGatewayOutput: Swift.Equatable {
+public struct DeleteGatewayOutput {
 
     public init() { }
 }
@@ -8887,7 +8887,7 @@ extension DeletePortalInput {
     }
 }
 
-public struct DeletePortalInput: Swift.Equatable {
+public struct DeletePortalInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// The ID of the portal to delete.
@@ -8904,7 +8904,7 @@ public struct DeletePortalInput: Swift.Equatable {
     }
 }
 
-struct DeletePortalInputBody: Swift.Equatable {
+struct DeletePortalInputBody {
 }
 
 extension DeletePortalInputBody: Swift.Decodable {
@@ -8925,7 +8925,7 @@ extension DeletePortalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePortalOutput: Swift.Equatable {
+public struct DeletePortalOutput {
     /// The status of the portal, which contains a state (DELETING after successfully calling this operation) and any error message.
     /// This member is required.
     public var portalStatus: IoTSiteWiseClientTypes.PortalStatus?
@@ -8938,7 +8938,7 @@ public struct DeletePortalOutput: Swift.Equatable {
     }
 }
 
-struct DeletePortalOutputBody: Swift.Equatable {
+struct DeletePortalOutputBody {
     let portalStatus: IoTSiteWiseClientTypes.PortalStatus?
 }
 
@@ -8991,7 +8991,7 @@ extension DeleteProjectInput {
     }
 }
 
-public struct DeleteProjectInput: Swift.Equatable {
+public struct DeleteProjectInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// The ID of the project.
@@ -9008,7 +9008,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectInputBody: Swift.Equatable {
+struct DeleteProjectInputBody {
 }
 
 extension DeleteProjectInputBody: Swift.Decodable {
@@ -9022,7 +9022,7 @@ extension DeleteProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProjectOutput: Swift.Equatable {
+public struct DeleteProjectOutput {
 
     public init() { }
 }
@@ -9081,7 +9081,7 @@ extension DeleteTimeSeriesInput {
     }
 }
 
-public struct DeleteTimeSeriesInput: Swift.Equatable {
+public struct DeleteTimeSeriesInput {
     /// The alias that identifies the time series.
     public var alias: Swift.String?
     /// The ID of the asset in which the asset property was created. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
@@ -9105,7 +9105,7 @@ public struct DeleteTimeSeriesInput: Swift.Equatable {
     }
 }
 
-struct DeleteTimeSeriesInputBody: Swift.Equatable {
+struct DeleteTimeSeriesInputBody {
     let clientToken: Swift.String?
 }
 
@@ -9126,7 +9126,7 @@ extension DeleteTimeSeriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTimeSeriesOutput: Swift.Equatable {
+public struct DeleteTimeSeriesOutput {
 
     public init() { }
 }
@@ -9156,7 +9156,7 @@ extension DescribeAccessPolicyInput {
     }
 }
 
-public struct DescribeAccessPolicyInput: Swift.Equatable {
+public struct DescribeAccessPolicyInput {
     /// The ID of the access policy.
     /// This member is required.
     public var accessPolicyId: Swift.String?
@@ -9169,7 +9169,7 @@ public struct DescribeAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccessPolicyInputBody: Swift.Equatable {
+struct DescribeAccessPolicyInputBody {
 }
 
 extension DescribeAccessPolicyInputBody: Swift.Decodable {
@@ -9202,7 +9202,7 @@ extension DescribeAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccessPolicyOutput: Swift.Equatable {
+public struct DescribeAccessPolicyOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the access policy, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:access-policy/${AccessPolicyId}
     /// This member is required.
     public var accessPolicyArn: Swift.String?
@@ -9245,7 +9245,7 @@ public struct DescribeAccessPolicyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccessPolicyOutputBody: Swift.Equatable {
+struct DescribeAccessPolicyOutputBody {
     let accessPolicyId: Swift.String?
     let accessPolicyArn: Swift.String?
     let accessPolicyIdentity: IoTSiteWiseClientTypes.Identity?
@@ -9309,7 +9309,7 @@ extension DescribeActionInput {
     }
 }
 
-public struct DescribeActionInput: Swift.Equatable {
+public struct DescribeActionInput {
     /// The ID of the action.
     /// This member is required.
     public var actionId: Swift.String?
@@ -9322,7 +9322,7 @@ public struct DescribeActionInput: Swift.Equatable {
     }
 }
 
-struct DescribeActionInputBody: Swift.Equatable {
+struct DescribeActionInputBody {
 }
 
 extension DescribeActionInputBody: Swift.Decodable {
@@ -9351,7 +9351,7 @@ extension DescribeActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeActionOutput: Swift.Equatable {
+public struct DescribeActionOutput {
     /// The ID of the action definition.
     /// This member is required.
     public var actionDefinitionId: Swift.String?
@@ -9384,7 +9384,7 @@ public struct DescribeActionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeActionOutputBody: Swift.Equatable {
+struct DescribeActionOutputBody {
     let actionId: Swift.String?
     let targetResource: IoTSiteWiseClientTypes.TargetResource?
     let actionDefinitionId: Swift.String?
@@ -9443,7 +9443,7 @@ extension DescribeAssetCompositeModelInput {
     }
 }
 
-public struct DescribeAssetCompositeModelInput: Swift.Equatable {
+public struct DescribeAssetCompositeModelInput {
     /// The ID of a composite model on this asset. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetCompositeModelId: Swift.String?
@@ -9461,7 +9461,7 @@ public struct DescribeAssetCompositeModelInput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetCompositeModelInputBody: Swift.Equatable {
+struct DescribeAssetCompositeModelInputBody {
 }
 
 extension DescribeAssetCompositeModelInputBody: Swift.Decodable {
@@ -9500,7 +9500,7 @@ extension DescribeAssetCompositeModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAssetCompositeModelOutput: Swift.Equatable {
+public struct DescribeAssetCompositeModelOutput {
     /// The available actions for a composite model on this asset.
     public var actionDefinitions: [IoTSiteWiseClientTypes.ActionDefinition]?
     /// A description for the composite model.
@@ -9556,7 +9556,7 @@ public struct DescribeAssetCompositeModelOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetCompositeModelOutputBody: Swift.Equatable {
+struct DescribeAssetCompositeModelOutputBody {
     let assetId: Swift.String?
     let assetCompositeModelId: Swift.String?
     let assetCompositeModelExternalId: Swift.String?
@@ -9680,7 +9680,7 @@ extension DescribeAssetInput {
     }
 }
 
-public struct DescribeAssetInput: Swift.Equatable {
+public struct DescribeAssetInput {
     /// The ID of the asset. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetId: Swift.String?
@@ -9697,7 +9697,7 @@ public struct DescribeAssetInput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetInputBody: Swift.Equatable {
+struct DescribeAssetInputBody {
 }
 
 extension DescribeAssetInputBody: Swift.Decodable {
@@ -9719,7 +9719,7 @@ extension DescribeAssetModelCompositeModelInput {
     }
 }
 
-public struct DescribeAssetModelCompositeModelInput: Swift.Equatable {
+public struct DescribeAssetModelCompositeModelInput {
     /// The ID of a composite model on this asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelCompositeModelId: Swift.String?
@@ -9737,7 +9737,7 @@ public struct DescribeAssetModelCompositeModelInput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetModelCompositeModelInputBody: Swift.Equatable {
+struct DescribeAssetModelCompositeModelInputBody {
 }
 
 extension DescribeAssetModelCompositeModelInputBody: Swift.Decodable {
@@ -9778,7 +9778,7 @@ extension DescribeAssetModelCompositeModelOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeAssetModelCompositeModelOutput: Swift.Equatable {
+public struct DescribeAssetModelCompositeModelOutput {
     /// The available actions for a composite model on this asset model.
     public var actionDefinitions: [IoTSiteWiseClientTypes.ActionDefinition]?
     /// The description for the composite model.
@@ -9838,7 +9838,7 @@ public struct DescribeAssetModelCompositeModelOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetModelCompositeModelOutputBody: Swift.Equatable {
+struct DescribeAssetModelCompositeModelOutputBody {
     let assetModelId: Swift.String?
     let assetModelCompositeModelId: Swift.String?
     let assetModelCompositeModelExternalId: Swift.String?
@@ -9966,7 +9966,7 @@ extension DescribeAssetModelInput {
     }
 }
 
-public struct DescribeAssetModelInput: Swift.Equatable {
+public struct DescribeAssetModelInput {
     /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelId: Swift.String?
@@ -9983,7 +9983,7 @@ public struct DescribeAssetModelInput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetModelInputBody: Swift.Equatable {
+struct DescribeAssetModelInputBody {
 }
 
 extension DescribeAssetModelInputBody: Swift.Decodable {
@@ -10028,7 +10028,7 @@ extension DescribeAssetModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAssetModelOutput: Swift.Equatable {
+public struct DescribeAssetModelOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the asset model, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
     /// This member is required.
     public var assetModelArn: Swift.String?
@@ -10101,7 +10101,7 @@ public struct DescribeAssetModelOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetModelOutputBody: Swift.Equatable {
+struct DescribeAssetModelOutputBody {
     let assetModelId: Swift.String?
     let assetModelArn: Swift.String?
     let assetModelName: Swift.String?
@@ -10251,7 +10251,7 @@ extension DescribeAssetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAssetOutput: Swift.Equatable {
+public struct DescribeAssetOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the asset, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
     /// This member is required.
     public var assetArn: Swift.String?
@@ -10320,7 +10320,7 @@ public struct DescribeAssetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetOutputBody: Swift.Equatable {
+struct DescribeAssetOutputBody {
     let assetId: Swift.String?
     let assetArn: Swift.String?
     let assetName: Swift.String?
@@ -10447,7 +10447,7 @@ extension DescribeAssetPropertyInput {
     }
 }
 
-public struct DescribeAssetPropertyInput: Swift.Equatable {
+public struct DescribeAssetPropertyInput {
     /// The ID of the asset. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetId: Swift.String?
@@ -10465,7 +10465,7 @@ public struct DescribeAssetPropertyInput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetPropertyInputBody: Swift.Equatable {
+struct DescribeAssetPropertyInputBody {
 }
 
 extension DescribeAssetPropertyInputBody: Swift.Decodable {
@@ -10496,7 +10496,7 @@ extension DescribeAssetPropertyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAssetPropertyOutput: Swift.Equatable {
+public struct DescribeAssetPropertyOutput {
     /// The external ID of the asset. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide.
     public var assetExternalId: Swift.String?
     /// The ID of the asset, in UUID format.
@@ -10531,7 +10531,7 @@ public struct DescribeAssetPropertyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetPropertyOutputBody: Swift.Equatable {
+struct DescribeAssetPropertyOutputBody {
     let assetId: Swift.String?
     let assetName: Swift.String?
     let assetModelId: Swift.String?
@@ -10591,7 +10591,7 @@ extension DescribeBulkImportJobInput {
     }
 }
 
-public struct DescribeBulkImportJobInput: Swift.Equatable {
+public struct DescribeBulkImportJobInput {
     /// The ID of the job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -10604,7 +10604,7 @@ public struct DescribeBulkImportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeBulkImportJobInputBody: Swift.Equatable {
+struct DescribeBulkImportJobInputBody {
 }
 
 extension DescribeBulkImportJobInputBody: Swift.Decodable {
@@ -10645,7 +10645,7 @@ extension DescribeBulkImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBulkImportJobOutput: Swift.Equatable {
+public struct DescribeBulkImportJobOutput {
     /// If set to true, ingest new data into IoT SiteWise storage. Measurements with notifications, metrics and transforms are computed. If set to false, historical data is ingested into IoT SiteWise as is.
     public var adaptiveIngestion: Swift.Bool?
     /// If set to true, your data files is deleted from S3, after ingestion into IoT SiteWise storage.
@@ -10718,7 +10718,7 @@ public struct DescribeBulkImportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBulkImportJobOutputBody: Swift.Equatable {
+struct DescribeBulkImportJobOutputBody {
     let jobId: Swift.String?
     let jobName: Swift.String?
     let jobStatus: IoTSiteWiseClientTypes.JobStatus?
@@ -10807,7 +10807,7 @@ extension DescribeDashboardInput {
     }
 }
 
-public struct DescribeDashboardInput: Swift.Equatable {
+public struct DescribeDashboardInput {
     /// The ID of the dashboard.
     /// This member is required.
     public var dashboardId: Swift.String?
@@ -10820,7 +10820,7 @@ public struct DescribeDashboardInput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardInputBody: Swift.Equatable {
+struct DescribeDashboardInputBody {
 }
 
 extension DescribeDashboardInputBody: Swift.Decodable {
@@ -10855,7 +10855,7 @@ extension DescribeDashboardOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDashboardOutput: Swift.Equatable {
+public struct DescribeDashboardOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the dashboard, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:dashboard/${DashboardId}
     /// This member is required.
     public var dashboardArn: Swift.String?
@@ -10902,7 +10902,7 @@ public struct DescribeDashboardOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardOutputBody: Swift.Equatable {
+struct DescribeDashboardOutputBody {
     let dashboardId: Swift.String?
     let dashboardArn: Swift.String?
     let dashboardName: Swift.String?
@@ -10967,12 +10967,12 @@ extension DescribeDefaultEncryptionConfigurationInput {
     }
 }
 
-public struct DescribeDefaultEncryptionConfigurationInput: Swift.Equatable {
+public struct DescribeDefaultEncryptionConfigurationInput {
 
     public init() { }
 }
 
-struct DescribeDefaultEncryptionConfigurationInputBody: Swift.Equatable {
+struct DescribeDefaultEncryptionConfigurationInputBody {
 }
 
 extension DescribeDefaultEncryptionConfigurationInputBody: Swift.Decodable {
@@ -10997,7 +10997,7 @@ extension DescribeDefaultEncryptionConfigurationOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct DescribeDefaultEncryptionConfigurationOutput: Swift.Equatable {
+public struct DescribeDefaultEncryptionConfigurationOutput {
     /// The status of the account configuration. This contains the ConfigurationState. If there's an error, it also contains the ErrorDetails.
     /// This member is required.
     public var configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus?
@@ -11019,7 +11019,7 @@ public struct DescribeDefaultEncryptionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDefaultEncryptionConfigurationOutputBody: Swift.Equatable {
+struct DescribeDefaultEncryptionConfigurationOutputBody {
     let encryptionType: IoTSiteWiseClientTypes.EncryptionType?
     let kmsKeyArn: Swift.String?
     let configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus?
@@ -11069,7 +11069,7 @@ extension DescribeGatewayCapabilityConfigurationInput {
     }
 }
 
-public struct DescribeGatewayCapabilityConfigurationInput: Swift.Equatable {
+public struct DescribeGatewayCapabilityConfigurationInput {
     /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
     /// This member is required.
     public var capabilityNamespace: Swift.String?
@@ -11087,7 +11087,7 @@ public struct DescribeGatewayCapabilityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeGatewayCapabilityConfigurationInputBody: Swift.Equatable {
+struct DescribeGatewayCapabilityConfigurationInputBody {
 }
 
 extension DescribeGatewayCapabilityConfigurationInputBody: Swift.Decodable {
@@ -11114,7 +11114,7 @@ extension DescribeGatewayCapabilityConfigurationOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct DescribeGatewayCapabilityConfigurationOutput: Swift.Equatable {
+public struct DescribeGatewayCapabilityConfigurationOutput {
     /// The JSON document that defines the gateway capability's configuration. For more information, see [Configuring data sources (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/configure-sources.html#configure-source-cli) in the IoT SiteWise User Guide.
     /// This member is required.
     public var capabilityConfiguration: Swift.String?
@@ -11148,7 +11148,7 @@ public struct DescribeGatewayCapabilityConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeGatewayCapabilityConfigurationOutputBody: Swift.Equatable {
+struct DescribeGatewayCapabilityConfigurationOutputBody {
     let gatewayId: Swift.String?
     let capabilityNamespace: Swift.String?
     let capabilityConfiguration: Swift.String?
@@ -11200,7 +11200,7 @@ extension DescribeGatewayInput {
     }
 }
 
-public struct DescribeGatewayInput: Swift.Equatable {
+public struct DescribeGatewayInput {
     /// The ID of the gateway device.
     /// This member is required.
     public var gatewayId: Swift.String?
@@ -11213,7 +11213,7 @@ public struct DescribeGatewayInput: Swift.Equatable {
     }
 }
 
-struct DescribeGatewayInputBody: Swift.Equatable {
+struct DescribeGatewayInputBody {
 }
 
 extension DescribeGatewayInputBody: Swift.Decodable {
@@ -11246,7 +11246,7 @@ extension DescribeGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeGatewayOutput: Swift.Equatable {
+public struct DescribeGatewayOutput {
     /// The date the gateway was created, in Unix epoch time.
     /// This member is required.
     public var creationDate: ClientRuntime.Date?
@@ -11288,7 +11288,7 @@ public struct DescribeGatewayOutput: Swift.Equatable {
     }
 }
 
-struct DescribeGatewayOutputBody: Swift.Equatable {
+struct DescribeGatewayOutputBody {
     let gatewayId: Swift.String?
     let gatewayName: Swift.String?
     let gatewayArn: Swift.String?
@@ -11358,12 +11358,12 @@ extension DescribeLoggingOptionsInput {
     }
 }
 
-public struct DescribeLoggingOptionsInput: Swift.Equatable {
+public struct DescribeLoggingOptionsInput {
 
     public init() { }
 }
 
-struct DescribeLoggingOptionsInputBody: Swift.Equatable {
+struct DescribeLoggingOptionsInputBody {
 }
 
 extension DescribeLoggingOptionsInputBody: Swift.Decodable {
@@ -11384,7 +11384,7 @@ extension DescribeLoggingOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLoggingOptionsOutput: Swift.Equatable {
+public struct DescribeLoggingOptionsOutput {
     /// The current logging options.
     /// This member is required.
     public var loggingOptions: IoTSiteWiseClientTypes.LoggingOptions?
@@ -11397,7 +11397,7 @@ public struct DescribeLoggingOptionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLoggingOptionsOutputBody: Swift.Equatable {
+struct DescribeLoggingOptionsOutputBody {
     let loggingOptions: IoTSiteWiseClientTypes.LoggingOptions?
 }
 
@@ -11437,7 +11437,7 @@ extension DescribePortalInput {
     }
 }
 
-public struct DescribePortalInput: Swift.Equatable {
+public struct DescribePortalInput {
     /// The ID of the portal.
     /// This member is required.
     public var portalId: Swift.String?
@@ -11450,7 +11450,7 @@ public struct DescribePortalInput: Swift.Equatable {
     }
 }
 
-struct DescribePortalInputBody: Swift.Equatable {
+struct DescribePortalInputBody {
 }
 
 extension DescribePortalInputBody: Swift.Decodable {
@@ -11499,7 +11499,7 @@ extension DescribePortalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePortalOutput: Swift.Equatable {
+public struct DescribePortalOutput {
     /// Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal.
     public var alarms: IoTSiteWiseClientTypes.Alarms?
     /// The email address that sends alarm notifications.
@@ -11576,7 +11576,7 @@ public struct DescribePortalOutput: Swift.Equatable {
     }
 }
 
-struct DescribePortalOutputBody: Swift.Equatable {
+struct DescribePortalOutputBody {
     let portalId: Swift.String?
     let portalArn: Swift.String?
     let portalName: Swift.String?
@@ -11672,7 +11672,7 @@ extension DescribeProjectInput {
     }
 }
 
-public struct DescribeProjectInput: Swift.Equatable {
+public struct DescribeProjectInput {
     /// The ID of the project.
     /// This member is required.
     public var projectId: Swift.String?
@@ -11685,7 +11685,7 @@ public struct DescribeProjectInput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectInputBody: Swift.Equatable {
+struct DescribeProjectInputBody {
 }
 
 extension DescribeProjectInputBody: Swift.Decodable {
@@ -11718,7 +11718,7 @@ extension DescribeProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProjectOutput: Swift.Equatable {
+public struct DescribeProjectOutput {
     /// The ID of the portal that the project is in.
     /// This member is required.
     public var portalId: Swift.String?
@@ -11760,7 +11760,7 @@ public struct DescribeProjectOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectOutputBody: Swift.Equatable {
+struct DescribeProjectOutputBody {
     let projectId: Swift.String?
     let projectArn: Swift.String?
     let projectName: Swift.String?
@@ -11821,12 +11821,12 @@ extension DescribeStorageConfigurationInput {
     }
 }
 
-public struct DescribeStorageConfigurationInput: Swift.Equatable {
+public struct DescribeStorageConfigurationInput {
 
     public init() { }
 }
 
-struct DescribeStorageConfigurationInputBody: Swift.Equatable {
+struct DescribeStorageConfigurationInputBody {
 }
 
 extension DescribeStorageConfigurationInputBody: Swift.Decodable {
@@ -11861,7 +11861,7 @@ extension DescribeStorageConfigurationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeStorageConfigurationOutput: Swift.Equatable {
+public struct DescribeStorageConfigurationOutput {
     /// Contains current status information for the configuration.
     /// This member is required.
     public var configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus?
@@ -11914,7 +11914,7 @@ public struct DescribeStorageConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStorageConfigurationOutputBody: Swift.Equatable {
+struct DescribeStorageConfigurationOutputBody {
     let storageType: IoTSiteWiseClientTypes.StorageType?
     let multiLayerStorage: IoTSiteWiseClientTypes.MultiLayerStorage?
     let disassociatedDataStorage: IoTSiteWiseClientTypes.DisassociatedDataStorageState?
@@ -12001,7 +12001,7 @@ extension DescribeTimeSeriesInput {
     }
 }
 
-public struct DescribeTimeSeriesInput: Swift.Equatable {
+public struct DescribeTimeSeriesInput {
     /// The alias that identifies the time series.
     public var alias: Swift.String?
     /// The ID of the asset in which the asset property was created. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
@@ -12021,7 +12021,7 @@ public struct DescribeTimeSeriesInput: Swift.Equatable {
     }
 }
 
-struct DescribeTimeSeriesInputBody: Swift.Equatable {
+struct DescribeTimeSeriesInputBody {
 }
 
 extension DescribeTimeSeriesInputBody: Swift.Decodable {
@@ -12058,7 +12058,7 @@ extension DescribeTimeSeriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTimeSeriesOutput: Swift.Equatable {
+public struct DescribeTimeSeriesOutput {
     /// The alias that identifies the time series.
     public var alias: Swift.String?
     /// The ID of the asset in which the asset property was created.
@@ -12107,7 +12107,7 @@ public struct DescribeTimeSeriesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTimeSeriesOutputBody: Swift.Equatable {
+struct DescribeTimeSeriesOutputBody {
     let assetId: Swift.String?
     let propertyId: Swift.String?
     let alias: Swift.String?
@@ -12196,7 +12196,7 @@ extension IoTSiteWiseClientTypes.DetailedError: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains detailed error information.
-    public struct DetailedError: Swift.Equatable {
+    public struct DetailedError {
         /// The error code.
         /// This member is required.
         public var code: IoTSiteWiseClientTypes.DetailedErrorCode?
@@ -12279,7 +12279,7 @@ extension DisassociateAssetsInput {
     }
 }
 
-public struct DisassociateAssetsInput: Swift.Equatable {
+public struct DisassociateAssetsInput {
     /// The ID of the parent asset from which to disassociate the child asset. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetId: Swift.String?
@@ -12306,7 +12306,7 @@ public struct DisassociateAssetsInput: Swift.Equatable {
     }
 }
 
-struct DisassociateAssetsInputBody: Swift.Equatable {
+struct DisassociateAssetsInputBody {
     let hierarchyId: Swift.String?
     let childAssetId: Swift.String?
     let clientToken: Swift.String?
@@ -12335,7 +12335,7 @@ extension DisassociateAssetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateAssetsOutput: Swift.Equatable {
+public struct DisassociateAssetsOutput {
 
     public init() { }
 }
@@ -12401,7 +12401,7 @@ extension DisassociateTimeSeriesFromAssetPropertyInput {
     }
 }
 
-public struct DisassociateTimeSeriesFromAssetPropertyInput: Swift.Equatable {
+public struct DisassociateTimeSeriesFromAssetPropertyInput {
     /// The alias that identifies the time series.
     /// This member is required.
     public var alias: Swift.String?
@@ -12428,7 +12428,7 @@ public struct DisassociateTimeSeriesFromAssetPropertyInput: Swift.Equatable {
     }
 }
 
-struct DisassociateTimeSeriesFromAssetPropertyInputBody: Swift.Equatable {
+struct DisassociateTimeSeriesFromAssetPropertyInputBody {
     let clientToken: Swift.String?
 }
 
@@ -12449,7 +12449,7 @@ extension DisassociateTimeSeriesFromAssetPropertyOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct DisassociateTimeSeriesFromAssetPropertyOutput: Swift.Equatable {
+public struct DisassociateTimeSeriesFromAssetPropertyOutput {
 
     public init() { }
 }
@@ -12610,7 +12610,7 @@ extension IoTSiteWiseClientTypes.ErrorDetails: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains the details of an IoT SiteWise error.
-    public struct ErrorDetails: Swift.Equatable {
+    public struct ErrorDetails {
         /// The error code.
         /// This member is required.
         public var code: IoTSiteWiseClientTypes.ErrorCode?
@@ -12661,7 +12661,7 @@ extension IoTSiteWiseClientTypes.ErrorReportLocation: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// The Amazon S3 destination where errors associated with the job creation request are saved.
-    public struct ErrorReportLocation: Swift.Equatable {
+    public struct ErrorReportLocation {
         /// The name of the Amazon S3 bucket to which errors associated with the bulk import job are sent.
         /// This member is required.
         public var bucket: Swift.String?
@@ -12713,7 +12713,7 @@ extension ExecuteActionInput {
     }
 }
 
-public struct ExecuteActionInput: Swift.Equatable {
+public struct ExecuteActionInput {
     /// The ID of the action definition.
     /// This member is required.
     public var actionDefinitionId: Swift.String?
@@ -12740,7 +12740,7 @@ public struct ExecuteActionInput: Swift.Equatable {
     }
 }
 
-struct ExecuteActionInputBody: Swift.Equatable {
+struct ExecuteActionInputBody {
     let targetResource: IoTSiteWiseClientTypes.TargetResource?
     let actionDefinitionId: Swift.String?
     let actionPayload: IoTSiteWiseClientTypes.ActionPayload?
@@ -12780,7 +12780,7 @@ extension ExecuteActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExecuteActionOutput: Swift.Equatable {
+public struct ExecuteActionOutput {
     /// The ID of the action.
     /// This member is required.
     public var actionId: Swift.String?
@@ -12793,7 +12793,7 @@ public struct ExecuteActionOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteActionOutputBody: Swift.Equatable {
+struct ExecuteActionOutputBody {
     let actionId: Swift.String?
 }
 
@@ -12853,7 +12853,7 @@ extension ExecuteQueryInput {
     }
 }
 
-public struct ExecuteQueryInput: Swift.Equatable {
+public struct ExecuteQueryInput {
     /// The maximum number of results to return at one time. The default is 25.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
@@ -12874,7 +12874,7 @@ public struct ExecuteQueryInput: Swift.Equatable {
     }
 }
 
-struct ExecuteQueryInputBody: Swift.Equatable {
+struct ExecuteQueryInputBody {
     let queryStatement: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -12914,7 +12914,7 @@ extension ExecuteQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExecuteQueryOutput: Swift.Equatable {
+public struct ExecuteQueryOutput {
     /// Represents a single column in the query results.
     public var columns: [IoTSiteWiseClientTypes.ColumnInfo]?
     /// The string that specifies the next page of results.
@@ -12934,7 +12934,7 @@ public struct ExecuteQueryOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteQueryOutputBody: Swift.Equatable {
+struct ExecuteQueryOutputBody {
     let columns: [IoTSiteWiseClientTypes.ColumnInfo]?
     let rows: [IoTSiteWiseClientTypes.Row]?
     let nextToken: Swift.String?
@@ -13020,7 +13020,7 @@ extension IoTSiteWiseClientTypes.ExpressionVariable: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains expression variable information.
-    public struct ExpressionVariable: Swift.Equatable {
+    public struct ExpressionVariable {
         /// The friendly name of the variable to be used in the expression.
         /// This member is required.
         public var name: Swift.String?
@@ -13073,7 +13073,7 @@ extension IoTSiteWiseClientTypes.File: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// The file in Amazon S3 where your data is saved.
-    public struct File: Swift.Equatable {
+    public struct File {
         /// The name of the Amazon S3 bucket from which data is imported.
         /// This member is required.
         public var bucket: Swift.String?
@@ -13124,7 +13124,7 @@ extension IoTSiteWiseClientTypes.FileFormat: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// The file format of the data in S3.
-    public struct FileFormat: Swift.Equatable {
+    public struct FileFormat {
         /// The file is in .CSV format.
         public var csv: IoTSiteWiseClientTypes.Csv?
         /// The file is in parquet format.
@@ -13163,7 +13163,7 @@ extension IoTSiteWiseClientTypes.ForwardingConfig: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// The forwarding configuration for a given property.
-    public struct ForwardingConfig: Swift.Equatable {
+    public struct ForwardingConfig {
         /// The forwarding state for the given property.
         /// This member is required.
         public var state: IoTSiteWiseClientTypes.ForwardingConfigState?
@@ -13237,7 +13237,7 @@ extension IoTSiteWiseClientTypes.GatewayCapabilitySummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of a gateway capability configuration.
-    public struct GatewayCapabilitySummary: Swift.Equatable {
+    public struct GatewayCapabilitySummary {
         /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
         /// This member is required.
         public var capabilityNamespace: Swift.String?
@@ -13290,7 +13290,7 @@ extension IoTSiteWiseClientTypes.GatewayPlatform: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a gateway's platform information.
-    public struct GatewayPlatform: Swift.Equatable {
+    public struct GatewayPlatform {
         /// A gateway that runs on IoT Greengrass.
         public var greengrass: IoTSiteWiseClientTypes.Greengrass?
         /// A gateway that runs on IoT Greengrass V2.
@@ -13371,7 +13371,7 @@ extension IoTSiteWiseClientTypes.GatewaySummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of a gateway.
-    public struct GatewaySummary: Swift.Equatable {
+    public struct GatewaySummary {
         /// The date the gateway was created, in Unix epoch time.
         /// This member is required.
         public var creationDate: ClientRuntime.Date?
@@ -13480,7 +13480,7 @@ extension GetAssetPropertyAggregatesInput {
     }
 }
 
-public struct GetAssetPropertyAggregatesInput: Swift.Equatable {
+public struct GetAssetPropertyAggregatesInput {
     /// The data aggregating function.
     /// This member is required.
     public var aggregateTypes: [IoTSiteWiseClientTypes.AggregateType]?
@@ -13540,7 +13540,7 @@ public struct GetAssetPropertyAggregatesInput: Swift.Equatable {
     }
 }
 
-struct GetAssetPropertyAggregatesInputBody: Swift.Equatable {
+struct GetAssetPropertyAggregatesInputBody {
 }
 
 extension GetAssetPropertyAggregatesInputBody: Swift.Decodable {
@@ -13563,7 +13563,7 @@ extension GetAssetPropertyAggregatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssetPropertyAggregatesOutput: Swift.Equatable {
+public struct GetAssetPropertyAggregatesOutput {
     /// The requested aggregated values.
     /// This member is required.
     public var aggregatedValues: [IoTSiteWiseClientTypes.AggregatedValue]?
@@ -13580,7 +13580,7 @@ public struct GetAssetPropertyAggregatesOutput: Swift.Equatable {
     }
 }
 
-struct GetAssetPropertyAggregatesOutputBody: Swift.Equatable {
+struct GetAssetPropertyAggregatesOutputBody {
     let aggregatedValues: [IoTSiteWiseClientTypes.AggregatedValue]?
     let nextToken: Swift.String?
 }
@@ -13677,7 +13677,7 @@ extension GetAssetPropertyValueHistoryInput {
     }
 }
 
-public struct GetAssetPropertyValueHistoryInput: Swift.Equatable {
+public struct GetAssetPropertyValueHistoryInput {
     /// The ID of the asset, in UUID format.
     public var assetId: Swift.String?
     /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
@@ -13725,7 +13725,7 @@ public struct GetAssetPropertyValueHistoryInput: Swift.Equatable {
     }
 }
 
-struct GetAssetPropertyValueHistoryInputBody: Swift.Equatable {
+struct GetAssetPropertyValueHistoryInputBody {
 }
 
 extension GetAssetPropertyValueHistoryInputBody: Swift.Decodable {
@@ -13748,7 +13748,7 @@ extension GetAssetPropertyValueHistoryOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetAssetPropertyValueHistoryOutput: Swift.Equatable {
+public struct GetAssetPropertyValueHistoryOutput {
     /// The asset property's value history.
     /// This member is required.
     public var assetPropertyValueHistory: [IoTSiteWiseClientTypes.AssetPropertyValue]?
@@ -13765,7 +13765,7 @@ public struct GetAssetPropertyValueHistoryOutput: Swift.Equatable {
     }
 }
 
-struct GetAssetPropertyValueHistoryOutputBody: Swift.Equatable {
+struct GetAssetPropertyValueHistoryOutputBody {
     let assetPropertyValueHistory: [IoTSiteWiseClientTypes.AssetPropertyValue]?
     let nextToken: Swift.String?
 }
@@ -13836,7 +13836,7 @@ extension GetAssetPropertyValueInput {
     }
 }
 
-public struct GetAssetPropertyValueInput: Swift.Equatable {
+public struct GetAssetPropertyValueInput {
     /// The ID of the asset, in UUID format.
     public var assetId: Swift.String?
     /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see [Mapping industrial data streams to asset properties](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html) in the IoT SiteWise User Guide.
@@ -13856,7 +13856,7 @@ public struct GetAssetPropertyValueInput: Swift.Equatable {
     }
 }
 
-struct GetAssetPropertyValueInputBody: Swift.Equatable {
+struct GetAssetPropertyValueInputBody {
 }
 
 extension GetAssetPropertyValueInputBody: Swift.Decodable {
@@ -13877,7 +13877,7 @@ extension GetAssetPropertyValueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssetPropertyValueOutput: Swift.Equatable {
+public struct GetAssetPropertyValueOutput {
     /// The current asset property value.
     public var propertyValue: IoTSiteWiseClientTypes.AssetPropertyValue?
 
@@ -13889,7 +13889,7 @@ public struct GetAssetPropertyValueOutput: Swift.Equatable {
     }
 }
 
-struct GetAssetPropertyValueOutputBody: Swift.Equatable {
+struct GetAssetPropertyValueOutputBody {
     let propertyValue: IoTSiteWiseClientTypes.AssetPropertyValue?
 }
 
@@ -13997,7 +13997,7 @@ extension GetInterpolatedAssetPropertyValuesInput {
     }
 }
 
-public struct GetInterpolatedAssetPropertyValuesInput: Swift.Equatable {
+public struct GetInterpolatedAssetPropertyValuesInput {
     /// The ID of the asset, in UUID format.
     public var assetId: Swift.String?
     /// The inclusive end of the range from which to interpolate data, expressed in seconds in Unix epoch time.
@@ -14073,7 +14073,7 @@ public struct GetInterpolatedAssetPropertyValuesInput: Swift.Equatable {
     }
 }
 
-struct GetInterpolatedAssetPropertyValuesInputBody: Swift.Equatable {
+struct GetInterpolatedAssetPropertyValuesInputBody {
 }
 
 extension GetInterpolatedAssetPropertyValuesInputBody: Swift.Decodable {
@@ -14096,7 +14096,7 @@ extension GetInterpolatedAssetPropertyValuesOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetInterpolatedAssetPropertyValuesOutput: Swift.Equatable {
+public struct GetInterpolatedAssetPropertyValuesOutput {
     /// The requested interpolated values.
     /// This member is required.
     public var interpolatedAssetPropertyValues: [IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue]?
@@ -14113,7 +14113,7 @@ public struct GetInterpolatedAssetPropertyValuesOutput: Swift.Equatable {
     }
 }
 
-struct GetInterpolatedAssetPropertyValuesOutputBody: Swift.Equatable {
+struct GetInterpolatedAssetPropertyValuesOutputBody {
     let interpolatedAssetPropertyValues: [IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue]?
     let nextToken: Swift.String?
 }
@@ -14178,7 +14178,7 @@ extension IoTSiteWiseClientTypes.Greengrass: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains details for a gateway that runs on IoT Greengrass. To create a gateway that runs on IoT Greengrass, you must add the IoT SiteWise connector to a Greengrass group and deploy it. Your Greengrass group must also have permissions to upload data to IoT SiteWise. For more information, see [Ingesting data using a gateway](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html) in the IoT SiteWise User Guide.
-    public struct Greengrass: Swift.Equatable {
+    public struct Greengrass {
         /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the Greengrass group. For more information about how to find a group's ARN, see [ListGroups](https://docs.aws.amazon.com/greengrass/latest/apireference/listgroups-get.html) and [GetGroup](https://docs.aws.amazon.com/greengrass/latest/apireference/getgroup-get.html) in the IoT Greengrass API Reference.
         /// This member is required.
         public var groupArn: Swift.String?
@@ -14214,7 +14214,7 @@ extension IoTSiteWiseClientTypes.GreengrassV2: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains details for a gateway that runs on IoT Greengrass V2. To create a gateway that runs on IoT Greengrass V2, you must deploy the IoT SiteWise Edge component to your gateway device. Your [Greengrass device role](https://docs.aws.amazon.com/greengrass/v2/developerguide/device-service-role.html) must use the AWSIoTSiteWiseEdgeAccess policy. For more information, see [Using IoT SiteWise at the edge](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/sw-gateways.html) in the IoT SiteWise User Guide.
-    public struct GreengrassV2: Swift.Equatable {
+    public struct GreengrassV2 {
         /// The name of the IoT thing for your IoT Greengrass V2 core device.
         /// This member is required.
         public var coreDeviceThingName: Swift.String?
@@ -14250,7 +14250,7 @@ extension IoTSiteWiseClientTypes.GroupIdentity: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information for a group identity in an access policy.
-    public struct GroupIdentity: Swift.Equatable {
+    public struct GroupIdentity {
         /// The IAM Identity Center ID of the group.
         /// This member is required.
         public var id: Swift.String?
@@ -14286,7 +14286,7 @@ extension IoTSiteWiseClientTypes.IAMRoleIdentity: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about an Identity and Access Management role. For more information, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide.
-    public struct IAMRoleIdentity: Swift.Equatable {
+    public struct IAMRoleIdentity {
         /// The ARN of the IAM role. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
         /// This member is required.
         public var arn: Swift.String?
@@ -14322,7 +14322,7 @@ extension IoTSiteWiseClientTypes.IAMUserIdentity: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about an Identity and Access Management user.
-    public struct IAMUserIdentity: Swift.Equatable {
+    public struct IAMUserIdentity {
         /// The ARN of the IAM user. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide. If you delete the IAM user, access policies that contain this identity include an empty arn. You can delete the access policy for the IAM user that no longer exists.
         /// This member is required.
         public var arn: Swift.String?
@@ -14376,7 +14376,7 @@ extension IoTSiteWiseClientTypes.Identity: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an identity that can access an IoT SiteWise Monitor resource. Currently, you can't use Amazon Web Services API operations to retrieve IAM Identity Center identity IDs. You can find the IAM Identity Center identity IDs in the URL of user and group pages in the [IAM Identity Center console](https://console.aws.amazon.com/singlesignon).
-    public struct Identity: Swift.Equatable {
+    public struct Identity {
         /// An IAM Identity Center group identity.
         public var group: IoTSiteWiseClientTypes.GroupIdentity?
         /// An IAM role identity.
@@ -14468,7 +14468,7 @@ extension IoTSiteWiseClientTypes {
     /// * An image file. Choose this option to upload a new image.
     ///
     /// * The ID of an existing image. Choose this option to keep an existing image.
-    public struct Image: Swift.Equatable {
+    public struct Image {
         /// Contains an image file.
         public var file: IoTSiteWiseClientTypes.ImageFile?
         /// The ID of an existing image. Specify this parameter to keep an existing image.
@@ -14513,7 +14513,7 @@ extension IoTSiteWiseClientTypes.ImageFile: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an image file.
-    public struct ImageFile: Swift.Equatable {
+    public struct ImageFile {
         /// The image file contents, represented as a base64-encoded string. The file size must be less than 1 MB.
         /// This member is required.
         public var data: ClientRuntime.Data?
@@ -14589,7 +14589,7 @@ extension IoTSiteWiseClientTypes.ImageLocation: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an image that is uploaded to IoT SiteWise and available at a URL.
-    public struct ImageLocation: Swift.Equatable {
+    public struct ImageLocation {
         /// The ID of the image.
         /// This member is required.
         public var id: Swift.String?
@@ -14649,7 +14649,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -14692,7 +14692,7 @@ extension IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about an interpolated asset property value.
-    public struct InterpolatedAssetPropertyValue: Swift.Equatable {
+    public struct InterpolatedAssetPropertyValue {
         /// Contains a timestamp with optional nanosecond granularity.
         /// This member is required.
         public var timestamp: IoTSiteWiseClientTypes.TimeInNanos?
@@ -14752,7 +14752,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -14791,7 +14791,7 @@ extension IoTSiteWiseClientTypes.JobConfiguration: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains the configuration information of a job, such as the file format used to save data in Amazon S3.
-    public struct JobConfiguration: Swift.Equatable {
+    public struct JobConfiguration {
         /// The file format of the data in S3.
         /// This member is required.
         public var fileFormat: IoTSiteWiseClientTypes.FileFormat?
@@ -14883,7 +14883,7 @@ extension IoTSiteWiseClientTypes.JobSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains the job summary information.
-    public struct JobSummary: Swift.Equatable {
+    public struct JobSummary {
         /// The ID of the job.
         /// This member is required.
         public var id: Swift.String?
@@ -14960,7 +14960,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -15019,7 +15019,7 @@ extension ListAccessPoliciesInput {
     }
 }
 
-public struct ListAccessPoliciesInput: Swift.Equatable {
+public struct ListAccessPoliciesInput {
     /// The ARN of the IAM user. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide. This parameter is required if you specify IAM for identityType.
     public var iamArn: Swift.String?
     /// The ID of the identity. This parameter is required if you specify USER or GROUP for identityType.
@@ -15055,7 +15055,7 @@ public struct ListAccessPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListAccessPoliciesInputBody: Swift.Equatable {
+struct ListAccessPoliciesInputBody {
 }
 
 extension ListAccessPoliciesInputBody: Swift.Decodable {
@@ -15078,7 +15078,7 @@ extension ListAccessPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccessPoliciesOutput: Swift.Equatable {
+public struct ListAccessPoliciesOutput {
     /// A list that summarizes each access policy.
     /// This member is required.
     public var accessPolicySummaries: [IoTSiteWiseClientTypes.AccessPolicySummary]?
@@ -15095,7 +15095,7 @@ public struct ListAccessPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListAccessPoliciesOutputBody: Swift.Equatable {
+struct ListAccessPoliciesOutputBody {
     let accessPolicySummaries: [IoTSiteWiseClientTypes.AccessPolicySummary]?
     let nextToken: Swift.String?
 }
@@ -15172,7 +15172,7 @@ extension ListActionsInput {
     }
 }
 
-public struct ListActionsInput: Swift.Equatable {
+public struct ListActionsInput {
     /// The maximum number of results to return for each paginated request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
@@ -15198,7 +15198,7 @@ public struct ListActionsInput: Swift.Equatable {
     }
 }
 
-struct ListActionsInputBody: Swift.Equatable {
+struct ListActionsInputBody {
 }
 
 extension ListActionsInputBody: Swift.Decodable {
@@ -15221,7 +15221,7 @@ extension ListActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListActionsOutput: Swift.Equatable {
+public struct ListActionsOutput {
     /// A list that summarizes the actions associated with the specified asset.
     /// This member is required.
     public var actionSummaries: [IoTSiteWiseClientTypes.ActionSummary]?
@@ -15239,7 +15239,7 @@ public struct ListActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListActionsOutputBody: Swift.Equatable {
+struct ListActionsOutputBody {
     let actionSummaries: [IoTSiteWiseClientTypes.ActionSummary]?
     let nextToken: Swift.String?
 }
@@ -15308,7 +15308,7 @@ extension ListAssetModelCompositeModelsInput {
     }
 }
 
-public struct ListAssetModelCompositeModelsInput: Swift.Equatable {
+public struct ListAssetModelCompositeModelsInput {
     /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelId: Swift.String?
@@ -15329,7 +15329,7 @@ public struct ListAssetModelCompositeModelsInput: Swift.Equatable {
     }
 }
 
-struct ListAssetModelCompositeModelsInputBody: Swift.Equatable {
+struct ListAssetModelCompositeModelsInputBody {
 }
 
 extension ListAssetModelCompositeModelsInputBody: Swift.Decodable {
@@ -15352,7 +15352,7 @@ extension ListAssetModelCompositeModelsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListAssetModelCompositeModelsOutput: Swift.Equatable {
+public struct ListAssetModelCompositeModelsOutput {
     /// A list that summarizes each composite model.
     /// This member is required.
     public var assetModelCompositeModelSummaries: [IoTSiteWiseClientTypes.AssetModelCompositeModelSummary]?
@@ -15369,7 +15369,7 @@ public struct ListAssetModelCompositeModelsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssetModelCompositeModelsOutputBody: Swift.Equatable {
+struct ListAssetModelCompositeModelsOutputBody {
     let assetModelCompositeModelSummaries: [IoTSiteWiseClientTypes.AssetModelCompositeModelSummary]?
     let nextToken: Swift.String?
 }
@@ -15474,7 +15474,7 @@ extension ListAssetModelPropertiesInput {
     }
 }
 
-public struct ListAssetModelPropertiesInput: Swift.Equatable {
+public struct ListAssetModelPropertiesInput {
     /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelId: Swift.String?
@@ -15506,7 +15506,7 @@ public struct ListAssetModelPropertiesInput: Swift.Equatable {
     }
 }
 
-struct ListAssetModelPropertiesInputBody: Swift.Equatable {
+struct ListAssetModelPropertiesInputBody {
 }
 
 extension ListAssetModelPropertiesInputBody: Swift.Decodable {
@@ -15529,7 +15529,7 @@ extension ListAssetModelPropertiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssetModelPropertiesOutput: Swift.Equatable {
+public struct ListAssetModelPropertiesOutput {
     /// A list that summarizes the properties associated with the specified asset model.
     /// This member is required.
     public var assetModelPropertySummaries: [IoTSiteWiseClientTypes.AssetModelPropertySummary]?
@@ -15546,7 +15546,7 @@ public struct ListAssetModelPropertiesOutput: Swift.Equatable {
     }
 }
 
-struct ListAssetModelPropertiesOutputBody: Swift.Equatable {
+struct ListAssetModelPropertiesOutputBody {
     let assetModelPropertySummaries: [IoTSiteWiseClientTypes.AssetModelPropertySummary]?
     let nextToken: Swift.String?
 }
@@ -15618,7 +15618,7 @@ extension ListAssetModelsInput {
     }
 }
 
-public struct ListAssetModelsInput: Swift.Equatable {
+public struct ListAssetModelsInput {
     /// The type of asset model.
     ///
     /// * ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.
@@ -15642,7 +15642,7 @@ public struct ListAssetModelsInput: Swift.Equatable {
     }
 }
 
-struct ListAssetModelsInputBody: Swift.Equatable {
+struct ListAssetModelsInputBody {
 }
 
 extension ListAssetModelsInputBody: Swift.Decodable {
@@ -15665,7 +15665,7 @@ extension ListAssetModelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssetModelsOutput: Swift.Equatable {
+public struct ListAssetModelsOutput {
     /// A list that summarizes each asset model.
     /// This member is required.
     public var assetModelSummaries: [IoTSiteWiseClientTypes.AssetModelSummary]?
@@ -15682,7 +15682,7 @@ public struct ListAssetModelsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssetModelsOutputBody: Swift.Equatable {
+struct ListAssetModelsOutputBody {
     let assetModelSummaries: [IoTSiteWiseClientTypes.AssetModelSummary]?
     let nextToken: Swift.String?
 }
@@ -15786,7 +15786,7 @@ extension ListAssetPropertiesInput {
     }
 }
 
-public struct ListAssetPropertiesInput: Swift.Equatable {
+public struct ListAssetPropertiesInput {
     /// The ID of the asset. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetId: Swift.String?
@@ -15818,7 +15818,7 @@ public struct ListAssetPropertiesInput: Swift.Equatable {
     }
 }
 
-struct ListAssetPropertiesInputBody: Swift.Equatable {
+struct ListAssetPropertiesInputBody {
 }
 
 extension ListAssetPropertiesInputBody: Swift.Decodable {
@@ -15841,7 +15841,7 @@ extension ListAssetPropertiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssetPropertiesOutput: Swift.Equatable {
+public struct ListAssetPropertiesOutput {
     /// A list that summarizes the properties associated with the specified asset.
     /// This member is required.
     public var assetPropertySummaries: [IoTSiteWiseClientTypes.AssetPropertySummary]?
@@ -15858,7 +15858,7 @@ public struct ListAssetPropertiesOutput: Swift.Equatable {
     }
 }
 
-struct ListAssetPropertiesOutputBody: Swift.Equatable {
+struct ListAssetPropertiesOutputBody {
     let assetPropertySummaries: [IoTSiteWiseClientTypes.AssetPropertySummary]?
     let nextToken: Swift.String?
 }
@@ -15933,7 +15933,7 @@ extension ListAssetRelationshipsInput {
     }
 }
 
-public struct ListAssetRelationshipsInput: Swift.Equatable {
+public struct ListAssetRelationshipsInput {
     /// The ID of the asset. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetId: Swift.String?
@@ -15961,7 +15961,7 @@ public struct ListAssetRelationshipsInput: Swift.Equatable {
     }
 }
 
-struct ListAssetRelationshipsInputBody: Swift.Equatable {
+struct ListAssetRelationshipsInputBody {
 }
 
 extension ListAssetRelationshipsInputBody: Swift.Decodable {
@@ -15984,7 +15984,7 @@ extension ListAssetRelationshipsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssetRelationshipsOutput: Swift.Equatable {
+public struct ListAssetRelationshipsOutput {
     /// A list that summarizes each asset relationship.
     /// This member is required.
     public var assetRelationshipSummaries: [IoTSiteWiseClientTypes.AssetRelationshipSummary]?
@@ -16001,7 +16001,7 @@ public struct ListAssetRelationshipsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssetRelationshipsOutputBody: Swift.Equatable {
+struct ListAssetRelationshipsOutputBody {
     let assetRelationshipSummaries: [IoTSiteWiseClientTypes.AssetRelationshipSummary]?
     let nextToken: Swift.String?
 }
@@ -16107,7 +16107,7 @@ extension ListAssetsInput {
     }
 }
 
-public struct ListAssetsInput: Swift.Equatable {
+public struct ListAssetsInput {
     /// The ID of the asset model by which to filter the list of assets. This parameter is required if you choose ALL for filter. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     public var assetModelId: Swift.String?
     /// The filter for the requested list of assets. Choose one of the following options:
@@ -16138,7 +16138,7 @@ public struct ListAssetsInput: Swift.Equatable {
     }
 }
 
-struct ListAssetsInputBody: Swift.Equatable {
+struct ListAssetsInputBody {
 }
 
 extension ListAssetsInputBody: Swift.Decodable {
@@ -16161,7 +16161,7 @@ extension ListAssetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssetsOutput: Swift.Equatable {
+public struct ListAssetsOutput {
     /// A list that summarizes each asset.
     /// This member is required.
     public var assetSummaries: [IoTSiteWiseClientTypes.AssetSummary]?
@@ -16178,7 +16178,7 @@ public struct ListAssetsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssetsOutputBody: Swift.Equatable {
+struct ListAssetsOutputBody {
     let assetSummaries: [IoTSiteWiseClientTypes.AssetSummary]?
     let nextToken: Swift.String?
 }
@@ -16255,7 +16255,7 @@ extension ListAssociatedAssetsInput {
     }
 }
 
-public struct ListAssociatedAssetsInput: Swift.Equatable {
+public struct ListAssociatedAssetsInput {
     /// The ID of the asset to query. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetId: Swift.String?
@@ -16291,7 +16291,7 @@ public struct ListAssociatedAssetsInput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedAssetsInputBody: Swift.Equatable {
+struct ListAssociatedAssetsInputBody {
 }
 
 extension ListAssociatedAssetsInputBody: Swift.Decodable {
@@ -16314,7 +16314,7 @@ extension ListAssociatedAssetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssociatedAssetsOutput: Swift.Equatable {
+public struct ListAssociatedAssetsOutput {
     /// A list that summarizes the associated assets.
     /// This member is required.
     public var assetSummaries: [IoTSiteWiseClientTypes.AssociatedAssetsSummary]?
@@ -16331,7 +16331,7 @@ public struct ListAssociatedAssetsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedAssetsOutputBody: Swift.Equatable {
+struct ListAssociatedAssetsOutputBody {
     let assetSummaries: [IoTSiteWiseClientTypes.AssociatedAssetsSummary]?
     let nextToken: Swift.String?
 }
@@ -16448,7 +16448,7 @@ extension ListBulkImportJobsInput {
     }
 }
 
-public struct ListBulkImportJobsInput: Swift.Equatable {
+public struct ListBulkImportJobsInput {
     /// You can use a filter to select the bulk import jobs that you want to retrieve.
     public var filter: IoTSiteWiseClientTypes.ListBulkImportJobsFilter?
     /// The maximum number of results to return for each paginated request.
@@ -16468,7 +16468,7 @@ public struct ListBulkImportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListBulkImportJobsInputBody: Swift.Equatable {
+struct ListBulkImportJobsInputBody {
 }
 
 extension ListBulkImportJobsInputBody: Swift.Decodable {
@@ -16491,7 +16491,7 @@ extension ListBulkImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBulkImportJobsOutput: Swift.Equatable {
+public struct ListBulkImportJobsOutput {
     /// One or more job summaries to list.
     /// This member is required.
     public var jobSummaries: [IoTSiteWiseClientTypes.JobSummary]?
@@ -16508,7 +16508,7 @@ public struct ListBulkImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListBulkImportJobsOutputBody: Swift.Equatable {
+struct ListBulkImportJobsOutputBody {
     let jobSummaries: [IoTSiteWiseClientTypes.JobSummary]?
     let nextToken: Swift.String?
 }
@@ -16577,7 +16577,7 @@ extension ListCompositionRelationshipsInput {
     }
 }
 
-public struct ListCompositionRelationshipsInput: Swift.Equatable {
+public struct ListCompositionRelationshipsInput {
     /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelId: Swift.String?
@@ -16598,7 +16598,7 @@ public struct ListCompositionRelationshipsInput: Swift.Equatable {
     }
 }
 
-struct ListCompositionRelationshipsInputBody: Swift.Equatable {
+struct ListCompositionRelationshipsInputBody {
 }
 
 extension ListCompositionRelationshipsInputBody: Swift.Decodable {
@@ -16621,7 +16621,7 @@ extension ListCompositionRelationshipsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListCompositionRelationshipsOutput: Swift.Equatable {
+public struct ListCompositionRelationshipsOutput {
     /// A list that summarizes each composition relationship.
     /// This member is required.
     public var compositionRelationshipSummaries: [IoTSiteWiseClientTypes.CompositionRelationshipSummary]?
@@ -16638,7 +16638,7 @@ public struct ListCompositionRelationshipsOutput: Swift.Equatable {
     }
 }
 
-struct ListCompositionRelationshipsOutputBody: Swift.Equatable {
+struct ListCompositionRelationshipsOutputBody {
     let compositionRelationshipSummaries: [IoTSiteWiseClientTypes.CompositionRelationshipSummary]?
     let nextToken: Swift.String?
 }
@@ -16710,7 +16710,7 @@ extension ListDashboardsInput {
     }
 }
 
-public struct ListDashboardsInput: Swift.Equatable {
+public struct ListDashboardsInput {
     /// The maximum number of results to return for each paginated request. Default: 50
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
@@ -16731,7 +16731,7 @@ public struct ListDashboardsInput: Swift.Equatable {
     }
 }
 
-struct ListDashboardsInputBody: Swift.Equatable {
+struct ListDashboardsInputBody {
 }
 
 extension ListDashboardsInputBody: Swift.Decodable {
@@ -16754,7 +16754,7 @@ extension ListDashboardsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDashboardsOutput: Swift.Equatable {
+public struct ListDashboardsOutput {
     /// A list that summarizes each dashboard in the project.
     /// This member is required.
     public var dashboardSummaries: [IoTSiteWiseClientTypes.DashboardSummary]?
@@ -16771,7 +16771,7 @@ public struct ListDashboardsOutput: Swift.Equatable {
     }
 }
 
-struct ListDashboardsOutputBody: Swift.Equatable {
+struct ListDashboardsOutputBody {
     let dashboardSummaries: [IoTSiteWiseClientTypes.DashboardSummary]?
     let nextToken: Swift.String?
 }
@@ -16836,7 +16836,7 @@ extension ListGatewaysInput {
     }
 }
 
-public struct ListGatewaysInput: Swift.Equatable {
+public struct ListGatewaysInput {
     /// The maximum number of results to return for each paginated request. Default: 50
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
@@ -16852,7 +16852,7 @@ public struct ListGatewaysInput: Swift.Equatable {
     }
 }
 
-struct ListGatewaysInputBody: Swift.Equatable {
+struct ListGatewaysInputBody {
 }
 
 extension ListGatewaysInputBody: Swift.Decodable {
@@ -16875,7 +16875,7 @@ extension ListGatewaysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGatewaysOutput: Swift.Equatable {
+public struct ListGatewaysOutput {
     /// A list that summarizes each gateway.
     /// This member is required.
     public var gatewaySummaries: [IoTSiteWiseClientTypes.GatewaySummary]?
@@ -16892,7 +16892,7 @@ public struct ListGatewaysOutput: Swift.Equatable {
     }
 }
 
-struct ListGatewaysOutputBody: Swift.Equatable {
+struct ListGatewaysOutputBody {
     let gatewaySummaries: [IoTSiteWiseClientTypes.GatewaySummary]?
     let nextToken: Swift.String?
 }
@@ -16957,7 +16957,7 @@ extension ListPortalsInput {
     }
 }
 
-public struct ListPortalsInput: Swift.Equatable {
+public struct ListPortalsInput {
     /// The maximum number of results to return for each paginated request. Default: 50
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
@@ -16973,7 +16973,7 @@ public struct ListPortalsInput: Swift.Equatable {
     }
 }
 
-struct ListPortalsInputBody: Swift.Equatable {
+struct ListPortalsInputBody {
 }
 
 extension ListPortalsInputBody: Swift.Decodable {
@@ -16996,7 +16996,7 @@ extension ListPortalsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPortalsOutput: Swift.Equatable {
+public struct ListPortalsOutput {
     /// The token for the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// A list that summarizes each portal.
@@ -17012,7 +17012,7 @@ public struct ListPortalsOutput: Swift.Equatable {
     }
 }
 
-struct ListPortalsOutputBody: Swift.Equatable {
+struct ListPortalsOutputBody {
     let portalSummaries: [IoTSiteWiseClientTypes.PortalSummary]?
     let nextToken: Swift.String?
 }
@@ -17080,7 +17080,7 @@ extension ListProjectAssetsInput {
     }
 }
 
-public struct ListProjectAssetsInput: Swift.Equatable {
+public struct ListProjectAssetsInput {
     /// The maximum number of results to return for each paginated request. Default: 50
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
@@ -17101,7 +17101,7 @@ public struct ListProjectAssetsInput: Swift.Equatable {
     }
 }
 
-struct ListProjectAssetsInputBody: Swift.Equatable {
+struct ListProjectAssetsInputBody {
 }
 
 extension ListProjectAssetsInputBody: Swift.Decodable {
@@ -17124,7 +17124,7 @@ extension ListProjectAssetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProjectAssetsOutput: Swift.Equatable {
+public struct ListProjectAssetsOutput {
     /// A list that contains the IDs of each asset associated with the project.
     /// This member is required.
     public var assetIds: [Swift.String]?
@@ -17141,7 +17141,7 @@ public struct ListProjectAssetsOutput: Swift.Equatable {
     }
 }
 
-struct ListProjectAssetsOutputBody: Swift.Equatable {
+struct ListProjectAssetsOutputBody {
     let assetIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -17212,7 +17212,7 @@ extension ListProjectsInput {
     }
 }
 
-public struct ListProjectsInput: Swift.Equatable {
+public struct ListProjectsInput {
     /// The maximum number of results to return for each paginated request. Default: 50
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
@@ -17233,7 +17233,7 @@ public struct ListProjectsInput: Swift.Equatable {
     }
 }
 
-struct ListProjectsInputBody: Swift.Equatable {
+struct ListProjectsInputBody {
 }
 
 extension ListProjectsInputBody: Swift.Decodable {
@@ -17256,7 +17256,7 @@ extension ListProjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProjectsOutput: Swift.Equatable {
+public struct ListProjectsOutput {
     /// The token for the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// A list that summarizes each project in the portal.
@@ -17273,7 +17273,7 @@ public struct ListProjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListProjectsOutputBody: Swift.Equatable {
+struct ListProjectsOutputBody {
     let projectSummaries: [IoTSiteWiseClientTypes.ProjectSummary]?
     let nextToken: Swift.String?
 }
@@ -17336,7 +17336,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -17349,7 +17349,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -17370,7 +17370,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of key-value pairs that contain metadata for the resource. For more information, see [Tagging your IoT SiteWise resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html) in the IoT SiteWise User Guide.
     public var tags: [Swift.String:Swift.String]?
 
@@ -17382,7 +17382,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -17459,7 +17459,7 @@ extension ListTimeSeriesInput {
     }
 }
 
-public struct ListTimeSeriesInput: Swift.Equatable {
+public struct ListTimeSeriesInput {
     /// The alias prefix of the time series.
     public var aliasPrefix: Swift.String?
     /// The ID of the asset in which the asset property was created. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
@@ -17491,7 +17491,7 @@ public struct ListTimeSeriesInput: Swift.Equatable {
     }
 }
 
-struct ListTimeSeriesInputBody: Swift.Equatable {
+struct ListTimeSeriesInputBody {
 }
 
 extension ListTimeSeriesInputBody: Swift.Decodable {
@@ -17514,7 +17514,7 @@ extension ListTimeSeriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTimeSeriesOutput: Swift.Equatable {
+public struct ListTimeSeriesOutput {
     /// The token for the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// One or more time series summaries to list.
@@ -17531,7 +17531,7 @@ public struct ListTimeSeriesOutput: Swift.Equatable {
     }
 }
 
-struct ListTimeSeriesOutputBody: Swift.Equatable {
+struct ListTimeSeriesOutputBody {
     let timeSeriesSummaries: [IoTSiteWiseClientTypes.TimeSeriesSummary]?
     let nextToken: Swift.String?
 }
@@ -17662,7 +17662,7 @@ extension IoTSiteWiseClientTypes.LoggingOptions: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains logging options.
-    public struct LoggingOptions: Swift.Equatable {
+    public struct LoggingOptions {
         /// The IoT SiteWise logging verbosity level.
         /// This member is required.
         public var level: IoTSiteWiseClientTypes.LoggingLevel?
@@ -17698,7 +17698,7 @@ extension IoTSiteWiseClientTypes.Measurement: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an asset measurement property. For more information, see [Measurements](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#measurements) in the IoT SiteWise User Guide.
-    public struct Measurement: Swift.Equatable {
+    public struct Measurement {
         /// The processing configuration for the given measurement property. You can configure measurements to be kept at the edge or forwarded to the Amazon Web Services Cloud. By default, measurements are forwarded to the cloud.
         public var processingConfig: IoTSiteWiseClientTypes.MeasurementProcessingConfig?
 
@@ -17733,7 +17733,7 @@ extension IoTSiteWiseClientTypes.MeasurementProcessingConfig: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// The processing configuration for the given measurement property. You can configure measurements to be kept at the edge or forwarded to the Amazon Web Services Cloud. By default, measurements are forwarded to the cloud.
-    public struct MeasurementProcessingConfig: Swift.Equatable {
+    public struct MeasurementProcessingConfig {
         /// The forwarding configuration for the given measurement property.
         /// This member is required.
         public var forwardingConfig: IoTSiteWiseClientTypes.ForwardingConfig?
@@ -17799,7 +17799,7 @@ extension IoTSiteWiseClientTypes.Metric: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an asset metric property. With metrics, you can calculate aggregate functions, such as an average, maximum, or minimum, as specified through an expression. A metric maps several values to a single value (such as a sum). The maximum number of dependent/cascading variables used in any one metric calculation is 10. Therefore, a root metric can have up to 10 cascading metrics in its computational dependency tree. Additionally, a metric can only have a data type of DOUBLE and consume properties with data types of INTEGER or DOUBLE. For more information, see [Metrics](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#metrics) in the IoT SiteWise User Guide.
-    public struct Metric: Swift.Equatable {
+    public struct Metric {
         /// The mathematical expression that defines the metric aggregation function. You can specify up to 10 variables per expression. You can specify up to 10 functions per expression. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
         /// This member is required.
         public var expression: Swift.String?
@@ -17849,7 +17849,7 @@ extension IoTSiteWiseClientTypes.MetricProcessingConfig: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// The processing configuration for the given metric property. You can configure metrics to be computed at the edge or in the Amazon Web Services Cloud. By default, metrics are forwarded to the cloud.
-    public struct MetricProcessingConfig: Swift.Equatable {
+    public struct MetricProcessingConfig {
         /// The compute location for the given metric property.
         /// This member is required.
         public var computeLocation: IoTSiteWiseClientTypes.ComputeLocation?
@@ -17885,7 +17885,7 @@ extension IoTSiteWiseClientTypes.MetricWindow: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a time interval window used for data aggregate computations (for example, average, sum, count, and so on).
-    public struct MetricWindow: Swift.Equatable {
+    public struct MetricWindow {
         /// The tumbling time interval window.
         public var tumbling: IoTSiteWiseClientTypes.TumblingWindow?
 
@@ -17961,7 +17961,7 @@ extension IoTSiteWiseClientTypes.MonitorErrorDetails: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains IoT SiteWise Monitor error details.
-    public struct MonitorErrorDetails: Swift.Equatable {
+    public struct MonitorErrorDetails {
         /// The error code.
         public var code: IoTSiteWiseClientTypes.MonitorErrorCode?
         /// The error message.
@@ -18000,7 +18000,7 @@ extension IoTSiteWiseClientTypes.MultiLayerStorage: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about the storage destination.
-    public struct MultiLayerStorage: Swift.Equatable {
+    public struct MultiLayerStorage {
         /// Contains information about a customer managed Amazon S3 bucket.
         /// This member is required.
         public var customerManagedS3Storage: IoTSiteWiseClientTypes.CustomerManagedS3Storage?
@@ -18028,7 +18028,7 @@ extension IoTSiteWiseClientTypes.Parquet: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// A parquet file.
-    public struct Parquet: Swift.Equatable {
+    public struct Parquet {
 
         public init() { }
     }
@@ -18088,7 +18088,7 @@ extension IoTSiteWiseClientTypes.PortalResource: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Identifies an IoT SiteWise Monitor portal.
-    public struct PortalResource: Swift.Equatable {
+    public struct PortalResource {
         /// The ID of the portal.
         /// This member is required.
         public var id: Swift.String?
@@ -18171,7 +18171,7 @@ extension IoTSiteWiseClientTypes.PortalStatus: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information about the current status of a portal.
-    public struct PortalStatus: Swift.Equatable {
+    public struct PortalStatus {
         /// Contains associated error information, if any.
         public var error: IoTSiteWiseClientTypes.MonitorErrorDetails?
         /// The current state of the portal.
@@ -18253,7 +18253,7 @@ extension IoTSiteWiseClientTypes.PortalSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a portal summary.
-    public struct PortalSummary: Swift.Equatable {
+    public struct PortalSummary {
         /// The date the portal was created, in Unix epoch time.
         public var creationDate: ClientRuntime.Date?
         /// The portal's description.
@@ -18320,7 +18320,7 @@ extension IoTSiteWiseClientTypes.ProjectResource: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Identifies a specific IoT SiteWise Monitor project.
-    public struct ProjectResource: Swift.Equatable {
+    public struct ProjectResource {
         /// The ID of the project.
         /// This member is required.
         public var id: Swift.String?
@@ -18380,7 +18380,7 @@ extension IoTSiteWiseClientTypes.ProjectSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains project summary information.
-    public struct ProjectSummary: Swift.Equatable {
+    public struct ProjectSummary {
         /// The date the project was created, in Unix epoch time.
         public var creationDate: ClientRuntime.Date?
         /// The project's description.
@@ -18493,7 +18493,7 @@ extension IoTSiteWiseClientTypes.Property: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains asset property information.
-    public struct Property: Swift.Equatable {
+    public struct Property {
         /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see [Mapping industrial data streams to asset properties](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html) in the IoT SiteWise User Guide.
         public var alias: Swift.String?
         /// The property data type.
@@ -18610,7 +18610,7 @@ extension IoTSiteWiseClientTypes.PropertyNotification: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains asset property value notification information. When the notification state is enabled, IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see [Interacting with other services](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/interact-with-other-services.html) in the IoT SiteWise User Guide.
-    public struct PropertyNotification: Swift.Equatable {
+    public struct PropertyNotification {
         /// The current notification state.
         /// This member is required.
         public var state: IoTSiteWiseClientTypes.PropertyNotificationState?
@@ -18701,7 +18701,7 @@ extension IoTSiteWiseClientTypes.PropertyType: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a property type, which can be one of attribute, measurement, metric, or transform.
-    public struct PropertyType: Swift.Equatable {
+    public struct PropertyType {
         /// Specifies an asset attribute property. An attribute generally contains static information, such as the serial number of an [IIoT](https://en.wikipedia.org/wiki/Internet_of_things#Industrial_applications) wind turbine.
         public var attribute: IoTSiteWiseClientTypes.Attribute?
         /// Specifies an asset measurement property. A measurement represents a device's raw sensor data stream, such as timestamped temperature values or timestamped power values.
@@ -18784,7 +18784,7 @@ extension IoTSiteWiseClientTypes.PutAssetPropertyValueEntry: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a list of value updates for an asset property in the list of asset entries consumed by the [BatchPutAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchPutAssetPropertyValue.html) API operation.
-    public struct PutAssetPropertyValueEntry: Swift.Equatable {
+    public struct PutAssetPropertyValueEntry {
         /// The ID of the asset to update.
         public var assetId: Swift.String?
         /// The user specified ID for the entry. You can use this ID to identify which entries failed.
@@ -18840,7 +18840,7 @@ extension PutDefaultEncryptionConfigurationInput {
     }
 }
 
-public struct PutDefaultEncryptionConfigurationInput: Swift.Equatable {
+public struct PutDefaultEncryptionConfigurationInput {
     /// The type of encryption used for the encryption configuration.
     /// This member is required.
     public var encryptionType: IoTSiteWiseClientTypes.EncryptionType?
@@ -18857,7 +18857,7 @@ public struct PutDefaultEncryptionConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutDefaultEncryptionConfigurationInputBody: Swift.Equatable {
+struct PutDefaultEncryptionConfigurationInputBody {
     let encryptionType: IoTSiteWiseClientTypes.EncryptionType?
     let kmsKeyId: Swift.String?
 }
@@ -18893,7 +18893,7 @@ extension PutDefaultEncryptionConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct PutDefaultEncryptionConfigurationOutput: Swift.Equatable {
+public struct PutDefaultEncryptionConfigurationOutput {
     /// The status of the account configuration. This contains the ConfigurationState. If there is an error, it also contains the ErrorDetails.
     /// This member is required.
     public var configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus?
@@ -18915,7 +18915,7 @@ public struct PutDefaultEncryptionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct PutDefaultEncryptionConfigurationOutputBody: Swift.Equatable {
+struct PutDefaultEncryptionConfigurationOutputBody {
     let encryptionType: IoTSiteWiseClientTypes.EncryptionType?
     let kmsKeyArn: Swift.String?
     let configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus?
@@ -18974,7 +18974,7 @@ extension PutLoggingOptionsInput {
     }
 }
 
-public struct PutLoggingOptionsInput: Swift.Equatable {
+public struct PutLoggingOptionsInput {
     /// The logging options to set.
     /// This member is required.
     public var loggingOptions: IoTSiteWiseClientTypes.LoggingOptions?
@@ -18987,7 +18987,7 @@ public struct PutLoggingOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutLoggingOptionsInputBody: Swift.Equatable {
+struct PutLoggingOptionsInputBody {
     let loggingOptions: IoTSiteWiseClientTypes.LoggingOptions?
 }
 
@@ -19008,7 +19008,7 @@ extension PutLoggingOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutLoggingOptionsOutput: Swift.Equatable {
+public struct PutLoggingOptionsOutput {
 
     public init() { }
 }
@@ -19068,7 +19068,7 @@ extension PutStorageConfigurationInput {
     }
 }
 
-public struct PutStorageConfigurationInput: Swift.Equatable {
+public struct PutStorageConfigurationInput {
     /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:
     ///
     /// * ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties. After the disassociatedDataStorage is enabled, you can't disable it.
@@ -19112,7 +19112,7 @@ public struct PutStorageConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutStorageConfigurationInputBody: Swift.Equatable {
+struct PutStorageConfigurationInputBody {
     let storageType: IoTSiteWiseClientTypes.StorageType?
     let multiLayerStorage: IoTSiteWiseClientTypes.MultiLayerStorage?
     let disassociatedDataStorage: IoTSiteWiseClientTypes.DisassociatedDataStorageState?
@@ -19172,7 +19172,7 @@ extension PutStorageConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutStorageConfigurationOutput: Swift.Equatable {
+public struct PutStorageConfigurationOutput {
     /// Contains current status information for the configuration.
     /// This member is required.
     public var configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus?
@@ -19221,7 +19221,7 @@ public struct PutStorageConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct PutStorageConfigurationOutputBody: Swift.Equatable {
+struct PutStorageConfigurationOutputBody {
     let storageType: IoTSiteWiseClientTypes.StorageType?
     let multiLayerStorage: IoTSiteWiseClientTypes.MultiLayerStorage?
     let disassociatedDataStorage: IoTSiteWiseClientTypes.DisassociatedDataStorageState?
@@ -19352,7 +19352,7 @@ public struct QueryTimeoutException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct QueryTimeoutExceptionBody: Swift.Equatable {
+struct QueryTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -19395,7 +19395,7 @@ extension IoTSiteWiseClientTypes.Resource: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an IoT SiteWise Monitor resource ID for a portal or project.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// A portal resource.
         public var portal: IoTSiteWiseClientTypes.PortalResource?
         /// A project resource.
@@ -19467,7 +19467,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceArn: Swift.String?
@@ -19531,7 +19531,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -19606,7 +19606,7 @@ extension IoTSiteWiseClientTypes.RetentionPeriod: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// The number of days your data is kept in the hot tier. By default, your data is kept indefinitely in the hot tier.
-    public struct RetentionPeriod: Swift.Equatable {
+    public struct RetentionPeriod {
         /// The number of days that your data is kept. If you specified a value for this parameter, the unlimited parameter must be false.
         public var numberOfDays: Swift.Int?
         /// If true, your data is kept indefinitely. If configured to true, you must not specify a value for the numberOfDays parameter.
@@ -19657,7 +19657,7 @@ extension IoTSiteWiseClientTypes.Row: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Represents a single row in the query results.
-    public struct Row: Swift.Equatable {
+    public struct Row {
         /// List of data points in a single row of the result set.
         /// This member is required.
         public var data: [IoTSiteWiseClientTypes.Datum]?
@@ -19753,7 +19753,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -19838,7 +19838,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -19856,7 +19856,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -19886,7 +19886,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -19930,7 +19930,7 @@ extension IoTSiteWiseClientTypes.TargetResource: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// The resource the action will be taken on.
-    public struct TargetResource: Swift.Equatable {
+    public struct TargetResource {
         /// The ID of the asset, in UUID format.
         /// This member is required.
         public var assetId: Swift.String?
@@ -20014,7 +20014,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -20057,7 +20057,7 @@ extension IoTSiteWiseClientTypes.TimeInNanos: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a timestamp with optional nanosecond granularity.
-    public struct TimeInNanos: Swift.Equatable {
+    public struct TimeInNanos {
         /// The nanosecond offset from timeInSeconds.
         public var offsetInNanos: Swift.Int?
         /// The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos.
@@ -20177,7 +20177,7 @@ extension IoTSiteWiseClientTypes.TimeSeriesSummary: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a summary of a time series (data stream).
-    public struct TimeSeriesSummary: Swift.Equatable {
+    public struct TimeSeriesSummary {
         /// The alias that identifies the time series.
         public var alias: Swift.String?
         /// The ID of the asset in which the asset property was created.
@@ -20273,7 +20273,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -20338,7 +20338,7 @@ extension IoTSiteWiseClientTypes.Transform: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an asset transform property. A transform is a one-to-one mapping of a property's data points from one form to another. For example, you can use a transform to convert a Celsius data stream to Fahrenheit by applying the transformation expression to each data point of the Celsius stream. A transform can only have a data type of DOUBLE and consume properties with data types of INTEGER or DOUBLE. For more information, see [Transforms](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#transforms) in the IoT SiteWise User Guide.
-    public struct Transform: Swift.Equatable {
+    public struct Transform {
         /// The mathematical expression that defines the transformation function. You can specify up to 10 variables per expression. You can specify up to 10 functions per expression. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
         /// This member is required.
         public var expression: Swift.String?
@@ -20389,7 +20389,7 @@ extension IoTSiteWiseClientTypes.TransformProcessingConfig: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// The processing configuration for the given transform property. You can configure transforms to be kept at the edge or forwarded to the Amazon Web Services Cloud. You can also configure transforms to be computed at the edge or in the cloud.
-    public struct TransformProcessingConfig: Swift.Equatable {
+    public struct TransformProcessingConfig {
         /// The compute location for the given transform property.
         /// This member is required.
         public var computeLocation: IoTSiteWiseClientTypes.ComputeLocation?
@@ -20496,7 +20496,7 @@ extension IoTSiteWiseClientTypes.TumblingWindow: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains a tumbling window, which is a repeating fixed-sized, non-overlapping, and contiguous time window. You can use this window in metrics to aggregate data from properties and other assets. You can use m, h, d, and w when you specify an interval or offset. Note that m represents minutes, h represents hours, d represents days, and w represents weeks. You can also use s to represent seconds in offset. The interval and offset parameters support the [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601). For example, PT5S represents 5 seconds, PT5M represents 5 minutes, and PT5H represents 5 hours.
-    public struct TumblingWindow: Swift.Equatable {
+    public struct TumblingWindow {
         /// The time interval for the tumbling window. The interval time must be between 1 minute and 1 week. IoT SiteWise computes the 1w interval the end of Sunday at midnight each week (UTC), the 1d interval at the end of each day at midnight (UTC), the 1h interval at the end of each hour, and so on. When IoT SiteWise aggregates data points for metric computations, the start of each interval is exclusive and the end of each interval is inclusive. IoT SiteWise places the computed data point at the end of the interval.
         /// This member is required.
         public var interval: Swift.String?
@@ -20581,7 +20581,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -20626,7 +20626,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource to untag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -20644,7 +20644,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -20658,7 +20658,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -20715,7 +20715,7 @@ extension UpdateAccessPolicyInput {
     }
 }
 
-public struct UpdateAccessPolicyInput: Swift.Equatable {
+public struct UpdateAccessPolicyInput {
     /// The ID of the access policy.
     /// This member is required.
     public var accessPolicyId: Swift.String?
@@ -20747,7 +20747,7 @@ public struct UpdateAccessPolicyInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccessPolicyInputBody: Swift.Equatable {
+struct UpdateAccessPolicyInputBody {
     let accessPolicyIdentity: IoTSiteWiseClientTypes.Identity?
     let accessPolicyResource: IoTSiteWiseClientTypes.Resource?
     let accessPolicyPermission: IoTSiteWiseClientTypes.Permission?
@@ -20780,7 +20780,7 @@ extension UpdateAccessPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAccessPolicyOutput: Swift.Equatable {
+public struct UpdateAccessPolicyOutput {
 
     public init() { }
 }
@@ -20834,7 +20834,7 @@ extension UpdateAssetInput {
     }
 }
 
-public struct UpdateAssetInput: Swift.Equatable {
+public struct UpdateAssetInput {
     /// A description for the asset.
     public var assetDescription: Swift.String?
     /// An external ID to assign to the asset. The asset must not already have an external ID. The external ID must be unique within your Amazon Web Services account. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide.
@@ -20864,7 +20864,7 @@ public struct UpdateAssetInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssetInputBody: Swift.Equatable {
+struct UpdateAssetInputBody {
     let assetName: Swift.String?
     let clientToken: Swift.String?
     let assetDescription: Swift.String?
@@ -20937,7 +20937,7 @@ extension UpdateAssetModelCompositeModelInput {
     }
 }
 
-public struct UpdateAssetModelCompositeModelInput: Swift.Equatable {
+public struct UpdateAssetModelCompositeModelInput {
     /// A description for the composite model.
     public var assetModelCompositeModelDescription: Swift.String?
     /// An external ID to assign to the asset model. You can only set the external ID of the asset model if it wasn't set when it was created, or you're setting it to the exact same thing as when it was created.
@@ -20976,7 +20976,7 @@ public struct UpdateAssetModelCompositeModelInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssetModelCompositeModelInputBody: Swift.Equatable {
+struct UpdateAssetModelCompositeModelInputBody {
     let assetModelCompositeModelExternalId: Swift.String?
     let assetModelCompositeModelDescription: Swift.String?
     let assetModelCompositeModelName: Swift.String?
@@ -21031,7 +21031,7 @@ extension UpdateAssetModelCompositeModelOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateAssetModelCompositeModelOutput: Swift.Equatable {
+public struct UpdateAssetModelCompositeModelOutput {
     /// The path to the composite model listing the parent composite models.
     /// This member is required.
     public var assetModelCompositeModelPath: [IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment]?
@@ -21049,7 +21049,7 @@ public struct UpdateAssetModelCompositeModelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssetModelCompositeModelOutputBody: Swift.Equatable {
+struct UpdateAssetModelCompositeModelOutputBody {
     let assetModelCompositeModelPath: [IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment]?
     let assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
 }
@@ -21151,7 +21151,7 @@ extension UpdateAssetModelInput {
     }
 }
 
-public struct UpdateAssetModelInput: Swift.Equatable {
+public struct UpdateAssetModelInput {
     /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model. When creating custom composite models, you need to use [CreateAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html). For more information, see .
     public var assetModelCompositeModels: [IoTSiteWiseClientTypes.AssetModelCompositeModel]?
     /// A description for the asset model.
@@ -21193,7 +21193,7 @@ public struct UpdateAssetModelInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssetModelInputBody: Swift.Equatable {
+struct UpdateAssetModelInputBody {
     let assetModelName: Swift.String?
     let assetModelDescription: Swift.String?
     let assetModelProperties: [IoTSiteWiseClientTypes.AssetModelProperty]?
@@ -21272,7 +21272,7 @@ extension UpdateAssetModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAssetModelOutput: Swift.Equatable {
+public struct UpdateAssetModelOutput {
     /// The status of the asset model, which contains a state (UPDATING after successfully calling this operation) and any error message.
     /// This member is required.
     public var assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
@@ -21285,7 +21285,7 @@ public struct UpdateAssetModelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssetModelOutputBody: Swift.Equatable {
+struct UpdateAssetModelOutputBody {
     let assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
 }
 
@@ -21330,7 +21330,7 @@ extension UpdateAssetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAssetOutput: Swift.Equatable {
+public struct UpdateAssetOutput {
     /// The status of the asset, which contains a state (UPDATING after successfully calling this operation) and any error message.
     /// This member is required.
     public var assetStatus: IoTSiteWiseClientTypes.AssetStatus?
@@ -21343,7 +21343,7 @@ public struct UpdateAssetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAssetOutputBody: Swift.Equatable {
+struct UpdateAssetOutputBody {
     let assetStatus: IoTSiteWiseClientTypes.AssetStatus?
 }
 
@@ -21413,7 +21413,7 @@ extension UpdateAssetPropertyInput {
     }
 }
 
-public struct UpdateAssetPropertyInput: Swift.Equatable {
+public struct UpdateAssetPropertyInput {
     /// The ID of the asset to be updated. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetId: Swift.String?
@@ -21447,7 +21447,7 @@ public struct UpdateAssetPropertyInput: Swift.Equatable {
     }
 }
 
-struct UpdateAssetPropertyInputBody: Swift.Equatable {
+struct UpdateAssetPropertyInputBody {
     let propertyAlias: Swift.String?
     let propertyNotificationState: IoTSiteWiseClientTypes.PropertyNotificationState?
     let clientToken: Swift.String?
@@ -21480,7 +21480,7 @@ extension UpdateAssetPropertyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAssetPropertyOutput: Swift.Equatable {
+public struct UpdateAssetPropertyOutput {
 
     public init() { }
 }
@@ -21535,7 +21535,7 @@ extension UpdateDashboardInput {
     }
 }
 
-public struct UpdateDashboardInput: Swift.Equatable {
+public struct UpdateDashboardInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// The new dashboard definition, as specified in a JSON literal. For detailed information, see [Creating dashboards (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-using-aws-cli.html) in the IoT SiteWise User Guide.
@@ -21566,7 +21566,7 @@ public struct UpdateDashboardInput: Swift.Equatable {
     }
 }
 
-struct UpdateDashboardInputBody: Swift.Equatable {
+struct UpdateDashboardInputBody {
     let dashboardName: Swift.String?
     let dashboardDescription: Swift.String?
     let dashboardDefinition: Swift.String?
@@ -21599,7 +21599,7 @@ extension UpdateDashboardOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDashboardOutput: Swift.Equatable {
+public struct UpdateDashboardOutput {
 
     public init() { }
 }
@@ -21645,7 +21645,7 @@ extension UpdateGatewayCapabilityConfigurationInput {
     }
 }
 
-public struct UpdateGatewayCapabilityConfigurationInput: Swift.Equatable {
+public struct UpdateGatewayCapabilityConfigurationInput {
     /// The JSON document that defines the configuration for the gateway capability. For more information, see [Configuring data sources (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/configure-sources.html#configure-source-cli) in the IoT SiteWise User Guide.
     /// This member is required.
     public var capabilityConfiguration: Swift.String?
@@ -21668,7 +21668,7 @@ public struct UpdateGatewayCapabilityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewayCapabilityConfigurationInputBody: Swift.Equatable {
+struct UpdateGatewayCapabilityConfigurationInputBody {
     let capabilityNamespace: Swift.String?
     let capabilityConfiguration: Swift.String?
 }
@@ -21702,7 +21702,7 @@ extension UpdateGatewayCapabilityConfigurationOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct UpdateGatewayCapabilityConfigurationOutput: Swift.Equatable {
+public struct UpdateGatewayCapabilityConfigurationOutput {
     /// The namespace of the gateway capability.
     /// This member is required.
     public var capabilityNamespace: Swift.String?
@@ -21729,7 +21729,7 @@ public struct UpdateGatewayCapabilityConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewayCapabilityConfigurationOutputBody: Swift.Equatable {
+struct UpdateGatewayCapabilityConfigurationOutputBody {
     let capabilityNamespace: Swift.String?
     let capabilitySyncStatus: IoTSiteWiseClientTypes.CapabilitySyncStatus?
 }
@@ -21788,7 +21788,7 @@ extension UpdateGatewayInput {
     }
 }
 
-public struct UpdateGatewayInput: Swift.Equatable {
+public struct UpdateGatewayInput {
     /// The ID of the gateway to update.
     /// This member is required.
     public var gatewayId: Swift.String?
@@ -21806,7 +21806,7 @@ public struct UpdateGatewayInput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewayInputBody: Swift.Equatable {
+struct UpdateGatewayInputBody {
     let gatewayName: Swift.String?
 }
 
@@ -21827,7 +21827,7 @@ extension UpdateGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGatewayOutput: Swift.Equatable {
+public struct UpdateGatewayOutput {
 
     public init() { }
 }
@@ -21898,7 +21898,7 @@ extension UpdatePortalInput {
     }
 }
 
-public struct UpdatePortalInput: Swift.Equatable {
+public struct UpdatePortalInput {
     /// Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal. You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range. For more information, see [Monitoring with alarms](https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html) in the IoT SiteWise Application Guide.
     public var alarms: IoTSiteWiseClientTypes.Alarms?
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -21950,7 +21950,7 @@ public struct UpdatePortalInput: Swift.Equatable {
     }
 }
 
-struct UpdatePortalInputBody: Swift.Equatable {
+struct UpdatePortalInputBody {
     let portalName: Swift.String?
     let portalDescription: Swift.String?
     let portalContactEmail: Swift.String?
@@ -22006,7 +22006,7 @@ extension UpdatePortalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePortalOutput: Swift.Equatable {
+public struct UpdatePortalOutput {
     /// The status of the portal, which contains a state (UPDATING after successfully calling this operation) and any error message.
     /// This member is required.
     public var portalStatus: IoTSiteWiseClientTypes.PortalStatus?
@@ -22019,7 +22019,7 @@ public struct UpdatePortalOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePortalOutputBody: Swift.Equatable {
+struct UpdatePortalOutputBody {
     let portalStatus: IoTSiteWiseClientTypes.PortalStatus?
 }
 
@@ -22081,7 +22081,7 @@ extension UpdateProjectInput {
     }
 }
 
-public struct UpdateProjectInput: Swift.Equatable {
+public struct UpdateProjectInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// A new description for the project.
@@ -22107,7 +22107,7 @@ public struct UpdateProjectInput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectInputBody: Swift.Equatable {
+struct UpdateProjectInputBody {
     let projectName: Swift.String?
     let projectDescription: Swift.String?
     let clientToken: Swift.String?
@@ -22136,7 +22136,7 @@ extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProjectOutput: Swift.Equatable {
+public struct UpdateProjectOutput {
 
     public init() { }
 }
@@ -22176,7 +22176,7 @@ extension IoTSiteWiseClientTypes.UserIdentity: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains information for a user identity in an access policy.
-    public struct UserIdentity: Swift.Equatable {
+    public struct UserIdentity {
         /// The IAM Identity Center ID of the user.
         /// This member is required.
         public var id: Swift.String?
@@ -22230,7 +22230,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -22291,7 +22291,7 @@ extension IoTSiteWiseClientTypes.VariableValue: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Identifies a property value used in an expression.
-    public struct VariableValue: Swift.Equatable {
+    public struct VariableValue {
         /// The ID of the hierarchy to query for the property ID. You can use the hierarchy's name instead of the hierarchy's ID. If the hierarchy has an external ID, you can specify externalId: followed by the external ID. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide. You use a hierarchy ID instead of a model ID because you can have several hierarchies using the same model and therefore the same propertyId. For example, you might have separately grouped assets that come from the same asset model. For more information, see [Asset hierarchies](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html) in the IoT SiteWise User Guide.
         public var hierarchyId: Swift.String?
         /// The ID of the property to use as the variable. You can use the property name if it's from the same asset model. If the property has an external ID, you can specify externalId: followed by the external ID. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids) in the IoT SiteWise User Guide.
@@ -22352,7 +22352,7 @@ extension IoTSiteWiseClientTypes.Variant: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Contains an asset property value (of a single type only).
-    public struct Variant: Swift.Equatable {
+    public struct Variant {
         /// Asset property data of type Boolean (true or false).
         public var booleanValue: Swift.Bool?
         /// Asset property data of type double (floating point number).
@@ -22405,7 +22405,7 @@ extension IoTSiteWiseClientTypes.WarmTierRetentionPeriod: Swift.Codable {
 
 extension IoTSiteWiseClientTypes {
     /// Set this period to specify how long your data is stored in the warm tier before it is deleted. You can set this only if cold tier is enabled.
-    public struct WarmTierRetentionPeriod: Swift.Equatable {
+    public struct WarmTierRetentionPeriod {
         /// The number of days the data is stored in the warm tier.
         public var numberOfDays: Swift.Int?
         /// If set to true, the data is stored indefinitely in the warm tier.

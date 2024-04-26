@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -69,7 +69,7 @@ extension DeleteReportDefinitionInput {
     }
 }
 
-public struct DeleteReportDefinitionInput: Swift.Equatable {
+public struct DeleteReportDefinitionInput {
     /// Required. ID of the report to delete.
     /// This member is required.
     public var reportId: Swift.String?
@@ -82,7 +82,7 @@ public struct DeleteReportDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteReportDefinitionInputBody: Swift.Equatable {
+struct DeleteReportDefinitionInputBody {
 }
 
 extension DeleteReportDefinitionInputBody: Swift.Decodable {
@@ -103,7 +103,7 @@ extension DeleteReportDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteReportDefinitionOutput: Swift.Equatable {
+public struct DeleteReportDefinitionOutput {
     /// ID of the report that was deleted.
     public var reportId: Swift.String?
 
@@ -115,7 +115,7 @@ public struct DeleteReportDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteReportDefinitionOutputBody: Swift.Equatable {
+struct DeleteReportDefinitionOutputBody {
     let reportId: Swift.String?
 }
 
@@ -187,7 +187,7 @@ extension GetReportDefinitionInput {
     }
 }
 
-public struct GetReportDefinitionInput: Swift.Equatable {
+public struct GetReportDefinitionInput {
     /// ID of the report to retrieve.
     /// This member is required.
     public var reportId: Swift.String?
@@ -200,7 +200,7 @@ public struct GetReportDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetReportDefinitionInputBody: Swift.Equatable {
+struct GetReportDefinitionInputBody {
 }
 
 extension GetReportDefinitionInputBody: Swift.Decodable {
@@ -233,7 +233,7 @@ extension GetReportDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReportDefinitionOutput: Swift.Equatable {
+public struct GetReportDefinitionOutput {
     /// Timestamp (milliseconds) when this report definition was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -276,7 +276,7 @@ public struct GetReportDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetReportDefinitionOutputBody: Swift.Equatable {
+struct GetReportDefinitionOutputBody {
     let reportId: Swift.String?
     let reportDescription: Swift.String?
     let reportFrequency: ApplicationCostProfilerClientTypes.ReportFrequency?
@@ -350,7 +350,7 @@ extension ImportApplicationUsageInput {
     }
 }
 
-public struct ImportApplicationUsageInput: Swift.Equatable {
+public struct ImportApplicationUsageInput {
     /// Amazon S3 location to import application usage data from.
     /// This member is required.
     public var sourceS3Location: ApplicationCostProfilerClientTypes.SourceS3Location?
@@ -363,7 +363,7 @@ public struct ImportApplicationUsageInput: Swift.Equatable {
     }
 }
 
-struct ImportApplicationUsageInputBody: Swift.Equatable {
+struct ImportApplicationUsageInputBody {
     let sourceS3Location: ApplicationCostProfilerClientTypes.SourceS3Location?
 }
 
@@ -391,7 +391,7 @@ extension ImportApplicationUsageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportApplicationUsageOutput: Swift.Equatable {
+public struct ImportApplicationUsageOutput {
     /// ID of the import request.
     /// This member is required.
     public var importId: Swift.String?
@@ -404,7 +404,7 @@ public struct ImportApplicationUsageOutput: Swift.Equatable {
     }
 }
 
-struct ImportApplicationUsageOutputBody: Swift.Equatable {
+struct ImportApplicationUsageOutputBody {
     let importId: Swift.String?
 }
 
@@ -473,7 +473,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -512,7 +512,7 @@ extension ListReportDefinitionsInput {
     }
 }
 
-public struct ListReportDefinitionsInput: Swift.Equatable {
+public struct ListReportDefinitionsInput {
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
     /// The token value from a previous call to access the next page of results.
@@ -528,7 +528,7 @@ public struct ListReportDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListReportDefinitionsInputBody: Swift.Equatable {
+struct ListReportDefinitionsInputBody {
 }
 
 extension ListReportDefinitionsInputBody: Swift.Decodable {
@@ -551,7 +551,7 @@ extension ListReportDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReportDefinitionsOutput: Swift.Equatable {
+public struct ListReportDefinitionsOutput {
     /// The value of the next token, if it exists. Null if there are no more results.
     public var nextToken: Swift.String?
     /// The retrieved reports.
@@ -567,7 +567,7 @@ public struct ListReportDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListReportDefinitionsOutputBody: Swift.Equatable {
+struct ListReportDefinitionsOutputBody {
     let reportDefinitions: [ApplicationCostProfilerClientTypes.ReportDefinition]?
     let nextToken: Swift.String?
 }
@@ -646,7 +646,7 @@ extension PutReportDefinitionInput {
     }
 }
 
-public struct PutReportDefinitionInput: Swift.Equatable {
+public struct PutReportDefinitionInput {
     /// Required. Amazon Simple Storage Service (Amazon S3) location where Application Cost Profiler uploads the report.
     /// This member is required.
     public var destinationS3Location: ApplicationCostProfilerClientTypes.S3Location?
@@ -679,7 +679,7 @@ public struct PutReportDefinitionInput: Swift.Equatable {
     }
 }
 
-struct PutReportDefinitionInputBody: Swift.Equatable {
+struct PutReportDefinitionInputBody {
     let reportId: Swift.String?
     let reportDescription: Swift.String?
     let reportFrequency: ApplicationCostProfilerClientTypes.ReportFrequency?
@@ -723,7 +723,7 @@ extension PutReportDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutReportDefinitionOutput: Swift.Equatable {
+public struct PutReportDefinitionOutput {
     /// ID of the report.
     public var reportId: Swift.String?
 
@@ -735,7 +735,7 @@ public struct PutReportDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct PutReportDefinitionOutputBody: Swift.Equatable {
+struct PutReportDefinitionOutputBody {
     let reportId: Swift.String?
 }
 
@@ -823,7 +823,7 @@ extension ApplicationCostProfilerClientTypes.ReportDefinition: Swift.Codable {
 
 extension ApplicationCostProfilerClientTypes {
     /// The configuration of a report in AWS Application Cost Profiler.
-    public struct ReportDefinition: Swift.Equatable {
+    public struct ReportDefinition {
         /// Timestamp (milliseconds) when this report definition was created.
         public var createdAt: ClientRuntime.Date?
         /// The location in Amazon Simple Storage Service (Amazon S3) the reports should be saved to.
@@ -961,7 +961,7 @@ extension ApplicationCostProfilerClientTypes.S3Location: Swift.Codable {
 
 extension ApplicationCostProfilerClientTypes {
     /// Represents the Amazon Simple Storage Service (Amazon S3) location where AWS Application Cost Profiler reports are generated and then written to.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// Name of the S3 bucket.
         /// This member is required.
         public var bucket: Swift.String?
@@ -1020,7 +1020,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1069,7 +1069,7 @@ extension ApplicationCostProfilerClientTypes.SourceS3Location: Swift.Codable {
 
 extension ApplicationCostProfilerClientTypes {
     /// Represents the Amazon Simple Storage Service (Amazon S3) location where usage data is read from.
-    public struct SourceS3Location: Swift.Equatable {
+    public struct SourceS3Location {
         /// Name of the bucket.
         /// This member is required.
         public var bucket: Swift.String?
@@ -1132,7 +1132,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -1183,7 +1183,7 @@ extension UpdateReportDefinitionInput {
     }
 }
 
-public struct UpdateReportDefinitionInput: Swift.Equatable {
+public struct UpdateReportDefinitionInput {
     /// Required. Amazon Simple Storage Service (Amazon S3) location where Application Cost Profiler uploads the report.
     /// This member is required.
     public var destinationS3Location: ApplicationCostProfilerClientTypes.S3Location?
@@ -1216,7 +1216,7 @@ public struct UpdateReportDefinitionInput: Swift.Equatable {
     }
 }
 
-struct UpdateReportDefinitionInputBody: Swift.Equatable {
+struct UpdateReportDefinitionInputBody {
     let reportDescription: Swift.String?
     let reportFrequency: ApplicationCostProfilerClientTypes.ReportFrequency?
     let format: ApplicationCostProfilerClientTypes.Format?
@@ -1256,7 +1256,7 @@ extension UpdateReportDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateReportDefinitionOutput: Swift.Equatable {
+public struct UpdateReportDefinitionOutput {
     /// ID of the report.
     public var reportId: Swift.String?
 
@@ -1268,7 +1268,7 @@ public struct UpdateReportDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReportDefinitionOutputBody: Swift.Equatable {
+struct UpdateReportDefinitionOutputBody {
     let reportId: Swift.String?
 }
 
@@ -1337,7 +1337,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

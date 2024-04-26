@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -84,7 +84,7 @@ extension PaymentCryptographyClientTypes.Alias: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// Contains information about an alias.
-    public struct Alias: Swift.Equatable {
+    public struct Alias {
         /// A friendly name that you can use to refer to a key. The value must begin with alias/. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
         /// This member is required.
         public var aliasName: Swift.String?
@@ -142,7 +142,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -182,7 +182,7 @@ extension CreateAliasInput {
     }
 }
 
-public struct CreateAliasInput: Swift.Equatable {
+public struct CreateAliasInput {
     /// A friendly name that you can use to refer to a key. An alias must begin with alias/ followed by a name, for example alias/ExampleAlias. It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -199,7 +199,7 @@ public struct CreateAliasInput: Swift.Equatable {
     }
 }
 
-struct CreateAliasInputBody: Swift.Equatable {
+struct CreateAliasInputBody {
     let aliasName: Swift.String?
     let keyArn: Swift.String?
 }
@@ -231,7 +231,7 @@ extension CreateAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAliasOutput: Swift.Equatable {
+public struct CreateAliasOutput {
     /// The alias for the key.
     /// This member is required.
     public var alias: PaymentCryptographyClientTypes.Alias?
@@ -244,7 +244,7 @@ public struct CreateAliasOutput: Swift.Equatable {
     }
 }
 
-struct CreateAliasOutputBody: Swift.Equatable {
+struct CreateAliasOutputBody {
     let alias: PaymentCryptographyClientTypes.Alias?
 }
 
@@ -317,7 +317,7 @@ extension CreateKeyInput {
     }
 }
 
-public struct CreateKeyInput: Swift.Equatable {
+public struct CreateKeyInput {
     /// Specifies whether to enable the key. If the key is enabled, it is activated for use within the service. If the key is not enabled, then it is created but not activated. The default value is enabled.
     public var enabled: Swift.Bool?
     /// Specifies whether the key is exportable from the service.
@@ -347,7 +347,7 @@ public struct CreateKeyInput: Swift.Equatable {
     }
 }
 
-struct CreateKeyInputBody: Swift.Equatable {
+struct CreateKeyInputBody {
     let keyAttributes: PaymentCryptographyClientTypes.KeyAttributes?
     let keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm?
     let exportable: Swift.Bool?
@@ -400,7 +400,7 @@ extension CreateKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateKeyOutput: Swift.Equatable {
+public struct CreateKeyOutput {
     /// The key material that contains all the key attributes.
     /// This member is required.
     public var key: PaymentCryptographyClientTypes.Key?
@@ -413,7 +413,7 @@ public struct CreateKeyOutput: Swift.Equatable {
     }
 }
 
-struct CreateKeyOutputBody: Swift.Equatable {
+struct CreateKeyOutputBody {
     let key: PaymentCryptographyClientTypes.Key?
 }
 
@@ -467,7 +467,7 @@ extension DeleteAliasInput {
     }
 }
 
-public struct DeleteAliasInput: Swift.Equatable {
+public struct DeleteAliasInput {
     /// A friendly name that you can use to refer Amazon Web Services Payment Cryptography key. This value must begin with alias/ followed by a name, such as alias/ExampleAlias.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -480,7 +480,7 @@ public struct DeleteAliasInput: Swift.Equatable {
     }
 }
 
-struct DeleteAliasInputBody: Swift.Equatable {
+struct DeleteAliasInputBody {
     let aliasName: Swift.String?
 }
 
@@ -501,7 +501,7 @@ extension DeleteAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAliasOutput: Swift.Equatable {
+public struct DeleteAliasOutput {
 
     public init() { }
 }
@@ -547,7 +547,7 @@ extension DeleteKeyInput {
     }
 }
 
-public struct DeleteKeyInput: Swift.Equatable {
+public struct DeleteKeyInput {
     /// The waiting period for key deletion. The default value is seven days.
     public var deleteKeyInDays: Swift.Int?
     /// The KeyARN of the key that is scheduled for deletion.
@@ -564,7 +564,7 @@ public struct DeleteKeyInput: Swift.Equatable {
     }
 }
 
-struct DeleteKeyInputBody: Swift.Equatable {
+struct DeleteKeyInputBody {
     let keyIdentifier: Swift.String?
     let deleteKeyInDays: Swift.Int?
 }
@@ -596,7 +596,7 @@ extension DeleteKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteKeyOutput: Swift.Equatable {
+public struct DeleteKeyOutput {
     /// The KeyARN of the key that is scheduled for deletion.
     /// This member is required.
     public var key: PaymentCryptographyClientTypes.Key?
@@ -609,7 +609,7 @@ public struct DeleteKeyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteKeyOutputBody: Swift.Equatable {
+struct DeleteKeyOutputBody {
     let key: PaymentCryptographyClientTypes.Key?
 }
 
@@ -669,7 +669,7 @@ extension PaymentCryptographyClientTypes.ExportAttributes: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// The attributes for IPEK generation during export.
-    public struct ExportAttributes: Swift.Equatable {
+    public struct ExportAttributes {
         /// Parameter information for IPEK export.
         public var exportDukptInitialKey: PaymentCryptographyClientTypes.ExportDukptInitialKey?
         /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. Specify KCV for IPEK export only. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
@@ -708,7 +708,7 @@ extension PaymentCryptographyClientTypes.ExportDukptInitialKey: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for IPEK generation during export.
-    public struct ExportDukptInitialKey: Swift.Equatable {
+    public struct ExportDukptInitialKey {
         /// The KSN for IPEK generation using DUKPT. KSN must be padded before sending to Amazon Web Services Payment Cryptography. KSN hex length should be 20 for a TDES_2KEY key or 24 for an AES key.
         /// This member is required.
         public var keySerialNumber: Swift.String?
@@ -761,7 +761,7 @@ extension PaymentCryptographyClientTypes.ExportKeyCryptogram: Swift.CustomDebugS
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for key material export using asymmetric RSA wrap and unwrap key exchange method.
-    public struct ExportKeyCryptogram: Swift.Equatable {
+    public struct ExportKeyCryptogram {
         /// The KeyARN of the certificate chain that signs the wrapping key certificate during RSA wrap and unwrap key export.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
@@ -813,7 +813,7 @@ extension ExportKeyInput {
     }
 }
 
-public struct ExportKeyInput: Swift.Equatable {
+public struct ExportKeyInput {
     /// The attributes for IPEK generation during export.
     public var exportAttributes: PaymentCryptographyClientTypes.ExportAttributes?
     /// The KeyARN of the key under export from Amazon Web Services Payment Cryptography.
@@ -835,7 +835,7 @@ public struct ExportKeyInput: Swift.Equatable {
     }
 }
 
-struct ExportKeyInputBody: Swift.Equatable {
+struct ExportKeyInputBody {
     let keyMaterial: PaymentCryptographyClientTypes.ExportKeyMaterial?
     let exportKeyIdentifier: Swift.String?
     let exportAttributes: PaymentCryptographyClientTypes.ExportAttributes?
@@ -904,7 +904,7 @@ extension PaymentCryptographyClientTypes.ExportKeyMaterial: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for key material export from Amazon Web Services Payment Cryptography using TR-31 or TR-34 or RSA wrap and unwrap key exchange method.
-    public enum ExportKeyMaterial: Swift.Equatable {
+    public enum ExportKeyMaterial {
         /// Parameter information for key material export using symmetric TR-31 key exchange method.
         case tr31keyblock(PaymentCryptographyClientTypes.ExportTr31KeyBlock)
         /// Parameter information for key material export using the asymmetric TR-34 key exchange method.
@@ -928,7 +928,7 @@ extension ExportKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportKeyOutput: Swift.Equatable {
+public struct ExportKeyOutput {
     /// The key material under export as a TR-34 WrappedKeyBlock or a TR-31 WrappedKeyBlock. or a RSA WrappedKeyCryptogram.
     public var wrappedKey: PaymentCryptographyClientTypes.WrappedKey?
 
@@ -940,7 +940,7 @@ public struct ExportKeyOutput: Swift.Equatable {
     }
 }
 
-struct ExportKeyOutputBody: Swift.Equatable {
+struct ExportKeyOutputBody {
     let wrappedKey: PaymentCryptographyClientTypes.WrappedKey?
 }
 
@@ -1000,7 +1000,7 @@ extension PaymentCryptographyClientTypes.ExportTr31KeyBlock: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for key material export using symmetric TR-31 key exchange method.
-    public struct ExportTr31KeyBlock: Swift.Equatable {
+    public struct ExportTr31KeyBlock {
         /// Optional metadata for export associated with the key material. This data is signed but transmitted in clear text.
         public var keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders?
         /// The KeyARN of the the wrapping key. This key encrypts or wraps the key under export for TR-31 key block generation.
@@ -1075,7 +1075,7 @@ extension PaymentCryptographyClientTypes.ExportTr34KeyBlock: Swift.CustomDebugSt
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for key material export using the asymmetric TR-34 key exchange method.
-    public struct ExportTr34KeyBlock: Swift.Equatable {
+    public struct ExportTr34KeyBlock {
         /// The KeyARN of the certificate chain that signs the wrapping key certificate during TR-34 key export.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
@@ -1133,7 +1133,7 @@ extension GetAliasInput {
     }
 }
 
-public struct GetAliasInput: Swift.Equatable {
+public struct GetAliasInput {
     /// The alias of the Amazon Web Services Payment Cryptography key.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -1146,7 +1146,7 @@ public struct GetAliasInput: Swift.Equatable {
     }
 }
 
-struct GetAliasInputBody: Swift.Equatable {
+struct GetAliasInputBody {
     let aliasName: Swift.String?
 }
 
@@ -1174,7 +1174,7 @@ extension GetAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAliasOutput: Swift.Equatable {
+public struct GetAliasOutput {
     /// The alias of the Amazon Web Services Payment Cryptography key.
     /// This member is required.
     public var alias: PaymentCryptographyClientTypes.Alias?
@@ -1187,7 +1187,7 @@ public struct GetAliasOutput: Swift.Equatable {
     }
 }
 
-struct GetAliasOutputBody: Swift.Equatable {
+struct GetAliasOutputBody {
     let alias: PaymentCryptographyClientTypes.Alias?
 }
 
@@ -1239,7 +1239,7 @@ extension GetKeyInput {
     }
 }
 
-public struct GetKeyInput: Swift.Equatable {
+public struct GetKeyInput {
     /// The KeyARN of the Amazon Web Services Payment Cryptography key.
     /// This member is required.
     public var keyIdentifier: Swift.String?
@@ -1252,7 +1252,7 @@ public struct GetKeyInput: Swift.Equatable {
     }
 }
 
-struct GetKeyInputBody: Swift.Equatable {
+struct GetKeyInputBody {
     let keyIdentifier: Swift.String?
 }
 
@@ -1280,7 +1280,7 @@ extension GetKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetKeyOutput: Swift.Equatable {
+public struct GetKeyOutput {
     /// The key material, including the immutable and mutable data for the key.
     /// This member is required.
     public var key: PaymentCryptographyClientTypes.Key?
@@ -1293,7 +1293,7 @@ public struct GetKeyOutput: Swift.Equatable {
     }
 }
 
-struct GetKeyOutputBody: Swift.Equatable {
+struct GetKeyOutputBody {
     let key: PaymentCryptographyClientTypes.Key?
 }
 
@@ -1349,7 +1349,7 @@ extension GetParametersForExportInput {
     }
 }
 
-public struct GetParametersForExportInput: Swift.Equatable {
+public struct GetParametersForExportInput {
     /// The key block format type (for example, TR-34 or TR-31) to use during key material export. Export token is only required for a TR-34 key export, TR34_KEY_BLOCK. Export token is not required for TR-31 key export.
     /// This member is required.
     public var keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
@@ -1367,7 +1367,7 @@ public struct GetParametersForExportInput: Swift.Equatable {
     }
 }
 
-struct GetParametersForExportInputBody: Swift.Equatable {
+struct GetParametersForExportInputBody {
     let keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
     let signingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
 }
@@ -1412,7 +1412,7 @@ extension GetParametersForExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetParametersForExportOutput: Swift.Equatable {
+public struct GetParametersForExportOutput {
     /// The export token to initiate key export from Amazon Web Services Payment Cryptography. The export token expires after 7 days. You can use the same export token to export multiple keys from the same service account.
     /// This member is required.
     public var exportToken: Swift.String?
@@ -1445,7 +1445,7 @@ public struct GetParametersForExportOutput: Swift.Equatable {
     }
 }
 
-struct GetParametersForExportOutputBody: Swift.Equatable {
+struct GetParametersForExportOutputBody {
     let signingKeyCertificate: Swift.String?
     let signingKeyCertificateChain: Swift.String?
     let signingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
@@ -1519,7 +1519,7 @@ extension GetParametersForImportInput {
     }
 }
 
-public struct GetParametersForImportInput: Swift.Equatable {
+public struct GetParametersForImportInput {
     /// The method to use for key material import. Import token is only required for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK) and RSA WrappedKeyCryptogram (KEY_CRYPTOGRAM). Import token is not required for TR-31, root public key cerificate or trusted public key certificate.
     /// This member is required.
     public var keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
@@ -1537,7 +1537,7 @@ public struct GetParametersForImportInput: Swift.Equatable {
     }
 }
 
-struct GetParametersForImportInputBody: Swift.Equatable {
+struct GetParametersForImportInputBody {
     let keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
     let wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
 }
@@ -1582,7 +1582,7 @@ extension GetParametersForImportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetParametersForImportOutput: Swift.Equatable {
+public struct GetParametersForImportOutput {
     /// The import token to initiate key import into Amazon Web Services Payment Cryptography. The import token expires after 7 days. You can use the same import token to import multiple keys to the same service account.
     /// This member is required.
     public var importToken: Swift.String?
@@ -1615,7 +1615,7 @@ public struct GetParametersForImportOutput: Swift.Equatable {
     }
 }
 
-struct GetParametersForImportOutputBody: Swift.Equatable {
+struct GetParametersForImportOutputBody {
     let wrappingKeyCertificate: Swift.String?
     let wrappingKeyCertificateChain: Swift.String?
     let wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
@@ -1685,7 +1685,7 @@ extension GetPublicKeyCertificateInput {
     }
 }
 
-public struct GetPublicKeyCertificateInput: Swift.Equatable {
+public struct GetPublicKeyCertificateInput {
     /// The KeyARN of the asymmetric key pair.
     /// This member is required.
     public var keyIdentifier: Swift.String?
@@ -1698,7 +1698,7 @@ public struct GetPublicKeyCertificateInput: Swift.Equatable {
     }
 }
 
-struct GetPublicKeyCertificateInputBody: Swift.Equatable {
+struct GetPublicKeyCertificateInputBody {
     let keyIdentifier: Swift.String?
 }
 
@@ -1733,7 +1733,7 @@ extension GetPublicKeyCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPublicKeyCertificateOutput: Swift.Equatable {
+public struct GetPublicKeyCertificateOutput {
     /// The public key component of the asymmetric key pair in a certificate PEM format (base64 encoded). It is signed by the root certificate authority (CA). The certificate expires in 90 days.
     /// This member is required.
     public var keyCertificate: Swift.String?
@@ -1751,7 +1751,7 @@ public struct GetPublicKeyCertificateOutput: Swift.Equatable {
     }
 }
 
-struct GetPublicKeyCertificateOutputBody: Swift.Equatable {
+struct GetPublicKeyCertificateOutputBody {
     let keyCertificate: Swift.String?
     let keyCertificateChain: Swift.String?
 }
@@ -1832,7 +1832,7 @@ extension PaymentCryptographyClientTypes.ImportKeyCryptogram: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for key material import using asymmetric RSA wrap and unwrap key exchange method.
-    public struct ImportKeyCryptogram: Swift.Equatable {
+    public struct ImportKeyCryptogram {
         /// Specifies whether the key is exportable from the service.
         /// This member is required.
         public var exportable: Swift.Bool?
@@ -1901,7 +1901,7 @@ extension ImportKeyInput {
     }
 }
 
-public struct ImportKeyInput: Swift.Equatable {
+public struct ImportKeyInput {
     /// Specifies whether import key is enabled.
     public var enabled: Swift.Bool?
     /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
@@ -1926,7 +1926,7 @@ public struct ImportKeyInput: Swift.Equatable {
     }
 }
 
-struct ImportKeyInputBody: Swift.Equatable {
+struct ImportKeyInputBody {
     let keyMaterial: PaymentCryptographyClientTypes.ImportKeyMaterial?
     let keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm?
     let enabled: Swift.Bool?
@@ -2024,7 +2024,7 @@ extension PaymentCryptographyClientTypes.ImportKeyMaterial: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for key material import into Amazon Web Services Payment Cryptography using TR-31 or TR-34 or RSA wrap and unwrap key exchange method.
-    public enum ImportKeyMaterial: Swift.Equatable {
+    public enum ImportKeyMaterial {
         /// Parameter information for root public key certificate import.
         case rootcertificatepublickey(PaymentCryptographyClientTypes.RootCertificatePublicKey)
         /// Parameter information for trusted public key certificate import.
@@ -2052,7 +2052,7 @@ extension ImportKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportKeyOutput: Swift.Equatable {
+public struct ImportKeyOutput {
     /// The KeyARN of the key material imported within Amazon Web Services Payment Cryptography.
     /// This member is required.
     public var key: PaymentCryptographyClientTypes.Key?
@@ -2065,7 +2065,7 @@ public struct ImportKeyOutput: Swift.Equatable {
     }
 }
 
-struct ImportKeyOutputBody: Swift.Equatable {
+struct ImportKeyOutputBody {
     let key: PaymentCryptographyClientTypes.Key?
 }
 
@@ -2126,7 +2126,7 @@ extension PaymentCryptographyClientTypes.ImportTr31KeyBlock: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for key material import using symmetric TR-31 key exchange method.
-    public struct ImportTr31KeyBlock: Swift.Equatable {
+    public struct ImportTr31KeyBlock {
         /// The TR-31 wrapped key block to import.
         /// This member is required.
         public var wrappedKeyBlock: Swift.String?
@@ -2202,7 +2202,7 @@ extension PaymentCryptographyClientTypes.ImportTr34KeyBlock: Swift.CustomDebugSt
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for key material import using the asymmetric TR-34 key exchange method.
-    public struct ImportTr34KeyBlock: Swift.Equatable {
+    public struct ImportTr34KeyBlock {
         /// The KeyARN of the certificate chain that signs the signing key certificate during TR-34 key import.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
@@ -2280,7 +2280,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2389,7 +2389,7 @@ extension PaymentCryptographyClientTypes.Key: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// Metadata about an Amazon Web Services Payment Cryptography key.
-    public struct Key: Swift.Equatable {
+    public struct Key {
         /// The date and time when the key was created.
         /// This member is required.
         public var createTimestamp: ClientRuntime.Date?
@@ -2549,7 +2549,7 @@ extension PaymentCryptographyClientTypes.KeyAttributes: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the key is created.
-    public struct KeyAttributes: Swift.Equatable {
+    public struct KeyAttributes {
         /// The key algorithm to be use during creation of an Amazon Web Services Payment Cryptography key. For symmetric keys, Amazon Web Services Payment Cryptography supports AES and TDES algorithms. For asymmetric keys, Amazon Web Services Payment Cryptography supports RSA and ECC_NIST algorithms.
         /// This member is required.
         public var keyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
@@ -2630,7 +2630,7 @@ extension PaymentCryptographyClientTypes.KeyBlockHeaders: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// Optional metadata for export associated with the key material. This data is signed but transmitted in clear text.
-    public struct KeyBlockHeaders: Swift.Equatable {
+    public struct KeyBlockHeaders {
         /// Specifies subsequent exportability of the key within the key block after it is received by the receiving party. It can be used to further restrict exportability of the key after export from Amazon Web Services Payment Cryptography. When set to EXPORTABLE, the key can be subsequently exported by the receiver under a KEK using TR-31 or TR-34 key block export only. When set to NON_EXPORTABLE, the key cannot be subsequently exported by the receiver. When set to SENSITIVE, the key can be exported by the receiver under a KEK using TR-31, TR-34, RSA wrap and unwrap cryptogram or using a symmetric cryptogram key export method. For further information refer to [ANSI X9.143-2022](https://webstore.ansi.org/standards/ascx9/ansix91432022).
         public var keyExportability: PaymentCryptographyClientTypes.KeyExportability?
         /// The list of cryptographic operations that you can perform using the key. The modes of use are deﬁned in section A.5.3 of the TR-31 spec.
@@ -2871,7 +2871,7 @@ extension PaymentCryptographyClientTypes.KeyModesOfUse: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// The list of cryptographic operations that you can perform using the key. The modes of use are deﬁned in section A.5.3 of the TR-31 spec.
-    public struct KeyModesOfUse: Swift.Equatable {
+    public struct KeyModesOfUse {
         /// Speciﬁes whether an Amazon Web Services Payment Cryptography key can be used to decrypt data.
         public var decrypt: Swift.Bool
         /// Speciﬁes whether an Amazon Web Services Payment Cryptography key can be used to derive new keys.
@@ -3040,7 +3040,7 @@ extension PaymentCryptographyClientTypes.KeySummary: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// Metadata about an Amazon Web Services Payment Cryptography key.
-    public struct KeySummary: Swift.Equatable {
+    public struct KeySummary {
         /// Specifies whether the key is enabled.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -3199,7 +3199,7 @@ extension ListAliasesInput {
     }
 }
 
-public struct ListAliasesInput: Swift.Equatable {
+public struct ListAliasesInput {
     /// Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
     public var maxResults: Swift.Int?
     /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the truncated response you just received.
@@ -3215,7 +3215,7 @@ public struct ListAliasesInput: Swift.Equatable {
     }
 }
 
-struct ListAliasesInputBody: Swift.Equatable {
+struct ListAliasesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -3249,7 +3249,7 @@ extension ListAliasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAliasesOutput: Swift.Equatable {
+public struct ListAliasesOutput {
     /// The list of aliases. Each alias describes the KeyArn contained within.
     /// This member is required.
     public var aliases: [PaymentCryptographyClientTypes.Alias]?
@@ -3266,7 +3266,7 @@ public struct ListAliasesOutput: Swift.Equatable {
     }
 }
 
-struct ListAliasesOutputBody: Swift.Equatable {
+struct ListAliasesOutputBody {
     let aliases: [PaymentCryptographyClientTypes.Alias]?
     let nextToken: Swift.String?
 }
@@ -3339,7 +3339,7 @@ extension ListKeysInput {
     }
 }
 
-public struct ListKeysInput: Swift.Equatable {
+public struct ListKeysInput {
     /// The key state of the keys you want to list.
     public var keyState: PaymentCryptographyClientTypes.KeyState?
     /// Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
@@ -3359,7 +3359,7 @@ public struct ListKeysInput: Swift.Equatable {
     }
 }
 
-struct ListKeysInputBody: Swift.Equatable {
+struct ListKeysInputBody {
     let keyState: PaymentCryptographyClientTypes.KeyState?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3397,7 +3397,7 @@ extension ListKeysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKeysOutput: Swift.Equatable {
+public struct ListKeysOutput {
     /// The list of keys created within the caller's Amazon Web Services account and Amazon Web Services Region.
     /// This member is required.
     public var keys: [PaymentCryptographyClientTypes.KeySummary]?
@@ -3414,7 +3414,7 @@ public struct ListKeysOutput: Swift.Equatable {
     }
 }
 
-struct ListKeysOutputBody: Swift.Equatable {
+struct ListKeysOutputBody {
     let keys: [PaymentCryptographyClientTypes.KeySummary]?
     let nextToken: Swift.String?
 }
@@ -3487,7 +3487,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
     public var maxResults: Swift.Int?
     /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the truncated response you just received.
@@ -3508,7 +3508,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3546,7 +3546,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The token for the next set of results, or an empty or null value if there are no more results.
     public var nextToken: Swift.String?
     /// The list of tags associated with a ResourceArn. Each tag will list the key-value pair contained within that tag.
@@ -3563,7 +3563,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [PaymentCryptographyClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -3650,7 +3650,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let resourceId: Swift.String?
 }
 
@@ -3686,7 +3686,7 @@ extension RestoreKeyInput {
     }
 }
 
-public struct RestoreKeyInput: Swift.Equatable {
+public struct RestoreKeyInput {
     /// The KeyARN of the key to be restored within Amazon Web Services Payment Cryptography.
     /// This member is required.
     public var keyIdentifier: Swift.String?
@@ -3699,7 +3699,7 @@ public struct RestoreKeyInput: Swift.Equatable {
     }
 }
 
-struct RestoreKeyInputBody: Swift.Equatable {
+struct RestoreKeyInputBody {
     let keyIdentifier: Swift.String?
 }
 
@@ -3727,7 +3727,7 @@ extension RestoreKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreKeyOutput: Swift.Equatable {
+public struct RestoreKeyOutput {
     /// The key material of the restored key. The KeyState will change to CREATE_COMPLETE and value for DeletePendingTimestamp gets removed.
     /// This member is required.
     public var key: PaymentCryptographyClientTypes.Key?
@@ -3740,7 +3740,7 @@ public struct RestoreKeyOutput: Swift.Equatable {
     }
 }
 
-struct RestoreKeyOutputBody: Swift.Equatable {
+struct RestoreKeyOutputBody {
     let key: PaymentCryptographyClientTypes.Key?
 }
 
@@ -3806,7 +3806,7 @@ extension PaymentCryptographyClientTypes.RootCertificatePublicKey: Swift.CustomD
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for root public key certificate import.
-    public struct RootCertificatePublicKey: Swift.Equatable {
+    public struct RootCertificatePublicKey {
         /// The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the root public key is imported.
         /// This member is required.
         public var keyAttributes: PaymentCryptographyClientTypes.KeyAttributes?
@@ -3865,7 +3865,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3920,7 +3920,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -3956,7 +3956,7 @@ extension StartKeyUsageInput {
     }
 }
 
-public struct StartKeyUsageInput: Swift.Equatable {
+public struct StartKeyUsageInput {
     /// The KeyArn of the key.
     /// This member is required.
     public var keyIdentifier: Swift.String?
@@ -3969,7 +3969,7 @@ public struct StartKeyUsageInput: Swift.Equatable {
     }
 }
 
-struct StartKeyUsageInputBody: Swift.Equatable {
+struct StartKeyUsageInputBody {
     let keyIdentifier: Swift.String?
 }
 
@@ -3997,7 +3997,7 @@ extension StartKeyUsageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartKeyUsageOutput: Swift.Equatable {
+public struct StartKeyUsageOutput {
     /// The KeyARN of the Amazon Web Services Payment Cryptography key activated for use.
     /// This member is required.
     public var key: PaymentCryptographyClientTypes.Key?
@@ -4010,7 +4010,7 @@ public struct StartKeyUsageOutput: Swift.Equatable {
     }
 }
 
-struct StartKeyUsageOutputBody: Swift.Equatable {
+struct StartKeyUsageOutputBody {
     let key: PaymentCryptographyClientTypes.Key?
 }
 
@@ -4064,7 +4064,7 @@ extension StopKeyUsageInput {
     }
 }
 
-public struct StopKeyUsageInput: Swift.Equatable {
+public struct StopKeyUsageInput {
     /// The KeyArn of the key.
     /// This member is required.
     public var keyIdentifier: Swift.String?
@@ -4077,7 +4077,7 @@ public struct StopKeyUsageInput: Swift.Equatable {
     }
 }
 
-struct StopKeyUsageInputBody: Swift.Equatable {
+struct StopKeyUsageInputBody {
     let keyIdentifier: Swift.String?
 }
 
@@ -4105,7 +4105,7 @@ extension StopKeyUsageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopKeyUsageOutput: Swift.Equatable {
+public struct StopKeyUsageOutput {
     /// The KeyARN of the key.
     /// This member is required.
     public var key: PaymentCryptographyClientTypes.Key?
@@ -4118,7 +4118,7 @@ public struct StopKeyUsageOutput: Swift.Equatable {
     }
 }
 
-struct StopKeyUsageOutputBody: Swift.Equatable {
+struct StopKeyUsageOutputBody {
     let key: PaymentCryptographyClientTypes.Key?
 }
 
@@ -4179,7 +4179,7 @@ extension PaymentCryptographyClientTypes.Tag: Swift.Codable {
 
 extension PaymentCryptographyClientTypes {
     /// A structure that contains information about a tag.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -4225,7 +4225,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The KeyARN of the key whose tags are being updated.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4243,7 +4243,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [PaymentCryptographyClientTypes.Tag]?
 }
@@ -4277,7 +4277,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4339,7 +4339,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4422,7 +4422,7 @@ extension PaymentCryptographyClientTypes.TrustedCertificatePublicKey: Swift.Cust
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for trusted public key certificate import.
-    public struct TrustedCertificatePublicKey: Swift.Equatable {
+    public struct TrustedCertificatePublicKey {
         /// The KeyARN of the root public key certificate or certificate chain that signs the trusted public key certificate import.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
@@ -4474,7 +4474,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The KeyARN of the key whose tags are being removed.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4492,7 +4492,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -4526,7 +4526,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4572,7 +4572,7 @@ extension UpdateAliasInput {
     }
 }
 
-public struct UpdateAliasInput: Swift.Equatable {
+public struct UpdateAliasInput {
     /// The alias whose associated key is changing.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -4589,7 +4589,7 @@ public struct UpdateAliasInput: Swift.Equatable {
     }
 }
 
-struct UpdateAliasInputBody: Swift.Equatable {
+struct UpdateAliasInputBody {
     let aliasName: Swift.String?
     let keyArn: Swift.String?
 }
@@ -4621,7 +4621,7 @@ extension UpdateAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAliasOutput: Swift.Equatable {
+public struct UpdateAliasOutput {
     /// The alias name.
     /// This member is required.
     public var alias: PaymentCryptographyClientTypes.Alias?
@@ -4634,7 +4634,7 @@ public struct UpdateAliasOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAliasOutputBody: Swift.Equatable {
+struct UpdateAliasOutputBody {
     let alias: PaymentCryptographyClientTypes.Alias?
 }
 
@@ -4706,7 +4706,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -4772,7 +4772,7 @@ extension PaymentCryptographyClientTypes.WrappedKey: Swift.CustomDebugStringConv
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for generating a WrappedKeyBlock for key exchange.
-    public struct WrappedKey: Swift.Equatable {
+    public struct WrappedKey {
         /// The key check value (KCV) is used to check if all parties holding a given key have the same key or to detect that a key has changed.
         public var keyCheckValue: Swift.String?
         /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.

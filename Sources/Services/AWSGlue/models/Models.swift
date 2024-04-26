@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -121,7 +121,7 @@ extension GlueClientTypes.Action: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines an action to be initiated by a trigger.
-    public struct Action: Swift.Equatable {
+    public struct Action {
         /// The job arguments used when this trigger fires. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. For information about how to specify and consume your own Job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide.
         public var arguments: [Swift.String:Swift.String]?
         /// The name of the crawler to be used with this action.
@@ -345,7 +345,7 @@ extension GlueClientTypes.Aggregate: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that groups rows by chosen fields and computes the aggregated value by specified function.
-    public struct Aggregate: Swift.Equatable {
+    public struct Aggregate {
         /// Specifies the aggregate functions to be performed on specified fields.
         /// This member is required.
         public var aggs: [GlueClientTypes.AggregateOperation]?
@@ -414,7 +414,7 @@ extension GlueClientTypes.AggregateOperation: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies the set of parameters needed to perform aggregation in the aggregate transform.
-    public struct AggregateOperation: Swift.Equatable {
+    public struct AggregateOperation {
         /// Specifies the aggregation function to apply. Possible aggregation functions include: avg countDistinct, count, first, last, kurtosis, max, min, skewness, stddev_samp, stddev_pop, sum, sumDistinct, var_samp, var_pop
         /// This member is required.
         public var aggFunc: GlueClientTypes.AggFunction?
@@ -474,7 +474,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct AlreadyExistsExceptionBody: Swift.Equatable {
+struct AlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -517,7 +517,7 @@ extension GlueClientTypes.AmazonRedshiftAdvancedOption: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an optional value when connecting to the Redshift cluster.
-    public struct AmazonRedshiftAdvancedOption: Swift.Equatable {
+    public struct AmazonRedshiftAdvancedOption {
         /// The key for the additional connection option.
         public var key: Swift.String?
         /// The value for the additional connection option.
@@ -742,7 +742,7 @@ extension GlueClientTypes.AmazonRedshiftNodeData: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Amazon Redshift node.
-    public struct AmazonRedshiftNodeData: Swift.Equatable {
+    public struct AmazonRedshiftNodeData {
         /// The access type for the Redshift connection. Can be a direct connection or catalog connections.
         public var accessType: Swift.String?
         /// Specifies how writing to a Redshift cluser will occur.
@@ -883,7 +883,7 @@ extension GlueClientTypes.AmazonRedshiftSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Amazon Redshift source.
-    public struct AmazonRedshiftSource: Swift.Equatable {
+    public struct AmazonRedshiftSource {
         /// Specifies the data of the Amazon Reshift source node.
         public var data: GlueClientTypes.AmazonRedshiftNodeData?
         /// The name of the Amazon Redshift source.
@@ -946,7 +946,7 @@ extension GlueClientTypes.AmazonRedshiftTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Amazon Redshift target.
-    public struct AmazonRedshiftTarget: Swift.Equatable {
+    public struct AmazonRedshiftTarget {
         /// Specifies the data of the Amazon Redshift target node.
         public var data: GlueClientTypes.AmazonRedshiftNodeData?
         /// The nodes that are inputs to the data target.
@@ -1025,7 +1025,7 @@ extension GlueClientTypes.ApplyMapping: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that maps data property keys in the data source to data property keys in the data target. You can rename keys, modify the data types for keys, and choose which keys to drop from the dataset.
-    public struct ApplyMapping: Swift.Equatable {
+    public struct ApplyMapping {
         /// The data inputs identified by their node names.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -1119,7 +1119,7 @@ extension GlueClientTypes.AthenaConnectorSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a connector to an Amazon Athena data source.
-    public struct AthenaConnectorSource: Swift.Equatable {
+    public struct AthenaConnectorSource {
         /// The name of the connection that is associated with the connector.
         /// This member is required.
         public var connectionName: Swift.String?
@@ -1207,7 +1207,7 @@ extension GlueClientTypes.AuditContext: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure containing the Lake Formation audit context.
-    public struct AuditContext: Swift.Equatable {
+    public struct AuditContext {
         /// A string containing the additional audit context information.
         public var additionalAuditContext: Swift.String?
         /// All columns request for audit.
@@ -1278,7 +1278,7 @@ extension GlueClientTypes {
     /// * UnsupportedPartitionCharacterError: Characters inside the partition value are not supported. For example: U+0000 , U+0001, U+0002.
     ///
     /// * InternalError: Any error which does not belong to other error codes.
-    public struct BackfillError: Swift.Equatable {
+    public struct BackfillError {
         /// The error code for an error that occurred when registering partition indexes for an existing table.
         public var code: GlueClientTypes.BackfillErrorCode?
         /// A list of a limited number of partitions in the response.
@@ -1388,7 +1388,7 @@ extension GlueClientTypes.BasicCatalogTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target that uses a Glue Data Catalog table.
-    public struct BasicCatalogTarget: Swift.Equatable {
+    public struct BasicCatalogTarget {
         /// The database that contains the table you want to use as the target. This database must already exist in the Data Catalog.
         /// This member is required.
         public var database: Swift.String?
@@ -1453,7 +1453,7 @@ extension BatchCreatePartitionInput {
     }
 }
 
-public struct BatchCreatePartitionInput: Swift.Equatable {
+public struct BatchCreatePartitionInput {
     /// The ID of the catalog in which the partition is to be created. Currently, this should be the Amazon Web Services account ID.
     public var catalogId: Swift.String?
     /// The name of the metadata database in which the partition is to be created.
@@ -1480,7 +1480,7 @@ public struct BatchCreatePartitionInput: Swift.Equatable {
     }
 }
 
-struct BatchCreatePartitionInputBody: Swift.Equatable {
+struct BatchCreatePartitionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -1529,7 +1529,7 @@ extension BatchCreatePartitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchCreatePartitionOutput: Swift.Equatable {
+public struct BatchCreatePartitionOutput {
     /// The errors encountered when trying to create the requested partitions.
     public var errors: [GlueClientTypes.PartitionError]?
 
@@ -1541,7 +1541,7 @@ public struct BatchCreatePartitionOutput: Swift.Equatable {
     }
 }
 
-struct BatchCreatePartitionOutputBody: Swift.Equatable {
+struct BatchCreatePartitionOutputBody {
     let errors: [GlueClientTypes.PartitionError]?
 }
 
@@ -1610,7 +1610,7 @@ extension BatchDeleteConnectionInput {
     }
 }
 
-public struct BatchDeleteConnectionInput: Swift.Equatable {
+public struct BatchDeleteConnectionInput {
     /// The ID of the Data Catalog in which the connections reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// A list of names of the connections to delete.
@@ -1627,7 +1627,7 @@ public struct BatchDeleteConnectionInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteConnectionInputBody: Swift.Equatable {
+struct BatchDeleteConnectionInputBody {
     let catalogId: Swift.String?
     let connectionNameList: [Swift.String]?
 }
@@ -1670,7 +1670,7 @@ extension BatchDeleteConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteConnectionOutput: Swift.Equatable {
+public struct BatchDeleteConnectionOutput {
     /// A map of the names of connections that were not successfully deleted to error details.
     public var errors: [Swift.String:GlueClientTypes.ErrorDetail]?
     /// A list of names of the connection definitions that were successfully deleted.
@@ -1686,7 +1686,7 @@ public struct BatchDeleteConnectionOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteConnectionOutputBody: Swift.Equatable {
+struct BatchDeleteConnectionOutputBody {
     let succeeded: [Swift.String]?
     let errors: [Swift.String:GlueClientTypes.ErrorDetail]?
 }
@@ -1771,7 +1771,7 @@ extension BatchDeletePartitionInput {
     }
 }
 
-public struct BatchDeletePartitionInput: Swift.Equatable {
+public struct BatchDeletePartitionInput {
     /// The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database in which the table in question resides.
@@ -1798,7 +1798,7 @@ public struct BatchDeletePartitionInput: Swift.Equatable {
     }
 }
 
-struct BatchDeletePartitionInputBody: Swift.Equatable {
+struct BatchDeletePartitionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -1847,7 +1847,7 @@ extension BatchDeletePartitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeletePartitionOutput: Swift.Equatable {
+public struct BatchDeletePartitionOutput {
     /// The errors encountered when trying to delete the requested partitions.
     public var errors: [GlueClientTypes.PartitionError]?
 
@@ -1859,7 +1859,7 @@ public struct BatchDeletePartitionOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeletePartitionOutputBody: Swift.Equatable {
+struct BatchDeletePartitionOutputBody {
     let errors: [GlueClientTypes.PartitionError]?
 }
 
@@ -1933,7 +1933,7 @@ extension BatchDeleteTableInput {
     }
 }
 
-public struct BatchDeleteTableInput: Swift.Equatable {
+public struct BatchDeleteTableInput {
     /// The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database in which the tables to delete reside. For Hive compatibility, this name is entirely lowercase.
@@ -1959,7 +1959,7 @@ public struct BatchDeleteTableInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteTableInputBody: Swift.Equatable {
+struct BatchDeleteTableInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tablesToDelete: [Swift.String]?
@@ -2008,7 +2008,7 @@ extension BatchDeleteTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteTableOutput: Swift.Equatable {
+public struct BatchDeleteTableOutput {
     /// A list of errors encountered in attempting to delete the specified tables.
     public var errors: [GlueClientTypes.TableError]?
 
@@ -2020,7 +2020,7 @@ public struct BatchDeleteTableOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteTableOutputBody: Swift.Equatable {
+struct BatchDeleteTableOutputBody {
     let errors: [GlueClientTypes.TableError]?
 }
 
@@ -2096,7 +2096,7 @@ extension BatchDeleteTableVersionInput {
     }
 }
 
-public struct BatchDeleteTableVersionInput: Swift.Equatable {
+public struct BatchDeleteTableVersionInput {
     /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -2123,7 +2123,7 @@ public struct BatchDeleteTableVersionInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteTableVersionInputBody: Swift.Equatable {
+struct BatchDeleteTableVersionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -2172,7 +2172,7 @@ extension BatchDeleteTableVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteTableVersionOutput: Swift.Equatable {
+public struct BatchDeleteTableVersionOutput {
     /// A list of errors encountered while trying to delete the specified table versions.
     public var errors: [GlueClientTypes.TableVersionError]?
 
@@ -2184,7 +2184,7 @@ public struct BatchDeleteTableVersionOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteTableVersionOutputBody: Swift.Equatable {
+struct BatchDeleteTableVersionOutputBody {
     let errors: [GlueClientTypes.TableVersionError]?
 }
 
@@ -2254,7 +2254,7 @@ extension BatchGetBlueprintsInput {
     }
 }
 
-public struct BatchGetBlueprintsInput: Swift.Equatable {
+public struct BatchGetBlueprintsInput {
     /// Specifies whether or not to include the blueprint in the response.
     public var includeBlueprint: Swift.Bool?
     /// Specifies whether or not to include the parameters, as a JSON string, for the blueprint in the response.
@@ -2275,7 +2275,7 @@ public struct BatchGetBlueprintsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetBlueprintsInputBody: Swift.Equatable {
+struct BatchGetBlueprintsInputBody {
     let names: [Swift.String]?
     let includeBlueprint: Swift.Bool?
     let includeParameterSpec: Swift.Bool?
@@ -2322,7 +2322,7 @@ extension BatchGetBlueprintsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetBlueprintsOutput: Swift.Equatable {
+public struct BatchGetBlueprintsOutput {
     /// Returns a list of blueprint as a Blueprints object.
     public var blueprints: [GlueClientTypes.Blueprint]?
     /// Returns a list of BlueprintNames that were not found.
@@ -2338,7 +2338,7 @@ public struct BatchGetBlueprintsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetBlueprintsOutputBody: Swift.Equatable {
+struct BatchGetBlueprintsOutputBody {
     let blueprints: [GlueClientTypes.Blueprint]?
     let missingBlueprints: [Swift.String]?
 }
@@ -2412,7 +2412,7 @@ extension BatchGetCrawlersInput {
     }
 }
 
-public struct BatchGetCrawlersInput: Swift.Equatable {
+public struct BatchGetCrawlersInput {
     /// A list of crawler names, which might be the names returned from the ListCrawlers operation.
     /// This member is required.
     public var crawlerNames: [Swift.String]?
@@ -2425,7 +2425,7 @@ public struct BatchGetCrawlersInput: Swift.Equatable {
     }
 }
 
-struct BatchGetCrawlersInputBody: Swift.Equatable {
+struct BatchGetCrawlersInputBody {
     let crawlerNames: [Swift.String]?
 }
 
@@ -2464,7 +2464,7 @@ extension BatchGetCrawlersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetCrawlersOutput: Swift.Equatable {
+public struct BatchGetCrawlersOutput {
     /// A list of crawler definitions.
     public var crawlers: [GlueClientTypes.Crawler]?
     /// A list of names of crawlers that were not found.
@@ -2480,7 +2480,7 @@ public struct BatchGetCrawlersOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetCrawlersOutputBody: Swift.Equatable {
+struct BatchGetCrawlersOutputBody {
     let crawlers: [GlueClientTypes.Crawler]?
     let crawlersNotFound: [Swift.String]?
 }
@@ -2553,7 +2553,7 @@ extension BatchGetCustomEntityTypesInput {
     }
 }
 
-public struct BatchGetCustomEntityTypesInput: Swift.Equatable {
+public struct BatchGetCustomEntityTypesInput {
     /// A list of names of the custom patterns that you want to retrieve.
     /// This member is required.
     public var names: [Swift.String]?
@@ -2566,7 +2566,7 @@ public struct BatchGetCustomEntityTypesInput: Swift.Equatable {
     }
 }
 
-struct BatchGetCustomEntityTypesInputBody: Swift.Equatable {
+struct BatchGetCustomEntityTypesInputBody {
     let names: [Swift.String]?
 }
 
@@ -2605,7 +2605,7 @@ extension BatchGetCustomEntityTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetCustomEntityTypesOutput: Swift.Equatable {
+public struct BatchGetCustomEntityTypesOutput {
     /// A list of CustomEntityType objects representing the custom patterns that have been created.
     public var customEntityTypes: [GlueClientTypes.CustomEntityType]?
     /// A list of the names of custom patterns that were not found.
@@ -2621,7 +2621,7 @@ public struct BatchGetCustomEntityTypesOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetCustomEntityTypesOutputBody: Swift.Equatable {
+struct BatchGetCustomEntityTypesOutputBody {
     let customEntityTypes: [GlueClientTypes.CustomEntityType]?
     let customEntityTypesNotFound: [Swift.String]?
 }
@@ -2695,7 +2695,7 @@ extension BatchGetDataQualityResultInput {
     }
 }
 
-public struct BatchGetDataQualityResultInput: Swift.Equatable {
+public struct BatchGetDataQualityResultInput {
     /// A list of unique result IDs for the data quality results.
     /// This member is required.
     public var resultIds: [Swift.String]?
@@ -2708,7 +2708,7 @@ public struct BatchGetDataQualityResultInput: Swift.Equatable {
     }
 }
 
-struct BatchGetDataQualityResultInputBody: Swift.Equatable {
+struct BatchGetDataQualityResultInputBody {
     let resultIds: [Swift.String]?
 }
 
@@ -2747,7 +2747,7 @@ extension BatchGetDataQualityResultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetDataQualityResultOutput: Swift.Equatable {
+public struct BatchGetDataQualityResultOutput {
     /// A list of DataQualityResult objects representing the data quality results.
     /// This member is required.
     public var results: [GlueClientTypes.DataQualityResult]?
@@ -2764,7 +2764,7 @@ public struct BatchGetDataQualityResultOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetDataQualityResultOutputBody: Swift.Equatable {
+struct BatchGetDataQualityResultOutputBody {
     let results: [GlueClientTypes.DataQualityResult]?
     let resultsNotFound: [Swift.String]?
 }
@@ -2838,7 +2838,7 @@ extension BatchGetDevEndpointsInput {
     }
 }
 
-public struct BatchGetDevEndpointsInput: Swift.Equatable {
+public struct BatchGetDevEndpointsInput {
     /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation.
     /// This member is required.
     public var devEndpointNames: [Swift.String]?
@@ -2851,7 +2851,7 @@ public struct BatchGetDevEndpointsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetDevEndpointsInputBody: Swift.Equatable {
+struct BatchGetDevEndpointsInputBody {
     let devEndpointNames: [Swift.String]?
 }
 
@@ -2890,7 +2890,7 @@ extension BatchGetDevEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetDevEndpointsOutput: Swift.Equatable {
+public struct BatchGetDevEndpointsOutput {
     /// A list of DevEndpoint definitions.
     public var devEndpoints: [GlueClientTypes.DevEndpoint]?
     /// A list of DevEndpoints not found.
@@ -2906,7 +2906,7 @@ public struct BatchGetDevEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetDevEndpointsOutputBody: Swift.Equatable {
+struct BatchGetDevEndpointsOutputBody {
     let devEndpoints: [GlueClientTypes.DevEndpoint]?
     let devEndpointsNotFound: [Swift.String]?
 }
@@ -2981,7 +2981,7 @@ extension BatchGetJobsInput {
     }
 }
 
-public struct BatchGetJobsInput: Swift.Equatable {
+public struct BatchGetJobsInput {
     /// A list of job names, which might be the names returned from the ListJobs operation.
     /// This member is required.
     public var jobNames: [Swift.String]?
@@ -2994,7 +2994,7 @@ public struct BatchGetJobsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetJobsInputBody: Swift.Equatable {
+struct BatchGetJobsInputBody {
     let jobNames: [Swift.String]?
 }
 
@@ -3033,7 +3033,7 @@ extension BatchGetJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetJobsOutput: Swift.Equatable {
+public struct BatchGetJobsOutput {
     /// A list of job definitions.
     public var jobs: [GlueClientTypes.Job]?
     /// A list of names of jobs not found.
@@ -3049,7 +3049,7 @@ public struct BatchGetJobsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetJobsOutputBody: Swift.Equatable {
+struct BatchGetJobsOutputBody {
     let jobs: [GlueClientTypes.Job]?
     let jobsNotFound: [Swift.String]?
 }
@@ -3135,7 +3135,7 @@ extension BatchGetPartitionInput {
     }
 }
 
-public struct BatchGetPartitionInput: Swift.Equatable {
+public struct BatchGetPartitionInput {
     /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database where the partitions reside.
@@ -3162,7 +3162,7 @@ public struct BatchGetPartitionInput: Swift.Equatable {
     }
 }
 
-struct BatchGetPartitionInputBody: Swift.Equatable {
+struct BatchGetPartitionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -3213,7 +3213,7 @@ extension BatchGetPartitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetPartitionOutput: Swift.Equatable {
+public struct BatchGetPartitionOutput {
     /// A list of the requested partitions.
     public var partitions: [GlueClientTypes.Partition]?
     /// A list of the partition values in the request for which partitions were not returned.
@@ -3229,7 +3229,7 @@ public struct BatchGetPartitionOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetPartitionOutputBody: Swift.Equatable {
+struct BatchGetPartitionOutputBody {
     let partitions: [GlueClientTypes.Partition]?
     let unprocessedKeys: [GlueClientTypes.PartitionValueList]?
 }
@@ -3324,7 +3324,7 @@ extension GlueClientTypes.BatchGetTableOptimizerEntry: Swift.Codable {
 
 extension GlueClientTypes {
     /// Represents a table optimizer to retrieve in the BatchGetTableOptimizer operation.
-    public struct BatchGetTableOptimizerEntry: Swift.Equatable {
+    public struct BatchGetTableOptimizerEntry {
         /// The Catalog ID of the table.
         public var catalogId: Swift.String?
         /// The name of the database in the catalog in which the table resides.
@@ -3395,7 +3395,7 @@ extension GlueClientTypes.BatchGetTableOptimizerError: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains details on one of the errors in the error list returned by the BatchGetTableOptimizer operation.
-    public struct BatchGetTableOptimizerError: Swift.Equatable {
+    public struct BatchGetTableOptimizerError {
         /// The Catalog ID of the table.
         public var catalogId: Swift.String?
         /// The name of the database in the catalog in which the table resides.
@@ -3448,7 +3448,7 @@ extension BatchGetTableOptimizerInput {
     }
 }
 
-public struct BatchGetTableOptimizerInput: Swift.Equatable {
+public struct BatchGetTableOptimizerInput {
     /// A list of BatchGetTableOptimizerEntry objects specifying the table optimizers to retrieve.
     /// This member is required.
     public var entries: [GlueClientTypes.BatchGetTableOptimizerEntry]?
@@ -3461,7 +3461,7 @@ public struct BatchGetTableOptimizerInput: Swift.Equatable {
     }
 }
 
-struct BatchGetTableOptimizerInputBody: Swift.Equatable {
+struct BatchGetTableOptimizerInputBody {
     let entries: [GlueClientTypes.BatchGetTableOptimizerEntry]?
 }
 
@@ -3500,7 +3500,7 @@ extension BatchGetTableOptimizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetTableOptimizerOutput: Swift.Equatable {
+public struct BatchGetTableOptimizerOutput {
     /// A list of errors from the operation.
     public var failures: [GlueClientTypes.BatchGetTableOptimizerError]?
     /// A list of BatchTableOptimizer objects.
@@ -3516,7 +3516,7 @@ public struct BatchGetTableOptimizerOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetTableOptimizerOutputBody: Swift.Equatable {
+struct BatchGetTableOptimizerOutputBody {
     let tableOptimizers: [GlueClientTypes.BatchTableOptimizer]?
     let failures: [GlueClientTypes.BatchGetTableOptimizerError]?
 }
@@ -3588,7 +3588,7 @@ extension BatchGetTriggersInput {
     }
 }
 
-public struct BatchGetTriggersInput: Swift.Equatable {
+public struct BatchGetTriggersInput {
     /// A list of trigger names, which may be the names returned from the ListTriggers operation.
     /// This member is required.
     public var triggerNames: [Swift.String]?
@@ -3601,7 +3601,7 @@ public struct BatchGetTriggersInput: Swift.Equatable {
     }
 }
 
-struct BatchGetTriggersInputBody: Swift.Equatable {
+struct BatchGetTriggersInputBody {
     let triggerNames: [Swift.String]?
 }
 
@@ -3640,7 +3640,7 @@ extension BatchGetTriggersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetTriggersOutput: Swift.Equatable {
+public struct BatchGetTriggersOutput {
     /// A list of trigger definitions.
     public var triggers: [GlueClientTypes.Trigger]?
     /// A list of names of triggers not found.
@@ -3656,7 +3656,7 @@ public struct BatchGetTriggersOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetTriggersOutputBody: Swift.Equatable {
+struct BatchGetTriggersOutputBody {
     let triggers: [GlueClientTypes.Trigger]?
     let triggersNotFound: [Swift.String]?
 }
@@ -3734,7 +3734,7 @@ extension BatchGetWorkflowsInput {
     }
 }
 
-public struct BatchGetWorkflowsInput: Swift.Equatable {
+public struct BatchGetWorkflowsInput {
     /// Specifies whether to include a graph when returning the workflow resource metadata.
     public var includeGraph: Swift.Bool?
     /// A list of workflow names, which may be the names returned from the ListWorkflows operation.
@@ -3751,7 +3751,7 @@ public struct BatchGetWorkflowsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetWorkflowsInputBody: Swift.Equatable {
+struct BatchGetWorkflowsInputBody {
     let names: [Swift.String]?
     let includeGraph: Swift.Bool?
 }
@@ -3794,7 +3794,7 @@ extension BatchGetWorkflowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetWorkflowsOutput: Swift.Equatable {
+public struct BatchGetWorkflowsOutput {
     /// A list of names of workflows not found.
     public var missingWorkflows: [Swift.String]?
     /// A list of workflow resource metadata.
@@ -3810,7 +3810,7 @@ public struct BatchGetWorkflowsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetWorkflowsOutputBody: Swift.Equatable {
+struct BatchGetWorkflowsOutputBody {
     let workflows: [GlueClientTypes.Workflow]?
     let missingWorkflows: [Swift.String]?
 }
@@ -3894,7 +3894,7 @@ extension GlueClientTypes.BatchStopJobRunError: Swift.Codable {
 
 extension GlueClientTypes {
     /// Records an error that occurred when attempting to stop a specified job run.
-    public struct BatchStopJobRunError: Swift.Equatable {
+    public struct BatchStopJobRunError {
         /// Specifies details about the error that was encountered.
         public var errorDetail: GlueClientTypes.ErrorDetail?
         /// The name of the job definition that is used in the job run in question.
@@ -3943,7 +3943,7 @@ extension BatchStopJobRunInput {
     }
 }
 
-public struct BatchStopJobRunInput: Swift.Equatable {
+public struct BatchStopJobRunInput {
     /// The name of the job definition for which to stop job runs.
     /// This member is required.
     public var jobName: Swift.String?
@@ -3961,7 +3961,7 @@ public struct BatchStopJobRunInput: Swift.Equatable {
     }
 }
 
-struct BatchStopJobRunInputBody: Swift.Equatable {
+struct BatchStopJobRunInputBody {
     let jobName: Swift.String?
     let jobRunIds: [Swift.String]?
 }
@@ -4004,7 +4004,7 @@ extension BatchStopJobRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchStopJobRunOutput: Swift.Equatable {
+public struct BatchStopJobRunOutput {
     /// A list of the errors that were encountered in trying to stop JobRuns, including the JobRunId for which each error was encountered and details about the error.
     public var errors: [GlueClientTypes.BatchStopJobRunError]?
     /// A list of the JobRuns that were successfully submitted for stopping.
@@ -4020,7 +4020,7 @@ public struct BatchStopJobRunOutput: Swift.Equatable {
     }
 }
 
-struct BatchStopJobRunOutputBody: Swift.Equatable {
+struct BatchStopJobRunOutputBody {
     let successfulSubmissions: [GlueClientTypes.BatchStopJobRunSuccessfulSubmission]?
     let errors: [GlueClientTypes.BatchStopJobRunError]?
 }
@@ -4098,7 +4098,7 @@ extension GlueClientTypes.BatchStopJobRunSuccessfulSubmission: Swift.Codable {
 
 extension GlueClientTypes {
     /// Records a successful request to stop a specified JobRun.
-    public struct BatchStopJobRunSuccessfulSubmission: Swift.Equatable {
+    public struct BatchStopJobRunSuccessfulSubmission {
         /// The name of the job definition used in the job run that was stopped.
         public var jobName: Swift.String?
         /// The JobRunId of the job run that was stopped.
@@ -4155,7 +4155,7 @@ extension GlueClientTypes.BatchTableOptimizer: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains details for one of the table optimizers returned by the BatchGetTableOptimizer operation.
-    public struct BatchTableOptimizer: Swift.Equatable {
+    public struct BatchTableOptimizer {
         /// The Catalog ID of the table.
         public var catalogId: Swift.String?
         /// The name of the database in the catalog in which the table resides.
@@ -4220,7 +4220,7 @@ extension GlueClientTypes.BatchUpdatePartitionFailureEntry: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains information about a batch update partition error.
-    public struct BatchUpdatePartitionFailureEntry: Swift.Equatable {
+    public struct BatchUpdatePartitionFailureEntry {
         /// The details about the batch update partition error.
         public var errorDetail: GlueClientTypes.ErrorDetail?
         /// A list of values defining the partitions.
@@ -4273,7 +4273,7 @@ extension BatchUpdatePartitionInput {
     }
 }
 
-public struct BatchUpdatePartitionInput: Swift.Equatable {
+public struct BatchUpdatePartitionInput {
     /// The ID of the catalog in which the partition is to be updated. Currently, this should be the Amazon Web Services account ID.
     public var catalogId: Swift.String?
     /// The name of the metadata database in which the partition is to be updated.
@@ -4300,7 +4300,7 @@ public struct BatchUpdatePartitionInput: Swift.Equatable {
     }
 }
 
-struct BatchUpdatePartitionInputBody: Swift.Equatable {
+struct BatchUpdatePartitionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -4349,7 +4349,7 @@ extension BatchUpdatePartitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchUpdatePartitionOutput: Swift.Equatable {
+public struct BatchUpdatePartitionOutput {
     /// The errors encountered when trying to update the requested partitions. A list of BatchUpdatePartitionFailureEntry objects.
     public var errors: [GlueClientTypes.BatchUpdatePartitionFailureEntry]?
 
@@ -4361,7 +4361,7 @@ public struct BatchUpdatePartitionOutput: Swift.Equatable {
     }
 }
 
-struct BatchUpdatePartitionOutputBody: Swift.Equatable {
+struct BatchUpdatePartitionOutputBody {
     let errors: [GlueClientTypes.BatchUpdatePartitionFailureEntry]?
 }
 
@@ -4440,7 +4440,7 @@ extension GlueClientTypes.BatchUpdatePartitionRequestEntry: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure that contains the values and structure used to update a partition.
-    public struct BatchUpdatePartitionRequestEntry: Swift.Equatable {
+    public struct BatchUpdatePartitionRequestEntry {
         /// The structure used to update a partition.
         /// This member is required.
         public var partitionInput: GlueClientTypes.PartitionInput?
@@ -4493,7 +4493,7 @@ extension GlueClientTypes.BinaryColumnStatisticsData: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines column statistics supported for bit sequence data values.
-    public struct BinaryColumnStatisticsData: Swift.Equatable {
+    public struct BinaryColumnStatisticsData {
         /// The average bit sequence length in the column.
         /// This member is required.
         public var averageLength: Swift.Double
@@ -4593,7 +4593,7 @@ extension GlueClientTypes.Blueprint: Swift.Codable {
 
 extension GlueClientTypes {
     /// The details of a blueprint.
-    public struct Blueprint: Swift.Equatable {
+    public struct Blueprint {
         /// Specifies the path in Amazon S3 where the blueprint is published.
         public var blueprintLocation: Swift.String?
         /// Specifies a path in Amazon S3 where the blueprint is copied when you call CreateBlueprint/UpdateBlueprint to register the blueprint in Glue.
@@ -4678,7 +4678,7 @@ extension GlueClientTypes.BlueprintDetails: Swift.Codable {
 
 extension GlueClientTypes {
     /// The details of a blueprint.
-    public struct BlueprintDetails: Swift.Equatable {
+    public struct BlueprintDetails {
         /// The name of the blueprint.
         public var blueprintName: Swift.String?
         /// The run ID for this blueprint.
@@ -4771,7 +4771,7 @@ extension GlueClientTypes.BlueprintRun: Swift.Codable {
 
 extension GlueClientTypes {
     /// The details of a blueprint run.
-    public struct BlueprintRun: Swift.Equatable {
+    public struct BlueprintRun {
         /// The name of the blueprint.
         public var blueprintName: Swift.String?
         /// The date and time that the blueprint run completed.
@@ -4938,7 +4938,7 @@ extension GlueClientTypes.BooleanColumnStatisticsData: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines column statistics supported for Boolean data columns.
-    public struct BooleanColumnStatisticsData: Swift.Equatable {
+    public struct BooleanColumnStatisticsData {
         /// The number of false values in the column.
         /// This member is required.
         public var numberOfFalses: Swift.Int
@@ -4983,7 +4983,7 @@ extension CancelDataQualityRuleRecommendationRunInput {
     }
 }
 
-public struct CancelDataQualityRuleRecommendationRunInput: Swift.Equatable {
+public struct CancelDataQualityRuleRecommendationRunInput {
     /// The unique run identifier associated with this run.
     /// This member is required.
     public var runId: Swift.String?
@@ -4996,7 +4996,7 @@ public struct CancelDataQualityRuleRecommendationRunInput: Swift.Equatable {
     }
 }
 
-struct CancelDataQualityRuleRecommendationRunInputBody: Swift.Equatable {
+struct CancelDataQualityRuleRecommendationRunInputBody {
     let runId: Swift.String?
 }
 
@@ -5017,7 +5017,7 @@ extension CancelDataQualityRuleRecommendationRunOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct CancelDataQualityRuleRecommendationRunOutput: Swift.Equatable {
+public struct CancelDataQualityRuleRecommendationRunOutput {
 
     public init() { }
 }
@@ -5056,7 +5056,7 @@ extension CancelDataQualityRulesetEvaluationRunInput {
     }
 }
 
-public struct CancelDataQualityRulesetEvaluationRunInput: Swift.Equatable {
+public struct CancelDataQualityRulesetEvaluationRunInput {
     /// The unique run identifier associated with this run.
     /// This member is required.
     public var runId: Swift.String?
@@ -5069,7 +5069,7 @@ public struct CancelDataQualityRulesetEvaluationRunInput: Swift.Equatable {
     }
 }
 
-struct CancelDataQualityRulesetEvaluationRunInputBody: Swift.Equatable {
+struct CancelDataQualityRulesetEvaluationRunInputBody {
     let runId: Swift.String?
 }
 
@@ -5090,7 +5090,7 @@ extension CancelDataQualityRulesetEvaluationRunOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct CancelDataQualityRulesetEvaluationRunOutput: Swift.Equatable {
+public struct CancelDataQualityRulesetEvaluationRunOutput {
 
     public init() { }
 }
@@ -5133,7 +5133,7 @@ extension CancelMLTaskRunInput {
     }
 }
 
-public struct CancelMLTaskRunInput: Swift.Equatable {
+public struct CancelMLTaskRunInput {
     /// A unique identifier for the task run.
     /// This member is required.
     public var taskRunId: Swift.String?
@@ -5151,7 +5151,7 @@ public struct CancelMLTaskRunInput: Swift.Equatable {
     }
 }
 
-struct CancelMLTaskRunInputBody: Swift.Equatable {
+struct CancelMLTaskRunInputBody {
     let transformId: Swift.String?
     let taskRunId: Swift.String?
 }
@@ -5187,7 +5187,7 @@ extension CancelMLTaskRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelMLTaskRunOutput: Swift.Equatable {
+public struct CancelMLTaskRunOutput {
     /// The status for this run.
     public var status: GlueClientTypes.TaskStatusType?
     /// The unique identifier for the task run.
@@ -5207,7 +5207,7 @@ public struct CancelMLTaskRunOutput: Swift.Equatable {
     }
 }
 
-struct CancelMLTaskRunOutputBody: Swift.Equatable {
+struct CancelMLTaskRunOutputBody {
     let transformId: Swift.String?
     let taskRunId: Swift.String?
     let status: GlueClientTypes.TaskStatusType?
@@ -5273,7 +5273,7 @@ extension CancelStatementInput {
     }
 }
 
-public struct CancelStatementInput: Swift.Equatable {
+public struct CancelStatementInput {
     /// The ID of the statement to be cancelled.
     /// This member is required.
     public var id: Swift.Int?
@@ -5295,7 +5295,7 @@ public struct CancelStatementInput: Swift.Equatable {
     }
 }
 
-struct CancelStatementInputBody: Swift.Equatable {
+struct CancelStatementInputBody {
     let sessionId: Swift.String?
     let id: Swift.Int?
     let requestOrigin: Swift.String?
@@ -5324,7 +5324,7 @@ extension CancelStatementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelStatementOutput: Swift.Equatable {
+public struct CancelStatementOutput {
 
     public init() { }
 }
@@ -5414,7 +5414,7 @@ extension GlueClientTypes.CatalogDeltaSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Delta Lake data source that is registered in the Glue Data Catalog.
-    public struct CatalogDeltaSource: Swift.Equatable {
+    public struct CatalogDeltaSource {
         /// Specifies additional connection options.
         public var additionalDeltaOptions: [Swift.String:Swift.String]?
         /// The name of the database to read from.
@@ -5509,7 +5509,7 @@ extension GlueClientTypes.CatalogEntry: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a table definition in the Glue Data Catalog.
-    public struct CatalogEntry: Swift.Equatable {
+    public struct CatalogEntry {
         /// The database in which the table metadata resides.
         /// This member is required.
         public var databaseName: Swift.String?
@@ -5598,7 +5598,7 @@ extension GlueClientTypes.CatalogHudiSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Hudi data source that is registered in the Glue Data Catalog.
-    public struct CatalogHudiSource: Swift.Equatable {
+    public struct CatalogHudiSource {
         /// Specifies additional connection options.
         public var additionalHudiOptions: [Swift.String:Swift.String]?
         /// The name of the database to read from.
@@ -5664,7 +5664,7 @@ extension GlueClientTypes.CatalogImportStatus: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure containing migration status information.
-    public struct CatalogImportStatus: Swift.Equatable {
+    public struct CatalogImportStatus {
         /// True if the migration has completed, or False otherwise.
         public var importCompleted: Swift.Bool
         /// The time that the migration was started.
@@ -5743,7 +5743,7 @@ extension GlueClientTypes.CatalogKafkaSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Apache Kafka data store in the Data Catalog.
-    public struct CatalogKafkaSource: Swift.Equatable {
+    public struct CatalogKafkaSource {
         /// Specifies options related to data preview for viewing a sample of your data.
         public var dataPreviewOptions: GlueClientTypes.StreamingDataPreviewOptions?
         /// The name of the database to read from.
@@ -5841,7 +5841,7 @@ extension GlueClientTypes.CatalogKinesisSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Kinesis data source in the Glue Data Catalog.
-    public struct CatalogKinesisSource: Swift.Equatable {
+    public struct CatalogKinesisSource {
         /// Additional options for data preview.
         public var dataPreviewOptions: GlueClientTypes.StreamingDataPreviewOptions?
         /// The name of the database to read from.
@@ -5909,7 +5909,7 @@ extension GlueClientTypes.CatalogSchemaChangePolicy: Swift.Codable {
 
 extension GlueClientTypes {
     /// A policy that specifies update behavior for the crawler.
-    public struct CatalogSchemaChangePolicy: Swift.Equatable {
+    public struct CatalogSchemaChangePolicy {
         /// Whether to use the specified update behavior when the crawler finds a changed schema.
         public var enableUpdateCatalog: Swift.Bool?
         /// The update behavior when the crawler finds a changed schema.
@@ -5960,7 +5960,7 @@ extension GlueClientTypes.CatalogSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a data store in the Glue Data Catalog.
-    public struct CatalogSource: Swift.Equatable {
+    public struct CatalogSource {
         /// The name of the database to read from.
         /// This member is required.
         public var database: Swift.String?
@@ -6042,7 +6042,7 @@ extension GlueClientTypes.CatalogTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Glue Data Catalog target.
-    public struct CatalogTarget: Swift.Equatable {
+    public struct CatalogTarget {
         /// The name of the connection for an Amazon S3-backed Data Catalog table to be a target of the crawl when using a Catalog connection type paired with a NETWORK Connection type.
         public var connectionName: Swift.String?
         /// The name of the database to be synchronized.
@@ -6098,7 +6098,7 @@ extension CheckSchemaVersionValidityInput {
     }
 }
 
-public struct CheckSchemaVersionValidityInput: Swift.Equatable {
+public struct CheckSchemaVersionValidityInput {
     /// The data format of the schema definition. Currently AVRO, JSON and PROTOBUF are supported.
     /// This member is required.
     public var dataFormat: GlueClientTypes.DataFormat?
@@ -6116,7 +6116,7 @@ public struct CheckSchemaVersionValidityInput: Swift.Equatable {
     }
 }
 
-struct CheckSchemaVersionValidityInputBody: Swift.Equatable {
+struct CheckSchemaVersionValidityInputBody {
     let dataFormat: GlueClientTypes.DataFormat?
     let schemaDefinition: Swift.String?
 }
@@ -6150,7 +6150,7 @@ extension CheckSchemaVersionValidityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CheckSchemaVersionValidityOutput: Swift.Equatable {
+public struct CheckSchemaVersionValidityOutput {
     /// A validation failure error message.
     public var error: Swift.String?
     /// Return true, if the schema is valid and false otherwise.
@@ -6166,7 +6166,7 @@ public struct CheckSchemaVersionValidityOutput: Swift.Equatable {
     }
 }
 
-struct CheckSchemaVersionValidityOutputBody: Swift.Equatable {
+struct CheckSchemaVersionValidityOutputBody {
     let valid: Swift.Bool
     let error: Swift.String?
 }
@@ -6238,7 +6238,7 @@ extension GlueClientTypes.Classifier: Swift.Codable {
 
 extension GlueClientTypes {
     /// Classifiers are triggered during a crawl task. A classifier checks whether a given file is in a format it can handle. If it is, the classifier creates a schema in the form of a StructType object that matches that data format. You can use the standard classifiers that Glue provides, or you can write your own classifiers to best categorize your data sources and specify the appropriate schemas to use for them. A classifier can be a grok classifier, an XML classifier, a JSON classifier, or a custom CSV classifier, as specified in one of the fields in the Classifier object.
-    public struct Classifier: Swift.Equatable {
+    public struct Classifier {
         /// A classifier for comma-separated values (CSV).
         public var csvClassifier: GlueClientTypes.CsvClassifier?
         /// A classifier that uses grok.
@@ -6291,7 +6291,7 @@ extension GlueClientTypes.CloudWatchEncryption: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies how Amazon CloudWatch data should be encrypted.
-    public struct CloudWatchEncryption: Swift.Equatable {
+    public struct CloudWatchEncryption {
         /// The encryption mode to use for CloudWatch data.
         public var cloudWatchEncryptionMode: GlueClientTypes.CloudWatchEncryptionMode?
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
@@ -6782,7 +6782,7 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
 
 extension GlueClientTypes {
     /// CodeGenConfigurationNode enumerates all valid Node types. One and only one of its member variables can be populated.
-    public struct CodeGenConfigurationNode: Swift.Equatable {
+    public struct CodeGenConfigurationNode {
         /// Specifies a transform that groups rows by chosen fields and computes the aggregated value by specified function.
         public var aggregate: GlueClientTypes.Aggregate?
         /// Specifies a target that writes to a data source in Amazon Redshift.
@@ -7109,7 +7109,7 @@ extension GlueClientTypes.CodeGenEdge: Swift.Codable {
 
 extension GlueClientTypes {
     /// Represents a directional edge in a directed acyclic graph (DAG).
-    public struct CodeGenEdge: Swift.Equatable {
+    public struct CodeGenEdge {
         /// The ID of the node at which the edge starts.
         /// This member is required.
         public var source: Swift.String?
@@ -7184,7 +7184,7 @@ extension GlueClientTypes.CodeGenNode: Swift.Codable {
 
 extension GlueClientTypes {
     /// Represents a node in a directed acyclic graph (DAG)
-    public struct CodeGenNode: Swift.Equatable {
+    public struct CodeGenNode {
         /// Properties of the node, in the form of name-value pairs.
         /// This member is required.
         public var args: [GlueClientTypes.CodeGenNodeArg]?
@@ -7246,7 +7246,7 @@ extension GlueClientTypes.CodeGenNodeArg: Swift.Codable {
 
 extension GlueClientTypes {
     /// An argument or property of a node.
-    public struct CodeGenNodeArg: Swift.Equatable {
+    public struct CodeGenNodeArg {
         /// The name of the argument or property.
         /// This member is required.
         public var name: Swift.String?
@@ -7321,7 +7321,7 @@ extension GlueClientTypes.Column: Swift.Codable {
 
 extension GlueClientTypes {
     /// A column in a Table.
-    public struct Column: Swift.Equatable {
+    public struct Column {
         /// A free-form text comment.
         public var comment: Swift.String?
         /// The name of the Column.
@@ -7375,7 +7375,7 @@ extension GlueClientTypes.ColumnError: Swift.Codable {
 
 extension GlueClientTypes {
     /// Encapsulates a column name that failed and the reason for failure.
-    public struct ColumnError: Swift.Equatable {
+    public struct ColumnError {
         /// The name of the column that failed.
         public var columnName: Swift.String?
         /// An error message with the reason for the failure of an operation.
@@ -7420,7 +7420,7 @@ extension GlueClientTypes.ColumnImportance: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure containing the column name and column importance score for a column. Column importance helps you understand how columns contribute to your model, by identifying which columns in your records are more important than others.
-    public struct ColumnImportance: Swift.Equatable {
+    public struct ColumnImportance {
         /// The name of a column.
         public var columnName: Swift.String?
         /// The column importance score for the column, as a decimal.
@@ -7465,7 +7465,7 @@ extension GlueClientTypes.ColumnRowFilter: Swift.Codable {
 
 extension GlueClientTypes {
     /// A filter that uses both column-level and row-level filtering.
-    public struct ColumnRowFilter: Swift.Equatable {
+    public struct ColumnRowFilter {
         /// A string containing the name of the column.
         public var columnName: Swift.String?
         /// A string containing the row-level filter expression.
@@ -7522,7 +7522,7 @@ extension GlueClientTypes.ColumnStatistics: Swift.Codable {
 
 extension GlueClientTypes {
     /// Represents the generated column-level statistics for a table or partition.
-    public struct ColumnStatistics: Swift.Equatable {
+    public struct ColumnStatistics {
         /// The timestamp of when column statistics were generated.
         /// This member is required.
         public var analyzedTime: ClientRuntime.Date?
@@ -7615,7 +7615,7 @@ extension GlueClientTypes.ColumnStatisticsData: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains the individual types of column statistics data. Only one data object should be set and indicated by the Type attribute.
-    public struct ColumnStatisticsData: Swift.Equatable {
+    public struct ColumnStatisticsData {
         /// Binary column statistics data.
         public var binaryColumnStatisticsData: GlueClientTypes.BinaryColumnStatisticsData?
         /// Boolean column statistics data.
@@ -7685,7 +7685,7 @@ extension GlueClientTypes.ColumnStatisticsError: Swift.Codable {
 
 extension GlueClientTypes {
     /// Encapsulates a ColumnStatistics object that failed and the reason for failure.
-    public struct ColumnStatisticsError: Swift.Equatable {
+    public struct ColumnStatisticsError {
         /// The ColumnStatistics of the column.
         public var columnStatistics: GlueClientTypes.ColumnStatistics?
         /// An error message with the reason for the failure of an operation.
@@ -7784,7 +7784,7 @@ public struct ColumnStatisticsTaskNotRunningException: ClientRuntime.ModeledErro
     }
 }
 
-struct ColumnStatisticsTaskNotRunningExceptionBody: Swift.Equatable {
+struct ColumnStatisticsTaskNotRunningExceptionBody {
     let message: Swift.String?
 }
 
@@ -7935,7 +7935,7 @@ extension GlueClientTypes.ColumnStatisticsTaskRun: Swift.Codable {
 
 extension GlueClientTypes {
     /// The object that shows the details of the column stats run.
-    public struct ColumnStatisticsTaskRun: Swift.Equatable {
+    public struct ColumnStatisticsTaskRun {
         /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
         public var catalogID: Swift.String?
         /// A list of the column names. If none is supplied, all column names for the table will be used by default.
@@ -8057,7 +8057,7 @@ public struct ColumnStatisticsTaskRunningException: ClientRuntime.ModeledError, 
     }
 }
 
-struct ColumnStatisticsTaskRunningExceptionBody: Swift.Equatable {
+struct ColumnStatisticsTaskRunningExceptionBody {
     let message: Swift.String?
 }
 
@@ -8113,7 +8113,7 @@ public struct ColumnStatisticsTaskStoppingException: ClientRuntime.ModeledError,
     }
 }
 
-struct ColumnStatisticsTaskStoppingExceptionBody: Swift.Equatable {
+struct ColumnStatisticsTaskStoppingExceptionBody {
     let message: Swift.String?
 }
 
@@ -8339,7 +8339,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -8395,7 +8395,7 @@ public struct ConcurrentRunsExceededException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentRunsExceededExceptionBody: Swift.Equatable {
+struct ConcurrentRunsExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -8456,7 +8456,7 @@ extension GlueClientTypes.Condition: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines a condition under which a trigger fires.
-    public struct Condition: Swift.Equatable {
+    public struct Condition {
         /// The state of the crawler to which this condition applies.
         public var crawlState: GlueClientTypes.CrawlState?
         /// The name of the crawler to which this condition applies.
@@ -8526,7 +8526,7 @@ public struct ConditionCheckFailureException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ConditionCheckFailureExceptionBody: Swift.Equatable {
+struct ConditionCheckFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -8582,7 +8582,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -8637,7 +8637,7 @@ extension GlueClientTypes.ConfusionMatrix: Swift.Codable {
 
 extension GlueClientTypes {
     /// The confusion matrix shows you what your transform is predicting accurately and what types of errors it is making. For more information, see [Confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix) in Wikipedia.
-    public struct ConfusionMatrix: Swift.Equatable {
+    public struct ConfusionMatrix {
         /// The number of matches in the data that the transform didn't find, in the confusion matrix for your transform.
         public var numFalseNegatives: Swift.Int?
         /// The number of nonmatches in the data that the transform incorrectly classified as a match, in the confusion matrix for your transform.
@@ -8756,7 +8756,7 @@ extension GlueClientTypes.Connection: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines a connection to a data source.
-    public struct Connection: Swift.Equatable {
+    public struct Connection {
         /// These key-value pairs define parameters for the connection:
         ///
         /// * HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.
@@ -8961,7 +8961,7 @@ extension GlueClientTypes.ConnectionInput: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure that is used to specify a connection to create or update.
-    public struct ConnectionInput: Swift.Equatable {
+    public struct ConnectionInput {
         /// These key-value pairs define parameters for the connection.
         /// This member is required.
         public var connectionProperties: [Swift.String:Swift.String]?
@@ -9078,7 +9078,7 @@ extension GlueClientTypes.ConnectionPasswordEncryption: Swift.Codable {
 
 extension GlueClientTypes {
     /// The data structure used by the Data Catalog to encrypt the password as part of CreateConnection or UpdateConnection and store it in the ENCRYPTED_PASSWORD field in the connection properties. You can enable catalog encryption or only password encryption. When a CreationConnection request arrives containing a password, the Data Catalog first encrypts the password using your KMS key. It then encrypts the whole connection object again if catalog encryption is also enabled. This encryption requires that you set KMS key permissions to enable or restrict access on the password key according to your security requirements. For example, you might want only administrators to have decrypt permission on the password key.
-    public struct ConnectionPasswordEncryption: Swift.Equatable {
+    public struct ConnectionPasswordEncryption {
         /// An KMS key that is used to encrypt the connection password. If connection password protection is enabled, the caller of CreateConnection and UpdateConnection needs at least kms:Encrypt permission on the specified KMS key, to encrypt passwords before storing them in the Data Catalog. You can set the decrypt permission to enable or restrict access on the password key according to your security requirements.
         public var awsKmsKeyId: Swift.String?
         /// When the ReturnConnectionPasswordEncrypted flag is set to "true", passwords remain encrypted in the responses of GetConnection and GetConnections. This encryption takes effect independently from catalog encryption.
@@ -9329,7 +9329,7 @@ extension GlueClientTypes.ConnectionsList: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies the connections used by a job.
-    public struct ConnectionsList: Swift.Equatable {
+    public struct ConnectionsList {
         /// A list of connections used by the job.
         public var connections: [Swift.String]?
 
@@ -9406,7 +9406,7 @@ extension GlueClientTypes.ConnectorDataSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a source generated with standard connection options.
-    public struct ConnectorDataSource: Swift.Equatable {
+    public struct ConnectorDataSource {
         /// The connectionType, as provided to the underlying Glue library. This node type supports the following connection types:
         ///
         /// * opensearch
@@ -9512,7 +9512,7 @@ extension GlueClientTypes.ConnectorDataTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target generated with standard connection options.
-    public struct ConnectorDataTarget: Swift.Equatable {
+    public struct ConnectorDataTarget {
         /// The connectionType, as provided to the underlying Glue library. This node type supports the following connection types:
         ///
         /// * opensearch
@@ -9606,7 +9606,7 @@ extension GlueClientTypes.Crawl: Swift.Codable {
 
 extension GlueClientTypes {
     /// The details of a crawl in the workflow.
-    public struct Crawl: Swift.Equatable {
+    public struct Crawl {
         /// The date and time on which the crawl completed.
         public var completedOn: ClientRuntime.Date?
         /// The error message associated with the crawl.
@@ -9831,7 +9831,7 @@ extension GlueClientTypes.Crawler: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a crawler program that examines a data source and uses classifiers to try to determine its schema. If successful, the crawler records metadata concerning the data source in the Glue Data Catalog.
-    public struct Crawler: Swift.Equatable {
+    public struct Crawler {
         /// A list of UTF-8 strings that specify the custom classifiers that are associated with the crawler.
         public var classifiers: [Swift.String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Setting crawler configuration options](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
@@ -9996,7 +9996,7 @@ extension GlueClientTypes.CrawlerHistory: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains the information for a run of a crawler.
-    public struct CrawlerHistory: Swift.Equatable {
+    public struct CrawlerHistory {
         /// A UUID identifier for each crawl.
         public var crawlId: Swift.String?
         /// The number of data processing units (DPU) used in hours for the crawl.
@@ -10179,7 +10179,7 @@ extension GlueClientTypes.CrawlerMetrics: Swift.Codable {
 
 extension GlueClientTypes {
     /// Metrics for a specified crawler.
-    public struct CrawlerMetrics: Swift.Equatable {
+    public struct CrawlerMetrics {
         /// The name of the crawler.
         public var crawlerName: Swift.String?
         /// The duration of the crawler's most recent run, in seconds.
@@ -10254,7 +10254,7 @@ extension GlueClientTypes.CrawlerNodeDetails: Swift.Codable {
 
 extension GlueClientTypes {
     /// The details of a Crawler node present in the workflow.
-    public struct CrawlerNodeDetails: Swift.Equatable {
+    public struct CrawlerNodeDetails {
         /// A list of crawls represented by the crawl node.
         public var crawls: [GlueClientTypes.Crawl]?
 
@@ -10308,7 +10308,7 @@ public struct CrawlerNotRunningException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct CrawlerNotRunningExceptionBody: Swift.Equatable {
+struct CrawlerNotRunningExceptionBody {
     let message: Swift.String?
 }
 
@@ -10364,7 +10364,7 @@ public struct CrawlerRunningException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct CrawlerRunningExceptionBody: Swift.Equatable {
+struct CrawlerRunningExceptionBody {
     let message: Swift.String?
 }
 
@@ -10455,7 +10455,7 @@ public struct CrawlerStoppingException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct CrawlerStoppingExceptionBody: Swift.Equatable {
+struct CrawlerStoppingExceptionBody {
     let message: Swift.String?
 }
 
@@ -10630,7 +10630,7 @@ extension GlueClientTypes.CrawlerTargets: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies data stores to crawl.
-    public struct CrawlerTargets: Swift.Equatable {
+    public struct CrawlerTargets {
         /// Specifies Glue Data Catalog targets.
         public var catalogTargets: [GlueClientTypes.CatalogTarget]?
         /// Specifies Delta data store targets.
@@ -10705,7 +10705,7 @@ extension GlueClientTypes.CrawlsFilter: Swift.Codable {
 
 extension GlueClientTypes {
     /// A list of fields, comparators and value that you can use to filter the crawler runs for a specified crawler.
-    public struct CrawlsFilter: Swift.Equatable {
+    public struct CrawlsFilter {
         /// A key used to filter the crawler runs for a specified crawler. Valid values for each of the field names are:
         ///
         /// * CRAWL_ID: A string representing the UUID identifier for a crawl.
@@ -10782,7 +10782,7 @@ extension CreateBlueprintInput {
     }
 }
 
-public struct CreateBlueprintInput: Swift.Equatable {
+public struct CreateBlueprintInput {
     /// Specifies a path in Amazon S3 where the blueprint is published.
     /// This member is required.
     public var blueprintLocation: Swift.String?
@@ -10808,7 +10808,7 @@ public struct CreateBlueprintInput: Swift.Equatable {
     }
 }
 
-struct CreateBlueprintInputBody: Swift.Equatable {
+struct CreateBlueprintInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let blueprintLocation: Swift.String?
@@ -10857,7 +10857,7 @@ extension CreateBlueprintOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBlueprintOutput: Swift.Equatable {
+public struct CreateBlueprintOutput {
     /// Returns the name of the blueprint that was registered.
     public var name: Swift.String?
 
@@ -10869,7 +10869,7 @@ public struct CreateBlueprintOutput: Swift.Equatable {
     }
 }
 
-struct CreateBlueprintOutputBody: Swift.Equatable {
+struct CreateBlueprintOutputBody {
     let name: Swift.String?
 }
 
@@ -10932,7 +10932,7 @@ extension CreateClassifierInput {
     }
 }
 
-public struct CreateClassifierInput: Swift.Equatable {
+public struct CreateClassifierInput {
     /// A CsvClassifier object specifying the classifier to create.
     public var csvClassifier: GlueClientTypes.CreateCsvClassifierRequest?
     /// A GrokClassifier object specifying the classifier to create.
@@ -10956,7 +10956,7 @@ public struct CreateClassifierInput: Swift.Equatable {
     }
 }
 
-struct CreateClassifierInputBody: Swift.Equatable {
+struct CreateClassifierInputBody {
     let grokClassifier: GlueClientTypes.CreateGrokClassifierRequest?
     let xmlClassifier: GlueClientTypes.CreateXMLClassifierRequest?
     let jsonClassifier: GlueClientTypes.CreateJsonClassifierRequest?
@@ -10989,7 +10989,7 @@ extension CreateClassifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateClassifierOutput: Swift.Equatable {
+public struct CreateClassifierOutput {
 
     public init() { }
 }
@@ -11038,7 +11038,7 @@ extension CreateConnectionInput {
     }
 }
 
-public struct CreateConnectionInput: Swift.Equatable {
+public struct CreateConnectionInput {
     /// The ID of the Data Catalog in which to create the connection. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// A ConnectionInput object defining the connection to create.
@@ -11059,7 +11059,7 @@ public struct CreateConnectionInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionInputBody: Swift.Equatable {
+struct CreateConnectionInputBody {
     let catalogId: Swift.String?
     let connectionInput: GlueClientTypes.ConnectionInput?
     let tags: [Swift.String:Swift.String]?
@@ -11097,7 +11097,7 @@ extension CreateConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectionOutput: Swift.Equatable {
+public struct CreateConnectionOutput {
 
     public init() { }
 }
@@ -11199,7 +11199,7 @@ extension CreateCrawlerInput {
     }
 }
 
-public struct CreateCrawlerInput: Swift.Equatable {
+public struct CreateCrawlerInput {
     /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
     public var classifiers: [Swift.String]?
     /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Setting crawler configuration options](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
@@ -11270,7 +11270,7 @@ public struct CreateCrawlerInput: Swift.Equatable {
     }
 }
 
-struct CreateCrawlerInputBody: Swift.Equatable {
+struct CreateCrawlerInputBody {
     let name: Swift.String?
     let role: Swift.String?
     let databaseName: Swift.String?
@@ -11365,7 +11365,7 @@ extension CreateCrawlerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCrawlerOutput: Swift.Equatable {
+public struct CreateCrawlerOutput {
 
     public init() { }
 }
@@ -11483,7 +11483,7 @@ extension GlueClientTypes.CreateCsvClassifierRequest: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a custom CSV classifier for CreateClassifier to create.
-    public struct CreateCsvClassifierRequest: Swift.Equatable {
+    public struct CreateCsvClassifierRequest {
         /// Enables the processing of files that contain only one column.
         public var allowSingleColumn: Swift.Bool?
         /// Indicates whether the CSV file contains a header.
@@ -11572,7 +11572,7 @@ extension CreateCustomEntityTypeInput {
     }
 }
 
-public struct CreateCustomEntityTypeInput: Swift.Equatable {
+public struct CreateCustomEntityTypeInput {
     /// A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data. If no context words are passed only a regular expression is checked.
     public var contextWords: [Swift.String]?
     /// A name for the custom pattern that allows it to be retrieved or deleted later. This name must be unique per Amazon Web Services account.
@@ -11598,7 +11598,7 @@ public struct CreateCustomEntityTypeInput: Swift.Equatable {
     }
 }
 
-struct CreateCustomEntityTypeInputBody: Swift.Equatable {
+struct CreateCustomEntityTypeInputBody {
     let name: Swift.String?
     let regexString: Swift.String?
     let contextWords: [Swift.String]?
@@ -11656,7 +11656,7 @@ extension CreateCustomEntityTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCustomEntityTypeOutput: Swift.Equatable {
+public struct CreateCustomEntityTypeOutput {
     /// The name of the custom pattern you created.
     public var name: Swift.String?
 
@@ -11668,7 +11668,7 @@ public struct CreateCustomEntityTypeOutput: Swift.Equatable {
     }
 }
 
-struct CreateCustomEntityTypeOutputBody: Swift.Equatable {
+struct CreateCustomEntityTypeOutputBody {
     let name: Swift.String?
 }
 
@@ -11744,7 +11744,7 @@ extension CreateDataQualityRulesetInput {
     }
 }
 
-public struct CreateDataQualityRulesetInput: Swift.Equatable {
+public struct CreateDataQualityRulesetInput {
     /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
     public var clientToken: Swift.String?
     /// A description of the data quality ruleset.
@@ -11778,7 +11778,7 @@ public struct CreateDataQualityRulesetInput: Swift.Equatable {
     }
 }
 
-struct CreateDataQualityRulesetInputBody: Swift.Equatable {
+struct CreateDataQualityRulesetInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let ruleset: Swift.String?
@@ -11835,7 +11835,7 @@ extension CreateDataQualityRulesetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataQualityRulesetOutput: Swift.Equatable {
+public struct CreateDataQualityRulesetOutput {
     /// A unique name for the data quality ruleset.
     public var name: Swift.String?
 
@@ -11847,7 +11847,7 @@ public struct CreateDataQualityRulesetOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataQualityRulesetOutputBody: Swift.Equatable {
+struct CreateDataQualityRulesetOutputBody {
     let name: Swift.String?
 }
 
@@ -11909,7 +11909,7 @@ extension CreateDatabaseInput {
     }
 }
 
-public struct CreateDatabaseInput: Swift.Equatable {
+public struct CreateDatabaseInput {
     /// The ID of the Data Catalog in which to create the database. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The metadata for the database.
@@ -11930,7 +11930,7 @@ public struct CreateDatabaseInput: Swift.Equatable {
     }
 }
 
-struct CreateDatabaseInputBody: Swift.Equatable {
+struct CreateDatabaseInputBody {
     let catalogId: Swift.String?
     let databaseInput: GlueClientTypes.DatabaseInput?
     let tags: [Swift.String:Swift.String]?
@@ -11968,7 +11968,7 @@ extension CreateDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatabaseOutput: Swift.Equatable {
+public struct CreateDatabaseOutput {
 
     public init() { }
 }
@@ -12079,7 +12079,7 @@ extension CreateDevEndpointInput {
     }
 }
 
-public struct CreateDevEndpointInput: Swift.Equatable {
+public struct CreateDevEndpointInput {
     /// A map of arguments used to configure the DevEndpoint.
     public var arguments: [Swift.String:Swift.String]?
     /// The name to be assigned to the new DevEndpoint.
@@ -12158,7 +12158,7 @@ public struct CreateDevEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreateDevEndpointInputBody: Swift.Equatable {
+struct CreateDevEndpointInputBody {
     let endpointName: Swift.String?
     let roleArn: Swift.String?
     let securityGroupIds: [Swift.String]?
@@ -12314,7 +12314,7 @@ extension CreateDevEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDevEndpointOutput: Swift.Equatable {
+public struct CreateDevEndpointOutput {
     /// The map of arguments used to configure this DevEndpoint. Valid arguments are:
     ///
     /// * "--enable-glue-datacatalog": ""
@@ -12403,7 +12403,7 @@ public struct CreateDevEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreateDevEndpointOutputBody: Swift.Equatable {
+struct CreateDevEndpointOutputBody {
     let endpointName: Swift.String?
     let status: Swift.String?
     let securityGroupIds: [Swift.String]?
@@ -12566,7 +12566,7 @@ extension GlueClientTypes.CreateGrokClassifierRequest: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a grok classifier for CreateClassifier to create.
-    public struct CreateGrokClassifierRequest: Swift.Equatable {
+    public struct CreateGrokClassifierRequest {
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
         /// This member is required.
         public var classification: Swift.String?
@@ -12716,7 +12716,7 @@ extension CreateJobInput {
     }
 }
 
-public struct CreateJobInput: Swift.Equatable {
+public struct CreateJobInput {
     /// This parameter is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) to allocate to this Job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/).
     @available(*, deprecated, message: "This property is deprecated, use MaxCapacity instead.")
     public var allocatedCapacity: Swift.Int?
@@ -12832,7 +12832,7 @@ public struct CreateJobInput: Swift.Equatable {
     }
 }
 
-struct CreateJobInputBody: Swift.Equatable {
+struct CreateJobInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let logUri: Swift.String?
@@ -12980,7 +12980,7 @@ extension CreateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJobOutput: Swift.Equatable {
+public struct CreateJobOutput {
     /// The unique name that was provided for this job definition.
     public var name: Swift.String?
 
@@ -12992,7 +12992,7 @@ public struct CreateJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateJobOutputBody: Swift.Equatable {
+struct CreateJobOutputBody {
     let name: Swift.String?
 }
 
@@ -13052,7 +13052,7 @@ extension GlueClientTypes.CreateJsonClassifierRequest: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a JSON classifier for CreateClassifier to create.
-    public struct CreateJsonClassifierRequest: Swift.Equatable {
+    public struct CreateJsonClassifierRequest {
         /// A JsonPath string defining the JSON data for the classifier to classify. Glue supports a subset of JsonPath, as described in [Writing JsonPath Custom Classifiers](https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html#custom-classifier-json).
         /// This member is required.
         public var jsonPath: Swift.String?
@@ -13146,7 +13146,7 @@ extension CreateMLTransformInput {
     }
 }
 
-public struct CreateMLTransformInput: Swift.Equatable {
+public struct CreateMLTransformInput {
     /// A description of the machine learning transform that is being defined. The default is an empty string.
     public var description: Swift.String?
     /// This value determines which version of Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see [Glue Versions](https://docs.aws.amazon.com/glue/latest/dg/release-notes.html#release-notes-versions) in the developer guide.
@@ -13242,7 +13242,7 @@ public struct CreateMLTransformInput: Swift.Equatable {
     }
 }
 
-struct CreateMLTransformInputBody: Swift.Equatable {
+struct CreateMLTransformInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let inputRecordTables: [GlueClientTypes.GlueTable]?
@@ -13336,7 +13336,7 @@ extension CreateMLTransformOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMLTransformOutput: Swift.Equatable {
+public struct CreateMLTransformOutput {
     /// A unique identifier that is generated for the transform.
     public var transformId: Swift.String?
 
@@ -13348,7 +13348,7 @@ public struct CreateMLTransformOutput: Swift.Equatable {
     }
 }
 
-struct CreateMLTransformOutputBody: Swift.Equatable {
+struct CreateMLTransformOutputBody {
     let transformId: Swift.String?
 }
 
@@ -13413,7 +13413,7 @@ extension CreatePartitionIndexInput {
     }
 }
 
-public struct CreatePartitionIndexInput: Swift.Equatable {
+public struct CreatePartitionIndexInput {
     /// The catalog ID where the table resides.
     public var catalogId: Swift.String?
     /// Specifies the name of a database in which you want to create a partition index.
@@ -13440,7 +13440,7 @@ public struct CreatePartitionIndexInput: Swift.Equatable {
     }
 }
 
-struct CreatePartitionIndexInputBody: Swift.Equatable {
+struct CreatePartitionIndexInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -13473,7 +13473,7 @@ extension CreatePartitionIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePartitionIndexOutput: Swift.Equatable {
+public struct CreatePartitionIndexOutput {
 
     public init() { }
 }
@@ -13527,7 +13527,7 @@ extension CreatePartitionInput {
     }
 }
 
-public struct CreatePartitionInput: Swift.Equatable {
+public struct CreatePartitionInput {
     /// The Amazon Web Services account ID of the catalog in which the partition is to be created.
     public var catalogId: Swift.String?
     /// The name of the metadata database in which the partition is to be created.
@@ -13554,7 +13554,7 @@ public struct CreatePartitionInput: Swift.Equatable {
     }
 }
 
-struct CreatePartitionInputBody: Swift.Equatable {
+struct CreatePartitionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -13587,7 +13587,7 @@ extension CreatePartitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePartitionOutput: Swift.Equatable {
+public struct CreatePartitionOutput {
 
     public init() { }
 }
@@ -13640,7 +13640,7 @@ extension CreateRegistryInput {
     }
 }
 
-public struct CreateRegistryInput: Swift.Equatable {
+public struct CreateRegistryInput {
     /// A description of the registry. If description is not provided, there will not be any default value for this.
     public var description: Swift.String?
     /// Name of the registry to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace.
@@ -13661,7 +13661,7 @@ public struct CreateRegistryInput: Swift.Equatable {
     }
 }
 
-struct CreateRegistryInputBody: Swift.Equatable {
+struct CreateRegistryInputBody {
     let registryName: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -13712,7 +13712,7 @@ extension CreateRegistryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRegistryOutput: Swift.Equatable {
+public struct CreateRegistryOutput {
     /// A description of the registry.
     public var description: Swift.String?
     /// The Amazon Resource Name (ARN) of the newly created registry.
@@ -13736,7 +13736,7 @@ public struct CreateRegistryOutput: Swift.Equatable {
     }
 }
 
-struct CreateRegistryOutputBody: Swift.Equatable {
+struct CreateRegistryOutputBody {
     let registryArn: Swift.String?
     let registryName: Swift.String?
     let description: Swift.String?
@@ -13836,7 +13836,7 @@ extension CreateSchemaInput {
     }
 }
 
-public struct CreateSchemaInput: Swift.Equatable {
+public struct CreateSchemaInput {
     /// The compatibility mode of the schema. The possible values are:
     ///
     /// * NONE: No compatibility mode applies. You can use this choice in development scenarios or if you do not know the compatibility mode that you want to apply to schemas. Any new version added will be accepted without undergoing a compatibility check.
@@ -13890,7 +13890,7 @@ public struct CreateSchemaInput: Swift.Equatable {
     }
 }
 
-struct CreateSchemaInputBody: Swift.Equatable {
+struct CreateSchemaInputBody {
     let registryId: GlueClientTypes.RegistryId?
     let schemaName: Swift.String?
     let dataFormat: GlueClientTypes.DataFormat?
@@ -13977,7 +13977,7 @@ extension CreateSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSchemaOutput: Swift.Equatable {
+public struct CreateSchemaOutput {
     /// The schema compatibility mode.
     public var compatibility: GlueClientTypes.Compatibility?
     /// The data format of the schema definition. Currently AVRO, JSON and PROTOBUF are supported.
@@ -14041,7 +14041,7 @@ public struct CreateSchemaOutput: Swift.Equatable {
     }
 }
 
-struct CreateSchemaOutputBody: Swift.Equatable {
+struct CreateSchemaOutputBody {
     let registryName: Swift.String?
     let registryArn: Swift.String?
     let schemaName: Swift.String?
@@ -14169,7 +14169,7 @@ extension CreateScriptInput {
     }
 }
 
-public struct CreateScriptInput: Swift.Equatable {
+public struct CreateScriptInput {
     /// A list of the edges in the DAG.
     public var dagEdges: [GlueClientTypes.CodeGenEdge]?
     /// A list of the nodes in the DAG.
@@ -14189,7 +14189,7 @@ public struct CreateScriptInput: Swift.Equatable {
     }
 }
 
-struct CreateScriptInputBody: Swift.Equatable {
+struct CreateScriptInputBody {
     let dagNodes: [GlueClientTypes.CodeGenNode]?
     let dagEdges: [GlueClientTypes.CodeGenEdge]?
     let language: GlueClientTypes.Language?
@@ -14245,7 +14245,7 @@ extension CreateScriptOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateScriptOutput: Swift.Equatable {
+public struct CreateScriptOutput {
     /// The Python script generated from the DAG.
     public var pythonScript: Swift.String?
     /// The Scala code generated from the DAG.
@@ -14261,7 +14261,7 @@ public struct CreateScriptOutput: Swift.Equatable {
     }
 }
 
-struct CreateScriptOutputBody: Swift.Equatable {
+struct CreateScriptOutputBody {
     let pythonScript: Swift.String?
     let scalaCode: Swift.String?
 }
@@ -14318,7 +14318,7 @@ extension CreateSecurityConfigurationInput {
     }
 }
 
-public struct CreateSecurityConfigurationInput: Swift.Equatable {
+public struct CreateSecurityConfigurationInput {
     /// The encryption configuration for the new security configuration.
     /// This member is required.
     public var encryptionConfiguration: GlueClientTypes.EncryptionConfiguration?
@@ -14336,7 +14336,7 @@ public struct CreateSecurityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateSecurityConfigurationInputBody: Swift.Equatable {
+struct CreateSecurityConfigurationInputBody {
     let name: Swift.String?
     let encryptionConfiguration: GlueClientTypes.EncryptionConfiguration?
 }
@@ -14370,7 +14370,7 @@ extension CreateSecurityConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSecurityConfigurationOutput: Swift.Equatable {
+public struct CreateSecurityConfigurationOutput {
     /// The time at which the new security configuration was created.
     public var createdTimestamp: ClientRuntime.Date?
     /// The name assigned to the new security configuration.
@@ -14386,7 +14386,7 @@ public struct CreateSecurityConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateSecurityConfigurationOutputBody: Swift.Equatable {
+struct CreateSecurityConfigurationOutputBody {
     let name: Swift.String?
     let createdTimestamp: ClientRuntime.Date?
 }
@@ -14504,7 +14504,7 @@ extension CreateSessionInput {
 }
 
 /// Request to create a new session.
-public struct CreateSessionInput: Swift.Equatable {
+public struct CreateSessionInput {
     /// The SessionCommand that runs the job.
     /// This member is required.
     public var command: GlueClientTypes.SessionCommand?
@@ -14585,7 +14585,7 @@ public struct CreateSessionInput: Swift.Equatable {
     }
 }
 
-struct CreateSessionInputBody: Swift.Equatable {
+struct CreateSessionInputBody {
     let id: Swift.String?
     let description: Swift.String?
     let role: Swift.String?
@@ -14687,7 +14687,7 @@ extension CreateSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSessionOutput: Swift.Equatable {
+public struct CreateSessionOutput {
     /// Returns the session object in the response.
     public var session: GlueClientTypes.Session?
 
@@ -14699,7 +14699,7 @@ public struct CreateSessionOutput: Swift.Equatable {
     }
 }
 
-struct CreateSessionOutputBody: Swift.Equatable {
+struct CreateSessionOutputBody {
     let session: GlueClientTypes.Session?
 }
 
@@ -14776,7 +14776,7 @@ extension CreateTableInput {
     }
 }
 
-public struct CreateTableInput: Swift.Equatable {
+public struct CreateTableInput {
     /// The ID of the Data Catalog in which to create the Table. If none is supplied, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The catalog database in which to create the new table. For Hive compatibility, this name is entirely lowercase.
@@ -14810,7 +14810,7 @@ public struct CreateTableInput: Swift.Equatable {
     }
 }
 
-struct CreateTableInputBody: Swift.Equatable {
+struct CreateTableInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableInput: GlueClientTypes.TableInput?
@@ -14891,7 +14891,7 @@ extension CreateTableOptimizerInput {
     }
 }
 
-public struct CreateTableOptimizerInput: Swift.Equatable {
+public struct CreateTableOptimizerInput {
     /// The Catalog ID of the table.
     /// This member is required.
     public var catalogId: Swift.String?
@@ -14924,7 +14924,7 @@ public struct CreateTableOptimizerInput: Swift.Equatable {
     }
 }
 
-struct CreateTableOptimizerInputBody: Swift.Equatable {
+struct CreateTableOptimizerInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -14961,7 +14961,7 @@ extension CreateTableOptimizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTableOptimizerOutput: Swift.Equatable {
+public struct CreateTableOptimizerOutput {
 
     public init() { }
 }
@@ -14986,7 +14986,7 @@ extension CreateTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTableOutput: Swift.Equatable {
+public struct CreateTableOutput {
 
     public init() { }
 }
@@ -15072,7 +15072,7 @@ extension CreateTriggerInput {
     }
 }
 
-public struct CreateTriggerInput: Swift.Equatable {
+public struct CreateTriggerInput {
     /// The actions initiated by this trigger when it fires.
     /// This member is required.
     public var actions: [GlueClientTypes.Action]?
@@ -15123,7 +15123,7 @@ public struct CreateTriggerInput: Swift.Equatable {
     }
 }
 
-struct CreateTriggerInputBody: Swift.Equatable {
+struct CreateTriggerInputBody {
     let name: Swift.String?
     let workflowName: Swift.String?
     let type: GlueClientTypes.TriggerType?
@@ -15205,7 +15205,7 @@ extension CreateTriggerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTriggerOutput: Swift.Equatable {
+public struct CreateTriggerOutput {
     /// The name of the trigger.
     public var name: Swift.String?
 
@@ -15217,7 +15217,7 @@ public struct CreateTriggerOutput: Swift.Equatable {
     }
 }
 
-struct CreateTriggerOutputBody: Swift.Equatable {
+struct CreateTriggerOutputBody {
     let name: Swift.String?
 }
 
@@ -15279,7 +15279,7 @@ extension CreateUserDefinedFunctionInput {
     }
 }
 
-public struct CreateUserDefinedFunctionInput: Swift.Equatable {
+public struct CreateUserDefinedFunctionInput {
     /// The ID of the Data Catalog in which to create the function. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database in which to create the function.
@@ -15301,7 +15301,7 @@ public struct CreateUserDefinedFunctionInput: Swift.Equatable {
     }
 }
 
-struct CreateUserDefinedFunctionInputBody: Swift.Equatable {
+struct CreateUserDefinedFunctionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let functionInput: GlueClientTypes.UserDefinedFunctionInput?
@@ -15330,7 +15330,7 @@ extension CreateUserDefinedFunctionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserDefinedFunctionOutput: Swift.Equatable {
+public struct CreateUserDefinedFunctionOutput {
 
     public init() { }
 }
@@ -15394,7 +15394,7 @@ extension CreateWorkflowInput {
     }
 }
 
-public struct CreateWorkflowInput: Swift.Equatable {
+public struct CreateWorkflowInput {
     /// A collection of properties to be used as part of each execution of the workflow.
     public var defaultRunProperties: [Swift.String:Swift.String]?
     /// A description of the workflow.
@@ -15423,7 +15423,7 @@ public struct CreateWorkflowInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowInputBody: Swift.Equatable {
+struct CreateWorkflowInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let defaultRunProperties: [Swift.String:Swift.String]?
@@ -15485,7 +15485,7 @@ extension CreateWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkflowOutput: Swift.Equatable {
+public struct CreateWorkflowOutput {
     /// The name of the workflow which was provided as part of the request.
     public var name: Swift.String?
 
@@ -15497,7 +15497,7 @@ public struct CreateWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowOutputBody: Swift.Equatable {
+struct CreateWorkflowOutputBody {
     let name: Swift.String?
 }
 
@@ -15562,7 +15562,7 @@ extension GlueClientTypes.CreateXMLClassifierRequest: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an XML classifier for CreateClassifier to create.
-    public struct CreateXMLClassifierRequest: Swift.Equatable {
+    public struct CreateXMLClassifierRequest {
         /// An identifier of the data format that the classifier matches.
         /// This member is required.
         public var classification: Swift.String?
@@ -15703,7 +15703,7 @@ extension GlueClientTypes.CsvClassifier: Swift.Codable {
 
 extension GlueClientTypes {
     /// A classifier for custom CSV content.
-    public struct CsvClassifier: Swift.Equatable {
+    public struct CsvClassifier {
         /// Enables the processing of files that contain only one column.
         public var allowSingleColumn: Swift.Bool?
         /// Indicates whether the CSV file contains a header.
@@ -15905,7 +15905,7 @@ extension GlueClientTypes.CustomCode: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that uses custom code you provide to perform the data transformation. The output is a collection of DynamicFrames.
-    public struct CustomCode: Swift.Equatable {
+    public struct CustomCode {
         /// The name defined for the custom code node class.
         /// This member is required.
         public var className: Swift.String?
@@ -15984,7 +15984,7 @@ extension GlueClientTypes.CustomEntityType: Swift.Codable {
 
 extension GlueClientTypes {
     /// An object representing a custom pattern for detecting sensitive data across the columns and rows of your structured data.
-    public struct CustomEntityType: Swift.Equatable {
+    public struct CustomEntityType {
         /// A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data. If no context words are passed only a regular expression is checked.
         public var contextWords: [Swift.String]?
         /// A name for the custom pattern that allows it to be retrieved or deleted later. This name must be unique per Amazon Web Services account.
@@ -16047,7 +16047,7 @@ extension GlueClientTypes.DQResultsPublishingOptions: Swift.Codable {
 
 extension GlueClientTypes {
     /// Options to configure how your data quality evaluation results are published.
-    public struct DQResultsPublishingOptions: Swift.Equatable {
+    public struct DQResultsPublishingOptions {
         /// Enable metrics for your data quality results.
         public var cloudWatchMetricsEnabled: Swift.Bool?
         /// The context of the evaluation.
@@ -16094,7 +16094,7 @@ extension GlueClientTypes.DQStopJobOnFailureOptions: Swift.Codable {
 
 extension GlueClientTypes {
     /// Options to configure how your job will stop if your data quality evaluation fails.
-    public struct DQStopJobOnFailureOptions: Swift.Equatable {
+    public struct DQStopJobOnFailureOptions {
         /// When to stop job if your data quality evaluation fails. Options are Immediate or AfterDataLoad.
         public var stopJobOnFailureTiming: GlueClientTypes.DQStopJobOnFailureTiming?
 
@@ -16199,7 +16199,7 @@ extension GlueClientTypes.DataCatalogEncryptionSettings: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains configuration information for maintaining Data Catalog security.
-    public struct DataCatalogEncryptionSettings: Swift.Equatable {
+    public struct DataCatalogEncryptionSettings {
         /// When connection password protection is enabled, the Data Catalog uses a customer-provided key to encrypt the password as part of CreateConnection or UpdateConnection and store it in the ENCRYPTED_PASSWORD field in the connection properties. You can enable catalog encryption or only password encryption.
         public var connectionPasswordEncryption: GlueClientTypes.ConnectionPasswordEncryption?
         /// Specifies the encryption-at-rest configuration for the Data Catalog.
@@ -16273,7 +16273,7 @@ extension GlueClientTypes.DataLakePrincipal: Swift.Codable {
 
 extension GlueClientTypes {
     /// The Lake Formation principal.
-    public struct DataLakePrincipal: Swift.Equatable {
+    public struct DataLakePrincipal {
         /// An identifier for the Lake Formation principal.
         public var dataLakePrincipalIdentifier: Swift.String?
 
@@ -16338,7 +16338,7 @@ extension GlueClientTypes.DataQualityAnalyzerResult: Swift.Codable {
 
 extension GlueClientTypes {
     /// Describes the result of the evaluation of a data quality analyzer.
-    public struct DataQualityAnalyzerResult: Swift.Equatable {
+    public struct DataQualityAnalyzerResult {
         /// A description of the data quality analyzer.
         public var description: Swift.String?
         /// A map of metrics associated with the evaluation of the analyzer.
@@ -16391,7 +16391,7 @@ extension GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions: Swift.Co
 
 extension GlueClientTypes {
     /// Additional run options you can specify for an evaluation run.
-    public struct DataQualityEvaluationRunAdditionalRunOptions: Swift.Equatable {
+    public struct DataQualityEvaluationRunAdditionalRunOptions {
         /// Whether or not to enable CloudWatch metrics.
         public var cloudWatchMetricsEnabled: Swift.Bool?
         /// Prefix for Amazon S3 to store results.
@@ -16448,7 +16448,7 @@ extension GlueClientTypes.DataQualityMetricValues: Swift.Codable {
 
 extension GlueClientTypes {
     /// Describes the data quality metric value according to the analysis of historical data.
-    public struct DataQualityMetricValues: Swift.Equatable {
+    public struct DataQualityMetricValues {
         /// The actual value of the data quality metric.
         public var actualValue: Swift.Double?
         /// The expected value of the data quality metric according to the analysis of historical data.
@@ -16501,7 +16501,7 @@ extension GlueClientTypes.DataQualityObservation: Swift.Codable {
 
 extension GlueClientTypes {
     /// Describes the observation generated after evaluating the rules and analyzers.
-    public struct DataQualityObservation: Swift.Equatable {
+    public struct DataQualityObservation {
         /// A description of the data quality observation.
         public var description: Swift.String?
         /// An object of type MetricBasedObservation representing the observation that is based on evaluated data quality metrics.
@@ -16648,7 +16648,7 @@ extension GlueClientTypes.DataQualityResult: Swift.Codable {
 
 extension GlueClientTypes {
     /// Describes a data quality result.
-    public struct DataQualityResult: Swift.Equatable {
+    public struct DataQualityResult {
         /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
         public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
         /// The date and time when this data quality run completed.
@@ -16755,7 +16755,7 @@ extension GlueClientTypes.DataQualityResultDescription: Swift.Codable {
 
 extension GlueClientTypes {
     /// Describes a data quality result.
-    public struct DataQualityResultDescription: Swift.Equatable {
+    public struct DataQualityResultDescription {
         /// The table name associated with the data quality result.
         public var dataSource: GlueClientTypes.DataSource?
         /// The job name associated with the data quality result.
@@ -16830,7 +16830,7 @@ extension GlueClientTypes.DataQualityResultFilterCriteria: Swift.Codable {
 
 extension GlueClientTypes {
     /// Criteria used to return data quality results.
-    public struct DataQualityResultFilterCriteria: Swift.Equatable {
+    public struct DataQualityResultFilterCriteria {
         /// Filter results by the specified data source. For example, retrieving all results for an Glue table.
         public var dataSource: GlueClientTypes.DataSource?
         /// Filter results by the specified job name.
@@ -16899,7 +16899,7 @@ extension GlueClientTypes.DataQualityRuleRecommendationRunDescription: Swift.Cod
 
 extension GlueClientTypes {
     /// Describes the result of a data quality rule recommendation run.
-    public struct DataQualityRuleRecommendationRunDescription: Swift.Equatable {
+    public struct DataQualityRuleRecommendationRunDescription {
         /// The data source (Glue table) associated with the recommendation run.
         public var dataSource: GlueClientTypes.DataSource?
         /// The unique run identifier associated with this run.
@@ -16958,7 +16958,7 @@ extension GlueClientTypes.DataQualityRuleRecommendationRunFilter: Swift.Codable 
 
 extension GlueClientTypes {
     /// A filter for listing data quality recommendation runs.
-    public struct DataQualityRuleRecommendationRunFilter: Swift.Equatable {
+    public struct DataQualityRuleRecommendationRunFilter {
         /// Filter based on a specified data source (Glue table).
         /// This member is required.
         public var dataSource: GlueClientTypes.DataSource?
@@ -17038,7 +17038,7 @@ extension GlueClientTypes.DataQualityRuleResult: Swift.Codable {
 
 extension GlueClientTypes {
     /// Describes the result of the evaluation of a data quality rule.
-    public struct DataQualityRuleResult: Swift.Equatable {
+    public struct DataQualityRuleResult {
         /// A description of the data quality rule.
         public var description: Swift.String?
         /// A map of metrics associated with the evaluation of the rule.
@@ -17142,7 +17142,7 @@ extension GlueClientTypes.DataQualityRulesetEvaluationRunDescription: Swift.Coda
 
 extension GlueClientTypes {
     /// Describes the result of a data quality ruleset evaluation run.
-    public struct DataQualityRulesetEvaluationRunDescription: Swift.Equatable {
+    public struct DataQualityRulesetEvaluationRunDescription {
         /// The data source (an Glue table) associated with the run.
         public var dataSource: GlueClientTypes.DataSource?
         /// The unique run identifier associated with this run.
@@ -17201,7 +17201,7 @@ extension GlueClientTypes.DataQualityRulesetEvaluationRunFilter: Swift.Codable {
 
 extension GlueClientTypes {
     /// The filter criteria.
-    public struct DataQualityRulesetEvaluationRunFilter: Swift.Equatable {
+    public struct DataQualityRulesetEvaluationRunFilter {
         /// Filter based on a data source (an Glue table) associated with the run.
         /// This member is required.
         public var dataSource: GlueClientTypes.DataSource?
@@ -17281,7 +17281,7 @@ extension GlueClientTypes.DataQualityRulesetFilterCriteria: Swift.Codable {
 
 extension GlueClientTypes {
     /// The criteria used to filter data quality rulesets.
-    public struct DataQualityRulesetFilterCriteria: Swift.Equatable {
+    public struct DataQualityRulesetFilterCriteria {
         /// Filter on rulesets created after this date.
         public var createdAfter: ClientRuntime.Date?
         /// Filter on rulesets created before this date.
@@ -17376,7 +17376,7 @@ extension GlueClientTypes.DataQualityRulesetListDetails: Swift.Codable {
 
 extension GlueClientTypes {
     /// Describes a data quality ruleset returned by GetDataQualityRuleset.
-    public struct DataQualityRulesetListDetails: Swift.Equatable {
+    public struct DataQualityRulesetListDetails {
         /// The date and time the data quality ruleset was created.
         public var createdOn: ClientRuntime.Date?
         /// A description of the data quality ruleset.
@@ -17447,7 +17447,7 @@ extension GlueClientTypes.DataQualityTargetTable: Swift.Codable {
 
 extension GlueClientTypes {
     /// An object representing an Glue table.
-    public struct DataQualityTargetTable: Swift.Equatable {
+    public struct DataQualityTargetTable {
         /// The catalog id where the Glue table exists.
         public var catalogId: Swift.String?
         /// The name of the database where the Glue table exists.
@@ -17492,7 +17492,7 @@ extension GlueClientTypes.DataSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// A data source (an Glue table) for which you want data quality results.
-    public struct DataSource: Swift.Equatable {
+    public struct DataSource {
         /// An Glue table.
         /// This member is required.
         public var glueTable: GlueClientTypes.GlueTable?
@@ -17600,7 +17600,7 @@ extension GlueClientTypes.Database: Swift.Codable {
 
 extension GlueClientTypes {
     /// The Database object represents a logical grouping of tables that might reside in a Hive metastore or an RDBMS.
-    public struct Database: Swift.Equatable {
+    public struct Database {
         /// The ID of the Data Catalog in which the database resides.
         public var catalogId: Swift.String?
         /// Creates a set of default permissions on the table for principals. Used by Lake Formation. Not used in the normal course of Glue operations.
@@ -17680,7 +17680,7 @@ extension GlueClientTypes.DatabaseIdentifier: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure that describes a target database for resource linking.
-    public struct DatabaseIdentifier: Swift.Equatable {
+    public struct DatabaseIdentifier {
         /// The ID of the Data Catalog in which the database resides.
         public var catalogId: Swift.String?
         /// The name of the catalog database.
@@ -17783,7 +17783,7 @@ extension GlueClientTypes.DatabaseInput: Swift.Codable {
 
 extension GlueClientTypes {
     /// The structure used to create or update a database.
-    public struct DatabaseInput: Swift.Equatable {
+    public struct DatabaseInput {
         /// Creates a set of default permissions on the table for principals. Used by Lake Formation. Not used in the normal course of Glue operations.
         public var createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
         /// A description of the database.
@@ -17849,7 +17849,7 @@ extension GlueClientTypes.Datatype: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure representing the datatype of the value.
-    public struct Datatype: Swift.Equatable {
+    public struct Datatype {
         /// The datatype of the value.
         /// This member is required.
         public var id: Swift.String?
@@ -17908,7 +17908,7 @@ extension GlueClientTypes.DateColumnStatisticsData: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines column statistics supported for timestamp data columns.
-    public struct DateColumnStatisticsData: Swift.Equatable {
+    public struct DateColumnStatisticsData {
         /// The highest value in the column.
         public var maximumValue: ClientRuntime.Date?
         /// The lowest value in the column.
@@ -17975,7 +17975,7 @@ extension GlueClientTypes.DecimalColumnStatisticsData: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines column statistics supported for fixed-point number data columns.
-    public struct DecimalColumnStatisticsData: Swift.Equatable {
+    public struct DecimalColumnStatisticsData {
         /// The highest value in the column.
         public var maximumValue: GlueClientTypes.DecimalNumber?
         /// The lowest value in the column.
@@ -18030,7 +18030,7 @@ extension GlueClientTypes.DecimalNumber: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains a numeric value in decimal format.
-    public struct DecimalNumber: Swift.Equatable {
+    public struct DecimalNumber {
         /// The scale that determines where the decimal point falls in the unscaled value.
         /// This member is required.
         public var scale: Swift.Int
@@ -18105,7 +18105,7 @@ extension DeleteBlueprintInput {
     }
 }
 
-public struct DeleteBlueprintInput: Swift.Equatable {
+public struct DeleteBlueprintInput {
     /// The name of the blueprint to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -18118,7 +18118,7 @@ public struct DeleteBlueprintInput: Swift.Equatable {
     }
 }
 
-struct DeleteBlueprintInputBody: Swift.Equatable {
+struct DeleteBlueprintInputBody {
     let name: Swift.String?
 }
 
@@ -18146,7 +18146,7 @@ extension DeleteBlueprintOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBlueprintOutput: Swift.Equatable {
+public struct DeleteBlueprintOutput {
     /// Returns the name of the blueprint that was deleted.
     public var name: Swift.String?
 
@@ -18158,7 +18158,7 @@ public struct DeleteBlueprintOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBlueprintOutputBody: Swift.Equatable {
+struct DeleteBlueprintOutputBody {
     let name: Swift.String?
 }
 
@@ -18207,7 +18207,7 @@ extension DeleteClassifierInput {
     }
 }
 
-public struct DeleteClassifierInput: Swift.Equatable {
+public struct DeleteClassifierInput {
     /// Name of the classifier to remove.
     /// This member is required.
     public var name: Swift.String?
@@ -18220,7 +18220,7 @@ public struct DeleteClassifierInput: Swift.Equatable {
     }
 }
 
-struct DeleteClassifierInputBody: Swift.Equatable {
+struct DeleteClassifierInputBody {
     let name: Swift.String?
 }
 
@@ -18241,7 +18241,7 @@ extension DeleteClassifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteClassifierOutput: Swift.Equatable {
+public struct DeleteClassifierOutput {
 
     public init() { }
 }
@@ -18297,7 +18297,7 @@ extension DeleteColumnStatisticsForPartitionInput {
     }
 }
 
-public struct DeleteColumnStatisticsForPartitionInput: Swift.Equatable {
+public struct DeleteColumnStatisticsForPartitionInput {
     /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// Name of the column.
@@ -18329,7 +18329,7 @@ public struct DeleteColumnStatisticsForPartitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteColumnStatisticsForPartitionInputBody: Swift.Equatable {
+struct DeleteColumnStatisticsForPartitionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -18375,7 +18375,7 @@ extension DeleteColumnStatisticsForPartitionOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DeleteColumnStatisticsForPartitionOutput: Swift.Equatable {
+public struct DeleteColumnStatisticsForPartitionOutput {
 
     public init() { }
 }
@@ -18427,7 +18427,7 @@ extension DeleteColumnStatisticsForTableInput {
     }
 }
 
-public struct DeleteColumnStatisticsForTableInput: Swift.Equatable {
+public struct DeleteColumnStatisticsForTableInput {
     /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the column.
@@ -18454,7 +18454,7 @@ public struct DeleteColumnStatisticsForTableInput: Swift.Equatable {
     }
 }
 
-struct DeleteColumnStatisticsForTableInputBody: Swift.Equatable {
+struct DeleteColumnStatisticsForTableInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -18487,7 +18487,7 @@ extension DeleteColumnStatisticsForTableOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteColumnStatisticsForTableOutput: Swift.Equatable {
+public struct DeleteColumnStatisticsForTableOutput {
 
     public init() { }
 }
@@ -18531,7 +18531,7 @@ extension DeleteConnectionInput {
     }
 }
 
-public struct DeleteConnectionInput: Swift.Equatable {
+public struct DeleteConnectionInput {
     /// The ID of the Data Catalog in which the connection resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the connection to delete.
@@ -18548,7 +18548,7 @@ public struct DeleteConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionInputBody: Swift.Equatable {
+struct DeleteConnectionInputBody {
     let catalogId: Swift.String?
     let connectionName: Swift.String?
 }
@@ -18573,7 +18573,7 @@ extension DeleteConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectionOutput: Swift.Equatable {
+public struct DeleteConnectionOutput {
 
     public init() { }
 }
@@ -18610,7 +18610,7 @@ extension DeleteCrawlerInput {
     }
 }
 
-public struct DeleteCrawlerInput: Swift.Equatable {
+public struct DeleteCrawlerInput {
     /// The name of the crawler to remove.
     /// This member is required.
     public var name: Swift.String?
@@ -18623,7 +18623,7 @@ public struct DeleteCrawlerInput: Swift.Equatable {
     }
 }
 
-struct DeleteCrawlerInputBody: Swift.Equatable {
+struct DeleteCrawlerInputBody {
     let name: Swift.String?
 }
 
@@ -18644,7 +18644,7 @@ extension DeleteCrawlerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCrawlerOutput: Swift.Equatable {
+public struct DeleteCrawlerOutput {
 
     public init() { }
 }
@@ -18683,7 +18683,7 @@ extension DeleteCustomEntityTypeInput {
     }
 }
 
-public struct DeleteCustomEntityTypeInput: Swift.Equatable {
+public struct DeleteCustomEntityTypeInput {
     /// The name of the custom pattern that you want to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -18696,7 +18696,7 @@ public struct DeleteCustomEntityTypeInput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomEntityTypeInputBody: Swift.Equatable {
+struct DeleteCustomEntityTypeInputBody {
     let name: Swift.String?
 }
 
@@ -18724,7 +18724,7 @@ extension DeleteCustomEntityTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCustomEntityTypeOutput: Swift.Equatable {
+public struct DeleteCustomEntityTypeOutput {
     /// The name of the custom pattern you deleted.
     public var name: Swift.String?
 
@@ -18736,7 +18736,7 @@ public struct DeleteCustomEntityTypeOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomEntityTypeOutputBody: Swift.Equatable {
+struct DeleteCustomEntityTypeOutputBody {
     let name: Swift.String?
 }
 
@@ -18787,7 +18787,7 @@ extension DeleteDataQualityRulesetInput {
     }
 }
 
-public struct DeleteDataQualityRulesetInput: Swift.Equatable {
+public struct DeleteDataQualityRulesetInput {
     /// A name for the data quality ruleset.
     /// This member is required.
     public var name: Swift.String?
@@ -18800,7 +18800,7 @@ public struct DeleteDataQualityRulesetInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataQualityRulesetInputBody: Swift.Equatable {
+struct DeleteDataQualityRulesetInputBody {
     let name: Swift.String?
 }
 
@@ -18821,7 +18821,7 @@ extension DeleteDataQualityRulesetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDataQualityRulesetOutput: Swift.Equatable {
+public struct DeleteDataQualityRulesetOutput {
 
     public init() { }
 }
@@ -18864,7 +18864,7 @@ extension DeleteDatabaseInput {
     }
 }
 
-public struct DeleteDatabaseInput: Swift.Equatable {
+public struct DeleteDatabaseInput {
     /// The ID of the Data Catalog in which the database resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the database to delete. For Hive compatibility, this must be all lowercase.
@@ -18881,7 +18881,7 @@ public struct DeleteDatabaseInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatabaseInputBody: Swift.Equatable {
+struct DeleteDatabaseInputBody {
     let catalogId: Swift.String?
     let name: Swift.String?
 }
@@ -18906,7 +18906,7 @@ extension DeleteDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatabaseOutput: Swift.Equatable {
+public struct DeleteDatabaseOutput {
 
     public init() { }
 }
@@ -18946,7 +18946,7 @@ extension DeleteDevEndpointInput {
     }
 }
 
-public struct DeleteDevEndpointInput: Swift.Equatable {
+public struct DeleteDevEndpointInput {
     /// The name of the DevEndpoint.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -18959,7 +18959,7 @@ public struct DeleteDevEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteDevEndpointInputBody: Swift.Equatable {
+struct DeleteDevEndpointInputBody {
     let endpointName: Swift.String?
 }
 
@@ -18980,7 +18980,7 @@ extension DeleteDevEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDevEndpointOutput: Swift.Equatable {
+public struct DeleteDevEndpointOutput {
 
     public init() { }
 }
@@ -19019,7 +19019,7 @@ extension DeleteJobInput {
     }
 }
 
-public struct DeleteJobInput: Swift.Equatable {
+public struct DeleteJobInput {
     /// The name of the job definition to delete.
     /// This member is required.
     public var jobName: Swift.String?
@@ -19032,7 +19032,7 @@ public struct DeleteJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteJobInputBody: Swift.Equatable {
+struct DeleteJobInputBody {
     let jobName: Swift.String?
 }
 
@@ -19060,7 +19060,7 @@ extension DeleteJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteJobOutput: Swift.Equatable {
+public struct DeleteJobOutput {
     /// The name of the job definition that was deleted.
     public var jobName: Swift.String?
 
@@ -19072,7 +19072,7 @@ public struct DeleteJobOutput: Swift.Equatable {
     }
 }
 
-struct DeleteJobOutputBody: Swift.Equatable {
+struct DeleteJobOutputBody {
     let jobName: Swift.String?
 }
 
@@ -19121,7 +19121,7 @@ extension DeleteMLTransformInput {
     }
 }
 
-public struct DeleteMLTransformInput: Swift.Equatable {
+public struct DeleteMLTransformInput {
     /// The unique identifier of the transform to delete.
     /// This member is required.
     public var transformId: Swift.String?
@@ -19134,7 +19134,7 @@ public struct DeleteMLTransformInput: Swift.Equatable {
     }
 }
 
-struct DeleteMLTransformInputBody: Swift.Equatable {
+struct DeleteMLTransformInputBody {
     let transformId: Swift.String?
 }
 
@@ -19162,7 +19162,7 @@ extension DeleteMLTransformOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMLTransformOutput: Swift.Equatable {
+public struct DeleteMLTransformOutput {
     /// The unique identifier of the transform that was deleted.
     public var transformId: Swift.String?
 
@@ -19174,7 +19174,7 @@ public struct DeleteMLTransformOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMLTransformOutputBody: Swift.Equatable {
+struct DeleteMLTransformOutputBody {
     let transformId: Swift.String?
 }
 
@@ -19236,7 +19236,7 @@ extension DeletePartitionIndexInput {
     }
 }
 
-public struct DeletePartitionIndexInput: Swift.Equatable {
+public struct DeletePartitionIndexInput {
     /// The catalog ID where the table resides.
     public var catalogId: Swift.String?
     /// Specifies the name of a database from which you want to delete a partition index.
@@ -19263,7 +19263,7 @@ public struct DeletePartitionIndexInput: Swift.Equatable {
     }
 }
 
-struct DeletePartitionIndexInputBody: Swift.Equatable {
+struct DeletePartitionIndexInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -19296,7 +19296,7 @@ extension DeletePartitionIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePartitionIndexOutput: Swift.Equatable {
+public struct DeletePartitionIndexOutput {
 
     public init() { }
 }
@@ -19352,7 +19352,7 @@ extension DeletePartitionInput {
     }
 }
 
-public struct DeletePartitionInput: Swift.Equatable {
+public struct DeletePartitionInput {
     /// The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database in which the table in question resides.
@@ -19379,7 +19379,7 @@ public struct DeletePartitionInput: Swift.Equatable {
     }
 }
 
-struct DeletePartitionInputBody: Swift.Equatable {
+struct DeletePartitionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -19421,7 +19421,7 @@ extension DeletePartitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePartitionOutput: Swift.Equatable {
+public struct DeletePartitionOutput {
 
     public init() { }
 }
@@ -19460,7 +19460,7 @@ extension DeleteRegistryInput {
     }
 }
 
-public struct DeleteRegistryInput: Swift.Equatable {
+public struct DeleteRegistryInput {
     /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
     /// This member is required.
     public var registryId: GlueClientTypes.RegistryId?
@@ -19473,7 +19473,7 @@ public struct DeleteRegistryInput: Swift.Equatable {
     }
 }
 
-struct DeleteRegistryInputBody: Swift.Equatable {
+struct DeleteRegistryInputBody {
     let registryId: GlueClientTypes.RegistryId?
 }
 
@@ -19505,7 +19505,7 @@ extension DeleteRegistryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRegistryOutput: Swift.Equatable {
+public struct DeleteRegistryOutput {
     /// The Amazon Resource Name (ARN) of the registry being deleted.
     public var registryArn: Swift.String?
     /// The name of the registry being deleted.
@@ -19525,7 +19525,7 @@ public struct DeleteRegistryOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRegistryOutputBody: Swift.Equatable {
+struct DeleteRegistryOutputBody {
     let registryName: Swift.String?
     let registryArn: Swift.String?
     let status: GlueClientTypes.RegistryStatus?
@@ -19587,7 +19587,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The hash value returned when this policy was set.
     public var policyHashCondition: Swift.String?
     /// The ARN of the Glue resource for the resource policy to be deleted.
@@ -19603,7 +19603,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
     let policyHashCondition: Swift.String?
     let resourceArn: Swift.String?
 }
@@ -19628,7 +19628,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -19668,7 +19668,7 @@ extension DeleteSchemaInput {
     }
 }
 
-public struct DeleteSchemaInput: Swift.Equatable {
+public struct DeleteSchemaInput {
     /// This is a wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
     /// This member is required.
     public var schemaId: GlueClientTypes.SchemaId?
@@ -19681,7 +19681,7 @@ public struct DeleteSchemaInput: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaInputBody: Swift.Equatable {
+struct DeleteSchemaInputBody {
     let schemaId: GlueClientTypes.SchemaId?
 }
 
@@ -19713,7 +19713,7 @@ extension DeleteSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSchemaOutput: Swift.Equatable {
+public struct DeleteSchemaOutput {
     /// The Amazon Resource Name (ARN) of the schema being deleted.
     public var schemaArn: Swift.String?
     /// The name of the schema being deleted.
@@ -19733,7 +19733,7 @@ public struct DeleteSchemaOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaOutputBody: Swift.Equatable {
+struct DeleteSchemaOutputBody {
     let schemaArn: Swift.String?
     let schemaName: Swift.String?
     let status: GlueClientTypes.SchemaStatus?
@@ -19795,7 +19795,7 @@ extension DeleteSchemaVersionsInput {
     }
 }
 
-public struct DeleteSchemaVersionsInput: Swift.Equatable {
+public struct DeleteSchemaVersionsInput {
     /// This is a wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
     /// This member is required.
     public var schemaId: GlueClientTypes.SchemaId?
@@ -19817,7 +19817,7 @@ public struct DeleteSchemaVersionsInput: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaVersionsInputBody: Swift.Equatable {
+struct DeleteSchemaVersionsInputBody {
     let schemaId: GlueClientTypes.SchemaId?
     let versions: Swift.String?
 }
@@ -19849,7 +19849,7 @@ extension DeleteSchemaVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSchemaVersionsOutput: Swift.Equatable {
+public struct DeleteSchemaVersionsOutput {
     /// A list of SchemaVersionErrorItem objects, each containing an error and schema version.
     public var schemaVersionErrors: [GlueClientTypes.SchemaVersionErrorItem]?
 
@@ -19861,7 +19861,7 @@ public struct DeleteSchemaVersionsOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaVersionsOutputBody: Swift.Equatable {
+struct DeleteSchemaVersionsOutputBody {
     let schemaVersionErrors: [GlueClientTypes.SchemaVersionErrorItem]?
 }
 
@@ -19920,7 +19920,7 @@ extension DeleteSecurityConfigurationInput {
     }
 }
 
-public struct DeleteSecurityConfigurationInput: Swift.Equatable {
+public struct DeleteSecurityConfigurationInput {
     /// The name of the security configuration to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -19933,7 +19933,7 @@ public struct DeleteSecurityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteSecurityConfigurationInputBody: Swift.Equatable {
+struct DeleteSecurityConfigurationInputBody {
     let name: Swift.String?
 }
 
@@ -19954,7 +19954,7 @@ extension DeleteSecurityConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSecurityConfigurationOutput: Swift.Equatable {
+public struct DeleteSecurityConfigurationOutput {
 
     public init() { }
 }
@@ -19997,7 +19997,7 @@ extension DeleteSessionInput {
     }
 }
 
-public struct DeleteSessionInput: Swift.Equatable {
+public struct DeleteSessionInput {
     /// The ID of the session to be deleted.
     /// This member is required.
     public var id: Swift.String?
@@ -20014,7 +20014,7 @@ public struct DeleteSessionInput: Swift.Equatable {
     }
 }
 
-struct DeleteSessionInputBody: Swift.Equatable {
+struct DeleteSessionInputBody {
     let id: Swift.String?
     let requestOrigin: Swift.String?
 }
@@ -20046,7 +20046,7 @@ extension DeleteSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSessionOutput: Swift.Equatable {
+public struct DeleteSessionOutput {
     /// Returns the ID of the deleted session.
     public var id: Swift.String?
 
@@ -20058,7 +20058,7 @@ public struct DeleteSessionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSessionOutputBody: Swift.Equatable {
+struct DeleteSessionOutputBody {
     let id: Swift.String?
 }
 
@@ -20122,7 +20122,7 @@ extension DeleteTableInput {
     }
 }
 
-public struct DeleteTableInput: Swift.Equatable {
+public struct DeleteTableInput {
     /// The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -20148,7 +20148,7 @@ public struct DeleteTableInput: Swift.Equatable {
     }
 }
 
-struct DeleteTableInputBody: Swift.Equatable {
+struct DeleteTableInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let name: Swift.String?
@@ -20208,7 +20208,7 @@ extension DeleteTableOptimizerInput {
     }
 }
 
-public struct DeleteTableOptimizerInput: Swift.Equatable {
+public struct DeleteTableOptimizerInput {
     /// The Catalog ID of the table.
     /// This member is required.
     public var catalogId: Swift.String?
@@ -20236,7 +20236,7 @@ public struct DeleteTableOptimizerInput: Swift.Equatable {
     }
 }
 
-struct DeleteTableOptimizerInputBody: Swift.Equatable {
+struct DeleteTableOptimizerInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -20269,7 +20269,7 @@ extension DeleteTableOptimizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTableOptimizerOutput: Swift.Equatable {
+public struct DeleteTableOptimizerOutput {
 
     public init() { }
 }
@@ -20293,7 +20293,7 @@ extension DeleteTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTableOutput: Swift.Equatable {
+public struct DeleteTableOutput {
 
     public init() { }
 }
@@ -20346,7 +20346,7 @@ extension DeleteTableVersionInput {
     }
 }
 
-public struct DeleteTableVersionInput: Swift.Equatable {
+public struct DeleteTableVersionInput {
     /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -20373,7 +20373,7 @@ public struct DeleteTableVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteTableVersionInputBody: Swift.Equatable {
+struct DeleteTableVersionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -20406,7 +20406,7 @@ extension DeleteTableVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTableVersionOutput: Swift.Equatable {
+public struct DeleteTableVersionOutput {
 
     public init() { }
 }
@@ -20445,7 +20445,7 @@ extension DeleteTriggerInput {
     }
 }
 
-public struct DeleteTriggerInput: Swift.Equatable {
+public struct DeleteTriggerInput {
     /// The name of the trigger to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -20458,7 +20458,7 @@ public struct DeleteTriggerInput: Swift.Equatable {
     }
 }
 
-struct DeleteTriggerInputBody: Swift.Equatable {
+struct DeleteTriggerInputBody {
     let name: Swift.String?
 }
 
@@ -20486,7 +20486,7 @@ extension DeleteTriggerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTriggerOutput: Swift.Equatable {
+public struct DeleteTriggerOutput {
     /// The name of the trigger that was deleted.
     public var name: Swift.String?
 
@@ -20498,7 +20498,7 @@ public struct DeleteTriggerOutput: Swift.Equatable {
     }
 }
 
-struct DeleteTriggerOutputBody: Swift.Equatable {
+struct DeleteTriggerOutputBody {
     let name: Swift.String?
 }
 
@@ -20556,7 +20556,7 @@ extension DeleteUserDefinedFunctionInput {
     }
 }
 
-public struct DeleteUserDefinedFunctionInput: Swift.Equatable {
+public struct DeleteUserDefinedFunctionInput {
     /// The ID of the Data Catalog where the function to be deleted is located. If none is supplied, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database where the function is located.
@@ -20578,7 +20578,7 @@ public struct DeleteUserDefinedFunctionInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserDefinedFunctionInputBody: Swift.Equatable {
+struct DeleteUserDefinedFunctionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let functionName: Swift.String?
@@ -20607,7 +20607,7 @@ extension DeleteUserDefinedFunctionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserDefinedFunctionOutput: Swift.Equatable {
+public struct DeleteUserDefinedFunctionOutput {
 
     public init() { }
 }
@@ -20646,7 +20646,7 @@ extension DeleteWorkflowInput {
     }
 }
 
-public struct DeleteWorkflowInput: Swift.Equatable {
+public struct DeleteWorkflowInput {
     /// Name of the workflow to be deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -20659,7 +20659,7 @@ public struct DeleteWorkflowInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkflowInputBody: Swift.Equatable {
+struct DeleteWorkflowInputBody {
     let name: Swift.String?
 }
 
@@ -20687,7 +20687,7 @@ extension DeleteWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkflowOutput: Swift.Equatable {
+public struct DeleteWorkflowOutput {
     /// Name of the workflow specified in input.
     public var name: Swift.String?
 
@@ -20699,7 +20699,7 @@ public struct DeleteWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkflowOutputBody: Swift.Equatable {
+struct DeleteWorkflowOutputBody {
     let name: Swift.String?
 }
 
@@ -20780,7 +20780,7 @@ extension GlueClientTypes.DeltaTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Delta data store to crawl one or more Delta tables.
-    public struct DeltaTarget: Swift.Equatable {
+    public struct DeltaTarget {
         /// The name of the connection to use to connect to the Delta table target.
         public var connectionName: Swift.String?
         /// Specifies whether the crawler will create native tables, to allow integration with query engines that support querying of the Delta transaction log directly.
@@ -21039,7 +21039,7 @@ extension GlueClientTypes.DevEndpoint: Swift.Codable {
 
 extension GlueClientTypes {
     /// A development endpoint where a developer can remotely debug extract, transform, and load (ETL) scripts.
-    public struct DevEndpoint: Swift.Equatable {
+    public struct DevEndpoint {
         /// A map of arguments used to configure the DevEndpoint. Valid arguments are:
         ///
         /// * "--enable-glue-datacatalog": ""
@@ -21190,7 +21190,7 @@ extension GlueClientTypes.DevEndpointCustomLibraries: Swift.Codable {
 
 extension GlueClientTypes {
     /// Custom libraries to be loaded into a development endpoint.
-    public struct DevEndpointCustomLibraries: Swift.Equatable {
+    public struct DevEndpointCustomLibraries {
         /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint. You can only use pure Java/Scala libraries with a DevEndpoint.
         public var extraJarsS3Path: Swift.String?
         /// The paths to one or more Python libraries in an Amazon Simple Storage Service (Amazon S3) bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma. You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the [pandas](http://pandas.pydata.org/) Python data analysis library, are not currently supported.
@@ -21259,7 +21259,7 @@ extension GlueClientTypes.DirectJDBCSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies the direct JDBC source connection.
-    public struct DirectJDBCSource: Swift.Equatable {
+    public struct DirectJDBCSource {
         /// The connection name of the JDBC source.
         /// This member is required.
         public var connectionName: Swift.String?
@@ -21343,7 +21343,7 @@ extension GlueClientTypes.DirectKafkaSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Apache Kafka data store.
-    public struct DirectKafkaSource: Swift.Equatable {
+    public struct DirectKafkaSource {
         /// Specifies options related to data preview for viewing a sample of your data.
         public var dataPreviewOptions: GlueClientTypes.StreamingDataPreviewOptions?
         /// Whether to automatically determine the schema from the incoming data.
@@ -21419,7 +21419,7 @@ extension GlueClientTypes.DirectKinesisSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a direct Amazon Kinesis data source.
-    public struct DirectKinesisSource: Swift.Equatable {
+    public struct DirectKinesisSource {
         /// Additional options for data preview.
         public var dataPreviewOptions: GlueClientTypes.StreamingDataPreviewOptions?
         /// Whether to automatically determine the schema from the incoming data.
@@ -21489,7 +21489,7 @@ extension GlueClientTypes.DirectSchemaChangePolicy: Swift.Codable {
 
 extension GlueClientTypes {
     /// A policy that specifies update behavior for the crawler.
-    public struct DirectSchemaChangePolicy: Swift.Equatable {
+    public struct DirectSchemaChangePolicy {
         /// Specifies the database that the schema change policy applies to.
         public var database: Swift.String?
         /// Whether to use the specified update behavior when the crawler finds a changed schema.
@@ -21554,7 +21554,7 @@ extension GlueClientTypes.DoubleColumnStatisticsData: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines column statistics supported for floating-point number data columns.
-    public struct DoubleColumnStatisticsData: Swift.Equatable {
+    public struct DoubleColumnStatisticsData {
         /// The highest value in the column.
         public var maximumValue: Swift.Double
         /// The lowest value in the column.
@@ -21651,7 +21651,7 @@ extension GlueClientTypes.DropDuplicates: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that removes rows of repeating data from a data set.
-    public struct DropDuplicates: Swift.Equatable {
+    public struct DropDuplicates {
         /// The name of the columns to be merged or removed if repeating.
         public var columns: [[Swift.String]]?
         /// The data inputs identified by their node names.
@@ -21744,7 +21744,7 @@ extension GlueClientTypes.DropFields: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that chooses the data property keys that you want to drop.
-    public struct DropFields: Swift.Equatable {
+    public struct DropFields {
         /// The data inputs identified by their node names.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -21832,7 +21832,7 @@ extension GlueClientTypes.DropNullFields: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that removes columns from the dataset if all values in the column are 'null'. By default, Glue Studio will recognize null objects, but some values such as empty strings, strings that are "null", -1 integers or other placeholders such as zeros, are not automatically recognized as nulls.
-    public struct DropNullFields: Swift.Equatable {
+    public struct DropNullFields {
         /// The data inputs identified by their node names.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -21959,7 +21959,7 @@ extension GlueClientTypes.DynamicTransform: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies the set of parameters needed to perform the dynamic transform.
-    public struct DynamicTransform: Swift.Equatable {
+    public struct DynamicTransform {
         /// Specifies the name of the function of the dynamic transform.
         /// This member is required.
         public var functionName: Swift.String?
@@ -22039,7 +22039,7 @@ extension GlueClientTypes.DynamoDBCatalogSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a DynamoDB data source in the Glue Data Catalog.
-    public struct DynamoDBCatalogSource: Swift.Equatable {
+    public struct DynamoDBCatalogSource {
         /// The name of the database to read from.
         /// This member is required.
         public var database: Swift.String?
@@ -22097,7 +22097,7 @@ extension GlueClientTypes.DynamoDBTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Amazon DynamoDB table to crawl.
-    public struct DynamoDBTarget: Swift.Equatable {
+    public struct DynamoDBTarget {
         /// The name of the DynamoDB table to crawl.
         public var path: Swift.String?
         /// Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table. A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true.
@@ -22146,7 +22146,7 @@ extension GlueClientTypes.Edge: Swift.Codable {
 
 extension GlueClientTypes {
     /// An edge represents a directed connection between two Glue components that are part of the workflow the edge belongs to.
-    public struct Edge: Swift.Equatable {
+    public struct Edge {
         /// The unique of the node within the workflow where the edge ends.
         public var destinationId: Swift.String?
         /// The unique of the node within the workflow where the edge starts.
@@ -22229,7 +22229,7 @@ extension GlueClientTypes.EncryptionAtRest: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies the encryption-at-rest configuration for the Data Catalog.
-    public struct EncryptionAtRest: Swift.Equatable {
+    public struct EncryptionAtRest {
         /// The encryption-at-rest mode for encrypting Data Catalog data.
         /// This member is required.
         public var catalogEncryptionMode: GlueClientTypes.CatalogEncryptionMode?
@@ -22297,7 +22297,7 @@ extension GlueClientTypes.EncryptionConfiguration: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an encryption configuration.
-    public struct EncryptionConfiguration: Swift.Equatable {
+    public struct EncryptionConfiguration {
         /// The encryption configuration for Amazon CloudWatch.
         public var cloudWatchEncryption: GlueClientTypes.CloudWatchEncryption?
         /// The encryption configuration for job bookmarks.
@@ -22365,7 +22365,7 @@ public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct EntityNotFoundExceptionBody: Swift.Equatable {
+struct EntityNotFoundExceptionBody {
     let message: Swift.String?
     let fromFederationSource: Swift.Bool?
 }
@@ -22412,7 +22412,7 @@ extension GlueClientTypes.ErrorDetail: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains details about an error.
-    public struct ErrorDetail: Swift.Equatable {
+    public struct ErrorDetail {
         /// The code associated with this error.
         public var errorCode: Swift.String?
         /// A message describing the error.
@@ -22457,7 +22457,7 @@ extension GlueClientTypes.ErrorDetails: Swift.Codable {
 
 extension GlueClientTypes {
     /// An object containing error details.
-    public struct ErrorDetails: Swift.Equatable {
+    public struct ErrorDetails {
         /// The error code for an error.
         public var errorCode: Swift.String?
         /// The error message for an error.
@@ -22538,7 +22538,7 @@ extension GlueClientTypes.EvaluateDataQuality: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies your data quality evaluation criteria.
-    public struct EvaluateDataQuality: Swift.Equatable {
+    public struct EvaluateDataQuality {
         /// The inputs of your data quality evaluation.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -22668,7 +22668,7 @@ extension GlueClientTypes.EvaluateDataQualityMultiFrame: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies your data quality evaluation criteria.
-    public struct EvaluateDataQualityMultiFrame: Swift.Equatable {
+    public struct EvaluateDataQualityMultiFrame {
         /// The aliases of all data sources except primary.
         public var additionalDataSources: [Swift.String:Swift.String]?
         /// Options to configure runtime behavior of the transform.
@@ -22736,7 +22736,7 @@ extension GlueClientTypes.EvaluationMetrics: Swift.Codable {
 
 extension GlueClientTypes {
     /// Evaluation metrics provide an estimate of the quality of your machine learning transform.
-    public struct EvaluationMetrics: Swift.Equatable {
+    public struct EvaluationMetrics {
         /// The evaluation metrics for the find matches algorithm.
         public var findMatchesMetrics: GlueClientTypes.FindMatchesMetrics?
         /// The type of machine learning transform.
@@ -22782,7 +22782,7 @@ extension GlueClientTypes.EventBatchingCondition: Swift.Codable {
 
 extension GlueClientTypes {
     /// Batch condition that must be met (specified number of events received or batch time window expired) before EventBridge event trigger fires.
-    public struct EventBatchingCondition: Swift.Equatable {
+    public struct EventBatchingCondition {
         /// Number of events that must be received from Amazon EventBridge before EventBridge event trigger fires.
         /// This member is required.
         public var batchSize: Swift.Int?
@@ -22854,7 +22854,7 @@ extension GlueClientTypes.ExecutionProperty: Swift.Codable {
 
 extension GlueClientTypes {
     /// An execution property of a job.
-    public struct ExecutionProperty: Swift.Equatable {
+    public struct ExecutionProperty {
         /// The maximum number of concurrent runs allowed for the job. The default is 1. An error is returned when this threshold is reached. The maximum value you can specify is controlled by a service limit.
         public var maxConcurrentRuns: Swift.Int
 
@@ -22924,7 +22924,7 @@ extension GlueClientTypes.ExportLabelsTaskRunProperties: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies configuration properties for an exporting labels task run.
-    public struct ExportLabelsTaskRunProperties: Swift.Equatable {
+    public struct ExportLabelsTaskRunProperties {
         /// The Amazon Simple Storage Service (Amazon S3) path where you will export the labels.
         public var outputS3Path: Swift.String?
 
@@ -22965,7 +22965,7 @@ extension GlueClientTypes.FederatedDatabase: Swift.Codable {
 
 extension GlueClientTypes {
     /// A database that points to an entity outside the Glue Data Catalog.
-    public struct FederatedDatabase: Swift.Equatable {
+    public struct FederatedDatabase {
         /// The name of the connection to the external metastore.
         public var connectionName: Swift.String?
         /// A unique identifier for the federated database.
@@ -23029,7 +23029,7 @@ public struct FederatedResourceAlreadyExistsException: ClientRuntime.ModeledErro
     }
 }
 
-struct FederatedResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct FederatedResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
     let associatedGlueResource: Swift.String?
 }
@@ -23082,7 +23082,7 @@ extension GlueClientTypes.FederatedTable: Swift.Codable {
 
 extension GlueClientTypes {
     /// A table that points to an entity outside the Glue Data Catalog.
-    public struct FederatedTable: Swift.Equatable {
+    public struct FederatedTable {
         /// The name of the connection to the external metastore.
         public var connectionName: Swift.String?
         /// A unique identifier for the federated database.
@@ -23191,7 +23191,7 @@ public struct FederationSourceException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct FederationSourceExceptionBody: Swift.Equatable {
+struct FederationSourceExceptionBody {
     let federationSourceErrorCode: GlueClientTypes.FederationSourceErrorCode?
     let message: Swift.String?
 }
@@ -23251,7 +23251,7 @@ public struct FederationSourceRetryableException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct FederationSourceRetryableExceptionBody: Swift.Equatable {
+struct FederationSourceRetryableExceptionBody {
     let message: Swift.String?
 }
 
@@ -23359,7 +23359,7 @@ extension GlueClientTypes.FillMissingValues: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that locates records in the dataset that have missing values and adds a new field with a value determined by imputation. The input data set is used to train the machine learning model that determines what the missing value should be.
-    public struct FillMissingValues: Swift.Equatable {
+    public struct FillMissingValues {
         /// A JSON path to a variable in the data structure for the dataset that is filled.
         public var filledPath: Swift.String?
         /// A JSON path to a variable in the data structure for the dataset that is imputed.
@@ -23451,7 +23451,7 @@ extension GlueClientTypes.Filter: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that splits a dataset into two, based on a filter condition.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// Specifies a filter expression.
         /// This member is required.
         public var filters: [GlueClientTypes.FilterExpression]?
@@ -23526,7 +23526,7 @@ extension GlueClientTypes.FilterExpression: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a filter expression.
-    public struct FilterExpression: Swift.Equatable {
+    public struct FilterExpression {
         /// Whether the expression is to be negated.
         public var negated: Swift.Bool?
         /// The type of operation to perform in the expression.
@@ -23712,7 +23712,7 @@ extension GlueClientTypes.FilterValue: Swift.Codable {
 
 extension GlueClientTypes {
     /// Represents a single entry in the list of values for a FilterExpression.
-    public struct FilterValue: Swift.Equatable {
+    public struct FilterValue {
         /// The type of filter value.
         /// This member is required.
         public var type: GlueClientTypes.FilterValueType?
@@ -23827,7 +23827,7 @@ extension GlueClientTypes.FindMatchesMetrics: Swift.Codable {
 
 extension GlueClientTypes {
     /// The evaluation metrics for the find matches algorithm. The quality of your machine learning transform is measured by getting your transform to predict some matches and comparing the results to known matches from the same dataset. The quality metrics are based on a subset of your data, so they are not precise.
-    public struct FindMatchesMetrics: Swift.Equatable {
+    public struct FindMatchesMetrics {
         /// The area under the precision/recall curve (AUPRC) is a single number measuring the overall quality of the transform, that is independent of the choice made for precision vs. recall. Higher values indicate that you have a more attractive precision vs. recall tradeoff. For more information, see [Precision and recall](https://en.wikipedia.org/wiki/Precision_and_recall) in Wikipedia.
         public var areaUnderPRCurve: Swift.Double?
         /// A list of ColumnImportance structures containing column importance metrics, sorted in order of descending importance.
@@ -23900,7 +23900,7 @@ extension GlueClientTypes.FindMatchesParameters: Swift.Codable {
 
 extension GlueClientTypes {
     /// The parameters to configure the find matches transform.
-    public struct FindMatchesParameters: Swift.Equatable {
+    public struct FindMatchesParameters {
         /// The value that is selected when tuning your transform for a balance between accuracy and cost. A value of 0.5 means that the system balances accuracy and cost concerns. A value of 1.0 means a bias purely for accuracy, which typically results in a higher cost, sometimes substantially higher. A value of 0.0 means a bias purely for cost, which results in a less accurate FindMatches transform, sometimes with unacceptable accuracy. Accuracy measures how well the transform finds true positives and true negatives. Increasing accuracy requires more machine resources and cost. But it also results in increased recall. Cost measures how many compute resources, and thus money, are consumed to run the transform.
         public var accuracyCostTradeoff: Swift.Double?
         /// The value to switch on or off to force the output to match the provided labels from users. If the value is True, the find matches transform forces the output to match the provided labels. The results override the normal conflation results. If the value is False, the find matches transform does not ensure all the labels provided are respected, and the results rely on the trained model. Note that setting this value to true may increase the conflation execution time.
@@ -23959,7 +23959,7 @@ extension GlueClientTypes.FindMatchesTaskRunProperties: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies configuration properties for a Find Matches task run.
-    public struct FindMatchesTaskRunProperties: Swift.Equatable {
+    public struct FindMatchesTaskRunProperties {
         /// The job ID for the Find Matches task run.
         public var jobId: Swift.String?
         /// The name assigned to the job for the Find Matches task run.
@@ -24009,7 +24009,7 @@ extension GetBlueprintInput {
     }
 }
 
-public struct GetBlueprintInput: Swift.Equatable {
+public struct GetBlueprintInput {
     /// Specifies whether or not to include the blueprint in the response.
     public var includeBlueprint: Swift.Bool?
     /// Specifies whether or not to include the parameter specification.
@@ -24030,7 +24030,7 @@ public struct GetBlueprintInput: Swift.Equatable {
     }
 }
 
-struct GetBlueprintInputBody: Swift.Equatable {
+struct GetBlueprintInputBody {
     let name: Swift.String?
     let includeBlueprint: Swift.Bool?
     let includeParameterSpec: Swift.Bool?
@@ -24066,7 +24066,7 @@ extension GetBlueprintOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBlueprintOutput: Swift.Equatable {
+public struct GetBlueprintOutput {
     /// Returns a Blueprint object.
     public var blueprint: GlueClientTypes.Blueprint?
 
@@ -24078,7 +24078,7 @@ public struct GetBlueprintOutput: Swift.Equatable {
     }
 }
 
-struct GetBlueprintOutputBody: Swift.Equatable {
+struct GetBlueprintOutputBody {
     let blueprint: GlueClientTypes.Blueprint?
 }
 
@@ -24132,7 +24132,7 @@ extension GetBlueprintRunInput {
     }
 }
 
-public struct GetBlueprintRunInput: Swift.Equatable {
+public struct GetBlueprintRunInput {
     /// The name of the blueprint.
     /// This member is required.
     public var blueprintName: Swift.String?
@@ -24150,7 +24150,7 @@ public struct GetBlueprintRunInput: Swift.Equatable {
     }
 }
 
-struct GetBlueprintRunInputBody: Swift.Equatable {
+struct GetBlueprintRunInputBody {
     let blueprintName: Swift.String?
     let runId: Swift.String?
 }
@@ -24182,7 +24182,7 @@ extension GetBlueprintRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBlueprintRunOutput: Swift.Equatable {
+public struct GetBlueprintRunOutput {
     /// Returns a BlueprintRun object.
     public var blueprintRun: GlueClientTypes.BlueprintRun?
 
@@ -24194,7 +24194,7 @@ public struct GetBlueprintRunOutput: Swift.Equatable {
     }
 }
 
-struct GetBlueprintRunOutputBody: Swift.Equatable {
+struct GetBlueprintRunOutputBody {
     let blueprintRun: GlueClientTypes.BlueprintRun?
 }
 
@@ -24251,7 +24251,7 @@ extension GetBlueprintRunsInput {
     }
 }
 
-public struct GetBlueprintRunsInput: Swift.Equatable {
+public struct GetBlueprintRunsInput {
     /// The name of the blueprint.
     /// This member is required.
     public var blueprintName: Swift.String?
@@ -24272,7 +24272,7 @@ public struct GetBlueprintRunsInput: Swift.Equatable {
     }
 }
 
-struct GetBlueprintRunsInputBody: Swift.Equatable {
+struct GetBlueprintRunsInputBody {
     let blueprintName: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -24310,7 +24310,7 @@ extension GetBlueprintRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBlueprintRunsOutput: Swift.Equatable {
+public struct GetBlueprintRunsOutput {
     /// Returns a list of BlueprintRun objects.
     public var blueprintRuns: [GlueClientTypes.BlueprintRun]?
     /// A continuation token, if not all blueprint runs have been returned.
@@ -24326,7 +24326,7 @@ public struct GetBlueprintRunsOutput: Swift.Equatable {
     }
 }
 
-struct GetBlueprintRunsOutputBody: Swift.Equatable {
+struct GetBlueprintRunsOutputBody {
     let blueprintRuns: [GlueClientTypes.BlueprintRun]?
     let nextToken: Swift.String?
 }
@@ -24389,7 +24389,7 @@ extension GetCatalogImportStatusInput {
     }
 }
 
-public struct GetCatalogImportStatusInput: Swift.Equatable {
+public struct GetCatalogImportStatusInput {
     /// The ID of the catalog to migrate. Currently, this should be the Amazon Web Services account ID.
     public var catalogId: Swift.String?
 
@@ -24401,7 +24401,7 @@ public struct GetCatalogImportStatusInput: Swift.Equatable {
     }
 }
 
-struct GetCatalogImportStatusInputBody: Swift.Equatable {
+struct GetCatalogImportStatusInputBody {
     let catalogId: Swift.String?
 }
 
@@ -24429,7 +24429,7 @@ extension GetCatalogImportStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCatalogImportStatusOutput: Swift.Equatable {
+public struct GetCatalogImportStatusOutput {
     /// The status of the specified catalog migration.
     public var importStatus: GlueClientTypes.CatalogImportStatus?
 
@@ -24441,7 +24441,7 @@ public struct GetCatalogImportStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetCatalogImportStatusOutputBody: Swift.Equatable {
+struct GetCatalogImportStatusOutputBody {
     let importStatus: GlueClientTypes.CatalogImportStatus?
 }
 
@@ -24489,7 +24489,7 @@ extension GetClassifierInput {
     }
 }
 
-public struct GetClassifierInput: Swift.Equatable {
+public struct GetClassifierInput {
     /// Name of the classifier to retrieve.
     /// This member is required.
     public var name: Swift.String?
@@ -24502,7 +24502,7 @@ public struct GetClassifierInput: Swift.Equatable {
     }
 }
 
-struct GetClassifierInputBody: Swift.Equatable {
+struct GetClassifierInputBody {
     let name: Swift.String?
 }
 
@@ -24530,7 +24530,7 @@ extension GetClassifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetClassifierOutput: Swift.Equatable {
+public struct GetClassifierOutput {
     /// The requested classifier.
     public var classifier: GlueClientTypes.Classifier?
 
@@ -24542,7 +24542,7 @@ public struct GetClassifierOutput: Swift.Equatable {
     }
 }
 
-struct GetClassifierOutputBody: Swift.Equatable {
+struct GetClassifierOutputBody {
     let classifier: GlueClientTypes.Classifier?
 }
 
@@ -24594,7 +24594,7 @@ extension GetClassifiersInput {
     }
 }
 
-public struct GetClassifiersInput: Swift.Equatable {
+public struct GetClassifiersInput {
     /// The size of the list to return (optional).
     public var maxResults: Swift.Int?
     /// An optional continuation token.
@@ -24610,7 +24610,7 @@ public struct GetClassifiersInput: Swift.Equatable {
     }
 }
 
-struct GetClassifiersInputBody: Swift.Equatable {
+struct GetClassifiersInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -24644,7 +24644,7 @@ extension GetClassifiersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetClassifiersOutput: Swift.Equatable {
+public struct GetClassifiersOutput {
     /// The requested list of classifier objects.
     public var classifiers: [GlueClientTypes.Classifier]?
     /// A continuation token.
@@ -24660,7 +24660,7 @@ public struct GetClassifiersOutput: Swift.Equatable {
     }
 }
 
-struct GetClassifiersOutputBody: Swift.Equatable {
+struct GetClassifiersOutputBody {
     let classifiers: [GlueClientTypes.Classifier]?
     let nextToken: Swift.String?
 }
@@ -24742,7 +24742,7 @@ extension GetColumnStatisticsForPartitionInput {
     }
 }
 
-public struct GetColumnStatisticsForPartitionInput: Swift.Equatable {
+public struct GetColumnStatisticsForPartitionInput {
     /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// A list of the column names.
@@ -24774,7 +24774,7 @@ public struct GetColumnStatisticsForPartitionInput: Swift.Equatable {
     }
 }
 
-struct GetColumnStatisticsForPartitionInputBody: Swift.Equatable {
+struct GetColumnStatisticsForPartitionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -24838,7 +24838,7 @@ extension GetColumnStatisticsForPartitionOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetColumnStatisticsForPartitionOutput: Swift.Equatable {
+public struct GetColumnStatisticsForPartitionOutput {
     /// List of ColumnStatistics that failed to be retrieved.
     public var columnStatisticsList: [GlueClientTypes.ColumnStatistics]?
     /// Error occurred during retrieving column statistics data.
@@ -24854,7 +24854,7 @@ public struct GetColumnStatisticsForPartitionOutput: Swift.Equatable {
     }
 }
 
-struct GetColumnStatisticsForPartitionOutputBody: Swift.Equatable {
+struct GetColumnStatisticsForPartitionOutputBody {
     let columnStatisticsList: [GlueClientTypes.ColumnStatistics]?
     let errors: [GlueClientTypes.ColumnError]?
 }
@@ -24942,7 +24942,7 @@ extension GetColumnStatisticsForTableInput {
     }
 }
 
-public struct GetColumnStatisticsForTableInput: Swift.Equatable {
+public struct GetColumnStatisticsForTableInput {
     /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// A list of the column names.
@@ -24969,7 +24969,7 @@ public struct GetColumnStatisticsForTableInput: Swift.Equatable {
     }
 }
 
-struct GetColumnStatisticsForTableInputBody: Swift.Equatable {
+struct GetColumnStatisticsForTableInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -25020,7 +25020,7 @@ extension GetColumnStatisticsForTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetColumnStatisticsForTableOutput: Swift.Equatable {
+public struct GetColumnStatisticsForTableOutput {
     /// List of ColumnStatistics.
     public var columnStatisticsList: [GlueClientTypes.ColumnStatistics]?
     /// List of ColumnStatistics that failed to be retrieved.
@@ -25036,7 +25036,7 @@ public struct GetColumnStatisticsForTableOutput: Swift.Equatable {
     }
 }
 
-struct GetColumnStatisticsForTableOutputBody: Swift.Equatable {
+struct GetColumnStatisticsForTableOutputBody {
     let columnStatisticsList: [GlueClientTypes.ColumnStatistics]?
     let errors: [GlueClientTypes.ColumnError]?
 }
@@ -25109,7 +25109,7 @@ extension GetColumnStatisticsTaskRunInput {
     }
 }
 
-public struct GetColumnStatisticsTaskRunInput: Swift.Equatable {
+public struct GetColumnStatisticsTaskRunInput {
     /// The identifier for the particular column statistics task run.
     /// This member is required.
     public var columnStatisticsTaskRunId: Swift.String?
@@ -25122,7 +25122,7 @@ public struct GetColumnStatisticsTaskRunInput: Swift.Equatable {
     }
 }
 
-struct GetColumnStatisticsTaskRunInputBody: Swift.Equatable {
+struct GetColumnStatisticsTaskRunInputBody {
     let columnStatisticsTaskRunId: Swift.String?
 }
 
@@ -25150,7 +25150,7 @@ extension GetColumnStatisticsTaskRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetColumnStatisticsTaskRunOutput: Swift.Equatable {
+public struct GetColumnStatisticsTaskRunOutput {
     /// A ColumnStatisticsTaskRun object representing the details of the column stats run.
     public var columnStatisticsTaskRun: GlueClientTypes.ColumnStatisticsTaskRun?
 
@@ -25162,7 +25162,7 @@ public struct GetColumnStatisticsTaskRunOutput: Swift.Equatable {
     }
 }
 
-struct GetColumnStatisticsTaskRunOutputBody: Swift.Equatable {
+struct GetColumnStatisticsTaskRunOutputBody {
     let columnStatisticsTaskRun: GlueClientTypes.ColumnStatisticsTaskRun?
 }
 
@@ -25223,7 +25223,7 @@ extension GetColumnStatisticsTaskRunsInput {
     }
 }
 
-public struct GetColumnStatisticsTaskRunsInput: Swift.Equatable {
+public struct GetColumnStatisticsTaskRunsInput {
     /// The name of the database where the table resides.
     /// This member is required.
     public var databaseName: Swift.String?
@@ -25249,7 +25249,7 @@ public struct GetColumnStatisticsTaskRunsInput: Swift.Equatable {
     }
 }
 
-struct GetColumnStatisticsTaskRunsInputBody: Swift.Equatable {
+struct GetColumnStatisticsTaskRunsInputBody {
     let databaseName: Swift.String?
     let tableName: Swift.String?
     let maxResults: Swift.Int?
@@ -25291,7 +25291,7 @@ extension GetColumnStatisticsTaskRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetColumnStatisticsTaskRunsOutput: Swift.Equatable {
+public struct GetColumnStatisticsTaskRunsOutput {
     /// A list of column statistics task runs.
     public var columnStatisticsTaskRuns: [GlueClientTypes.ColumnStatisticsTaskRun]?
     /// A continuation token, if not all task runs have yet been returned.
@@ -25307,7 +25307,7 @@ public struct GetColumnStatisticsTaskRunsOutput: Swift.Equatable {
     }
 }
 
-struct GetColumnStatisticsTaskRunsOutputBody: Swift.Equatable {
+struct GetColumnStatisticsTaskRunsOutputBody {
     let columnStatisticsTaskRuns: [GlueClientTypes.ColumnStatisticsTaskRun]?
     let nextToken: Swift.String?
 }
@@ -25375,7 +25375,7 @@ extension GetConnectionInput {
     }
 }
 
-public struct GetConnectionInput: Swift.Equatable {
+public struct GetConnectionInput {
     /// The ID of the Data Catalog in which the connection resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// Allows you to retrieve the connection metadata without returning the password. For instance, the Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
@@ -25396,7 +25396,7 @@ public struct GetConnectionInput: Swift.Equatable {
     }
 }
 
-struct GetConnectionInputBody: Swift.Equatable {
+struct GetConnectionInputBody {
     let catalogId: Swift.String?
     let name: Swift.String?
     let hidePassword: Swift.Bool?
@@ -25432,7 +25432,7 @@ extension GetConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectionOutput: Swift.Equatable {
+public struct GetConnectionOutput {
     /// The requested connection definition.
     public var connection: GlueClientTypes.Connection?
 
@@ -25444,7 +25444,7 @@ public struct GetConnectionOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectionOutputBody: Swift.Equatable {
+struct GetConnectionOutputBody {
     let connection: GlueClientTypes.Connection?
 }
 
@@ -25513,7 +25513,7 @@ extension GlueClientTypes.GetConnectionsFilter: Swift.Codable {
 
 extension GlueClientTypes {
     /// Filters the connection definitions that are returned by the GetConnections API operation.
-    public struct GetConnectionsFilter: Swift.Equatable {
+    public struct GetConnectionsFilter {
         /// The type of connections to return. Currently, SFTP is not supported.
         public var connectionType: GlueClientTypes.ConnectionType?
         /// A criteria string that must match the criteria recorded in the connection definition for that connection definition to be returned.
@@ -25567,7 +25567,7 @@ extension GetConnectionsInput {
     }
 }
 
-public struct GetConnectionsInput: Swift.Equatable {
+public struct GetConnectionsInput {
     /// The ID of the Data Catalog in which the connections reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// A filter that controls which connections are returned.
@@ -25595,7 +25595,7 @@ public struct GetConnectionsInput: Swift.Equatable {
     }
 }
 
-struct GetConnectionsInputBody: Swift.Equatable {
+struct GetConnectionsInputBody {
     let catalogId: Swift.String?
     let filter: GlueClientTypes.GetConnectionsFilter?
     let hidePassword: Swift.Bool?
@@ -25641,7 +25641,7 @@ extension GetConnectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectionsOutput: Swift.Equatable {
+public struct GetConnectionsOutput {
     /// A list of requested connection definitions.
     public var connectionList: [GlueClientTypes.Connection]?
     /// A continuation token, if the list of connections returned does not include the last of the filtered connections.
@@ -25657,7 +25657,7 @@ public struct GetConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectionsOutputBody: Swift.Equatable {
+struct GetConnectionsOutputBody {
     let connectionList: [GlueClientTypes.Connection]?
     let nextToken: Swift.String?
 }
@@ -25720,7 +25720,7 @@ extension GetCrawlerInput {
     }
 }
 
-public struct GetCrawlerInput: Swift.Equatable {
+public struct GetCrawlerInput {
     /// The name of the crawler to retrieve metadata for.
     /// This member is required.
     public var name: Swift.String?
@@ -25733,7 +25733,7 @@ public struct GetCrawlerInput: Swift.Equatable {
     }
 }
 
-struct GetCrawlerInputBody: Swift.Equatable {
+struct GetCrawlerInputBody {
     let name: Swift.String?
 }
 
@@ -25780,7 +25780,7 @@ extension GetCrawlerMetricsInput {
     }
 }
 
-public struct GetCrawlerMetricsInput: Swift.Equatable {
+public struct GetCrawlerMetricsInput {
     /// A list of the names of crawlers about which to retrieve metrics.
     public var crawlerNameList: [Swift.String]?
     /// The maximum size of a list to return.
@@ -25800,7 +25800,7 @@ public struct GetCrawlerMetricsInput: Swift.Equatable {
     }
 }
 
-struct GetCrawlerMetricsInputBody: Swift.Equatable {
+struct GetCrawlerMetricsInputBody {
     let crawlerNameList: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -25847,7 +25847,7 @@ extension GetCrawlerMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCrawlerMetricsOutput: Swift.Equatable {
+public struct GetCrawlerMetricsOutput {
     /// A list of metrics for the specified crawler.
     public var crawlerMetricsList: [GlueClientTypes.CrawlerMetrics]?
     /// A continuation token, if the returned list does not contain the last metric available.
@@ -25863,7 +25863,7 @@ public struct GetCrawlerMetricsOutput: Swift.Equatable {
     }
 }
 
-struct GetCrawlerMetricsOutputBody: Swift.Equatable {
+struct GetCrawlerMetricsOutputBody {
     let crawlerMetricsList: [GlueClientTypes.CrawlerMetrics]?
     let nextToken: Swift.String?
 }
@@ -25915,7 +25915,7 @@ extension GetCrawlerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCrawlerOutput: Swift.Equatable {
+public struct GetCrawlerOutput {
     /// The metadata for the specified crawler.
     public var crawler: GlueClientTypes.Crawler?
 
@@ -25927,7 +25927,7 @@ public struct GetCrawlerOutput: Swift.Equatable {
     }
 }
 
-struct GetCrawlerOutputBody: Swift.Equatable {
+struct GetCrawlerOutputBody {
     let crawler: GlueClientTypes.Crawler?
 }
 
@@ -25979,7 +25979,7 @@ extension GetCrawlersInput {
     }
 }
 
-public struct GetCrawlersInput: Swift.Equatable {
+public struct GetCrawlersInput {
     /// The number of crawlers to return on each call.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation request.
@@ -25995,7 +25995,7 @@ public struct GetCrawlersInput: Swift.Equatable {
     }
 }
 
-struct GetCrawlersInputBody: Swift.Equatable {
+struct GetCrawlersInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -26029,7 +26029,7 @@ extension GetCrawlersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCrawlersOutput: Swift.Equatable {
+public struct GetCrawlersOutput {
     /// A list of crawler metadata.
     public var crawlers: [GlueClientTypes.Crawler]?
     /// A continuation token, if the returned list has not reached the end of those defined in this customer account.
@@ -26045,7 +26045,7 @@ public struct GetCrawlersOutput: Swift.Equatable {
     }
 }
 
-struct GetCrawlersOutputBody: Swift.Equatable {
+struct GetCrawlersOutputBody {
     let crawlers: [GlueClientTypes.Crawler]?
     let nextToken: Swift.String?
 }
@@ -26105,7 +26105,7 @@ extension GetCustomEntityTypeInput {
     }
 }
 
-public struct GetCustomEntityTypeInput: Swift.Equatable {
+public struct GetCustomEntityTypeInput {
     /// The name of the custom pattern that you want to retrieve.
     /// This member is required.
     public var name: Swift.String?
@@ -26118,7 +26118,7 @@ public struct GetCustomEntityTypeInput: Swift.Equatable {
     }
 }
 
-struct GetCustomEntityTypeInputBody: Swift.Equatable {
+struct GetCustomEntityTypeInputBody {
     let name: Swift.String?
 }
 
@@ -26150,7 +26150,7 @@ extension GetCustomEntityTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCustomEntityTypeOutput: Swift.Equatable {
+public struct GetCustomEntityTypeOutput {
     /// A list of context words if specified when you created the custom pattern. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data.
     public var contextWords: [Swift.String]?
     /// The name of the custom pattern that you retrieved.
@@ -26170,7 +26170,7 @@ public struct GetCustomEntityTypeOutput: Swift.Equatable {
     }
 }
 
-struct GetCustomEntityTypeOutputBody: Swift.Equatable {
+struct GetCustomEntityTypeOutputBody {
     let name: Swift.String?
     let regexString: Swift.String?
     let contextWords: [Swift.String]?
@@ -26238,7 +26238,7 @@ extension GetDataCatalogEncryptionSettingsInput {
     }
 }
 
-public struct GetDataCatalogEncryptionSettingsInput: Swift.Equatable {
+public struct GetDataCatalogEncryptionSettingsInput {
     /// The ID of the Data Catalog to retrieve the security configuration for. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
 
@@ -26250,7 +26250,7 @@ public struct GetDataCatalogEncryptionSettingsInput: Swift.Equatable {
     }
 }
 
-struct GetDataCatalogEncryptionSettingsInputBody: Swift.Equatable {
+struct GetDataCatalogEncryptionSettingsInputBody {
     let catalogId: Swift.String?
 }
 
@@ -26278,7 +26278,7 @@ extension GetDataCatalogEncryptionSettingsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetDataCatalogEncryptionSettingsOutput: Swift.Equatable {
+public struct GetDataCatalogEncryptionSettingsOutput {
     /// The requested security configuration.
     public var dataCatalogEncryptionSettings: GlueClientTypes.DataCatalogEncryptionSettings?
 
@@ -26290,7 +26290,7 @@ public struct GetDataCatalogEncryptionSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetDataCatalogEncryptionSettingsOutputBody: Swift.Equatable {
+struct GetDataCatalogEncryptionSettingsOutputBody {
     let dataCatalogEncryptionSettings: GlueClientTypes.DataCatalogEncryptionSettings?
 }
 
@@ -26339,7 +26339,7 @@ extension GetDataQualityResultInput {
     }
 }
 
-public struct GetDataQualityResultInput: Swift.Equatable {
+public struct GetDataQualityResultInput {
     /// A unique result ID for the data quality result.
     /// This member is required.
     public var resultId: Swift.String?
@@ -26352,7 +26352,7 @@ public struct GetDataQualityResultInput: Swift.Equatable {
     }
 }
 
-struct GetDataQualityResultInputBody: Swift.Equatable {
+struct GetDataQualityResultInputBody {
     let resultId: Swift.String?
 }
 
@@ -26404,7 +26404,7 @@ extension GetDataQualityResultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataQualityResultOutput: Swift.Equatable {
+public struct GetDataQualityResultOutput {
     /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
     public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
     /// The date and time when the run for this data quality result was completed.
@@ -26464,7 +26464,7 @@ public struct GetDataQualityResultOutput: Swift.Equatable {
     }
 }
 
-struct GetDataQualityResultOutputBody: Swift.Equatable {
+struct GetDataQualityResultOutputBody {
     let resultId: Swift.String?
     let score: Swift.Double?
     let dataSource: GlueClientTypes.DataSource?
@@ -26589,7 +26589,7 @@ extension GetDataQualityRuleRecommendationRunInput {
     }
 }
 
-public struct GetDataQualityRuleRecommendationRunInput: Swift.Equatable {
+public struct GetDataQualityRuleRecommendationRunInput {
     /// The unique run identifier associated with this run.
     /// This member is required.
     public var runId: Swift.String?
@@ -26602,7 +26602,7 @@ public struct GetDataQualityRuleRecommendationRunInput: Swift.Equatable {
     }
 }
 
-struct GetDataQualityRuleRecommendationRunInputBody: Swift.Equatable {
+struct GetDataQualityRuleRecommendationRunInputBody {
     let runId: Swift.String?
 }
 
@@ -26654,7 +26654,7 @@ extension GetDataQualityRuleRecommendationRunOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct GetDataQualityRuleRecommendationRunOutput: Swift.Equatable {
+public struct GetDataQualityRuleRecommendationRunOutput {
     /// The date and time when this run was completed.
     public var completedOn: ClientRuntime.Date?
     /// The name of the ruleset that was created by the run.
@@ -26714,7 +26714,7 @@ public struct GetDataQualityRuleRecommendationRunOutput: Swift.Equatable {
     }
 }
 
-struct GetDataQualityRuleRecommendationRunOutputBody: Swift.Equatable {
+struct GetDataQualityRuleRecommendationRunOutputBody {
     let runId: Swift.String?
     let dataSource: GlueClientTypes.DataSource?
     let role: Swift.String?
@@ -26812,7 +26812,7 @@ extension GetDataQualityRulesetEvaluationRunInput {
     }
 }
 
-public struct GetDataQualityRulesetEvaluationRunInput: Swift.Equatable {
+public struct GetDataQualityRulesetEvaluationRunInput {
     /// The unique run identifier associated with this run.
     /// This member is required.
     public var runId: Swift.String?
@@ -26825,7 +26825,7 @@ public struct GetDataQualityRulesetEvaluationRunInput: Swift.Equatable {
     }
 }
 
-struct GetDataQualityRulesetEvaluationRunInputBody: Swift.Equatable {
+struct GetDataQualityRulesetEvaluationRunInputBody {
     let runId: Swift.String?
 }
 
@@ -26881,7 +26881,7 @@ extension GetDataQualityRulesetEvaluationRunOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetDataQualityRulesetEvaluationRunOutput: Swift.Equatable {
+public struct GetDataQualityRulesetEvaluationRunOutput {
     /// A map of reference strings to additional data sources you can specify for an evaluation run.
     public var additionalDataSources: [Swift.String:GlueClientTypes.DataSource]?
     /// Additional run options you can specify for an evaluation run.
@@ -26949,7 +26949,7 @@ public struct GetDataQualityRulesetEvaluationRunOutput: Swift.Equatable {
     }
 }
 
-struct GetDataQualityRulesetEvaluationRunOutputBody: Swift.Equatable {
+struct GetDataQualityRulesetEvaluationRunOutputBody {
     let runId: Swift.String?
     let dataSource: GlueClientTypes.DataSource?
     let role: Swift.String?
@@ -27082,7 +27082,7 @@ extension GetDataQualityRulesetInput {
     }
 }
 
-public struct GetDataQualityRulesetInput: Swift.Equatable {
+public struct GetDataQualityRulesetInput {
     /// The name of the ruleset.
     /// This member is required.
     public var name: Swift.String?
@@ -27095,7 +27095,7 @@ public struct GetDataQualityRulesetInput: Swift.Equatable {
     }
 }
 
-struct GetDataQualityRulesetInputBody: Swift.Equatable {
+struct GetDataQualityRulesetInputBody {
     let name: Swift.String?
 }
 
@@ -27135,7 +27135,7 @@ extension GetDataQualityRulesetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataQualityRulesetOutput: Swift.Equatable {
+public struct GetDataQualityRulesetOutput {
     /// A timestamp. The time and date that this data quality ruleset was created.
     public var createdOn: ClientRuntime.Date?
     /// A description of the ruleset.
@@ -27171,7 +27171,7 @@ public struct GetDataQualityRulesetOutput: Swift.Equatable {
     }
 }
 
-struct GetDataQualityRulesetOutputBody: Swift.Equatable {
+struct GetDataQualityRulesetOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let ruleset: Swift.String?
@@ -27249,7 +27249,7 @@ extension GetDatabaseInput {
     }
 }
 
-public struct GetDatabaseInput: Swift.Equatable {
+public struct GetDatabaseInput {
     /// The ID of the Data Catalog in which the database resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the database to retrieve. For Hive compatibility, this should be all lowercase.
@@ -27266,7 +27266,7 @@ public struct GetDatabaseInput: Swift.Equatable {
     }
 }
 
-struct GetDatabaseInputBody: Swift.Equatable {
+struct GetDatabaseInputBody {
     let catalogId: Swift.String?
     let name: Swift.String?
 }
@@ -27298,7 +27298,7 @@ extension GetDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDatabaseOutput: Swift.Equatable {
+public struct GetDatabaseOutput {
     /// The definition of the specified database in the Data Catalog.
     public var database: GlueClientTypes.Database?
 
@@ -27310,7 +27310,7 @@ public struct GetDatabaseOutput: Swift.Equatable {
     }
 }
 
-struct GetDatabaseOutputBody: Swift.Equatable {
+struct GetDatabaseOutputBody {
     let database: GlueClientTypes.Database?
 }
 
@@ -27374,7 +27374,7 @@ extension GetDatabasesInput {
     }
 }
 
-public struct GetDatabasesInput: Swift.Equatable {
+public struct GetDatabasesInput {
     /// The ID of the Data Catalog from which to retrieve Databases. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The maximum number of databases to return in one response.
@@ -27404,7 +27404,7 @@ public struct GetDatabasesInput: Swift.Equatable {
     }
 }
 
-struct GetDatabasesInputBody: Swift.Equatable {
+struct GetDatabasesInputBody {
     let catalogId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -27446,7 +27446,7 @@ extension GetDatabasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDatabasesOutput: Swift.Equatable {
+public struct GetDatabasesOutput {
     /// A list of Database objects from the specified catalog.
     /// This member is required.
     public var databaseList: [GlueClientTypes.Database]?
@@ -27463,7 +27463,7 @@ public struct GetDatabasesOutput: Swift.Equatable {
     }
 }
 
-struct GetDatabasesOutputBody: Swift.Equatable {
+struct GetDatabasesOutputBody {
     let databaseList: [GlueClientTypes.Database]?
     let nextToken: Swift.String?
 }
@@ -27526,7 +27526,7 @@ extension GetDataflowGraphInput {
     }
 }
 
-public struct GetDataflowGraphInput: Swift.Equatable {
+public struct GetDataflowGraphInput {
     /// The Python script to transform.
     public var pythonScript: Swift.String?
 
@@ -27538,7 +27538,7 @@ public struct GetDataflowGraphInput: Swift.Equatable {
     }
 }
 
-struct GetDataflowGraphInputBody: Swift.Equatable {
+struct GetDataflowGraphInputBody {
     let pythonScript: Swift.String?
 }
 
@@ -27568,7 +27568,7 @@ extension GetDataflowGraphOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataflowGraphOutput: Swift.Equatable {
+public struct GetDataflowGraphOutput {
     /// A list of the edges in the resulting DAG.
     public var dagEdges: [GlueClientTypes.CodeGenEdge]?
     /// A list of the nodes in the resulting DAG.
@@ -27584,7 +27584,7 @@ public struct GetDataflowGraphOutput: Swift.Equatable {
     }
 }
 
-struct GetDataflowGraphOutputBody: Swift.Equatable {
+struct GetDataflowGraphOutputBody {
     let dagNodes: [GlueClientTypes.CodeGenNode]?
     let dagEdges: [GlueClientTypes.CodeGenEdge]?
 }
@@ -27655,7 +27655,7 @@ extension GetDevEndpointInput {
     }
 }
 
-public struct GetDevEndpointInput: Swift.Equatable {
+public struct GetDevEndpointInput {
     /// Name of the DevEndpoint to retrieve information for.
     /// This member is required.
     public var endpointName: Swift.String?
@@ -27668,7 +27668,7 @@ public struct GetDevEndpointInput: Swift.Equatable {
     }
 }
 
-struct GetDevEndpointInputBody: Swift.Equatable {
+struct GetDevEndpointInputBody {
     let endpointName: Swift.String?
 }
 
@@ -27696,7 +27696,7 @@ extension GetDevEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDevEndpointOutput: Swift.Equatable {
+public struct GetDevEndpointOutput {
     /// A DevEndpoint definition.
     public var devEndpoint: GlueClientTypes.DevEndpoint?
 
@@ -27708,7 +27708,7 @@ public struct GetDevEndpointOutput: Swift.Equatable {
     }
 }
 
-struct GetDevEndpointOutputBody: Swift.Equatable {
+struct GetDevEndpointOutputBody {
     let devEndpoint: GlueClientTypes.DevEndpoint?
 }
 
@@ -27762,7 +27762,7 @@ extension GetDevEndpointsInput {
     }
 }
 
-public struct GetDevEndpointsInput: Swift.Equatable {
+public struct GetDevEndpointsInput {
     /// The maximum size of information to return.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation call.
@@ -27778,7 +27778,7 @@ public struct GetDevEndpointsInput: Swift.Equatable {
     }
 }
 
-struct GetDevEndpointsInputBody: Swift.Equatable {
+struct GetDevEndpointsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -27812,7 +27812,7 @@ extension GetDevEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDevEndpointsOutput: Swift.Equatable {
+public struct GetDevEndpointsOutput {
     /// A list of DevEndpoint definitions.
     public var devEndpoints: [GlueClientTypes.DevEndpoint]?
     /// A continuation token, if not all DevEndpoint definitions have yet been returned.
@@ -27828,7 +27828,7 @@ public struct GetDevEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct GetDevEndpointsOutputBody: Swift.Equatable {
+struct GetDevEndpointsOutputBody {
     let devEndpoints: [GlueClientTypes.DevEndpoint]?
     let nextToken: Swift.String?
 }
@@ -27895,7 +27895,7 @@ extension GetJobBookmarkInput {
     }
 }
 
-public struct GetJobBookmarkInput: Swift.Equatable {
+public struct GetJobBookmarkInput {
     /// The name of the job in question.
     /// This member is required.
     public var jobName: Swift.String?
@@ -27912,7 +27912,7 @@ public struct GetJobBookmarkInput: Swift.Equatable {
     }
 }
 
-struct GetJobBookmarkInputBody: Swift.Equatable {
+struct GetJobBookmarkInputBody {
     let jobName: Swift.String?
     let runId: Swift.String?
 }
@@ -27944,7 +27944,7 @@ extension GetJobBookmarkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobBookmarkOutput: Swift.Equatable {
+public struct GetJobBookmarkOutput {
     /// A structure that defines a point that a job can resume processing.
     public var jobBookmarkEntry: GlueClientTypes.JobBookmarkEntry?
 
@@ -27956,7 +27956,7 @@ public struct GetJobBookmarkOutput: Swift.Equatable {
     }
 }
 
-struct GetJobBookmarkOutputBody: Swift.Equatable {
+struct GetJobBookmarkOutputBody {
     let jobBookmarkEntry: GlueClientTypes.JobBookmarkEntry?
 }
 
@@ -28007,7 +28007,7 @@ extension GetJobInput {
     }
 }
 
-public struct GetJobInput: Swift.Equatable {
+public struct GetJobInput {
     /// The name of the job definition to retrieve.
     /// This member is required.
     public var jobName: Swift.String?
@@ -28020,7 +28020,7 @@ public struct GetJobInput: Swift.Equatable {
     }
 }
 
-struct GetJobInputBody: Swift.Equatable {
+struct GetJobInputBody {
     let jobName: Swift.String?
 }
 
@@ -28048,7 +28048,7 @@ extension GetJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobOutput: Swift.Equatable {
+public struct GetJobOutput {
     /// The requested job definition.
     public var job: GlueClientTypes.Job?
 
@@ -28060,7 +28060,7 @@ public struct GetJobOutput: Swift.Equatable {
     }
 }
 
-struct GetJobOutputBody: Swift.Equatable {
+struct GetJobOutputBody {
     let job: GlueClientTypes.Job?
 }
 
@@ -28118,7 +28118,7 @@ extension GetJobRunInput {
     }
 }
 
-public struct GetJobRunInput: Swift.Equatable {
+public struct GetJobRunInput {
     /// Name of the job definition being run.
     /// This member is required.
     public var jobName: Swift.String?
@@ -28140,7 +28140,7 @@ public struct GetJobRunInput: Swift.Equatable {
     }
 }
 
-struct GetJobRunInputBody: Swift.Equatable {
+struct GetJobRunInputBody {
     let jobName: Swift.String?
     let runId: Swift.String?
     let predecessorsIncluded: Swift.Bool?
@@ -28176,7 +28176,7 @@ extension GetJobRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobRunOutput: Swift.Equatable {
+public struct GetJobRunOutput {
     /// The requested job-run metadata.
     public var jobRun: GlueClientTypes.JobRun?
 
@@ -28188,7 +28188,7 @@ public struct GetJobRunOutput: Swift.Equatable {
     }
 }
 
-struct GetJobRunOutputBody: Swift.Equatable {
+struct GetJobRunOutputBody {
     let jobRun: GlueClientTypes.JobRun?
 }
 
@@ -28246,7 +28246,7 @@ extension GetJobRunsInput {
     }
 }
 
-public struct GetJobRunsInput: Swift.Equatable {
+public struct GetJobRunsInput {
     /// The name of the job definition for which to retrieve all job runs.
     /// This member is required.
     public var jobName: Swift.String?
@@ -28267,7 +28267,7 @@ public struct GetJobRunsInput: Swift.Equatable {
     }
 }
 
-struct GetJobRunsInputBody: Swift.Equatable {
+struct GetJobRunsInputBody {
     let jobName: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -28305,7 +28305,7 @@ extension GetJobRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobRunsOutput: Swift.Equatable {
+public struct GetJobRunsOutput {
     /// A list of job-run metadata objects.
     public var jobRuns: [GlueClientTypes.JobRun]?
     /// A continuation token, if not all requested job runs have been returned.
@@ -28321,7 +28321,7 @@ public struct GetJobRunsOutput: Swift.Equatable {
     }
 }
 
-struct GetJobRunsOutputBody: Swift.Equatable {
+struct GetJobRunsOutputBody {
     let jobRuns: [GlueClientTypes.JobRun]?
     let nextToken: Swift.String?
 }
@@ -28388,7 +28388,7 @@ extension GetJobsInput {
     }
 }
 
-public struct GetJobsInput: Swift.Equatable {
+public struct GetJobsInput {
     /// The maximum size of the response.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation call.
@@ -28404,7 +28404,7 @@ public struct GetJobsInput: Swift.Equatable {
     }
 }
 
-struct GetJobsInputBody: Swift.Equatable {
+struct GetJobsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -28438,7 +28438,7 @@ extension GetJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobsOutput: Swift.Equatable {
+public struct GetJobsOutput {
     /// A list of job definitions.
     public var jobs: [GlueClientTypes.Job]?
     /// A continuation token, if not all job definitions have yet been returned.
@@ -28454,7 +28454,7 @@ public struct GetJobsOutput: Swift.Equatable {
     }
 }
 
-struct GetJobsOutputBody: Swift.Equatable {
+struct GetJobsOutputBody {
     let jobs: [GlueClientTypes.Job]?
     let nextToken: Swift.String?
 }
@@ -28521,7 +28521,7 @@ extension GetMLTaskRunInput {
     }
 }
 
-public struct GetMLTaskRunInput: Swift.Equatable {
+public struct GetMLTaskRunInput {
     /// The unique identifier of the task run.
     /// This member is required.
     public var taskRunId: Swift.String?
@@ -28539,7 +28539,7 @@ public struct GetMLTaskRunInput: Swift.Equatable {
     }
 }
 
-struct GetMLTaskRunInputBody: Swift.Equatable {
+struct GetMLTaskRunInputBody {
     let transformId: Swift.String?
     let taskRunId: Swift.String?
 }
@@ -28589,7 +28589,7 @@ extension GetMLTaskRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMLTaskRunOutput: Swift.Equatable {
+public struct GetMLTaskRunOutput {
     /// The date and time when this task run was completed.
     public var completedOn: ClientRuntime.Date?
     /// The error strings that are associated with the task run.
@@ -28637,7 +28637,7 @@ public struct GetMLTaskRunOutput: Swift.Equatable {
     }
 }
 
-struct GetMLTaskRunOutputBody: Swift.Equatable {
+struct GetMLTaskRunOutputBody {
     let transformId: Swift.String?
     let taskRunId: Swift.String?
     let status: GlueClientTypes.TaskStatusType?
@@ -28739,7 +28739,7 @@ extension GetMLTaskRunsInput {
     }
 }
 
-public struct GetMLTaskRunsInput: Swift.Equatable {
+public struct GetMLTaskRunsInput {
     /// The filter criteria, in the TaskRunFilterCriteria structure, for the task run.
     public var filter: GlueClientTypes.TaskRunFilterCriteria?
     /// The maximum number of results to return.
@@ -28768,7 +28768,7 @@ public struct GetMLTaskRunsInput: Swift.Equatable {
     }
 }
 
-struct GetMLTaskRunsInputBody: Swift.Equatable {
+struct GetMLTaskRunsInputBody {
     let transformId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -28814,7 +28814,7 @@ extension GetMLTaskRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMLTaskRunsOutput: Swift.Equatable {
+public struct GetMLTaskRunsOutput {
     /// A pagination token, if more results are available.
     public var nextToken: Swift.String?
     /// A list of task runs that are associated with the transform.
@@ -28830,7 +28830,7 @@ public struct GetMLTaskRunsOutput: Swift.Equatable {
     }
 }
 
-struct GetMLTaskRunsOutputBody: Swift.Equatable {
+struct GetMLTaskRunsOutputBody {
     let taskRuns: [GlueClientTypes.TaskRun]?
     let nextToken: Swift.String?
 }
@@ -28893,7 +28893,7 @@ extension GetMLTransformInput {
     }
 }
 
-public struct GetMLTransformInput: Swift.Equatable {
+public struct GetMLTransformInput {
     /// The unique identifier of the transform, generated at the time that the transform was created.
     /// This member is required.
     public var transformId: Swift.String?
@@ -28906,7 +28906,7 @@ public struct GetMLTransformInput: Swift.Equatable {
     }
 }
 
-struct GetMLTransformInputBody: Swift.Equatable {
+struct GetMLTransformInputBody {
     let transformId: Swift.String?
 }
 
@@ -28970,7 +28970,7 @@ extension GetMLTransformOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMLTransformOutput: Swift.Equatable {
+public struct GetMLTransformOutput {
     /// The date and time when the transform was created.
     public var createdOn: ClientRuntime.Date?
     /// A description of the transform.
@@ -29060,7 +29060,7 @@ public struct GetMLTransformOutput: Swift.Equatable {
     }
 }
 
-struct GetMLTransformOutputBody: Swift.Equatable {
+struct GetMLTransformOutputBody {
     let transformId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -29212,7 +29212,7 @@ extension GetMLTransformsInput {
     }
 }
 
-public struct GetMLTransformsInput: Swift.Equatable {
+public struct GetMLTransformsInput {
     /// The filter transformation criteria.
     public var filter: GlueClientTypes.TransformFilterCriteria?
     /// The maximum number of results to return.
@@ -29236,7 +29236,7 @@ public struct GetMLTransformsInput: Swift.Equatable {
     }
 }
 
-struct GetMLTransformsInputBody: Swift.Equatable {
+struct GetMLTransformsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filter: GlueClientTypes.TransformFilterCriteria?
@@ -29278,7 +29278,7 @@ extension GetMLTransformsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMLTransformsOutput: Swift.Equatable {
+public struct GetMLTransformsOutput {
     /// A pagination token, if more results are available.
     public var nextToken: Swift.String?
     /// A list of machine learning transforms.
@@ -29295,7 +29295,7 @@ public struct GetMLTransformsOutput: Swift.Equatable {
     }
 }
 
-struct GetMLTransformsOutputBody: Swift.Equatable {
+struct GetMLTransformsOutputBody {
     let transforms: [GlueClientTypes.MLTransform]?
     let nextToken: Swift.String?
 }
@@ -29369,7 +29369,7 @@ extension GetMappingInput {
     }
 }
 
-public struct GetMappingInput: Swift.Equatable {
+public struct GetMappingInput {
     /// Parameters for the mapping.
     public var location: GlueClientTypes.Location?
     /// A list of target tables.
@@ -29390,7 +29390,7 @@ public struct GetMappingInput: Swift.Equatable {
     }
 }
 
-struct GetMappingInputBody: Swift.Equatable {
+struct GetMappingInputBody {
     let source: GlueClientTypes.CatalogEntry?
     let sinks: [GlueClientTypes.CatalogEntry]?
     let location: GlueClientTypes.Location?
@@ -29435,7 +29435,7 @@ extension GetMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMappingOutput: Swift.Equatable {
+public struct GetMappingOutput {
     /// A list of mappings to the specified targets.
     /// This member is required.
     public var mapping: [GlueClientTypes.MappingEntry]?
@@ -29448,7 +29448,7 @@ public struct GetMappingOutput: Swift.Equatable {
     }
 }
 
-struct GetMappingOutputBody: Swift.Equatable {
+struct GetMappingOutputBody {
     let mapping: [GlueClientTypes.MappingEntry]?
 }
 
@@ -29519,7 +29519,7 @@ extension GetPartitionIndexesInput {
     }
 }
 
-public struct GetPartitionIndexesInput: Swift.Equatable {
+public struct GetPartitionIndexesInput {
     /// The catalog ID where the table resides.
     public var catalogId: Swift.String?
     /// Specifies the name of a database from which you want to retrieve partition indexes.
@@ -29545,7 +29545,7 @@ public struct GetPartitionIndexesInput: Swift.Equatable {
     }
 }
 
-struct GetPartitionIndexesInputBody: Swift.Equatable {
+struct GetPartitionIndexesInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -29587,7 +29587,7 @@ extension GetPartitionIndexesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPartitionIndexesOutput: Swift.Equatable {
+public struct GetPartitionIndexesOutput {
     /// A continuation token, present if the current list segment is not the last.
     public var nextToken: Swift.String?
     /// A list of index descriptors.
@@ -29603,7 +29603,7 @@ public struct GetPartitionIndexesOutput: Swift.Equatable {
     }
 }
 
-struct GetPartitionIndexesOutputBody: Swift.Equatable {
+struct GetPartitionIndexesOutputBody {
     let partitionIndexDescriptorList: [GlueClientTypes.PartitionIndexDescriptor]?
     let nextToken: Swift.String?
 }
@@ -29682,7 +29682,7 @@ extension GetPartitionInput {
     }
 }
 
-public struct GetPartitionInput: Swift.Equatable {
+public struct GetPartitionInput {
     /// The ID of the Data Catalog where the partition in question resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database where the partition resides.
@@ -29709,7 +29709,7 @@ public struct GetPartitionInput: Swift.Equatable {
     }
 }
 
-struct GetPartitionInputBody: Swift.Equatable {
+struct GetPartitionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -29758,7 +29758,7 @@ extension GetPartitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPartitionOutput: Swift.Equatable {
+public struct GetPartitionOutput {
     /// The requested information, in the form of a Partition object.
     public var partition: GlueClientTypes.Partition?
 
@@ -29770,7 +29770,7 @@ public struct GetPartitionOutput: Swift.Equatable {
     }
 }
 
-struct GetPartitionOutputBody: Swift.Equatable {
+struct GetPartitionOutputBody {
     let partition: GlueClientTypes.Partition?
 }
 
@@ -29859,7 +29859,7 @@ extension GetPartitionsInput {
     }
 }
 
-public struct GetPartitionsInput: Swift.Equatable {
+public struct GetPartitionsInput {
     /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database where the partitions reside.
@@ -29930,7 +29930,7 @@ public struct GetPartitionsInput: Swift.Equatable {
     }
 }
 
-struct GetPartitionsInputBody: Swift.Equatable {
+struct GetPartitionsInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -29996,7 +29996,7 @@ extension GetPartitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPartitionsOutput: Swift.Equatable {
+public struct GetPartitionsOutput {
     /// A continuation token, if the returned list of partitions does not include the last one.
     public var nextToken: Swift.String?
     /// A list of requested partitions.
@@ -30012,7 +30012,7 @@ public struct GetPartitionsOutput: Swift.Equatable {
     }
 }
 
-struct GetPartitionsOutputBody: Swift.Equatable {
+struct GetPartitionsOutputBody {
     let partitions: [GlueClientTypes.Partition]?
     let nextToken: Swift.String?
 }
@@ -30109,7 +30109,7 @@ extension GetPlanInput {
     }
 }
 
-public struct GetPlanInput: Swift.Equatable {
+public struct GetPlanInput {
     /// A map to hold additional optional key-value parameters. Currently, these key-value pairs are supported:
     ///
     /// * inferSchema — Specifies whether to set inferSchema to true or false for the default script generated by an Glue job. For example, to set inferSchema to true, pass the following key value pair: --additional-plan-options-map '{"inferSchema":"true"}'
@@ -30145,7 +30145,7 @@ public struct GetPlanInput: Swift.Equatable {
     }
 }
 
-struct GetPlanInputBody: Swift.Equatable {
+struct GetPlanInputBody {
     let mapping: [GlueClientTypes.MappingEntry]?
     let source: GlueClientTypes.CatalogEntry?
     let sinks: [GlueClientTypes.CatalogEntry]?
@@ -30222,7 +30222,7 @@ extension GetPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPlanOutput: Swift.Equatable {
+public struct GetPlanOutput {
     /// A Python script to perform the mapping.
     public var pythonScript: Swift.String?
     /// The Scala code to perform the mapping.
@@ -30238,7 +30238,7 @@ public struct GetPlanOutput: Swift.Equatable {
     }
 }
 
-struct GetPlanOutputBody: Swift.Equatable {
+struct GetPlanOutputBody {
     let pythonScript: Swift.String?
     let scalaCode: Swift.String?
 }
@@ -30291,7 +30291,7 @@ extension GetRegistryInput {
     }
 }
 
-public struct GetRegistryInput: Swift.Equatable {
+public struct GetRegistryInput {
     /// This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
     /// This member is required.
     public var registryId: GlueClientTypes.RegistryId?
@@ -30304,7 +30304,7 @@ public struct GetRegistryInput: Swift.Equatable {
     }
 }
 
-struct GetRegistryInputBody: Swift.Equatable {
+struct GetRegistryInputBody {
     let registryId: GlueClientTypes.RegistryId?
 }
 
@@ -30342,7 +30342,7 @@ extension GetRegistryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRegistryOutput: Swift.Equatable {
+public struct GetRegistryOutput {
     /// The date and time the registry was created.
     public var createdTime: Swift.String?
     /// A description of the registry.
@@ -30374,7 +30374,7 @@ public struct GetRegistryOutput: Swift.Equatable {
     }
 }
 
-struct GetRegistryOutputBody: Swift.Equatable {
+struct GetRegistryOutputBody {
     let registryName: Swift.String?
     let registryArn: Swift.String?
     let description: Swift.String?
@@ -30448,7 +30448,7 @@ extension GetResourcePoliciesInput {
     }
 }
 
-public struct GetResourcePoliciesInput: Swift.Equatable {
+public struct GetResourcePoliciesInput {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation request.
@@ -30464,7 +30464,7 @@ public struct GetResourcePoliciesInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePoliciesInputBody: Swift.Equatable {
+struct GetResourcePoliciesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -30498,7 +30498,7 @@ extension GetResourcePoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePoliciesOutput: Swift.Equatable {
+public struct GetResourcePoliciesOutput {
     /// A list of the individual resource policies and the account-level resource policy.
     public var getResourcePoliciesResponseList: [GlueClientTypes.GluePolicy]?
     /// A continuation token, if the returned list does not contain the last resource policy available.
@@ -30514,7 +30514,7 @@ public struct GetResourcePoliciesOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePoliciesOutputBody: Swift.Equatable {
+struct GetResourcePoliciesOutputBody {
     let getResourcePoliciesResponseList: [GlueClientTypes.GluePolicy]?
     let nextToken: Swift.String?
 }
@@ -30577,7 +30577,7 @@ extension GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyInput: Swift.Equatable {
+public struct GetResourcePolicyInput {
     /// The ARN of the Glue resource for which to retrieve the resource policy. If not supplied, the Data Catalog resource policy is returned. Use GetResourcePolicies to view all existing resource policies. For more information see [Specifying Glue Resource ARNs](https://docs.aws.amazon.com/glue/latest/dg/glue-specifying-resource-arns.html).
     public var resourceArn: Swift.String?
 
@@ -30589,7 +30589,7 @@ public struct GetResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyInputBody: Swift.Equatable {
+struct GetResourcePolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -30623,7 +30623,7 @@ extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePolicyOutput: Swift.Equatable {
+public struct GetResourcePolicyOutput {
     /// The date and time at which the policy was created.
     public var createTime: ClientRuntime.Date?
     /// Contains the hash value associated with this policy.
@@ -30647,7 +30647,7 @@ public struct GetResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyOutputBody: Swift.Equatable {
+struct GetResourcePolicyOutputBody {
     let policyInJson: Swift.String?
     let policyHash: Swift.String?
     let createTime: ClientRuntime.Date?
@@ -30713,7 +30713,7 @@ extension GetSchemaByDefinitionInput {
     }
 }
 
-public struct GetSchemaByDefinitionInput: Swift.Equatable {
+public struct GetSchemaByDefinitionInput {
     /// The definition of the schema for which schema details are required.
     /// This member is required.
     public var schemaDefinition: Swift.String?
@@ -30735,7 +30735,7 @@ public struct GetSchemaByDefinitionInput: Swift.Equatable {
     }
 }
 
-struct GetSchemaByDefinitionInputBody: Swift.Equatable {
+struct GetSchemaByDefinitionInputBody {
     let schemaId: GlueClientTypes.SchemaId?
     let schemaDefinition: Swift.String?
 }
@@ -30775,7 +30775,7 @@ extension GetSchemaByDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSchemaByDefinitionOutput: Swift.Equatable {
+public struct GetSchemaByDefinitionOutput {
     /// The date and time the schema was created.
     public var createdTime: Swift.String?
     /// The data format of the schema definition. Currently AVRO, JSON and PROTOBUF are supported.
@@ -30803,7 +30803,7 @@ public struct GetSchemaByDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct GetSchemaByDefinitionOutputBody: Swift.Equatable {
+struct GetSchemaByDefinitionOutputBody {
     let schemaVersionId: Swift.String?
     let schemaArn: Swift.String?
     let dataFormat: GlueClientTypes.DataFormat?
@@ -30869,7 +30869,7 @@ extension GetSchemaInput {
     }
 }
 
-public struct GetSchemaInput: Swift.Equatable {
+public struct GetSchemaInput {
     /// This is a wrapper structure to contain schema identity fields. The structure contains:
     ///
     /// * SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
@@ -30886,7 +30886,7 @@ public struct GetSchemaInput: Swift.Equatable {
     }
 }
 
-struct GetSchemaInputBody: Swift.Equatable {
+struct GetSchemaInputBody {
     let schemaId: GlueClientTypes.SchemaId?
 }
 
@@ -30938,7 +30938,7 @@ extension GetSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSchemaOutput: Swift.Equatable {
+public struct GetSchemaOutput {
     /// The compatibility mode of the schema.
     public var compatibility: GlueClientTypes.Compatibility?
     /// The date and time the schema was created.
@@ -30998,7 +30998,7 @@ public struct GetSchemaOutput: Swift.Equatable {
     }
 }
 
-struct GetSchemaOutputBody: Swift.Equatable {
+struct GetSchemaOutputBody {
     let registryName: Swift.String?
     let registryArn: Swift.String?
     let schemaName: Swift.String?
@@ -31104,7 +31104,7 @@ extension GetSchemaVersionInput {
     }
 }
 
-public struct GetSchemaVersionInput: Swift.Equatable {
+public struct GetSchemaVersionInput {
     /// This is a wrapper structure to contain schema identity fields. The structure contains:
     ///
     /// * SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
@@ -31128,7 +31128,7 @@ public struct GetSchemaVersionInput: Swift.Equatable {
     }
 }
 
-struct GetSchemaVersionInputBody: Swift.Equatable {
+struct GetSchemaVersionInputBody {
     let schemaId: GlueClientTypes.SchemaId?
     let schemaVersionId: Swift.String?
     let schemaVersionNumber: GlueClientTypes.SchemaVersionNumber?
@@ -31176,7 +31176,7 @@ extension GetSchemaVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSchemaVersionOutput: Swift.Equatable {
+public struct GetSchemaVersionOutput {
     /// The date and time the schema version was created.
     public var createdTime: Swift.String?
     /// The data format of the schema definition. Currently AVRO, JSON and PROTOBUF are supported.
@@ -31212,7 +31212,7 @@ public struct GetSchemaVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetSchemaVersionOutputBody: Swift.Equatable {
+struct GetSchemaVersionOutputBody {
     let schemaVersionId: Swift.String?
     let schemaDefinition: Swift.String?
     let dataFormat: GlueClientTypes.DataFormat?
@@ -31298,7 +31298,7 @@ extension GetSchemaVersionsDiffInput {
     }
 }
 
-public struct GetSchemaVersionsDiffInput: Swift.Equatable {
+public struct GetSchemaVersionsDiffInput {
     /// The first of the two schema versions to be compared.
     /// This member is required.
     public var firstSchemaVersionNumber: GlueClientTypes.SchemaVersionNumber?
@@ -31330,7 +31330,7 @@ public struct GetSchemaVersionsDiffInput: Swift.Equatable {
     }
 }
 
-struct GetSchemaVersionsDiffInputBody: Swift.Equatable {
+struct GetSchemaVersionsDiffInputBody {
     let schemaId: GlueClientTypes.SchemaId?
     let firstSchemaVersionNumber: GlueClientTypes.SchemaVersionNumber?
     let secondSchemaVersionNumber: GlueClientTypes.SchemaVersionNumber?
@@ -31370,7 +31370,7 @@ extension GetSchemaVersionsDiffOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSchemaVersionsDiffOutput: Swift.Equatable {
+public struct GetSchemaVersionsDiffOutput {
     /// The difference between schemas as a string in JsonPatch format.
     public var diff: Swift.String?
 
@@ -31382,7 +31382,7 @@ public struct GetSchemaVersionsDiffOutput: Swift.Equatable {
     }
 }
 
-struct GetSchemaVersionsDiffOutputBody: Swift.Equatable {
+struct GetSchemaVersionsDiffOutputBody {
     let diff: Swift.String?
 }
 
@@ -31432,7 +31432,7 @@ extension GetSecurityConfigurationInput {
     }
 }
 
-public struct GetSecurityConfigurationInput: Swift.Equatable {
+public struct GetSecurityConfigurationInput {
     /// The name of the security configuration to retrieve.
     /// This member is required.
     public var name: Swift.String?
@@ -31445,7 +31445,7 @@ public struct GetSecurityConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetSecurityConfigurationInputBody: Swift.Equatable {
+struct GetSecurityConfigurationInputBody {
     let name: Swift.String?
 }
 
@@ -31473,7 +31473,7 @@ extension GetSecurityConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSecurityConfigurationOutput: Swift.Equatable {
+public struct GetSecurityConfigurationOutput {
     /// The requested security configuration.
     public var securityConfiguration: GlueClientTypes.SecurityConfiguration?
 
@@ -31485,7 +31485,7 @@ public struct GetSecurityConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetSecurityConfigurationOutputBody: Swift.Equatable {
+struct GetSecurityConfigurationOutputBody {
     let securityConfiguration: GlueClientTypes.SecurityConfiguration?
 }
 
@@ -31539,7 +31539,7 @@ extension GetSecurityConfigurationsInput {
     }
 }
 
-public struct GetSecurityConfigurationsInput: Swift.Equatable {
+public struct GetSecurityConfigurationsInput {
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation call.
@@ -31555,7 +31555,7 @@ public struct GetSecurityConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct GetSecurityConfigurationsInputBody: Swift.Equatable {
+struct GetSecurityConfigurationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -31589,7 +31589,7 @@ extension GetSecurityConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSecurityConfigurationsOutput: Swift.Equatable {
+public struct GetSecurityConfigurationsOutput {
     /// A continuation token, if there are more security configurations to return.
     public var nextToken: Swift.String?
     /// A list of security configurations.
@@ -31605,7 +31605,7 @@ public struct GetSecurityConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct GetSecurityConfigurationsOutputBody: Swift.Equatable {
+struct GetSecurityConfigurationsOutputBody {
     let securityConfigurations: [GlueClientTypes.SecurityConfiguration]?
     let nextToken: Swift.String?
 }
@@ -31672,7 +31672,7 @@ extension GetSessionInput {
     }
 }
 
-public struct GetSessionInput: Swift.Equatable {
+public struct GetSessionInput {
     /// The ID of the session.
     /// This member is required.
     public var id: Swift.String?
@@ -31689,7 +31689,7 @@ public struct GetSessionInput: Swift.Equatable {
     }
 }
 
-struct GetSessionInputBody: Swift.Equatable {
+struct GetSessionInputBody {
     let id: Swift.String?
     let requestOrigin: Swift.String?
 }
@@ -31721,7 +31721,7 @@ extension GetSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionOutput: Swift.Equatable {
+public struct GetSessionOutput {
     /// The session object is returned in the response.
     public var session: GlueClientTypes.Session?
 
@@ -31733,7 +31733,7 @@ public struct GetSessionOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionOutputBody: Swift.Equatable {
+struct GetSessionOutputBody {
     let session: GlueClientTypes.Session?
 }
 
@@ -31792,7 +31792,7 @@ extension GetStatementInput {
     }
 }
 
-public struct GetStatementInput: Swift.Equatable {
+public struct GetStatementInput {
     /// The Id of the statement.
     /// This member is required.
     public var id: Swift.Int?
@@ -31814,7 +31814,7 @@ public struct GetStatementInput: Swift.Equatable {
     }
 }
 
-struct GetStatementInputBody: Swift.Equatable {
+struct GetStatementInputBody {
     let sessionId: Swift.String?
     let id: Swift.Int?
     let requestOrigin: Swift.String?
@@ -31850,7 +31850,7 @@ extension GetStatementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetStatementOutput: Swift.Equatable {
+public struct GetStatementOutput {
     /// Returns the statement.
     public var statement: GlueClientTypes.Statement?
 
@@ -31862,7 +31862,7 @@ public struct GetStatementOutput: Swift.Equatable {
     }
 }
 
-struct GetStatementOutputBody: Swift.Equatable {
+struct GetStatementOutputBody {
     let statement: GlueClientTypes.Statement?
 }
 
@@ -31930,7 +31930,7 @@ extension GetTableInput {
     }
 }
 
-public struct GetTableInput: Swift.Equatable {
+public struct GetTableInput {
     /// The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -31960,7 +31960,7 @@ public struct GetTableInput: Swift.Equatable {
     }
 }
 
-struct GetTableInputBody: Swift.Equatable {
+struct GetTableInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let name: Swift.String?
@@ -32024,7 +32024,7 @@ extension GetTableOptimizerInput {
     }
 }
 
-public struct GetTableOptimizerInput: Swift.Equatable {
+public struct GetTableOptimizerInput {
     /// The Catalog ID of the table.
     /// This member is required.
     public var catalogId: Swift.String?
@@ -32052,7 +32052,7 @@ public struct GetTableOptimizerInput: Swift.Equatable {
     }
 }
 
-struct GetTableOptimizerInputBody: Swift.Equatable {
+struct GetTableOptimizerInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -32098,7 +32098,7 @@ extension GetTableOptimizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTableOptimizerOutput: Swift.Equatable {
+public struct GetTableOptimizerOutput {
     /// The Catalog ID of the table.
     public var catalogId: Swift.String?
     /// The name of the database in the catalog in which the table resides.
@@ -32122,7 +32122,7 @@ public struct GetTableOptimizerOutput: Swift.Equatable {
     }
 }
 
-struct GetTableOptimizerOutputBody: Swift.Equatable {
+struct GetTableOptimizerOutputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -32176,7 +32176,7 @@ extension GetTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTableOutput: Swift.Equatable {
+public struct GetTableOutput {
     /// The Table object that defines the specified table.
     public var table: GlueClientTypes.Table?
 
@@ -32188,7 +32188,7 @@ public struct GetTableOutput: Swift.Equatable {
     }
 }
 
-struct GetTableOutputBody: Swift.Equatable {
+struct GetTableOutputBody {
     let table: GlueClientTypes.Table?
 }
 
@@ -32254,7 +32254,7 @@ extension GetTableVersionInput {
     }
 }
 
-public struct GetTableVersionInput: Swift.Equatable {
+public struct GetTableVersionInput {
     /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -32280,7 +32280,7 @@ public struct GetTableVersionInput: Swift.Equatable {
     }
 }
 
-struct GetTableVersionInputBody: Swift.Equatable {
+struct GetTableVersionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -32320,7 +32320,7 @@ extension GetTableVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTableVersionOutput: Swift.Equatable {
+public struct GetTableVersionOutput {
     /// The requested table version.
     public var tableVersion: GlueClientTypes.TableVersion?
 
@@ -32332,7 +32332,7 @@ public struct GetTableVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetTableVersionOutputBody: Swift.Equatable {
+struct GetTableVersionOutputBody {
     let tableVersion: GlueClientTypes.TableVersion?
 }
 
@@ -32399,7 +32399,7 @@ extension GetTableVersionsInput {
     }
 }
 
-public struct GetTableVersionsInput: Swift.Equatable {
+public struct GetTableVersionsInput {
     /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -32429,7 +32429,7 @@ public struct GetTableVersionsInput: Swift.Equatable {
     }
 }
 
-struct GetTableVersionsInputBody: Swift.Equatable {
+struct GetTableVersionsInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -32475,7 +32475,7 @@ extension GetTableVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTableVersionsOutput: Swift.Equatable {
+public struct GetTableVersionsOutput {
     /// A continuation token, if the list of available versions does not include the last one.
     public var nextToken: Swift.String?
     /// A list of strings identifying available versions of the specified table.
@@ -32491,7 +32491,7 @@ public struct GetTableVersionsOutput: Swift.Equatable {
     }
 }
 
-struct GetTableVersionsOutputBody: Swift.Equatable {
+struct GetTableVersionsOutputBody {
     let tableVersions: [GlueClientTypes.TableVersion]?
     let nextToken: Swift.String?
 }
@@ -32579,7 +32579,7 @@ extension GetTablesInput {
     }
 }
 
-public struct GetTablesInput: Swift.Equatable {
+public struct GetTablesInput {
     /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The database in the catalog whose tables to list. For Hive compatibility, this name is entirely lowercase.
@@ -32616,7 +32616,7 @@ public struct GetTablesInput: Swift.Equatable {
     }
 }
 
-struct GetTablesInputBody: Swift.Equatable {
+struct GetTablesInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let expression: Swift.String?
@@ -32670,7 +32670,7 @@ extension GetTablesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTablesOutput: Swift.Equatable {
+public struct GetTablesOutput {
     /// A continuation token, present if the current list segment is not the last.
     public var nextToken: Swift.String?
     /// A list of the requested Table objects.
@@ -32686,7 +32686,7 @@ public struct GetTablesOutput: Swift.Equatable {
     }
 }
 
-struct GetTablesOutputBody: Swift.Equatable {
+struct GetTablesOutputBody {
     let tableList: [GlueClientTypes.Table]?
     let nextToken: Swift.String?
 }
@@ -32752,7 +32752,7 @@ extension GetTagsInput {
     }
 }
 
-public struct GetTagsInput: Swift.Equatable {
+public struct GetTagsInput {
     /// The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -32765,7 +32765,7 @@ public struct GetTagsInput: Swift.Equatable {
     }
 }
 
-struct GetTagsInputBody: Swift.Equatable {
+struct GetTagsInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -32793,7 +32793,7 @@ extension GetTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTagsOutput: Swift.Equatable {
+public struct GetTagsOutput {
     /// The requested tags.
     public var tags: [Swift.String:Swift.String]?
 
@@ -32805,7 +32805,7 @@ public struct GetTagsOutput: Swift.Equatable {
     }
 }
 
-struct GetTagsOutputBody: Swift.Equatable {
+struct GetTagsOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -32864,7 +32864,7 @@ extension GetTriggerInput {
     }
 }
 
-public struct GetTriggerInput: Swift.Equatable {
+public struct GetTriggerInput {
     /// The name of the trigger to retrieve.
     /// This member is required.
     public var name: Swift.String?
@@ -32877,7 +32877,7 @@ public struct GetTriggerInput: Swift.Equatable {
     }
 }
 
-struct GetTriggerInputBody: Swift.Equatable {
+struct GetTriggerInputBody {
     let name: Swift.String?
 }
 
@@ -32905,7 +32905,7 @@ extension GetTriggerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTriggerOutput: Swift.Equatable {
+public struct GetTriggerOutput {
     /// The requested trigger definition.
     public var trigger: GlueClientTypes.Trigger?
 
@@ -32917,7 +32917,7 @@ public struct GetTriggerOutput: Swift.Equatable {
     }
 }
 
-struct GetTriggerOutputBody: Swift.Equatable {
+struct GetTriggerOutputBody {
     let trigger: GlueClientTypes.Trigger?
 }
 
@@ -32975,7 +32975,7 @@ extension GetTriggersInput {
     }
 }
 
-public struct GetTriggersInput: Swift.Equatable {
+public struct GetTriggersInput {
     /// The name of the job to retrieve triggers for. The trigger that can start this job is returned, and if there is no such trigger, all triggers are returned.
     public var dependentJobName: Swift.String?
     /// The maximum size of the response.
@@ -32995,7 +32995,7 @@ public struct GetTriggersInput: Swift.Equatable {
     }
 }
 
-struct GetTriggersInputBody: Swift.Equatable {
+struct GetTriggersInputBody {
     let nextToken: Swift.String?
     let dependentJobName: Swift.String?
     let maxResults: Swift.Int?
@@ -33033,7 +33033,7 @@ extension GetTriggersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTriggersOutput: Swift.Equatable {
+public struct GetTriggersOutput {
     /// A continuation token, if not all the requested triggers have yet been returned.
     public var nextToken: Swift.String?
     /// A list of triggers for the specified job.
@@ -33049,7 +33049,7 @@ public struct GetTriggersOutput: Swift.Equatable {
     }
 }
 
-struct GetTriggersOutputBody: Swift.Equatable {
+struct GetTriggersOutputBody {
     let triggers: [GlueClientTypes.Trigger]?
     let nextToken: Swift.String?
 }
@@ -33146,7 +33146,7 @@ extension GetUnfilteredPartitionMetadataInput {
     }
 }
 
-public struct GetUnfilteredPartitionMetadataInput: Swift.Equatable {
+public struct GetUnfilteredPartitionMetadataInput {
     /// A structure containing Lake Formation audit context information.
     public var auditContext: GlueClientTypes.AuditContext?
     /// The catalog ID where the partition resides.
@@ -33191,7 +33191,7 @@ public struct GetUnfilteredPartitionMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetUnfilteredPartitionMetadataInputBody: Swift.Equatable {
+struct GetUnfilteredPartitionMetadataInputBody {
     let region: Swift.String?
     let catalogId: Swift.String?
     let databaseName: Swift.String?
@@ -33269,7 +33269,7 @@ extension GetUnfilteredPartitionMetadataOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetUnfilteredPartitionMetadataOutput: Swift.Equatable {
+public struct GetUnfilteredPartitionMetadataOutput {
     /// A list of column names that the user has been granted access to.
     public var authorizedColumns: [Swift.String]?
     /// A Boolean value that indicates whether the partition location is registered with Lake Formation.
@@ -33289,7 +33289,7 @@ public struct GetUnfilteredPartitionMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetUnfilteredPartitionMetadataOutputBody: Swift.Equatable {
+struct GetUnfilteredPartitionMetadataOutputBody {
     let partition: GlueClientTypes.Partition?
     let authorizedColumns: [Swift.String]?
     let isRegisteredWithLakeFormation: Swift.Bool
@@ -33403,7 +33403,7 @@ extension GetUnfilteredPartitionsMetadataInput {
     }
 }
 
-public struct GetUnfilteredPartitionsMetadataInput: Swift.Equatable {
+public struct GetUnfilteredPartitionsMetadataInput {
     /// A structure containing Lake Formation audit context information.
     public var auditContext: GlueClientTypes.AuditContext?
     /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default.
@@ -33480,7 +33480,7 @@ public struct GetUnfilteredPartitionsMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetUnfilteredPartitionsMetadataInputBody: Swift.Equatable {
+struct GetUnfilteredPartitionsMetadataInputBody {
     let region: Swift.String?
     let catalogId: Swift.String?
     let databaseName: Swift.String?
@@ -33559,7 +33559,7 @@ extension GetUnfilteredPartitionsMetadataOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetUnfilteredPartitionsMetadataOutput: Swift.Equatable {
+public struct GetUnfilteredPartitionsMetadataOutput {
     /// A continuation token, if the returned list of partitions does not include the last one.
     public var nextToken: Swift.String?
     /// A list of requested partitions.
@@ -33575,7 +33575,7 @@ public struct GetUnfilteredPartitionsMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetUnfilteredPartitionsMetadataOutputBody: Swift.Equatable {
+struct GetUnfilteredPartitionsMetadataOutputBody {
     let unfilteredPartitions: [GlueClientTypes.UnfilteredPartition]?
     let nextToken: Swift.String?
 }
@@ -33688,7 +33688,7 @@ extension GetUnfilteredTableMetadataInput {
     }
 }
 
-public struct GetUnfilteredTableMetadataInput: Swift.Equatable {
+public struct GetUnfilteredTableMetadataInput {
     /// A structure containing Lake Formation audit context information.
     public var auditContext: GlueClientTypes.AuditContext?
     /// The catalog ID where the table resides.
@@ -33755,7 +33755,7 @@ public struct GetUnfilteredTableMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetUnfilteredTableMetadataInputBody: Swift.Equatable {
+struct GetUnfilteredTableMetadataInputBody {
     let region: Swift.String?
     let catalogId: Swift.String?
     let databaseName: Swift.String?
@@ -33859,7 +33859,7 @@ extension GetUnfilteredTableMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUnfilteredTableMetadataOutput: Swift.Equatable {
+public struct GetUnfilteredTableMetadataOutput {
     /// A list of column names that the user has been granted access to.
     public var authorizedColumns: [Swift.String]?
     /// A list of column row filters.
@@ -33907,7 +33907,7 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetUnfilteredTableMetadataOutputBody: Swift.Equatable {
+struct GetUnfilteredTableMetadataOutputBody {
     let table: GlueClientTypes.Table?
     let authorizedColumns: [Swift.String]?
     let isRegisteredWithLakeFormation: Swift.Bool
@@ -34032,7 +34032,7 @@ extension GetUserDefinedFunctionInput {
     }
 }
 
-public struct GetUserDefinedFunctionInput: Swift.Equatable {
+public struct GetUserDefinedFunctionInput {
     /// The ID of the Data Catalog where the function to be retrieved is located. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database where the function is located.
@@ -34054,7 +34054,7 @@ public struct GetUserDefinedFunctionInput: Swift.Equatable {
     }
 }
 
-struct GetUserDefinedFunctionInputBody: Swift.Equatable {
+struct GetUserDefinedFunctionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let functionName: Swift.String?
@@ -34090,7 +34090,7 @@ extension GetUserDefinedFunctionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUserDefinedFunctionOutput: Swift.Equatable {
+public struct GetUserDefinedFunctionOutput {
     /// The requested function definition.
     public var userDefinedFunction: GlueClientTypes.UserDefinedFunction?
 
@@ -34102,7 +34102,7 @@ public struct GetUserDefinedFunctionOutput: Swift.Equatable {
     }
 }
 
-struct GetUserDefinedFunctionOutputBody: Swift.Equatable {
+struct GetUserDefinedFunctionOutputBody {
     let userDefinedFunction: GlueClientTypes.UserDefinedFunction?
 }
 
@@ -34169,7 +34169,7 @@ extension GetUserDefinedFunctionsInput {
     }
 }
 
-public struct GetUserDefinedFunctionsInput: Swift.Equatable {
+public struct GetUserDefinedFunctionsInput {
     /// The ID of the Data Catalog where the functions to be retrieved are located. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database where the functions are located. If none is provided, functions from all the databases across the catalog will be returned.
@@ -34198,7 +34198,7 @@ public struct GetUserDefinedFunctionsInput: Swift.Equatable {
     }
 }
 
-struct GetUserDefinedFunctionsInputBody: Swift.Equatable {
+struct GetUserDefinedFunctionsInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let pattern: Swift.String?
@@ -34244,7 +34244,7 @@ extension GetUserDefinedFunctionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUserDefinedFunctionsOutput: Swift.Equatable {
+public struct GetUserDefinedFunctionsOutput {
     /// A continuation token, if the list of functions returned does not include the last requested function.
     public var nextToken: Swift.String?
     /// A list of requested function definitions.
@@ -34260,7 +34260,7 @@ public struct GetUserDefinedFunctionsOutput: Swift.Equatable {
     }
 }
 
-struct GetUserDefinedFunctionsOutputBody: Swift.Equatable {
+struct GetUserDefinedFunctionsOutputBody {
     let userDefinedFunctions: [GlueClientTypes.UserDefinedFunction]?
     let nextToken: Swift.String?
 }
@@ -34328,7 +34328,7 @@ extension GetWorkflowInput {
     }
 }
 
-public struct GetWorkflowInput: Swift.Equatable {
+public struct GetWorkflowInput {
     /// Specifies whether to include a graph when returning the workflow resource metadata.
     public var includeGraph: Swift.Bool?
     /// The name of the workflow to retrieve.
@@ -34345,7 +34345,7 @@ public struct GetWorkflowInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowInputBody: Swift.Equatable {
+struct GetWorkflowInputBody {
     let name: Swift.String?
     let includeGraph: Swift.Bool?
 }
@@ -34377,7 +34377,7 @@ extension GetWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowOutput: Swift.Equatable {
+public struct GetWorkflowOutput {
     /// The resource metadata for the workflow.
     public var workflow: GlueClientTypes.Workflow?
 
@@ -34389,7 +34389,7 @@ public struct GetWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowOutputBody: Swift.Equatable {
+struct GetWorkflowOutputBody {
     let workflow: GlueClientTypes.Workflow?
 }
 
@@ -34447,7 +34447,7 @@ extension GetWorkflowRunInput {
     }
 }
 
-public struct GetWorkflowRunInput: Swift.Equatable {
+public struct GetWorkflowRunInput {
     /// Specifies whether to include the workflow graph in response or not.
     public var includeGraph: Swift.Bool?
     /// Name of the workflow being run.
@@ -34469,7 +34469,7 @@ public struct GetWorkflowRunInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowRunInputBody: Swift.Equatable {
+struct GetWorkflowRunInputBody {
     let name: Swift.String?
     let runId: Swift.String?
     let includeGraph: Swift.Bool?
@@ -34505,7 +34505,7 @@ extension GetWorkflowRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowRunOutput: Swift.Equatable {
+public struct GetWorkflowRunOutput {
     /// The requested workflow run metadata.
     public var run: GlueClientTypes.WorkflowRun?
 
@@ -34517,7 +34517,7 @@ public struct GetWorkflowRunOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowRunOutputBody: Swift.Equatable {
+struct GetWorkflowRunOutputBody {
     let run: GlueClientTypes.WorkflowRun?
 }
 
@@ -34571,7 +34571,7 @@ extension GetWorkflowRunPropertiesInput {
     }
 }
 
-public struct GetWorkflowRunPropertiesInput: Swift.Equatable {
+public struct GetWorkflowRunPropertiesInput {
     /// Name of the workflow which was run.
     /// This member is required.
     public var name: Swift.String?
@@ -34589,7 +34589,7 @@ public struct GetWorkflowRunPropertiesInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowRunPropertiesInputBody: Swift.Equatable {
+struct GetWorkflowRunPropertiesInputBody {
     let name: Swift.String?
     let runId: Swift.String?
 }
@@ -34621,7 +34621,7 @@ extension GetWorkflowRunPropertiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowRunPropertiesOutput: Swift.Equatable {
+public struct GetWorkflowRunPropertiesOutput {
     /// The workflow run properties which were set during the specified run.
     public var runProperties: [Swift.String:Swift.String]?
 
@@ -34633,7 +34633,7 @@ public struct GetWorkflowRunPropertiesOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowRunPropertiesOutputBody: Swift.Equatable {
+struct GetWorkflowRunPropertiesOutputBody {
     let runProperties: [Swift.String:Swift.String]?
 }
 
@@ -34704,7 +34704,7 @@ extension GetWorkflowRunsInput {
     }
 }
 
-public struct GetWorkflowRunsInput: Swift.Equatable {
+public struct GetWorkflowRunsInput {
     /// Specifies whether to include the workflow graph in response or not.
     public var includeGraph: Swift.Bool?
     /// The maximum number of workflow runs to be included in the response.
@@ -34729,7 +34729,7 @@ public struct GetWorkflowRunsInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowRunsInputBody: Swift.Equatable {
+struct GetWorkflowRunsInputBody {
     let name: Swift.String?
     let includeGraph: Swift.Bool?
     let nextToken: Swift.String?
@@ -34771,7 +34771,7 @@ extension GetWorkflowRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowRunsOutput: Swift.Equatable {
+public struct GetWorkflowRunsOutput {
     /// A continuation token, if not all requested workflow runs have been returned.
     public var nextToken: Swift.String?
     /// A list of workflow run metadata objects.
@@ -34787,7 +34787,7 @@ public struct GetWorkflowRunsOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowRunsOutputBody: Swift.Equatable {
+struct GetWorkflowRunsOutputBody {
     let runs: [GlueClientTypes.WorkflowRun]?
     let nextToken: Swift.String?
 }
@@ -34872,7 +34872,7 @@ public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct GlueEncryptionExceptionBody: Swift.Equatable {
+struct GlueEncryptionExceptionBody {
     let message: Swift.String?
 }
 
@@ -34927,7 +34927,7 @@ extension GlueClientTypes.GluePolicy: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure for returning a resource policy.
-    public struct GluePolicy: Swift.Equatable {
+    public struct GluePolicy {
         /// The date and time at which the policy was created.
         public var createTime: ClientRuntime.Date?
         /// Contains the hash value associated with this policy.
@@ -35042,7 +35042,7 @@ extension GlueClientTypes.GlueSchema: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a user-defined schema when a schema cannot be determined by Glue.
-    public struct GlueSchema: Swift.Equatable {
+    public struct GlueSchema {
         /// Specifies the column definitions that make up a Glue schema.
         public var columns: [GlueClientTypes.GlueStudioSchemaColumn]?
 
@@ -35083,7 +35083,7 @@ extension GlueClientTypes.GlueStudioSchemaColumn: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a single column in a Glue schema definition.
-    public struct GlueStudioSchemaColumn: Swift.Equatable {
+    public struct GlueStudioSchemaColumn {
         /// The name of the column in the Glue Studio schema.
         /// This member is required.
         public var name: Swift.String?
@@ -35159,7 +35159,7 @@ extension GlueClientTypes.GlueTable: Swift.Codable {
 
 extension GlueClientTypes {
     /// The database and table in the Glue Data Catalog that is used for input or output data.
-    public struct GlueTable: Swift.Equatable {
+    public struct GlueTable {
         /// Additional options for the table. Currently there are two keys supported:
         ///
         /// * pushDownPredicate: to filter on partitions without having to list and read all the files in your dataset.
@@ -35240,7 +35240,7 @@ extension GlueClientTypes.GovernedCatalogSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies the data store in the governed Glue Data Catalog.
-    public struct GovernedCatalogSource: Swift.Equatable {
+    public struct GovernedCatalogSource {
         /// Specifies additional connection options.
         public var additionalOptions: GlueClientTypes.S3SourceAdditionalOptions?
         /// The database to read from.
@@ -35360,7 +35360,7 @@ extension GlueClientTypes.GovernedCatalogTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a data target that writes to Amazon S3 using the Glue Data Catalog.
-    public struct GovernedCatalogTarget: Swift.Equatable {
+    public struct GovernedCatalogTarget {
         /// The name of the database to write to.
         /// This member is required.
         public var database: Swift.String?
@@ -35455,7 +35455,7 @@ extension GlueClientTypes.GrokClassifier: Swift.Codable {
 
 extension GlueClientTypes {
     /// A classifier that uses grok patterns.
-    public struct GrokClassifier: Swift.Equatable {
+    public struct GrokClassifier {
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, and so on.
         /// This member is required.
         public var classification: Swift.String?
@@ -35559,7 +35559,7 @@ extension GlueClientTypes.HudiTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Apache Hudi data source.
-    public struct HudiTarget: Swift.Equatable {
+    public struct HudiTarget {
         /// The name of the connection to use to connect to the Hudi target. If your Hudi files are stored in buckets that require VPC authorization, you can set their connection properties here.
         public var connectionName: Swift.String?
         /// A list of glob patterns used to exclude from the crawl. For more information, see [Catalog Tables with a Crawler](https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html).
@@ -35650,7 +35650,7 @@ extension GlueClientTypes.IcebergInput: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure that defines an Apache Iceberg metadata table to create in the catalog.
-    public struct IcebergInput: Swift.Equatable {
+    public struct IcebergInput {
         /// A required metadata operation. Can only be set to CREATE.
         /// This member is required.
         public var metadataOperation: GlueClientTypes.MetadataOperation?
@@ -35732,7 +35732,7 @@ extension GlueClientTypes.IcebergTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Apache Iceberg data source where Iceberg tables are stored in Amazon S3.
-    public struct IcebergTarget: Swift.Equatable {
+    public struct IcebergTarget {
         /// The name of the connection to use to connect to the Iceberg target.
         public var connectionName: Swift.String?
         /// A list of glob patterns used to exclude from the crawl. For more information, see [Catalog Tables with a Crawler](https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html).
@@ -35798,7 +35798,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
     }
 }
 
-struct IdempotentParameterMismatchExceptionBody: Swift.Equatable {
+struct IdempotentParameterMismatchExceptionBody {
     let message: Swift.String?
 }
 
@@ -35854,7 +35854,7 @@ public struct IllegalBlueprintStateException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct IllegalBlueprintStateExceptionBody: Swift.Equatable {
+struct IllegalBlueprintStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -35910,7 +35910,7 @@ public struct IllegalSessionStateException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct IllegalSessionStateExceptionBody: Swift.Equatable {
+struct IllegalSessionStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -35966,7 +35966,7 @@ public struct IllegalWorkflowStateException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct IllegalWorkflowStateExceptionBody: Swift.Equatable {
+struct IllegalWorkflowStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -36002,7 +36002,7 @@ extension ImportCatalogToGlueInput {
     }
 }
 
-public struct ImportCatalogToGlueInput: Swift.Equatable {
+public struct ImportCatalogToGlueInput {
     /// The ID of the catalog to import. Currently, this should be the Amazon Web Services account ID.
     public var catalogId: Swift.String?
 
@@ -36014,7 +36014,7 @@ public struct ImportCatalogToGlueInput: Swift.Equatable {
     }
 }
 
-struct ImportCatalogToGlueInputBody: Swift.Equatable {
+struct ImportCatalogToGlueInputBody {
     let catalogId: Swift.String?
 }
 
@@ -36035,7 +36035,7 @@ extension ImportCatalogToGlueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportCatalogToGlueOutput: Swift.Equatable {
+public struct ImportCatalogToGlueOutput {
 
     public init() { }
 }
@@ -36079,7 +36079,7 @@ extension GlueClientTypes.ImportLabelsTaskRunProperties: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies configuration properties for an importing labels task run.
-    public struct ImportLabelsTaskRunProperties: Swift.Equatable {
+    public struct ImportLabelsTaskRunProperties {
         /// The Amazon Simple Storage Service (Amazon S3) path from where you will import the labels.
         public var inputS3Path: Swift.String?
         /// Indicates whether to overwrite your existing labels.
@@ -36137,7 +36137,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalServiceExceptionBody: Swift.Equatable {
+struct InternalServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -36199,7 +36199,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
     let fromFederationSource: Swift.Bool?
 }
@@ -36259,7 +36259,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidStateExceptionBody: Swift.Equatable {
+struct InvalidStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -36403,7 +36403,7 @@ extension GlueClientTypes.JDBCConnectorOptions: Swift.Codable {
 
 extension GlueClientTypes {
     /// Additional connection options for the connector.
-    public struct JDBCConnectorOptions: Swift.Equatable {
+    public struct JDBCConnectorOptions {
         /// Custom data type mapping that builds a mapping from a JDBC data type to an Glue data type. For example, the option "dataTypeMapping":{"FLOAT":"STRING"} maps data fields of JDBC type FLOAT into the Java String type by calling the ResultSet.getString() method of the driver, and uses it to build the Glue record. The ResultSet object is implemented by each driver, so the behavior is specific to the driver you use. Refer to the documentation for your JDBC driver to understand how the driver performs the conversions.
         public var dataTypeMapping: [Swift.String:GlueClientTypes.GlueRecordType]?
         /// Extra condition clause to filter data from source. For example: BillingCity='Mountain View' When using a query instead of a table name, you should validate that the query works with the specified filterPredicate.
@@ -36520,7 +36520,7 @@ extension GlueClientTypes.JDBCConnectorSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a connector to a JDBC data source.
-    public struct JDBCConnectorSource: Swift.Equatable {
+    public struct JDBCConnectorSource {
         /// Additional connection options for the connector.
         public var additionalOptions: GlueClientTypes.JDBCConnectorOptions?
         /// The name of the connection that is associated with the connector.
@@ -36665,7 +36665,7 @@ extension GlueClientTypes.JDBCConnectorTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar storage.
-    public struct JDBCConnectorTarget: Swift.Equatable {
+    public struct JDBCConnectorTarget {
         /// Additional connection options for the connector.
         public var additionalOptions: [Swift.String:Swift.String]?
         /// The name of the connection that is associated with the connector.
@@ -36951,7 +36951,7 @@ extension GlueClientTypes.JdbcTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a JDBC data store to crawl.
-    public struct JdbcTarget: Swift.Equatable {
+    public struct JdbcTarget {
         /// The name of the connection to use to connect to the JDBC target.
         public var connectionName: Swift.String?
         /// Specify a value of RAWTYPES or COMMENTS to enable additional metadata in table responses. RAWTYPES provides the native-level datatype. COMMENTS provides comments associated with a column or table in the database. If you do not need additional metadata, keep the field empty.
@@ -37171,7 +37171,7 @@ extension GlueClientTypes.Job: Swift.CustomDebugStringConvertible {
 
 extension GlueClientTypes {
     /// Specifies a job definition.
-    public struct Job: Swift.Equatable {
+    public struct Job {
         /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) allocated to runs of this job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/).
         @available(*, deprecated, message: "This property is deprecated, use MaxCapacity instead.")
         public var allocatedCapacity: Swift.Int
@@ -37347,7 +37347,7 @@ extension GlueClientTypes.JobBookmarkEntry: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines a point that a job can resume processing.
-    public struct JobBookmarkEntry: Swift.Equatable {
+    public struct JobBookmarkEntry {
         /// The attempt ID number.
         public var attempt: Swift.Int
         /// The bookmark itself.
@@ -37412,7 +37412,7 @@ extension GlueClientTypes.JobBookmarksEncryption: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies how job bookmark data should be encrypted.
-    public struct JobBookmarksEncryption: Swift.Equatable {
+    public struct JobBookmarksEncryption {
         /// The encryption mode to use for job bookmarks data.
         public var jobBookmarksEncryptionMode: GlueClientTypes.JobBookmarksEncryptionMode?
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
@@ -37501,7 +37501,7 @@ extension GlueClientTypes.JobCommand: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies code that runs when a job is run.
-    public struct JobCommand: Swift.Equatable {
+    public struct JobCommand {
         /// The name of the job command. For an Apache Spark ETL job, this must be glueetl. For a Python shell job, it must be pythonshell. For an Apache Spark streaming ETL job, this must be gluestreaming. For a Ray job, this must be glueray.
         public var name: Swift.String?
         /// The Python version being used to run a Python shell job. Allowed values are 2 or 3.
@@ -37560,7 +37560,7 @@ extension GlueClientTypes.JobNodeDetails: Swift.Codable {
 
 extension GlueClientTypes {
     /// The details of a Job node present in the workflow.
-    public struct JobNodeDetails: Swift.Equatable {
+    public struct JobNodeDetails {
         /// The information for the job runs represented by the job node.
         public var jobRuns: [GlueClientTypes.JobRun]?
 
@@ -37757,7 +37757,7 @@ extension GlueClientTypes.JobRun: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains information about a job run.
-    public struct JobRun: Swift.Equatable {
+    public struct JobRun {
         /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) allocated to this JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/).
         @available(*, deprecated, message: "This property is deprecated, use MaxCapacity instead.")
         public var allocatedCapacity: Swift.Int
@@ -38109,7 +38109,7 @@ extension GlueClientTypes.JobUpdate: Swift.CustomDebugStringConvertible {
 
 extension GlueClientTypes {
     /// Specifies information used to update an existing job definition. The previous job definition is completely overwritten by this information.
-    public struct JobUpdate: Swift.Equatable {
+    public struct JobUpdate {
         /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) to allocate to this job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/).
         @available(*, deprecated, message: "This property is deprecated, use MaxCapacity instead.")
         public var allocatedCapacity: Swift.Int
@@ -38279,7 +38279,7 @@ extension GlueClientTypes.Join: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that joins two datasets into one dataset using a comparison phrase on the specified data property keys. You can use inner, outer, left, right, left semi, and left anti joins.
-    public struct Join: Swift.Equatable {
+    public struct Join {
         /// A list of the two columns to be joined.
         /// This member is required.
         public var columns: [GlueClientTypes.JoinColumn]?
@@ -38360,7 +38360,7 @@ extension GlueClientTypes.JoinColumn: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a column to be joined.
-    public struct JoinColumn: Swift.Equatable {
+    public struct JoinColumn {
         /// The column to be joined.
         /// This member is required.
         public var from: Swift.String?
@@ -38469,7 +38469,7 @@ extension GlueClientTypes.JsonClassifier: Swift.Codable {
 
 extension GlueClientTypes {
     /// A classifier for JSON content.
-    public struct JsonClassifier: Swift.Equatable {
+    public struct JsonClassifier {
         /// The time that this classifier was registered.
         public var creationTime: ClientRuntime.Date?
         /// A JsonPath string defining the JSON data for the classifier to classify. Glue supports a subset of JsonPath, as described in [Writing JsonPath Custom Classifiers](https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html#custom-classifier-json).
@@ -38630,7 +38630,7 @@ extension GlueClientTypes.KafkaStreamingSourceOptions: Swift.Codable {
 
 extension GlueClientTypes {
     /// Additional options for streaming.
-    public struct KafkaStreamingSourceOptions: Swift.Equatable {
+    public struct KafkaStreamingSourceOptions {
         /// When this option is set to 'true', the data output will contain an additional column named "__src_timestamp" that indicates the time when the corresponding record received by the topic. The default value is 'false'. This option is supported in Glue version 4.0 or later.
         public var addRecordTimestamp: Swift.String?
         /// The specific TopicPartitions to consume. You must specify at least one of "topicName", "assign" or "subscribePattern".
@@ -38743,7 +38743,7 @@ extension GlueClientTypes.KeySchemaElement: Swift.Codable {
 
 extension GlueClientTypes {
     /// A partition key pair consisting of a name and a type.
-    public struct KeySchemaElement: Swift.Equatable {
+    public struct KeySchemaElement {
         /// The name of a partition key.
         /// This member is required.
         public var name: Swift.String?
@@ -38904,7 +38904,7 @@ extension GlueClientTypes.KinesisStreamingSourceOptions: Swift.Codable {
 
 extension GlueClientTypes {
     /// Additional options for the Amazon Kinesis streaming data source.
-    public struct KinesisStreamingSourceOptions: Swift.Equatable {
+    public struct KinesisStreamingSourceOptions {
         /// Adds a time delay between two consecutive getRecords operations. The default value is "False". This option is only configurable for Glue version 2.0 and above.
         public var addIdleTimeBetweenReads: Swift.Bool?
         /// When this option is set to 'true', the data output will contain an additional column named "__src_timestamp" that indicates the time when the corresponding record received by the stream. The default value is 'false'. This option is supported in Glue version 4.0 or later.
@@ -39019,7 +39019,7 @@ extension GlueClientTypes.LabelingSetGenerationTaskRunProperties: Swift.Codable 
 
 extension GlueClientTypes {
     /// Specifies configuration properties for a labeling set generation task run.
-    public struct LabelingSetGenerationTaskRunProperties: Swift.Equatable {
+    public struct LabelingSetGenerationTaskRunProperties {
         /// The Amazon Simple Storage Service (Amazon S3) path where you will generate the labeling set.
         public var outputS3Path: Swift.String?
 
@@ -39060,7 +39060,7 @@ extension GlueClientTypes.LakeFormationConfiguration: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies Lake Formation configuration settings for the crawler.
-    public struct LakeFormationConfiguration: Swift.Equatable {
+    public struct LakeFormationConfiguration {
         /// Required for cross account crawls. For same account crawls as the target data, this can be left as null.
         public var accountId: Swift.String?
         /// Specifies whether to use Lake Formation credentials for the crawler instead of the IAM role credentials.
@@ -39155,7 +39155,7 @@ extension GlueClientTypes.LastActiveDefinition: Swift.Codable {
 
 extension GlueClientTypes {
     /// When there are multiple versions of a blueprint and the latest version has some errors, this attribute indicates the last successful blueprint definition that is available with the service.
-    public struct LastActiveDefinition: Swift.Equatable {
+    public struct LastActiveDefinition {
         /// Specifies a path in Amazon S3 where the blueprint is published by the Glue developer.
         public var blueprintLocation: Swift.String?
         /// Specifies a path in Amazon S3 where the blueprint is copied when you create or update the blueprint.
@@ -39236,7 +39236,7 @@ extension GlueClientTypes.LastCrawlInfo: Swift.Codable {
 
 extension GlueClientTypes {
     /// Status and error information about the most recent crawl.
-    public struct LastCrawlInfo: Swift.Equatable {
+    public struct LastCrawlInfo {
         /// If an error occurred, the error information about the last crawl.
         public var errorMessage: Swift.String?
         /// The log group for the last crawl.
@@ -39326,7 +39326,7 @@ extension GlueClientTypes.LineageConfiguration: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies data lineage configuration settings for the crawler.
-    public struct LineageConfiguration: Swift.Equatable {
+    public struct LineageConfiguration {
         /// Specifies whether data lineage is enabled for the crawler. Valid values are:
         ///
         /// * ENABLE: enables data lineage for the crawler
@@ -39375,7 +39375,7 @@ extension ListBlueprintsInput {
     }
 }
 
-public struct ListBlueprintsInput: Swift.Equatable {
+public struct ListBlueprintsInput {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation request.
@@ -39395,7 +39395,7 @@ public struct ListBlueprintsInput: Swift.Equatable {
     }
 }
 
-struct ListBlueprintsInputBody: Swift.Equatable {
+struct ListBlueprintsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let tags: [Swift.String:Swift.String]?
@@ -39442,7 +39442,7 @@ extension ListBlueprintsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBlueprintsOutput: Swift.Equatable {
+public struct ListBlueprintsOutput {
     /// List of names of blueprints in the account.
     public var blueprints: [Swift.String]?
     /// A continuation token, if not all blueprint names have been returned.
@@ -39458,7 +39458,7 @@ public struct ListBlueprintsOutput: Swift.Equatable {
     }
 }
 
-struct ListBlueprintsOutputBody: Swift.Equatable {
+struct ListBlueprintsOutputBody {
     let blueprints: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -39524,7 +39524,7 @@ extension ListColumnStatisticsTaskRunsInput {
     }
 }
 
-public struct ListColumnStatisticsTaskRunsInput: Swift.Equatable {
+public struct ListColumnStatisticsTaskRunsInput {
     /// The maximum size of the response.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation call.
@@ -39540,7 +39540,7 @@ public struct ListColumnStatisticsTaskRunsInput: Swift.Equatable {
     }
 }
 
-struct ListColumnStatisticsTaskRunsInputBody: Swift.Equatable {
+struct ListColumnStatisticsTaskRunsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -39574,7 +39574,7 @@ extension ListColumnStatisticsTaskRunsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListColumnStatisticsTaskRunsOutput: Swift.Equatable {
+public struct ListColumnStatisticsTaskRunsOutput {
     /// A list of column statistics task run IDs.
     public var columnStatisticsTaskRunIds: [Swift.String]?
     /// A continuation token, if not all task run IDs have yet been returned.
@@ -39590,7 +39590,7 @@ public struct ListColumnStatisticsTaskRunsOutput: Swift.Equatable {
     }
 }
 
-struct ListColumnStatisticsTaskRunsOutputBody: Swift.Equatable {
+struct ListColumnStatisticsTaskRunsOutputBody {
     let columnStatisticsTaskRunIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -39661,7 +39661,7 @@ extension ListCrawlersInput {
     }
 }
 
-public struct ListCrawlersInput: Swift.Equatable {
+public struct ListCrawlersInput {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation request.
@@ -39681,7 +39681,7 @@ public struct ListCrawlersInput: Swift.Equatable {
     }
 }
 
-struct ListCrawlersInputBody: Swift.Equatable {
+struct ListCrawlersInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -39728,7 +39728,7 @@ extension ListCrawlersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCrawlersOutput: Swift.Equatable {
+public struct ListCrawlersOutput {
     /// The names of all crawlers in the account, or the crawlers with the specified tags.
     public var crawlerNames: [Swift.String]?
     /// A continuation token, if the returned list does not contain the last metric available.
@@ -39744,7 +39744,7 @@ public struct ListCrawlersOutput: Swift.Equatable {
     }
 }
 
-struct ListCrawlersOutputBody: Swift.Equatable {
+struct ListCrawlersOutputBody {
     let crawlerNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -39819,7 +39819,7 @@ extension ListCrawlsInput {
     }
 }
 
-public struct ListCrawlsInput: Swift.Equatable {
+public struct ListCrawlsInput {
     /// The name of the crawler whose runs you want to retrieve.
     /// This member is required.
     public var crawlerName: Swift.String?
@@ -39844,7 +39844,7 @@ public struct ListCrawlsInput: Swift.Equatable {
     }
 }
 
-struct ListCrawlsInputBody: Swift.Equatable {
+struct ListCrawlsInputBody {
     let crawlerName: Swift.String?
     let maxResults: Swift.Int?
     let filters: [GlueClientTypes.CrawlsFilter]?
@@ -39895,7 +39895,7 @@ extension ListCrawlsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCrawlsOutput: Swift.Equatable {
+public struct ListCrawlsOutput {
     /// A list of CrawlerHistory objects representing the crawl runs that meet your criteria.
     public var crawls: [GlueClientTypes.CrawlerHistory]?
     /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
@@ -39911,7 +39911,7 @@ public struct ListCrawlsOutput: Swift.Equatable {
     }
 }
 
-struct ListCrawlsOutputBody: Swift.Equatable {
+struct ListCrawlsOutputBody {
     let crawls: [GlueClientTypes.CrawlerHistory]?
     let nextToken: Swift.String?
 }
@@ -39984,7 +39984,7 @@ extension ListCustomEntityTypesInput {
     }
 }
 
-public struct ListCustomEntityTypesInput: Swift.Equatable {
+public struct ListCustomEntityTypesInput {
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
     /// A paginated token to offset the results.
@@ -40004,7 +40004,7 @@ public struct ListCustomEntityTypesInput: Swift.Equatable {
     }
 }
 
-struct ListCustomEntityTypesInputBody: Swift.Equatable {
+struct ListCustomEntityTypesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let tags: [Swift.String:Swift.String]?
@@ -40051,7 +40051,7 @@ extension ListCustomEntityTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCustomEntityTypesOutput: Swift.Equatable {
+public struct ListCustomEntityTypesOutput {
     /// A list of CustomEntityType objects representing custom patterns.
     public var customEntityTypes: [GlueClientTypes.CustomEntityType]?
     /// A pagination token, if more results are available.
@@ -40067,7 +40067,7 @@ public struct ListCustomEntityTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListCustomEntityTypesOutputBody: Swift.Equatable {
+struct ListCustomEntityTypesOutputBody {
     let customEntityTypes: [GlueClientTypes.CustomEntityType]?
     let nextToken: Swift.String?
 }
@@ -40137,7 +40137,7 @@ extension ListDataQualityResultsInput {
     }
 }
 
-public struct ListDataQualityResultsInput: Swift.Equatable {
+public struct ListDataQualityResultsInput {
     /// The filter criteria.
     public var filter: GlueClientTypes.DataQualityResultFilterCriteria?
     /// The maximum number of results to return.
@@ -40157,7 +40157,7 @@ public struct ListDataQualityResultsInput: Swift.Equatable {
     }
 }
 
-struct ListDataQualityResultsInputBody: Swift.Equatable {
+struct ListDataQualityResultsInputBody {
     let filter: GlueClientTypes.DataQualityResultFilterCriteria?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -40195,7 +40195,7 @@ extension ListDataQualityResultsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataQualityResultsOutput: Swift.Equatable {
+public struct ListDataQualityResultsOutput {
     /// A pagination token, if more results are available.
     public var nextToken: Swift.String?
     /// A list of DataQualityResultDescription objects.
@@ -40212,7 +40212,7 @@ public struct ListDataQualityResultsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataQualityResultsOutputBody: Swift.Equatable {
+struct ListDataQualityResultsOutputBody {
     let results: [GlueClientTypes.DataQualityResultDescription]?
     let nextToken: Swift.String?
 }
@@ -40282,7 +40282,7 @@ extension ListDataQualityRuleRecommendationRunsInput {
     }
 }
 
-public struct ListDataQualityRuleRecommendationRunsInput: Swift.Equatable {
+public struct ListDataQualityRuleRecommendationRunsInput {
     /// The filter criteria.
     public var filter: GlueClientTypes.DataQualityRuleRecommendationRunFilter?
     /// The maximum number of results to return.
@@ -40302,7 +40302,7 @@ public struct ListDataQualityRuleRecommendationRunsInput: Swift.Equatable {
     }
 }
 
-struct ListDataQualityRuleRecommendationRunsInputBody: Swift.Equatable {
+struct ListDataQualityRuleRecommendationRunsInputBody {
     let filter: GlueClientTypes.DataQualityRuleRecommendationRunFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -40340,7 +40340,7 @@ extension ListDataQualityRuleRecommendationRunsOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListDataQualityRuleRecommendationRunsOutput: Swift.Equatable {
+public struct ListDataQualityRuleRecommendationRunsOutput {
     /// A pagination token, if more results are available.
     public var nextToken: Swift.String?
     /// A list of DataQualityRuleRecommendationRunDescription objects.
@@ -40356,7 +40356,7 @@ public struct ListDataQualityRuleRecommendationRunsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataQualityRuleRecommendationRunsOutputBody: Swift.Equatable {
+struct ListDataQualityRuleRecommendationRunsOutputBody {
     let runs: [GlueClientTypes.DataQualityRuleRecommendationRunDescription]?
     let nextToken: Swift.String?
 }
@@ -40426,7 +40426,7 @@ extension ListDataQualityRulesetEvaluationRunsInput {
     }
 }
 
-public struct ListDataQualityRulesetEvaluationRunsInput: Swift.Equatable {
+public struct ListDataQualityRulesetEvaluationRunsInput {
     /// The filter criteria.
     public var filter: GlueClientTypes.DataQualityRulesetEvaluationRunFilter?
     /// The maximum number of results to return.
@@ -40446,7 +40446,7 @@ public struct ListDataQualityRulesetEvaluationRunsInput: Swift.Equatable {
     }
 }
 
-struct ListDataQualityRulesetEvaluationRunsInputBody: Swift.Equatable {
+struct ListDataQualityRulesetEvaluationRunsInputBody {
     let filter: GlueClientTypes.DataQualityRulesetEvaluationRunFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -40484,7 +40484,7 @@ extension ListDataQualityRulesetEvaluationRunsOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct ListDataQualityRulesetEvaluationRunsOutput: Swift.Equatable {
+public struct ListDataQualityRulesetEvaluationRunsOutput {
     /// A pagination token, if more results are available.
     public var nextToken: Swift.String?
     /// A list of DataQualityRulesetEvaluationRunDescription objects representing data quality ruleset runs.
@@ -40500,7 +40500,7 @@ public struct ListDataQualityRulesetEvaluationRunsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataQualityRulesetEvaluationRunsOutputBody: Swift.Equatable {
+struct ListDataQualityRulesetEvaluationRunsOutputBody {
     let runs: [GlueClientTypes.DataQualityRulesetEvaluationRunDescription]?
     let nextToken: Swift.String?
 }
@@ -40577,7 +40577,7 @@ extension ListDataQualityRulesetsInput {
     }
 }
 
-public struct ListDataQualityRulesetsInput: Swift.Equatable {
+public struct ListDataQualityRulesetsInput {
     /// The filter criteria.
     public var filter: GlueClientTypes.DataQualityRulesetFilterCriteria?
     /// The maximum number of results to return.
@@ -40601,7 +40601,7 @@ public struct ListDataQualityRulesetsInput: Swift.Equatable {
     }
 }
 
-struct ListDataQualityRulesetsInputBody: Swift.Equatable {
+struct ListDataQualityRulesetsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filter: GlueClientTypes.DataQualityRulesetFilterCriteria?
@@ -40652,7 +40652,7 @@ extension ListDataQualityRulesetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataQualityRulesetsOutput: Swift.Equatable {
+public struct ListDataQualityRulesetsOutput {
     /// A pagination token, if more results are available.
     public var nextToken: Swift.String?
     /// A paginated list of rulesets for the specified list of Glue tables.
@@ -40668,7 +40668,7 @@ public struct ListDataQualityRulesetsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataQualityRulesetsOutputBody: Swift.Equatable {
+struct ListDataQualityRulesetsOutputBody {
     let rulesets: [GlueClientTypes.DataQualityRulesetListDetails]?
     let nextToken: Swift.String?
 }
@@ -40742,7 +40742,7 @@ extension ListDevEndpointsInput {
     }
 }
 
-public struct ListDevEndpointsInput: Swift.Equatable {
+public struct ListDevEndpointsInput {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation request.
@@ -40762,7 +40762,7 @@ public struct ListDevEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListDevEndpointsInputBody: Swift.Equatable {
+struct ListDevEndpointsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let tags: [Swift.String:Swift.String]?
@@ -40809,7 +40809,7 @@ extension ListDevEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDevEndpointsOutput: Swift.Equatable {
+public struct ListDevEndpointsOutput {
     /// The names of all the DevEndpoints in the account, or the DevEndpoints with the specified tags.
     public var devEndpointNames: [Swift.String]?
     /// A continuation token, if the returned list does not contain the last metric available.
@@ -40825,7 +40825,7 @@ public struct ListDevEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListDevEndpointsOutputBody: Swift.Equatable {
+struct ListDevEndpointsOutputBody {
     let devEndpointNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -40899,7 +40899,7 @@ extension ListJobsInput {
     }
 }
 
-public struct ListJobsInput: Swift.Equatable {
+public struct ListJobsInput {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation request.
@@ -40919,7 +40919,7 @@ public struct ListJobsInput: Swift.Equatable {
     }
 }
 
-struct ListJobsInputBody: Swift.Equatable {
+struct ListJobsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let tags: [Swift.String:Swift.String]?
@@ -40966,7 +40966,7 @@ extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobsOutput: Swift.Equatable {
+public struct ListJobsOutput {
     /// The names of all jobs in the account, or the jobs with the specified tags.
     public var jobNames: [Swift.String]?
     /// A continuation token, if the returned list does not contain the last metric available.
@@ -40982,7 +40982,7 @@ public struct ListJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputBody: Swift.Equatable {
+struct ListJobsOutputBody {
     let jobNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -41064,7 +41064,7 @@ extension ListMLTransformsInput {
     }
 }
 
-public struct ListMLTransformsInput: Swift.Equatable {
+public struct ListMLTransformsInput {
     /// A TransformFilterCriteria used to filter the machine learning transforms.
     public var filter: GlueClientTypes.TransformFilterCriteria?
     /// The maximum size of a list to return.
@@ -41092,7 +41092,7 @@ public struct ListMLTransformsInput: Swift.Equatable {
     }
 }
 
-struct ListMLTransformsInputBody: Swift.Equatable {
+struct ListMLTransformsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filter: GlueClientTypes.TransformFilterCriteria?
@@ -41147,7 +41147,7 @@ extension ListMLTransformsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMLTransformsOutput: Swift.Equatable {
+public struct ListMLTransformsOutput {
     /// A continuation token, if the returned list does not contain the last metric available.
     public var nextToken: Swift.String?
     /// The identifiers of all the machine learning transforms in the account, or the machine learning transforms with the specified tags.
@@ -41164,7 +41164,7 @@ public struct ListMLTransformsOutput: Swift.Equatable {
     }
 }
 
-struct ListMLTransformsOutputBody: Swift.Equatable {
+struct ListMLTransformsOutputBody {
     let transformIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -41231,7 +41231,7 @@ extension ListRegistriesInput {
     }
 }
 
-public struct ListRegistriesInput: Swift.Equatable {
+public struct ListRegistriesInput {
     /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation call.
@@ -41247,7 +41247,7 @@ public struct ListRegistriesInput: Swift.Equatable {
     }
 }
 
-struct ListRegistriesInputBody: Swift.Equatable {
+struct ListRegistriesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -41281,7 +41281,7 @@ extension ListRegistriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRegistriesOutput: Swift.Equatable {
+public struct ListRegistriesOutput {
     /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
     public var nextToken: Swift.String?
     /// An array of RegistryDetailedListItem objects containing minimal details of each registry.
@@ -41297,7 +41297,7 @@ public struct ListRegistriesOutput: Swift.Equatable {
     }
 }
 
-struct ListRegistriesOutputBody: Swift.Equatable {
+struct ListRegistriesOutputBody {
     let registries: [GlueClientTypes.RegistryListItem]?
     let nextToken: Swift.String?
 }
@@ -41367,7 +41367,7 @@ extension ListSchemaVersionsInput {
     }
 }
 
-public struct ListSchemaVersionsInput: Swift.Equatable {
+public struct ListSchemaVersionsInput {
     /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation call.
@@ -41392,7 +41392,7 @@ public struct ListSchemaVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListSchemaVersionsInputBody: Swift.Equatable {
+struct ListSchemaVersionsInputBody {
     let schemaId: GlueClientTypes.SchemaId?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -41430,7 +41430,7 @@ extension ListSchemaVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchemaVersionsOutput: Swift.Equatable {
+public struct ListSchemaVersionsOutput {
     /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
     public var nextToken: Swift.String?
     /// An array of SchemaVersionList objects containing details of each schema version.
@@ -41446,7 +41446,7 @@ public struct ListSchemaVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSchemaVersionsOutputBody: Swift.Equatable {
+struct ListSchemaVersionsOutputBody {
     let schemas: [GlueClientTypes.SchemaVersionListItem]?
     let nextToken: Swift.String?
 }
@@ -41517,7 +41517,7 @@ extension ListSchemasInput {
     }
 }
 
-public struct ListSchemasInput: Swift.Equatable {
+public struct ListSchemasInput {
     /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation call.
@@ -41537,7 +41537,7 @@ public struct ListSchemasInput: Swift.Equatable {
     }
 }
 
-struct ListSchemasInputBody: Swift.Equatable {
+struct ListSchemasInputBody {
     let registryId: GlueClientTypes.RegistryId?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -41575,7 +41575,7 @@ extension ListSchemasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchemasOutput: Swift.Equatable {
+public struct ListSchemasOutput {
     /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
     public var nextToken: Swift.String?
     /// An array of SchemaListItem objects containing details of each schema.
@@ -41591,7 +41591,7 @@ public struct ListSchemasOutput: Swift.Equatable {
     }
 }
 
-struct ListSchemasOutputBody: Swift.Equatable {
+struct ListSchemasOutputBody {
     let schemas: [GlueClientTypes.SchemaListItem]?
     let nextToken: Swift.String?
 }
@@ -41669,7 +41669,7 @@ extension ListSessionsInput {
     }
 }
 
-public struct ListSessionsInput: Swift.Equatable {
+public struct ListSessionsInput {
     /// The maximum number of results.
     public var maxResults: Swift.Int?
     /// The token for the next set of results, or null if there are no more result.
@@ -41693,7 +41693,7 @@ public struct ListSessionsInput: Swift.Equatable {
     }
 }
 
-struct ListSessionsInputBody: Swift.Equatable {
+struct ListSessionsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let tags: [Swift.String:Swift.String]?
@@ -41746,7 +41746,7 @@ extension ListSessionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSessionsOutput: Swift.Equatable {
+public struct ListSessionsOutput {
     /// Returns the ID of the session.
     public var ids: [Swift.String]?
     /// The token for the next set of results, or null if there are no more result.
@@ -41766,7 +41766,7 @@ public struct ListSessionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSessionsOutputBody: Swift.Equatable {
+struct ListSessionsOutputBody {
     let ids: [Swift.String]?
     let sessions: [GlueClientTypes.Session]?
     let nextToken: Swift.String?
@@ -41850,7 +41850,7 @@ extension ListStatementsInput {
     }
 }
 
-public struct ListStatementsInput: Swift.Equatable {
+public struct ListStatementsInput {
     /// A continuation token, if this is a continuation call.
     public var nextToken: Swift.String?
     /// The origin of the request to list statements.
@@ -41871,7 +41871,7 @@ public struct ListStatementsInput: Swift.Equatable {
     }
 }
 
-struct ListStatementsInputBody: Swift.Equatable {
+struct ListStatementsInputBody {
     let sessionId: Swift.String?
     let requestOrigin: Swift.String?
     let nextToken: Swift.String?
@@ -41909,7 +41909,7 @@ extension ListStatementsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStatementsOutput: Swift.Equatable {
+public struct ListStatementsOutput {
     /// A continuation token, if not all statements have yet been returned.
     public var nextToken: Swift.String?
     /// Returns the list of statements.
@@ -41925,7 +41925,7 @@ public struct ListStatementsOutput: Swift.Equatable {
     }
 }
 
-struct ListStatementsOutputBody: Swift.Equatable {
+struct ListStatementsOutputBody {
     let statements: [GlueClientTypes.Statement]?
     let nextToken: Swift.String?
 }
@@ -42010,7 +42010,7 @@ extension ListTableOptimizerRunsInput {
     }
 }
 
-public struct ListTableOptimizerRunsInput: Swift.Equatable {
+public struct ListTableOptimizerRunsInput {
     /// The Catalog ID of the table.
     /// This member is required.
     public var catalogId: Swift.String?
@@ -42046,7 +42046,7 @@ public struct ListTableOptimizerRunsInput: Swift.Equatable {
     }
 }
 
-struct ListTableOptimizerRunsInputBody: Swift.Equatable {
+struct ListTableOptimizerRunsInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -42102,7 +42102,7 @@ extension ListTableOptimizerRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTableOptimizerRunsOutput: Swift.Equatable {
+public struct ListTableOptimizerRunsOutput {
     /// The Catalog ID of the table.
     public var catalogId: Swift.String?
     /// The name of the database in the catalog in which the table resides.
@@ -42130,7 +42130,7 @@ public struct ListTableOptimizerRunsOutput: Swift.Equatable {
     }
 }
 
-struct ListTableOptimizerRunsOutputBody: Swift.Equatable {
+struct ListTableOptimizerRunsOutputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -42220,7 +42220,7 @@ extension ListTriggersInput {
     }
 }
 
-public struct ListTriggersInput: Swift.Equatable {
+public struct ListTriggersInput {
     /// The name of the job for which to retrieve triggers. The trigger that can start this job is returned. If there is no such trigger, all triggers are returned.
     public var dependentJobName: Swift.String?
     /// The maximum size of a list to return.
@@ -42244,7 +42244,7 @@ public struct ListTriggersInput: Swift.Equatable {
     }
 }
 
-struct ListTriggersInputBody: Swift.Equatable {
+struct ListTriggersInputBody {
     let nextToken: Swift.String?
     let dependentJobName: Swift.String?
     let maxResults: Swift.Int?
@@ -42295,7 +42295,7 @@ extension ListTriggersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTriggersOutput: Swift.Equatable {
+public struct ListTriggersOutput {
     /// A continuation token, if the returned list does not contain the last metric available.
     public var nextToken: Swift.String?
     /// The names of all triggers in the account, or the triggers with the specified tags.
@@ -42311,7 +42311,7 @@ public struct ListTriggersOutput: Swift.Equatable {
     }
 }
 
-struct ListTriggersOutputBody: Swift.Equatable {
+struct ListTriggersOutputBody {
     let triggerNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -42378,7 +42378,7 @@ extension ListWorkflowsInput {
     }
 }
 
-public struct ListWorkflowsInput: Swift.Equatable {
+public struct ListWorkflowsInput {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation request.
@@ -42394,7 +42394,7 @@ public struct ListWorkflowsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowsInputBody: Swift.Equatable {
+struct ListWorkflowsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -42428,7 +42428,7 @@ extension ListWorkflowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkflowsOutput: Swift.Equatable {
+public struct ListWorkflowsOutput {
     /// A continuation token, if not all workflow names have been returned.
     public var nextToken: Swift.String?
     /// List of names of workflows in the account.
@@ -42444,7 +42444,7 @@ public struct ListWorkflowsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowsOutputBody: Swift.Equatable {
+struct ListWorkflowsOutputBody {
     let workflows: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -42555,7 +42555,7 @@ extension GlueClientTypes.Location: Swift.Codable {
 
 extension GlueClientTypes {
     /// The location of resources.
-    public struct Location: Swift.Equatable {
+    public struct Location {
         /// An Amazon DynamoDB table location.
         public var dynamoDB: [GlueClientTypes.CodeGenNodeArg]?
         /// A JDBC location.
@@ -42677,7 +42677,7 @@ extension GlueClientTypes.LongColumnStatisticsData: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines column statistics supported for integer data columns.
-    public struct LongColumnStatisticsData: Swift.Equatable {
+    public struct LongColumnStatisticsData {
         /// The highest value in the column.
         public var maximumValue: Swift.Int
         /// The lowest value in the column.
@@ -42858,7 +42858,7 @@ extension GlueClientTypes.MLTransform: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure for a machine learning transform.
-    public struct MLTransform: Swift.Equatable {
+    public struct MLTransform {
         /// A timestamp. The time and date that this machine learning transform was created.
         public var createdOn: ClientRuntime.Date?
         /// A user-defined, long-form description text for the machine learning transform. Descriptions are not guaranteed to be unique and can be changed at any time.
@@ -43016,7 +43016,7 @@ public struct MLTransformNotReadyException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct MLTransformNotReadyExceptionBody: Swift.Equatable {
+struct MLTransformNotReadyExceptionBody {
     let message: Swift.String?
 }
 
@@ -43059,7 +43059,7 @@ extension GlueClientTypes.MLUserDataEncryption: Swift.Codable {
 
 extension GlueClientTypes {
     /// The encryption-at-rest settings of the transform that apply to accessing user data.
-    public struct MLUserDataEncryption: Swift.Equatable {
+    public struct MLUserDataEncryption {
         /// The ID for the customer-provided KMS key.
         public var kmsKeyId: Swift.String?
         /// The encryption mode applied to user data. Valid values are:
@@ -43189,7 +43189,7 @@ extension GlueClientTypes.Mapping: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies the mapping of data property keys.
-    public struct Mapping: Swift.Equatable {
+    public struct Mapping {
         /// Only applicable to nested data structures. If you want to change the parent structure, but also one of its children, you can fill out this data strucutre. It is also Mapping, but its FromPath will be the parent's FromPath plus the FromPath from this structure. For the children part, suppose you have the structure: { "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType": "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey": "inner", "ToType": "Double", "Dropped": false, }] } You can specify a Mapping that looks like: { "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType": "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey": "inner", "ToType": "Double", "Dropped": false, }] }
         public var children: [GlueClientTypes.Mapping]?
         /// If true, then the column is removed.
@@ -43274,7 +43274,7 @@ extension GlueClientTypes.MappingEntry: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines a mapping.
-    public struct MappingEntry: Swift.Equatable {
+    public struct MappingEntry {
         /// The source path.
         public var sourcePath: Swift.String?
         /// The name of the source table.
@@ -43383,7 +43383,7 @@ extension GlueClientTypes.Merge: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that merges a DynamicFrame with a staging DynamicFrame based on the specified primary keys to identify records. Duplicate records (records with the same primary keys) are not de-duplicated.
-    public struct Merge: Swift.Equatable {
+    public struct Merge {
         /// The data inputs identified by their node names.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -43458,7 +43458,7 @@ extension GlueClientTypes.MetadataInfo: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure containing metadata information for a schema version.
-    public struct MetadataInfo: Swift.Equatable {
+    public struct MetadataInfo {
         /// The time at which the entry was created.
         public var createdTime: Swift.String?
         /// The metadata key’s corresponding value.
@@ -43507,7 +43507,7 @@ extension GlueClientTypes.MetadataKeyValuePair: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure containing a key value pair for metadata.
-    public struct MetadataKeyValuePair: Swift.Equatable {
+    public struct MetadataKeyValuePair {
         /// A metadata key.
         public var metadataKey: Swift.String?
         /// A metadata key’s corresponding value.
@@ -43599,7 +43599,7 @@ extension GlueClientTypes.MetricBasedObservation: Swift.Codable {
 
 extension GlueClientTypes {
     /// Describes the metric based observation generated based on evaluated data quality metrics.
-    public struct MetricBasedObservation: Swift.Equatable {
+    public struct MetricBasedObservation {
         /// The name of the data quality metric used for generating the observation.
         public var metricName: Swift.String?
         /// An object of type DataQualityMetricValues representing the analysis of the data quality metric value.
@@ -43654,7 +43654,7 @@ extension GlueClientTypes.MicrosoftSQLServerCatalogSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Microsoft SQL server data source in the Glue Data Catalog.
-    public struct MicrosoftSQLServerCatalogSource: Swift.Equatable {
+    public struct MicrosoftSQLServerCatalogSource {
         /// The name of the database to read from.
         /// This member is required.
         public var database: Swift.String?
@@ -43730,7 +43730,7 @@ extension GlueClientTypes.MicrosoftSQLServerCatalogTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target that uses Microsoft SQL.
-    public struct MicrosoftSQLServerCatalogTarget: Swift.Equatable {
+    public struct MicrosoftSQLServerCatalogTarget {
         /// The name of the database to write to.
         /// This member is required.
         public var database: Swift.String?
@@ -43793,7 +43793,7 @@ extension GlueClientTypes.MongoDBTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Amazon DocumentDB or MongoDB data store to crawl.
-    public struct MongoDBTarget: Swift.Equatable {
+    public struct MongoDBTarget {
         /// The name of the connection to use to connect to the Amazon DocumentDB or MongoDB target.
         public var connectionName: Swift.String?
         /// The path of the Amazon DocumentDB or MongoDB target (database/collection).
@@ -43848,7 +43848,7 @@ extension GlueClientTypes.MySQLCatalogSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a MySQL data source in the Glue Data Catalog.
-    public struct MySQLCatalogSource: Swift.Equatable {
+    public struct MySQLCatalogSource {
         /// The name of the database to read from.
         /// This member is required.
         public var database: Swift.String?
@@ -43924,7 +43924,7 @@ extension GlueClientTypes.MySQLCatalogTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target that uses MySQL.
-    public struct MySQLCatalogTarget: Swift.Equatable {
+    public struct MySQLCatalogTarget {
         /// The name of the database to write to.
         /// This member is required.
         public var database: Swift.String?
@@ -43994,7 +43994,7 @@ public struct NoScheduleException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct NoScheduleExceptionBody: Swift.Equatable {
+struct NoScheduleExceptionBody {
     let message: Swift.String?
 }
 
@@ -44061,7 +44061,7 @@ extension GlueClientTypes.Node: Swift.Codable {
 
 extension GlueClientTypes {
     /// A node represents an Glue component (trigger, crawler, or job) on a workflow graph.
-    public struct Node: Swift.Equatable {
+    public struct Node {
         /// Details of the crawler when the node represents a crawler.
         public var crawlerDetails: GlueClientTypes.CrawlerNodeDetails?
         /// Details of the Job when the node represents a Job.
@@ -44151,7 +44151,7 @@ extension GlueClientTypes.NotificationProperty: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies configuration properties of a notification.
-    public struct NotificationProperty: Swift.Equatable {
+    public struct NotificationProperty {
         /// After a job run starts, the number of minutes to wait before sending a job run delay notification.
         public var notifyDelayAfter: Swift.Int?
 
@@ -44198,7 +44198,7 @@ extension GlueClientTypes.NullCheckBoxList: Swift.Codable {
 
 extension GlueClientTypes {
     /// Represents whether certain values are recognized as null values for removal.
-    public struct NullCheckBoxList: Swift.Equatable {
+    public struct NullCheckBoxList {
         /// Specifies that an empty string is considered as a null value.
         public var isEmpty: Swift.Bool?
         /// Specifies that an integer value of -1 is considered as a null value.
@@ -44247,7 +44247,7 @@ extension GlueClientTypes.NullValueField: Swift.Codable {
 
 extension GlueClientTypes {
     /// Represents a custom null value such as a zeros or other value being used as a null placeholder unique to the dataset.
-    public struct NullValueField: Swift.Equatable {
+    public struct NullValueField {
         /// The datatype of the value.
         /// This member is required.
         public var datatype: GlueClientTypes.Datatype?
@@ -44288,7 +44288,7 @@ extension GlueClientTypes.OpenTableFormatInput: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure representing an open format table.
-    public struct OpenTableFormatInput: Swift.Equatable {
+    public struct OpenTableFormatInput {
         /// Specifies an IcebergInput structure that defines an Apache Iceberg metadata table.
         public var icebergInput: GlueClientTypes.IcebergInput?
 
@@ -44342,7 +44342,7 @@ public struct OperationTimeoutException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct OperationTimeoutExceptionBody: Swift.Equatable {
+struct OperationTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -44391,7 +44391,7 @@ extension GlueClientTypes.Option: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an option value.
-    public struct Option: Swift.Equatable {
+    public struct Option {
         /// Specifies the description of the option.
         public var description: Swift.String?
         /// Specifies the label of the option.
@@ -44446,7 +44446,7 @@ extension GlueClientTypes.OracleSQLCatalogSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Oracle data source in the Glue Data Catalog.
-    public struct OracleSQLCatalogSource: Swift.Equatable {
+    public struct OracleSQLCatalogSource {
         /// The name of the database to read from.
         /// This member is required.
         public var database: Swift.String?
@@ -44522,7 +44522,7 @@ extension GlueClientTypes.OracleSQLCatalogTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target that uses Oracle SQL.
-    public struct OracleSQLCatalogTarget: Swift.Equatable {
+    public struct OracleSQLCatalogTarget {
         /// The name of the database to write to.
         /// This member is required.
         public var database: Swift.String?
@@ -44579,7 +44579,7 @@ extension GlueClientTypes.Order: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies the sort order of a sorted column.
-    public struct Order: Swift.Equatable {
+    public struct Order {
         /// The name of the column.
         /// This member is required.
         public var column: Swift.String?
@@ -44626,7 +44626,7 @@ extension GlueClientTypes.OtherMetadataValueListItem: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure containing other metadata for a schema version belonging to the same metadata key.
-    public struct OtherMetadataValueListItem: Swift.Equatable {
+    public struct OtherMetadataValueListItem {
         /// The time at which the entry was created.
         public var createdTime: Swift.String?
         /// The metadata key’s corresponding value for the other metadata belonging to the same metadata key.
@@ -44731,7 +44731,7 @@ extension GlueClientTypes.PIIDetection: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that identifies, removes or masks PII data.
-    public struct PIIDetection: Swift.Equatable {
+    public struct PIIDetection {
         /// Indicates the types of entities the PIIDetection transform will identify as PII data. PII type entities include: PERSON_NAME, DATE, USA_SNN, EMAIL, USA_ITIN, USA_PASSPORT_NUMBER, PHONE_NUMBER, BANK_ACCOUNT, IP_ADDRESS, MAC_ADDRESS, USA_CPT_CODE, USA_HCPCS_CODE, USA_NATIONAL_DRUG_CODE, USA_MEDICARE_BENEFICIARY_IDENTIFIER, USA_HEALTH_INSURANCE_CLAIM_NUMBER,CREDIT_CARD,USA_NATIONAL_PROVIDER_IDENTIFIER,USA_DEA_NUMBER,USA_DRIVING_LICENSE
         /// This member is required.
         public var entityTypesToDetect: [Swift.String]?
@@ -44958,7 +44958,7 @@ extension GlueClientTypes.Partition: Swift.Codable {
 
 extension GlueClientTypes {
     /// Represents a slice of table data.
-    public struct Partition: Swift.Equatable {
+    public struct Partition {
         /// The ID of the Data Catalog in which the partition resides.
         public var catalogId: Swift.String?
         /// The time at which the partition was created.
@@ -45043,7 +45043,7 @@ extension GlueClientTypes.PartitionError: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains information about a partition error.
-    public struct PartitionError: Swift.Equatable {
+    public struct PartitionError {
         /// The details about the partition error.
         public var errorDetail: GlueClientTypes.ErrorDetail?
         /// The values that define the partition.
@@ -45100,7 +45100,7 @@ extension GlueClientTypes.PartitionIndex: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure for a partition index.
-    public struct PartitionIndex: Swift.Equatable {
+    public struct PartitionIndex {
         /// The name of the partition index.
         /// This member is required.
         public var indexName: Swift.String?
@@ -45183,7 +45183,7 @@ extension GlueClientTypes.PartitionIndexDescriptor: Swift.Codable {
 
 extension GlueClientTypes {
     /// A descriptor for a partition index in a table.
-    public struct PartitionIndexDescriptor: Swift.Equatable {
+    public struct PartitionIndexDescriptor {
         /// A list of errors that can occur when registering partition indexes for an existing table.
         public var backfillErrors: [GlueClientTypes.BackfillError]?
         /// The name of the partition index.
@@ -45327,7 +45327,7 @@ extension GlueClientTypes.PartitionInput: Swift.Codable {
 
 extension GlueClientTypes {
     /// The structure used to create and update a partition.
-    public struct PartitionInput: Swift.Equatable {
+    public struct PartitionInput {
         /// The last time at which the partition was accessed.
         public var lastAccessTime: ClientRuntime.Date?
         /// The last time at which column statistics were computed for this partition.
@@ -45390,7 +45390,7 @@ extension GlueClientTypes.PartitionValueList: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains a list of values defining partitions.
-    public struct PartitionValueList: Swift.Equatable {
+    public struct PartitionValueList {
         /// The list of values.
         /// This member is required.
         public var values: [Swift.String]?
@@ -45536,7 +45536,7 @@ public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct PermissionTypeMismatchExceptionBody: Swift.Equatable {
+struct PermissionTypeMismatchExceptionBody {
     let message: Swift.String?
 }
 
@@ -45597,7 +45597,7 @@ extension GlueClientTypes.PhysicalConnectionRequirements: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies the physical requirements for a connection.
-    public struct PhysicalConnectionRequirements: Swift.Equatable {
+    public struct PhysicalConnectionRequirements {
         /// The connection's Availability Zone. This field is redundant because the specified subnet implies the Availability Zone to be used. Currently the field must be populated, but it will be deprecated in the future.
         public var availabilityZone: Swift.String?
         /// The security group ID list used by the connection.
@@ -45690,7 +45690,7 @@ extension GlueClientTypes.PostgreSQLCatalogSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a PostgresSQL data source in the Glue Data Catalog.
-    public struct PostgreSQLCatalogSource: Swift.Equatable {
+    public struct PostgreSQLCatalogSource {
         /// The name of the database to read from.
         /// This member is required.
         public var database: Swift.String?
@@ -45766,7 +45766,7 @@ extension GlueClientTypes.PostgreSQLCatalogTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target that uses Postgres SQL.
-    public struct PostgreSQLCatalogTarget: Swift.Equatable {
+    public struct PostgreSQLCatalogTarget {
         /// The name of the database to write to.
         /// This member is required.
         public var database: Swift.String?
@@ -45823,7 +45823,7 @@ extension GlueClientTypes.Predecessor: Swift.Codable {
 
 extension GlueClientTypes {
     /// A job run that was used in the predicate of a conditional trigger that triggered this job run.
-    public struct Predecessor: Swift.Equatable {
+    public struct Predecessor {
         /// The name of the job definition used by the predecessor job run.
         public var jobName: Swift.String?
         /// The job-run ID of the predecessor job run.
@@ -45880,7 +45880,7 @@ extension GlueClientTypes.Predicate: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines the predicate of the trigger, which determines when it fires.
-    public struct Predicate: Swift.Equatable {
+    public struct Predicate {
         /// A list of the conditions that determine when the trigger will fire.
         public var conditions: [GlueClientTypes.Condition]?
         /// An optional field if only one condition is listed. If multiple conditions are listed, then this field is required.
@@ -45937,7 +45937,7 @@ extension GlueClientTypes.PrincipalPermissions: Swift.Codable {
 
 extension GlueClientTypes {
     /// Permissions granted to a principal.
-    public struct PrincipalPermissions: Swift.Equatable {
+    public struct PrincipalPermissions {
         /// The permissions that are granted to the principal.
         public var permissions: [GlueClientTypes.Permission]?
         /// The principal who is granted permissions.
@@ -46023,7 +46023,7 @@ extension GlueClientTypes.PropertyPredicate: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines a property predicate.
-    public struct PropertyPredicate: Swift.Equatable {
+    public struct PropertyPredicate {
         /// The comparator used to compare this property to others.
         public var comparator: GlueClientTypes.Comparator?
         /// The key of the property.
@@ -46069,7 +46069,7 @@ extension PutDataCatalogEncryptionSettingsInput {
     }
 }
 
-public struct PutDataCatalogEncryptionSettingsInput: Swift.Equatable {
+public struct PutDataCatalogEncryptionSettingsInput {
     /// The ID of the Data Catalog to set the security configuration for. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The security configuration to set.
@@ -46086,7 +46086,7 @@ public struct PutDataCatalogEncryptionSettingsInput: Swift.Equatable {
     }
 }
 
-struct PutDataCatalogEncryptionSettingsInputBody: Swift.Equatable {
+struct PutDataCatalogEncryptionSettingsInputBody {
     let catalogId: Swift.String?
     let dataCatalogEncryptionSettings: GlueClientTypes.DataCatalogEncryptionSettings?
 }
@@ -46111,7 +46111,7 @@ extension PutDataCatalogEncryptionSettingsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct PutDataCatalogEncryptionSettingsOutput: Swift.Equatable {
+public struct PutDataCatalogEncryptionSettingsOutput {
 
     public init() { }
 }
@@ -46165,7 +46165,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// If 'TRUE', indicates that you are using both methods to grant cross-account access to Data Catalog resources:
     ///
     /// * By directly updating the resource policy with PutResourePolicy
@@ -46201,7 +46201,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let policyInJson: Swift.String?
     let resourceArn: Swift.String?
     let policyHashCondition: Swift.String?
@@ -46245,7 +46245,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
     /// A hash of the policy that has just been set. This must be included in a subsequent call that overwrites or updates this policy.
     public var policyHash: Swift.String?
 
@@ -46257,7 +46257,7 @@ public struct PutResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody {
     let policyHash: Swift.String?
 }
 
@@ -46320,7 +46320,7 @@ extension PutSchemaVersionMetadataInput {
     }
 }
 
-public struct PutSchemaVersionMetadataInput: Swift.Equatable {
+public struct PutSchemaVersionMetadataInput {
     /// The metadata key's corresponding value.
     /// This member is required.
     public var metadataKeyValue: GlueClientTypes.MetadataKeyValuePair?
@@ -46345,7 +46345,7 @@ public struct PutSchemaVersionMetadataInput: Swift.Equatable {
     }
 }
 
-struct PutSchemaVersionMetadataInputBody: Swift.Equatable {
+struct PutSchemaVersionMetadataInputBody {
     let schemaId: GlueClientTypes.SchemaId?
     let schemaVersionNumber: GlueClientTypes.SchemaVersionNumber?
     let schemaVersionId: Swift.String?
@@ -46399,7 +46399,7 @@ extension PutSchemaVersionMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSchemaVersionMetadataOutput: Swift.Equatable {
+public struct PutSchemaVersionMetadataOutput {
     /// The latest version of the schema.
     public var latestVersion: Swift.Bool
     /// The metadata key.
@@ -46439,7 +46439,7 @@ public struct PutSchemaVersionMetadataOutput: Swift.Equatable {
     }
 }
 
-struct PutSchemaVersionMetadataOutputBody: Swift.Equatable {
+struct PutSchemaVersionMetadataOutputBody {
     let schemaArn: Swift.String?
     let schemaName: Swift.String?
     let registryName: Swift.String?
@@ -46529,7 +46529,7 @@ extension PutWorkflowRunPropertiesInput {
     }
 }
 
-public struct PutWorkflowRunPropertiesInput: Swift.Equatable {
+public struct PutWorkflowRunPropertiesInput {
     /// Name of the workflow which was run.
     /// This member is required.
     public var name: Swift.String?
@@ -46552,7 +46552,7 @@ public struct PutWorkflowRunPropertiesInput: Swift.Equatable {
     }
 }
 
-struct PutWorkflowRunPropertiesInputBody: Swift.Equatable {
+struct PutWorkflowRunPropertiesInputBody {
     let name: Swift.String?
     let runId: Swift.String?
     let runProperties: [Swift.String:Swift.String]?
@@ -46590,7 +46590,7 @@ extension PutWorkflowRunPropertiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutWorkflowRunPropertiesOutput: Swift.Equatable {
+public struct PutWorkflowRunPropertiesOutput {
 
     public init() { }
 }
@@ -46655,7 +46655,7 @@ extension QuerySchemaVersionMetadataInput {
     }
 }
 
-public struct QuerySchemaVersionMetadataInput: Swift.Equatable {
+public struct QuerySchemaVersionMetadataInput {
     /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
     public var maxResults: Swift.Int?
     /// Search key-value pairs for metadata, if they are not provided all the metadata information will be fetched.
@@ -46687,7 +46687,7 @@ public struct QuerySchemaVersionMetadataInput: Swift.Equatable {
     }
 }
 
-struct QuerySchemaVersionMetadataInputBody: Swift.Equatable {
+struct QuerySchemaVersionMetadataInputBody {
     let schemaId: GlueClientTypes.SchemaId?
     let schemaVersionNumber: GlueClientTypes.SchemaVersionNumber?
     let schemaVersionId: Swift.String?
@@ -46748,7 +46748,7 @@ extension QuerySchemaVersionMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct QuerySchemaVersionMetadataOutput: Swift.Equatable {
+public struct QuerySchemaVersionMetadataOutput {
     /// A map of a metadata key and associated values.
     public var metadataInfoMap: [Swift.String:GlueClientTypes.MetadataInfo]?
     /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
@@ -46768,7 +46768,7 @@ public struct QuerySchemaVersionMetadataOutput: Swift.Equatable {
     }
 }
 
-struct QuerySchemaVersionMetadataOutputBody: Swift.Equatable {
+struct QuerySchemaVersionMetadataOutputBody {
     let metadataInfoMap: [Swift.String:GlueClientTypes.MetadataInfo]?
     let schemaVersionId: Swift.String?
     let nextToken: Swift.String?
@@ -46871,7 +46871,7 @@ extension GlueClientTypes.QuerySessionContext: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
-    public struct QuerySessionContext: Swift.Equatable {
+    public struct QuerySessionContext {
         /// An opaque string-string map passed by the query engine.
         public var additionalContext: [Swift.String:Swift.String]?
         /// An identifier string for the consumer cluster.
@@ -46984,7 +46984,7 @@ extension GlueClientTypes.Recipe: Swift.Codable {
 
 extension GlueClientTypes {
     /// A Glue Studio node that uses a Glue DataBrew recipe in Glue jobs.
-    public struct Recipe: Swift.Equatable {
+    public struct Recipe {
         /// The nodes that are inputs to the recipe node, identified by id.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -47036,7 +47036,7 @@ extension GlueClientTypes.RecipeReference: Swift.Codable {
 
 extension GlueClientTypes {
     /// A reference to a Glue DataBrew recipe.
-    public struct RecipeReference: Swift.Equatable {
+    public struct RecipeReference {
         /// The ARN of the DataBrew recipe.
         /// This member is required.
         public var recipeArn: Swift.String?
@@ -47112,7 +47112,7 @@ extension GlueClientTypes.RecrawlPolicy: Swift.Codable {
 
 extension GlueClientTypes {
     /// When crawling an Amazon S3 data source after the first crawl is complete, specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run. For more information, see [Incremental Crawls in Glue](https://docs.aws.amazon.com/glue/latest/dg/incremental-crawls.html) in the developer guide.
-    public struct RecrawlPolicy: Swift.Equatable {
+    public struct RecrawlPolicy {
         /// Specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run. A value of CRAWL_EVERYTHING specifies crawling the entire dataset again. A value of CRAWL_NEW_FOLDERS_ONLY specifies crawling only folders that were added since the last crawler run. A value of CRAWL_EVENT_MODE specifies crawling only the changes identified by Amazon S3 events.
         public var recrawlBehavior: GlueClientTypes.RecrawlBehavior?
 
@@ -47171,7 +47171,7 @@ extension GlueClientTypes.RedshiftSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Amazon Redshift data store.
-    public struct RedshiftSource: Swift.Equatable {
+    public struct RedshiftSource {
         /// The database to read from.
         /// This member is required.
         public var database: Swift.String?
@@ -47273,7 +47273,7 @@ extension GlueClientTypes.RedshiftTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target that uses Amazon Redshift.
-    public struct RedshiftTarget: Swift.Equatable {
+    public struct RedshiftTarget {
         /// The name of the database to write to.
         /// This member is required.
         public var database: Swift.String?
@@ -47339,7 +47339,7 @@ extension RegisterSchemaVersionInput {
     }
 }
 
-public struct RegisterSchemaVersionInput: Swift.Equatable {
+public struct RegisterSchemaVersionInput {
     /// The schema definition using the DataFormat setting for the SchemaName.
     /// This member is required.
     public var schemaDefinition: Swift.String?
@@ -47361,7 +47361,7 @@ public struct RegisterSchemaVersionInput: Swift.Equatable {
     }
 }
 
-struct RegisterSchemaVersionInputBody: Swift.Equatable {
+struct RegisterSchemaVersionInputBody {
     let schemaId: GlueClientTypes.SchemaId?
     let schemaDefinition: Swift.String?
 }
@@ -47397,7 +47397,7 @@ extension RegisterSchemaVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterSchemaVersionOutput: Swift.Equatable {
+public struct RegisterSchemaVersionOutput {
     /// The unique ID that represents the version of this schema.
     public var schemaVersionId: Swift.String?
     /// The status of the schema version.
@@ -47417,7 +47417,7 @@ public struct RegisterSchemaVersionOutput: Swift.Equatable {
     }
 }
 
-struct RegisterSchemaVersionOutputBody: Swift.Equatable {
+struct RegisterSchemaVersionOutputBody {
     let schemaVersionId: Swift.String?
     let versionNumber: Swift.Int?
     let status: GlueClientTypes.SchemaVersionStatus?
@@ -47484,7 +47484,7 @@ extension GlueClientTypes.RegistryId: Swift.Codable {
 
 extension GlueClientTypes {
     /// A wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
-    public struct RegistryId: Swift.Equatable {
+    public struct RegistryId {
         /// Arn of the registry to be updated. One of RegistryArn or RegistryName has to be provided.
         public var registryArn: Swift.String?
         /// Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided.
@@ -47553,7 +47553,7 @@ extension GlueClientTypes.RegistryListItem: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure containing the details for a registry.
-    public struct RegistryListItem: Swift.Equatable {
+    public struct RegistryListItem {
         /// The data the registry was created.
         public var createdTime: Swift.String?
         /// A description of the registry.
@@ -47652,7 +47652,7 @@ extension GlueClientTypes.RelationalCatalogSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Relational database data source in the Glue Data Catalog.
-    public struct RelationalCatalogSource: Swift.Equatable {
+    public struct RelationalCatalogSource {
         /// The name of the database to read from.
         /// This member is required.
         public var database: Swift.String?
@@ -47709,7 +47709,7 @@ extension RemoveSchemaVersionMetadataInput {
     }
 }
 
-public struct RemoveSchemaVersionMetadataInput: Swift.Equatable {
+public struct RemoveSchemaVersionMetadataInput {
     /// The value of the metadata key.
     /// This member is required.
     public var metadataKeyValue: GlueClientTypes.MetadataKeyValuePair?
@@ -47734,7 +47734,7 @@ public struct RemoveSchemaVersionMetadataInput: Swift.Equatable {
     }
 }
 
-struct RemoveSchemaVersionMetadataInputBody: Swift.Equatable {
+struct RemoveSchemaVersionMetadataInputBody {
     let schemaId: GlueClientTypes.SchemaId?
     let schemaVersionNumber: GlueClientTypes.SchemaVersionNumber?
     let schemaVersionId: Swift.String?
@@ -47788,7 +47788,7 @@ extension RemoveSchemaVersionMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveSchemaVersionMetadataOutput: Swift.Equatable {
+public struct RemoveSchemaVersionMetadataOutput {
     /// The latest version of the schema.
     public var latestVersion: Swift.Bool
     /// The metadata key.
@@ -47828,7 +47828,7 @@ public struct RemoveSchemaVersionMetadataOutput: Swift.Equatable {
     }
 }
 
-struct RemoveSchemaVersionMetadataOutputBody: Swift.Equatable {
+struct RemoveSchemaVersionMetadataOutputBody {
     let schemaArn: Swift.String?
     let schemaName: Swift.String?
     let registryName: Swift.String?
@@ -47960,7 +47960,7 @@ extension GlueClientTypes.RenameField: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that renames a single data property key.
-    public struct RenameField: Swift.Equatable {
+    public struct RenameField {
         /// The data inputs identified by their node names.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -48014,7 +48014,7 @@ extension ResetJobBookmarkInput {
     }
 }
 
-public struct ResetJobBookmarkInput: Swift.Equatable {
+public struct ResetJobBookmarkInput {
     /// The name of the job in question.
     /// This member is required.
     public var jobName: Swift.String?
@@ -48031,7 +48031,7 @@ public struct ResetJobBookmarkInput: Swift.Equatable {
     }
 }
 
-struct ResetJobBookmarkInputBody: Swift.Equatable {
+struct ResetJobBookmarkInputBody {
     let jobName: Swift.String?
     let runId: Swift.String?
 }
@@ -48063,7 +48063,7 @@ extension ResetJobBookmarkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetJobBookmarkOutput: Swift.Equatable {
+public struct ResetJobBookmarkOutput {
     /// The reset bookmark entry.
     public var jobBookmarkEntry: GlueClientTypes.JobBookmarkEntry?
 
@@ -48075,7 +48075,7 @@ public struct ResetJobBookmarkOutput: Swift.Equatable {
     }
 }
 
-struct ResetJobBookmarkOutputBody: Swift.Equatable {
+struct ResetJobBookmarkOutputBody {
     let jobBookmarkEntry: GlueClientTypes.JobBookmarkEntry?
 }
 
@@ -48145,7 +48145,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotReadyExceptionBody: Swift.Equatable {
+struct ResourceNotReadyExceptionBody {
     let message: Swift.String?
 }
 
@@ -48201,7 +48201,7 @@ public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, 
     }
 }
 
-struct ResourceNumberLimitExceededExceptionBody: Swift.Equatable {
+struct ResourceNumberLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -48314,7 +48314,7 @@ extension GlueClientTypes.ResourceUri: Swift.Codable {
 
 extension GlueClientTypes {
     /// The URIs for function resources.
-    public struct ResourceUri: Swift.Equatable {
+    public struct ResourceUri {
         /// The type of the resource.
         public var resourceType: GlueClientTypes.ResourceType?
         /// The URI for accessing the resource.
@@ -48363,7 +48363,7 @@ extension ResumeWorkflowRunInput {
     }
 }
 
-public struct ResumeWorkflowRunInput: Swift.Equatable {
+public struct ResumeWorkflowRunInput {
     /// The name of the workflow to resume.
     /// This member is required.
     public var name: Swift.String?
@@ -48386,7 +48386,7 @@ public struct ResumeWorkflowRunInput: Swift.Equatable {
     }
 }
 
-struct ResumeWorkflowRunInputBody: Swift.Equatable {
+struct ResumeWorkflowRunInputBody {
     let name: Swift.String?
     let runId: Swift.String?
     let nodeIds: [Swift.String]?
@@ -48433,7 +48433,7 @@ extension ResumeWorkflowRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResumeWorkflowRunOutput: Swift.Equatable {
+public struct ResumeWorkflowRunOutput {
     /// A list of the node IDs for the nodes that were actually restarted.
     public var nodeIds: [Swift.String]?
     /// The new ID assigned to the resumed workflow run. Each resume of a workflow run will have a new run ID.
@@ -48449,7 +48449,7 @@ public struct ResumeWorkflowRunOutput: Swift.Equatable {
     }
 }
 
-struct ResumeWorkflowRunOutputBody: Swift.Equatable {
+struct ResumeWorkflowRunOutputBody {
     let runId: Swift.String?
     let nodeIds: [Swift.String]?
 }
@@ -48533,7 +48533,7 @@ extension GlueClientTypes.RunMetrics: Swift.Codable {
 
 extension GlueClientTypes {
     /// Metrics for the optimizer run.
-    public struct RunMetrics: Swift.Equatable {
+    public struct RunMetrics {
         /// The duration of the job in hours.
         public var jobDurationInHour: Swift.String?
         /// The number of bytes removed by the compaction job run.
@@ -48587,7 +48587,7 @@ extension RunStatementInput {
     }
 }
 
-public struct RunStatementInput: Swift.Equatable {
+public struct RunStatementInput {
     /// The statement code to be run.
     /// This member is required.
     public var code: Swift.String?
@@ -48609,7 +48609,7 @@ public struct RunStatementInput: Swift.Equatable {
     }
 }
 
-struct RunStatementInputBody: Swift.Equatable {
+struct RunStatementInputBody {
     let sessionId: Swift.String?
     let code: Swift.String?
     let requestOrigin: Swift.String?
@@ -48645,7 +48645,7 @@ extension RunStatementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RunStatementOutput: Swift.Equatable {
+public struct RunStatementOutput {
     /// Returns the Id of the statement that was run.
     public var id: Swift.Int
 
@@ -48657,7 +48657,7 @@ public struct RunStatementOutput: Swift.Equatable {
     }
 }
 
-struct RunStatementOutputBody: Swift.Equatable {
+struct RunStatementOutputBody {
     let id: Swift.Int
 }
 
@@ -48760,7 +48760,7 @@ extension GlueClientTypes.S3CatalogDeltaSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Delta Lake data source that is registered in the Glue Data Catalog. The data source must be stored in Amazon S3.
-    public struct S3CatalogDeltaSource: Swift.Equatable {
+    public struct S3CatalogDeltaSource {
         /// Specifies additional connection options.
         public var additionalDeltaOptions: [Swift.String:Swift.String]?
         /// The name of the database to read from.
@@ -48862,7 +48862,7 @@ extension GlueClientTypes.S3CatalogHudiSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Hudi data source that is registered in the Glue Data Catalog. The Hudi data source must be stored in Amazon S3.
-    public struct S3CatalogHudiSource: Swift.Equatable {
+    public struct S3CatalogHudiSource {
         /// Specifies additional connection options.
         public var additionalHudiOptions: [Swift.String:Swift.String]?
         /// The name of the database to read from.
@@ -48940,7 +48940,7 @@ extension GlueClientTypes.S3CatalogSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Amazon S3 data store in the Glue Data Catalog.
-    public struct S3CatalogSource: Swift.Equatable {
+    public struct S3CatalogSource {
         /// Specifies additional connection options.
         public var additionalOptions: GlueClientTypes.S3SourceAdditionalOptions?
         /// The database to read from.
@@ -49060,7 +49060,7 @@ extension GlueClientTypes.S3CatalogTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a data target that writes to Amazon S3 using the Glue Data Catalog.
-    public struct S3CatalogTarget: Swift.Equatable {
+    public struct S3CatalogTarget {
         /// The name of the database to write to.
         /// This member is required.
         public var database: Swift.String?
@@ -49263,7 +49263,7 @@ extension GlueClientTypes.S3CsvSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a command-separated value (CSV) data store stored in Amazon S3.
-    public struct S3CsvSource: Swift.Equatable {
+    public struct S3CsvSource {
         /// Specifies additional connection options.
         public var additionalOptions: GlueClientTypes.S3DirectSourceAdditionalOptions?
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
@@ -49458,7 +49458,7 @@ extension GlueClientTypes.S3DeltaCatalogTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target that writes to a Delta Lake data source in the Glue Data Catalog.
-    public struct S3DeltaCatalogTarget: Swift.Equatable {
+    public struct S3DeltaCatalogTarget {
         /// Specifies additional connection options for the connector.
         public var additionalOptions: [Swift.String:Swift.String]?
         /// The name of the database to write to.
@@ -49611,7 +49611,7 @@ extension GlueClientTypes.S3DeltaDirectTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target that writes to a Delta Lake data source in Amazon S3.
-    public struct S3DeltaDirectTarget: Swift.Equatable {
+    public struct S3DeltaDirectTarget {
         /// Specifies additional connection options for the connector.
         public var additionalOptions: [Swift.String:Swift.String]?
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
@@ -49739,7 +49739,7 @@ extension GlueClientTypes.S3DeltaSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Delta Lake data source stored in Amazon S3.
-    public struct S3DeltaSource: Swift.Equatable {
+    public struct S3DeltaSource {
         /// Specifies additional connection options.
         public var additionalDeltaOptions: [Swift.String:Swift.String]?
         /// Specifies additional options for the connector.
@@ -49810,7 +49810,7 @@ extension GlueClientTypes.S3DirectSourceAdditionalOptions: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies additional connection options for the Amazon S3 data store.
-    public struct S3DirectSourceAdditionalOptions: Swift.Equatable {
+    public struct S3DirectSourceAdditionalOptions {
         /// Sets the upper limit for the target number of files that will be processed.
         public var boundedFiles: Swift.Int?
         /// Sets the upper limit for the target size of the dataset in bytes that will be processed.
@@ -49929,7 +49929,7 @@ extension GlueClientTypes.S3DirectTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a data target that writes to Amazon S3.
-    public struct S3DirectTarget: Swift.Equatable {
+    public struct S3DirectTarget {
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
         public var compression: Swift.String?
         /// Specifies the data output format for the target.
@@ -49998,7 +49998,7 @@ extension GlueClientTypes.S3Encryption: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies how Amazon Simple Storage Service (Amazon S3) data should be encrypted.
-    public struct S3Encryption: Swift.Equatable {
+    public struct S3Encryption {
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
         public var kmsKeyArn: Swift.String?
         /// The encryption mode to use for Amazon S3 data.
@@ -50138,7 +50138,7 @@ extension GlueClientTypes.S3GlueParquetTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar storage.
-    public struct S3GlueParquetTarget: Swift.Equatable {
+    public struct S3GlueParquetTarget {
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
         public var compression: GlueClientTypes.ParquetCompressionType?
         /// The nodes that are inputs to the data target.
@@ -50280,7 +50280,7 @@ extension GlueClientTypes.S3HudiCatalogTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target that writes to a Hudi data source in the Glue Data Catalog.
-    public struct S3HudiCatalogTarget: Swift.Equatable {
+    public struct S3HudiCatalogTarget {
         /// Specifies additional connection options for the connector.
         /// This member is required.
         public var additionalOptions: [Swift.String:Swift.String]?
@@ -50434,7 +50434,7 @@ extension GlueClientTypes.S3HudiDirectTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target that writes to a Hudi data source in Amazon S3.
-    public struct S3HudiDirectTarget: Swift.Equatable {
+    public struct S3HudiDirectTarget {
         /// Specifies additional connection options for the connector.
         /// This member is required.
         public var additionalOptions: [Swift.String:Swift.String]?
@@ -50563,7 +50563,7 @@ extension GlueClientTypes.S3HudiSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Hudi data source stored in Amazon S3.
-    public struct S3HudiSource: Swift.Equatable {
+    public struct S3HudiSource {
         /// Specifies additional connection options.
         public var additionalHudiOptions: [Swift.String:Swift.String]?
         /// Specifies additional options for the connector.
@@ -50724,7 +50724,7 @@ extension GlueClientTypes.S3JsonSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a JSON data store stored in Amazon S3.
-    public struct S3JsonSource: Swift.Equatable {
+    public struct S3JsonSource {
         /// Specifies additional connection options.
         public var additionalOptions: GlueClientTypes.S3DirectSourceAdditionalOptions?
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
@@ -50905,7 +50905,7 @@ extension GlueClientTypes.S3ParquetSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an Apache Parquet data store stored in Amazon S3.
-    public struct S3ParquetSource: Swift.Equatable {
+    public struct S3ParquetSource {
         /// Specifies additional connection options.
         public var additionalOptions: GlueClientTypes.S3DirectSourceAdditionalOptions?
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
@@ -50988,7 +50988,7 @@ extension GlueClientTypes.S3SourceAdditionalOptions: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies additional connection options for the Amazon S3 data store.
-    public struct S3SourceAdditionalOptions: Swift.Equatable {
+    public struct S3SourceAdditionalOptions {
         /// Sets the upper limit for the target number of files that will be processed.
         public var boundedFiles: Swift.Int?
         /// Sets the upper limit for the target size of the dataset in bytes that will be processed.
@@ -51069,7 +51069,7 @@ extension GlueClientTypes.S3Target: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a data store in Amazon Simple Storage Service (Amazon S3).
-    public struct S3Target: Swift.Equatable {
+    public struct S3Target {
         /// The name of a connection which allows a job or crawler to access data in Amazon S3 within an Amazon Virtual Private Cloud environment (Amazon VPC).
         public var connectionName: Swift.String?
         /// A valid Amazon dead-letter SQS ARN. For example, arn:aws:sqs:region:account:deadLetterQueue.
@@ -51130,7 +51130,7 @@ extension GlueClientTypes.Schedule: Swift.Codable {
 
 extension GlueClientTypes {
     /// A scheduling object using a cron statement to schedule an event.
-    public struct Schedule: Swift.Equatable {
+    public struct Schedule {
         /// A cron expression used to specify the schedule (see [Time-Based Schedules for Jobs and Crawlers](https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html). For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
         public var scheduleExpression: Swift.String?
         /// The state of the schedule.
@@ -51223,7 +51223,7 @@ public struct SchedulerNotRunningException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct SchedulerNotRunningExceptionBody: Swift.Equatable {
+struct SchedulerNotRunningExceptionBody {
     let message: Swift.String?
 }
 
@@ -51279,7 +51279,7 @@ public struct SchedulerRunningException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct SchedulerRunningExceptionBody: Swift.Equatable {
+struct SchedulerRunningExceptionBody {
     let message: Swift.String?
 }
 
@@ -51335,7 +51335,7 @@ public struct SchedulerTransitioningException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct SchedulerTransitioningExceptionBody: Swift.Equatable {
+struct SchedulerTransitioningExceptionBody {
     let message: Swift.String?
 }
 
@@ -51378,7 +51378,7 @@ extension GlueClientTypes.SchemaChangePolicy: Swift.Codable {
 
 extension GlueClientTypes {
     /// A policy that specifies update and deletion behaviors for the crawler.
-    public struct SchemaChangePolicy: Swift.Equatable {
+    public struct SchemaChangePolicy {
         /// The deletion behavior when the crawler finds a deleted object.
         public var deleteBehavior: GlueClientTypes.DeleteBehavior?
         /// The update behavior when the crawler finds a changed schema.
@@ -51423,7 +51423,7 @@ extension GlueClientTypes.SchemaColumn: Swift.Codable {
 
 extension GlueClientTypes {
     /// A key-value pair representing a column and data type that this transform can run against. The Schema parameter of the MLTransform may contain up to 100 of these structures.
-    public struct SchemaColumn: Swift.Equatable {
+    public struct SchemaColumn {
         /// The type of data in the column.
         public var dataType: Swift.String?
         /// The name of the column.
@@ -51503,7 +51503,7 @@ extension GlueClientTypes.SchemaId: Swift.Codable {
 
 extension GlueClientTypes {
     /// The unique ID of the schema in the Glue schema registry.
-    public struct SchemaId: Swift.Equatable {
+    public struct SchemaId {
         /// The name of the schema registry that contains the schema.
         public var registryName: Swift.String?
         /// The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.
@@ -51582,7 +51582,7 @@ extension GlueClientTypes.SchemaListItem: Swift.Codable {
 
 extension GlueClientTypes {
     /// An object that contains minimal details for a schema.
-    public struct SchemaListItem: Swift.Equatable {
+    public struct SchemaListItem {
         /// The date and time that a schema was created.
         public var createdTime: Swift.String?
         /// A description for the schema.
@@ -51653,7 +51653,7 @@ extension GlueClientTypes.SchemaReference: Swift.Codable {
 
 extension GlueClientTypes {
     /// An object that references a schema stored in the Glue Schema Registry.
-    public struct SchemaReference: Swift.Equatable {
+    public struct SchemaReference {
         /// A structure that contains schema identity fields. Either this or the SchemaVersionId has to be provided.
         public var schemaId: GlueClientTypes.SchemaId?
         /// The unique ID assigned to a version of the schema. Either this or the SchemaId has to be provided.
@@ -51737,7 +51737,7 @@ extension GlueClientTypes.SchemaVersionErrorItem: Swift.Codable {
 
 extension GlueClientTypes {
     /// An object that contains the error details for an operation on a schema version.
-    public struct SchemaVersionErrorItem: Swift.Equatable {
+    public struct SchemaVersionErrorItem {
         /// The details of the error for the schema version.
         public var errorDetails: GlueClientTypes.ErrorDetails?
         /// The version number of the schema.
@@ -51800,7 +51800,7 @@ extension GlueClientTypes.SchemaVersionListItem: Swift.Codable {
 
 extension GlueClientTypes {
     /// An object containing the details about a schema version.
-    public struct SchemaVersionListItem: Swift.Equatable {
+    public struct SchemaVersionListItem {
         /// The date and time the schema version was created.
         public var createdTime: Swift.String?
         /// The Amazon Resource Name (ARN) of the schema.
@@ -51857,7 +51857,7 @@ extension GlueClientTypes.SchemaVersionNumber: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure containing the schema version information.
-    public struct SchemaVersionNumber: Swift.Equatable {
+    public struct SchemaVersionNumber {
         /// The latest version available for the schema.
         public var latestVersion: Swift.Bool
         /// The version number of the schema.
@@ -51963,7 +51963,7 @@ extension SearchTablesInput {
     }
 }
 
-public struct SearchTablesInput: Swift.Equatable {
+public struct SearchTablesInput {
     /// A unique identifier, consisting of  account_id .
     public var catalogId: Swift.String?
     /// A list of key-value pairs, and a comparator used to filter the search results. Returns all entities matching the predicate. The Comparator member of the PropertyPredicate struct is used only for time fields, and can be omitted for other field types. Also, when comparing string values, such as when Key=Name, a fuzzy match algorithm is used. The Key field (for example, the value of the Name field) is split on certain punctuation characters, for example, -, :, #, etc. into tokens. Then each token is exact-match compared with the Value member of PropertyPredicate. For example, if Key=Name and Value=link, tables named customer-link and xx-link-yy are returned, but xxlinkyy is not returned.
@@ -52003,7 +52003,7 @@ public struct SearchTablesInput: Swift.Equatable {
     }
 }
 
-struct SearchTablesInputBody: Swift.Equatable {
+struct SearchTablesInputBody {
     let catalogId: Swift.String?
     let nextToken: Swift.String?
     let filters: [GlueClientTypes.PropertyPredicate]?
@@ -52075,7 +52075,7 @@ extension SearchTablesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchTablesOutput: Swift.Equatable {
+public struct SearchTablesOutput {
     /// A continuation token, present if the current list segment is not the last.
     public var nextToken: Swift.String?
     /// A list of the requested Table objects. The SearchTables response returns only the tables that you have access to.
@@ -52091,7 +52091,7 @@ public struct SearchTablesOutput: Swift.Equatable {
     }
 }
 
-struct SearchTablesOutputBody: Swift.Equatable {
+struct SearchTablesOutputBody {
     let nextToken: Swift.String?
     let tableList: [GlueClientTypes.Table]?
 }
@@ -52166,7 +52166,7 @@ extension GlueClientTypes.SecurityConfiguration: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a security configuration.
-    public struct SecurityConfiguration: Swift.Equatable {
+    public struct SecurityConfiguration {
         /// The time at which this security configuration was created.
         public var createdTimeStamp: ClientRuntime.Date?
         /// The encryption configuration associated with this security configuration.
@@ -52215,7 +52215,7 @@ extension GlueClientTypes.Segment: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines a non-overlapping region of a table's partitions, allowing multiple requests to be run in parallel.
-    public struct Segment: Swift.Equatable {
+    public struct Segment {
         /// The zero-based index number of the segment. For example, if the total number of segments is 4, SegmentNumber values range from 0 through 3.
         /// This member is required.
         public var segmentNumber: Swift.Int
@@ -52304,7 +52304,7 @@ extension GlueClientTypes.SelectFields: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that chooses the data property keys that you want to keep.
-    public struct SelectFields: Swift.Equatable {
+    public struct SelectFields {
         /// The data inputs identified by their node names.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -52374,7 +52374,7 @@ extension GlueClientTypes.SelectFromCollection: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that chooses one DynamicFrame from a collection of DynamicFrames. The output is the selected DynamicFrame
-    public struct SelectFromCollection: Swift.Equatable {
+    public struct SelectFromCollection {
         /// The index for the DynamicFrame to be selected.
         /// This member is required.
         public var index: Swift.Int
@@ -52485,7 +52485,7 @@ extension GlueClientTypes.SerDeInfo: Swift.Codable {
 
 extension GlueClientTypes {
     /// Information about a serialization/deserialization program (SerDe) that serves as an extractor and loader.
-    public struct SerDeInfo: Swift.Equatable {
+    public struct SerDeInfo {
         /// Name of the SerDe.
         public var name: Swift.String?
         /// These key-value pairs define initialization parameters for the SerDe.
@@ -52648,7 +52648,7 @@ extension GlueClientTypes.Session: Swift.Codable {
 
 extension GlueClientTypes {
     /// The period in which a remote Spark runtime environment is running.
-    public struct Session: Swift.Equatable {
+    public struct Session {
         /// The command object.See SessionCommand.
         public var command: GlueClientTypes.SessionCommand?
         /// The date and time that this session is completed.
@@ -52761,7 +52761,7 @@ extension GlueClientTypes.SessionCommand: Swift.Codable {
 
 extension GlueClientTypes {
     /// The SessionCommand that runs the job.
-    public struct SessionCommand: Swift.Equatable {
+    public struct SessionCommand {
         /// Specifies the name of the SessionCommand. Can be 'glueetl' or 'gluestreaming'.
         public var name: Swift.String?
         /// Specifies the Python version. The Python version indicates the version supported for jobs of type Spark.
@@ -52892,7 +52892,7 @@ extension GlueClientTypes.SkewedInfo: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies skewed values in a table. Skewed values are those that occur with very high frequency.
-    public struct SkewedInfo: Swift.Equatable {
+    public struct SkewedInfo {
         /// A list of names of columns that contain skewed values.
         public var skewedColumnNames: [Swift.String]?
         /// A mapping of skewed values to the columns that contain them.
@@ -53091,7 +53091,7 @@ extension GlueClientTypes.SnowflakeNodeData: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies configuration for Snowflake nodes in Glue Studio.
-    public struct SnowflakeNodeData: Swift.Equatable {
+    public struct SnowflakeNodeData {
         /// Specifies what action to take when writing to a table with preexisting data. Valid values:  append, merge, truncate, drop.
         public var action: Swift.String?
         /// Specifies additional options passed to the Snowflake connector. If options are specified elsewhere in this node, this will take precedence.
@@ -53230,7 +53230,7 @@ extension GlueClientTypes.SnowflakeSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Snowflake data source.
-    public struct SnowflakeSource: Swift.Equatable {
+    public struct SnowflakeSource {
         /// Configuration for the Snowflake data source.
         /// This member is required.
         public var data: GlueClientTypes.SnowflakeNodeData?
@@ -53299,7 +53299,7 @@ extension GlueClientTypes.SnowflakeTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a Snowflake target.
-    public struct SnowflakeTarget: Swift.Equatable {
+    public struct SnowflakeTarget {
         /// Specifies the data of the Snowflake target node.
         /// This member is required.
         public var data: GlueClientTypes.SnowflakeNodeData?
@@ -53382,7 +53382,7 @@ extension GlueClientTypes.SortCriterion: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a field to sort by and a sort order.
-    public struct SortCriterion: Swift.Equatable {
+    public struct SortCriterion {
         /// The name of the field on which to sort.
         public var fieldName: Swift.String?
         /// An ascending or descending sort.
@@ -53527,7 +53527,7 @@ extension GlueClientTypes.SourceControlDetails: Swift.Codable {
 
 extension GlueClientTypes {
     /// The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
-    public struct SourceControlDetails: Swift.Equatable {
+    public struct SourceControlDetails {
         /// The type of authentication, which can be an authentication token stored in Amazon Web Services Secrets Manager, or a personal access token.
         public var authStrategy: GlueClientTypes.SourceControlAuthStrategy?
         /// The value of an authorization token.
@@ -53682,7 +53682,7 @@ extension GlueClientTypes.SparkConnectorSource: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a connector to an Apache Spark data source.
-    public struct SparkConnectorSource: Swift.Equatable {
+    public struct SparkConnectorSource {
         /// Additional connection options for the connector.
         public var additionalOptions: [Swift.String:Swift.String]?
         /// The name of the connection that is associated with the connector.
@@ -53813,7 +53813,7 @@ extension GlueClientTypes.SparkConnectorTarget: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a target that uses an Apache Spark connector.
-    public struct SparkConnectorTarget: Swift.Equatable {
+    public struct SparkConnectorTarget {
         /// Additional connection options for the connector.
         public var additionalOptions: [Swift.String:Swift.String]?
         /// The name of a connection for an Apache Spark connector.
@@ -53937,7 +53937,7 @@ extension GlueClientTypes.SparkSQL: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform where you enter a SQL query using Spark SQL syntax to transform the data. The output is a single DynamicFrame.
-    public struct SparkSQL: Swift.Equatable {
+    public struct SparkSQL {
         /// The data inputs identified by their node names. You can associate a table name with each input node to use in the SQL query. The name you choose must meet the Spark SQL naming restrictions.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -54028,7 +54028,7 @@ extension GlueClientTypes.Spigot: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that writes samples of the data to an Amazon S3 bucket.
-    public struct Spigot: Swift.Equatable {
+    public struct Spigot {
         /// The data inputs identified by their node names.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -54130,7 +54130,7 @@ extension GlueClientTypes.SplitFields: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that splits data property keys into two DynamicFrames. The output is a collection of DynamicFrames: one with selected data property keys, and one with the remaining data property keys.
-    public struct SplitFields: Swift.Equatable {
+    public struct SplitFields {
         /// The data inputs identified by their node names.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -54182,7 +54182,7 @@ extension GlueClientTypes.SqlAlias: Swift.Codable {
 
 extension GlueClientTypes {
     /// Represents a single entry in the list of values for SqlAliases.
-    public struct SqlAlias: Swift.Equatable {
+    public struct SqlAlias {
         /// A temporary name given to a table, or a column in a table.
         /// This member is required.
         public var alias: Swift.String?
@@ -54230,7 +54230,7 @@ extension StartBlueprintRunInput {
     }
 }
 
-public struct StartBlueprintRunInput: Swift.Equatable {
+public struct StartBlueprintRunInput {
     /// The name of the blueprint.
     /// This member is required.
     public var blueprintName: Swift.String?
@@ -54252,7 +54252,7 @@ public struct StartBlueprintRunInput: Swift.Equatable {
     }
 }
 
-struct StartBlueprintRunInputBody: Swift.Equatable {
+struct StartBlueprintRunInputBody {
     let blueprintName: Swift.String?
     let parameters: Swift.String?
     let roleArn: Swift.String?
@@ -54288,7 +54288,7 @@ extension StartBlueprintRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartBlueprintRunOutput: Swift.Equatable {
+public struct StartBlueprintRunOutput {
     /// The run ID for this blueprint run.
     public var runId: Swift.String?
 
@@ -54300,7 +54300,7 @@ public struct StartBlueprintRunOutput: Swift.Equatable {
     }
 }
 
-struct StartBlueprintRunOutputBody: Swift.Equatable {
+struct StartBlueprintRunOutputBody {
     let runId: Swift.String?
 }
 
@@ -54379,7 +54379,7 @@ extension StartColumnStatisticsTaskRunInput {
     }
 }
 
-public struct StartColumnStatisticsTaskRunInput: Swift.Equatable {
+public struct StartColumnStatisticsTaskRunInput {
     /// The ID of the Data Catalog where the table reside. If none is supplied, the Amazon Web Services account ID is used by default.
     public var catalogID: Swift.String?
     /// A list of the column names to generate statistics. If none is supplied, all column names for the table will be used by default.
@@ -54418,7 +54418,7 @@ public struct StartColumnStatisticsTaskRunInput: Swift.Equatable {
     }
 }
 
-struct StartColumnStatisticsTaskRunInputBody: Swift.Equatable {
+struct StartColumnStatisticsTaskRunInputBody {
     let databaseName: Swift.String?
     let tableName: Swift.String?
     let columnNameList: [Swift.String]?
@@ -54479,7 +54479,7 @@ extension StartColumnStatisticsTaskRunOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct StartColumnStatisticsTaskRunOutput: Swift.Equatable {
+public struct StartColumnStatisticsTaskRunOutput {
     /// The identifier for the column statistics task run.
     public var columnStatisticsTaskRunId: Swift.String?
 
@@ -54491,7 +54491,7 @@ public struct StartColumnStatisticsTaskRunOutput: Swift.Equatable {
     }
 }
 
-struct StartColumnStatisticsTaskRunOutputBody: Swift.Equatable {
+struct StartColumnStatisticsTaskRunOutputBody {
     let columnStatisticsTaskRunId: Swift.String?
 }
 
@@ -54543,7 +54543,7 @@ extension StartCrawlerInput {
     }
 }
 
-public struct StartCrawlerInput: Swift.Equatable {
+public struct StartCrawlerInput {
     /// Name of the crawler to start.
     /// This member is required.
     public var name: Swift.String?
@@ -54556,7 +54556,7 @@ public struct StartCrawlerInput: Swift.Equatable {
     }
 }
 
-struct StartCrawlerInputBody: Swift.Equatable {
+struct StartCrawlerInputBody {
     let name: Swift.String?
 }
 
@@ -54577,7 +54577,7 @@ extension StartCrawlerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCrawlerOutput: Swift.Equatable {
+public struct StartCrawlerOutput {
 
     public init() { }
 }
@@ -54615,7 +54615,7 @@ extension StartCrawlerScheduleInput {
     }
 }
 
-public struct StartCrawlerScheduleInput: Swift.Equatable {
+public struct StartCrawlerScheduleInput {
     /// Name of the crawler to schedule.
     /// This member is required.
     public var crawlerName: Swift.String?
@@ -54628,7 +54628,7 @@ public struct StartCrawlerScheduleInput: Swift.Equatable {
     }
 }
 
-struct StartCrawlerScheduleInputBody: Swift.Equatable {
+struct StartCrawlerScheduleInputBody {
     let crawlerName: Swift.String?
 }
 
@@ -54649,7 +54649,7 @@ extension StartCrawlerScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCrawlerScheduleOutput: Swift.Equatable {
+public struct StartCrawlerScheduleOutput {
 
     public init() { }
 }
@@ -54709,7 +54709,7 @@ extension StartDataQualityRuleRecommendationRunInput {
     }
 }
 
-public struct StartDataQualityRuleRecommendationRunInput: Swift.Equatable {
+public struct StartDataQualityRuleRecommendationRunInput {
     /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
     public var clientToken: Swift.String?
     /// A name for the ruleset.
@@ -54743,7 +54743,7 @@ public struct StartDataQualityRuleRecommendationRunInput: Swift.Equatable {
     }
 }
 
-struct StartDataQualityRuleRecommendationRunInputBody: Swift.Equatable {
+struct StartDataQualityRuleRecommendationRunInputBody {
     let dataSource: GlueClientTypes.DataSource?
     let role: Swift.String?
     let numberOfWorkers: Swift.Int?
@@ -54791,7 +54791,7 @@ extension StartDataQualityRuleRecommendationRunOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct StartDataQualityRuleRecommendationRunOutput: Swift.Equatable {
+public struct StartDataQualityRuleRecommendationRunOutput {
     /// The unique run identifier associated with this run.
     public var runId: Swift.String?
 
@@ -54803,7 +54803,7 @@ public struct StartDataQualityRuleRecommendationRunOutput: Swift.Equatable {
     }
 }
 
-struct StartDataQualityRuleRecommendationRunOutputBody: Swift.Equatable {
+struct StartDataQualityRuleRecommendationRunOutputBody {
     let runId: Swift.String?
 }
 
@@ -54887,7 +54887,7 @@ extension StartDataQualityRulesetEvaluationRunInput {
     }
 }
 
-public struct StartDataQualityRulesetEvaluationRunInput: Swift.Equatable {
+public struct StartDataQualityRulesetEvaluationRunInput {
     /// A map of reference strings to additional data sources you can specify for an evaluation run.
     public var additionalDataSources: [Swift.String:GlueClientTypes.DataSource]?
     /// Additional run options you can specify for an evaluation run.
@@ -54930,7 +54930,7 @@ public struct StartDataQualityRulesetEvaluationRunInput: Swift.Equatable {
     }
 }
 
-struct StartDataQualityRulesetEvaluationRunInputBody: Swift.Equatable {
+struct StartDataQualityRulesetEvaluationRunInputBody {
     let dataSource: GlueClientTypes.DataSource?
     let role: Swift.String?
     let numberOfWorkers: Swift.Int?
@@ -55004,7 +55004,7 @@ extension StartDataQualityRulesetEvaluationRunOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct StartDataQualityRulesetEvaluationRunOutput: Swift.Equatable {
+public struct StartDataQualityRulesetEvaluationRunOutput {
     /// The unique run identifier associated with this run.
     public var runId: Swift.String?
 
@@ -55016,7 +55016,7 @@ public struct StartDataQualityRulesetEvaluationRunOutput: Swift.Equatable {
     }
 }
 
-struct StartDataQualityRulesetEvaluationRunOutputBody: Swift.Equatable {
+struct StartDataQualityRulesetEvaluationRunOutputBody {
     let runId: Swift.String?
 }
 
@@ -55071,7 +55071,7 @@ extension StartExportLabelsTaskRunInput {
     }
 }
 
-public struct StartExportLabelsTaskRunInput: Swift.Equatable {
+public struct StartExportLabelsTaskRunInput {
     /// The Amazon S3 path where you export the labels.
     /// This member is required.
     public var outputS3Path: Swift.String?
@@ -55089,7 +55089,7 @@ public struct StartExportLabelsTaskRunInput: Swift.Equatable {
     }
 }
 
-struct StartExportLabelsTaskRunInputBody: Swift.Equatable {
+struct StartExportLabelsTaskRunInputBody {
     let transformId: Swift.String?
     let outputS3Path: Swift.String?
 }
@@ -55121,7 +55121,7 @@ extension StartExportLabelsTaskRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartExportLabelsTaskRunOutput: Swift.Equatable {
+public struct StartExportLabelsTaskRunOutput {
     /// The unique identifier for the task run.
     public var taskRunId: Swift.String?
 
@@ -55133,7 +55133,7 @@ public struct StartExportLabelsTaskRunOutput: Swift.Equatable {
     }
 }
 
-struct StartExportLabelsTaskRunOutputBody: Swift.Equatable {
+struct StartExportLabelsTaskRunOutputBody {
     let taskRunId: Swift.String?
 }
 
@@ -55191,7 +55191,7 @@ extension StartImportLabelsTaskRunInput {
     }
 }
 
-public struct StartImportLabelsTaskRunInput: Swift.Equatable {
+public struct StartImportLabelsTaskRunInput {
     /// The Amazon Simple Storage Service (Amazon S3) path from where you import the labels.
     /// This member is required.
     public var inputS3Path: Swift.String?
@@ -55213,7 +55213,7 @@ public struct StartImportLabelsTaskRunInput: Swift.Equatable {
     }
 }
 
-struct StartImportLabelsTaskRunInputBody: Swift.Equatable {
+struct StartImportLabelsTaskRunInputBody {
     let transformId: Swift.String?
     let inputS3Path: Swift.String?
     let replaceAllLabels: Swift.Bool?
@@ -55249,7 +55249,7 @@ extension StartImportLabelsTaskRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImportLabelsTaskRunOutput: Swift.Equatable {
+public struct StartImportLabelsTaskRunOutput {
     /// The unique identifier for the task run.
     public var taskRunId: Swift.String?
 
@@ -55261,7 +55261,7 @@ public struct StartImportLabelsTaskRunOutput: Swift.Equatable {
     }
 }
 
-struct StartImportLabelsTaskRunOutputBody: Swift.Equatable {
+struct StartImportLabelsTaskRunOutputBody {
     let taskRunId: Swift.String?
 }
 
@@ -55355,7 +55355,7 @@ extension StartJobRunInput {
     }
 }
 
-public struct StartJobRunInput: Swift.Equatable {
+public struct StartJobRunInput {
     /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) to allocate to this JobRun. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/).
     @available(*, deprecated, message: "This property is deprecated, use MaxCapacity instead.")
     public var allocatedCapacity: Swift.Int?
@@ -55425,7 +55425,7 @@ public struct StartJobRunInput: Swift.Equatable {
     }
 }
 
-struct StartJobRunInputBody: Swift.Equatable {
+struct StartJobRunInputBody {
     let jobName: Swift.String?
     let jobRunId: Swift.String?
     let arguments: [Swift.String:Swift.String]?
@@ -55502,7 +55502,7 @@ extension StartJobRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartJobRunOutput: Swift.Equatable {
+public struct StartJobRunOutput {
     /// The ID assigned to this job run.
     public var jobRunId: Swift.String?
 
@@ -55514,7 +55514,7 @@ public struct StartJobRunOutput: Swift.Equatable {
     }
 }
 
-struct StartJobRunOutputBody: Swift.Equatable {
+struct StartJobRunOutputBody {
     let jobRunId: Swift.String?
 }
 
@@ -55566,7 +55566,7 @@ extension StartMLEvaluationTaskRunInput {
     }
 }
 
-public struct StartMLEvaluationTaskRunInput: Swift.Equatable {
+public struct StartMLEvaluationTaskRunInput {
     /// The unique identifier of the machine learning transform.
     /// This member is required.
     public var transformId: Swift.String?
@@ -55579,7 +55579,7 @@ public struct StartMLEvaluationTaskRunInput: Swift.Equatable {
     }
 }
 
-struct StartMLEvaluationTaskRunInputBody: Swift.Equatable {
+struct StartMLEvaluationTaskRunInputBody {
     let transformId: Swift.String?
 }
 
@@ -55607,7 +55607,7 @@ extension StartMLEvaluationTaskRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMLEvaluationTaskRunOutput: Swift.Equatable {
+public struct StartMLEvaluationTaskRunOutput {
     /// The unique identifier associated with this run.
     public var taskRunId: Swift.String?
 
@@ -55619,7 +55619,7 @@ public struct StartMLEvaluationTaskRunOutput: Swift.Equatable {
     }
 }
 
-struct StartMLEvaluationTaskRunOutputBody: Swift.Equatable {
+struct StartMLEvaluationTaskRunOutputBody {
     let taskRunId: Swift.String?
 }
 
@@ -55675,7 +55675,7 @@ extension StartMLLabelingSetGenerationTaskRunInput {
     }
 }
 
-public struct StartMLLabelingSetGenerationTaskRunInput: Swift.Equatable {
+public struct StartMLLabelingSetGenerationTaskRunInput {
     /// The Amazon Simple Storage Service (Amazon S3) path where you generate the labeling set.
     /// This member is required.
     public var outputS3Path: Swift.String?
@@ -55693,7 +55693,7 @@ public struct StartMLLabelingSetGenerationTaskRunInput: Swift.Equatable {
     }
 }
 
-struct StartMLLabelingSetGenerationTaskRunInputBody: Swift.Equatable {
+struct StartMLLabelingSetGenerationTaskRunInputBody {
     let transformId: Swift.String?
     let outputS3Path: Swift.String?
 }
@@ -55725,7 +55725,7 @@ extension StartMLLabelingSetGenerationTaskRunOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct StartMLLabelingSetGenerationTaskRunOutput: Swift.Equatable {
+public struct StartMLLabelingSetGenerationTaskRunOutput {
     /// The unique run identifier that is associated with this task run.
     public var taskRunId: Swift.String?
 
@@ -55737,7 +55737,7 @@ public struct StartMLLabelingSetGenerationTaskRunOutput: Swift.Equatable {
     }
 }
 
-struct StartMLLabelingSetGenerationTaskRunOutputBody: Swift.Equatable {
+struct StartMLLabelingSetGenerationTaskRunOutputBody {
     let taskRunId: Swift.String?
 }
 
@@ -55788,7 +55788,7 @@ extension StartTriggerInput {
     }
 }
 
-public struct StartTriggerInput: Swift.Equatable {
+public struct StartTriggerInput {
     /// The name of the trigger to start.
     /// This member is required.
     public var name: Swift.String?
@@ -55801,7 +55801,7 @@ public struct StartTriggerInput: Swift.Equatable {
     }
 }
 
-struct StartTriggerInputBody: Swift.Equatable {
+struct StartTriggerInputBody {
     let name: Swift.String?
 }
 
@@ -55829,7 +55829,7 @@ extension StartTriggerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartTriggerOutput: Swift.Equatable {
+public struct StartTriggerOutput {
     /// The name of the trigger that was started.
     public var name: Swift.String?
 
@@ -55841,7 +55841,7 @@ public struct StartTriggerOutput: Swift.Equatable {
     }
 }
 
-struct StartTriggerOutputBody: Swift.Equatable {
+struct StartTriggerOutputBody {
     let name: Swift.String?
 }
 
@@ -55900,7 +55900,7 @@ extension StartWorkflowRunInput {
     }
 }
 
-public struct StartWorkflowRunInput: Swift.Equatable {
+public struct StartWorkflowRunInput {
     /// The name of the workflow to start.
     /// This member is required.
     public var name: Swift.String?
@@ -55917,7 +55917,7 @@ public struct StartWorkflowRunInput: Swift.Equatable {
     }
 }
 
-struct StartWorkflowRunInputBody: Swift.Equatable {
+struct StartWorkflowRunInputBody {
     let name: Swift.String?
     let runProperties: [Swift.String:Swift.String]?
 }
@@ -55958,7 +55958,7 @@ extension StartWorkflowRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartWorkflowRunOutput: Swift.Equatable {
+public struct StartWorkflowRunOutput {
     /// An Id for the new run.
     public var runId: Swift.String?
 
@@ -55970,7 +55970,7 @@ public struct StartWorkflowRunOutput: Swift.Equatable {
     }
 }
 
-struct StartWorkflowRunOutputBody: Swift.Equatable {
+struct StartWorkflowRunOutputBody {
     let runId: Swift.String?
 }
 
@@ -56029,7 +56029,7 @@ extension GlueClientTypes.StartingEventBatchCondition: Swift.Codable {
 
 extension GlueClientTypes {
     /// The batch condition that started the workflow run. Either the number of events in the batch size arrived, in which case the BatchSize member is non-zero, or the batch window expired, in which case the BatchWindow member is non-zero.
-    public struct StartingEventBatchCondition: Swift.Equatable {
+    public struct StartingEventBatchCondition {
         /// Number of events in the batch.
         public var batchSize: Swift.Int?
         /// Duration of the batch window in seconds.
@@ -56142,7 +56142,7 @@ extension GlueClientTypes.Statement: Swift.Codable {
 
 extension GlueClientTypes {
     /// The statement or request for a particular action to occur in a session.
-    public struct Statement: Swift.Equatable {
+    public struct Statement {
         /// The execution code of the statement.
         public var code: Swift.String?
         /// The unix time and date that the job definition was completed.
@@ -56243,7 +56243,7 @@ extension GlueClientTypes.StatementOutput: Swift.Codable {
 
 extension GlueClientTypes {
     /// The code execution output in JSON format.
-    public struct StatementOutput: Swift.Equatable {
+    public struct StatementOutput {
         /// The code execution output.
         public var data: GlueClientTypes.StatementOutputData?
         /// The name of the error in the output.
@@ -56298,7 +56298,7 @@ extension GlueClientTypes.StatementOutputData: Swift.Codable {
 
 extension GlueClientTypes {
     /// The code execution output in JSON format.
-    public struct StatementOutputData: Swift.Equatable {
+    public struct StatementOutputData {
         /// The code execution output in text format.
         public var textPlain: Swift.String?
 
@@ -56380,7 +56380,7 @@ extension StopColumnStatisticsTaskRunInput {
     }
 }
 
-public struct StopColumnStatisticsTaskRunInput: Swift.Equatable {
+public struct StopColumnStatisticsTaskRunInput {
     /// The name of the database where the table resides.
     /// This member is required.
     public var databaseName: Swift.String?
@@ -56398,7 +56398,7 @@ public struct StopColumnStatisticsTaskRunInput: Swift.Equatable {
     }
 }
 
-struct StopColumnStatisticsTaskRunInputBody: Swift.Equatable {
+struct StopColumnStatisticsTaskRunInputBody {
     let databaseName: Swift.String?
     let tableName: Swift.String?
 }
@@ -56423,7 +56423,7 @@ extension StopColumnStatisticsTaskRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopColumnStatisticsTaskRunOutput: Swift.Equatable {
+public struct StopColumnStatisticsTaskRunOutput {
 
     public init() { }
 }
@@ -56462,7 +56462,7 @@ extension StopCrawlerInput {
     }
 }
 
-public struct StopCrawlerInput: Swift.Equatable {
+public struct StopCrawlerInput {
     /// Name of the crawler to stop.
     /// This member is required.
     public var name: Swift.String?
@@ -56475,7 +56475,7 @@ public struct StopCrawlerInput: Swift.Equatable {
     }
 }
 
-struct StopCrawlerInputBody: Swift.Equatable {
+struct StopCrawlerInputBody {
     let name: Swift.String?
 }
 
@@ -56496,7 +56496,7 @@ extension StopCrawlerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopCrawlerOutput: Swift.Equatable {
+public struct StopCrawlerOutput {
 
     public init() { }
 }
@@ -56535,7 +56535,7 @@ extension StopCrawlerScheduleInput {
     }
 }
 
-public struct StopCrawlerScheduleInput: Swift.Equatable {
+public struct StopCrawlerScheduleInput {
     /// Name of the crawler whose schedule state to set.
     /// This member is required.
     public var crawlerName: Swift.String?
@@ -56548,7 +56548,7 @@ public struct StopCrawlerScheduleInput: Swift.Equatable {
     }
 }
 
-struct StopCrawlerScheduleInputBody: Swift.Equatable {
+struct StopCrawlerScheduleInputBody {
     let crawlerName: Swift.String?
 }
 
@@ -56569,7 +56569,7 @@ extension StopCrawlerScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopCrawlerScheduleOutput: Swift.Equatable {
+public struct StopCrawlerScheduleOutput {
 
     public init() { }
 }
@@ -56612,7 +56612,7 @@ extension StopSessionInput {
     }
 }
 
-public struct StopSessionInput: Swift.Equatable {
+public struct StopSessionInput {
     /// The ID of the session to be stopped.
     /// This member is required.
     public var id: Swift.String?
@@ -56629,7 +56629,7 @@ public struct StopSessionInput: Swift.Equatable {
     }
 }
 
-struct StopSessionInputBody: Swift.Equatable {
+struct StopSessionInputBody {
     let id: Swift.String?
     let requestOrigin: Swift.String?
 }
@@ -56661,7 +56661,7 @@ extension StopSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopSessionOutput: Swift.Equatable {
+public struct StopSessionOutput {
     /// Returns the Id of the stopped session.
     public var id: Swift.String?
 
@@ -56673,7 +56673,7 @@ public struct StopSessionOutput: Swift.Equatable {
     }
 }
 
-struct StopSessionOutputBody: Swift.Equatable {
+struct StopSessionOutputBody {
     let id: Swift.String?
 }
 
@@ -56725,7 +56725,7 @@ extension StopTriggerInput {
     }
 }
 
-public struct StopTriggerInput: Swift.Equatable {
+public struct StopTriggerInput {
     /// The name of the trigger to stop.
     /// This member is required.
     public var name: Swift.String?
@@ -56738,7 +56738,7 @@ public struct StopTriggerInput: Swift.Equatable {
     }
 }
 
-struct StopTriggerInputBody: Swift.Equatable {
+struct StopTriggerInputBody {
     let name: Swift.String?
 }
 
@@ -56766,7 +56766,7 @@ extension StopTriggerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopTriggerOutput: Swift.Equatable {
+public struct StopTriggerOutput {
     /// The name of the trigger that was stopped.
     public var name: Swift.String?
 
@@ -56778,7 +56778,7 @@ public struct StopTriggerOutput: Swift.Equatable {
     }
 }
 
-struct StopTriggerOutputBody: Swift.Equatable {
+struct StopTriggerOutputBody {
     let name: Swift.String?
 }
 
@@ -56833,7 +56833,7 @@ extension StopWorkflowRunInput {
     }
 }
 
-public struct StopWorkflowRunInput: Swift.Equatable {
+public struct StopWorkflowRunInput {
     /// The name of the workflow to stop.
     /// This member is required.
     public var name: Swift.String?
@@ -56851,7 +56851,7 @@ public struct StopWorkflowRunInput: Swift.Equatable {
     }
 }
 
-struct StopWorkflowRunInputBody: Swift.Equatable {
+struct StopWorkflowRunInputBody {
     let name: Swift.String?
     let runId: Swift.String?
 }
@@ -56876,7 +56876,7 @@ extension StopWorkflowRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopWorkflowRunOutput: Swift.Equatable {
+public struct StopWorkflowRunOutput {
 
     public init() { }
 }
@@ -57055,7 +57055,7 @@ extension GlueClientTypes.StorageDescriptor: Swift.Codable {
 
 extension GlueClientTypes {
     /// Describes the physical storage of table data.
-    public struct StorageDescriptor: Swift.Equatable {
+    public struct StorageDescriptor {
         /// A list of locations that point to the path where a Delta table is located.
         public var additionalLocations: [Swift.String]?
         /// A list of reducer grouping columns, clustering columns, and bucketing columns in the table.
@@ -57148,7 +57148,7 @@ extension GlueClientTypes.StreamingDataPreviewOptions: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies options related to data preview for viewing a sample of your data.
-    public struct StreamingDataPreviewOptions: Swift.Equatable {
+    public struct StreamingDataPreviewOptions {
         /// The polling time in milliseconds.
         public var pollingTime: Swift.Int?
         /// The limit to the number of records polled.
@@ -57205,7 +57205,7 @@ extension GlueClientTypes.StringColumnStatisticsData: Swift.Codable {
 
 extension GlueClientTypes {
     /// Defines column statistics supported for character sequence data values.
-    public struct StringColumnStatisticsData: Swift.Equatable {
+    public struct StringColumnStatisticsData {
         /// The average string length in the column.
         /// This member is required.
         public var averageLength: Swift.Double
@@ -57262,7 +57262,7 @@ extension GlueClientTypes.SupportedDialect: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure specifying the dialect and dialect version used by the query engine.
-    public struct SupportedDialect: Swift.Equatable {
+    public struct SupportedDialect {
         /// The dialect of the query engine.
         public var dialect: GlueClientTypes.ViewDialect?
         /// The version of the dialect of the query engine. For example, 3.0.0.
@@ -57457,7 +57457,7 @@ extension GlueClientTypes.Table: Swift.Codable {
 
 extension GlueClientTypes {
     /// Represents a collection of related data organized in columns and rows.
-    public struct Table: Swift.Equatable {
+    public struct Table {
         /// The ID of the Data Catalog in which the table resides.
         public var catalogId: Swift.String?
         /// The time when the table definition was created in the Data Catalog.
@@ -57587,7 +57587,7 @@ extension GlueClientTypes.TableError: Swift.Codable {
 
 extension GlueClientTypes {
     /// An error record for table operations.
-    public struct TableError: Swift.Equatable {
+    public struct TableError {
         /// The details about the error.
         public var errorDetail: GlueClientTypes.ErrorDetail?
         /// The name of the table. For Hive compatibility, this must be entirely lowercase.
@@ -57644,7 +57644,7 @@ extension GlueClientTypes.TableIdentifier: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure that describes a target table for resource linking.
-    public struct TableIdentifier: Swift.Equatable {
+    public struct TableIdentifier {
         /// The ID of the Data Catalog in which the table resides.
         public var catalogId: Swift.String?
         /// The name of the catalog database that contains the target table.
@@ -57787,7 +57787,7 @@ extension GlueClientTypes.TableInput: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure used to define a table.
-    public struct TableInput: Swift.Equatable {
+    public struct TableInput {
         /// A description of the table.
         public var description: Swift.String?
         /// The last time that the table was accessed.
@@ -57883,7 +57883,7 @@ extension GlueClientTypes.TableOptimizer: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains details about an optimizer associated with a table.
-    public struct TableOptimizer: Swift.Equatable {
+    public struct TableOptimizer {
         /// A TableOptimizerConfiguration object that was specified when creating or updating a table optimizer.
         public var configuration: GlueClientTypes.TableOptimizerConfiguration?
         /// A TableOptimizerRun object representing the last run of the table optimizer.
@@ -57932,7 +57932,7 @@ extension GlueClientTypes.TableOptimizerConfiguration: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains details on the configuration of a table optimizer. You pass this configuration when creating or updating a table optimizer.
-    public struct TableOptimizerConfiguration: Swift.Equatable {
+    public struct TableOptimizerConfiguration {
         /// Whether table optimization is enabled.
         public var enabled: Swift.Bool?
         /// A role passed by the caller which gives the service permission to update the resources associated with the optimizer on the caller's behalf.
@@ -58033,7 +58033,7 @@ extension GlueClientTypes.TableOptimizerRun: Swift.Codable {
 
 extension GlueClientTypes {
     /// Contains details for a table optimizer run.
-    public struct TableOptimizerRun: Swift.Equatable {
+    public struct TableOptimizerRun {
         /// Represents the epoch timestamp at which the compaction job ended.
         public var endTimestamp: ClientRuntime.Date?
         /// An error that occured during the optimizer run.
@@ -58119,7 +58119,7 @@ extension GlueClientTypes.TableVersion: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a version of a table.
-    public struct TableVersion: Swift.Equatable {
+    public struct TableVersion {
         /// The table in question.
         public var table: GlueClientTypes.Table?
         /// The ID value that identifies this table version. A VersionId is a string representation of an integer. Each version is incremented by 1.
@@ -58170,7 +58170,7 @@ extension GlueClientTypes.TableVersionError: Swift.Codable {
 
 extension GlueClientTypes {
     /// An error record for table-version operations.
-    public struct TableVersionError: Swift.Equatable {
+    public struct TableVersionError {
         /// The details about the error.
         public var errorDetail: GlueClientTypes.ErrorDetail?
         /// The name of the table in question.
@@ -58219,7 +58219,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the Glue resource to which to add the tags. For more information about Glue resource ARNs, see the [Glue ARN string pattern](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-common.html#aws-glue-api-regex-aws-glue-arn-id).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -58237,7 +58237,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tagsToAdd: [Swift.String:Swift.String]?
 }
@@ -58271,7 +58271,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -58412,7 +58412,7 @@ extension GlueClientTypes.TaskRun: Swift.Codable {
 
 extension GlueClientTypes {
     /// The sampling parameters that are associated with the machine learning transform.
-    public struct TaskRun: Swift.Equatable {
+    public struct TaskRun {
         /// The last point in time that the requested task run was completed.
         public var completedOn: ClientRuntime.Date?
         /// The list of error strings associated with this task run.
@@ -58501,7 +58501,7 @@ extension GlueClientTypes.TaskRunFilterCriteria: Swift.Codable {
 
 extension GlueClientTypes {
     /// The criteria that are used to filter the task runs for the machine learning transform.
-    public struct TaskRunFilterCriteria: Swift.Equatable {
+    public struct TaskRunFilterCriteria {
         /// Filter on task runs started after this date.
         public var startedAfter: ClientRuntime.Date?
         /// Filter on task runs started before this date.
@@ -58572,7 +58572,7 @@ extension GlueClientTypes.TaskRunProperties: Swift.Codable {
 
 extension GlueClientTypes {
     /// The configuration properties for the task run.
-    public struct TaskRunProperties: Swift.Equatable {
+    public struct TaskRunProperties {
         /// The configuration properties for an exporting labels task run.
         public var exportLabelsTaskRunProperties: GlueClientTypes.ExportLabelsTaskRunProperties?
         /// The configuration properties for a find matches task run.
@@ -58664,7 +58664,7 @@ extension GlueClientTypes.TaskRunSortCriteria: Swift.Codable {
 
 extension GlueClientTypes {
     /// The sorting criteria that are used to sort the list of task runs for the machine learning transform.
-    public struct TaskRunSortCriteria: Swift.Equatable {
+    public struct TaskRunSortCriteria {
         /// The column to be used to sort the list of task runs for the machine learning transform.
         /// This member is required.
         public var column: GlueClientTypes.TaskRunSortColumnType?
@@ -58841,7 +58841,7 @@ extension GlueClientTypes.TransformConfigParameter: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies the parameters in the config file of the dynamic transform.
-    public struct TransformConfigParameter: Swift.Equatable {
+    public struct TransformConfigParameter {
         /// Specifies whether the parameter is optional or not in the config file of the dynamic transform.
         public var isOptional: Swift.Bool?
         /// Specifies the list type of the parameter in the config file of the dynamic transform.
@@ -58908,7 +58908,7 @@ extension GlueClientTypes.TransformEncryption: Swift.Codable {
 
 extension GlueClientTypes {
     /// The encryption-at-rest settings of the transform that apply to accessing user data. Machine learning transforms can access user data encrypted in Amazon S3 using KMS. Additionally, imported labels and trained transforms can now be encrypted using a customer provided KMS key.
-    public struct TransformEncryption: Swift.Equatable {
+    public struct TransformEncryption {
         /// An MLUserDataEncryption object containing the encryption mode and customer-provided KMS key ID.
         public var mlUserDataEncryption: GlueClientTypes.MLUserDataEncryption?
         /// The name of the security configuration.
@@ -59007,7 +59007,7 @@ extension GlueClientTypes.TransformFilterCriteria: Swift.Codable {
 
 extension GlueClientTypes {
     /// The criteria used to filter the machine learning transforms.
-    public struct TransformFilterCriteria: Swift.Equatable {
+    public struct TransformFilterCriteria {
         /// The time and date after which the transforms were created.
         public var createdAfter: ClientRuntime.Date?
         /// The time and date before which the transforms were created.
@@ -59080,7 +59080,7 @@ extension GlueClientTypes.TransformParameters: Swift.Codable {
 
 extension GlueClientTypes {
     /// The algorithm-specific parameters that are associated with the machine learning transform.
-    public struct TransformParameters: Swift.Equatable {
+    public struct TransformParameters {
         /// The parameters for the find matches algorithm.
         public var findMatchesParameters: GlueClientTypes.FindMatchesParameters?
         /// The type of machine learning transform. For information about the types of machine learning transforms, see [Creating Machine Learning Transforms](https://docs.aws.amazon.com/glue/latest/dg/add-job-machine-learning-transform.html).
@@ -59167,7 +59167,7 @@ extension GlueClientTypes.TransformSortCriteria: Swift.Codable {
 
 extension GlueClientTypes {
     /// The sorting criteria that are associated with the machine learning transform.
-    public struct TransformSortCriteria: Swift.Equatable {
+    public struct TransformSortCriteria {
         /// The column to be used in the sorting criteria that are associated with the machine learning transform.
         /// This member is required.
         public var column: GlueClientTypes.TransformSortColumnType?
@@ -59338,7 +59338,7 @@ extension GlueClientTypes.Trigger: Swift.Codable {
 
 extension GlueClientTypes {
     /// Information about a specific trigger.
-    public struct Trigger: Swift.Equatable {
+    public struct Trigger {
         /// The actions initiated by this trigger.
         public var actions: [GlueClientTypes.Action]?
         /// A description of this trigger.
@@ -59409,7 +59409,7 @@ extension GlueClientTypes.TriggerNodeDetails: Swift.Codable {
 
 extension GlueClientTypes {
     /// The details of a Trigger node present in the workflow.
-    public struct TriggerNodeDetails: Swift.Equatable {
+    public struct TriggerNodeDetails {
         /// The information of the trigger represented by the trigger node.
         public var trigger: GlueClientTypes.Trigger?
 
@@ -59574,7 +59574,7 @@ extension GlueClientTypes.TriggerUpdate: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure used to provide information used to update a trigger. This object updates the previous trigger definition by overwriting it completely.
-    public struct TriggerUpdate: Swift.Equatable {
+    public struct TriggerUpdate {
         /// The actions initiated by this trigger.
         public var actions: [GlueClientTypes.Action]?
         /// A description of this trigger.
@@ -59653,7 +59653,7 @@ extension GlueClientTypes.UnfilteredPartition: Swift.Codable {
 
 extension GlueClientTypes {
     /// A partition that contains unfiltered metadata.
-    public struct UnfilteredPartition: Swift.Equatable {
+    public struct UnfilteredPartition {
         /// The list of columns the user has permissions to access.
         public var authorizedColumns: [Swift.String]?
         /// A Boolean value indicating that the partition location is registered with Lake Formation.
@@ -59720,7 +59720,7 @@ extension GlueClientTypes.Union: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a transform that combines the rows from two or more datasets into a single result.
-    public struct Union: Swift.Equatable {
+    public struct Union {
         /// The node ID inputs to the transform.
         /// This member is required.
         public var inputs: [Swift.String]?
@@ -59804,7 +59804,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource from which to remove the tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -59822,7 +59822,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagsToRemove: [Swift.String]?
 }
@@ -59856,7 +59856,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -59935,7 +59935,7 @@ extension UpdateBlueprintInput {
     }
 }
 
-public struct UpdateBlueprintInput: Swift.Equatable {
+public struct UpdateBlueprintInput {
     /// Specifies a path in Amazon S3 where the blueprint is published.
     /// This member is required.
     public var blueprintLocation: Swift.String?
@@ -59957,7 +59957,7 @@ public struct UpdateBlueprintInput: Swift.Equatable {
     }
 }
 
-struct UpdateBlueprintInputBody: Swift.Equatable {
+struct UpdateBlueprintInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let blueprintLocation: Swift.String?
@@ -59993,7 +59993,7 @@ extension UpdateBlueprintOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBlueprintOutput: Swift.Equatable {
+public struct UpdateBlueprintOutput {
     /// Returns the name of the blueprint that was updated.
     public var name: Swift.String?
 
@@ -60005,7 +60005,7 @@ public struct UpdateBlueprintOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBlueprintOutputBody: Swift.Equatable {
+struct UpdateBlueprintOutputBody {
     let name: Swift.String?
 }
 
@@ -60101,7 +60101,7 @@ extension UpdateClassifierInput {
     }
 }
 
-public struct UpdateClassifierInput: Swift.Equatable {
+public struct UpdateClassifierInput {
     /// A CsvClassifier object with updated fields.
     public var csvClassifier: GlueClientTypes.UpdateCsvClassifierRequest?
     /// A GrokClassifier object with updated fields.
@@ -60125,7 +60125,7 @@ public struct UpdateClassifierInput: Swift.Equatable {
     }
 }
 
-struct UpdateClassifierInputBody: Swift.Equatable {
+struct UpdateClassifierInputBody {
     let grokClassifier: GlueClientTypes.UpdateGrokClassifierRequest?
     let xmlClassifier: GlueClientTypes.UpdateXMLClassifierRequest?
     let jsonClassifier: GlueClientTypes.UpdateJsonClassifierRequest?
@@ -60158,7 +60158,7 @@ extension UpdateClassifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateClassifierOutput: Swift.Equatable {
+public struct UpdateClassifierOutput {
 
     public init() { }
 }
@@ -60219,7 +60219,7 @@ extension UpdateColumnStatisticsForPartitionInput {
     }
 }
 
-public struct UpdateColumnStatisticsForPartitionInput: Swift.Equatable {
+public struct UpdateColumnStatisticsForPartitionInput {
     /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// A list of the column statistics.
@@ -60251,7 +60251,7 @@ public struct UpdateColumnStatisticsForPartitionInput: Swift.Equatable {
     }
 }
 
-struct UpdateColumnStatisticsForPartitionInputBody: Swift.Equatable {
+struct UpdateColumnStatisticsForPartitionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -60313,7 +60313,7 @@ extension UpdateColumnStatisticsForPartitionOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct UpdateColumnStatisticsForPartitionOutput: Swift.Equatable {
+public struct UpdateColumnStatisticsForPartitionOutput {
     /// Error occurred during updating column statistics data.
     public var errors: [GlueClientTypes.ColumnStatisticsError]?
 
@@ -60325,7 +60325,7 @@ public struct UpdateColumnStatisticsForPartitionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateColumnStatisticsForPartitionOutputBody: Swift.Equatable {
+struct UpdateColumnStatisticsForPartitionOutputBody {
     let errors: [GlueClientTypes.ColumnStatisticsError]?
 }
 
@@ -60400,7 +60400,7 @@ extension UpdateColumnStatisticsForTableInput {
     }
 }
 
-public struct UpdateColumnStatisticsForTableInput: Swift.Equatable {
+public struct UpdateColumnStatisticsForTableInput {
     /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// A list of the column statistics.
@@ -60427,7 +60427,7 @@ public struct UpdateColumnStatisticsForTableInput: Swift.Equatable {
     }
 }
 
-struct UpdateColumnStatisticsForTableInputBody: Swift.Equatable {
+struct UpdateColumnStatisticsForTableInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -60476,7 +60476,7 @@ extension UpdateColumnStatisticsForTableOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateColumnStatisticsForTableOutput: Swift.Equatable {
+public struct UpdateColumnStatisticsForTableOutput {
     /// List of ColumnStatisticsErrors.
     public var errors: [GlueClientTypes.ColumnStatisticsError]?
 
@@ -60488,7 +60488,7 @@ public struct UpdateColumnStatisticsForTableOutput: Swift.Equatable {
     }
 }
 
-struct UpdateColumnStatisticsForTableOutputBody: Swift.Equatable {
+struct UpdateColumnStatisticsForTableOutputBody {
     let errors: [GlueClientTypes.ColumnStatisticsError]?
 }
 
@@ -60556,7 +60556,7 @@ extension UpdateConnectionInput {
     }
 }
 
-public struct UpdateConnectionInput: Swift.Equatable {
+public struct UpdateConnectionInput {
     /// The ID of the Data Catalog in which the connection resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// A ConnectionInput object that redefines the connection in question.
@@ -60578,7 +60578,7 @@ public struct UpdateConnectionInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectionInputBody: Swift.Equatable {
+struct UpdateConnectionInputBody {
     let catalogId: Swift.String?
     let name: Swift.String?
     let connectionInput: GlueClientTypes.ConnectionInput?
@@ -60607,7 +60607,7 @@ extension UpdateConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConnectionOutput: Swift.Equatable {
+public struct UpdateConnectionOutput {
 
     public init() { }
 }
@@ -60701,7 +60701,7 @@ extension UpdateCrawlerInput {
     }
 }
 
-public struct UpdateCrawlerInput: Swift.Equatable {
+public struct UpdateCrawlerInput {
     /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
     public var classifiers: [Swift.String]?
     /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Setting crawler configuration options](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
@@ -60766,7 +60766,7 @@ public struct UpdateCrawlerInput: Swift.Equatable {
     }
 }
 
-struct UpdateCrawlerInputBody: Swift.Equatable {
+struct UpdateCrawlerInputBody {
     let name: Swift.String?
     let role: Swift.String?
     let databaseName: Swift.String?
@@ -60848,7 +60848,7 @@ extension UpdateCrawlerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCrawlerOutput: Swift.Equatable {
+public struct UpdateCrawlerOutput {
 
     public init() { }
 }
@@ -60892,7 +60892,7 @@ extension UpdateCrawlerScheduleInput {
     }
 }
 
-public struct UpdateCrawlerScheduleInput: Swift.Equatable {
+public struct UpdateCrawlerScheduleInput {
     /// The name of the crawler whose schedule to update.
     /// This member is required.
     public var crawlerName: Swift.String?
@@ -60909,7 +60909,7 @@ public struct UpdateCrawlerScheduleInput: Swift.Equatable {
     }
 }
 
-struct UpdateCrawlerScheduleInputBody: Swift.Equatable {
+struct UpdateCrawlerScheduleInputBody {
     let crawlerName: Swift.String?
     let schedule: Swift.String?
 }
@@ -60934,7 +60934,7 @@ extension UpdateCrawlerScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCrawlerScheduleOutput: Swift.Equatable {
+public struct UpdateCrawlerScheduleOutput {
 
     public init() { }
 }
@@ -61053,7 +61053,7 @@ extension GlueClientTypes.UpdateCsvClassifierRequest: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a custom CSV classifier to be updated.
-    public struct UpdateCsvClassifierRequest: Swift.Equatable {
+    public struct UpdateCsvClassifierRequest {
         /// Enables the processing of files that contain only one column.
         public var allowSingleColumn: Swift.Bool?
         /// Indicates whether the CSV file contains a header.
@@ -61132,7 +61132,7 @@ extension UpdateDataQualityRulesetInput {
     }
 }
 
-public struct UpdateDataQualityRulesetInput: Swift.Equatable {
+public struct UpdateDataQualityRulesetInput {
     /// A description of the ruleset.
     public var description: Swift.String?
     /// The name of the data quality ruleset.
@@ -61153,7 +61153,7 @@ public struct UpdateDataQualityRulesetInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataQualityRulesetInputBody: Swift.Equatable {
+struct UpdateDataQualityRulesetInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let ruleset: Swift.String?
@@ -61193,7 +61193,7 @@ extension UpdateDataQualityRulesetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataQualityRulesetOutput: Swift.Equatable {
+public struct UpdateDataQualityRulesetOutput {
     /// A description of the ruleset.
     public var description: Swift.String?
     /// The name of the data quality ruleset.
@@ -61213,7 +61213,7 @@ public struct UpdateDataQualityRulesetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDataQualityRulesetOutputBody: Swift.Equatable {
+struct UpdateDataQualityRulesetOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let ruleset: Swift.String?
@@ -61282,7 +61282,7 @@ extension UpdateDatabaseInput {
     }
 }
 
-public struct UpdateDatabaseInput: Swift.Equatable {
+public struct UpdateDatabaseInput {
     /// The ID of the Data Catalog in which the metadata database resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// A DatabaseInput object specifying the new definition of the metadata database in the catalog.
@@ -61304,7 +61304,7 @@ public struct UpdateDatabaseInput: Swift.Equatable {
     }
 }
 
-struct UpdateDatabaseInputBody: Swift.Equatable {
+struct UpdateDatabaseInputBody {
     let catalogId: Swift.String?
     let name: Swift.String?
     let databaseInput: GlueClientTypes.DatabaseInput?
@@ -61333,7 +61333,7 @@ extension UpdateDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDatabaseOutput: Swift.Equatable {
+public struct UpdateDatabaseOutput {
 
     public init() { }
 }
@@ -61414,7 +61414,7 @@ extension UpdateDevEndpointInput {
     }
 }
 
-public struct UpdateDevEndpointInput: Swift.Equatable {
+public struct UpdateDevEndpointInput {
     /// The map of arguments to add the map of arguments used to configure the DevEndpoint. Valid arguments are:
     ///
     /// * "--enable-glue-datacatalog": ""
@@ -61460,7 +61460,7 @@ public struct UpdateDevEndpointInput: Swift.Equatable {
     }
 }
 
-struct UpdateDevEndpointInputBody: Swift.Equatable {
+struct UpdateDevEndpointInputBody {
     let endpointName: Swift.String?
     let publicKey: Swift.String?
     let addPublicKeys: [Swift.String]?
@@ -61545,7 +61545,7 @@ extension UpdateDevEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDevEndpointOutput: Swift.Equatable {
+public struct UpdateDevEndpointOutput {
 
     public init() { }
 }
@@ -61604,7 +61604,7 @@ extension GlueClientTypes.UpdateGrokClassifierRequest: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a grok classifier to update when passed to UpdateClassifier.
-    public struct UpdateGrokClassifierRequest: Swift.Equatable {
+    public struct UpdateGrokClassifierRequest {
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
         public var classification: Swift.String?
         /// Optional custom grok patterns used by this classifier.
@@ -61683,7 +61683,7 @@ extension UpdateJobFromSourceControlInput {
     }
 }
 
-public struct UpdateJobFromSourceControlInput: Swift.Equatable {
+public struct UpdateJobFromSourceControlInput {
     /// The type of authentication, which can be an authentication token stored in Amazon Web Services Secrets Manager, or a personal access token.
     public var authStrategy: GlueClientTypes.SourceControlAuthStrategy?
     /// The value of the authorization token.
@@ -61727,7 +61727,7 @@ public struct UpdateJobFromSourceControlInput: Swift.Equatable {
     }
 }
 
-struct UpdateJobFromSourceControlInputBody: Swift.Equatable {
+struct UpdateJobFromSourceControlInputBody {
     let jobName: Swift.String?
     let provider: GlueClientTypes.SourceControlProvider?
     let repositoryName: Swift.String?
@@ -61787,7 +61787,7 @@ extension UpdateJobFromSourceControlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJobFromSourceControlOutput: Swift.Equatable {
+public struct UpdateJobFromSourceControlOutput {
     /// The name of the Glue job.
     public var jobName: Swift.String?
 
@@ -61799,7 +61799,7 @@ public struct UpdateJobFromSourceControlOutput: Swift.Equatable {
     }
 }
 
-struct UpdateJobFromSourceControlOutputBody: Swift.Equatable {
+struct UpdateJobFromSourceControlOutputBody {
     let jobName: Swift.String?
 }
 
@@ -61856,7 +61856,7 @@ extension UpdateJobInput {
     }
 }
 
-public struct UpdateJobInput: Swift.Equatable {
+public struct UpdateJobInput {
     /// The name of the job definition to update.
     /// This member is required.
     public var jobName: Swift.String?
@@ -61874,7 +61874,7 @@ public struct UpdateJobInput: Swift.Equatable {
     }
 }
 
-struct UpdateJobInputBody: Swift.Equatable {
+struct UpdateJobInputBody {
     let jobName: Swift.String?
     let jobUpdate: GlueClientTypes.JobUpdate?
 }
@@ -61906,7 +61906,7 @@ extension UpdateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJobOutput: Swift.Equatable {
+public struct UpdateJobOutput {
     /// Returns the name of the updated job definition.
     public var jobName: Swift.String?
 
@@ -61918,7 +61918,7 @@ public struct UpdateJobOutput: Swift.Equatable {
     }
 }
 
-struct UpdateJobOutputBody: Swift.Equatable {
+struct UpdateJobOutputBody {
     let jobName: Swift.String?
 }
 
@@ -61976,7 +61976,7 @@ extension GlueClientTypes.UpdateJsonClassifierRequest: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies a JSON classifier to be updated.
-    public struct UpdateJsonClassifierRequest: Swift.Equatable {
+    public struct UpdateJsonClassifierRequest {
         /// A JsonPath string defining the JSON data for the classifier to classify. Glue supports a subset of JsonPath, as described in [Writing JsonPath Custom Classifiers](https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html#custom-classifier-json).
         public var jsonPath: Swift.String?
         /// The name of the classifier.
@@ -62055,7 +62055,7 @@ extension UpdateMLTransformInput {
     }
 }
 
-public struct UpdateMLTransformInput: Swift.Equatable {
+public struct UpdateMLTransformInput {
     /// A description of the transform. The default is an empty string.
     public var description: Swift.String?
     /// This value determines which version of Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see [Glue Versions](https://docs.aws.amazon.com/glue/latest/dg/release-notes.html#release-notes-versions) in the developer guide.
@@ -62114,7 +62114,7 @@ public struct UpdateMLTransformInput: Swift.Equatable {
     }
 }
 
-struct UpdateMLTransformInputBody: Swift.Equatable {
+struct UpdateMLTransformInputBody {
     let transformId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -62182,7 +62182,7 @@ extension UpdateMLTransformOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMLTransformOutput: Swift.Equatable {
+public struct UpdateMLTransformOutput {
     /// The unique identifier for the transform that was updated.
     public var transformId: Swift.String?
 
@@ -62194,7 +62194,7 @@ public struct UpdateMLTransformOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMLTransformOutputBody: Swift.Equatable {
+struct UpdateMLTransformOutputBody {
     let transformId: Swift.String?
 }
 
@@ -62264,7 +62264,7 @@ extension UpdatePartitionInput {
     }
 }
 
-public struct UpdatePartitionInput: Swift.Equatable {
+public struct UpdatePartitionInput {
     /// The ID of the Data Catalog where the partition to be updated resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database in which the table in question resides.
@@ -62296,7 +62296,7 @@ public struct UpdatePartitionInput: Swift.Equatable {
     }
 }
 
-struct UpdatePartitionInputBody: Swift.Equatable {
+struct UpdatePartitionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -62342,7 +62342,7 @@ extension UpdatePartitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePartitionOutput: Swift.Equatable {
+public struct UpdatePartitionOutput {
 
     public init() { }
 }
@@ -62386,7 +62386,7 @@ extension UpdateRegistryInput {
     }
 }
 
-public struct UpdateRegistryInput: Swift.Equatable {
+public struct UpdateRegistryInput {
     /// A description of the registry. If description is not provided, this field will not be updated.
     /// This member is required.
     public var description: Swift.String?
@@ -62404,7 +62404,7 @@ public struct UpdateRegistryInput: Swift.Equatable {
     }
 }
 
-struct UpdateRegistryInputBody: Swift.Equatable {
+struct UpdateRegistryInputBody {
     let registryId: GlueClientTypes.RegistryId?
     let description: Swift.String?
 }
@@ -62438,7 +62438,7 @@ extension UpdateRegistryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRegistryOutput: Swift.Equatable {
+public struct UpdateRegistryOutput {
     /// The Amazon Resource name (ARN) of the updated registry.
     public var registryArn: Swift.String?
     /// The name of the updated registry.
@@ -62454,7 +62454,7 @@ public struct UpdateRegistryOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRegistryOutputBody: Swift.Equatable {
+struct UpdateRegistryOutputBody {
     let registryName: Swift.String?
     let registryArn: Swift.String?
 }
@@ -62521,7 +62521,7 @@ extension UpdateSchemaInput {
     }
 }
 
-public struct UpdateSchemaInput: Swift.Equatable {
+public struct UpdateSchemaInput {
     /// The new compatibility setting for the schema.
     public var compatibility: GlueClientTypes.Compatibility?
     /// The new description for the schema.
@@ -62550,7 +62550,7 @@ public struct UpdateSchemaInput: Swift.Equatable {
     }
 }
 
-struct UpdateSchemaInputBody: Swift.Equatable {
+struct UpdateSchemaInputBody {
     let schemaId: GlueClientTypes.SchemaId?
     let schemaVersionNumber: GlueClientTypes.SchemaVersionNumber?
     let compatibility: GlueClientTypes.Compatibility?
@@ -62594,7 +62594,7 @@ extension UpdateSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSchemaOutput: Swift.Equatable {
+public struct UpdateSchemaOutput {
     /// The name of the registry that contains the schema.
     public var registryName: Swift.String?
     /// The Amazon Resource Name (ARN) of the schema.
@@ -62614,7 +62614,7 @@ public struct UpdateSchemaOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSchemaOutputBody: Swift.Equatable {
+struct UpdateSchemaOutputBody {
     let schemaArn: Swift.String?
     let schemaName: Swift.String?
     let registryName: Swift.String?
@@ -62705,7 +62705,7 @@ extension UpdateSourceControlFromJobInput {
     }
 }
 
-public struct UpdateSourceControlFromJobInput: Swift.Equatable {
+public struct UpdateSourceControlFromJobInput {
     /// The type of authentication, which can be an authentication token stored in Amazon Web Services Secrets Manager, or a personal access token.
     public var authStrategy: GlueClientTypes.SourceControlAuthStrategy?
     /// The value of the authorization token.
@@ -62749,7 +62749,7 @@ public struct UpdateSourceControlFromJobInput: Swift.Equatable {
     }
 }
 
-struct UpdateSourceControlFromJobInputBody: Swift.Equatable {
+struct UpdateSourceControlFromJobInputBody {
     let jobName: Swift.String?
     let provider: GlueClientTypes.SourceControlProvider?
     let repositoryName: Swift.String?
@@ -62809,7 +62809,7 @@ extension UpdateSourceControlFromJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSourceControlFromJobOutput: Swift.Equatable {
+public struct UpdateSourceControlFromJobOutput {
     /// The name of the Glue job.
     public var jobName: Swift.String?
 
@@ -62821,7 +62821,7 @@ public struct UpdateSourceControlFromJobOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSourceControlFromJobOutputBody: Swift.Equatable {
+struct UpdateSourceControlFromJobOutputBody {
     let jobName: Swift.String?
 }
 
@@ -62894,7 +62894,7 @@ extension UpdateTableInput {
     }
 }
 
-public struct UpdateTableInput: Swift.Equatable {
+public struct UpdateTableInput {
     /// The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -62928,7 +62928,7 @@ public struct UpdateTableInput: Swift.Equatable {
     }
 }
 
-struct UpdateTableInputBody: Swift.Equatable {
+struct UpdateTableInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableInput: GlueClientTypes.TableInput?
@@ -63000,7 +63000,7 @@ extension UpdateTableOptimizerInput {
     }
 }
 
-public struct UpdateTableOptimizerInput: Swift.Equatable {
+public struct UpdateTableOptimizerInput {
     /// The Catalog ID of the table.
     /// This member is required.
     public var catalogId: Swift.String?
@@ -63033,7 +63033,7 @@ public struct UpdateTableOptimizerInput: Swift.Equatable {
     }
 }
 
-struct UpdateTableOptimizerInputBody: Swift.Equatable {
+struct UpdateTableOptimizerInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -63070,7 +63070,7 @@ extension UpdateTableOptimizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTableOptimizerOutput: Swift.Equatable {
+public struct UpdateTableOptimizerOutput {
 
     public init() { }
 }
@@ -63094,7 +63094,7 @@ extension UpdateTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTableOutput: Swift.Equatable {
+public struct UpdateTableOutput {
 
     public init() { }
 }
@@ -63141,7 +63141,7 @@ extension UpdateTriggerInput {
     }
 }
 
-public struct UpdateTriggerInput: Swift.Equatable {
+public struct UpdateTriggerInput {
     /// The name of the trigger to update.
     /// This member is required.
     public var name: Swift.String?
@@ -63159,7 +63159,7 @@ public struct UpdateTriggerInput: Swift.Equatable {
     }
 }
 
-struct UpdateTriggerInputBody: Swift.Equatable {
+struct UpdateTriggerInputBody {
     let name: Swift.String?
     let triggerUpdate: GlueClientTypes.TriggerUpdate?
 }
@@ -63191,7 +63191,7 @@ extension UpdateTriggerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTriggerOutput: Swift.Equatable {
+public struct UpdateTriggerOutput {
     /// The resulting trigger definition.
     public var trigger: GlueClientTypes.Trigger?
 
@@ -63203,7 +63203,7 @@ public struct UpdateTriggerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTriggerOutputBody: Swift.Equatable {
+struct UpdateTriggerOutputBody {
     let trigger: GlueClientTypes.Trigger?
 }
 
@@ -63266,7 +63266,7 @@ extension UpdateUserDefinedFunctionInput {
     }
 }
 
-public struct UpdateUserDefinedFunctionInput: Swift.Equatable {
+public struct UpdateUserDefinedFunctionInput {
     /// The ID of the Data Catalog where the function to be updated is located. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database where the function to be updated is located.
@@ -63293,7 +63293,7 @@ public struct UpdateUserDefinedFunctionInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserDefinedFunctionInputBody: Swift.Equatable {
+struct UpdateUserDefinedFunctionInputBody {
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let functionName: Swift.String?
@@ -63326,7 +63326,7 @@ extension UpdateUserDefinedFunctionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserDefinedFunctionOutput: Swift.Equatable {
+public struct UpdateUserDefinedFunctionOutput {
 
     public init() { }
 }
@@ -63381,7 +63381,7 @@ extension UpdateWorkflowInput {
     }
 }
 
-public struct UpdateWorkflowInput: Swift.Equatable {
+public struct UpdateWorkflowInput {
     /// A collection of properties to be used as part of each execution of the workflow.
     public var defaultRunProperties: [Swift.String:Swift.String]?
     /// The description of the workflow.
@@ -63406,7 +63406,7 @@ public struct UpdateWorkflowInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkflowInputBody: Swift.Equatable {
+struct UpdateWorkflowInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let defaultRunProperties: [Swift.String:Swift.String]?
@@ -63455,7 +63455,7 @@ extension UpdateWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkflowOutput: Swift.Equatable {
+public struct UpdateWorkflowOutput {
     /// The name of the workflow which was specified in input.
     public var name: Swift.String?
 
@@ -63467,7 +63467,7 @@ public struct UpdateWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkflowOutputBody: Swift.Equatable {
+struct UpdateWorkflowOutputBody {
     let name: Swift.String?
 }
 
@@ -63531,7 +63531,7 @@ extension GlueClientTypes.UpdateXMLClassifierRequest: Swift.Codable {
 
 extension GlueClientTypes {
     /// Specifies an XML classifier to be updated.
-    public struct UpdateXMLClassifierRequest: Swift.Equatable {
+    public struct UpdateXMLClassifierRequest {
         /// An identifier of the data format that the classifier matches.
         public var classification: Swift.String?
         /// The name of the classifier.
@@ -63599,7 +63599,7 @@ extension GlueClientTypes.UpsertRedshiftTargetOptions: Swift.Codable {
 
 extension GlueClientTypes {
     /// The options to configure an upsert operation when writing to a Redshift target .
-    public struct UpsertRedshiftTargetOptions: Swift.Equatable {
+    public struct UpsertRedshiftTargetOptions {
         /// The name of the connection to use to write to Redshift.
         public var connectionName: Swift.String?
         /// The physical location of the Redshift table.
@@ -63696,7 +63696,7 @@ extension GlueClientTypes.UserDefinedFunction: Swift.Codable {
 
 extension GlueClientTypes {
     /// Represents the equivalent of a Hive user-defined function (UDF) definition.
-    public struct UserDefinedFunction: Swift.Equatable {
+    public struct UserDefinedFunction {
         /// The ID of the Data Catalog in which the function resides.
         public var catalogId: Swift.String?
         /// The Java class that contains the function code.
@@ -63795,7 +63795,7 @@ extension GlueClientTypes.UserDefinedFunctionInput: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure used to create or update a user-defined function.
-    public struct UserDefinedFunctionInput: Swift.Equatable {
+    public struct UserDefinedFunctionInput {
         /// The Java class that contains the function code.
         public var className: Swift.String?
         /// The name of the function.
@@ -63865,7 +63865,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -63921,7 +63921,7 @@ public struct VersionMismatchException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct VersionMismatchExceptionBody: Swift.Equatable {
+struct VersionMismatchExceptionBody {
     let message: Swift.String?
 }
 
@@ -64000,7 +64000,7 @@ extension GlueClientTypes.ViewDefinition: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure containing details for representations.
-    public struct ViewDefinition: Swift.Equatable {
+    public struct ViewDefinition {
         /// The definer of a view in SQL.
         public var definer: Swift.String?
         /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
@@ -64106,7 +64106,7 @@ extension GlueClientTypes.ViewRepresentation: Swift.Codable {
 
 extension GlueClientTypes {
     /// A structure that contains the dialect of the view, and the query that defines the view.
-    public struct ViewRepresentation: Swift.Equatable {
+    public struct ViewRepresentation {
         /// The dialect of the query engine.
         public var dialect: GlueClientTypes.ViewDialect?
         /// The version of the dialect of the query engine. For example, 3.0.0.
@@ -64266,7 +64266,7 @@ extension GlueClientTypes.Workflow: Swift.Codable {
 
 extension GlueClientTypes {
     /// A workflow is a collection of multiple dependent Glue jobs and crawlers that are run to complete a complex ETL task. A workflow manages the execution and monitoring of all its jobs and crawlers.
-    public struct Workflow: Swift.Equatable {
+    public struct Workflow {
         /// This structure indicates the details of the blueprint that this particular workflow is created from.
         public var blueprintDetails: GlueClientTypes.BlueprintDetails?
         /// The date and time when the workflow was created.
@@ -64363,7 +64363,7 @@ extension GlueClientTypes.WorkflowGraph: Swift.Codable {
 
 extension GlueClientTypes {
     /// A workflow graph represents the complete workflow containing all the Glue components present in the workflow and all the directed connections between them.
-    public struct WorkflowGraph: Swift.Equatable {
+    public struct WorkflowGraph {
         /// A list of all the directed connections between the nodes belonging to the workflow.
         public var edges: [GlueClientTypes.Edge]?
         /// A list of the the Glue components belong to the workflow represented as nodes.
@@ -64474,7 +64474,7 @@ extension GlueClientTypes.WorkflowRun: Swift.Codable {
 
 extension GlueClientTypes {
     /// A workflow run is an execution of a workflow providing all the runtime information.
-    public struct WorkflowRun: Swift.Equatable {
+    public struct WorkflowRun {
         /// The date and time when the workflow run completed.
         public var completedOn: ClientRuntime.Date?
         /// This error message describes any error that may have occurred in starting the workflow run. Currently the only error message is "Concurrent runs exceeded for workflow: foo."
@@ -64591,7 +64591,7 @@ extension GlueClientTypes.WorkflowRunStatistics: Swift.Codable {
 
 extension GlueClientTypes {
     /// Workflow run statistics provides statistics about the workflow run.
-    public struct WorkflowRunStatistics: Swift.Equatable {
+    public struct WorkflowRunStatistics {
         /// Indicates the count of job runs in the ERROR state in the workflow run.
         public var erroredActions: Swift.Int
         /// Total number of Actions that have failed.
@@ -64725,7 +64725,7 @@ extension GlueClientTypes.XMLClassifier: Swift.Codable {
 
 extension GlueClientTypes {
     /// A classifier for XML content.
-    public struct XMLClassifier: Swift.Equatable {
+    public struct XMLClassifier {
         /// An identifier of the data format that the classifier matches.
         /// This member is required.
         public var classification: Swift.String?

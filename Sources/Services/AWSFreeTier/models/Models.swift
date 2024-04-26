@@ -106,7 +106,7 @@ extension FreeTierClientTypes.DimensionValues: Swift.Codable {
 
 extension FreeTierClientTypes {
     /// Contains the specifications for the filters to use for your request.
-    public struct DimensionValues: Swift.Equatable {
+    public struct DimensionValues {
         /// The name of the dimension that you want to filter on.
         /// This member is required.
         public var key: FreeTierClientTypes.Dimension?
@@ -201,7 +201,7 @@ extension FreeTierClientTypes {
     ///
     ///
     /// For simple dimension values, you can set the dimension name, values, and match type for the filters that you plan to use. Example for simple dimension values You can filter to match exactly for REGION==us-east-1 OR REGION==us-west-1. The corresponding Expression appears like the following: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ], "MatchOptions": ["EQUALS"] } } As shown in the previous example, lists of dimension values are combined with OR when you apply the filter. For complex expressions with logical operators, you can have nested expressions to use the logical operators and specify advanced filtering. Example for complex expressions with logical operators You can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (SERVICE CONTAINS AWSLambda)) AND (USAGE_TYPE !CONTAINS DataTransfer). The corresponding Expression appears like the following: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ], "MatchOptions": ["EQUALS"] }}, {"Dimensions": { "Key": "SERVICE", "Values": ["AWSLambda"], "MatchOptions": ["CONTAINS"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"], "MatchOptions": ["CONTAINS"] }}} ] } In the following Contents, you must specify exactly one of the following root operators.
-    public struct Expression: Swift.Equatable {
+    public struct Expression {
         /// Return results that match all Expressions that you specified in the array.
         public var and: [FreeTierClientTypes.Expression]?
         /// The specific dimension, values, and match type to filter objects with.
@@ -304,7 +304,7 @@ extension FreeTierClientTypes.FreeTierUsage: Swift.Codable {
 
 extension FreeTierClientTypes {
     /// Consists of a Amazon Web Services Free Tier offer’s metadata and your data usage for the offer.
-    public struct FreeTierUsage: Swift.Equatable {
+    public struct FreeTierUsage {
         /// Describes the actual usage accrued month-to-day (MTD) that you've used so far.
         public var actualUsageAmount: Swift.Double
         /// The description of the Free Tier offer.
@@ -382,7 +382,7 @@ extension GetFreeTierUsageInput {
     }
 }
 
-public struct GetFreeTierUsageInput: Swift.Equatable {
+public struct GetFreeTierUsageInput {
     /// An expression that specifies the conditions that you want each FreeTierUsage object to meet.
     public var filter: FreeTierClientTypes.Expression?
     /// The maximum number of results to return in the response. MaxResults means that there can be up to the specified number of values, but there might be fewer results based on your filters.
@@ -402,7 +402,7 @@ public struct GetFreeTierUsageInput: Swift.Equatable {
     }
 }
 
-struct GetFreeTierUsageInputBody: Swift.Equatable {
+struct GetFreeTierUsageInputBody {
     let filter: FreeTierClientTypes.Expression?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -440,7 +440,7 @@ extension GetFreeTierUsageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFreeTierUsageOutput: Swift.Equatable {
+public struct GetFreeTierUsageOutput {
     /// The list of Free Tier usage objects that meet your filter expression.
     /// This member is required.
     public var freeTierUsages: [FreeTierClientTypes.FreeTierUsage]?
@@ -457,7 +457,7 @@ public struct GetFreeTierUsageOutput: Swift.Equatable {
     }
 }
 
-struct GetFreeTierUsageOutputBody: Swift.Equatable {
+struct GetFreeTierUsageOutputBody {
     let freeTierUsages: [FreeTierClientTypes.FreeTierUsage]?
     let nextToken: Swift.String?
 }
@@ -539,7 +539,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -636,7 +636,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -692,7 +692,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

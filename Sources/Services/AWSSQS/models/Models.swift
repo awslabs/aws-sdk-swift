@@ -41,7 +41,7 @@ extension AddPermissionInput {
 }
 
 ///
-public struct AddPermissionInput: Swift.Equatable {
+public struct AddPermissionInput {
     /// The action the client wants to allow for the specified principal. Valid values: the name of any action or *. For more information about these actions, see [Overview of Managing Access Permissions to Your Amazon Simple Queue Service Resource](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-overview-of-managing-access.html) in the Amazon SQS Developer Guide. Specifying SendMessage, DeleteMessage, or ChangeMessageVisibility for ActionName.n also grants permissions for the corresponding batch versions of those actions: SendMessageBatch, DeleteMessageBatch, and ChangeMessageVisibilityBatch.
     /// This member is required.
     public var actions: [Swift.String]?
@@ -69,7 +69,7 @@ public struct AddPermissionInput: Swift.Equatable {
     }
 }
 
-struct AddPermissionInputBody: Swift.Equatable {
+struct AddPermissionInputBody {
     let queueUrl: Swift.String?
     let label: Swift.String?
     let awsAccountIds: [Swift.String]?
@@ -120,7 +120,7 @@ extension AddPermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddPermissionOutput: Swift.Equatable {
+public struct AddPermissionOutput {
 
     public init() { }
 }
@@ -180,7 +180,7 @@ public struct BatchEntryIdsNotDistinct: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct BatchEntryIdsNotDistinctBody: Swift.Equatable {
+struct BatchEntryIdsNotDistinctBody {
     let message: Swift.String?
 }
 
@@ -235,7 +235,7 @@ public struct BatchRequestTooLong: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BatchRequestTooLongBody: Swift.Equatable {
+struct BatchRequestTooLongBody {
     let message: Swift.String?
 }
 
@@ -290,7 +290,7 @@ extension SQSClientTypes.BatchResultErrorEntry: Swift.Codable {
 
 extension SQSClientTypes {
     /// Gives a detailed description of the result of an action on each entry in the request.
-    public struct BatchResultErrorEntry: Swift.Equatable {
+    public struct BatchResultErrorEntry {
         /// An error code representing why the action failed on this entry.
         /// This member is required.
         public var code: Swift.String?
@@ -339,7 +339,7 @@ extension CancelMessageMoveTaskInput {
     }
 }
 
-public struct CancelMessageMoveTaskInput: Swift.Equatable {
+public struct CancelMessageMoveTaskInput {
     /// An identifier associated with a message movement task.
     /// This member is required.
     public var taskHandle: Swift.String?
@@ -352,7 +352,7 @@ public struct CancelMessageMoveTaskInput: Swift.Equatable {
     }
 }
 
-struct CancelMessageMoveTaskInputBody: Swift.Equatable {
+struct CancelMessageMoveTaskInputBody {
     let taskHandle: Swift.String?
 }
 
@@ -380,7 +380,7 @@ extension CancelMessageMoveTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelMessageMoveTaskOutput: Swift.Equatable {
+public struct CancelMessageMoveTaskOutput {
     /// The approximate number of messages already moved to the destination queue.
     public var approximateNumberOfMessagesMoved: Swift.Int
 
@@ -392,7 +392,7 @@ public struct CancelMessageMoveTaskOutput: Swift.Equatable {
     }
 }
 
-struct CancelMessageMoveTaskOutputBody: Swift.Equatable {
+struct CancelMessageMoveTaskOutputBody {
     let approximateNumberOfMessagesMoved: Swift.Int
 }
 
@@ -451,7 +451,7 @@ extension ChangeMessageVisibilityBatchInput {
 }
 
 ///
-public struct ChangeMessageVisibilityBatchInput: Swift.Equatable {
+public struct ChangeMessageVisibilityBatchInput {
     /// Lists the receipt handles of the messages for which the visibility timeout must be changed.
     /// This member is required.
     public var entries: [SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry]?
@@ -469,7 +469,7 @@ public struct ChangeMessageVisibilityBatchInput: Swift.Equatable {
     }
 }
 
-struct ChangeMessageVisibilityBatchInputBody: Swift.Equatable {
+struct ChangeMessageVisibilityBatchInputBody {
     let queueUrl: Swift.String?
     let entries: [SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry]?
 }
@@ -513,7 +513,7 @@ extension ChangeMessageVisibilityBatchOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// For each message in the batch, the response contains a [ChangeMessageVisibilityBatchResultEntry] tag if the message succeeds or a [BatchResultErrorEntry] tag if the message fails.
-public struct ChangeMessageVisibilityBatchOutput: Swift.Equatable {
+public struct ChangeMessageVisibilityBatchOutput {
     /// A list of [BatchResultErrorEntry] items.
     /// This member is required.
     public var failed: [SQSClientTypes.BatchResultErrorEntry]?
@@ -531,7 +531,7 @@ public struct ChangeMessageVisibilityBatchOutput: Swift.Equatable {
     }
 }
 
-struct ChangeMessageVisibilityBatchOutputBody: Swift.Equatable {
+struct ChangeMessageVisibilityBatchOutputBody {
     let successful: [SQSClientTypes.ChangeMessageVisibilityBatchResultEntry]?
     let failed: [SQSClientTypes.BatchResultErrorEntry]?
 }
@@ -621,7 +621,7 @@ extension SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry: Swift.Codable
 
 extension SQSClientTypes {
     /// Encloses a receipt handle and an entry ID for each message in [ChangeMessageVisibilityBatch].
-    public struct ChangeMessageVisibilityBatchRequestEntry: Swift.Equatable {
+    public struct ChangeMessageVisibilityBatchRequestEntry {
         /// An identifier for this particular receipt handle used to communicate the result. The Ids of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_).
         /// This member is required.
         public var id: Swift.String?
@@ -666,7 +666,7 @@ extension SQSClientTypes.ChangeMessageVisibilityBatchResultEntry: Swift.Codable 
 
 extension SQSClientTypes {
     /// Encloses the Id of an entry in [ChangeMessageVisibilityBatch].
-    public struct ChangeMessageVisibilityBatchResultEntry: Swift.Equatable {
+    public struct ChangeMessageVisibilityBatchResultEntry {
         /// Represents a message whose visibility timeout has been changed successfully.
         /// This member is required.
         public var id: Swift.String?
@@ -709,7 +709,7 @@ extension ChangeMessageVisibilityInput {
     }
 }
 
-public struct ChangeMessageVisibilityInput: Swift.Equatable {
+public struct ChangeMessageVisibilityInput {
     /// The URL of the Amazon SQS queue whose message's visibility is changed. Queue URLs and names are case-sensitive.
     /// This member is required.
     public var queueUrl: Swift.String?
@@ -732,7 +732,7 @@ public struct ChangeMessageVisibilityInput: Swift.Equatable {
     }
 }
 
-struct ChangeMessageVisibilityInputBody: Swift.Equatable {
+struct ChangeMessageVisibilityInputBody {
     let queueUrl: Swift.String?
     let receiptHandle: Swift.String?
     let visibilityTimeout: Swift.Int?
@@ -761,7 +761,7 @@ extension ChangeMessageVisibilityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ChangeMessageVisibilityOutput: Swift.Equatable {
+public struct ChangeMessageVisibilityOutput {
 
     public init() { }
 }
@@ -818,7 +818,7 @@ extension CreateQueueInput {
 }
 
 ///
-public struct CreateQueueInput: Swift.Equatable {
+public struct CreateQueueInput {
     /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateQueue action uses:
     ///
     /// * DelaySeconds – The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15 minutes). Default: 0.
@@ -954,7 +954,7 @@ public struct CreateQueueInput: Swift.Equatable {
     }
 }
 
-struct CreateQueueInputBody: Swift.Equatable {
+struct CreateQueueInputBody {
     let queueName: Swift.String?
     let attributes: [Swift.String:Swift.String]?
     let tags: [Swift.String:Swift.String]?
@@ -1009,7 +1009,7 @@ extension CreateQueueOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the QueueUrl attribute of the created queue.
-public struct CreateQueueOutput: Swift.Equatable {
+public struct CreateQueueOutput {
     /// The URL of the created Amazon SQS queue.
     public var queueUrl: Swift.String?
 
@@ -1021,7 +1021,7 @@ public struct CreateQueueOutput: Swift.Equatable {
     }
 }
 
-struct CreateQueueOutputBody: Swift.Equatable {
+struct CreateQueueOutputBody {
     let queueUrl: Swift.String?
 }
 
@@ -1083,7 +1083,7 @@ extension DeleteMessageBatchInput {
 }
 
 ///
-public struct DeleteMessageBatchInput: Swift.Equatable {
+public struct DeleteMessageBatchInput {
     /// Lists the receipt handles for the messages to be deleted.
     /// This member is required.
     public var entries: [SQSClientTypes.DeleteMessageBatchRequestEntry]?
@@ -1101,7 +1101,7 @@ public struct DeleteMessageBatchInput: Swift.Equatable {
     }
 }
 
-struct DeleteMessageBatchInputBody: Swift.Equatable {
+struct DeleteMessageBatchInputBody {
     let queueUrl: Swift.String?
     let entries: [SQSClientTypes.DeleteMessageBatchRequestEntry]?
 }
@@ -1145,7 +1145,7 @@ extension DeleteMessageBatchOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// For each message in the batch, the response contains a [DeleteMessageBatchResultEntry] tag if the message is deleted or a [BatchResultErrorEntry] tag if the message can't be deleted.
-public struct DeleteMessageBatchOutput: Swift.Equatable {
+public struct DeleteMessageBatchOutput {
     /// A list of [BatchResultErrorEntry] items.
     /// This member is required.
     public var failed: [SQSClientTypes.BatchResultErrorEntry]?
@@ -1163,7 +1163,7 @@ public struct DeleteMessageBatchOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMessageBatchOutputBody: Swift.Equatable {
+struct DeleteMessageBatchOutputBody {
     let successful: [SQSClientTypes.DeleteMessageBatchResultEntry]?
     let failed: [SQSClientTypes.BatchResultErrorEntry]?
 }
@@ -1247,7 +1247,7 @@ extension SQSClientTypes.DeleteMessageBatchRequestEntry: Swift.Codable {
 
 extension SQSClientTypes {
     /// Encloses a receipt handle and an identifier for it.
-    public struct DeleteMessageBatchRequestEntry: Swift.Equatable {
+    public struct DeleteMessageBatchRequestEntry {
         /// The identifier for this particular receipt handle. This is used to communicate the result. The Ids of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_).
         /// This member is required.
         public var id: Swift.String?
@@ -1288,7 +1288,7 @@ extension SQSClientTypes.DeleteMessageBatchResultEntry: Swift.Codable {
 
 extension SQSClientTypes {
     /// Encloses the Id of an entry in [DeleteMessageBatch].
-    public struct DeleteMessageBatchResultEntry: Swift.Equatable {
+    public struct DeleteMessageBatchResultEntry {
         /// Represents a successfully deleted message.
         /// This member is required.
         public var id: Swift.String?
@@ -1328,7 +1328,7 @@ extension DeleteMessageInput {
 }
 
 ///
-public struct DeleteMessageInput: Swift.Equatable {
+public struct DeleteMessageInput {
     /// The URL of the Amazon SQS queue from which messages are deleted. Queue URLs and names are case-sensitive.
     /// This member is required.
     public var queueUrl: Swift.String?
@@ -1346,7 +1346,7 @@ public struct DeleteMessageInput: Swift.Equatable {
     }
 }
 
-struct DeleteMessageInputBody: Swift.Equatable {
+struct DeleteMessageInputBody {
     let queueUrl: Swift.String?
     let receiptHandle: Swift.String?
 }
@@ -1371,7 +1371,7 @@ extension DeleteMessageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMessageOutput: Swift.Equatable {
+public struct DeleteMessageOutput {
 
     public init() { }
 }
@@ -1414,7 +1414,7 @@ extension DeleteQueueInput {
 }
 
 ///
-public struct DeleteQueueInput: Swift.Equatable {
+public struct DeleteQueueInput {
     /// The URL of the Amazon SQS queue to delete. Queue URLs and names are case-sensitive.
     /// This member is required.
     public var queueUrl: Swift.String?
@@ -1427,7 +1427,7 @@ public struct DeleteQueueInput: Swift.Equatable {
     }
 }
 
-struct DeleteQueueInputBody: Swift.Equatable {
+struct DeleteQueueInputBody {
     let queueUrl: Swift.String?
 }
 
@@ -1448,7 +1448,7 @@ extension DeleteQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteQueueOutput: Swift.Equatable {
+public struct DeleteQueueOutput {
 
     public init() { }
 }
@@ -1507,7 +1507,7 @@ public struct EmptyBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct EmptyBatchRequestBody: Swift.Equatable {
+struct EmptyBatchRequestBody {
     let message: Swift.String?
 }
 
@@ -1551,7 +1551,7 @@ extension GetQueueAttributesInput {
 }
 
 ///
-public struct GetQueueAttributesInput: Swift.Equatable {
+public struct GetQueueAttributesInput {
     /// A list of attributes for which to retrieve information. The AttributeNames parameter is optional, but if you don't specify values for this parameter, the request returns empty results. In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully. The following attributes are supported: The ApproximateNumberOfMessagesDelayed, ApproximateNumberOfMessagesNotVisible, and ApproximateNumberOfMessages metrics may not achieve consistency until at least 1 minute after the producers stop sending messages. This period is required for the queue metadata to reach eventual consistency.
     ///
     /// * All – Returns all values.
@@ -1657,7 +1657,7 @@ public struct GetQueueAttributesInput: Swift.Equatable {
     }
 }
 
-struct GetQueueAttributesInputBody: Swift.Equatable {
+struct GetQueueAttributesInputBody {
     let queueUrl: Swift.String?
     let attributeNames: [SQSClientTypes.QueueAttributeName]?
 }
@@ -1699,7 +1699,7 @@ extension GetQueueAttributesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of returned queue attributes.
-public struct GetQueueAttributesOutput: Swift.Equatable {
+public struct GetQueueAttributesOutput {
     /// A map of attributes to their respective values.
     public var attributes: [Swift.String:Swift.String]?
 
@@ -1711,7 +1711,7 @@ public struct GetQueueAttributesOutput: Swift.Equatable {
     }
 }
 
-struct GetQueueAttributesOutputBody: Swift.Equatable {
+struct GetQueueAttributesOutputBody {
     let attributes: [Swift.String:Swift.String]?
 }
 
@@ -1777,7 +1777,7 @@ extension GetQueueUrlInput {
 }
 
 ///
-public struct GetQueueUrlInput: Swift.Equatable {
+public struct GetQueueUrlInput {
     /// The name of the queue whose URL must be fetched. Maximum 80 characters. Valid values: alphanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.
     /// This member is required.
     public var queueName: Swift.String?
@@ -1794,7 +1794,7 @@ public struct GetQueueUrlInput: Swift.Equatable {
     }
 }
 
-struct GetQueueUrlInputBody: Swift.Equatable {
+struct GetQueueUrlInputBody {
     let queueName: Swift.String?
     let queueOwnerAWSAccountId: Swift.String?
 }
@@ -1827,7 +1827,7 @@ extension GetQueueUrlOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// For more information, see [Interpreting Responses](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-api-responses.html) in the Amazon SQS Developer Guide.
-public struct GetQueueUrlOutput: Swift.Equatable {
+public struct GetQueueUrlOutput {
     /// The URL of the queue.
     public var queueUrl: Swift.String?
 
@@ -1839,7 +1839,7 @@ public struct GetQueueUrlOutput: Swift.Equatable {
     }
 }
 
-struct GetQueueUrlOutputBody: Swift.Equatable {
+struct GetQueueUrlOutputBody {
     let queueUrl: Swift.String?
 }
 
@@ -1909,7 +1909,7 @@ public struct InvalidAddress: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
-struct InvalidAddressBody: Swift.Equatable {
+struct InvalidAddressBody {
     let message: Swift.String?
 }
 
@@ -1964,7 +1964,7 @@ public struct InvalidAttributeName: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InvalidAttributeNameBody: Swift.Equatable {
+struct InvalidAttributeNameBody {
     let message: Swift.String?
 }
 
@@ -2019,7 +2019,7 @@ public struct InvalidAttributeValue: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidAttributeValueBody: Swift.Equatable {
+struct InvalidAttributeValueBody {
     let message: Swift.String?
 }
 
@@ -2074,7 +2074,7 @@ public struct InvalidBatchEntryId: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidBatchEntryIdBody: Swift.Equatable {
+struct InvalidBatchEntryIdBody {
     let message: Swift.String?
 }
 
@@ -2151,7 +2151,7 @@ public struct InvalidMessageContents: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidMessageContentsBody: Swift.Equatable {
+struct InvalidMessageContentsBody {
     let message: Swift.String?
 }
 
@@ -2206,7 +2206,7 @@ public struct InvalidSecurity: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct InvalidSecurityBody: Swift.Equatable {
+struct InvalidSecurityBody {
     let message: Swift.String?
 }
 
@@ -2261,7 +2261,7 @@ public struct KmsAccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct KmsAccessDeniedBody: Swift.Equatable {
+struct KmsAccessDeniedBody {
     let message: Swift.String?
 }
 
@@ -2316,7 +2316,7 @@ public struct KmsDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
     }
 }
 
-struct KmsDisabledBody: Swift.Equatable {
+struct KmsDisabledBody {
     let message: Swift.String?
 }
 
@@ -2375,7 +2375,7 @@ public struct KmsInvalidKeyUsage: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct KmsInvalidKeyUsageBody: Swift.Equatable {
+struct KmsInvalidKeyUsageBody {
     let message: Swift.String?
 }
 
@@ -2430,7 +2430,7 @@ public struct KmsInvalidState: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct KmsInvalidStateBody: Swift.Equatable {
+struct KmsInvalidStateBody {
     let message: Swift.String?
 }
 
@@ -2485,7 +2485,7 @@ public struct KmsNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
     }
 }
 
-struct KmsNotFoundBody: Swift.Equatable {
+struct KmsNotFoundBody {
     let message: Swift.String?
 }
 
@@ -2540,7 +2540,7 @@ public struct KmsOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct KmsOptInRequiredBody: Swift.Equatable {
+struct KmsOptInRequiredBody {
     let message: Swift.String?
 }
 
@@ -2595,7 +2595,7 @@ public struct KmsThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     }
 }
 
-struct KmsThrottledBody: Swift.Equatable {
+struct KmsThrottledBody {
     let message: Swift.String?
 }
 
@@ -2640,7 +2640,7 @@ extension ListDeadLetterSourceQueuesInput {
 }
 
 ///
-public struct ListDeadLetterSourceQueuesInput: Swift.Equatable {
+public struct ListDeadLetterSourceQueuesInput {
     /// Maximum number of results to include in the response. Value range is 1 to 1000. You must set MaxResults to receive a value for NextToken in the response.
     public var maxResults: Swift.Int?
     /// Pagination token to request the next set of results.
@@ -2661,7 +2661,7 @@ public struct ListDeadLetterSourceQueuesInput: Swift.Equatable {
     }
 }
 
-struct ListDeadLetterSourceQueuesInputBody: Swift.Equatable {
+struct ListDeadLetterSourceQueuesInputBody {
     let queueUrl: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2700,7 +2700,7 @@ extension ListDeadLetterSourceQueuesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of your dead letter source queues.
-public struct ListDeadLetterSourceQueuesOutput: Swift.Equatable {
+public struct ListDeadLetterSourceQueuesOutput {
     /// Pagination token to include in the next request. Token value is null if there are no additional results to request, or if you did not set MaxResults in the request.
     public var nextToken: Swift.String?
     /// A list of source queue URLs that have the RedrivePolicy queue attribute configured with a dead-letter queue.
@@ -2717,7 +2717,7 @@ public struct ListDeadLetterSourceQueuesOutput: Swift.Equatable {
     }
 }
 
-struct ListDeadLetterSourceQueuesOutputBody: Swift.Equatable {
+struct ListDeadLetterSourceQueuesOutputBody {
     let queueUrls: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -2785,7 +2785,7 @@ extension ListMessageMoveTasksInput {
     }
 }
 
-public struct ListMessageMoveTasksInput: Swift.Equatable {
+public struct ListMessageMoveTasksInput {
     /// The maximum number of results to include in the response. The default is 1, which provides the most recent message movement task. The upper limit is 10.
     public var maxResults: Swift.Int?
     /// The ARN of the queue whose message movement tasks are to be listed.
@@ -2802,7 +2802,7 @@ public struct ListMessageMoveTasksInput: Swift.Equatable {
     }
 }
 
-struct ListMessageMoveTasksInputBody: Swift.Equatable {
+struct ListMessageMoveTasksInputBody {
     let sourceArn: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2834,7 +2834,7 @@ extension ListMessageMoveTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMessageMoveTasksOutput: Swift.Equatable {
+public struct ListMessageMoveTasksOutput {
     /// A list of message movement tasks and their attributes.
     public var results: [SQSClientTypes.ListMessageMoveTasksResultEntry]?
 
@@ -2846,7 +2846,7 @@ public struct ListMessageMoveTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListMessageMoveTasksOutputBody: Swift.Equatable {
+struct ListMessageMoveTasksOutputBody {
     let results: [SQSClientTypes.ListMessageMoveTasksResultEntry]?
 }
 
@@ -2955,7 +2955,7 @@ extension SQSClientTypes.ListMessageMoveTasksResultEntry: Swift.Codable {
 
 extension SQSClientTypes {
     /// Contains the details of a message movement task.
-    public struct ListMessageMoveTasksResultEntry: Swift.Equatable {
+    public struct ListMessageMoveTasksResultEntry {
         /// The approximate number of messages already moved to the destination queue.
         public var approximateNumberOfMessagesMoved: Swift.Int
         /// The number of messages to be moved from the source queue. This number is obtained at the time of starting the message movement task.
@@ -3021,7 +3021,7 @@ extension ListQueueTagsInput {
     }
 }
 
-public struct ListQueueTagsInput: Swift.Equatable {
+public struct ListQueueTagsInput {
     /// The URL of the queue.
     /// This member is required.
     public var queueUrl: Swift.String?
@@ -3034,7 +3034,7 @@ public struct ListQueueTagsInput: Swift.Equatable {
     }
 }
 
-struct ListQueueTagsInputBody: Swift.Equatable {
+struct ListQueueTagsInputBody {
     let queueUrl: Swift.String?
 }
 
@@ -3062,7 +3062,7 @@ extension ListQueueTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueueTagsOutput: Swift.Equatable {
+public struct ListQueueTagsOutput {
     /// The list of all tags added to the specified queue.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3074,7 +3074,7 @@ public struct ListQueueTagsOutput: Swift.Equatable {
     }
 }
 
-struct ListQueueTagsOutputBody: Swift.Equatable {
+struct ListQueueTagsOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3143,7 +3143,7 @@ extension ListQueuesInput {
 }
 
 ///
-public struct ListQueuesInput: Swift.Equatable {
+public struct ListQueuesInput {
     /// Maximum number of results to include in the response. Value range is 1 to 1000. You must set MaxResults to receive a value for NextToken in the response.
     public var maxResults: Swift.Int?
     /// Pagination token to request the next set of results.
@@ -3163,7 +3163,7 @@ public struct ListQueuesInput: Swift.Equatable {
     }
 }
 
-struct ListQueuesInputBody: Swift.Equatable {
+struct ListQueuesInputBody {
     let queueNamePrefix: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3202,7 +3202,7 @@ extension ListQueuesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of your queues.
-public struct ListQueuesOutput: Swift.Equatable {
+public struct ListQueuesOutput {
     /// Pagination token to include in the next request. Token value is null if there are no additional results to request, or if you did not set MaxResults in the request.
     public var nextToken: Swift.String?
     /// A list of queue URLs, up to 1,000 entries, or the value of MaxResults that you sent in the request.
@@ -3218,7 +3218,7 @@ public struct ListQueuesOutput: Swift.Equatable {
     }
 }
 
-struct ListQueuesOutputBody: Swift.Equatable {
+struct ListQueuesOutputBody {
     let queueUrls: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -3342,7 +3342,7 @@ extension SQSClientTypes.Message: Swift.Codable {
 
 extension SQSClientTypes {
     /// An Amazon SQS message.
-    public struct Message: Swift.Equatable {
+    public struct Message {
         /// A map of the attributes requested in [ReceiveMessage] to their respective values. Supported attributes:
         ///
         /// * ApproximateReceiveCount
@@ -3466,7 +3466,7 @@ extension SQSClientTypes.MessageAttributeValue: Swift.Codable {
 
 extension SQSClientTypes {
     /// The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see [SendMessage].Name, type, value and the message body must not be empty or null. All parts of the message attribute, including Name, Type, and Value, are part of the message size restriction (256 KiB or 262,144 bytes).
-    public struct MessageAttributeValue: Swift.Equatable {
+    public struct MessageAttributeValue {
         /// Not implemented. Reserved for future use.
         public var binaryListValues: [ClientRuntime.Data]?
         /// Binary type attributes can store any binary data, such as compressed data, encrypted data, or images.
@@ -3669,7 +3669,7 @@ extension SQSClientTypes.MessageSystemAttributeValue: Swift.Codable {
 
 extension SQSClientTypes {
     /// The user-specified message system attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see [SendMessage].Name, type, value and the message body must not be empty or null.
-    public struct MessageSystemAttributeValue: Swift.Equatable {
+    public struct MessageSystemAttributeValue {
         /// Not implemented. Reserved for future use.
         public var binaryListValues: [ClientRuntime.Data]?
         /// Binary type attributes can store any binary data, such as compressed data, encrypted data, or images.
@@ -3739,7 +3739,7 @@ public struct OverLimit: ClientRuntime.ModeledError, AWSClientRuntime.AWSService
     }
 }
 
-struct OverLimitBody: Swift.Equatable {
+struct OverLimitBody {
     let message: Swift.String?
 }
 
@@ -3794,7 +3794,7 @@ public struct PurgeQueueInProgress: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct PurgeQueueInProgressBody: Swift.Equatable {
+struct PurgeQueueInProgressBody {
     let message: Swift.String?
 }
 
@@ -3831,7 +3831,7 @@ extension PurgeQueueInput {
 }
 
 ///
-public struct PurgeQueueInput: Swift.Equatable {
+public struct PurgeQueueInput {
     /// The URL of the queue from which the PurgeQueue action deletes messages. Queue URLs and names are case-sensitive.
     /// This member is required.
     public var queueUrl: Swift.String?
@@ -3844,7 +3844,7 @@ public struct PurgeQueueInput: Swift.Equatable {
     }
 }
 
-struct PurgeQueueInputBody: Swift.Equatable {
+struct PurgeQueueInputBody {
     let queueUrl: Swift.String?
 }
 
@@ -3865,7 +3865,7 @@ extension PurgeQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PurgeQueueOutput: Swift.Equatable {
+public struct PurgeQueueOutput {
 
     public init() { }
 }
@@ -4017,7 +4017,7 @@ public struct QueueDeletedRecently: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct QueueDeletedRecentlyBody: Swift.Equatable {
+struct QueueDeletedRecentlyBody {
     let message: Swift.String?
 }
 
@@ -4072,7 +4072,7 @@ public struct QueueDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct QueueDoesNotExistBody: Swift.Equatable {
+struct QueueDoesNotExistBody {
     let message: Swift.String?
 }
 
@@ -4127,7 +4127,7 @@ public struct QueueNameExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct QueueNameExistsBody: Swift.Equatable {
+struct QueueNameExistsBody {
     let message: Swift.String?
 }
 
@@ -4182,7 +4182,7 @@ public struct ReceiptHandleIsInvalid: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ReceiptHandleIsInvalidBody: Swift.Equatable {
+struct ReceiptHandleIsInvalidBody {
     let message: Swift.String?
 }
 
@@ -4249,7 +4249,7 @@ extension ReceiveMessageInput {
 }
 
 ///
-public struct ReceiveMessageInput: Swift.Equatable {
+public struct ReceiveMessageInput {
     /// A list of attributes that need to be returned along with each message. These attributes include:
     ///
     /// * All – Returns all values.
@@ -4343,7 +4343,7 @@ public struct ReceiveMessageInput: Swift.Equatable {
     }
 }
 
-struct ReceiveMessageInputBody: Swift.Equatable {
+struct ReceiveMessageInputBody {
     let queueUrl: Swift.String?
     let attributeNames: [SQSClientTypes.QueueAttributeName]?
     let messageAttributeNames: [Swift.String]?
@@ -4414,7 +4414,7 @@ extension ReceiveMessageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of received messages.
-public struct ReceiveMessageOutput: Swift.Equatable {
+public struct ReceiveMessageOutput {
     /// A list of messages.
     public var messages: [SQSClientTypes.Message]?
 
@@ -4426,7 +4426,7 @@ public struct ReceiveMessageOutput: Swift.Equatable {
     }
 }
 
-struct ReceiveMessageOutputBody: Swift.Equatable {
+struct ReceiveMessageOutputBody {
     let messages: [SQSClientTypes.Message]?
 }
 
@@ -4499,7 +4499,7 @@ extension RemovePermissionInput {
 }
 
 ///
-public struct RemovePermissionInput: Swift.Equatable {
+public struct RemovePermissionInput {
     /// The identification of the permission to remove. This is the label added using the [AddPermission] action.
     /// This member is required.
     public var label: Swift.String?
@@ -4517,7 +4517,7 @@ public struct RemovePermissionInput: Swift.Equatable {
     }
 }
 
-struct RemovePermissionInputBody: Swift.Equatable {
+struct RemovePermissionInputBody {
     let queueUrl: Swift.String?
     let label: Swift.String?
 }
@@ -4542,7 +4542,7 @@ extension RemovePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemovePermissionOutput: Swift.Equatable {
+public struct RemovePermissionOutput {
 
     public init() { }
 }
@@ -4607,7 +4607,7 @@ public struct RequestThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct RequestThrottledBody: Swift.Equatable {
+struct RequestThrottledBody {
     let message: Swift.String?
 }
 
@@ -4662,7 +4662,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4708,7 +4708,7 @@ extension SendMessageBatchInput {
 }
 
 ///
-public struct SendMessageBatchInput: Swift.Equatable {
+public struct SendMessageBatchInput {
     /// A list of [SendMessageBatchRequestEntry] items.
     /// This member is required.
     public var entries: [SQSClientTypes.SendMessageBatchRequestEntry]?
@@ -4726,7 +4726,7 @@ public struct SendMessageBatchInput: Swift.Equatable {
     }
 }
 
-struct SendMessageBatchInputBody: Swift.Equatable {
+struct SendMessageBatchInputBody {
     let queueUrl: Swift.String?
     let entries: [SQSClientTypes.SendMessageBatchRequestEntry]?
 }
@@ -4770,7 +4770,7 @@ extension SendMessageBatchOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// For each message in the batch, the response contains a [SendMessageBatchResultEntry] tag if the message succeeds or a [BatchResultErrorEntry] tag if the message fails.
-public struct SendMessageBatchOutput: Swift.Equatable {
+public struct SendMessageBatchOutput {
     /// A list of [BatchResultErrorEntry] items with error details about each message that can't be enqueued.
     /// This member is required.
     public var failed: [SQSClientTypes.BatchResultErrorEntry]?
@@ -4788,7 +4788,7 @@ public struct SendMessageBatchOutput: Swift.Equatable {
     }
 }
 
-struct SendMessageBatchOutputBody: Swift.Equatable {
+struct SendMessageBatchOutputBody {
     let successful: [SQSClientTypes.SendMessageBatchResultEntry]?
     let failed: [SQSClientTypes.BatchResultErrorEntry]?
 }
@@ -4934,7 +4934,7 @@ extension SQSClientTypes.SendMessageBatchRequestEntry: Swift.Codable {
 
 extension SQSClientTypes {
     /// Contains the details of a single Amazon SQS message along with an Id.
-    public struct SendMessageBatchRequestEntry: Swift.Equatable {
+    public struct SendMessageBatchRequestEntry {
         /// The length of time, in seconds, for which a specific message is delayed. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue is applied. When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level.
         public var delaySeconds: Swift.Int?
         /// An identifier for a message in this batch used to communicate the result. The Ids of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_).
@@ -5056,7 +5056,7 @@ extension SQSClientTypes.SendMessageBatchResultEntry: Swift.Codable {
 
 extension SQSClientTypes {
     /// Encloses a MessageId for a successfully-enqueued message in a [SendMessageBatch].
-    public struct SendMessageBatchResultEntry: Swift.Equatable {
+    public struct SendMessageBatchResultEntry {
         /// An identifier for the message in this batch.
         /// This member is required.
         public var id: Swift.String?
@@ -5144,7 +5144,7 @@ extension SendMessageInput {
 }
 
 ///
-public struct SendMessageInput: Swift.Equatable {
+public struct SendMessageInput {
     /// The length of time, in seconds, for which to delay a specific message. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue applies. When you set FifoQueue, you can't set DelaySeconds per message. You can set this parameter only on a queue level.
     public var delaySeconds: Swift.Int?
     /// Each message attribute consists of a Name, Type, and Value. For more information, see [Amazon SQS message attributes](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes) in the Amazon SQS Developer Guide.
@@ -5213,7 +5213,7 @@ public struct SendMessageInput: Swift.Equatable {
     }
 }
 
-struct SendMessageInputBody: Swift.Equatable {
+struct SendMessageInputBody {
     let queueUrl: Swift.String?
     let messageBody: Swift.String?
     let delaySeconds: Swift.Int?
@@ -5292,7 +5292,7 @@ extension SendMessageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The MD5OfMessageBody and MessageId elements.
-public struct SendMessageOutput: Swift.Equatable {
+public struct SendMessageOutput {
     /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see [RFC1321](https://www.ietf.org/rfc/rfc1321.txt).
     public var md5OfMessageAttributes: Swift.String?
     /// An MD5 digest of the non-URL-encoded message body string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see [RFC1321](https://www.ietf.org/rfc/rfc1321.txt).
@@ -5320,7 +5320,7 @@ public struct SendMessageOutput: Swift.Equatable {
     }
 }
 
-struct SendMessageOutputBody: Swift.Equatable {
+struct SendMessageOutputBody {
     let md5OfMessageBody: Swift.String?
     let md5OfMessageAttributes: Swift.String?
     let md5OfMessageSystemAttributes: Swift.String?
@@ -5403,7 +5403,7 @@ extension SetQueueAttributesInput {
 }
 
 ///
-public struct SetQueueAttributesInput: Swift.Equatable {
+public struct SetQueueAttributesInput {
     /// A map of attributes to set. The following lists the names, descriptions, and values of the special request parameters that the SetQueueAttributes action uses:
     ///
     /// * DelaySeconds – The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). Default: 0.
@@ -5514,7 +5514,7 @@ public struct SetQueueAttributesInput: Swift.Equatable {
     }
 }
 
-struct SetQueueAttributesInputBody: Swift.Equatable {
+struct SetQueueAttributesInputBody {
     let queueUrl: Swift.String?
     let attributes: [Swift.String:Swift.String]?
 }
@@ -5548,7 +5548,7 @@ extension SetQueueAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetQueueAttributesOutput: Swift.Equatable {
+public struct SetQueueAttributesOutput {
 
     public init() { }
 }
@@ -5599,7 +5599,7 @@ extension StartMessageMoveTaskInput {
     }
 }
 
-public struct StartMessageMoveTaskInput: Swift.Equatable {
+public struct StartMessageMoveTaskInput {
     /// The ARN of the queue that receives the moved messages. You can use this field to specify the destination queue where you would like to redrive messages. If this field is left blank, the messages will be redriven back to their respective original source queues.
     public var destinationArn: Swift.String?
     /// The number of messages to be moved per second (the message movement rate). You can use this field to define a fixed message movement rate. The maximum value for messages per second is 500. If this field is left blank, the system will optimize the rate based on the queue message backlog size, which may vary throughout the duration of the message movement task.
@@ -5620,7 +5620,7 @@ public struct StartMessageMoveTaskInput: Swift.Equatable {
     }
 }
 
-struct StartMessageMoveTaskInputBody: Swift.Equatable {
+struct StartMessageMoveTaskInputBody {
     let sourceArn: Swift.String?
     let destinationArn: Swift.String?
     let maxNumberOfMessagesPerSecond: Swift.Int?
@@ -5656,7 +5656,7 @@ extension StartMessageMoveTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMessageMoveTaskOutput: Swift.Equatable {
+public struct StartMessageMoveTaskOutput {
     /// An identifier associated with a message movement task. You can use this identifier to cancel a specified message movement task using the CancelMessageMoveTask action.
     public var taskHandle: Swift.String?
 
@@ -5668,7 +5668,7 @@ public struct StartMessageMoveTaskOutput: Swift.Equatable {
     }
 }
 
-struct StartMessageMoveTaskOutputBody: Swift.Equatable {
+struct StartMessageMoveTaskOutputBody {
     let taskHandle: Swift.String?
 }
 
@@ -5726,7 +5726,7 @@ extension TagQueueInput {
     }
 }
 
-public struct TagQueueInput: Swift.Equatable {
+public struct TagQueueInput {
     /// The URL of the queue.
     /// This member is required.
     public var queueUrl: Swift.String?
@@ -5744,7 +5744,7 @@ public struct TagQueueInput: Swift.Equatable {
     }
 }
 
-struct TagQueueInputBody: Swift.Equatable {
+struct TagQueueInputBody {
     let queueUrl: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -5778,7 +5778,7 @@ extension TagQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagQueueOutput: Swift.Equatable {
+public struct TagQueueOutput {
 
     public init() { }
 }
@@ -5837,7 +5837,7 @@ public struct TooManyEntriesInBatchRequest: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct TooManyEntriesInBatchRequestBody: Swift.Equatable {
+struct TooManyEntriesInBatchRequestBody {
     let message: Swift.String?
 }
 
@@ -5892,7 +5892,7 @@ public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct UnsupportedOperationBody: Swift.Equatable {
+struct UnsupportedOperationBody {
     let message: Swift.String?
 }
 
@@ -5935,7 +5935,7 @@ extension UntagQueueInput {
     }
 }
 
-public struct UntagQueueInput: Swift.Equatable {
+public struct UntagQueueInput {
     /// The URL of the queue.
     /// This member is required.
     public var queueUrl: Swift.String?
@@ -5953,7 +5953,7 @@ public struct UntagQueueInput: Swift.Equatable {
     }
 }
 
-struct UntagQueueInputBody: Swift.Equatable {
+struct UntagQueueInputBody {
     let queueUrl: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -5987,7 +5987,7 @@ extension UntagQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagQueueOutput: Swift.Equatable {
+public struct UntagQueueOutput {
 
     public init() { }
 }

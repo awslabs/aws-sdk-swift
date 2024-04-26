@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -143,7 +143,7 @@ extension GrafanaClientTypes.AssertionAttributes: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure that defines which attributes in the IdP assertion are to be used to define information about the users authenticated by the IdP to use the workspace.
-    public struct AssertionAttributes: Swift.Equatable {
+    public struct AssertionAttributes {
         /// The name of the attribute within the SAML assertion to use as the email names for SAML users.
         public var email: Swift.String?
         /// The name of the attribute within the SAML assertion to use as the user full "friendly" names for user groups.
@@ -201,7 +201,7 @@ extension AssociateLicenseInput {
     }
 }
 
-public struct AssociateLicenseInput: Swift.Equatable {
+public struct AssociateLicenseInput {
     /// A token from Grafana Labs that ties your Amazon Web Services account with a Grafana Labs account. For more information, see [Register with Grafana Labs](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise).
     public var grafanaToken: Swift.String?
     /// The type of license to associate with the workspace. Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
@@ -223,7 +223,7 @@ public struct AssociateLicenseInput: Swift.Equatable {
     }
 }
 
-struct AssociateLicenseInputBody: Swift.Equatable {
+struct AssociateLicenseInputBody {
 }
 
 extension AssociateLicenseInputBody: Swift.Decodable {
@@ -244,7 +244,7 @@ extension AssociateLicenseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateLicenseOutput: Swift.Equatable {
+public struct AssociateLicenseOutput {
     /// A structure containing data about the workspace.
     /// This member is required.
     public var workspace: GrafanaClientTypes.WorkspaceDescription?
@@ -257,7 +257,7 @@ public struct AssociateLicenseOutput: Swift.Equatable {
     }
 }
 
-struct AssociateLicenseOutputBody: Swift.Equatable {
+struct AssociateLicenseOutputBody {
     let workspace: GrafanaClientTypes.WorkspaceDescription?
 }
 
@@ -333,7 +333,7 @@ extension GrafanaClientTypes.AuthenticationDescription: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure containing information about the user authentication methods used by the workspace.
-    public struct AuthenticationDescription: Swift.Equatable {
+    public struct AuthenticationDescription {
         /// A structure containing information about how this workspace works with IAM Identity Center.
         public var awsSso: GrafanaClientTypes.AwsSsoAuthentication?
         /// Specifies whether this workspace uses IAM Identity Center, SAML, or both methods to authenticate users to use the Grafana console in the Amazon Managed Grafana workspace.
@@ -429,7 +429,7 @@ extension GrafanaClientTypes.AuthenticationSummary: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure that describes whether the workspace uses SAML, IAM Identity Center, or both methods for user authentication, and whether that authentication is fully configured.
-    public struct AuthenticationSummary: Swift.Equatable {
+    public struct AuthenticationSummary {
         /// Specifies whether the workspace uses SAML, IAM Identity Center, or both methods for user authentication.
         /// This member is required.
         public var providers: [GrafanaClientTypes.AuthenticationProviderTypes]?
@@ -469,7 +469,7 @@ extension GrafanaClientTypes.AwsSsoAuthentication: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure containing information about how this workspace works with IAM Identity Center.
-    public struct AwsSsoAuthentication: Swift.Equatable {
+    public struct AwsSsoAuthentication {
         /// The ID of the IAM Identity Center-managed application that is created by Amazon Managed Grafana.
         public var ssoClientId: Swift.String?
 
@@ -538,7 +538,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -593,7 +593,7 @@ extension CreateWorkspaceApiKeyInput {
     }
 }
 
-public struct CreateWorkspaceApiKeyInput: Swift.Equatable {
+public struct CreateWorkspaceApiKeyInput {
     /// Specifies the name of the key. Keynames must be unique to the workspace.
     /// This member is required.
     public var keyName: Swift.String?
@@ -621,7 +621,7 @@ public struct CreateWorkspaceApiKeyInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceApiKeyInputBody: Swift.Equatable {
+struct CreateWorkspaceApiKeyInputBody {
     let keyName: Swift.String?
     let keyRole: Swift.String?
     let secondsToLive: Swift.Int?
@@ -666,7 +666,7 @@ extension CreateWorkspaceApiKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkspaceApiKeyOutput: Swift.Equatable {
+public struct CreateWorkspaceApiKeyOutput {
     /// The key token. Use this value as a bearer token to authenticate HTTP requests to the workspace.
     /// This member is required.
     public var key: Swift.String?
@@ -689,7 +689,7 @@ public struct CreateWorkspaceApiKeyOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceApiKeyOutputBody: Swift.Equatable {
+struct CreateWorkspaceApiKeyOutputBody {
     let keyName: Swift.String?
     let key: Swift.String?
     let workspaceId: Swift.String?
@@ -834,7 +834,7 @@ extension CreateWorkspaceInput {
     }
 }
 
-public struct CreateWorkspaceInput: Swift.Equatable {
+public struct CreateWorkspaceInput {
     /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
     /// This member is required.
     public var accountAccessType: GrafanaClientTypes.AccountAccessType?
@@ -913,7 +913,7 @@ public struct CreateWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceInputBody: Swift.Equatable {
+struct CreateWorkspaceInputBody {
     let accountAccessType: GrafanaClientTypes.AccountAccessType?
     let clientToken: Swift.String?
     let organizationRoleName: Swift.String?
@@ -1050,7 +1050,7 @@ extension CreateWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkspaceOutput: Swift.Equatable {
+public struct CreateWorkspaceOutput {
     /// A structure containing data about the workspace that was created.
     /// This member is required.
     public var workspace: GrafanaClientTypes.WorkspaceDescription?
@@ -1063,7 +1063,7 @@ public struct CreateWorkspaceOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceOutputBody: Swift.Equatable {
+struct CreateWorkspaceOutputBody {
     let workspace: GrafanaClientTypes.WorkspaceDescription?
 }
 
@@ -1170,7 +1170,7 @@ extension DeleteWorkspaceApiKeyInput {
     }
 }
 
-public struct DeleteWorkspaceApiKeyInput: Swift.Equatable {
+public struct DeleteWorkspaceApiKeyInput {
     /// The name of the API key to delete.
     /// This member is required.
     public var keyName: Swift.String?
@@ -1188,7 +1188,7 @@ public struct DeleteWorkspaceApiKeyInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkspaceApiKeyInputBody: Swift.Equatable {
+struct DeleteWorkspaceApiKeyInputBody {
 }
 
 extension DeleteWorkspaceApiKeyInputBody: Swift.Decodable {
@@ -1211,7 +1211,7 @@ extension DeleteWorkspaceApiKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkspaceApiKeyOutput: Swift.Equatable {
+public struct DeleteWorkspaceApiKeyOutput {
     /// The name of the key that was deleted.
     /// This member is required.
     public var keyName: Swift.String?
@@ -1229,7 +1229,7 @@ public struct DeleteWorkspaceApiKeyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkspaceApiKeyOutputBody: Swift.Equatable {
+struct DeleteWorkspaceApiKeyOutputBody {
     let keyName: Swift.String?
     let workspaceId: Swift.String?
 }
@@ -1275,7 +1275,7 @@ extension DeleteWorkspaceInput {
     }
 }
 
-public struct DeleteWorkspaceInput: Swift.Equatable {
+public struct DeleteWorkspaceInput {
     /// The ID of the workspace to delete.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -1288,7 +1288,7 @@ public struct DeleteWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkspaceInputBody: Swift.Equatable {
+struct DeleteWorkspaceInputBody {
 }
 
 extension DeleteWorkspaceInputBody: Swift.Decodable {
@@ -1309,7 +1309,7 @@ extension DeleteWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkspaceOutput: Swift.Equatable {
+public struct DeleteWorkspaceOutput {
     /// A structure containing information about the workspace that was deleted.
     /// This member is required.
     public var workspace: GrafanaClientTypes.WorkspaceDescription?
@@ -1322,7 +1322,7 @@ public struct DeleteWorkspaceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkspaceOutputBody: Swift.Equatable {
+struct DeleteWorkspaceOutputBody {
     let workspace: GrafanaClientTypes.WorkspaceDescription?
 }
 
@@ -1364,7 +1364,7 @@ extension DescribeWorkspaceAuthenticationInput {
     }
 }
 
-public struct DescribeWorkspaceAuthenticationInput: Swift.Equatable {
+public struct DescribeWorkspaceAuthenticationInput {
     /// The ID of the workspace to return authentication information about.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -1377,7 +1377,7 @@ public struct DescribeWorkspaceAuthenticationInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceAuthenticationInputBody: Swift.Equatable {
+struct DescribeWorkspaceAuthenticationInputBody {
 }
 
 extension DescribeWorkspaceAuthenticationInputBody: Swift.Decodable {
@@ -1398,7 +1398,7 @@ extension DescribeWorkspaceAuthenticationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeWorkspaceAuthenticationOutput: Swift.Equatable {
+public struct DescribeWorkspaceAuthenticationOutput {
     /// A structure containing information about the authentication methods used in the workspace.
     /// This member is required.
     public var authentication: GrafanaClientTypes.AuthenticationDescription?
@@ -1411,7 +1411,7 @@ public struct DescribeWorkspaceAuthenticationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceAuthenticationOutputBody: Swift.Equatable {
+struct DescribeWorkspaceAuthenticationOutputBody {
     let authentication: GrafanaClientTypes.AuthenticationDescription?
 }
 
@@ -1452,7 +1452,7 @@ extension DescribeWorkspaceConfigurationInput {
     }
 }
 
-public struct DescribeWorkspaceConfigurationInput: Swift.Equatable {
+public struct DescribeWorkspaceConfigurationInput {
     /// The ID of the workspace to get configuration information for.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -1465,7 +1465,7 @@ public struct DescribeWorkspaceConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceConfigurationInputBody: Swift.Equatable {
+struct DescribeWorkspaceConfigurationInputBody {
 }
 
 extension DescribeWorkspaceConfigurationInputBody: Swift.Decodable {
@@ -1488,7 +1488,7 @@ extension DescribeWorkspaceConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeWorkspaceConfigurationOutput: Swift.Equatable {
+public struct DescribeWorkspaceConfigurationOutput {
     /// The configuration string for the workspace that you requested. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
     /// This member is required.
     public var configuration: Swift.String?
@@ -1505,7 +1505,7 @@ public struct DescribeWorkspaceConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceConfigurationOutputBody: Swift.Equatable {
+struct DescribeWorkspaceConfigurationOutputBody {
     let configuration: Swift.String?
     let grafanaVersion: Swift.String?
 }
@@ -1549,7 +1549,7 @@ extension DescribeWorkspaceInput {
     }
 }
 
-public struct DescribeWorkspaceInput: Swift.Equatable {
+public struct DescribeWorkspaceInput {
     /// The ID of the workspace to display information about.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -1562,7 +1562,7 @@ public struct DescribeWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceInputBody: Swift.Equatable {
+struct DescribeWorkspaceInputBody {
 }
 
 extension DescribeWorkspaceInputBody: Swift.Decodable {
@@ -1583,7 +1583,7 @@ extension DescribeWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorkspaceOutput: Swift.Equatable {
+public struct DescribeWorkspaceOutput {
     /// A structure containing information about the workspace.
     /// This member is required.
     public var workspace: GrafanaClientTypes.WorkspaceDescription?
@@ -1596,7 +1596,7 @@ public struct DescribeWorkspaceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceOutputBody: Swift.Equatable {
+struct DescribeWorkspaceOutputBody {
     let workspace: GrafanaClientTypes.WorkspaceDescription?
 }
 
@@ -1640,7 +1640,7 @@ extension DisassociateLicenseInput {
     }
 }
 
-public struct DisassociateLicenseInput: Swift.Equatable {
+public struct DisassociateLicenseInput {
     /// The type of license to remove from the workspace.
     /// This member is required.
     public var licenseType: GrafanaClientTypes.LicenseType?
@@ -1658,7 +1658,7 @@ public struct DisassociateLicenseInput: Swift.Equatable {
     }
 }
 
-struct DisassociateLicenseInputBody: Swift.Equatable {
+struct DisassociateLicenseInputBody {
 }
 
 extension DisassociateLicenseInputBody: Swift.Decodable {
@@ -1679,7 +1679,7 @@ extension DisassociateLicenseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateLicenseOutput: Swift.Equatable {
+public struct DisassociateLicenseOutput {
     /// A structure containing information about the workspace.
     /// This member is required.
     public var workspace: GrafanaClientTypes.WorkspaceDescription?
@@ -1692,7 +1692,7 @@ public struct DisassociateLicenseOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateLicenseOutputBody: Swift.Equatable {
+struct DisassociateLicenseOutputBody {
     let workspace: GrafanaClientTypes.WorkspaceDescription?
 }
 
@@ -1762,7 +1762,7 @@ extension GrafanaClientTypes.IdpMetadata: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure containing the identity provider (IdP) metadata used to integrate the identity provider with this workspace. You can specify the metadata either by providing a URL to its location in the url parameter, or by specifying the full metadata in XML format in the xml parameter. Specifying both will cause an error.
-    public enum IdpMetadata: Swift.Equatable {
+    public enum IdpMetadata {
         /// The URL of the location containing the IdP metadata.
         case url(Swift.String)
         /// The full IdP metadata, in XML format.
@@ -1822,7 +1822,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1910,7 +1910,7 @@ extension ListPermissionsInput {
     }
 }
 
-public struct ListPermissionsInput: Swift.Equatable {
+public struct ListPermissionsInput {
     /// (Optional) Limits the results to only the group that matches this ID.
     public var groupId: Swift.String?
     /// The maximum number of results to include in the response.
@@ -1943,7 +1943,7 @@ public struct ListPermissionsInput: Swift.Equatable {
     }
 }
 
-struct ListPermissionsInputBody: Swift.Equatable {
+struct ListPermissionsInputBody {
 }
 
 extension ListPermissionsInputBody: Swift.Decodable {
@@ -1966,7 +1966,7 @@ extension ListPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPermissionsOutput: Swift.Equatable {
+public struct ListPermissionsOutput {
     /// The token to use in a subsequent ListPermissions operation to return the next set of results.
     public var nextToken: Swift.String?
     /// The permissions returned by the operation.
@@ -1983,7 +1983,7 @@ public struct ListPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct ListPermissionsOutputBody: Swift.Equatable {
+struct ListPermissionsOutputBody {
     let nextToken: Swift.String?
     let permissions: [GrafanaClientTypes.PermissionEntry]?
 }
@@ -2037,7 +2037,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource the list of tags are associated with.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2050,7 +2050,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2071,7 +2071,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags that are associated with the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2083,7 +2083,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2150,7 +2150,7 @@ extension ListVersionsInput {
     }
 }
 
-public struct ListVersionsInput: Swift.Equatable {
+public struct ListVersionsInput {
     /// The maximum number of results to include in the response.
     public var maxResults: Swift.Int?
     /// The token to use when requesting the next set of results. You receive this token from a previous ListVersions operation.
@@ -2170,7 +2170,7 @@ public struct ListVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListVersionsInputBody: Swift.Equatable {
+struct ListVersionsInputBody {
 }
 
 extension ListVersionsInputBody: Swift.Decodable {
@@ -2193,7 +2193,7 @@ extension ListVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVersionsOutput: Swift.Equatable {
+public struct ListVersionsOutput {
     /// The Grafana versions available to create. If a workspace ID is included in the request, the Grafana versions to which this workspace can be upgraded.
     public var grafanaVersions: [Swift.String]?
     /// The token to use in a subsequent ListVersions operation to return the next set of results.
@@ -2209,7 +2209,7 @@ public struct ListVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListVersionsOutputBody: Swift.Equatable {
+struct ListVersionsOutputBody {
     let nextToken: Swift.String?
     let grafanaVersions: [Swift.String]?
 }
@@ -2276,7 +2276,7 @@ extension ListWorkspacesInput {
     }
 }
 
-public struct ListWorkspacesInput: Swift.Equatable {
+public struct ListWorkspacesInput {
     /// The maximum number of workspaces to include in the results.
     public var maxResults: Swift.Int?
     /// The token for the next set of workspaces to return. (You receive this token from a previous ListWorkspaces operation.)
@@ -2292,7 +2292,7 @@ public struct ListWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct ListWorkspacesInputBody: Swift.Equatable {
+struct ListWorkspacesInputBody {
 }
 
 extension ListWorkspacesInputBody: Swift.Decodable {
@@ -2315,7 +2315,7 @@ extension ListWorkspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkspacesOutput: Swift.Equatable {
+public struct ListWorkspacesOutput {
     /// The token to use when requesting the next set of workspaces.
     public var nextToken: Swift.String?
     /// An array of structures that contain some information about the workspaces in the account.
@@ -2332,7 +2332,7 @@ public struct ListWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkspacesOutputBody: Swift.Equatable {
+struct ListWorkspacesOutputBody {
     let workspaces: [GrafanaClientTypes.WorkspaceSummary]?
     let nextToken: Swift.String?
 }
@@ -2425,7 +2425,7 @@ extension GrafanaClientTypes.NetworkAccessConfiguration: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// The configuration settings for in-bound network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization are still required. Access is granted to a caller that is in either the IP address list or the VPC endpoint list - they do not need to be in both. If this is not configured, or is removed, then all IP addresses and VPC endpoints are allowed. Standard Grafana authentication and authorization are still required. While both prefixListIds and vpceIds are required, you can pass in an empty array of strings for either parameter if you do not want to allow any of that type. If both are passed as empty arrays, no traffic is allowed to the workspace, because only explicitly allowed connections are accepted.
-    public struct NetworkAccessConfiguration: Swift.Equatable {
+    public struct NetworkAccessConfiguration {
         /// An array of prefix list IDs. A prefix list is a list of CIDR ranges of IP addresses. The IP addresses specified are allowed to access your workspace. If the list is not included in the configuration (passed an empty array) then no IP addresses are allowed to access the workspace. You create a prefix list using the Amazon VPC console. Prefix list IDs have the format pl-1a2b3c4d . For more information about prefix lists, see [Group CIDR blocks using managed prefix lists](https://docs.aws.amazon.com/vpc/latest/userguide/managed-prefix-lists.html)in the Amazon Virtual Private Cloud User Guide.
         /// This member is required.
         public var prefixListIds: [Swift.String]?
@@ -2502,7 +2502,7 @@ extension GrafanaClientTypes.PermissionEntry: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure containing the identity of one user or group and the Admin, Editor, or Viewer role that they have.
-    public struct PermissionEntry: Swift.Equatable {
+    public struct PermissionEntry {
         /// Specifies whether the user or group has the Admin, Editor, or Viewer role.
         /// This member is required.
         public var role: GrafanaClientTypes.Role?
@@ -2611,7 +2611,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -2729,7 +2729,7 @@ extension GrafanaClientTypes.RoleValues: Swift.CustomDebugStringConvertible {
 
 extension GrafanaClientTypes {
     /// This structure defines which groups defined in the SAML assertion attribute are to be mapped to the Grafana Admin and Editor roles in the workspace. SAML authenticated users not part of Admin or Editor role groups have Viewer permission over the workspace.
-    public struct RoleValues: Swift.Equatable {
+    public struct RoleValues {
         /// A list of groups from the SAML assertion attribute to grant the Grafana Admin role to.
         public var admin: [Swift.String]?
         /// A list of groups from the SAML assertion attribute to grant the Grafana Editor role to.
@@ -2774,7 +2774,7 @@ extension GrafanaClientTypes.SamlAuthentication: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure containing information about how this workspace works with SAML.
-    public struct SamlAuthentication: Swift.Equatable {
+    public struct SamlAuthentication {
         /// A structure containing details about how this workspace works with SAML.
         public var configuration: GrafanaClientTypes.SamlConfiguration?
         /// Specifies whether the workspace's SAML configuration is complete.
@@ -2850,7 +2850,7 @@ extension GrafanaClientTypes.SamlConfiguration: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure containing information about how this workspace works with SAML.
-    public struct SamlConfiguration: Swift.Equatable {
+    public struct SamlConfiguration {
         /// Lists which organizations defined in the SAML assertion are allowed to use the Amazon Managed Grafana workspace. If this is empty, all organizations in the assertion attribute have access.
         public var allowedOrganizations: [Swift.String]?
         /// A structure that defines which attributes in the SAML assertion are to be used to define information about the users authenticated by that IdP to use the workspace.
@@ -2984,7 +2984,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -3042,7 +3042,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource the tag is associated with.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3060,7 +3060,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3090,7 +3090,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3172,7 +3172,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -3222,7 +3222,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource the tag association is removed from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3240,7 +3240,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -3254,7 +3254,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3341,7 +3341,7 @@ extension GrafanaClientTypes.UpdateError: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure containing information about one error encountered while performing an [UpdatePermissions](https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdatePermissions.html) operation.
-    public struct UpdateError: Swift.Equatable {
+    public struct UpdateError {
         /// Specifies which permission update caused the error.
         /// This member is required.
         public var causedBy: GrafanaClientTypes.UpdateInstruction?
@@ -3411,7 +3411,7 @@ extension GrafanaClientTypes.UpdateInstruction: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// Contains the instructions for one Grafana role permission update in a [UpdatePermissions](https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdatePermissions.html) operation.
-    public struct UpdateInstruction: Swift.Equatable {
+    public struct UpdateInstruction {
         /// Specifies whether this update is to add or revoke role permissions.
         /// This member is required.
         public var action: GrafanaClientTypes.UpdateAction?
@@ -3462,7 +3462,7 @@ extension UpdatePermissionsInput {
     }
 }
 
-public struct UpdatePermissionsInput: Swift.Equatable {
+public struct UpdatePermissionsInput {
     /// An array of structures that contain the permission updates to make.
     /// This member is required.
     public var updateInstructionBatch: [GrafanaClientTypes.UpdateInstruction]?
@@ -3480,7 +3480,7 @@ public struct UpdatePermissionsInput: Swift.Equatable {
     }
 }
 
-struct UpdatePermissionsInputBody: Swift.Equatable {
+struct UpdatePermissionsInputBody {
     let updateInstructionBatch: [GrafanaClientTypes.UpdateInstruction]?
 }
 
@@ -3517,7 +3517,7 @@ extension UpdatePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePermissionsOutput: Swift.Equatable {
+public struct UpdatePermissionsOutput {
     /// An array of structures that contain the errors from the operation, if any.
     /// This member is required.
     public var errors: [GrafanaClientTypes.UpdateError]?
@@ -3530,7 +3530,7 @@ public struct UpdatePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePermissionsOutputBody: Swift.Equatable {
+struct UpdatePermissionsOutputBody {
     let errors: [GrafanaClientTypes.UpdateError]?
 }
 
@@ -3600,7 +3600,7 @@ extension UpdateWorkspaceAuthenticationInput {
     }
 }
 
-public struct UpdateWorkspaceAuthenticationInput: Swift.Equatable {
+public struct UpdateWorkspaceAuthenticationInput {
     /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see [User authentication in Amazon Managed Grafana](https://docs.aws.amazon.com/grafana/latest/userguide/authentication-in-AMG.html).
     /// This member is required.
     public var authenticationProviders: [GrafanaClientTypes.AuthenticationProviderTypes]?
@@ -3622,7 +3622,7 @@ public struct UpdateWorkspaceAuthenticationInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkspaceAuthenticationInputBody: Swift.Equatable {
+struct UpdateWorkspaceAuthenticationInputBody {
     let authenticationProviders: [GrafanaClientTypes.AuthenticationProviderTypes]?
     let samlConfiguration: GrafanaClientTypes.SamlConfiguration?
 }
@@ -3663,7 +3663,7 @@ extension UpdateWorkspaceAuthenticationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateWorkspaceAuthenticationOutput: Swift.Equatable {
+public struct UpdateWorkspaceAuthenticationOutput {
     /// A structure that describes the user authentication for this workspace after the update is made.
     /// This member is required.
     public var authentication: GrafanaClientTypes.AuthenticationDescription?
@@ -3676,7 +3676,7 @@ public struct UpdateWorkspaceAuthenticationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkspaceAuthenticationOutputBody: Swift.Equatable {
+struct UpdateWorkspaceAuthenticationOutputBody {
     let authentication: GrafanaClientTypes.AuthenticationDescription?
 }
 
@@ -3735,7 +3735,7 @@ extension UpdateWorkspaceConfigurationInput {
     }
 }
 
-public struct UpdateWorkspaceConfigurationInput: Swift.Equatable {
+public struct UpdateWorkspaceConfigurationInput {
     /// The new configuration string for the workspace. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
     /// This member is required.
     public var configuration: Swift.String?
@@ -3757,7 +3757,7 @@ public struct UpdateWorkspaceConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkspaceConfigurationInputBody: Swift.Equatable {
+struct UpdateWorkspaceConfigurationInputBody {
     let configuration: Swift.String?
     let grafanaVersion: Swift.String?
 }
@@ -3782,7 +3782,7 @@ extension UpdateWorkspaceConfigurationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateWorkspaceConfigurationOutput: Swift.Equatable {
+public struct UpdateWorkspaceConfigurationOutput {
 
     public init() { }
 }
@@ -3892,7 +3892,7 @@ extension UpdateWorkspaceInput {
     }
 }
 
-public struct UpdateWorkspaceInput: Swift.Equatable {
+public struct UpdateWorkspaceInput {
     /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
     public var accountAccessType: GrafanaClientTypes.AccountAccessType?
     /// The configuration settings for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
@@ -3961,7 +3961,7 @@ public struct UpdateWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkspaceInputBody: Swift.Equatable {
+struct UpdateWorkspaceInputBody {
     let accountAccessType: GrafanaClientTypes.AccountAccessType?
     let organizationRoleName: Swift.String?
     let permissionType: GrafanaClientTypes.PermissionType?
@@ -4068,7 +4068,7 @@ extension UpdateWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkspaceOutput: Swift.Equatable {
+public struct UpdateWorkspaceOutput {
     /// A structure containing data about the workspace that was created.
     /// This member is required.
     public var workspace: GrafanaClientTypes.WorkspaceDescription?
@@ -4081,7 +4081,7 @@ public struct UpdateWorkspaceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkspaceOutputBody: Swift.Equatable {
+struct UpdateWorkspaceOutputBody {
     let workspace: GrafanaClientTypes.WorkspaceDescription?
 }
 
@@ -4140,7 +4140,7 @@ extension GrafanaClientTypes.User: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure that specifies one user or group in the workspace.
-    public struct User: Swift.Equatable {
+    public struct User {
         /// The ID of the user or group. Pattern: ^([0-9a-fA-F]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$
         /// This member is required.
         public var id: Swift.String?
@@ -4248,7 +4248,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: GrafanaClientTypes.ValidationExceptionReason?
     let fieldList: [GrafanaClientTypes.ValidationExceptionField]?
@@ -4308,7 +4308,7 @@ extension GrafanaClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// A structure that contains information about a request parameter that caused an error.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// A message describing why this field couldn't be validated.
         /// This member is required.
         public var message: Swift.String?
@@ -4417,7 +4417,7 @@ extension GrafanaClientTypes.VpcConfiguration: Swift.Codable {
 
 extension GrafanaClientTypes {
     /// The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to. Provided securityGroupIds and subnetIds must be part of the same VPC. Connecting to a private VPC is not yet available in the Asia Pacific (Seoul) Region (ap-northeast-2).
-    public struct VpcConfiguration: Swift.Equatable {
+    public struct VpcConfiguration {
         /// The list of Amazon EC2 security group IDs attached to the Amazon VPC for your Grafana workspace to connect. Duplicates not allowed.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
@@ -4655,7 +4655,7 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.CustomDebugStringConver
 
 extension GrafanaClientTypes {
     /// A structure containing information about an Amazon Managed Grafana workspace in your account.
-    public struct WorkspaceDescription: Swift.Equatable {
+    public struct WorkspaceDescription {
         /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If this is ORGANIZATION, the workspaceOrganizationalUnits parameter specifies which organizational units the workspace can access.
         public var accountAccessType: GrafanaClientTypes.AccountAccessType?
         /// A structure that describes whether the workspace uses SAML, IAM Identity Center, or both methods for user authentication.
@@ -4973,7 +4973,7 @@ extension GrafanaClientTypes.WorkspaceSummary: Swift.CustomDebugStringConvertibl
 
 extension GrafanaClientTypes {
     /// A structure that contains some information about one workspace in the account.
-    public struct WorkspaceSummary: Swift.Equatable {
+    public struct WorkspaceSummary {
         /// A structure containing information about the authentication methods used in the workspace.
         /// This member is required.
         public var authentication: GrafanaClientTypes.AuthenticationSummary?

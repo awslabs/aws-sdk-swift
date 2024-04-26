@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -102,7 +102,7 @@ extension BillingconductorClientTypes.AccountAssociationsListElement: Swift.Cust
 
 extension BillingconductorClientTypes {
     /// A representation of a linked account.
-    public struct AccountAssociationsListElement: Swift.Equatable {
+    public struct AccountAssociationsListElement {
         /// The Amazon Web Services account email.
         public var accountEmail: Swift.String?
         /// The associating array of account IDs.
@@ -167,7 +167,7 @@ extension BillingconductorClientTypes.AccountGrouping: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing family.
-    public struct AccountGrouping: Swift.Equatable {
+    public struct AccountGrouping {
         /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
         public var autoAssociate: Swift.Bool?
         /// The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group.
@@ -213,7 +213,7 @@ extension AssociateAccountsInput {
     }
 }
 
-public struct AssociateAccountsInput: Swift.Equatable {
+public struct AssociateAccountsInput {
     /// The associating array of account IDs.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -231,7 +231,7 @@ public struct AssociateAccountsInput: Swift.Equatable {
     }
 }
 
-struct AssociateAccountsInputBody: Swift.Equatable {
+struct AssociateAccountsInputBody {
     let arn: Swift.String?
     let accountIds: [Swift.String]?
 }
@@ -272,7 +272,7 @@ extension AssociateAccountsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateAccountsOutput: Swift.Equatable {
+public struct AssociateAccountsOutput {
     /// The Amazon Resource Name (ARN) of the billing group that associates the array of account IDs.
     public var arn: Swift.String?
 
@@ -284,7 +284,7 @@ public struct AssociateAccountsOutput: Swift.Equatable {
     }
 }
 
-struct AssociateAccountsOutputBody: Swift.Equatable {
+struct AssociateAccountsOutputBody {
     let arn: Swift.String?
 }
 
@@ -344,7 +344,7 @@ extension AssociatePricingRulesInput {
     }
 }
 
-public struct AssociatePricingRulesInput: Swift.Equatable {
+public struct AssociatePricingRulesInput {
     /// The PricingPlanArn that the PricingRuleArns are associated with.
     /// This member is required.
     public var arn: Swift.String?
@@ -362,7 +362,7 @@ public struct AssociatePricingRulesInput: Swift.Equatable {
     }
 }
 
-struct AssociatePricingRulesInputBody: Swift.Equatable {
+struct AssociatePricingRulesInputBody {
     let arn: Swift.String?
     let pricingRuleArns: [Swift.String]?
 }
@@ -403,7 +403,7 @@ extension AssociatePricingRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociatePricingRulesOutput: Swift.Equatable {
+public struct AssociatePricingRulesOutput {
     /// The PricingPlanArn that the PricingRuleArns are associated with.
     public var arn: Swift.String?
 
@@ -415,7 +415,7 @@ public struct AssociatePricingRulesOutput: Swift.Equatable {
     }
 }
 
-struct AssociatePricingRulesOutputBody: Swift.Equatable {
+struct AssociatePricingRulesOutputBody {
     let arn: Swift.String?
 }
 
@@ -475,7 +475,7 @@ extension BillingconductorClientTypes.AssociateResourceError: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// A representation of a resource association error.
-    public struct AssociateResourceError: Swift.Equatable {
+    public struct AssociateResourceError {
         /// The reason why the resource association failed.
         public var message: Swift.String?
         /// A static error code that's used to classify the type of failure.
@@ -561,7 +561,7 @@ extension BillingconductorClientTypes.AssociateResourceResponseElement: Swift.Co
 
 extension BillingconductorClientTypes {
     /// A resource association result for a percentage custom line item.
-    public struct AssociateResourceResponseElement: Swift.Equatable {
+    public struct AssociateResourceResponseElement {
         /// The resource ARN that was associated to the custom line item.
         public var arn: Swift.String?
         /// An AssociateResourceError that will populate if the resource association fails.
@@ -606,7 +606,7 @@ extension BillingconductorClientTypes.Attribute: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The key-value pair that represents the attribute by which the BillingGroupCostReportResults are grouped. For example, if you want a service-level breakdown for Amazon Simple Storage Service (Amazon S3) of the billing group, the attribute will be a key-value pair of "PRODUCT_NAME" and "S3".
-    public struct Attribute: Swift.Equatable {
+    public struct Attribute {
         /// The key in a key-value pair that describes the margin summary.
         public var key: Swift.String?
         /// The value in a key-value pair that describes the margin summary.
@@ -655,7 +655,7 @@ extension BatchAssociateResourcesToCustomLineItemInput {
     }
 }
 
-public struct BatchAssociateResourcesToCustomLineItemInput: Swift.Equatable {
+public struct BatchAssociateResourcesToCustomLineItemInput {
     /// The billing period range in which the custom line item request will be applied.
     public var billingPeriodRange: BillingconductorClientTypes.CustomLineItemBillingPeriodRange?
     /// A list containing the ARNs of the resources to be associated.
@@ -677,7 +677,7 @@ public struct BatchAssociateResourcesToCustomLineItemInput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateResourcesToCustomLineItemInputBody: Swift.Equatable {
+struct BatchAssociateResourcesToCustomLineItemInputBody {
     let targetArn: Swift.String?
     let resourceArns: [Swift.String]?
     let billingPeriodRange: BillingconductorClientTypes.CustomLineItemBillingPeriodRange?
@@ -724,7 +724,7 @@ extension BatchAssociateResourcesToCustomLineItemOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct BatchAssociateResourcesToCustomLineItemOutput: Swift.Equatable {
+public struct BatchAssociateResourcesToCustomLineItemOutput {
     /// A list of AssociateResourceResponseElement for each resource that failed association to a percentage custom line item.
     public var failedAssociatedResources: [BillingconductorClientTypes.AssociateResourceResponseElement]?
     /// A list of AssociateResourceResponseElement for each resource that's been associated to a percentage custom line item successfully.
@@ -740,7 +740,7 @@ public struct BatchAssociateResourcesToCustomLineItemOutput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateResourcesToCustomLineItemOutputBody: Swift.Equatable {
+struct BatchAssociateResourcesToCustomLineItemOutputBody {
     let successfullyAssociatedResources: [BillingconductorClientTypes.AssociateResourceResponseElement]?
     let failedAssociatedResources: [BillingconductorClientTypes.AssociateResourceResponseElement]?
 }
@@ -826,7 +826,7 @@ extension BatchDisassociateResourcesFromCustomLineItemInput {
     }
 }
 
-public struct BatchDisassociateResourcesFromCustomLineItemInput: Swift.Equatable {
+public struct BatchDisassociateResourcesFromCustomLineItemInput {
     /// The billing period range in which the custom line item request will be applied.
     public var billingPeriodRange: BillingconductorClientTypes.CustomLineItemBillingPeriodRange?
     /// A list containing the ARNs of resources to be disassociated.
@@ -848,7 +848,7 @@ public struct BatchDisassociateResourcesFromCustomLineItemInput: Swift.Equatable
     }
 }
 
-struct BatchDisassociateResourcesFromCustomLineItemInputBody: Swift.Equatable {
+struct BatchDisassociateResourcesFromCustomLineItemInputBody {
     let targetArn: Swift.String?
     let resourceArns: [Swift.String]?
     let billingPeriodRange: BillingconductorClientTypes.CustomLineItemBillingPeriodRange?
@@ -895,7 +895,7 @@ extension BatchDisassociateResourcesFromCustomLineItemOutput: ClientRuntime.Http
     }
 }
 
-public struct BatchDisassociateResourcesFromCustomLineItemOutput: Swift.Equatable {
+public struct BatchDisassociateResourcesFromCustomLineItemOutput {
     /// A list of DisassociateResourceResponseElement for each resource that failed disassociation from a percentage custom line item.
     public var failedDisassociatedResources: [BillingconductorClientTypes.DisassociateResourceResponseElement]?
     /// A list of DisassociateResourceResponseElement for each resource that's been disassociated from a percentage custom line item successfully.
@@ -911,7 +911,7 @@ public struct BatchDisassociateResourcesFromCustomLineItemOutput: Swift.Equatabl
     }
 }
 
-struct BatchDisassociateResourcesFromCustomLineItemOutputBody: Swift.Equatable {
+struct BatchDisassociateResourcesFromCustomLineItemOutputBody {
     let successfullyDisassociatedResources: [BillingconductorClientTypes.DisassociateResourceResponseElement]?
     let failedDisassociatedResources: [BillingconductorClientTypes.DisassociateResourceResponseElement]?
 }
@@ -1016,7 +1016,7 @@ extension BillingconductorClientTypes.BillingGroupCostReportElement: Swift.Codab
 
 extension BillingconductorClientTypes {
     /// A summary report of actual Amazon Web Services charges and calculated Amazon Web Services charges, based on the associated pricing plan of a billing group.
-    public struct BillingGroupCostReportElement: Swift.Equatable {
+    public struct BillingGroupCostReportElement {
         /// The Amazon Resource Name (ARN) of a billing group.
         public var arn: Swift.String?
         /// The actual Amazon Web Services charges for the billing group.
@@ -1119,7 +1119,7 @@ extension BillingconductorClientTypes.BillingGroupCostReportResultElement: Swift
 
 extension BillingconductorClientTypes {
     /// A paginated call to retrieve a list of summary reports of actual Amazon Web Services charges and the calculated Amazon Web Services charges, broken down by attributes.
-    public struct BillingGroupCostReportResultElement: Swift.Equatable {
+    public struct BillingGroupCostReportResultElement {
         /// The Amazon Resource Number (ARN) that uniquely identifies the billing group.
         public var arn: Swift.String?
         /// The list of key-value pairs that represent the attributes by which the BillingGroupCostReportResults are grouped. For example, if you want the Amazon S3 service-level breakdown of a billing group for November 2023, the attributes list will contain a key-value pair of "PRODUCT_NAME" and "S3" and a key-value pair of "BILLING_PERIOD" and "Nov 2023".
@@ -1243,7 +1243,7 @@ extension BillingconductorClientTypes.BillingGroupListElement: Swift.CustomDebug
 
 extension BillingconductorClientTypes {
     /// A representation of a billing group.
-    public struct BillingGroupListElement: Swift.Equatable {
+    public struct BillingGroupListElement {
         /// Specifies if the billing group has automatic account association (AutoAssociate) enabled.
         public var accountGrouping: BillingconductorClientTypes.ListBillingGroupAccountGrouping?
         /// The Amazon Resource Number (ARN) that can be used to uniquely identify the billing group.
@@ -1356,7 +1356,7 @@ extension BillingconductorClientTypes.BillingPeriodRange: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// A time range for which the margin summary is effective. The time range can be up to 12 months.
-    public struct BillingPeriodRange: Swift.Equatable {
+    public struct BillingPeriodRange {
         /// The exclusive end billing period that defines a billing period range for the margin summary. For example, if you choose a billing period that starts in October 2023 and ends in December 2023, the margin summary will only include data from October 2023 and November 2023.
         /// This member is required.
         public var exclusiveEndBillingPeriod: Swift.String?
@@ -1399,7 +1399,7 @@ extension BillingconductorClientTypes.ComputationPreference: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group.
-    public struct ComputationPreference: Swift.Equatable {
+    public struct ComputationPreference {
         /// The Amazon Resource Name (ARN) of the pricing plan that's used to compute the Amazon Web Services charges for a billing group.
         /// This member is required.
         public var pricingPlanArn: Swift.String?
@@ -1474,7 +1474,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -1602,7 +1602,7 @@ extension CreateBillingGroupInput {
     }
 }
 
-public struct CreateBillingGroupInput: Swift.Equatable {
+public struct CreateBillingGroupInput {
     /// The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing family.
     /// This member is required.
     public var accountGrouping: BillingconductorClientTypes.AccountGrouping?
@@ -1641,7 +1641,7 @@ public struct CreateBillingGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateBillingGroupInputBody: Swift.Equatable {
+struct CreateBillingGroupInputBody {
     let name: Swift.String?
     let accountGrouping: BillingconductorClientTypes.AccountGrouping?
     let computationPreference: BillingconductorClientTypes.ComputationPreference?
@@ -1698,7 +1698,7 @@ extension CreateBillingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBillingGroupOutput: Swift.Equatable {
+public struct CreateBillingGroupOutput {
     /// The Amazon Resource Name (ARN) of the created billing group.
     public var arn: Swift.String?
 
@@ -1710,7 +1710,7 @@ public struct CreateBillingGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateBillingGroupOutputBody: Swift.Equatable {
+struct CreateBillingGroupOutputBody {
     let arn: Swift.String?
 }
 
@@ -1805,7 +1805,7 @@ extension CreateCustomLineItemInput {
     }
 }
 
-public struct CreateCustomLineItemInput: Swift.Equatable {
+public struct CreateCustomLineItemInput {
     /// The Amazon Web Services account in which this custom line item will be applied to.
     public var accountId: Swift.String?
     /// The Amazon Resource Name (ARN) that references the billing group where the custom line item applies to.
@@ -1849,7 +1849,7 @@ public struct CreateCustomLineItemInput: Swift.Equatable {
     }
 }
 
-struct CreateCustomLineItemInputBody: Swift.Equatable {
+struct CreateCustomLineItemInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let billingGroupArn: Swift.String?
@@ -1910,7 +1910,7 @@ extension CreateCustomLineItemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCustomLineItemOutput: Swift.Equatable {
+public struct CreateCustomLineItemOutput {
     /// The Amazon Resource Name (ARN) of the created custom line item.
     public var arn: Swift.String?
 
@@ -1922,7 +1922,7 @@ public struct CreateCustomLineItemOutput: Swift.Equatable {
     }
 }
 
-struct CreateCustomLineItemOutputBody: Swift.Equatable {
+struct CreateCustomLineItemOutputBody {
     let arn: Swift.String?
 }
 
@@ -1975,7 +1975,7 @@ extension BillingconductorClientTypes.CreateFreeTierConfig: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The possible Amazon Web Services Free Tier configurations.
-    public struct CreateFreeTierConfig: Swift.Equatable {
+    public struct CreateFreeTierConfig {
         /// Activate or deactivate Amazon Web Services Free Tier.
         /// This member is required.
         public var activated: Swift.Bool?
@@ -2044,7 +2044,7 @@ extension CreatePricingPlanInput {
     }
 }
 
-public struct CreatePricingPlanInput: Swift.Equatable {
+public struct CreatePricingPlanInput {
     /// The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
     public var clientToken: Swift.String?
     /// The description of the pricing plan.
@@ -2073,7 +2073,7 @@ public struct CreatePricingPlanInput: Swift.Equatable {
     }
 }
 
-struct CreatePricingPlanInputBody: Swift.Equatable {
+struct CreatePricingPlanInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let pricingRuleArns: [Swift.String]?
@@ -2131,7 +2131,7 @@ extension CreatePricingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePricingPlanOutput: Swift.Equatable {
+public struct CreatePricingPlanOutput {
     /// The Amazon Resource Name (ARN) of the created pricing plan.
     public var arn: Swift.String?
 
@@ -2143,7 +2143,7 @@ public struct CreatePricingPlanOutput: Swift.Equatable {
     }
 }
 
-struct CreatePricingPlanOutputBody: Swift.Equatable {
+struct CreatePricingPlanOutputBody {
     let arn: Swift.String?
 }
 
@@ -2255,7 +2255,7 @@ extension CreatePricingRuleInput {
     }
 }
 
-public struct CreatePricingRuleInput: Swift.Equatable {
+public struct CreatePricingRuleInput {
     /// The seller of services provided by Amazon Web Services, their affiliates, or third-party providers selling services via Amazon Web Services Marketplace.
     public var billingEntity: Swift.String?
     /// The token that's needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
@@ -2314,7 +2314,7 @@ public struct CreatePricingRuleInput: Swift.Equatable {
     }
 }
 
-struct CreatePricingRuleInputBody: Swift.Equatable {
+struct CreatePricingRuleInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let scope: BillingconductorClientTypes.PricingRuleScope?
@@ -2391,7 +2391,7 @@ extension CreatePricingRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePricingRuleOutput: Swift.Equatable {
+public struct CreatePricingRuleOutput {
     /// The Amazon Resource Name (ARN) of the created pricing rule.
     public var arn: Swift.String?
 
@@ -2403,7 +2403,7 @@ public struct CreatePricingRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreatePricingRuleOutputBody: Swift.Equatable {
+struct CreatePricingRuleOutputBody {
     let arn: Swift.String?
 }
 
@@ -2456,7 +2456,7 @@ extension BillingconductorClientTypes.CreateTieringInput: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The set of tiering configurations for the pricing rule.
-    public struct CreateTieringInput: Swift.Equatable {
+    public struct CreateTieringInput {
         /// The possible Amazon Web Services Free Tier configurations.
         /// This member is required.
         public var freeTier: BillingconductorClientTypes.CreateFreeTierConfig?
@@ -2530,7 +2530,7 @@ extension BillingconductorClientTypes.CustomLineItemBillingPeriodRange: Swift.Co
 
 extension BillingconductorClientTypes {
     /// The billing period range in which the custom line item request will be applied.
-    public struct CustomLineItemBillingPeriodRange: Swift.Equatable {
+    public struct CustomLineItemBillingPeriodRange {
         /// The inclusive end billing period that defines a billing period range where a custom line is applied.
         public var exclusiveEndBillingPeriod: Swift.String?
         /// The inclusive start billing period that defines a billing period range where a custom line is applied.
@@ -2600,7 +2600,7 @@ extension BillingconductorClientTypes.CustomLineItemChargeDetails: Swift.Codable
 
 extension BillingconductorClientTypes {
     /// The charge details of a custom line item. It should contain only one of Flat or Percentage.
-    public struct CustomLineItemChargeDetails: Swift.Equatable {
+    public struct CustomLineItemChargeDetails {
         /// A CustomLineItemFlatChargeDetails that describes the charge details of a flat custom line item.
         public var flat: BillingconductorClientTypes.CustomLineItemFlatChargeDetails?
         /// A representation of the line item filter.
@@ -2648,7 +2648,7 @@ extension BillingconductorClientTypes.CustomLineItemFlatChargeDetails: Swift.Cod
 
 extension BillingconductorClientTypes {
     /// A representation of the charge details that are associated with a flat custom line item.
-    public struct CustomLineItemFlatChargeDetails: Swift.Equatable {
+    public struct CustomLineItemFlatChargeDetails {
         /// The custom line item's fixed charge value in USD.
         /// This member is required.
         public var chargeValue: Swift.Double?
@@ -2749,7 +2749,7 @@ extension BillingconductorClientTypes.CustomLineItemListElement: Swift.CustomDeb
 
 extension BillingconductorClientTypes {
     /// A representation of a custom line item.
-    public struct CustomLineItemListElement: Swift.Equatable {
+    public struct CustomLineItemListElement {
         /// The Amazon Web Services account in which this custom line item will be applied to.
         public var accountId: Swift.String?
         /// The Amazon Resource Names (ARNs) for custom line items.
@@ -2842,7 +2842,7 @@ extension BillingconductorClientTypes.CustomLineItemPercentageChargeDetails: Swi
 
 extension BillingconductorClientTypes {
     /// A representation of the charge details that are associated with a percentage custom line item.
-    public struct CustomLineItemPercentageChargeDetails: Swift.Equatable {
+    public struct CustomLineItemPercentageChargeDetails {
         /// A list of resource ARNs to associate to the percentage custom line item.
         public var associatedValues: [Swift.String]?
         /// The custom line item's percentage value. This will be multiplied against the combined value of its associated resources to determine its charge value.
@@ -3029,7 +3029,7 @@ extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.Cu
 
 extension BillingconductorClientTypes {
     /// A representation of a custom line item version.
-    public struct CustomLineItemVersionListElement: Swift.Equatable {
+    public struct CustomLineItemVersionListElement {
         /// The Amazon Web Services account in which this custom line item will be applied to.
         public var accountId: Swift.String?
         /// A list of custom line item Amazon Resource Names (ARNs) to retrieve information.
@@ -3115,7 +3115,7 @@ extension DeleteBillingGroupInput {
     }
 }
 
-public struct DeleteBillingGroupInput: Swift.Equatable {
+public struct DeleteBillingGroupInput {
     /// The Amazon Resource Name (ARN) of the billing group that you're deleting.
     /// This member is required.
     public var arn: Swift.String?
@@ -3128,7 +3128,7 @@ public struct DeleteBillingGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteBillingGroupInputBody: Swift.Equatable {
+struct DeleteBillingGroupInputBody {
     let arn: Swift.String?
 }
 
@@ -3156,7 +3156,7 @@ extension DeleteBillingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBillingGroupOutput: Swift.Equatable {
+public struct DeleteBillingGroupOutput {
     /// The Amazon Resource Name (ARN) of the deleted billing group.
     public var arn: Swift.String?
 
@@ -3168,7 +3168,7 @@ public struct DeleteBillingGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBillingGroupOutputBody: Swift.Equatable {
+struct DeleteBillingGroupOutputBody {
     let arn: Swift.String?
 }
 
@@ -3222,7 +3222,7 @@ extension DeleteCustomLineItemInput {
     }
 }
 
-public struct DeleteCustomLineItemInput: Swift.Equatable {
+public struct DeleteCustomLineItemInput {
     /// The ARN of the custom line item to be deleted.
     /// This member is required.
     public var arn: Swift.String?
@@ -3239,7 +3239,7 @@ public struct DeleteCustomLineItemInput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomLineItemInputBody: Swift.Equatable {
+struct DeleteCustomLineItemInputBody {
     let arn: Swift.String?
     let billingPeriodRange: BillingconductorClientTypes.CustomLineItemBillingPeriodRange?
 }
@@ -3271,7 +3271,7 @@ extension DeleteCustomLineItemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCustomLineItemOutput: Swift.Equatable {
+public struct DeleteCustomLineItemOutput {
     /// The ARN of the deleted custom line item.
     public var arn: Swift.String?
 
@@ -3283,7 +3283,7 @@ public struct DeleteCustomLineItemOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomLineItemOutputBody: Swift.Equatable {
+struct DeleteCustomLineItemOutputBody {
     let arn: Swift.String?
 }
 
@@ -3334,7 +3334,7 @@ extension DeletePricingPlanInput {
     }
 }
 
-public struct DeletePricingPlanInput: Swift.Equatable {
+public struct DeletePricingPlanInput {
     /// The Amazon Resource Name (ARN) of the pricing plan that you're deleting.
     /// This member is required.
     public var arn: Swift.String?
@@ -3347,7 +3347,7 @@ public struct DeletePricingPlanInput: Swift.Equatable {
     }
 }
 
-struct DeletePricingPlanInputBody: Swift.Equatable {
+struct DeletePricingPlanInputBody {
     let arn: Swift.String?
 }
 
@@ -3375,7 +3375,7 @@ extension DeletePricingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePricingPlanOutput: Swift.Equatable {
+public struct DeletePricingPlanOutput {
     /// The Amazon Resource Name (ARN) of the deleted pricing plan.
     public var arn: Swift.String?
 
@@ -3387,7 +3387,7 @@ public struct DeletePricingPlanOutput: Swift.Equatable {
     }
 }
 
-struct DeletePricingPlanOutputBody: Swift.Equatable {
+struct DeletePricingPlanOutputBody {
     let arn: Swift.String?
 }
 
@@ -3438,7 +3438,7 @@ extension DeletePricingRuleInput {
     }
 }
 
-public struct DeletePricingRuleInput: Swift.Equatable {
+public struct DeletePricingRuleInput {
     /// The Amazon Resource Name (ARN) of the pricing rule that you are deleting.
     /// This member is required.
     public var arn: Swift.String?
@@ -3451,7 +3451,7 @@ public struct DeletePricingRuleInput: Swift.Equatable {
     }
 }
 
-struct DeletePricingRuleInputBody: Swift.Equatable {
+struct DeletePricingRuleInputBody {
     let arn: Swift.String?
 }
 
@@ -3479,7 +3479,7 @@ extension DeletePricingRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePricingRuleOutput: Swift.Equatable {
+public struct DeletePricingRuleOutput {
     /// The Amazon Resource Name (ARN) of the deleted pricing rule.
     public var arn: Swift.String?
 
@@ -3491,7 +3491,7 @@ public struct DeletePricingRuleOutput: Swift.Equatable {
     }
 }
 
-struct DeletePricingRuleOutputBody: Swift.Equatable {
+struct DeletePricingRuleOutputBody {
     let arn: Swift.String?
 }
 
@@ -3549,7 +3549,7 @@ extension DisassociateAccountsInput {
     }
 }
 
-public struct DisassociateAccountsInput: Swift.Equatable {
+public struct DisassociateAccountsInput {
     /// The array of account IDs to disassociate.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -3567,7 +3567,7 @@ public struct DisassociateAccountsInput: Swift.Equatable {
     }
 }
 
-struct DisassociateAccountsInputBody: Swift.Equatable {
+struct DisassociateAccountsInputBody {
     let arn: Swift.String?
     let accountIds: [Swift.String]?
 }
@@ -3608,7 +3608,7 @@ extension DisassociateAccountsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateAccountsOutput: Swift.Equatable {
+public struct DisassociateAccountsOutput {
     /// The Amazon Resource Name (ARN) of the billing group that the array of account IDs is disassociated from.
     public var arn: Swift.String?
 
@@ -3620,7 +3620,7 @@ public struct DisassociateAccountsOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateAccountsOutputBody: Swift.Equatable {
+struct DisassociateAccountsOutputBody {
     let arn: Swift.String?
 }
 
@@ -3679,7 +3679,7 @@ extension DisassociatePricingRulesInput {
     }
 }
 
-public struct DisassociatePricingRulesInput: Swift.Equatable {
+public struct DisassociatePricingRulesInput {
     /// The pricing plan Amazon Resource Name (ARN) to disassociate pricing rules from.
     /// This member is required.
     public var arn: Swift.String?
@@ -3697,7 +3697,7 @@ public struct DisassociatePricingRulesInput: Swift.Equatable {
     }
 }
 
-struct DisassociatePricingRulesInputBody: Swift.Equatable {
+struct DisassociatePricingRulesInputBody {
     let arn: Swift.String?
     let pricingRuleArns: [Swift.String]?
 }
@@ -3738,7 +3738,7 @@ extension DisassociatePricingRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociatePricingRulesOutput: Swift.Equatable {
+public struct DisassociatePricingRulesOutput {
     /// The Amazon Resource Name (ARN) of the pricing plan that the pricing rules successfully disassociated from.
     public var arn: Swift.String?
 
@@ -3750,7 +3750,7 @@ public struct DisassociatePricingRulesOutput: Swift.Equatable {
     }
 }
 
-struct DisassociatePricingRulesOutputBody: Swift.Equatable {
+struct DisassociatePricingRulesOutputBody {
     let arn: Swift.String?
 }
 
@@ -3809,7 +3809,7 @@ extension BillingconductorClientTypes.DisassociateResourceResponseElement: Swift
 
 extension BillingconductorClientTypes {
     /// A resource disassociation result for a percentage custom line item.
-    public struct DisassociateResourceResponseElement: Swift.Equatable {
+    public struct DisassociateResourceResponseElement {
         /// The resource ARN that was disassociated from the custom line item.
         public var arn: Swift.String?
         /// An AssociateResourceError that's shown if the resource disassociation fails.
@@ -3848,7 +3848,7 @@ extension BillingconductorClientTypes.FreeTierConfig: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The possible Amazon Web Services Free Tier configurations.
-    public struct FreeTierConfig: Swift.Equatable {
+    public struct FreeTierConfig {
         /// Activate or deactivate Amazon Web Services Free Tier application.
         /// This member is required.
         public var activated: Swift.Bool?
@@ -3902,7 +3902,7 @@ extension GetBillingGroupCostReportInput {
     }
 }
 
-public struct GetBillingGroupCostReportInput: Swift.Equatable {
+public struct GetBillingGroupCostReportInput {
     /// The Amazon Resource Number (ARN) that uniquely identifies the billing group.
     /// This member is required.
     public var arn: Swift.String?
@@ -3931,7 +3931,7 @@ public struct GetBillingGroupCostReportInput: Swift.Equatable {
     }
 }
 
-struct GetBillingGroupCostReportInputBody: Swift.Equatable {
+struct GetBillingGroupCostReportInputBody {
     let arn: Swift.String?
     let billingPeriodRange: BillingconductorClientTypes.BillingPeriodRange?
     let groupBy: [BillingconductorClientTypes.GroupByAttributeName]?
@@ -3986,7 +3986,7 @@ extension GetBillingGroupCostReportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBillingGroupCostReportOutput: Swift.Equatable {
+public struct GetBillingGroupCostReportOutput {
     /// The list of margin summary reports.
     public var billingGroupCostReportResults: [BillingconductorClientTypes.BillingGroupCostReportResultElement]?
     /// The pagination token used on subsequent calls to get reports.
@@ -4002,7 +4002,7 @@ public struct GetBillingGroupCostReportOutput: Swift.Equatable {
     }
 }
 
-struct GetBillingGroupCostReportOutputBody: Swift.Equatable {
+struct GetBillingGroupCostReportOutputBody {
     let billingGroupCostReportResults: [BillingconductorClientTypes.BillingGroupCostReportResultElement]?
     let nextToken: Swift.String?
 }
@@ -4127,7 +4127,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4188,7 +4188,7 @@ extension BillingconductorClientTypes.LineItemFilter: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// A representation of the line item filter for your custom line item. You can use line item filters to include or exclude specific resource values from the billing group's total cost. For example, if you create a custom line item and you want to filter out a value, such as Savings Plan discounts, you can update LineItemFilter to exclude it.
-    public struct LineItemFilter: Swift.Equatable {
+    public struct LineItemFilter {
         /// The attribute of the line item filter. This specifies what attribute that you can filter on.
         /// This member is required.
         public var attribute: BillingconductorClientTypes.LineItemFilterAttributeName?
@@ -4316,7 +4316,7 @@ extension BillingconductorClientTypes.ListAccountAssociationsFilter: Swift.Codab
 
 extension BillingconductorClientTypes {
     /// The filter on the account ID of the linked account, or any of the following: MONITORED: linked accounts that are associated to billing groups. UNMONITORED: linked accounts that are not associated to billing groups. Billing Group Arn: linked accounts that are associated to the provided Billing Group Arn.
-    public struct ListAccountAssociationsFilter: Swift.Equatable {
+    public struct ListAccountAssociationsFilter {
         /// The Amazon Web Services account ID to filter on.
         public var accountId: Swift.String?
         /// The list of Amazon Web Services IDs to retrieve their associated billing group for a given time range.
@@ -4366,7 +4366,7 @@ extension ListAccountAssociationsInput {
     }
 }
 
-public struct ListAccountAssociationsInput: Swift.Equatable {
+public struct ListAccountAssociationsInput {
     /// The preferred billing period to get account associations.
     public var billingPeriod: Swift.String?
     /// The filter on the account ID of the linked account, or any of the following: MONITORED: linked accounts that are associated to billing groups. UNMONITORED: linked accounts that aren't associated to billing groups. Billing Group Arn: linked accounts that are associated to the provided billing group Arn.
@@ -4386,7 +4386,7 @@ public struct ListAccountAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListAccountAssociationsInputBody: Swift.Equatable {
+struct ListAccountAssociationsInputBody {
     let billingPeriod: Swift.String?
     let filters: BillingconductorClientTypes.ListAccountAssociationsFilter?
     let nextToken: Swift.String?
@@ -4424,7 +4424,7 @@ extension ListAccountAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccountAssociationsOutput: Swift.Equatable {
+public struct ListAccountAssociationsOutput {
     /// The list of linked accounts in the payer account.
     public var linkedAccounts: [BillingconductorClientTypes.AccountAssociationsListElement]?
     /// The pagination token that's used on subsequent calls to get accounts.
@@ -4440,7 +4440,7 @@ public struct ListAccountAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListAccountAssociationsOutputBody: Swift.Equatable {
+struct ListAccountAssociationsOutputBody {
     let linkedAccounts: [BillingconductorClientTypes.AccountAssociationsListElement]?
     let nextToken: Swift.String?
 }
@@ -4505,7 +4505,7 @@ extension BillingconductorClientTypes.ListBillingGroupAccountGrouping: Swift.Cod
 
 extension BillingconductorClientTypes {
     /// Specifies if the billing group has the following features enabled.
-    public struct ListBillingGroupAccountGrouping: Swift.Equatable {
+    public struct ListBillingGroupAccountGrouping {
         /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
         public var autoAssociate: Swift.Bool?
 
@@ -4552,7 +4552,7 @@ extension BillingconductorClientTypes.ListBillingGroupCostReportsFilter: Swift.C
 
 extension BillingconductorClientTypes {
     /// The filter used to retrieve specific BillingGroupCostReportElements.
-    public struct ListBillingGroupCostReportsFilter: Swift.Equatable {
+    public struct ListBillingGroupCostReportsFilter {
         /// The list of Amazon Resource Names (ARNs) used to filter billing groups to retrieve reports.
         public var billingGroupArns: [Swift.String]?
 
@@ -4598,7 +4598,7 @@ extension ListBillingGroupCostReportsInput {
     }
 }
 
-public struct ListBillingGroupCostReportsInput: Swift.Equatable {
+public struct ListBillingGroupCostReportsInput {
     /// The preferred billing period for your report.
     public var billingPeriod: Swift.String?
     /// A ListBillingGroupCostReportsFilter to specify billing groups to retrieve reports from.
@@ -4622,7 +4622,7 @@ public struct ListBillingGroupCostReportsInput: Swift.Equatable {
     }
 }
 
-struct ListBillingGroupCostReportsInputBody: Swift.Equatable {
+struct ListBillingGroupCostReportsInputBody {
     let billingPeriod: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4664,7 +4664,7 @@ extension ListBillingGroupCostReportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBillingGroupCostReportsOutput: Swift.Equatable {
+public struct ListBillingGroupCostReportsOutput {
     /// A list of BillingGroupCostReportElement retrieved.
     public var billingGroupCostReports: [BillingconductorClientTypes.BillingGroupCostReportElement]?
     /// The pagination token that's used on subsequent calls to get reports.
@@ -4680,7 +4680,7 @@ public struct ListBillingGroupCostReportsOutput: Swift.Equatable {
     }
 }
 
-struct ListBillingGroupCostReportsOutputBody: Swift.Equatable {
+struct ListBillingGroupCostReportsOutputBody {
     let billingGroupCostReports: [BillingconductorClientTypes.BillingGroupCostReportElement]?
     let nextToken: Swift.String?
 }
@@ -4787,7 +4787,7 @@ extension BillingconductorClientTypes.ListBillingGroupsFilter: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The filter that specifies the billing groups and pricing plans to retrieve billing group information.
-    public struct ListBillingGroupsFilter: Swift.Equatable {
+    public struct ListBillingGroupsFilter {
         /// The list of billing group Amazon Resource Names (ARNs) to retrieve information.
         public var arns: [Swift.String]?
         /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
@@ -4845,7 +4845,7 @@ extension ListBillingGroupsInput {
     }
 }
 
-public struct ListBillingGroupsInput: Swift.Equatable {
+public struct ListBillingGroupsInput {
     /// The preferred billing period to get billing groups.
     public var billingPeriod: Swift.String?
     /// A ListBillingGroupsFilter that specifies the billing group and pricing plan to retrieve billing group information.
@@ -4869,7 +4869,7 @@ public struct ListBillingGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListBillingGroupsInputBody: Swift.Equatable {
+struct ListBillingGroupsInputBody {
     let billingPeriod: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4911,7 +4911,7 @@ extension ListBillingGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBillingGroupsOutput: Swift.Equatable {
+public struct ListBillingGroupsOutput {
     /// A list of BillingGroupListElement retrieved.
     public var billingGroups: [BillingconductorClientTypes.BillingGroupListElement]?
     /// The pagination token that's used on subsequent calls to get billing groups.
@@ -4927,7 +4927,7 @@ public struct ListBillingGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListBillingGroupsOutputBody: Swift.Equatable {
+struct ListBillingGroupsOutputBody {
     let billingGroups: [BillingconductorClientTypes.BillingGroupListElement]?
     let nextToken: Swift.String?
 }
@@ -5022,7 +5022,7 @@ extension BillingconductorClientTypes.ListCustomLineItemChargeDetails: Swift.Cod
 
 extension BillingconductorClientTypes {
     /// A representation of the charge details of a custom line item.
-    public struct ListCustomLineItemChargeDetails: Swift.Equatable {
+    public struct ListCustomLineItemChargeDetails {
         /// A ListCustomLineItemFlatChargeDetails that describes the charge details of a flat custom line item.
         public var flat: BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails?
         /// A representation of the line item filter.
@@ -5070,7 +5070,7 @@ extension BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails: Swift
 
 extension BillingconductorClientTypes {
     /// A representation of the charge details that are associated with a flat custom line item.
-    public struct ListCustomLineItemFlatChargeDetails: Swift.Equatable {
+    public struct ListCustomLineItemFlatChargeDetails {
         /// The custom line item's fixed charge value in USD.
         /// This member is required.
         public var chargeValue: Swift.Double?
@@ -5106,7 +5106,7 @@ extension BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails:
 
 extension BillingconductorClientTypes {
     /// A representation of the charge details that are associated with a percentage custom line item.
-    public struct ListCustomLineItemPercentageChargeDetails: Swift.Equatable {
+    public struct ListCustomLineItemPercentageChargeDetails {
         /// The custom line item's percentage value. This will be multiplied against the combined value of its associated resources to determine its charge value.
         /// This member is required.
         public var percentageValue: Swift.Double?
@@ -5148,7 +5148,7 @@ extension BillingconductorClientTypes.ListCustomLineItemVersionsBillingPeriodRan
 
 extension BillingconductorClientTypes {
     /// A billing period filter that specifies the custom line item versions to retrieve.
-    public struct ListCustomLineItemVersionsBillingPeriodRangeFilter: Swift.Equatable {
+    public struct ListCustomLineItemVersionsBillingPeriodRangeFilter {
         /// The exclusive end billing period that defines a billing period range where a custom line item version is applied.
         public var endBillingPeriod: Swift.String?
         /// The inclusive start billing period that defines a billing period range where a custom line item version is applied.
@@ -5187,7 +5187,7 @@ extension BillingconductorClientTypes.ListCustomLineItemVersionsFilter: Swift.Co
 
 extension BillingconductorClientTypes {
     /// A filter that specifies the billing period range where the custom line item versions reside.
-    public struct ListCustomLineItemVersionsFilter: Swift.Equatable {
+    public struct ListCustomLineItemVersionsFilter {
         /// The billing period range in which the custom line item version is applied.
         public var billingPeriodRange: BillingconductorClientTypes.ListCustomLineItemVersionsBillingPeriodRangeFilter?
 
@@ -5233,7 +5233,7 @@ extension ListCustomLineItemVersionsInput {
     }
 }
 
-public struct ListCustomLineItemVersionsInput: Swift.Equatable {
+public struct ListCustomLineItemVersionsInput {
     /// The Amazon Resource Name (ARN) for the custom line item.
     /// This member is required.
     public var arn: Swift.String?
@@ -5258,7 +5258,7 @@ public struct ListCustomLineItemVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListCustomLineItemVersionsInputBody: Swift.Equatable {
+struct ListCustomLineItemVersionsInputBody {
     let arn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5300,7 +5300,7 @@ extension ListCustomLineItemVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCustomLineItemVersionsOutput: Swift.Equatable {
+public struct ListCustomLineItemVersionsOutput {
     /// A list of CustomLineItemVersionListElements that are received.
     public var customLineItemVersions: [BillingconductorClientTypes.CustomLineItemVersionListElement]?
     /// The pagination token that's used on subsequent calls to retrieve custom line item versions.
@@ -5316,7 +5316,7 @@ public struct ListCustomLineItemVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListCustomLineItemVersionsOutputBody: Swift.Equatable {
+struct ListCustomLineItemVersionsOutputBody {
     let customLineItemVersions: [BillingconductorClientTypes.CustomLineItemVersionListElement]?
     let nextToken: Swift.String?
 }
@@ -5446,7 +5446,7 @@ extension BillingconductorClientTypes.ListCustomLineItemsFilter: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// A filter that specifies the custom line items and billing groups to retrieve FFLI information.
-    public struct ListCustomLineItemsFilter: Swift.Equatable {
+    public struct ListCustomLineItemsFilter {
         /// The Amazon Web Services accounts in which this custom line item will be applied to.
         public var accountIds: [Swift.String]?
         /// A list of custom line item ARNs to retrieve information.
@@ -5504,7 +5504,7 @@ extension ListCustomLineItemsInput {
     }
 }
 
-public struct ListCustomLineItemsInput: Swift.Equatable {
+public struct ListCustomLineItemsInput {
     /// The preferred billing period to get custom line items (FFLIs).
     public var billingPeriod: Swift.String?
     /// A ListCustomLineItemsFilter that specifies the custom line item names and/or billing group Amazon Resource Names (ARNs) to retrieve FFLI information.
@@ -5528,7 +5528,7 @@ public struct ListCustomLineItemsInput: Swift.Equatable {
     }
 }
 
-struct ListCustomLineItemsInputBody: Swift.Equatable {
+struct ListCustomLineItemsInputBody {
     let billingPeriod: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5570,7 +5570,7 @@ extension ListCustomLineItemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCustomLineItemsOutput: Swift.Equatable {
+public struct ListCustomLineItemsOutput {
     /// A list of FreeFormLineItemListElements received.
     public var customLineItems: [BillingconductorClientTypes.CustomLineItemListElement]?
     /// The pagination token that's used on subsequent calls to get custom line items (FFLIs).
@@ -5586,7 +5586,7 @@ public struct ListCustomLineItemsOutput: Swift.Equatable {
     }
 }
 
-struct ListCustomLineItemsOutputBody: Swift.Equatable {
+struct ListCustomLineItemsOutputBody {
     let customLineItems: [BillingconductorClientTypes.CustomLineItemListElement]?
     let nextToken: Swift.String?
 }
@@ -5662,7 +5662,7 @@ extension ListPricingPlansAssociatedWithPricingRuleInput {
     }
 }
 
-public struct ListPricingPlansAssociatedWithPricingRuleInput: Swift.Equatable {
+public struct ListPricingPlansAssociatedWithPricingRuleInput {
     /// The pricing plan billing period for which associations will be listed.
     public var billingPeriod: Swift.String?
     /// The optional maximum number of pricing rule associations to retrieve.
@@ -5687,7 +5687,7 @@ public struct ListPricingPlansAssociatedWithPricingRuleInput: Swift.Equatable {
     }
 }
 
-struct ListPricingPlansAssociatedWithPricingRuleInputBody: Swift.Equatable {
+struct ListPricingPlansAssociatedWithPricingRuleInputBody {
     let billingPeriod: Swift.String?
     let pricingRuleArn: Swift.String?
     let maxResults: Swift.Int?
@@ -5733,7 +5733,7 @@ extension ListPricingPlansAssociatedWithPricingRuleOutput: ClientRuntime.HttpRes
     }
 }
 
-public struct ListPricingPlansAssociatedWithPricingRuleOutput: Swift.Equatable {
+public struct ListPricingPlansAssociatedWithPricingRuleOutput {
     /// The pricing plan billing period for which associations will be listed.
     public var billingPeriod: Swift.String?
     /// The pagination token to be used on subsequent calls.
@@ -5757,7 +5757,7 @@ public struct ListPricingPlansAssociatedWithPricingRuleOutput: Swift.Equatable {
     }
 }
 
-struct ListPricingPlansAssociatedWithPricingRuleOutputBody: Swift.Equatable {
+struct ListPricingPlansAssociatedWithPricingRuleOutputBody {
     let billingPeriod: Swift.String?
     let pricingRuleArn: Swift.String?
     let pricingPlanArns: [Swift.String]?
@@ -5842,7 +5842,7 @@ extension BillingconductorClientTypes.ListPricingPlansFilter: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The filter that specifies the Amazon Resource Names (ARNs) of pricing plans, to retrieve pricing plan information.
-    public struct ListPricingPlansFilter: Swift.Equatable {
+    public struct ListPricingPlansFilter {
         /// A list of pricing plan Amazon Resource Names (ARNs) to retrieve information.
         public var arns: [Swift.String]?
 
@@ -5888,7 +5888,7 @@ extension ListPricingPlansInput {
     }
 }
 
-public struct ListPricingPlansInput: Swift.Equatable {
+public struct ListPricingPlansInput {
     /// The preferred billing period to get pricing plan.
     public var billingPeriod: Swift.String?
     /// A ListPricingPlansFilter that specifies the Amazon Resource Name (ARNs) of pricing plans to retrieve pricing plans information.
@@ -5912,7 +5912,7 @@ public struct ListPricingPlansInput: Swift.Equatable {
     }
 }
 
-struct ListPricingPlansInputBody: Swift.Equatable {
+struct ListPricingPlansInputBody {
     let billingPeriod: Swift.String?
     let filters: BillingconductorClientTypes.ListPricingPlansFilter?
     let maxResults: Swift.Int?
@@ -5956,7 +5956,7 @@ extension ListPricingPlansOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPricingPlansOutput: Swift.Equatable {
+public struct ListPricingPlansOutput {
     /// The billing period for which the described pricing plans are applicable.
     public var billingPeriod: Swift.String?
     /// The pagination token that's used on subsequent calls to get pricing plans.
@@ -5976,7 +5976,7 @@ public struct ListPricingPlansOutput: Swift.Equatable {
     }
 }
 
-struct ListPricingPlansOutputBody: Swift.Equatable {
+struct ListPricingPlansOutputBody {
     let billingPeriod: Swift.String?
     let pricingPlans: [BillingconductorClientTypes.PricingPlanListElement]?
     let nextToken: Swift.String?
@@ -6055,7 +6055,7 @@ extension ListPricingRulesAssociatedToPricingPlanInput {
     }
 }
 
-public struct ListPricingRulesAssociatedToPricingPlanInput: Swift.Equatable {
+public struct ListPricingRulesAssociatedToPricingPlanInput {
     /// The billing period for which the pricing rule associations are to be listed.
     public var billingPeriod: Swift.String?
     /// The optional maximum number of pricing rule associations to retrieve.
@@ -6080,7 +6080,7 @@ public struct ListPricingRulesAssociatedToPricingPlanInput: Swift.Equatable {
     }
 }
 
-struct ListPricingRulesAssociatedToPricingPlanInputBody: Swift.Equatable {
+struct ListPricingRulesAssociatedToPricingPlanInputBody {
     let billingPeriod: Swift.String?
     let pricingPlanArn: Swift.String?
     let maxResults: Swift.Int?
@@ -6126,7 +6126,7 @@ extension ListPricingRulesAssociatedToPricingPlanOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListPricingRulesAssociatedToPricingPlanOutput: Swift.Equatable {
+public struct ListPricingRulesAssociatedToPricingPlanOutput {
     /// The billing period for which the pricing rule associations are listed.
     public var billingPeriod: Swift.String?
     /// The pagination token to be used on subsequent calls.
@@ -6150,7 +6150,7 @@ public struct ListPricingRulesAssociatedToPricingPlanOutput: Swift.Equatable {
     }
 }
 
-struct ListPricingRulesAssociatedToPricingPlanOutputBody: Swift.Equatable {
+struct ListPricingRulesAssociatedToPricingPlanOutputBody {
     let billingPeriod: Swift.String?
     let pricingPlanArn: Swift.String?
     let pricingRuleArns: [Swift.String]?
@@ -6235,7 +6235,7 @@ extension BillingconductorClientTypes.ListPricingRulesFilter: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The filter that specifies criteria that the pricing rules returned by the ListPricingRules API will adhere to.
-    public struct ListPricingRulesFilter: Swift.Equatable {
+    public struct ListPricingRulesFilter {
         /// A list containing the pricing rule Amazon Resource Names (ARNs) to include in the API response.
         public var arns: [Swift.String]?
 
@@ -6281,7 +6281,7 @@ extension ListPricingRulesInput {
     }
 }
 
-public struct ListPricingRulesInput: Swift.Equatable {
+public struct ListPricingRulesInput {
     /// The preferred billing period to get the pricing plan.
     public var billingPeriod: Swift.String?
     /// A DescribePricingRuleFilter that specifies the Amazon Resource Name (ARNs) of pricing rules to retrieve pricing rules information.
@@ -6305,7 +6305,7 @@ public struct ListPricingRulesInput: Swift.Equatable {
     }
 }
 
-struct ListPricingRulesInputBody: Swift.Equatable {
+struct ListPricingRulesInputBody {
     let billingPeriod: Swift.String?
     let filters: BillingconductorClientTypes.ListPricingRulesFilter?
     let maxResults: Swift.Int?
@@ -6349,7 +6349,7 @@ extension ListPricingRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPricingRulesOutput: Swift.Equatable {
+public struct ListPricingRulesOutput {
     /// The billing period for which the described pricing rules are applicable.
     public var billingPeriod: Swift.String?
     /// The pagination token that's used on subsequent calls to get pricing rules.
@@ -6369,7 +6369,7 @@ public struct ListPricingRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListPricingRulesOutputBody: Swift.Equatable {
+struct ListPricingRulesOutputBody {
     let billingPeriod: Swift.String?
     let pricingRules: [BillingconductorClientTypes.PricingRuleListElement]?
     let nextToken: Swift.String?
@@ -6437,7 +6437,7 @@ extension BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemFil
 
 extension BillingconductorClientTypes {
     /// A filter that specifies the type of resource associations that should be retrieved for a custom line item.
-    public struct ListResourcesAssociatedToCustomLineItemFilter: Swift.Equatable {
+    public struct ListResourcesAssociatedToCustomLineItemFilter {
         /// The type of relationship between the custom line item and the associated resource.
         public var relationship: BillingconductorClientTypes.CustomLineItemRelationship?
 
@@ -6487,7 +6487,7 @@ extension ListResourcesAssociatedToCustomLineItemInput {
     }
 }
 
-public struct ListResourcesAssociatedToCustomLineItemInput: Swift.Equatable {
+public struct ListResourcesAssociatedToCustomLineItemInput {
     /// The ARN of the custom line item for which the resource associations will be listed.
     /// This member is required.
     public var arn: Swift.String?
@@ -6516,7 +6516,7 @@ public struct ListResourcesAssociatedToCustomLineItemInput: Swift.Equatable {
     }
 }
 
-struct ListResourcesAssociatedToCustomLineItemInputBody: Swift.Equatable {
+struct ListResourcesAssociatedToCustomLineItemInputBody {
     let billingPeriod: Swift.String?
     let arn: Swift.String?
     let maxResults: Swift.Int?
@@ -6564,7 +6564,7 @@ extension ListResourcesAssociatedToCustomLineItemOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListResourcesAssociatedToCustomLineItemOutput: Swift.Equatable {
+public struct ListResourcesAssociatedToCustomLineItemOutput {
     /// The custom line item ARN for which the resource associations are listed.
     public var arn: Swift.String?
     /// A list of ListResourcesAssociatedToCustomLineItemResponseElement for each resource association retrieved.
@@ -6584,7 +6584,7 @@ public struct ListResourcesAssociatedToCustomLineItemOutput: Swift.Equatable {
     }
 }
 
-struct ListResourcesAssociatedToCustomLineItemOutputBody: Swift.Equatable {
+struct ListResourcesAssociatedToCustomLineItemOutputBody {
     let arn: Swift.String?
     let associatedResources: [BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemResponseElement]?
     let nextToken: Swift.String?
@@ -6665,7 +6665,7 @@ extension BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemRes
 
 extension BillingconductorClientTypes {
     /// A representation of a resource association for a custom line item.
-    public struct ListResourcesAssociatedToCustomLineItemResponseElement: Swift.Equatable {
+    public struct ListResourcesAssociatedToCustomLineItemResponseElement {
         /// The ARN of the associated resource.
         public var arn: Swift.String?
         /// The end billing period of the associated resource.
@@ -6697,7 +6697,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) that identifies the resource to list the tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6710,7 +6710,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -6731,7 +6731,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags for the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -6743,7 +6743,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6868,7 +6868,7 @@ extension BillingconductorClientTypes.PricingPlanListElement: Swift.CustomDebugS
 
 extension BillingconductorClientTypes {
     /// A representation of a pricing plan.
-    public struct PricingPlanListElement: Swift.Equatable {
+    public struct PricingPlanListElement {
         /// The pricing plan Amazon Resource Names (ARN). This can be used to uniquely identify a pricing plan.
         public var arn: Swift.String?
         /// The time when the pricing plan was created.
@@ -7006,7 +7006,7 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.CustomDebugS
 
 extension BillingconductorClientTypes {
     /// A representation of a pricing rule.
-    public struct PricingRuleListElement: Swift.Equatable {
+    public struct PricingRuleListElement {
         /// The Amazon Resource Name (ARN) used to uniquely identify a pricing rule.
         public var arn: Swift.String?
         /// The pricing plans count that this pricing rule is associated with.
@@ -7199,7 +7199,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -7289,7 +7289,7 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceLimitExceededExceptionBody: Swift.Equatable {
+struct ServiceLimitExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -7347,7 +7347,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to which to add tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7365,7 +7365,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -7395,7 +7395,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -7464,7 +7464,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -7501,7 +7501,7 @@ extension BillingconductorClientTypes.Tiering: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The set of tiering configurations for the pricing rule.
-    public struct Tiering: Swift.Equatable {
+    public struct Tiering {
         /// The possible Amazon Web Services Free Tier configurations.
         /// This member is required.
         public var freeTier: BillingconductorClientTypes.FreeTierConfig?
@@ -7542,7 +7542,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to which to delete tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7560,7 +7560,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -7574,7 +7574,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -7615,7 +7615,7 @@ extension BillingconductorClientTypes.UpdateBillingGroupAccountGrouping: Swift.C
 
 extension BillingconductorClientTypes {
     /// Specifies if the billing group has the following features enabled.
-    public struct UpdateBillingGroupAccountGrouping: Swift.Equatable {
+    public struct UpdateBillingGroupAccountGrouping {
         /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
         public var autoAssociate: Swift.Bool?
 
@@ -7674,7 +7674,7 @@ extension UpdateBillingGroupInput {
     }
 }
 
-public struct UpdateBillingGroupInput: Swift.Equatable {
+public struct UpdateBillingGroupInput {
     /// Specifies if the billing group has automatic account association (AutoAssociate) enabled.
     public var accountGrouping: BillingconductorClientTypes.UpdateBillingGroupAccountGrouping?
     /// The Amazon Resource Name (ARN) of the billing group being updated.
@@ -7707,7 +7707,7 @@ public struct UpdateBillingGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateBillingGroupInputBody: Swift.Equatable {
+struct UpdateBillingGroupInputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let status: BillingconductorClientTypes.BillingGroupStatus?
@@ -7778,7 +7778,7 @@ extension UpdateBillingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBillingGroupOutput: Swift.Equatable {
+public struct UpdateBillingGroupOutput {
     /// Specifies if the billing group has automatic account association (AutoAssociate) enabled.
     public var accountGrouping: BillingconductorClientTypes.UpdateBillingGroupAccountGrouping?
     /// The Amazon Resource Name (ARN) of the billing group that was updated.
@@ -7826,7 +7826,7 @@ public struct UpdateBillingGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBillingGroupOutputBody: Swift.Equatable {
+struct UpdateBillingGroupOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -7939,7 +7939,7 @@ extension BillingconductorClientTypes.UpdateCustomLineItemChargeDetails: Swift.C
 
 extension BillingconductorClientTypes {
     /// A representation of the new charge details of a custom line item. This should contain only one of Flat or Percentage.
-    public struct UpdateCustomLineItemChargeDetails: Swift.Equatable {
+    public struct UpdateCustomLineItemChargeDetails {
         /// An UpdateCustomLineItemFlatChargeDetails that describes the new charge details of a flat custom line item.
         public var flat: BillingconductorClientTypes.UpdateCustomLineItemFlatChargeDetails?
         /// A representation of the line item filter.
@@ -7982,7 +7982,7 @@ extension BillingconductorClientTypes.UpdateCustomLineItemFlatChargeDetails: Swi
 
 extension BillingconductorClientTypes {
     /// A representation of the new charge details that are associated with a flat custom line item.
-    public struct UpdateCustomLineItemFlatChargeDetails: Swift.Equatable {
+    public struct UpdateCustomLineItemFlatChargeDetails {
         /// The custom line item's new fixed charge value in USD.
         /// This member is required.
         public var chargeValue: Swift.Double?
@@ -8038,7 +8038,7 @@ extension UpdateCustomLineItemInput {
     }
 }
 
-public struct UpdateCustomLineItemInput: Swift.Equatable {
+public struct UpdateCustomLineItemInput {
     /// The ARN of the custom line item to be updated.
     /// This member is required.
     public var arn: Swift.String?
@@ -8067,7 +8067,7 @@ public struct UpdateCustomLineItemInput: Swift.Equatable {
     }
 }
 
-struct UpdateCustomLineItemInputBody: Swift.Equatable {
+struct UpdateCustomLineItemInputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -8128,7 +8128,7 @@ extension UpdateCustomLineItemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCustomLineItemOutput: Swift.Equatable {
+public struct UpdateCustomLineItemOutput {
     /// The ARN of the successfully updated custom line item.
     public var arn: Swift.String?
     /// The number of resources that are associated to the custom line item.
@@ -8164,7 +8164,7 @@ public struct UpdateCustomLineItemOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCustomLineItemOutputBody: Swift.Equatable {
+struct UpdateCustomLineItemOutputBody {
     let arn: Swift.String?
     let billingGroupArn: Swift.String?
     let name: Swift.String?
@@ -8240,7 +8240,7 @@ extension BillingconductorClientTypes.UpdateCustomLineItemPercentageChargeDetail
 
 extension BillingconductorClientTypes {
     /// A representation of the new charge details that are associated with a percentage custom line item.
-    public struct UpdateCustomLineItemPercentageChargeDetails: Swift.Equatable {
+    public struct UpdateCustomLineItemPercentageChargeDetails {
         /// The custom line item's new percentage value. This will be multiplied against the combined value of its associated resources to determine its charge value.
         /// This member is required.
         public var percentageValue: Swift.Double?
@@ -8276,7 +8276,7 @@ extension BillingconductorClientTypes.UpdateFreeTierConfig: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The possible Amazon Web Services Free Tier configurations.
-    public struct UpdateFreeTierConfig: Swift.Equatable {
+    public struct UpdateFreeTierConfig {
         /// Activate or deactivate application of Amazon Web Services Free Tier.
         /// This member is required.
         public var activated: Swift.Bool?
@@ -8324,7 +8324,7 @@ extension UpdatePricingPlanInput {
     }
 }
 
-public struct UpdatePricingPlanInput: Swift.Equatable {
+public struct UpdatePricingPlanInput {
     /// The Amazon Resource Name (ARN) of the pricing plan that you're updating.
     /// This member is required.
     public var arn: Swift.String?
@@ -8345,7 +8345,7 @@ public struct UpdatePricingPlanInput: Swift.Equatable {
     }
 }
 
-struct UpdatePricingPlanInputBody: Swift.Equatable {
+struct UpdatePricingPlanInputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -8394,7 +8394,7 @@ extension UpdatePricingPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePricingPlanOutput: Swift.Equatable {
+public struct UpdatePricingPlanOutput {
     /// The Amazon Resource Name (ARN) of the updated pricing plan.
     public var arn: Swift.String?
     /// The new description for the pricing rule.
@@ -8422,7 +8422,7 @@ public struct UpdatePricingPlanOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePricingPlanOutputBody: Swift.Equatable {
+struct UpdatePricingPlanOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -8515,7 +8515,7 @@ extension UpdatePricingRuleInput {
     }
 }
 
-public struct UpdatePricingRuleInput: Swift.Equatable {
+public struct UpdatePricingRuleInput {
     /// The Amazon Resource Name (ARN) of the pricing rule to update.
     /// This member is required.
     public var arn: Swift.String?
@@ -8548,7 +8548,7 @@ public struct UpdatePricingRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdatePricingRuleInputBody: Swift.Equatable {
+struct UpdatePricingRuleInputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -8625,7 +8625,7 @@ extension UpdatePricingRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePricingRuleOutput: Swift.Equatable {
+public struct UpdatePricingRuleOutput {
     /// The Amazon Resource Name (ARN) of the successfully updated pricing rule.
     public var arn: Swift.String?
     /// The pricing plans count that this pricing rule is associated with.
@@ -8685,7 +8685,7 @@ public struct UpdatePricingRuleOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePricingRuleOutputBody: Swift.Equatable {
+struct UpdatePricingRuleOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -8786,7 +8786,7 @@ extension BillingconductorClientTypes.UpdateTieringInput: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The set of tiering configurations for the pricing rule.
-    public struct UpdateTieringInput: Swift.Equatable {
+    public struct UpdateTieringInput {
         /// The possible Amazon Web Services Free Tier configurations.
         /// This member is required.
         public var freeTier: BillingconductorClientTypes.UpdateFreeTierConfig?
@@ -8853,7 +8853,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: BillingconductorClientTypes.ValidationExceptionReason?
     let fields: [BillingconductorClientTypes.ValidationExceptionField]?
@@ -8913,7 +8913,7 @@ extension BillingconductorClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension BillingconductorClientTypes {
     /// The field's information of a request that resulted in an exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The message describing why the field failed validation.
         /// This member is required.
         public var message: Swift.String?

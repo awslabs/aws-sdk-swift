@@ -59,7 +59,7 @@ extension ResourceGroupsTaggingAPIClientTypes.ComplianceDetails: Swift.Codable {
 
 extension ResourceGroupsTaggingAPIClientTypes {
     /// Information that shows whether a resource is compliant with the effective tag policy, including details on any noncompliant tag keys.
-    public struct ComplianceDetails: Swift.Equatable {
+    public struct ComplianceDetails {
         /// Whether a resource is compliant with the effective tag policy.
         public var complianceStatus: Swift.Bool?
         /// These are keys defined in the effective policy that are on the resource with either incorrect case treatment or noncompliant values.
@@ -120,7 +120,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -181,7 +181,7 @@ public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ConstraintViolationExceptionBody: Swift.Equatable {
+struct ConstraintViolationExceptionBody {
     let message: Swift.String?
 }
 
@@ -212,12 +212,12 @@ extension DescribeReportCreationInput {
     }
 }
 
-public struct DescribeReportCreationInput: Swift.Equatable {
+public struct DescribeReportCreationInput {
 
     public init() { }
 }
 
-struct DescribeReportCreationInputBody: Swift.Equatable {
+struct DescribeReportCreationInputBody {
 }
 
 extension DescribeReportCreationInputBody: Swift.Decodable {
@@ -244,7 +244,7 @@ extension DescribeReportCreationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeReportCreationOutput: Swift.Equatable {
+public struct DescribeReportCreationOutput {
     /// Details of the common errors that all operations return.
     public var errorMessage: Swift.String?
     /// The path to the Amazon S3 bucket where the report was stored on creation.
@@ -276,7 +276,7 @@ public struct DescribeReportCreationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReportCreationOutputBody: Swift.Equatable {
+struct DescribeReportCreationOutputBody {
     let status: Swift.String?
     let s3Location: Swift.String?
     let startDate: Swift.String?
@@ -390,7 +390,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
     ///
     ///
     /// For more information on errors that are generated from other Amazon Web Services services, see the documentation for that service.
-    public struct FailureInfo: Swift.Equatable {
+    public struct FailureInfo {
         /// The code of the common error. Valid values include InternalServiceException, InvalidParameterException, and any valid error code returned by the Amazon Web Services service that hosts the resource that you want to tag.
         public var errorCode: ResourceGroupsTaggingAPIClientTypes.ErrorCode?
         /// The message of the common error.
@@ -471,7 +471,7 @@ extension GetComplianceSummaryInput {
     }
 }
 
-public struct GetComplianceSummaryInput: Swift.Equatable {
+public struct GetComplianceSummaryInput {
     /// Specifies a list of attributes to group the counts of noncompliant resources by. If supplied, the counts are sorted by those attributes.
     public var groupBy: [ResourceGroupsTaggingAPIClientTypes.GroupByAttribute]?
     /// Specifies the maximum number of results to be returned in each page. A query can return fewer than this maximum, even if there are more results still to return. You should always check the PaginationToken response value to see if there are more results. You can specify a minimum of 1 and a maximum value of 100.
@@ -516,7 +516,7 @@ public struct GetComplianceSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetComplianceSummaryInputBody: Swift.Equatable {
+struct GetComplianceSummaryInputBody {
     let targetIdFilters: [Swift.String]?
     let regionFilters: [Swift.String]?
     let resourceTypeFilters: [Swift.String]?
@@ -615,7 +615,7 @@ extension GetComplianceSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetComplianceSummaryOutput: Swift.Equatable {
+public struct GetComplianceSummaryOutput {
     /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
     public var paginationToken: Swift.String?
     /// A table that shows counts of noncompliant resources.
@@ -631,7 +631,7 @@ public struct GetComplianceSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetComplianceSummaryOutputBody: Swift.Equatable {
+struct GetComplianceSummaryOutputBody {
     let summaryList: [ResourceGroupsTaggingAPIClientTypes.Summary]?
     let paginationToken: Swift.String?
 }
@@ -731,7 +731,7 @@ extension GetResourcesInput {
     }
 }
 
-public struct GetResourcesInput: Swift.Equatable {
+public struct GetResourcesInput {
     /// Specifies whether to exclude resources that are compliant with the tag policy. Set this to true if you are interested in retrieving information on noncompliant resources only. You can use this parameter only if the IncludeComplianceDetails parameter is also set to true.
     public var excludeCompliantResources: Swift.Bool?
     /// Specifies whether to include details regarding the compliance with the effective tag policy. Set this to true to determine whether resources are compliant with the tag policy and to get details.
@@ -787,7 +787,7 @@ public struct GetResourcesInput: Swift.Equatable {
     }
 }
 
-struct GetResourcesInputBody: Swift.Equatable {
+struct GetResourcesInputBody {
     let paginationToken: Swift.String?
     let tagFilters: [ResourceGroupsTaggingAPIClientTypes.TagFilter]?
     let resourcesPerPage: Swift.Int?
@@ -872,7 +872,7 @@ extension GetResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcesOutput: Swift.Equatable {
+public struct GetResourcesOutput {
     /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
     public var paginationToken: Swift.String?
     /// A list of resource ARNs and the tags (keys and values) associated with each.
@@ -888,7 +888,7 @@ public struct GetResourcesOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcesOutputBody: Swift.Equatable {
+struct GetResourcesOutputBody {
     let paginationToken: Swift.String?
     let resourceTagMappingList: [ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping]?
 }
@@ -951,7 +951,7 @@ extension GetTagKeysInput {
     }
 }
 
-public struct GetTagKeysInput: Swift.Equatable {
+public struct GetTagKeysInput {
     /// Specifies a PaginationToken response value from a previous request to indicate that you want the next page of results. Leave this parameter empty in your initial request.
     public var paginationToken: Swift.String?
 
@@ -963,7 +963,7 @@ public struct GetTagKeysInput: Swift.Equatable {
     }
 }
 
-struct GetTagKeysInputBody: Swift.Equatable {
+struct GetTagKeysInputBody {
     let paginationToken: Swift.String?
 }
 
@@ -993,7 +993,7 @@ extension GetTagKeysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTagKeysOutput: Swift.Equatable {
+public struct GetTagKeysOutput {
     /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
     public var paginationToken: Swift.String?
     /// A list of all tag keys in the Amazon Web Services account.
@@ -1009,7 +1009,7 @@ public struct GetTagKeysOutput: Swift.Equatable {
     }
 }
 
-struct GetTagKeysOutputBody: Swift.Equatable {
+struct GetTagKeysOutputBody {
     let paginationToken: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -1076,7 +1076,7 @@ extension GetTagValuesInput {
     }
 }
 
-public struct GetTagValuesInput: Swift.Equatable {
+public struct GetTagValuesInput {
     /// Specifies the tag key for which you want to list all existing values that are currently used in the specified Amazon Web Services Region for the calling account.
     /// This member is required.
     public var key: Swift.String?
@@ -1093,7 +1093,7 @@ public struct GetTagValuesInput: Swift.Equatable {
     }
 }
 
-struct GetTagValuesInputBody: Swift.Equatable {
+struct GetTagValuesInputBody {
     let paginationToken: Swift.String?
     let key: Swift.String?
 }
@@ -1127,7 +1127,7 @@ extension GetTagValuesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTagValuesOutput: Swift.Equatable {
+public struct GetTagValuesOutput {
     /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
     public var paginationToken: Swift.String?
     /// A list of all tag values for the specified key currently used in the specified Amazon Web Services Region for the calling account.
@@ -1143,7 +1143,7 @@ public struct GetTagValuesOutput: Swift.Equatable {
     }
 }
 
-struct GetTagValuesOutputBody: Swift.Equatable {
+struct GetTagValuesOutputBody {
     let paginationToken: Swift.String?
     let tagValues: [Swift.String]?
 }
@@ -1260,7 +1260,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalServiceExceptionBody: Swift.Equatable {
+struct InternalServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -1325,7 +1325,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -1380,7 +1380,7 @@ public struct PaginationTokenExpiredException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct PaginationTokenExpiredExceptionBody: Swift.Equatable {
+struct PaginationTokenExpiredExceptionBody {
     let message: Swift.String?
 }
 
@@ -1443,7 +1443,7 @@ extension ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping: Swift.Codable 
 
 extension ResourceGroupsTaggingAPIClientTypes {
     /// A list of resource ARNs and the tags (keys and values) that are associated with each.
-    public struct ResourceTagMapping: Swift.Equatable {
+    public struct ResourceTagMapping {
         /// Information that shows whether a resource is compliant with the effective tag policy, including details on any noncompliant tag keys.
         public var complianceDetails: ResourceGroupsTaggingAPIClientTypes.ComplianceDetails?
         /// The ARN of the resource.
@@ -1485,7 +1485,7 @@ extension StartReportCreationInput {
     }
 }
 
-public struct StartReportCreationInput: Swift.Equatable {
+public struct StartReportCreationInput {
     /// The name of the Amazon S3 bucket where the report will be stored; for example: awsexamplebucket For more information on S3 bucket requirements, including an example bucket policy, see the example S3 bucket policy on this page.
     /// This member is required.
     public var s3Bucket: Swift.String?
@@ -1498,7 +1498,7 @@ public struct StartReportCreationInput: Swift.Equatable {
     }
 }
 
-struct StartReportCreationInputBody: Swift.Equatable {
+struct StartReportCreationInputBody {
     let s3Bucket: Swift.String?
 }
 
@@ -1519,7 +1519,7 @@ extension StartReportCreationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartReportCreationOutput: Swift.Equatable {
+public struct StartReportCreationOutput {
 
     public init() { }
 }
@@ -1590,7 +1590,7 @@ extension ResourceGroupsTaggingAPIClientTypes.Summary: Swift.Codable {
 
 extension ResourceGroupsTaggingAPIClientTypes {
     /// A count of noncompliant resources.
-    public struct Summary: Swift.Equatable {
+    public struct Summary {
         /// The timestamp that shows when this summary was generated in this Region.
         public var lastUpdated: Swift.String?
         /// The count of noncompliant resources.
@@ -1651,7 +1651,7 @@ extension ResourceGroupsTaggingAPIClientTypes.Tag: Swift.Codable {
 
 extension ResourceGroupsTaggingAPIClientTypes {
     /// The metadata that you apply to Amazon Web Services resources to help you categorize and organize them. Each tag consists of a key and a value, both of which you define. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         /// This member is required.
         public var key: Swift.String?
@@ -1710,7 +1710,7 @@ extension ResourceGroupsTaggingAPIClientTypes.TagFilter: Swift.Codable {
 
 extension ResourceGroupsTaggingAPIClientTypes {
     /// A list of tags (keys and values) that are used to specify the associated resources.
-    public struct TagFilter: Swift.Equatable {
+    public struct TagFilter {
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public var key: Swift.String?
         /// One part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
@@ -1758,7 +1758,7 @@ extension TagResourcesInput {
     }
 }
 
-public struct TagResourcesInput: Swift.Equatable {
+public struct TagResourcesInput {
     /// Specifies the list of ARNs of the resources that you want to apply tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceARNList: [Swift.String]?
@@ -1776,7 +1776,7 @@ public struct TagResourcesInput: Swift.Equatable {
     }
 }
 
-struct TagResourcesInputBody: Swift.Equatable {
+struct TagResourcesInputBody {
     let resourceARNList: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1826,7 +1826,7 @@ extension TagResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourcesOutput: Swift.Equatable {
+public struct TagResourcesOutput {
     /// A map containing a key-value pair for each failed item that couldn't be tagged. The key is the ARN of the failed resource. The value is a FailureInfo object that contains an error code, a status code, and an error message. If there are no errors, the FailedResourcesMap is empty.
     public var failedResourcesMap: [Swift.String:ResourceGroupsTaggingAPIClientTypes.FailureInfo]?
 
@@ -1838,7 +1838,7 @@ public struct TagResourcesOutput: Swift.Equatable {
     }
 }
 
-struct TagResourcesOutputBody: Swift.Equatable {
+struct TagResourcesOutputBody {
     let failedResourcesMap: [Swift.String:ResourceGroupsTaggingAPIClientTypes.FailureInfo]?
 }
 
@@ -1950,7 +1950,7 @@ public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ThrottledExceptionBody: Swift.Equatable {
+struct ThrottledExceptionBody {
     let message: Swift.String?
 }
 
@@ -1996,7 +1996,7 @@ extension UntagResourcesInput {
     }
 }
 
-public struct UntagResourcesInput: Swift.Equatable {
+public struct UntagResourcesInput {
     /// Specifies a list of ARNs of the resources that you want to remove tags from. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceARNList: [Swift.String]?
@@ -2014,7 +2014,7 @@ public struct UntagResourcesInput: Swift.Equatable {
     }
 }
 
-struct UntagResourcesInputBody: Swift.Equatable {
+struct UntagResourcesInputBody {
     let resourceARNList: [Swift.String]?
     let tagKeys: [Swift.String]?
 }
@@ -2064,7 +2064,7 @@ extension UntagResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourcesOutput: Swift.Equatable {
+public struct UntagResourcesOutput {
     /// A map containing a key-value pair for each failed item that couldn't be untagged. The key is the ARN of the failed resource. The value is a FailureInfo object that contains an error code, a status code, and an error message. If there are no errors, the FailedResourcesMap is empty.
     public var failedResourcesMap: [Swift.String:ResourceGroupsTaggingAPIClientTypes.FailureInfo]?
 
@@ -2076,7 +2076,7 @@ public struct UntagResourcesOutput: Swift.Equatable {
     }
 }
 
-struct UntagResourcesOutputBody: Swift.Equatable {
+struct UntagResourcesOutputBody {
     let failedResourcesMap: [Swift.String:ResourceGroupsTaggingAPIClientTypes.FailureInfo]?
 }
 

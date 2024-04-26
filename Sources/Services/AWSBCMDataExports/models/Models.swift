@@ -37,7 +37,7 @@ extension BCMDataExportsClientTypes.Column: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// Includes basic information for a data column such as its description, name, and type.
-    public struct Column: Swift.Equatable {
+    public struct Column {
         /// The description for a column.
         public var description: Swift.String?
         /// The column name.
@@ -118,7 +118,7 @@ extension CreateExportInput {
     }
 }
 
-public struct CreateExportInput: Swift.Equatable {
+public struct CreateExportInput {
     /// The details of the export, including data query, name, description, and destination configuration.
     /// This member is required.
     public var export: BCMDataExportsClientTypes.Export?
@@ -135,7 +135,7 @@ public struct CreateExportInput: Swift.Equatable {
     }
 }
 
-struct CreateExportInputBody: Swift.Equatable {
+struct CreateExportInputBody {
     let export: BCMDataExportsClientTypes.Export?
     let resourceTags: [BCMDataExportsClientTypes.ResourceTag]?
 }
@@ -176,7 +176,7 @@ extension CreateExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateExportOutput: Swift.Equatable {
+public struct CreateExportOutput {
     /// The Amazon Resource Name (ARN) for this export.
     public var exportArn: Swift.String?
 
@@ -188,7 +188,7 @@ public struct CreateExportOutput: Swift.Equatable {
     }
 }
 
-struct CreateExportOutputBody: Swift.Equatable {
+struct CreateExportOutputBody {
     let exportArn: Swift.String?
 }
 
@@ -267,7 +267,7 @@ extension BCMDataExportsClientTypes.DataQuery: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The SQL query of column selections and row filters from the data table you want.
-    public struct DataQuery: Swift.Equatable {
+    public struct DataQuery {
         /// The query statement.
         /// This member is required.
         public var queryStatement: Swift.String?
@@ -306,7 +306,7 @@ extension DeleteExportInput {
     }
 }
 
-public struct DeleteExportInput: Swift.Equatable {
+public struct DeleteExportInput {
     /// The Amazon Resource Name (ARN) for this export.
     /// This member is required.
     public var exportArn: Swift.String?
@@ -319,7 +319,7 @@ public struct DeleteExportInput: Swift.Equatable {
     }
 }
 
-struct DeleteExportInputBody: Swift.Equatable {
+struct DeleteExportInputBody {
     let exportArn: Swift.String?
 }
 
@@ -347,7 +347,7 @@ extension DeleteExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteExportOutput: Swift.Equatable {
+public struct DeleteExportOutput {
     /// The Amazon Resource Name (ARN) for this export.
     public var exportArn: Swift.String?
 
@@ -359,7 +359,7 @@ public struct DeleteExportOutput: Swift.Equatable {
     }
 }
 
-struct DeleteExportOutputBody: Swift.Equatable {
+struct DeleteExportOutputBody {
     let exportArn: Swift.String?
 }
 
@@ -410,7 +410,7 @@ extension BCMDataExportsClientTypes.DestinationConfigurations: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The destinations used for data exports.
-    public struct DestinationConfigurations: Swift.Equatable {
+    public struct DestinationConfigurations {
         /// An object that describes the destination of the data exports file.
         /// This member is required.
         public var s3Destination: BCMDataExportsClientTypes.S3Destination?
@@ -452,7 +452,7 @@ extension BCMDataExportsClientTypes.ExecutionReference: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The reference for the data export update.
-    public struct ExecutionReference: Swift.Equatable {
+    public struct ExecutionReference {
         /// The ID for this specific execution.
         /// This member is required.
         public var executionId: Swift.String?
@@ -517,7 +517,7 @@ extension BCMDataExportsClientTypes.ExecutionStatus: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The status of the execution.
-    public struct ExecutionStatus: Swift.Equatable {
+    public struct ExecutionStatus {
         /// The time when the execution was completed.
         public var completedAt: ClientRuntime.Date?
         /// The time when the execution was created.
@@ -680,7 +680,7 @@ extension BCMDataExportsClientTypes.Export: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The details that are available for an export.
-    public struct Export: Swift.Equatable {
+    public struct Export {
         /// The data query for this specific data export.
         /// This member is required.
         public var dataQuery: BCMDataExportsClientTypes.DataQuery?
@@ -751,7 +751,7 @@ extension BCMDataExportsClientTypes.ExportReference: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The reference details for a given export.
-    public struct ExportReference: Swift.Equatable {
+    public struct ExportReference {
         /// The Amazon Resource Name (ARN) for this export.
         /// This member is required.
         public var exportArn: Swift.String?
@@ -821,7 +821,7 @@ extension BCMDataExportsClientTypes.ExportStatus: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The status of the data export.
-    public struct ExportStatus: Swift.Equatable {
+    public struct ExportStatus {
         /// The timestamp of when the export was created.
         public var createdAt: ClientRuntime.Date?
         /// The timestamp of when the export was last generated.
@@ -968,7 +968,7 @@ extension GetExecutionInput {
     }
 }
 
-public struct GetExecutionInput: Swift.Equatable {
+public struct GetExecutionInput {
     /// The ID for this specific execution.
     /// This member is required.
     public var executionId: Swift.String?
@@ -986,7 +986,7 @@ public struct GetExecutionInput: Swift.Equatable {
     }
 }
 
-struct GetExecutionInputBody: Swift.Equatable {
+struct GetExecutionInputBody {
     let exportArn: Swift.String?
     let executionId: Swift.String?
 }
@@ -1022,7 +1022,7 @@ extension GetExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExecutionOutput: Swift.Equatable {
+public struct GetExecutionOutput {
     /// The ID for this specific execution.
     public var executionId: Swift.String?
     /// The status of this specific execution.
@@ -1042,7 +1042,7 @@ public struct GetExecutionOutput: Swift.Equatable {
     }
 }
 
-struct GetExecutionOutputBody: Swift.Equatable {
+struct GetExecutionOutputBody {
     let executionId: Swift.String?
     let export: BCMDataExportsClientTypes.Export?
     let executionStatus: BCMDataExportsClientTypes.ExecutionStatus?
@@ -1100,7 +1100,7 @@ extension GetExportInput {
     }
 }
 
-public struct GetExportInput: Swift.Equatable {
+public struct GetExportInput {
     /// The Amazon Resource Name (ARN) for this export.
     /// This member is required.
     public var exportArn: Swift.String?
@@ -1113,7 +1113,7 @@ public struct GetExportInput: Swift.Equatable {
     }
 }
 
-struct GetExportInputBody: Swift.Equatable {
+struct GetExportInputBody {
     let exportArn: Swift.String?
 }
 
@@ -1143,7 +1143,7 @@ extension GetExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExportOutput: Swift.Equatable {
+public struct GetExportOutput {
     /// The data for this specific export.
     public var export: BCMDataExportsClientTypes.Export?
     /// The status of this specific export.
@@ -1159,7 +1159,7 @@ public struct GetExportOutput: Swift.Equatable {
     }
 }
 
-struct GetExportOutputBody: Swift.Equatable {
+struct GetExportOutputBody {
     let export: BCMDataExportsClientTypes.Export?
     let exportStatus: BCMDataExportsClientTypes.ExportStatus?
 }
@@ -1220,7 +1220,7 @@ extension GetTableInput {
     }
 }
 
-public struct GetTableInput: Swift.Equatable {
+public struct GetTableInput {
     /// The name of the table.
     /// This member is required.
     public var tableName: Swift.String?
@@ -1237,7 +1237,7 @@ public struct GetTableInput: Swift.Equatable {
     }
 }
 
-struct GetTableInputBody: Swift.Equatable {
+struct GetTableInputBody {
     let tableName: Swift.String?
     let tableProperties: [Swift.String:Swift.String]?
 }
@@ -1284,7 +1284,7 @@ extension GetTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTableOutput: Swift.Equatable {
+public struct GetTableOutput {
     /// The table description.
     public var description: Swift.String?
     /// The schema of the table.
@@ -1308,7 +1308,7 @@ public struct GetTableOutput: Swift.Equatable {
     }
 }
 
-struct GetTableOutputBody: Swift.Equatable {
+struct GetTableOutputBody {
     let tableName: Swift.String?
     let description: Swift.String?
     let tableProperties: [Swift.String:Swift.String]?
@@ -1407,7 +1407,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1451,7 +1451,7 @@ extension ListExecutionsInput {
     }
 }
 
-public struct ListExecutionsInput: Swift.Equatable {
+public struct ListExecutionsInput {
     /// The Amazon Resource Name (ARN) for this export.
     /// This member is required.
     public var exportArn: Swift.String?
@@ -1472,7 +1472,7 @@ public struct ListExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListExecutionsInputBody: Swift.Equatable {
+struct ListExecutionsInputBody {
     let exportArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -1510,7 +1510,7 @@ extension ListExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExecutionsOutput: Swift.Equatable {
+public struct ListExecutionsOutput {
     /// The list of executions.
     public var executions: [BCMDataExportsClientTypes.ExecutionReference]?
     /// The token to retrieve the next set of results.
@@ -1526,7 +1526,7 @@ public struct ListExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListExecutionsOutputBody: Swift.Equatable {
+struct ListExecutionsOutputBody {
     let executions: [BCMDataExportsClientTypes.ExecutionReference]?
     let nextToken: Swift.String?
 }
@@ -1593,7 +1593,7 @@ extension ListExportsInput {
     }
 }
 
-public struct ListExportsInput: Swift.Equatable {
+public struct ListExportsInput {
     /// The maximum number of objects that are returned for the request.
     public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results.
@@ -1609,7 +1609,7 @@ public struct ListExportsInput: Swift.Equatable {
     }
 }
 
-struct ListExportsInputBody: Swift.Equatable {
+struct ListExportsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -1643,7 +1643,7 @@ extension ListExportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExportsOutput: Swift.Equatable {
+public struct ListExportsOutput {
     /// The details of the exports, including name and export status.
     public var exports: [BCMDataExportsClientTypes.ExportReference]?
     /// The token to retrieve the next set of results.
@@ -1659,7 +1659,7 @@ public struct ListExportsOutput: Swift.Equatable {
     }
 }
 
-struct ListExportsOutputBody: Swift.Equatable {
+struct ListExportsOutputBody {
     let exports: [BCMDataExportsClientTypes.ExportReference]?
     let nextToken: Swift.String?
 }
@@ -1725,7 +1725,7 @@ extension ListTablesInput {
     }
 }
 
-public struct ListTablesInput: Swift.Equatable {
+public struct ListTablesInput {
     /// The maximum number of objects that are returned for the request.
     public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results.
@@ -1741,7 +1741,7 @@ public struct ListTablesInput: Swift.Equatable {
     }
 }
 
-struct ListTablesInputBody: Swift.Equatable {
+struct ListTablesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -1775,7 +1775,7 @@ extension ListTablesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTablesOutput: Swift.Equatable {
+public struct ListTablesOutput {
     /// The token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The list of tables.
@@ -1791,7 +1791,7 @@ public struct ListTablesOutput: Swift.Equatable {
     }
 }
 
-struct ListTablesOutputBody: Swift.Equatable {
+struct ListTablesOutputBody {
     let tables: [BCMDataExportsClientTypes.Table]?
     let nextToken: Swift.String?
 }
@@ -1861,7 +1861,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The maximum number of objects that are returned for the request.
     public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results.
@@ -1882,7 +1882,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -1920,7 +1920,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// An optional list of tags to associate with the specified export. Each tag consists of a key and a value, and each key must be unique for the resource.
@@ -1936,7 +1936,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let resourceTags: [BCMDataExportsClientTypes.ResourceTag]?
     let nextToken: Swift.String?
 }
@@ -2032,7 +2032,7 @@ extension BCMDataExportsClientTypes.RefreshCadence: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The cadence for Amazon Web Services to update the data export in your S3 bucket.
-    public struct RefreshCadence: Swift.Equatable {
+    public struct RefreshCadence {
         /// The frequency that data exports are updated. The export refreshes each time the source data updates, up to three times daily.
         /// This member is required.
         public var frequency: BCMDataExportsClientTypes.FrequencyOption?
@@ -2101,7 +2101,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -2152,7 +2152,7 @@ extension BCMDataExportsClientTypes.ResourceTag: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The tag structure that contains a tag key and value.
-    public struct ResourceTag: Swift.Equatable {
+    public struct ResourceTag {
         /// The key that's associated with the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -2211,7 +2211,7 @@ extension BCMDataExportsClientTypes.S3Destination: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a data exports file.
-    public struct S3Destination: Swift.Equatable {
+    public struct S3Destination {
         /// The name of the Amazon S3 bucket used as the destination of a data export file.
         /// This member is required.
         public var s3Bucket: Swift.String?
@@ -2280,7 +2280,7 @@ extension BCMDataExportsClientTypes.S3OutputConfigurations: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The compression type, file format, and overwrite preference for the data export.
-    public struct S3OutputConfigurations: Swift.Equatable {
+    public struct S3OutputConfigurations {
         /// The compression type for the data export.
         /// This member is required.
         public var compression: BCMDataExportsClientTypes.CompressionOption?
@@ -2405,7 +2405,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -2482,7 +2482,7 @@ extension BCMDataExportsClientTypes.Table: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The details for the data export table.
-    public struct Table: Swift.Equatable {
+    public struct Table {
         /// The description for the table.
         public var description: Swift.String?
         /// The name of the table.
@@ -2555,7 +2555,7 @@ extension BCMDataExportsClientTypes.TablePropertyDescription: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The properties for the data export table.
-    public struct TablePropertyDescription: Swift.Equatable {
+    public struct TablePropertyDescription {
         /// The default value for the table.
         public var defaultValue: Swift.String?
         /// The description for the table.
@@ -2608,7 +2608,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The unique identifier for the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2626,7 +2626,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let resourceTags: [BCMDataExportsClientTypes.ResourceTag]?
 }
@@ -2660,7 +2660,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2731,7 +2731,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let quotaCode: Swift.String?
     let serviceCode: Swift.String?
@@ -2782,7 +2782,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The unique identifier for the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2800,7 +2800,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let resourceTagKeys: [Swift.String]?
 }
@@ -2834,7 +2834,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -2877,7 +2877,7 @@ extension UpdateExportInput {
     }
 }
 
-public struct UpdateExportInput: Swift.Equatable {
+public struct UpdateExportInput {
     /// The name and query details for the export.
     /// This member is required.
     public var export: BCMDataExportsClientTypes.Export?
@@ -2895,7 +2895,7 @@ public struct UpdateExportInput: Swift.Equatable {
     }
 }
 
-struct UpdateExportInputBody: Swift.Equatable {
+struct UpdateExportInputBody {
     let exportArn: Swift.String?
     let export: BCMDataExportsClientTypes.Export?
 }
@@ -2927,7 +2927,7 @@ extension UpdateExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateExportOutput: Swift.Equatable {
+public struct UpdateExportOutput {
     /// The Amazon Resource Name (ARN) for this export.
     public var exportArn: Swift.String?
 
@@ -2939,7 +2939,7 @@ public struct UpdateExportOutput: Swift.Equatable {
     }
 }
 
-struct UpdateExportOutputBody: Swift.Equatable {
+struct UpdateExportOutputBody {
     let exportArn: Swift.String?
 }
 
@@ -3021,7 +3021,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: BCMDataExportsClientTypes.ValidationExceptionReason?
     let fields: [BCMDataExportsClientTypes.ValidationExceptionField]?
@@ -3081,7 +3081,7 @@ extension BCMDataExportsClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension BCMDataExportsClientTypes {
     /// The input failed to meet the constraints specified by the Amazon Web Services service in a specified field.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// A message with the reason for the validation exception error.
         /// This member is required.
         public var message: Swift.String?

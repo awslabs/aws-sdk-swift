@@ -26,7 +26,7 @@ extension AcceptResourceShareInvitationInput {
     }
 }
 
-public struct AcceptResourceShareInvitationInput: Swift.Equatable {
+public struct AcceptResourceShareInvitationInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the invitation that you want to accept.
@@ -43,7 +43,7 @@ public struct AcceptResourceShareInvitationInput: Swift.Equatable {
     }
 }
 
-struct AcceptResourceShareInvitationInputBody: Swift.Equatable {
+struct AcceptResourceShareInvitationInputBody {
     let resourceShareInvitationArn: Swift.String?
     let clientToken: Swift.String?
 }
@@ -77,7 +77,7 @@ extension AcceptResourceShareInvitationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct AcceptResourceShareInvitationOutput: Swift.Equatable {
+public struct AcceptResourceShareInvitationOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// An object that contains information about the specified invitation.
@@ -93,7 +93,7 @@ public struct AcceptResourceShareInvitationOutput: Swift.Equatable {
     }
 }
 
-struct AcceptResourceShareInvitationOutputBody: Swift.Equatable {
+struct AcceptResourceShareInvitationOutputBody {
     let resourceShareInvitation: RAMClientTypes.ResourceShareInvitation?
     let clientToken: Swift.String?
 }
@@ -178,7 +178,7 @@ extension AssociateResourceShareInput {
     }
 }
 
-public struct AssociateResourceShareInput: Swift.Equatable {
+public struct AssociateResourceShareInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies a list of principals to whom you want to the resource share. This can be null if you want to add only resources. What the principals can do with the resources in the share is determined by the RAM permissions that you associate with the resource share. See [AssociateResourceSharePermission]. You can include the following values:
@@ -220,7 +220,7 @@ public struct AssociateResourceShareInput: Swift.Equatable {
     }
 }
 
-struct AssociateResourceShareInputBody: Swift.Equatable {
+struct AssociateResourceShareInputBody {
     let resourceShareArn: Swift.String?
     let resourceArns: [Swift.String]?
     let principals: [Swift.String]?
@@ -293,7 +293,7 @@ extension AssociateResourceShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateResourceShareOutput: Swift.Equatable {
+public struct AssociateResourceShareOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// An array of objects that contain information about the associations.
@@ -309,7 +309,7 @@ public struct AssociateResourceShareOutput: Swift.Equatable {
     }
 }
 
-struct AssociateResourceShareOutputBody: Swift.Equatable {
+struct AssociateResourceShareOutputBody {
     let resourceShareAssociations: [RAMClientTypes.ResourceShareAssociation]?
     let clientToken: Swift.String?
 }
@@ -395,7 +395,7 @@ extension AssociateResourceSharePermissionInput {
     }
 }
 
-public struct AssociateResourceSharePermissionInput: Swift.Equatable {
+public struct AssociateResourceSharePermissionInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the [ListPermissions] operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:) page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
@@ -425,7 +425,7 @@ public struct AssociateResourceSharePermissionInput: Swift.Equatable {
     }
 }
 
-struct AssociateResourceSharePermissionInputBody: Swift.Equatable {
+struct AssociateResourceSharePermissionInputBody {
     let resourceShareArn: Swift.String?
     let permissionArn: Swift.String?
     let replace: Swift.Bool?
@@ -471,7 +471,7 @@ extension AssociateResourceSharePermissionOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct AssociateResourceSharePermissionOutput: Swift.Equatable {
+public struct AssociateResourceSharePermissionOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// A return value of true indicates that the request succeeded. A value of false indicates that the request failed.
@@ -487,7 +487,7 @@ public struct AssociateResourceSharePermissionOutput: Swift.Equatable {
     }
 }
 
-struct AssociateResourceSharePermissionOutputBody: Swift.Equatable {
+struct AssociateResourceSharePermissionOutputBody {
     let returnValue: Swift.Bool?
     let clientToken: Swift.String?
 }
@@ -587,7 +587,7 @@ extension RAMClientTypes.AssociatedPermission: Swift.Codable {
 
 extension RAMClientTypes {
     /// An object that describes a managed permission associated with a resource share.
-    public struct AssociatedPermission: Swift.Equatable {
+    public struct AssociatedPermission {
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the associated managed permission.
         public var arn: Swift.String?
         /// Indicates whether the associated resource share is using the default version of the permission.
@@ -682,7 +682,7 @@ extension CreatePermissionInput {
     }
 }
 
-public struct CreatePermissionInput: Swift.Equatable {
+public struct CreatePermissionInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region.
@@ -722,7 +722,7 @@ public struct CreatePermissionInput: Swift.Equatable {
     }
 }
 
-struct CreatePermissionInputBody: Swift.Equatable {
+struct CreatePermissionInputBody {
     let name: Swift.String?
     let resourceType: Swift.String?
     let policyTemplate: Swift.String?
@@ -777,7 +777,7 @@ extension CreatePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePermissionOutput: Swift.Equatable {
+public struct CreatePermissionOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// A structure with information about this customer managed permission.
@@ -793,7 +793,7 @@ public struct CreatePermissionOutput: Swift.Equatable {
     }
 }
 
-struct CreatePermissionOutputBody: Swift.Equatable {
+struct CreatePermissionOutputBody {
     let permission: RAMClientTypes.ResourceSharePermissionSummary?
     let clientToken: Swift.String?
 }
@@ -861,7 +861,7 @@ extension CreatePermissionVersionInput {
     }
 }
 
-public struct CreatePermissionVersionInput: Swift.Equatable {
+public struct CreatePermissionVersionInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the customer managed permission you're creating a new version for.
@@ -892,7 +892,7 @@ public struct CreatePermissionVersionInput: Swift.Equatable {
     }
 }
 
-struct CreatePermissionVersionInputBody: Swift.Equatable {
+struct CreatePermissionVersionInputBody {
     let permissionArn: Swift.String?
     let policyTemplate: Swift.String?
     let clientToken: Swift.String?
@@ -930,7 +930,7 @@ extension CreatePermissionVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePermissionVersionOutput: Swift.Equatable {
+public struct CreatePermissionVersionOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// Information about a RAM managed permission.
@@ -946,7 +946,7 @@ public struct CreatePermissionVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreatePermissionVersionOutputBody: Swift.Equatable {
+struct CreatePermissionVersionOutputBody {
     let permission: RAMClientTypes.ResourceSharePermissionDetail?
     let clientToken: Swift.String?
 }
@@ -1049,7 +1049,7 @@ extension CreateResourceShareInput {
     }
 }
 
-public struct CreateResourceShareInput: Swift.Equatable {
+public struct CreateResourceShareInput {
     /// Specifies whether principals outside your organization in Organizations can be associated with a resource share. A value of true lets you share with individual Amazon Web Services accounts that are not in your organization. A value of false only has meaning if your account is a member of an Amazon Web Services Organization. The default value is true.
     public var allowExternalPrincipals: Swift.Bool?
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
@@ -1103,7 +1103,7 @@ public struct CreateResourceShareInput: Swift.Equatable {
     }
 }
 
-struct CreateResourceShareInputBody: Swift.Equatable {
+struct CreateResourceShareInputBody {
     let name: Swift.String?
     let resourceArns: [Swift.String]?
     let principals: [Swift.String]?
@@ -1206,7 +1206,7 @@ extension CreateResourceShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateResourceShareOutput: Swift.Equatable {
+public struct CreateResourceShareOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// An object with information about the new resource share.
@@ -1222,7 +1222,7 @@ public struct CreateResourceShareOutput: Swift.Equatable {
     }
 }
 
-struct CreateResourceShareOutputBody: Swift.Equatable {
+struct CreateResourceShareOutputBody {
     let resourceShare: RAMClientTypes.ResourceShare?
     let clientToken: Swift.String?
 }
@@ -1289,7 +1289,7 @@ extension DeletePermissionInput {
     }
 }
 
-public struct DeletePermissionInput: Swift.Equatable {
+public struct DeletePermissionInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the customer managed permission that you want to delete.
@@ -1306,7 +1306,7 @@ public struct DeletePermissionInput: Swift.Equatable {
     }
 }
 
-struct DeletePermissionInputBody: Swift.Equatable {
+struct DeletePermissionInputBody {
 }
 
 extension DeletePermissionInputBody: Swift.Decodable {
@@ -1331,7 +1331,7 @@ extension DeletePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePermissionOutput: Swift.Equatable {
+public struct DeletePermissionOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// This operation is performed asynchronously, and this response parameter indicates the current status.
@@ -1351,7 +1351,7 @@ public struct DeletePermissionOutput: Swift.Equatable {
     }
 }
 
-struct DeletePermissionOutputBody: Swift.Equatable {
+struct DeletePermissionOutputBody {
     let returnValue: Swift.Bool?
     let clientToken: Swift.String?
     let permissionStatus: RAMClientTypes.PermissionStatus?
@@ -1423,7 +1423,7 @@ extension DeletePermissionVersionInput {
     }
 }
 
-public struct DeletePermissionVersionInput: Swift.Equatable {
+public struct DeletePermissionVersionInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission with the version you want to delete.
@@ -1445,7 +1445,7 @@ public struct DeletePermissionVersionInput: Swift.Equatable {
     }
 }
 
-struct DeletePermissionVersionInputBody: Swift.Equatable {
+struct DeletePermissionVersionInputBody {
 }
 
 extension DeletePermissionVersionInputBody: Swift.Decodable {
@@ -1470,7 +1470,7 @@ extension DeletePermissionVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePermissionVersionOutput: Swift.Equatable {
+public struct DeletePermissionVersionOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// This operation is performed asynchronously, and this response parameter indicates the current status.
@@ -1490,7 +1490,7 @@ public struct DeletePermissionVersionOutput: Swift.Equatable {
     }
 }
 
-struct DeletePermissionVersionOutputBody: Swift.Equatable {
+struct DeletePermissionVersionOutputBody {
     let returnValue: Swift.Bool?
     let clientToken: Swift.String?
     let permissionStatus: RAMClientTypes.PermissionStatus?
@@ -1557,7 +1557,7 @@ extension DeleteResourceShareInput {
     }
 }
 
-public struct DeleteResourceShareInput: Swift.Equatable {
+public struct DeleteResourceShareInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share to delete.
@@ -1574,7 +1574,7 @@ public struct DeleteResourceShareInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourceShareInputBody: Swift.Equatable {
+struct DeleteResourceShareInputBody {
 }
 
 extension DeleteResourceShareInputBody: Swift.Decodable {
@@ -1597,7 +1597,7 @@ extension DeleteResourceShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourceShareOutput: Swift.Equatable {
+public struct DeleteResourceShareOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// A return value of true indicates that the request succeeded. A value of false indicates that the request failed.
@@ -1613,7 +1613,7 @@ public struct DeleteResourceShareOutput: Swift.Equatable {
     }
 }
 
-struct DeleteResourceShareOutputBody: Swift.Equatable {
+struct DeleteResourceShareOutputBody {
     let returnValue: Swift.Bool?
     let clientToken: Swift.String?
 }
@@ -1697,7 +1697,7 @@ extension DisassociateResourceShareInput {
     }
 }
 
-public struct DisassociateResourceShareInput: Swift.Equatable {
+public struct DisassociateResourceShareInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies a list of one or more principals that no longer are to have access to the resources in this resource share. You can include the following values:
@@ -1739,7 +1739,7 @@ public struct DisassociateResourceShareInput: Swift.Equatable {
     }
 }
 
-struct DisassociateResourceShareInputBody: Swift.Equatable {
+struct DisassociateResourceShareInputBody {
     let resourceShareArn: Swift.String?
     let resourceArns: [Swift.String]?
     let principals: [Swift.String]?
@@ -1812,7 +1812,7 @@ extension DisassociateResourceShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateResourceShareOutput: Swift.Equatable {
+public struct DisassociateResourceShareOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// An array of objects with information about the updated associations for this resource share.
@@ -1828,7 +1828,7 @@ public struct DisassociateResourceShareOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateResourceShareOutputBody: Swift.Equatable {
+struct DisassociateResourceShareOutputBody {
     let resourceShareAssociations: [RAMClientTypes.ResourceShareAssociation]?
     let clientToken: Swift.String?
 }
@@ -1905,7 +1905,7 @@ extension DisassociateResourceSharePermissionInput {
     }
 }
 
-public struct DisassociateResourceSharePermissionInput: Swift.Equatable {
+public struct DisassociateResourceSharePermissionInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission to disassociate from the resource share. Changes to permissions take effect immediately.
@@ -1927,7 +1927,7 @@ public struct DisassociateResourceSharePermissionInput: Swift.Equatable {
     }
 }
 
-struct DisassociateResourceSharePermissionInputBody: Swift.Equatable {
+struct DisassociateResourceSharePermissionInputBody {
     let resourceShareArn: Swift.String?
     let permissionArn: Swift.String?
     let clientToken: Swift.String?
@@ -1965,7 +1965,7 @@ extension DisassociateResourceSharePermissionOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DisassociateResourceSharePermissionOutput: Swift.Equatable {
+public struct DisassociateResourceSharePermissionOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// A return value of true indicates that the request succeeded. A value of false indicates that the request failed.
@@ -1981,7 +1981,7 @@ public struct DisassociateResourceSharePermissionOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateResourceSharePermissionOutputBody: Swift.Equatable {
+struct DisassociateResourceSharePermissionOutputBody {
     let returnValue: Swift.Bool?
     let clientToken: Swift.String?
 }
@@ -2026,12 +2026,12 @@ extension EnableSharingWithAwsOrganizationInput {
     }
 }
 
-public struct EnableSharingWithAwsOrganizationInput: Swift.Equatable {
+public struct EnableSharingWithAwsOrganizationInput {
 
     public init() { }
 }
 
-struct EnableSharingWithAwsOrganizationInputBody: Swift.Equatable {
+struct EnableSharingWithAwsOrganizationInputBody {
 }
 
 extension EnableSharingWithAwsOrganizationInputBody: Swift.Decodable {
@@ -2052,7 +2052,7 @@ extension EnableSharingWithAwsOrganizationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct EnableSharingWithAwsOrganizationOutput: Swift.Equatable {
+public struct EnableSharingWithAwsOrganizationOutput {
     /// A return value of true indicates that the request succeeded. A value of false indicates that the request failed.
     public var returnValue: Swift.Bool?
 
@@ -2064,7 +2064,7 @@ public struct EnableSharingWithAwsOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct EnableSharingWithAwsOrganizationOutputBody: Swift.Equatable {
+struct EnableSharingWithAwsOrganizationOutputBody {
     let returnValue: Swift.Bool?
 }
 
@@ -2117,7 +2117,7 @@ extension GetPermissionInput {
     }
 }
 
-public struct GetPermissionInput: Swift.Equatable {
+public struct GetPermissionInput {
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the [ListPermissions] operation or go to the [Permissions library](https://console.aws.amazon.com/ram/home#Permissions:) page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
     /// This member is required.
     public var permissionArn: Swift.String?
@@ -2134,7 +2134,7 @@ public struct GetPermissionInput: Swift.Equatable {
     }
 }
 
-struct GetPermissionInputBody: Swift.Equatable {
+struct GetPermissionInputBody {
     let permissionArn: Swift.String?
     let permissionVersion: Swift.Int?
 }
@@ -2166,7 +2166,7 @@ extension GetPermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPermissionOutput: Swift.Equatable {
+public struct GetPermissionOutput {
     /// An object with details about the permission.
     public var permission: RAMClientTypes.ResourceSharePermissionDetail?
 
@@ -2178,7 +2178,7 @@ public struct GetPermissionOutput: Swift.Equatable {
     }
 }
 
-struct GetPermissionOutputBody: Swift.Equatable {
+struct GetPermissionOutputBody {
     let permission: RAMClientTypes.ResourceSharePermissionDetail?
 }
 
@@ -2245,7 +2245,7 @@ extension GetResourcePoliciesInput {
     }
 }
 
-public struct GetResourcePoliciesInput: Swift.Equatable {
+public struct GetResourcePoliciesInput {
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
@@ -2270,7 +2270,7 @@ public struct GetResourcePoliciesInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePoliciesInputBody: Swift.Equatable {
+struct GetResourcePoliciesInputBody {
     let resourceArns: [Swift.String]?
     let principal: Swift.String?
     let nextToken: Swift.String?
@@ -2321,7 +2321,7 @@ extension GetResourcePoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePoliciesOutput: Swift.Equatable {
+public struct GetResourcePoliciesOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of resource policy documents in JSON format.
@@ -2337,7 +2337,7 @@ public struct GetResourcePoliciesOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePoliciesOutputBody: Swift.Equatable {
+struct GetResourcePoliciesOutputBody {
     let policies: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -2429,7 +2429,7 @@ extension GetResourceShareAssociationsInput {
     }
 }
 
-public struct GetResourceShareAssociationsInput: Swift.Equatable {
+public struct GetResourceShareAssociationsInput {
     /// Specifies that you want to retrieve only associations that have this status.
     public var associationStatus: RAMClientTypes.ResourceShareAssociationStatus?
     /// Specifies whether you want to retrieve the associations that involve a specified resource or principal.
@@ -2470,7 +2470,7 @@ public struct GetResourceShareAssociationsInput: Swift.Equatable {
     }
 }
 
-struct GetResourceShareAssociationsInputBody: Swift.Equatable {
+struct GetResourceShareAssociationsInputBody {
     let associationType: RAMClientTypes.ResourceShareAssociationType?
     let resourceShareArns: [Swift.String]?
     let resourceArn: Swift.String?
@@ -2533,7 +2533,7 @@ extension GetResourceShareAssociationsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetResourceShareAssociationsOutput: Swift.Equatable {
+public struct GetResourceShareAssociationsOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain the details about the associations.
@@ -2549,7 +2549,7 @@ public struct GetResourceShareAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceShareAssociationsOutputBody: Swift.Equatable {
+struct GetResourceShareAssociationsOutputBody {
     let resourceShareAssociations: [RAMClientTypes.ResourceShareAssociation]?
     let nextToken: Swift.String?
 }
@@ -2633,7 +2633,7 @@ extension GetResourceShareInvitationsInput {
     }
 }
 
-public struct GetResourceShareInvitationsInput: Swift.Equatable {
+public struct GetResourceShareInvitationsInput {
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
@@ -2657,7 +2657,7 @@ public struct GetResourceShareInvitationsInput: Swift.Equatable {
     }
 }
 
-struct GetResourceShareInvitationsInputBody: Swift.Equatable {
+struct GetResourceShareInvitationsInputBody {
     let resourceShareInvitationArns: [Swift.String]?
     let resourceShareArns: [Swift.String]?
     let nextToken: Swift.String?
@@ -2717,7 +2717,7 @@ extension GetResourceShareInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceShareInvitationsOutput: Swift.Equatable {
+public struct GetResourceShareInvitationsOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain the details about the invitations.
@@ -2733,7 +2733,7 @@ public struct GetResourceShareInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceShareInvitationsOutputBody: Swift.Equatable {
+struct GetResourceShareInvitationsOutputBody {
     let resourceShareInvitations: [RAMClientTypes.ResourceShareInvitation]?
     let nextToken: Swift.String?
 }
@@ -2838,7 +2838,7 @@ extension GetResourceSharesInput {
     }
 }
 
-public struct GetResourceSharesInput: Swift.Equatable {
+public struct GetResourceSharesInput {
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies the name of an individual resource share that you want to retrieve details about.
@@ -2887,7 +2887,7 @@ public struct GetResourceSharesInput: Swift.Equatable {
     }
 }
 
-struct GetResourceSharesInputBody: Swift.Equatable {
+struct GetResourceSharesInputBody {
     let resourceShareArns: [Swift.String]?
     let resourceShareStatus: RAMClientTypes.ResourceShareStatus?
     let resourceOwner: RAMClientTypes.ResourceOwner?
@@ -2967,7 +2967,7 @@ extension GetResourceSharesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceSharesOutput: Swift.Equatable {
+public struct GetResourceSharesOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain the information about the resource shares.
@@ -2983,7 +2983,7 @@ public struct GetResourceSharesOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceSharesOutputBody: Swift.Equatable {
+struct GetResourceSharesOutputBody {
     let resourceShares: [RAMClientTypes.ResourceShare]?
     let nextToken: Swift.String?
 }
@@ -3068,7 +3068,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
     }
 }
 
-struct IdempotentParameterMismatchExceptionBody: Swift.Equatable {
+struct IdempotentParameterMismatchExceptionBody {
     let message: Swift.String?
 }
 
@@ -3124,7 +3124,7 @@ public struct InvalidClientTokenException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidClientTokenExceptionBody: Swift.Equatable {
+struct InvalidClientTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -3180,7 +3180,7 @@ public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InvalidMaxResultsExceptionBody: Swift.Equatable {
+struct InvalidMaxResultsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3236,7 +3236,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -3292,7 +3292,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -3348,7 +3348,7 @@ public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidPolicyExceptionBody: Swift.Equatable {
+struct InvalidPolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -3404,7 +3404,7 @@ public struct InvalidResourceTypeException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InvalidResourceTypeExceptionBody: Swift.Equatable {
+struct InvalidResourceTypeExceptionBody {
     let message: Swift.String?
 }
 
@@ -3460,7 +3460,7 @@ public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidStateTransitionExceptionBody: Swift.Equatable {
+struct InvalidStateTransitionExceptionBody {
     let message: Swift.String?
 }
 
@@ -3508,7 +3508,7 @@ extension ListPendingInvitationResourcesInput {
     }
 }
 
-public struct ListPendingInvitationResourcesInput: Swift.Equatable {
+public struct ListPendingInvitationResourcesInput {
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
@@ -3542,7 +3542,7 @@ public struct ListPendingInvitationResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListPendingInvitationResourcesInputBody: Swift.Equatable {
+struct ListPendingInvitationResourcesInputBody {
     let resourceShareInvitationArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3584,7 +3584,7 @@ extension ListPendingInvitationResourcesOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListPendingInvitationResourcesOutput: Swift.Equatable {
+public struct ListPendingInvitationResourcesOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain the information about the resources included the specified resource share.
@@ -3600,7 +3600,7 @@ public struct ListPendingInvitationResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListPendingInvitationResourcesOutputBody: Swift.Equatable {
+struct ListPendingInvitationResourcesOutputBody {
     let resources: [RAMClientTypes.Resource]?
     let nextToken: Swift.String?
 }
@@ -3696,7 +3696,7 @@ extension ListPermissionAssociationsInput {
     }
 }
 
-public struct ListPermissionAssociationsInput: Swift.Equatable {
+public struct ListPermissionAssociationsInput {
     /// Specifies that you want to list only those associations with resource shares that match this status.
     public var associationStatus: RAMClientTypes.ResourceShareAssociationStatus?
     /// When true, specifies that you want to list only those associations with resource shares that use the default version of the specified managed permission. When false (the default value), lists associations with resource shares that use any version of the specified managed permission.
@@ -3736,7 +3736,7 @@ public struct ListPermissionAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListPermissionAssociationsInputBody: Swift.Equatable {
+struct ListPermissionAssociationsInputBody {
     let permissionArn: Swift.String?
     let permissionVersion: Swift.Int?
     let associationStatus: RAMClientTypes.ResourceShareAssociationStatus?
@@ -3794,7 +3794,7 @@ extension ListPermissionAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPermissionAssociationsOutput: Swift.Equatable {
+public struct ListPermissionAssociationsOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// A structure with information about this customer managed permission.
@@ -3810,7 +3810,7 @@ public struct ListPermissionAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListPermissionAssociationsOutputBody: Swift.Equatable {
+struct ListPermissionAssociationsOutputBody {
     let permissions: [RAMClientTypes.AssociatedPermission]?
     let nextToken: Swift.String?
 }
@@ -3882,7 +3882,7 @@ extension ListPermissionVersionsInput {
     }
 }
 
-public struct ListPermissionVersionsInput: Swift.Equatable {
+public struct ListPermissionVersionsInput {
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
@@ -3903,7 +3903,7 @@ public struct ListPermissionVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListPermissionVersionsInputBody: Swift.Equatable {
+struct ListPermissionVersionsInputBody {
     let permissionArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3941,7 +3941,7 @@ extension ListPermissionVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPermissionVersionsOutput: Swift.Equatable {
+public struct ListPermissionVersionsOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain details for each of the available versions.
@@ -3957,7 +3957,7 @@ public struct ListPermissionVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListPermissionVersionsOutputBody: Swift.Equatable {
+struct ListPermissionVersionsOutputBody {
     let permissions: [RAMClientTypes.ResourceSharePermissionSummary]?
     let nextToken: Swift.String?
 }
@@ -4035,7 +4035,7 @@ extension ListPermissionsInput {
     }
 }
 
-public struct ListPermissionsInput: Swift.Equatable {
+public struct ListPermissionsInput {
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
@@ -4068,7 +4068,7 @@ public struct ListPermissionsInput: Swift.Equatable {
     }
 }
 
-struct ListPermissionsInputBody: Swift.Equatable {
+struct ListPermissionsInputBody {
     let resourceType: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4110,7 +4110,7 @@ extension ListPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPermissionsOutput: Swift.Equatable {
+public struct ListPermissionsOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of objects with information about the permissions.
@@ -4126,7 +4126,7 @@ public struct ListPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct ListPermissionsOutputBody: Swift.Equatable {
+struct ListPermissionsOutputBody {
     let permissions: [RAMClientTypes.ResourceSharePermissionSummary]?
     let nextToken: Swift.String?
 }
@@ -4220,7 +4220,7 @@ extension ListPrincipalsInput {
     }
 }
 
-public struct ListPrincipalsInput: Swift.Equatable {
+public struct ListPrincipalsInput {
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
@@ -4274,7 +4274,7 @@ public struct ListPrincipalsInput: Swift.Equatable {
     }
 }
 
-struct ListPrincipalsInputBody: Swift.Equatable {
+struct ListPrincipalsInputBody {
     let resourceOwner: RAMClientTypes.ResourceOwner?
     let resourceArn: Swift.String?
     let principals: [Swift.String]?
@@ -4346,7 +4346,7 @@ extension ListPrincipalsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPrincipalsOutput: Swift.Equatable {
+public struct ListPrincipalsOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain the details about the principals.
@@ -4362,7 +4362,7 @@ public struct ListPrincipalsOutput: Swift.Equatable {
     }
 }
 
-struct ListPrincipalsOutputBody: Swift.Equatable {
+struct ListPrincipalsOutputBody {
     let principals: [RAMClientTypes.Principal]?
     let nextToken: Swift.String?
 }
@@ -4442,7 +4442,7 @@ extension ListReplacePermissionAssociationsWorkInput {
     }
 }
 
-public struct ListReplacePermissionAssociationsWorkInput: Swift.Equatable {
+public struct ListReplacePermissionAssociationsWorkInput {
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
@@ -4466,7 +4466,7 @@ public struct ListReplacePermissionAssociationsWorkInput: Swift.Equatable {
     }
 }
 
-struct ListReplacePermissionAssociationsWorkInputBody: Swift.Equatable {
+struct ListReplacePermissionAssociationsWorkInputBody {
     let workIds: [Swift.String]?
     let status: RAMClientTypes.ReplacePermissionAssociationsWorkStatus?
     let nextToken: Swift.String?
@@ -4517,7 +4517,7 @@ extension ListReplacePermissionAssociationsWorkOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListReplacePermissionAssociationsWorkOutput: Swift.Equatable {
+public struct ListReplacePermissionAssociationsWorkOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of data structures that provide details of the matching work IDs.
@@ -4533,7 +4533,7 @@ public struct ListReplacePermissionAssociationsWorkOutput: Swift.Equatable {
     }
 }
 
-struct ListReplacePermissionAssociationsWorkOutputBody: Swift.Equatable {
+struct ListReplacePermissionAssociationsWorkOutputBody {
     let replacePermissionAssociationsWorks: [RAMClientTypes.ReplacePermissionAssociationsWork]?
     let nextToken: Swift.String?
 }
@@ -4604,7 +4604,7 @@ extension ListResourceSharePermissionsInput {
     }
 }
 
-public struct ListResourceSharePermissionsInput: Swift.Equatable {
+public struct ListResourceSharePermissionsInput {
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
@@ -4625,7 +4625,7 @@ public struct ListResourceSharePermissionsInput: Swift.Equatable {
     }
 }
 
-struct ListResourceSharePermissionsInputBody: Swift.Equatable {
+struct ListResourceSharePermissionsInputBody {
     let resourceShareArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4663,7 +4663,7 @@ extension ListResourceSharePermissionsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListResourceSharePermissionsOutput: Swift.Equatable {
+public struct ListResourceSharePermissionsOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of objects that describe the permissions associated with the resource share.
@@ -4679,7 +4679,7 @@ public struct ListResourceSharePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceSharePermissionsOutputBody: Swift.Equatable {
+struct ListResourceSharePermissionsOutputBody {
     let permissions: [RAMClientTypes.ResourceSharePermissionSummary]?
     let nextToken: Swift.String?
 }
@@ -4753,7 +4753,7 @@ extension ListResourceTypesInput {
     }
 }
 
-public struct ListResourceTypesInput: Swift.Equatable {
+public struct ListResourceTypesInput {
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
@@ -4782,7 +4782,7 @@ public struct ListResourceTypesInput: Swift.Equatable {
     }
 }
 
-struct ListResourceTypesInputBody: Swift.Equatable {
+struct ListResourceTypesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let resourceRegionScope: RAMClientTypes.ResourceRegionScopeFilter?
@@ -4820,7 +4820,7 @@ extension ListResourceTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourceTypesOutput: Swift.Equatable {
+public struct ListResourceTypesOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain information about the resource types that can be shared using RAM.
@@ -4836,7 +4836,7 @@ public struct ListResourceTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceTypesOutputBody: Swift.Equatable {
+struct ListResourceTypesOutputBody {
     let resourceTypes: [RAMClientTypes.ServiceNameAndResourceType]?
     let nextToken: Swift.String?
 }
@@ -4933,7 +4933,7 @@ extension ListResourcesInput {
     }
 }
 
-public struct ListResourcesInput: Swift.Equatable {
+public struct ListResourcesInput {
     /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
@@ -4987,7 +4987,7 @@ public struct ListResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListResourcesInputBody: Swift.Equatable {
+struct ListResourcesInputBody {
     let resourceOwner: RAMClientTypes.ResourceOwner?
     let principal: Swift.String?
     let resourceType: Swift.String?
@@ -5063,7 +5063,7 @@ extension ListResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourcesOutput: Swift.Equatable {
+public struct ListResourcesOutput {
     /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
     public var nextToken: Swift.String?
     /// An array of objects that contain information about the resources.
@@ -5079,7 +5079,7 @@ public struct ListResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListResourcesOutputBody: Swift.Equatable {
+struct ListResourcesOutputBody {
     let resources: [RAMClientTypes.Resource]?
     let nextToken: Swift.String?
 }
@@ -5165,7 +5165,7 @@ public struct MalformedArnException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct MalformedArnExceptionBody: Swift.Equatable {
+struct MalformedArnExceptionBody {
     let message: Swift.String?
 }
 
@@ -5221,7 +5221,7 @@ public struct MalformedPolicyTemplateException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct MalformedPolicyTemplateExceptionBody: Swift.Equatable {
+struct MalformedPolicyTemplateExceptionBody {
     let message: Swift.String?
 }
 
@@ -5277,7 +5277,7 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct MissingRequiredParameterExceptionBody: Swift.Equatable {
+struct MissingRequiredParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -5333,7 +5333,7 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct OperationNotPermittedExceptionBody: Swift.Equatable {
+struct OperationNotPermittedExceptionBody {
     let message: Swift.String?
 }
 
@@ -5389,7 +5389,7 @@ public struct PermissionAlreadyExistsException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct PermissionAlreadyExistsExceptionBody: Swift.Equatable {
+struct PermissionAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -5480,7 +5480,7 @@ public struct PermissionLimitExceededException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct PermissionLimitExceededExceptionBody: Swift.Equatable {
+struct PermissionLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5641,7 +5641,7 @@ public struct PermissionVersionsLimitExceededException: ClientRuntime.ModeledErr
     }
 }
 
-struct PermissionVersionsLimitExceededExceptionBody: Swift.Equatable {
+struct PermissionVersionsLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -5702,7 +5702,7 @@ extension RAMClientTypes.Principal: Swift.Codable {
 
 extension RAMClientTypes {
     /// Describes a principal for use with Resource Access Manager.
-    public struct Principal: Swift.Equatable {
+    public struct Principal {
         /// The date and time when the principal was associated with the resource share.
         public var creationTime: ClientRuntime.Date?
         /// Indicates the relationship between the Amazon Web Services account the principal belongs to and the account that owns the resource share:
@@ -5764,7 +5764,7 @@ extension PromotePermissionCreatedFromPolicyInput {
     }
 }
 
-public struct PromotePermissionCreatedFromPolicyInput: Swift.Equatable {
+public struct PromotePermissionCreatedFromPolicyInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies a name for the promoted customer managed permission.
@@ -5786,7 +5786,7 @@ public struct PromotePermissionCreatedFromPolicyInput: Swift.Equatable {
     }
 }
 
-struct PromotePermissionCreatedFromPolicyInputBody: Swift.Equatable {
+struct PromotePermissionCreatedFromPolicyInputBody {
     let permissionArn: Swift.String?
     let name: Swift.String?
     let clientToken: Swift.String?
@@ -5824,7 +5824,7 @@ extension PromotePermissionCreatedFromPolicyOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct PromotePermissionCreatedFromPolicyOutput: Swift.Equatable {
+public struct PromotePermissionCreatedFromPolicyOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// Information about an RAM permission.
@@ -5840,7 +5840,7 @@ public struct PromotePermissionCreatedFromPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PromotePermissionCreatedFromPolicyOutputBody: Swift.Equatable {
+struct PromotePermissionCreatedFromPolicyOutputBody {
     let permission: RAMClientTypes.ResourceSharePermissionSummary?
     let clientToken: Swift.String?
 }
@@ -5898,7 +5898,7 @@ extension PromoteResourceShareCreatedFromPolicyInput {
     }
 }
 
-public struct PromoteResourceShareCreatedFromPolicyInput: Swift.Equatable {
+public struct PromoteResourceShareCreatedFromPolicyInput {
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share to promote.
     /// This member is required.
     public var resourceShareArn: Swift.String?
@@ -5911,7 +5911,7 @@ public struct PromoteResourceShareCreatedFromPolicyInput: Swift.Equatable {
     }
 }
 
-struct PromoteResourceShareCreatedFromPolicyInputBody: Swift.Equatable {
+struct PromoteResourceShareCreatedFromPolicyInputBody {
 }
 
 extension PromoteResourceShareCreatedFromPolicyInputBody: Swift.Decodable {
@@ -5932,7 +5932,7 @@ extension PromoteResourceShareCreatedFromPolicyOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct PromoteResourceShareCreatedFromPolicyOutput: Swift.Equatable {
+public struct PromoteResourceShareCreatedFromPolicyOutput {
     /// A return value of true indicates that the request succeeded. A value of false indicates that the request failed.
     public var returnValue: Swift.Bool?
 
@@ -5944,7 +5944,7 @@ public struct PromoteResourceShareCreatedFromPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PromoteResourceShareCreatedFromPolicyOutputBody: Swift.Equatable {
+struct PromoteResourceShareCreatedFromPolicyOutputBody {
     let returnValue: Swift.Bool?
 }
 
@@ -6006,7 +6006,7 @@ extension RejectResourceShareInvitationInput {
     }
 }
 
-public struct RejectResourceShareInvitationInput: Swift.Equatable {
+public struct RejectResourceShareInvitationInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the invitation that you want to reject.
@@ -6023,7 +6023,7 @@ public struct RejectResourceShareInvitationInput: Swift.Equatable {
     }
 }
 
-struct RejectResourceShareInvitationInputBody: Swift.Equatable {
+struct RejectResourceShareInvitationInputBody {
     let resourceShareInvitationArn: Swift.String?
     let clientToken: Swift.String?
 }
@@ -6057,7 +6057,7 @@ extension RejectResourceShareInvitationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct RejectResourceShareInvitationOutput: Swift.Equatable {
+public struct RejectResourceShareInvitationOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// An object that contains the details about the rejected invitation.
@@ -6073,7 +6073,7 @@ public struct RejectResourceShareInvitationOutput: Swift.Equatable {
     }
 }
 
-struct RejectResourceShareInvitationOutputBody: Swift.Equatable {
+struct RejectResourceShareInvitationOutputBody {
     let resourceShareInvitation: RAMClientTypes.ResourceShareInvitation?
     let clientToken: Swift.String?
 }
@@ -6145,7 +6145,7 @@ extension ReplacePermissionAssociationsInput {
     }
 }
 
-public struct ReplacePermissionAssociationsInput: Swift.Equatable {
+public struct ReplacePermissionAssociationsInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission that you want to replace.
@@ -6171,7 +6171,7 @@ public struct ReplacePermissionAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ReplacePermissionAssociationsInputBody: Swift.Equatable {
+struct ReplacePermissionAssociationsInputBody {
     let fromPermissionArn: Swift.String?
     let fromPermissionVersion: Swift.Int?
     let toPermissionArn: Swift.String?
@@ -6213,7 +6213,7 @@ extension ReplacePermissionAssociationsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ReplacePermissionAssociationsOutput: Swift.Equatable {
+public struct ReplacePermissionAssociationsOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// Specifies a data structure that you can use to track the asynchronous tasks that RAM performs to complete this operation. You can use the [ListReplacePermissionAssociationsWork] operation and pass the id value returned in this structure.
@@ -6229,7 +6229,7 @@ public struct ReplacePermissionAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ReplacePermissionAssociationsOutputBody: Swift.Equatable {
+struct ReplacePermissionAssociationsOutputBody {
     let replacePermissionAssociationsWork: RAMClientTypes.ReplacePermissionAssociationsWork?
     let clientToken: Swift.String?
 }
@@ -6336,7 +6336,7 @@ extension RAMClientTypes.ReplacePermissionAssociationsWork: Swift.Codable {
 
 extension RAMClientTypes {
     /// A structure that represents the background work that RAM performs when you invoke the [ReplacePermissionAssociations] operation.
-    public struct ReplacePermissionAssociationsWork: Swift.Equatable {
+    public struct ReplacePermissionAssociationsWork {
         /// The date and time when this asynchronous background task was created.
         public var creationTime: ClientRuntime.Date?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission that this background task is replacing.
@@ -6492,7 +6492,7 @@ extension RAMClientTypes.Resource: Swift.Codable {
 
 extension RAMClientTypes {
     /// Describes a resource associated with a resource share in RAM.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
         public var arn: Swift.String?
         /// The date and time when the resource was associated with the resource share.
@@ -6582,7 +6582,7 @@ public struct ResourceArnNotFoundException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ResourceArnNotFoundExceptionBody: Swift.Equatable {
+struct ResourceArnNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -6784,7 +6784,7 @@ extension RAMClientTypes.ResourceShare: Swift.Codable {
 
 extension RAMClientTypes {
     /// Describes a resource share in RAM.
-    public struct ResourceShare: Swift.Equatable {
+    public struct ResourceShare {
         /// Indicates whether principals outside your organization in Organizations can be associated with a resource share.
         ///
         /// * True – the resource share can be shared with any Amazon Web Services account.
@@ -6913,7 +6913,7 @@ extension RAMClientTypes.ResourceShareAssociation: Swift.Codable {
 
 extension RAMClientTypes {
     /// Describes an association between a resource share and either a principal or a resource.
-    public struct ResourceShareAssociation: Swift.Equatable {
+    public struct ResourceShareAssociation {
         /// The associated entity. This can be either of the following:
         ///
         /// * For a resource association, this is the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
@@ -7162,7 +7162,7 @@ extension RAMClientTypes.ResourceShareInvitation: Swift.Codable {
 
 extension RAMClientTypes {
     /// Describes an invitation for an Amazon Web Services account to join a resource share.
-    public struct ResourceShareInvitation: Swift.Equatable {
+    public struct ResourceShareInvitation {
         /// The date and time when the invitation was sent.
         public var invitationTimestamp: ClientRuntime.Date?
         /// The ID of the Amazon Web Services account that received the invitation.
@@ -7249,7 +7249,7 @@ public struct ResourceShareInvitationAlreadyAcceptedException: ClientRuntime.Mod
     }
 }
 
-struct ResourceShareInvitationAlreadyAcceptedExceptionBody: Swift.Equatable {
+struct ResourceShareInvitationAlreadyAcceptedExceptionBody {
     let message: Swift.String?
 }
 
@@ -7305,7 +7305,7 @@ public struct ResourceShareInvitationAlreadyRejectedException: ClientRuntime.Mod
     }
 }
 
-struct ResourceShareInvitationAlreadyRejectedExceptionBody: Swift.Equatable {
+struct ResourceShareInvitationAlreadyRejectedExceptionBody {
     let message: Swift.String?
 }
 
@@ -7361,7 +7361,7 @@ public struct ResourceShareInvitationArnNotFoundException: ClientRuntime.Modeled
     }
 }
 
-struct ResourceShareInvitationArnNotFoundExceptionBody: Swift.Equatable {
+struct ResourceShareInvitationArnNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -7417,7 +7417,7 @@ public struct ResourceShareInvitationExpiredException: ClientRuntime.ModeledErro
     }
 }
 
-struct ResourceShareInvitationExpiredExceptionBody: Swift.Equatable {
+struct ResourceShareInvitationExpiredExceptionBody {
     let message: Swift.String?
 }
 
@@ -7511,7 +7511,7 @@ public struct ResourceShareLimitExceededException: ClientRuntime.ModeledError, A
     }
 }
 
-struct ResourceShareLimitExceededExceptionBody: Swift.Equatable {
+struct ResourceShareLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -7632,7 +7632,7 @@ extension RAMClientTypes.ResourceSharePermissionDetail: Swift.Codable {
 
 extension RAMClientTypes {
     /// Information about a RAM managed permission.
-    public struct ResourceSharePermissionDetail: Swift.Equatable {
+    public struct ResourceSharePermissionDetail {
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of this RAM managed permission.
         public var arn: Swift.String?
         /// The date and time when the permission was created.
@@ -7811,7 +7811,7 @@ extension RAMClientTypes.ResourceSharePermissionSummary: Swift.Codable {
 
 extension RAMClientTypes {
     /// Information about an RAM permission.
-    public struct ResourceSharePermissionSummary: Swift.Equatable {
+    public struct ResourceSharePermissionSummary {
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission you want information about.
         public var arn: Swift.String?
         /// The date and time when the permission was created.
@@ -8001,7 +8001,7 @@ public struct ServerInternalException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ServerInternalExceptionBody: Swift.Equatable {
+struct ServerInternalExceptionBody {
     let message: Swift.String?
 }
 
@@ -8050,7 +8050,7 @@ extension RAMClientTypes.ServiceNameAndResourceType: Swift.Codable {
 
 extension RAMClientTypes {
     /// Information about a shareable resource type and the Amazon Web Services service to which resources of that type belong.
-    public struct ServiceNameAndResourceType: Swift.Equatable {
+    public struct ServiceNameAndResourceType {
         /// Specifies the scope of visibility of resources of this type:
         ///
         /// * REGIONAL – The resource can be accessed only by using requests that target the Amazon Web Services Region in which the resource exists.
@@ -8116,7 +8116,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -8160,7 +8160,7 @@ extension SetDefaultPermissionVersionInput {
     }
 }
 
-public struct SetDefaultPermissionVersionInput: Swift.Equatable {
+public struct SetDefaultPermissionVersionInput {
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the customer managed permission whose default version you want to change.
@@ -8182,7 +8182,7 @@ public struct SetDefaultPermissionVersionInput: Swift.Equatable {
     }
 }
 
-struct SetDefaultPermissionVersionInputBody: Swift.Equatable {
+struct SetDefaultPermissionVersionInputBody {
     let permissionArn: Swift.String?
     let permissionVersion: Swift.Int?
     let clientToken: Swift.String?
@@ -8220,7 +8220,7 @@ extension SetDefaultPermissionVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetDefaultPermissionVersionOutput: Swift.Equatable {
+public struct SetDefaultPermissionVersionOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// A boolean value that indicates whether the operation was successful.
@@ -8236,7 +8236,7 @@ public struct SetDefaultPermissionVersionOutput: Swift.Equatable {
     }
 }
 
-struct SetDefaultPermissionVersionOutputBody: Swift.Equatable {
+struct SetDefaultPermissionVersionOutputBody {
     let returnValue: Swift.Bool?
     let clientToken: Swift.String?
 }
@@ -8300,7 +8300,7 @@ extension RAMClientTypes.Tag: Swift.Codable {
 
 extension RAMClientTypes {
     /// A structure containing a tag. A tag is metadata that you can attach to your resources to help organize and categorize them. You can also use them to help you secure your resources. For more information, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html). For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference Guide.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key, or name, attached to the tag. Every tag must have a key. Key names are case sensitive.
         public var key: Swift.String?
         /// The string value attached to the tag. The value can be an empty string. Key values are case sensitive.
@@ -8357,7 +8357,7 @@ extension RAMClientTypes.TagFilter: Swift.Codable {
 
 extension RAMClientTypes {
     /// A tag key and optional list of possible values that you can use to filter results for tagged resources.
-    public struct TagFilter: Swift.Equatable {
+    public struct TagFilter {
         /// The tag key. This must have a valid string value and can't be empty.
         public var tagKey: Swift.String?
         /// A list of zero or more tag values. If no values are provided, then the filter matches any tag with the specified key, regardless of its value.
@@ -8415,7 +8415,7 @@ public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct TagLimitExceededExceptionBody: Swift.Equatable {
+struct TagLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -8471,7 +8471,7 @@ public struct TagPolicyViolationException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct TagPolicyViolationExceptionBody: Swift.Equatable {
+struct TagPolicyViolationExceptionBody {
     let message: Swift.String?
 }
 
@@ -8518,7 +8518,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission that you want to add tags to. You must specify either resourceArn, or resourceShareArn, but not both.
     public var resourceArn: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to add tags to. You must specify either resourceShareArn, or resourceArn, but not both.
@@ -8539,7 +8539,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceShareArn: Swift.String?
     let tags: [RAMClientTypes.Tag]?
     let resourceArn: Swift.String?
@@ -8577,7 +8577,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -8640,7 +8640,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -8696,7 +8696,7 @@ public struct UnknownResourceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct UnknownResourceExceptionBody: Swift.Equatable {
+struct UnknownResourceExceptionBody {
     let message: Swift.String?
 }
 
@@ -8752,7 +8752,7 @@ public struct UnmatchedPolicyPermissionException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct UnmatchedPolicyPermissionExceptionBody: Swift.Equatable {
+struct UnmatchedPolicyPermissionExceptionBody {
     let message: Swift.String?
 }
 
@@ -8799,7 +8799,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission that you want to remove tags from. You must specify either resourceArn, or resourceShareArn, but not both.
     public var resourceArn: Swift.String?
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to remove tags from. The tags are removed from the resource share, not the resources in the resource share. You must specify either resourceShareArn, or resourceArn, but not both.
@@ -8820,7 +8820,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceShareArn: Swift.String?
     let tagKeys: [Swift.String]?
     let resourceArn: Swift.String?
@@ -8858,7 +8858,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -8910,7 +8910,7 @@ extension UpdateResourceShareInput {
     }
 }
 
-public struct UpdateResourceShareInput: Swift.Equatable {
+public struct UpdateResourceShareInput {
     /// Specifies whether principals outside your organization in Organizations can be associated with a resource share.
     public var allowExternalPrincipals: Swift.Bool?
     /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
@@ -8935,7 +8935,7 @@ public struct UpdateResourceShareInput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceShareInputBody: Swift.Equatable {
+struct UpdateResourceShareInputBody {
     let resourceShareArn: Swift.String?
     let name: Swift.String?
     let allowExternalPrincipals: Swift.Bool?
@@ -8977,7 +8977,7 @@ extension UpdateResourceShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResourceShareOutput: Swift.Equatable {
+public struct UpdateResourceShareOutput {
     /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
     public var clientToken: Swift.String?
     /// Information about the resource share.
@@ -8993,7 +8993,7 @@ public struct UpdateResourceShareOutput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceShareOutputBody: Swift.Equatable {
+struct UpdateResourceShareOutputBody {
     let resourceShare: RAMClientTypes.ResourceShare?
     let clientToken: Swift.String?
 }

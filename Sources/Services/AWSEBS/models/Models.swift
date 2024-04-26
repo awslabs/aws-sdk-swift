@@ -48,7 +48,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let reason: EBSClientTypes.AccessDeniedExceptionReason?
 }
@@ -127,7 +127,7 @@ extension EBSClientTypes.Block: Swift.Codable {
 
 extension EBSClientTypes {
     /// A block of data in an Amazon Elastic Block Store snapshot.
-    public struct Block: Swift.Equatable {
+    public struct Block {
         /// The block index.
         public var blockIndex: Swift.Int?
         /// The block token for the block index.
@@ -184,7 +184,7 @@ extension EBSClientTypes.ChangedBlock: Swift.CustomDebugStringConvertible {
 
 extension EBSClientTypes {
     /// A block of data in an Amazon Elastic Block Store snapshot that is different from another snapshot of the same volume/snapshot lineage.
-    public struct ChangedBlock: Swift.Equatable {
+    public struct ChangedBlock {
         /// The block index.
         public var blockIndex: Swift.Int?
         /// The block token for the block index of the FirstSnapshotId specified in the ListChangedBlocks operation. This value is absent if the first snapshot does not have the changed block that is on the second snapshot.
@@ -294,7 +294,7 @@ extension CompleteSnapshotInput {
     }
 }
 
-public struct CompleteSnapshotInput: Swift.Equatable {
+public struct CompleteSnapshotInput {
     /// The number of blocks that were written to the snapshot.
     /// This member is required.
     public var changedBlocksCount: Swift.Int?
@@ -324,7 +324,7 @@ public struct CompleteSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CompleteSnapshotInputBody: Swift.Equatable {
+struct CompleteSnapshotInputBody {
 }
 
 extension CompleteSnapshotInputBody: Swift.Decodable {
@@ -345,7 +345,7 @@ extension CompleteSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CompleteSnapshotOutput: Swift.Equatable {
+public struct CompleteSnapshotOutput {
     /// The status of the snapshot.
     public var status: EBSClientTypes.Status?
 
@@ -357,7 +357,7 @@ public struct CompleteSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CompleteSnapshotOutputBody: Swift.Equatable {
+struct CompleteSnapshotOutputBody {
     let status: EBSClientTypes.Status?
 }
 
@@ -428,7 +428,7 @@ public struct ConcurrentLimitExceededException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct ConcurrentLimitExceededExceptionBody: Swift.Equatable {
+struct ConcurrentLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -483,7 +483,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -528,7 +528,7 @@ extension GetSnapshotBlockInput {
     }
 }
 
-public struct GetSnapshotBlockInput: Swift.Equatable {
+public struct GetSnapshotBlockInput {
     /// The block index of the block in which to read the data. A block index is a logical index in units of 512 KiB blocks. To identify the block index, divide the logical offset of the data in the logical volume by the block size (logical offset of data/524288). The logical offset of the data must be 512 KiB aligned.
     /// This member is required.
     public var blockIndex: Swift.Int?
@@ -551,7 +551,7 @@ public struct GetSnapshotBlockInput: Swift.Equatable {
     }
 }
 
-struct GetSnapshotBlockInputBody: Swift.Equatable {
+struct GetSnapshotBlockInputBody {
 }
 
 extension GetSnapshotBlockInputBody: Swift.Decodable {
@@ -593,7 +593,7 @@ extension GetSnapshotBlockOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSnapshotBlockOutput: Swift.Equatable {
+public struct GetSnapshotBlockOutput {
     /// The data content of the block.
     public var blockData: ClientRuntime.ByteStream?
     /// The checksum generated for the block, which is Base64 encoded.
@@ -617,7 +617,7 @@ public struct GetSnapshotBlockOutput: Swift.Equatable {
     }
 }
 
-struct GetSnapshotBlockOutputBody: Swift.Equatable {
+struct GetSnapshotBlockOutputBody {
     let blockData: ClientRuntime.ByteStream?
 }
 
@@ -688,7 +688,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -738,7 +738,7 @@ extension ListChangedBlocksInput {
     }
 }
 
-public struct ListChangedBlocksInput: Swift.Equatable {
+public struct ListChangedBlocksInput {
     /// The ID of the first snapshot to use for the comparison. The FirstSnapshotID parameter must be specified with a SecondSnapshotId parameter; otherwise, an error occurs.
     public var firstSnapshotId: Swift.String?
     /// The maximum number of blocks to be returned by the request. Even if additional blocks can be retrieved from the snapshot, the request can return less blocks than MaxResults or an empty array of blocks. To retrieve the next set of blocks from the snapshot, make another request with the returned NextToken value. The value of NextToken is null when there are no more blocks to return.
@@ -767,7 +767,7 @@ public struct ListChangedBlocksInput: Swift.Equatable {
     }
 }
 
-struct ListChangedBlocksInputBody: Swift.Equatable {
+struct ListChangedBlocksInputBody {
 }
 
 extension ListChangedBlocksInputBody: Swift.Decodable {
@@ -796,7 +796,7 @@ extension ListChangedBlocksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChangedBlocksOutput: Swift.Equatable {
+public struct ListChangedBlocksOutput {
     /// The size of the blocks in the snapshot, in bytes.
     public var blockSize: Swift.Int?
     /// An array of objects containing information about the changed blocks.
@@ -824,7 +824,7 @@ public struct ListChangedBlocksOutput: Swift.Equatable {
     }
 }
 
-struct ListChangedBlocksOutputBody: Swift.Equatable {
+struct ListChangedBlocksOutputBody {
     let changedBlocks: [EBSClientTypes.ChangedBlock]?
     let expiryTime: ClientRuntime.Date?
     let volumeSize: Swift.Int?
@@ -911,7 +911,7 @@ extension ListSnapshotBlocksInput {
     }
 }
 
-public struct ListSnapshotBlocksInput: Swift.Equatable {
+public struct ListSnapshotBlocksInput {
     /// The maximum number of blocks to be returned by the request. Even if additional blocks can be retrieved from the snapshot, the request can return less blocks than MaxResults or an empty array of blocks. To retrieve the next set of blocks from the snapshot, make another request with the returned NextToken value. The value of NextToken is null when there are no more blocks to return.
     public var maxResults: Swift.Int?
     /// The token to request the next page of results. If you specify NextToken, then StartingBlockIndex is ignored.
@@ -936,7 +936,7 @@ public struct ListSnapshotBlocksInput: Swift.Equatable {
     }
 }
 
-struct ListSnapshotBlocksInputBody: Swift.Equatable {
+struct ListSnapshotBlocksInputBody {
 }
 
 extension ListSnapshotBlocksInputBody: Swift.Decodable {
@@ -970,7 +970,7 @@ extension ListSnapshotBlocksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSnapshotBlocksOutput: Swift.Equatable {
+public struct ListSnapshotBlocksOutput {
     /// The size of the blocks in the snapshot, in bytes.
     public var blockSize: Swift.Int?
     /// An array of objects containing information about the blocks.
@@ -998,7 +998,7 @@ public struct ListSnapshotBlocksOutput: Swift.Equatable {
     }
 }
 
-struct ListSnapshotBlocksOutputBody: Swift.Equatable {
+struct ListSnapshotBlocksOutputBody {
     let blocks: [EBSClientTypes.Block]?
     let expiryTime: ClientRuntime.Date?
     let volumeSize: Swift.Int?
@@ -1106,7 +1106,7 @@ extension PutSnapshotBlockInput {
     }
 }
 
-public struct PutSnapshotBlockInput: Swift.Equatable {
+public struct PutSnapshotBlockInput {
     /// The data to write to the block. The block data is not signed as part of the Signature Version 4 signing process. As a result, you must generate and provide a Base64-encoded SHA256 checksum for the block data using the x-amz-Checksum header. Also, you must specify the checksum algorithm using the x-amz-Checksum-Algorithm header. The checksum that you provide is part of the Signature Version 4 signing process. It is validated against a checksum generated by Amazon EBS to ensure the validity and authenticity of the data. If the checksums do not correspond, the request fails. For more information, see [ Using checksums with the EBS direct APIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-accessing-snapshot.html#ebsapis-using-checksums) in the Amazon Elastic Compute Cloud User Guide.
     /// This member is required.
     public var blockData: ClientRuntime.ByteStream?
@@ -1148,7 +1148,7 @@ public struct PutSnapshotBlockInput: Swift.Equatable {
     }
 }
 
-struct PutSnapshotBlockInputBody: Swift.Equatable {
+struct PutSnapshotBlockInputBody {
     let blockData: ClientRuntime.ByteStream?
 }
 
@@ -1179,7 +1179,7 @@ extension PutSnapshotBlockOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSnapshotBlockOutput: Swift.Equatable {
+public struct PutSnapshotBlockOutput {
     /// The SHA256 checksum generated for the block data by Amazon EBS.
     public var checksum: Swift.String?
     /// The algorithm used by Amazon EBS to generate the checksum.
@@ -1256,7 +1256,7 @@ public struct RequestThrottledException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct RequestThrottledExceptionBody: Swift.Equatable {
+struct RequestThrottledExceptionBody {
     let message: Swift.String?
     let reason: EBSClientTypes.RequestThrottledExceptionReason?
 }
@@ -1356,7 +1356,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let reason: EBSClientTypes.ResourceNotFoundExceptionReason?
 }
@@ -1494,7 +1494,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let reason: EBSClientTypes.ServiceQuotaExceededExceptionReason?
 }
@@ -1599,7 +1599,7 @@ extension StartSnapshotInput {
     }
 }
 
-public struct StartSnapshotInput: Swift.Equatable {
+public struct StartSnapshotInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK. For more information, see [ Idempotency for StartSnapshot API](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-direct-api-idempotency.html) in the Amazon Elastic Compute Cloud User Guide.
     public var clientToken: Swift.String?
     /// A description for the snapshot.
@@ -1647,7 +1647,7 @@ public struct StartSnapshotInput: Swift.Equatable {
     }
 }
 
-struct StartSnapshotInputBody: Swift.Equatable {
+struct StartSnapshotInputBody {
     let volumeSize: Swift.Int?
     let parentSnapshotId: Swift.String?
     let tags: [EBSClientTypes.Tag]?
@@ -1737,7 +1737,7 @@ extension StartSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSnapshotOutput: Swift.Equatable {
+public struct StartSnapshotOutput {
     /// The size of the blocks in the snapshot, in bytes.
     public var blockSize: Swift.Int?
     /// The description of the snapshot.
@@ -1789,7 +1789,7 @@ public struct StartSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct StartSnapshotOutputBody: Swift.Equatable {
+struct StartSnapshotOutputBody {
     let description: Swift.String?
     let snapshotId: Swift.String?
     let ownerId: Swift.String?
@@ -1934,7 +1934,7 @@ extension EBSClientTypes.Tag: Swift.Codable {
 
 extension EBSClientTypes {
     /// Describes a tag.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag.
         public var key: Swift.String?
         /// The value of the tag.
@@ -1997,7 +1997,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: EBSClientTypes.ValidationExceptionReason?
 }

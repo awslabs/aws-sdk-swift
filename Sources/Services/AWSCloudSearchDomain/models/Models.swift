@@ -29,7 +29,7 @@ extension CloudSearchDomainClientTypes.Bucket: Swift.Codable {
 
 extension CloudSearchDomainClientTypes {
     /// A container for facet information.
-    public struct Bucket: Swift.Equatable {
+    public struct Bucket {
         /// The number of hits that contain the facet value in the specified facet field.
         public var count: Swift.Int
         /// The facet value being counted.
@@ -80,7 +80,7 @@ extension CloudSearchDomainClientTypes.BucketInfo: Swift.Codable {
 
 extension CloudSearchDomainClientTypes {
     /// A container for the calculated facet values and counts.
-    public struct BucketInfo: Swift.Equatable {
+    public struct BucketInfo {
         /// A list of the calculated facet values and counts.
         public var buckets: [CloudSearchDomainClientTypes.Bucket]?
 
@@ -174,7 +174,7 @@ public struct DocumentServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct DocumentServiceExceptionBody: Swift.Equatable {
+struct DocumentServiceExceptionBody {
     let status: Swift.String?
     let message: Swift.String?
 }
@@ -215,7 +215,7 @@ extension CloudSearchDomainClientTypes.DocumentServiceWarning: Swift.Codable {
 
 extension CloudSearchDomainClientTypes {
     /// A warning returned by the document service when an issue is discovered while processing an upload request.
-    public struct DocumentServiceWarning: Swift.Equatable {
+    public struct DocumentServiceWarning {
         /// The description for a warning returned by the document service.
         public var message: Swift.String?
 
@@ -292,7 +292,7 @@ extension CloudSearchDomainClientTypes.FieldStats: Swift.Codable {
 
 extension CloudSearchDomainClientTypes {
     /// The statistics for a field calculated in the request.
-    public struct FieldStats: Swift.Equatable {
+    public struct FieldStats {
         /// The number of documents that contain a value in the specified field in the result set.
         public var count: Swift.Int
         /// The maximum value found in the specified field in the result set. If the field is numeric (int, int-array, double, or double-array), max is the string representation of a double-precision 64-bit floating point value. If the field is date or date-array, max is the string representation of a date with the format specified in [IETF RFC3339](http://tools.ietf.org/html/rfc3339): yyyy-mm-ddTHH:mm:ss.SSSZ.
@@ -419,7 +419,7 @@ extension CloudSearchDomainClientTypes.Hit: Swift.Codable {
 
 extension CloudSearchDomainClientTypes {
     /// Information about a document that matches the search request.
-    public struct Hit: Swift.Equatable {
+    public struct Hit {
         /// The expressions returned from a document that matches the search request.
         public var exprs: [Swift.String:Swift.String]?
         /// The fields returned from a document that matches the search request.
@@ -496,7 +496,7 @@ extension CloudSearchDomainClientTypes.Hits: Swift.Codable {
 
 extension CloudSearchDomainClientTypes {
     /// The collection of documents that match the search request.
-    public struct Hits: Swift.Equatable {
+    public struct Hits {
         /// A cursor that can be used to retrieve the next set of matching documents when you want to page through a large result set.
         public var cursor: Swift.String?
         /// The total number of documents that match the search request.
@@ -600,7 +600,7 @@ public struct SearchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct SearchExceptionBody: Swift.Equatable {
+struct SearchExceptionBody {
     let message: Swift.String?
 }
 
@@ -692,7 +692,7 @@ extension SearchInput {
 }
 
 /// Container for the parameters to the Search request.
-public struct SearchInput: Swift.Equatable {
+public struct SearchInput {
     /// Retrieves a cursor value you can use to page through large result sets. Use the size parameter to control the number of hits to include in each response. You can specify either the cursor or start parameter in a request; they are mutually exclusive. To get the first cursor, set the cursor value to initial. In subsequent requests, specify the cursor value returned in the hits section of the response. For more information, see [Paginating Results](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/paginating-results.html) in the Amazon CloudSearch Developer Guide.
     public var cursor: Swift.String?
     /// Defines one or more numeric expressions that can be used to sort results or specify search or filter criteria. You can also specify expressions as return fields. You specify the expressions in JSON using the form {"EXPRESSIONNAME":"EXPRESSION"}. You can define and use multiple expressions in a search request. For example:  {"expression1":"_score*rating", "expression2":"(1/rank)*year"}  For information about the variables, operators, and functions you can use in expressions, see [Writing Expressions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-expressions.html#writing-expressions) in the Amazon CloudSearch Developer Guide.
@@ -799,7 +799,7 @@ public struct SearchInput: Swift.Equatable {
     }
 }
 
-struct SearchInputBody: Swift.Equatable {
+struct SearchInputBody {
 }
 
 extension SearchInputBody: Swift.Decodable {
@@ -827,7 +827,7 @@ extension SearchOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a Search request. Contains the documents that match the specified search criteria and any requested fields, highlights, and facet information.
-public struct SearchOutput: Swift.Equatable {
+public struct SearchOutput {
     /// The requested facet information.
     public var facets: [Swift.String:CloudSearchDomainClientTypes.BucketInfo]?
     /// The documents that match the search criteria.
@@ -851,7 +851,7 @@ public struct SearchOutput: Swift.Equatable {
     }
 }
 
-struct SearchOutputBody: Swift.Equatable {
+struct SearchOutputBody {
     let status: CloudSearchDomainClientTypes.SearchStatus?
     let hits: CloudSearchDomainClientTypes.Hits?
     let facets: [Swift.String:CloudSearchDomainClientTypes.BucketInfo]?
@@ -935,7 +935,7 @@ extension CloudSearchDomainClientTypes.SearchStatus: Swift.Codable {
 
 extension CloudSearchDomainClientTypes {
     /// Contains the resource id (rid) and the time it took to process the request (timems).
-    public struct SearchStatus: Swift.Equatable {
+    public struct SearchStatus {
         /// The encrypted resource ID for the request.
         public var rid: Swift.String?
         /// How long it took to process the request, in milliseconds.
@@ -987,7 +987,7 @@ extension SuggestInput {
 }
 
 /// Container for the parameters to the Suggest request.
-public struct SuggestInput: Swift.Equatable {
+public struct SuggestInput {
     /// Specifies the string for which you want to get suggestions.
     /// This member is required.
     public var query: Swift.String?
@@ -1009,7 +1009,7 @@ public struct SuggestInput: Swift.Equatable {
     }
 }
 
-struct SuggestInputBody: Swift.Equatable {
+struct SuggestInputBody {
 }
 
 extension SuggestInputBody: Swift.Decodable {
@@ -1063,7 +1063,7 @@ extension CloudSearchDomainClientTypes.SuggestModel: Swift.Codable {
 
 extension CloudSearchDomainClientTypes {
     /// Container for the suggestion information returned in a SuggestResponse.
-    public struct SuggestModel: Swift.Equatable {
+    public struct SuggestModel {
         /// The number of documents that were found to match the query string.
         public var found: Swift.Int
         /// The query string specified in the suggest request.
@@ -1100,7 +1100,7 @@ extension SuggestOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a Suggest request.
-public struct SuggestOutput: Swift.Equatable {
+public struct SuggestOutput {
     /// The status of a SuggestRequest. Contains the resource ID (rid) and how long it took to process the request (timems).
     public var status: CloudSearchDomainClientTypes.SuggestStatus?
     /// Container for the matching search suggestion information.
@@ -1116,7 +1116,7 @@ public struct SuggestOutput: Swift.Equatable {
     }
 }
 
-struct SuggestOutputBody: Swift.Equatable {
+struct SuggestOutputBody {
     let status: CloudSearchDomainClientTypes.SuggestStatus?
     let suggest: CloudSearchDomainClientTypes.SuggestModel?
 }
@@ -1174,7 +1174,7 @@ extension CloudSearchDomainClientTypes.SuggestStatus: Swift.Codable {
 
 extension CloudSearchDomainClientTypes {
     /// Contains the resource id (rid) and the time it took to process the request (timems).
-    public struct SuggestStatus: Swift.Equatable {
+    public struct SuggestStatus {
         /// The encrypted resource ID for the request.
         public var rid: Swift.String?
         /// How long it took to process the request, in milliseconds.
@@ -1225,7 +1225,7 @@ extension CloudSearchDomainClientTypes.SuggestionMatch: Swift.Codable {
 
 extension CloudSearchDomainClientTypes {
     /// An autocomplete suggestion that matches the query string specified in a SuggestRequest.
-    public struct SuggestionMatch: Swift.Equatable {
+    public struct SuggestionMatch {
         /// The document ID of the suggested document.
         public var id: Swift.String?
         /// The relevance score of a suggested match.
@@ -1288,7 +1288,7 @@ extension UploadDocumentsInput {
 }
 
 /// Container for the parameters to the UploadDocuments request.
-public struct UploadDocumentsInput: Swift.Equatable {
+public struct UploadDocumentsInput {
     /// The format of the batch you are uploading. Amazon CloudSearch supports two document batch formats:
     ///
     /// * application/json
@@ -1310,7 +1310,7 @@ public struct UploadDocumentsInput: Swift.Equatable {
     }
 }
 
-struct UploadDocumentsInputBody: Swift.Equatable {
+struct UploadDocumentsInputBody {
     let documents: ClientRuntime.ByteStream?
 }
 
@@ -1345,7 +1345,7 @@ extension UploadDocumentsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to an UploadDocuments request.
-public struct UploadDocumentsOutput: Swift.Equatable {
+public struct UploadDocumentsOutput {
     /// The number of documents that were added to the search domain.
     public var adds: Swift.Int
     /// The number of documents that were deleted from the search domain.
@@ -1369,7 +1369,7 @@ public struct UploadDocumentsOutput: Swift.Equatable {
     }
 }
 
-struct UploadDocumentsOutputBody: Swift.Equatable {
+struct UploadDocumentsOutputBody {
     let status: Swift.String?
     let adds: Swift.Int
     let deletes: Swift.Int

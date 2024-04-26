@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -162,7 +162,7 @@ extension AssociateUserToPermissionGroupInput {
     }
 }
 
-public struct AssociateUserToPermissionGroupInput: Swift.Equatable {
+public struct AssociateUserToPermissionGroupInput {
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
     /// The unique identifier for the permission group.
@@ -184,7 +184,7 @@ public struct AssociateUserToPermissionGroupInput: Swift.Equatable {
     }
 }
 
-struct AssociateUserToPermissionGroupInputBody: Swift.Equatable {
+struct AssociateUserToPermissionGroupInputBody {
     let clientToken: Swift.String?
 }
 
@@ -206,7 +206,7 @@ extension AssociateUserToPermissionGroupOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct AssociateUserToPermissionGroupOutput: Swift.Equatable {
+public struct AssociateUserToPermissionGroupOutput {
     /// The returned status code of the response.
     public var statusCode: Swift.Int
 
@@ -218,7 +218,7 @@ public struct AssociateUserToPermissionGroupOutput: Swift.Equatable {
     }
 }
 
-struct AssociateUserToPermissionGroupOutputBody: Swift.Equatable {
+struct AssociateUserToPermissionGroupOutputBody {
     let statusCode: Swift.Int
 }
 
@@ -295,7 +295,7 @@ extension FinspacedataClientTypes.AwsCredentials: Swift.CustomDebugStringConvert
 
 extension FinspacedataClientTypes {
     /// The credentials required to access the external Dataview from the S3 location.
-    public struct AwsCredentials: Swift.Equatable {
+    public struct AwsCredentials {
         /// The unique identifier for the security credentials.
         public var accessKeyId: Swift.String?
         /// The Epoch time when the current credentials expire.
@@ -384,7 +384,7 @@ extension FinspacedataClientTypes.ChangesetErrorInfo: Swift.Codable {
 
 extension FinspacedataClientTypes {
     /// The structure with error messages.
-    public struct ChangesetErrorInfo: Swift.Equatable {
+    public struct ChangesetErrorInfo {
         /// The category of the error.
         ///
         /// * VALIDATION – The inputs to this request are invalid.
@@ -535,7 +535,7 @@ extension FinspacedataClientTypes.ChangesetSummary: Swift.Codable {
 
 extension FinspacedataClientTypes {
     /// A Changeset is unit of data in a Dataset.
-    public struct ChangesetSummary: Swift.Equatable {
+    public struct ChangesetSummary {
         /// Beginning time from which the Changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public var activeFromTimestamp: Swift.Int?
         /// Time until which the Changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
@@ -709,7 +709,7 @@ extension FinspacedataClientTypes.ColumnDefinition: Swift.Codable {
 
 extension FinspacedataClientTypes {
     /// The definition of a column in a tabular Dataset.
-    public struct ColumnDefinition: Swift.Equatable {
+    public struct ColumnDefinition {
         /// Description for a column.
         public var columnDescription: Swift.String?
         /// The name of a column.
@@ -777,7 +777,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let reason: Swift.String?
 }
@@ -839,7 +839,7 @@ extension CreateChangesetInput {
 }
 
 /// The request for a CreateChangeset operation.
-public struct CreateChangesetInput: Swift.Equatable {
+public struct CreateChangesetInput {
     /// The option to indicate how a Changeset will be applied to a Dataset.
     ///
     /// * REPLACE – Changeset will be considered as a replacement to all prior loaded Changesets.
@@ -888,7 +888,7 @@ public struct CreateChangesetInput: Swift.Equatable {
     }
 }
 
-struct CreateChangesetInputBody: Swift.Equatable {
+struct CreateChangesetInputBody {
     let clientToken: Swift.String?
     let changeType: FinspacedataClientTypes.ChangeType?
     let sourceParams: [Swift.String:Swift.String]?
@@ -949,7 +949,7 @@ extension CreateChangesetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response from a CreateChangeset operation.
-public struct CreateChangesetOutput: Swift.Equatable {
+public struct CreateChangesetOutput {
     /// The unique identifier of the Changeset that is created.
     public var changesetId: Swift.String?
     /// The unique identifier for the FinSpace Dataset where the Changeset is created.
@@ -965,7 +965,7 @@ public struct CreateChangesetOutput: Swift.Equatable {
     }
 }
 
-struct CreateChangesetOutputBody: Swift.Equatable {
+struct CreateChangesetOutputBody {
     let datasetId: Swift.String?
     let changesetId: Swift.String?
 }
@@ -1052,7 +1052,7 @@ extension CreateDataViewInput {
 }
 
 /// Request for creating a data view.
-public struct CreateDataViewInput: Swift.Equatable {
+public struct CreateDataViewInput {
     /// Beginning time to use for the Dataview. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var asOfTimestamp: Swift.Int?
     /// Flag to indicate Dataview should be updated automatically.
@@ -1090,7 +1090,7 @@ public struct CreateDataViewInput: Swift.Equatable {
     }
 }
 
-struct CreateDataViewInputBody: Swift.Equatable {
+struct CreateDataViewInputBody {
     let clientToken: Swift.String?
     let autoUpdate: Swift.Bool?
     let sortColumns: [Swift.String]?
@@ -1159,7 +1159,7 @@ extension CreateDataViewOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Response for creating a data view.
-public struct CreateDataViewOutput: Swift.Equatable {
+public struct CreateDataViewOutput {
     /// The unique identifier for the created Dataview.
     public var dataViewId: Swift.String?
     /// The unique identifier of the Dataset used for the Dataview.
@@ -1175,7 +1175,7 @@ public struct CreateDataViewOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataViewOutputBody: Swift.Equatable {
+struct CreateDataViewOutputBody {
     let datasetId: Swift.String?
     let dataViewId: Swift.String?
 }
@@ -1260,7 +1260,7 @@ extension CreateDatasetInput {
 }
 
 /// The request for a CreateDataset operation
-public struct CreateDatasetInput: Swift.Equatable {
+public struct CreateDatasetInput {
     /// The unique resource identifier for a Dataset.
     public var alias: Swift.String?
     /// A token that ensures idempotency. This token expires in 10 minutes.
@@ -1307,7 +1307,7 @@ public struct CreateDatasetInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetInputBody: Swift.Equatable {
+struct CreateDatasetInputBody {
     let clientToken: Swift.String?
     let datasetTitle: Swift.String?
     let kind: FinspacedataClientTypes.DatasetKind?
@@ -1364,7 +1364,7 @@ extension CreateDatasetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response from a CreateDataset operation
-public struct CreateDatasetOutput: Swift.Equatable {
+public struct CreateDatasetOutput {
     /// The unique identifier for the created Dataset.
     public var datasetId: Swift.String?
 
@@ -1376,7 +1376,7 @@ public struct CreateDatasetOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetOutputBody: Swift.Equatable {
+struct CreateDatasetOutputBody {
     let datasetId: Swift.String?
 }
 
@@ -1449,7 +1449,7 @@ extension CreatePermissionGroupInput {
     }
 }
 
-public struct CreatePermissionGroupInput: Swift.Equatable {
+public struct CreatePermissionGroupInput {
     /// The option to indicate FinSpace application permissions that are granted to a specific group. When assigning application permissions, be aware that the permission ManageUsersAndGroups allows users to grant themselves or others access to any functionality in their FinSpace environment's application. It should only be granted to trusted users.
     ///
     /// * CreateDataset – Group members can create new datasets.
@@ -1489,7 +1489,7 @@ public struct CreatePermissionGroupInput: Swift.Equatable {
     }
 }
 
-struct CreatePermissionGroupInputBody: Swift.Equatable {
+struct CreatePermissionGroupInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let applicationPermissions: [FinspacedataClientTypes.ApplicationPermission]?
@@ -1538,7 +1538,7 @@ extension CreatePermissionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePermissionGroupOutput: Swift.Equatable {
+public struct CreatePermissionGroupOutput {
     /// The unique identifier for the permission group.
     public var permissionGroupId: Swift.String?
 
@@ -1550,7 +1550,7 @@ public struct CreatePermissionGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreatePermissionGroupOutputBody: Swift.Equatable {
+struct CreatePermissionGroupOutputBody {
     let permissionGroupId: Swift.String?
 }
 
@@ -1631,7 +1631,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// The option to indicate whether the user can use the GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access other FinSpace Data API operations.
     ///
     /// * ENABLED – The user has permissions to use the APIs.
@@ -1677,7 +1677,7 @@ public struct CreateUserInput: Swift.Equatable {
     }
 }
 
-struct CreateUserInputBody: Swift.Equatable {
+struct CreateUserInputBody {
     let emailAddress: Swift.String?
     let type: FinspacedataClientTypes.UserType?
     let firstName: Swift.String?
@@ -1729,7 +1729,7 @@ extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
     /// The unique identifier for the user.
     public var userId: Swift.String?
 
@@ -1741,7 +1741,7 @@ public struct CreateUserOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserOutputBody: Swift.Equatable {
+struct CreateUserOutputBody {
     let userId: Swift.String?
 }
 
@@ -1812,7 +1812,7 @@ extension FinspacedataClientTypes.Credentials: Swift.CustomDebugStringConvertibl
 
 extension FinspacedataClientTypes {
     /// Short term API credentials.
-    public struct Credentials: Swift.Equatable {
+    public struct Credentials {
         /// The access key identifier.
         public var accessKeyId: Swift.String?
         /// The access key.
@@ -1879,7 +1879,7 @@ extension FinspacedataClientTypes.DataViewDestinationTypeParams: Swift.Codable {
 
 extension FinspacedataClientTypes {
     /// Structure for the Dataview destination type parameters.
-    public struct DataViewDestinationTypeParams: Swift.Equatable {
+    public struct DataViewDestinationTypeParams {
         /// Destination type for a Dataview.
         ///
         /// * GLUE_TABLE – Glue table destination type.
@@ -1938,7 +1938,7 @@ extension FinspacedataClientTypes.DataViewErrorInfo: Swift.Codable {
 
 extension FinspacedataClientTypes {
     /// The structure with error messages.
-    public struct DataViewErrorInfo: Swift.Equatable {
+    public struct DataViewErrorInfo {
         /// The category of the error.
         ///
         /// * VALIDATION – The inputs to this request are invalid.
@@ -2134,7 +2134,7 @@ extension FinspacedataClientTypes.DataViewSummary: Swift.Codable {
 
 extension FinspacedataClientTypes {
     /// Structure for the summary of a Dataview.
-    public struct DataViewSummary: Swift.Equatable {
+    public struct DataViewSummary {
         /// Time range to use for the Dataview. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public var asOfTimestamp: Swift.Int?
         /// The flag to indicate Dataview should be updated automatically.
@@ -2283,7 +2283,7 @@ extension FinspacedataClientTypes.Dataset: Swift.Codable {
 
 extension FinspacedataClientTypes {
     /// The structure for a Dataset.
-    public struct Dataset: Swift.Equatable {
+    public struct Dataset {
         /// The unique resource identifier for a Dataset.
         public var alias: Swift.String?
         /// The timestamp at which the Dataset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
@@ -2408,7 +2408,7 @@ extension FinspacedataClientTypes.DatasetOwnerInfo: Swift.CustomDebugStringConve
 
 extension FinspacedataClientTypes {
     /// A structure for Dataset owner info.
-    public struct DatasetOwnerInfo: Swift.Equatable {
+    public struct DatasetOwnerInfo {
         /// Email address for the Dataset owner.
         public var email: Swift.String?
         /// The name of the Dataset owner.
@@ -2492,7 +2492,7 @@ extension DeleteDatasetInput {
 }
 
 /// The request for a DeleteDataset operation.
-public struct DeleteDatasetInput: Swift.Equatable {
+public struct DeleteDatasetInput {
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
     /// The unique identifier of the Dataset to be deleted.
@@ -2509,7 +2509,7 @@ public struct DeleteDatasetInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetInputBody: Swift.Equatable {
+struct DeleteDatasetInputBody {
 }
 
 extension DeleteDatasetInputBody: Swift.Decodable {
@@ -2531,7 +2531,7 @@ extension DeleteDatasetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response from an DeleteDataset operation
-public struct DeleteDatasetOutput: Swift.Equatable {
+public struct DeleteDatasetOutput {
     /// The unique identifier for the deleted Dataset.
     public var datasetId: Swift.String?
 
@@ -2543,7 +2543,7 @@ public struct DeleteDatasetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetOutputBody: Swift.Equatable {
+struct DeleteDatasetOutputBody {
     let datasetId: Swift.String?
 }
 
@@ -2598,7 +2598,7 @@ extension DeletePermissionGroupInput {
     }
 }
 
-public struct DeletePermissionGroupInput: Swift.Equatable {
+public struct DeletePermissionGroupInput {
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
     /// The unique identifier for the permission group that you want to delete.
@@ -2615,7 +2615,7 @@ public struct DeletePermissionGroupInput: Swift.Equatable {
     }
 }
 
-struct DeletePermissionGroupInputBody: Swift.Equatable {
+struct DeletePermissionGroupInputBody {
 }
 
 extension DeletePermissionGroupInputBody: Swift.Decodable {
@@ -2636,7 +2636,7 @@ extension DeletePermissionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePermissionGroupOutput: Swift.Equatable {
+public struct DeletePermissionGroupOutput {
     /// The unique identifier for the deleted permission group.
     public var permissionGroupId: Swift.String?
 
@@ -2648,7 +2648,7 @@ public struct DeletePermissionGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeletePermissionGroupOutputBody: Swift.Equatable {
+struct DeletePermissionGroupOutputBody {
     let permissionGroupId: Swift.String?
 }
 
@@ -2704,7 +2704,7 @@ extension DisableUserInput {
     }
 }
 
-public struct DisableUserInput: Swift.Equatable {
+public struct DisableUserInput {
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
     /// The unique identifier for the user that you want to deactivate.
@@ -2721,7 +2721,7 @@ public struct DisableUserInput: Swift.Equatable {
     }
 }
 
-struct DisableUserInputBody: Swift.Equatable {
+struct DisableUserInputBody {
     let clientToken: Swift.String?
 }
 
@@ -2749,7 +2749,7 @@ extension DisableUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableUserOutput: Swift.Equatable {
+public struct DisableUserOutput {
     /// The unique identifier for the deactivated user.
     public var userId: Swift.String?
 
@@ -2761,7 +2761,7 @@ public struct DisableUserOutput: Swift.Equatable {
     }
 }
 
-struct DisableUserOutputBody: Swift.Equatable {
+struct DisableUserOutputBody {
     let userId: Swift.String?
 }
 
@@ -2818,7 +2818,7 @@ extension DisassociateUserFromPermissionGroupInput {
     }
 }
 
-public struct DisassociateUserFromPermissionGroupInput: Swift.Equatable {
+public struct DisassociateUserFromPermissionGroupInput {
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
     /// The unique identifier for the permission group.
@@ -2840,7 +2840,7 @@ public struct DisassociateUserFromPermissionGroupInput: Swift.Equatable {
     }
 }
 
-struct DisassociateUserFromPermissionGroupInputBody: Swift.Equatable {
+struct DisassociateUserFromPermissionGroupInputBody {
 }
 
 extension DisassociateUserFromPermissionGroupInputBody: Swift.Decodable {
@@ -2855,7 +2855,7 @@ extension DisassociateUserFromPermissionGroupOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DisassociateUserFromPermissionGroupOutput: Swift.Equatable {
+public struct DisassociateUserFromPermissionGroupOutput {
     /// The returned status code of the response.
     public var statusCode: Swift.Int
 
@@ -2867,7 +2867,7 @@ public struct DisassociateUserFromPermissionGroupOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateUserFromPermissionGroupOutputBody: Swift.Equatable {
+struct DisassociateUserFromPermissionGroupOutputBody {
     let statusCode: Swift.Int
 }
 
@@ -2922,7 +2922,7 @@ extension EnableUserInput {
     }
 }
 
-public struct EnableUserInput: Swift.Equatable {
+public struct EnableUserInput {
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
     /// The unique identifier for the user that you want to activate.
@@ -2939,7 +2939,7 @@ public struct EnableUserInput: Swift.Equatable {
     }
 }
 
-struct EnableUserInputBody: Swift.Equatable {
+struct EnableUserInputBody {
     let clientToken: Swift.String?
 }
 
@@ -2967,7 +2967,7 @@ extension EnableUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableUserOutput: Swift.Equatable {
+public struct EnableUserOutput {
     /// The unique identifier for the active user.
     public var userId: Swift.String?
 
@@ -2979,7 +2979,7 @@ public struct EnableUserOutput: Swift.Equatable {
     }
 }
 
-struct EnableUserOutputBody: Swift.Equatable {
+struct EnableUserOutputBody {
     let userId: Swift.String?
 }
 
@@ -3112,7 +3112,7 @@ extension GetChangesetInput {
 }
 
 /// Request to describe a changeset.
-public struct GetChangesetInput: Swift.Equatable {
+public struct GetChangesetInput {
     /// The unique identifier of the Changeset for which to get data.
     /// This member is required.
     public var changesetId: Swift.String?
@@ -3130,7 +3130,7 @@ public struct GetChangesetInput: Swift.Equatable {
     }
 }
 
-struct GetChangesetInputBody: Swift.Equatable {
+struct GetChangesetInputBody {
 }
 
 extension GetChangesetInputBody: Swift.Decodable {
@@ -3176,7 +3176,7 @@ extension GetChangesetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response from a describe changeset operation
-public struct GetChangesetOutput: Swift.Equatable {
+public struct GetChangesetOutput {
     /// Beginning time from which the Changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var activeFromTimestamp: Swift.Int?
     /// Time until which the Changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
@@ -3242,7 +3242,7 @@ public struct GetChangesetOutput: Swift.Equatable {
     }
 }
 
-struct GetChangesetOutputBody: Swift.Equatable {
+struct GetChangesetOutputBody {
     let changesetId: Swift.String?
     let changesetArn: Swift.String?
     let datasetId: Swift.String?
@@ -3354,7 +3354,7 @@ extension GetDataViewInput {
 }
 
 /// Request for retrieving a data view detail. Grouped / accessible within a dataset by its dataset id.
-public struct GetDataViewInput: Swift.Equatable {
+public struct GetDataViewInput {
     /// The unique identifier for the Dataview.
     /// This member is required.
     public var dataViewId: Swift.String?
@@ -3372,7 +3372,7 @@ public struct GetDataViewInput: Swift.Equatable {
     }
 }
 
-struct GetDataViewInputBody: Swift.Equatable {
+struct GetDataViewInputBody {
 }
 
 extension GetDataViewInputBody: Swift.Decodable {
@@ -3416,7 +3416,7 @@ extension GetDataViewOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Response from retrieving a dataview, which includes details on the target database and table name
-public struct GetDataViewOutput: Swift.Equatable {
+public struct GetDataViewOutput {
     /// Time range to use for the Dataview. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var asOfTimestamp: Swift.Int?
     /// Flag to indicate Dataview should be updated automatically.
@@ -3488,7 +3488,7 @@ public struct GetDataViewOutput: Swift.Equatable {
     }
 }
 
-struct GetDataViewOutputBody: Swift.Equatable {
+struct GetDataViewOutputBody {
     let autoUpdate: Swift.Bool
     let partitionColumns: [Swift.String]?
     let datasetId: Swift.String?
@@ -3592,7 +3592,7 @@ extension GetDatasetInput {
 }
 
 /// Request for the GetDataset operation.
-public struct GetDatasetInput: Swift.Equatable {
+public struct GetDatasetInput {
     /// The unique identifier for a Dataset.
     /// This member is required.
     public var datasetId: Swift.String?
@@ -3605,7 +3605,7 @@ public struct GetDatasetInput: Swift.Equatable {
     }
 }
 
-struct GetDatasetInputBody: Swift.Equatable {
+struct GetDatasetInputBody {
 }
 
 extension GetDatasetInputBody: Swift.Decodable {
@@ -3645,7 +3645,7 @@ extension GetDatasetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Response for the GetDataset operation
-public struct GetDatasetOutput: Swift.Equatable {
+public struct GetDatasetOutput {
     /// The unique resource identifier for a Dataset.
     public var alias: Swift.String?
     /// The timestamp at which the Dataset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
@@ -3705,7 +3705,7 @@ public struct GetDatasetOutput: Swift.Equatable {
     }
 }
 
-struct GetDatasetOutputBody: Swift.Equatable {
+struct GetDatasetOutputBody {
     let datasetId: Swift.String?
     let datasetArn: Swift.String?
     let datasetTitle: Swift.String?
@@ -3786,7 +3786,7 @@ extension GetExternalDataViewAccessDetailsInput {
     }
 }
 
-public struct GetExternalDataViewAccessDetailsInput: Swift.Equatable {
+public struct GetExternalDataViewAccessDetailsInput {
     /// The unique identifier for the Dataview that you want to access.
     /// This member is required.
     public var dataViewId: Swift.String?
@@ -3804,7 +3804,7 @@ public struct GetExternalDataViewAccessDetailsInput: Swift.Equatable {
     }
 }
 
-struct GetExternalDataViewAccessDetailsInputBody: Swift.Equatable {
+struct GetExternalDataViewAccessDetailsInputBody {
 }
 
 extension GetExternalDataViewAccessDetailsInputBody: Swift.Decodable {
@@ -3832,7 +3832,7 @@ extension GetExternalDataViewAccessDetailsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetExternalDataViewAccessDetailsOutput: Swift.Equatable {
+public struct GetExternalDataViewAccessDetailsOutput {
     /// The credentials required to access the external Dataview from the S3 location.
     public var credentials: FinspacedataClientTypes.AwsCredentials?
     /// The location where the external Dataview is stored.
@@ -3848,7 +3848,7 @@ public struct GetExternalDataViewAccessDetailsOutput: Swift.Equatable {
     }
 }
 
-struct GetExternalDataViewAccessDetailsOutputBody: Swift.Equatable {
+struct GetExternalDataViewAccessDetailsOutputBody {
     let credentials: FinspacedataClientTypes.AwsCredentials?
     let s3Location: FinspacedataClientTypes.S3Location?
 }
@@ -3893,7 +3893,7 @@ extension GetPermissionGroupInput {
     }
 }
 
-public struct GetPermissionGroupInput: Swift.Equatable {
+public struct GetPermissionGroupInput {
     /// The unique identifier for the permission group.
     /// This member is required.
     public var permissionGroupId: Swift.String?
@@ -3906,7 +3906,7 @@ public struct GetPermissionGroupInput: Swift.Equatable {
     }
 }
 
-struct GetPermissionGroupInputBody: Swift.Equatable {
+struct GetPermissionGroupInputBody {
 }
 
 extension GetPermissionGroupInputBody: Swift.Decodable {
@@ -3927,7 +3927,7 @@ extension GetPermissionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPermissionGroupOutput: Swift.Equatable {
+public struct GetPermissionGroupOutput {
     /// The structure for a permission group.
     public var permissionGroup: FinspacedataClientTypes.PermissionGroup?
 
@@ -3939,7 +3939,7 @@ public struct GetPermissionGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetPermissionGroupOutputBody: Swift.Equatable {
+struct GetPermissionGroupOutputBody {
     let permissionGroup: FinspacedataClientTypes.PermissionGroup?
 }
 
@@ -3996,7 +3996,7 @@ extension GetProgrammaticAccessCredentialsInput {
 }
 
 /// Request for GetProgrammaticAccessCredentials operation
-public struct GetProgrammaticAccessCredentialsInput: Swift.Equatable {
+public struct GetProgrammaticAccessCredentialsInput {
     /// The time duration in which the credentials remain valid.
     public var durationInMinutes: Swift.Int?
     /// The FinSpace environment identifier.
@@ -4013,7 +4013,7 @@ public struct GetProgrammaticAccessCredentialsInput: Swift.Equatable {
     }
 }
 
-struct GetProgrammaticAccessCredentialsInputBody: Swift.Equatable {
+struct GetProgrammaticAccessCredentialsInputBody {
 }
 
 extension GetProgrammaticAccessCredentialsInputBody: Swift.Decodable {
@@ -4042,7 +4042,7 @@ extension GetProgrammaticAccessCredentialsOutput: ClientRuntime.HttpResponseBind
 }
 
 /// Response for GetProgrammaticAccessCredentials operation
-public struct GetProgrammaticAccessCredentialsOutput: Swift.Equatable {
+public struct GetProgrammaticAccessCredentialsOutput {
     /// Returns the programmatic credentials.
     public var credentials: FinspacedataClientTypes.Credentials?
     /// Returns the duration in which the credentials will remain valid.
@@ -4058,7 +4058,7 @@ public struct GetProgrammaticAccessCredentialsOutput: Swift.Equatable {
     }
 }
 
-struct GetProgrammaticAccessCredentialsOutputBody: Swift.Equatable {
+struct GetProgrammaticAccessCredentialsOutputBody {
     let credentials: FinspacedataClientTypes.Credentials?
     let durationInMinutes: Swift.Int?
 }
@@ -4102,7 +4102,7 @@ extension GetUserInput {
     }
 }
 
-public struct GetUserInput: Swift.Equatable {
+public struct GetUserInput {
     /// The unique identifier of the user to get data for.
     /// This member is required.
     public var userId: Swift.String?
@@ -4115,7 +4115,7 @@ public struct GetUserInput: Swift.Equatable {
     }
 }
 
-struct GetUserInputBody: Swift.Equatable {
+struct GetUserInputBody {
 }
 
 extension GetUserInputBody: Swift.Decodable {
@@ -4165,7 +4165,7 @@ extension GetUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUserOutput: Swift.Equatable {
+public struct GetUserOutput {
     /// Indicates whether the user can use the GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access other FinSpace Data API operations.
     ///
     /// * ENABLED – The user has permissions to use the APIs.
@@ -4242,7 +4242,7 @@ public struct GetUserOutput: Swift.Equatable {
     }
 }
 
-struct GetUserOutputBody: Swift.Equatable {
+struct GetUserOutputBody {
     let userId: Swift.String?
     let status: FinspacedataClientTypes.UserStatus?
     let firstName: Swift.String?
@@ -4341,7 +4341,7 @@ extension GetWorkingLocationInput {
     }
 }
 
-public struct GetWorkingLocationInput: Swift.Equatable {
+public struct GetWorkingLocationInput {
     /// Specify the type of the working location.
     ///
     /// * SAGEMAKER – Use the Amazon S3 location as a temporary location to store data content when working with FinSpace Notebooks that run on SageMaker studio.
@@ -4357,7 +4357,7 @@ public struct GetWorkingLocationInput: Swift.Equatable {
     }
 }
 
-struct GetWorkingLocationInputBody: Swift.Equatable {
+struct GetWorkingLocationInputBody {
     let locationType: FinspacedataClientTypes.LocationType?
 }
 
@@ -4389,7 +4389,7 @@ extension GetWorkingLocationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkingLocationOutput: Swift.Equatable {
+public struct GetWorkingLocationOutput {
     /// Returns the Amazon S3 bucket name for the working location.
     public var s3Bucket: Swift.String?
     /// Returns the Amazon S3 Path for the working location.
@@ -4409,7 +4409,7 @@ public struct GetWorkingLocationOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkingLocationOutputBody: Swift.Equatable {
+struct GetWorkingLocationOutputBody {
     let s3Uri: Swift.String?
     let s3Path: Swift.String?
     let s3Bucket: Swift.String?
@@ -4528,7 +4528,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4583,7 +4583,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4626,7 +4626,7 @@ extension ListChangesetsInput {
 }
 
 /// Request to ListChangesetsRequest. It exposes minimal query filters.
-public struct ListChangesetsInput: Swift.Equatable {
+public struct ListChangesetsInput {
     /// The unique identifier for the FinSpace Dataset to which the Changeset belongs.
     /// This member is required.
     public var datasetId: Swift.String?
@@ -4647,7 +4647,7 @@ public struct ListChangesetsInput: Swift.Equatable {
     }
 }
 
-struct ListChangesetsInputBody: Swift.Equatable {
+struct ListChangesetsInputBody {
 }
 
 extension ListChangesetsInputBody: Swift.Decodable {
@@ -4671,7 +4671,7 @@ extension ListChangesetsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Response to ListChangesetsResponse. This returns a list of dataset changesets that match the query criteria.
-public struct ListChangesetsOutput: Swift.Equatable {
+public struct ListChangesetsOutput {
     /// List of Changesets found.
     public var changesets: [FinspacedataClientTypes.ChangesetSummary]?
     /// A token that indicates where a results page should begin.
@@ -4687,7 +4687,7 @@ public struct ListChangesetsOutput: Swift.Equatable {
     }
 }
 
-struct ListChangesetsOutputBody: Swift.Equatable {
+struct ListChangesetsOutputBody {
     let changesets: [FinspacedataClientTypes.ChangesetSummary]?
     let nextToken: Swift.String?
 }
@@ -4759,7 +4759,7 @@ extension ListDataViewsInput {
 }
 
 /// Request for a list data views.
-public struct ListDataViewsInput: Swift.Equatable {
+public struct ListDataViewsInput {
     /// The unique identifier of the Dataset for which to retrieve Dataviews.
     /// This member is required.
     public var datasetId: Swift.String?
@@ -4780,7 +4780,7 @@ public struct ListDataViewsInput: Swift.Equatable {
     }
 }
 
-struct ListDataViewsInputBody: Swift.Equatable {
+struct ListDataViewsInputBody {
 }
 
 extension ListDataViewsInputBody: Swift.Decodable {
@@ -4803,7 +4803,7 @@ extension ListDataViewsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataViewsOutput: Swift.Equatable {
+public struct ListDataViewsOutput {
     /// A list of Dataviews.
     public var dataViews: [FinspacedataClientTypes.DataViewSummary]?
     /// A token that indicates where a results page should begin.
@@ -4819,7 +4819,7 @@ public struct ListDataViewsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataViewsOutputBody: Swift.Equatable {
+struct ListDataViewsOutputBody {
     let nextToken: Swift.String?
     let dataViews: [FinspacedataClientTypes.DataViewSummary]?
 }
@@ -4887,7 +4887,7 @@ extension ListDatasetsInput {
 }
 
 /// Request for the ListDatasets operation.
-public struct ListDatasetsInput: Swift.Equatable {
+public struct ListDatasetsInput {
     /// The maximum number of results per page.
     public var maxResults: Swift.Int?
     /// A token that indicates where a results page should begin.
@@ -4903,7 +4903,7 @@ public struct ListDatasetsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsInputBody: Swift.Equatable {
+struct ListDatasetsInputBody {
 }
 
 extension ListDatasetsInputBody: Swift.Decodable {
@@ -4927,7 +4927,7 @@ extension ListDatasetsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Response for the ListDatasets operation
-public struct ListDatasetsOutput: Swift.Equatable {
+public struct ListDatasetsOutput {
     /// List of Datasets.
     public var datasets: [FinspacedataClientTypes.Dataset]?
     /// A token that indicates where a results page should begin.
@@ -4943,7 +4943,7 @@ public struct ListDatasetsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsOutputBody: Swift.Equatable {
+struct ListDatasetsOutputBody {
     let datasets: [FinspacedataClientTypes.Dataset]?
     let nextToken: Swift.String?
 }
@@ -5015,7 +5015,7 @@ extension ListPermissionGroupsByUserInput {
     }
 }
 
-public struct ListPermissionGroupsByUserInput: Swift.Equatable {
+public struct ListPermissionGroupsByUserInput {
     /// The maximum number of results per page.
     /// This member is required.
     public var maxResults: Swift.Int?
@@ -5037,7 +5037,7 @@ public struct ListPermissionGroupsByUserInput: Swift.Equatable {
     }
 }
 
-struct ListPermissionGroupsByUserInputBody: Swift.Equatable {
+struct ListPermissionGroupsByUserInputBody {
 }
 
 extension ListPermissionGroupsByUserInputBody: Swift.Decodable {
@@ -5060,7 +5060,7 @@ extension ListPermissionGroupsByUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPermissionGroupsByUserOutput: Swift.Equatable {
+public struct ListPermissionGroupsByUserOutput {
     /// A token that indicates where a results page should begin.
     public var nextToken: Swift.String?
     /// A list of returned permission groups.
@@ -5076,7 +5076,7 @@ public struct ListPermissionGroupsByUserOutput: Swift.Equatable {
     }
 }
 
-struct ListPermissionGroupsByUserOutputBody: Swift.Equatable {
+struct ListPermissionGroupsByUserOutputBody {
     let permissionGroups: [FinspacedataClientTypes.PermissionGroupByUser]?
     let nextToken: Swift.String?
 }
@@ -5145,7 +5145,7 @@ extension ListPermissionGroupsInput {
     }
 }
 
-public struct ListPermissionGroupsInput: Swift.Equatable {
+public struct ListPermissionGroupsInput {
     /// The maximum number of results per page.
     /// This member is required.
     public var maxResults: Swift.Int?
@@ -5162,7 +5162,7 @@ public struct ListPermissionGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListPermissionGroupsInputBody: Swift.Equatable {
+struct ListPermissionGroupsInputBody {
 }
 
 extension ListPermissionGroupsInputBody: Swift.Decodable {
@@ -5185,7 +5185,7 @@ extension ListPermissionGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPermissionGroupsOutput: Swift.Equatable {
+public struct ListPermissionGroupsOutput {
     /// A token that indicates where a results page should begin.
     public var nextToken: Swift.String?
     /// A list of all the permission groups.
@@ -5201,7 +5201,7 @@ public struct ListPermissionGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListPermissionGroupsOutputBody: Swift.Equatable {
+struct ListPermissionGroupsOutputBody {
     let permissionGroups: [FinspacedataClientTypes.PermissionGroup]?
     let nextToken: Swift.String?
 }
@@ -5272,7 +5272,7 @@ extension ListUsersByPermissionGroupInput {
     }
 }
 
-public struct ListUsersByPermissionGroupInput: Swift.Equatable {
+public struct ListUsersByPermissionGroupInput {
     /// The maximum number of results per page.
     /// This member is required.
     public var maxResults: Swift.Int?
@@ -5294,7 +5294,7 @@ public struct ListUsersByPermissionGroupInput: Swift.Equatable {
     }
 }
 
-struct ListUsersByPermissionGroupInputBody: Swift.Equatable {
+struct ListUsersByPermissionGroupInputBody {
 }
 
 extension ListUsersByPermissionGroupInputBody: Swift.Decodable {
@@ -5317,7 +5317,7 @@ extension ListUsersByPermissionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUsersByPermissionGroupOutput: Swift.Equatable {
+public struct ListUsersByPermissionGroupOutput {
     /// A token that indicates where a results page should begin.
     public var nextToken: Swift.String?
     /// Lists details of all users in a specific permission group.
@@ -5333,7 +5333,7 @@ public struct ListUsersByPermissionGroupOutput: Swift.Equatable {
     }
 }
 
-struct ListUsersByPermissionGroupOutputBody: Swift.Equatable {
+struct ListUsersByPermissionGroupOutputBody {
     let users: [FinspacedataClientTypes.UserByPermissionGroup]?
     let nextToken: Swift.String?
 }
@@ -5402,7 +5402,7 @@ extension ListUsersInput {
     }
 }
 
-public struct ListUsersInput: Swift.Equatable {
+public struct ListUsersInput {
     /// The maximum number of results per page.
     /// This member is required.
     public var maxResults: Swift.Int?
@@ -5419,7 +5419,7 @@ public struct ListUsersInput: Swift.Equatable {
     }
 }
 
-struct ListUsersInputBody: Swift.Equatable {
+struct ListUsersInputBody {
 }
 
 extension ListUsersInputBody: Swift.Decodable {
@@ -5442,7 +5442,7 @@ extension ListUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUsersOutput: Swift.Equatable {
+public struct ListUsersOutput {
     /// A token that indicates where a results page should begin.
     public var nextToken: Swift.String?
     /// A list of all the users.
@@ -5458,7 +5458,7 @@ public struct ListUsersOutput: Swift.Equatable {
     }
 }
 
-struct ListUsersOutputBody: Swift.Equatable {
+struct ListUsersOutputBody {
     let users: [FinspacedataClientTypes.User]?
     let nextToken: Swift.String?
 }
@@ -5607,7 +5607,7 @@ extension FinspacedataClientTypes.PermissionGroup: Swift.CustomDebugStringConver
 
 extension FinspacedataClientTypes {
     /// The structure for a permission group.
-    public struct PermissionGroup: Swift.Equatable {
+    public struct PermissionGroup {
         /// Indicates the permissions that are granted to a specific group for accessing the FinSpace application. When assigning application permissions, be aware that the permission ManageUsersAndGroups allows users to grant themselves or others access to any functionality in their FinSpace environment's application. It should only be granted to trusted users.
         ///
         /// * CreateDataset – Group members can create new datasets.
@@ -5703,7 +5703,7 @@ extension FinspacedataClientTypes.PermissionGroupByUser: Swift.CustomDebugString
 
 extension FinspacedataClientTypes {
     /// The structure of a permission group associated with a user.
-    public struct PermissionGroupByUser: Swift.Equatable {
+    public struct PermissionGroupByUser {
         /// Indicates the status of the user within a permission group.
         ///
         /// * ADDITION_IN_PROGRESS – The user is currently being added to the permission group.
@@ -5805,7 +5805,7 @@ extension FinspacedataClientTypes.PermissionGroupParams: Swift.Codable {
 
 extension FinspacedataClientTypes {
     /// Permission group parameters for Dataset permissions. Here is an example of how you could specify the PermissionGroupParams:  { "permissionGroupId": "0r6fCRtSTUk4XPfXQe3M0g", "datasetPermissions": [ {"permission": "ViewDatasetDetails"}, {"permission": "AddDatasetData"}, {"permission": "EditDatasetMetadata"}, {"permission": "DeleteDataset"} ] }
-    public struct PermissionGroupParams: Swift.Equatable {
+    public struct PermissionGroupParams {
         /// List of resource permissions.
         public var datasetPermissions: [FinspacedataClientTypes.ResourcePermission]?
         /// The unique identifier for the PermissionGroup.
@@ -5846,7 +5846,7 @@ extension ResetUserPasswordInput {
     }
 }
 
-public struct ResetUserPasswordInput: Swift.Equatable {
+public struct ResetUserPasswordInput {
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
     /// The unique identifier of the user that a temporary password is requested for.
@@ -5863,7 +5863,7 @@ public struct ResetUserPasswordInput: Swift.Equatable {
     }
 }
 
-struct ResetUserPasswordInputBody: Swift.Equatable {
+struct ResetUserPasswordInputBody {
     let clientToken: Swift.String?
 }
 
@@ -5898,7 +5898,7 @@ extension ResetUserPasswordOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetUserPasswordOutput: Swift.Equatable {
+public struct ResetUserPasswordOutput {
     /// A randomly generated temporary password for the requested user. This password expires in 7 days.
     public var temporaryPassword: Swift.String?
     /// The unique identifier of the user that a new password is generated for.
@@ -5914,7 +5914,7 @@ public struct ResetUserPasswordOutput: Swift.Equatable {
     }
 }
 
-struct ResetUserPasswordOutputBody: Swift.Equatable {
+struct ResetUserPasswordOutputBody {
     let userId: Swift.String?
     let temporaryPassword: Swift.String?
 }
@@ -5994,7 +5994,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let reason: Swift.String?
 }
@@ -6050,7 +6050,7 @@ extension FinspacedataClientTypes {
     ///
     ///
     /// For more information on the dataset permissions, see [Supported Dataset Permissions](https://docs.aws.amazon.com/finspace/latest/userguide/managing-user-permissions.html#supported-dataset-permissions) in the FinSpace User Guide.
-    public struct ResourcePermission: Swift.Equatable {
+    public struct ResourcePermission {
         /// Permission for a resource.
         public var permission: Swift.String?
 
@@ -6091,7 +6091,7 @@ extension FinspacedataClientTypes.S3Location: Swift.Codable {
 
 extension FinspacedataClientTypes {
     /// The location of an external Dataview in an S3 bucket.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// The name of the S3 bucket.
         /// This member is required.
         public var bucket: Swift.String?
@@ -6162,7 +6162,7 @@ extension FinspacedataClientTypes.SchemaDefinition: Swift.Codable {
 
 extension FinspacedataClientTypes {
     /// Definition for a schema on a tabular Dataset.
-    public struct SchemaDefinition: Swift.Equatable {
+    public struct SchemaDefinition {
         /// List of column definitions.
         public var columns: [FinspacedataClientTypes.ColumnDefinition]?
         /// List of column names used for primary key.
@@ -6201,7 +6201,7 @@ extension FinspacedataClientTypes.SchemaUnion: Swift.Codable {
 
 extension FinspacedataClientTypes {
     /// A union of schema types.
-    public struct SchemaUnion: Swift.Equatable {
+    public struct SchemaUnion {
         /// The configuration for a schema on a tabular Dataset.
         public var tabularSchemaConfig: FinspacedataClientTypes.SchemaDefinition?
 
@@ -6277,7 +6277,7 @@ extension UpdateChangesetInput {
 }
 
 /// Request to update an existing changeset.
-public struct UpdateChangesetInput: Swift.Equatable {
+public struct UpdateChangesetInput {
     /// The unique identifier for the Changeset to update.
     /// This member is required.
     public var changesetId: Swift.String?
@@ -6320,7 +6320,7 @@ public struct UpdateChangesetInput: Swift.Equatable {
     }
 }
 
-struct UpdateChangesetInputBody: Swift.Equatable {
+struct UpdateChangesetInputBody {
     let clientToken: Swift.String?
     let sourceParams: [Swift.String:Swift.String]?
     let formatParams: [Swift.String:Swift.String]?
@@ -6377,7 +6377,7 @@ extension UpdateChangesetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response from a update changeset operation.
-public struct UpdateChangesetOutput: Swift.Equatable {
+public struct UpdateChangesetOutput {
     /// The unique identifier for the Changeset to update.
     public var changesetId: Swift.String?
     /// The unique identifier for the FinSpace Dataset in which the Changeset is created.
@@ -6393,7 +6393,7 @@ public struct UpdateChangesetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateChangesetOutputBody: Swift.Equatable {
+struct UpdateChangesetOutputBody {
     let changesetId: Swift.String?
     let datasetId: Swift.String?
 }
@@ -6473,7 +6473,7 @@ extension UpdateDatasetInput {
 }
 
 /// The request for an UpdateDataset operation
-public struct UpdateDatasetInput: Swift.Equatable {
+public struct UpdateDatasetInput {
     /// The unique resource identifier for a Dataset.
     public var alias: Swift.String?
     /// A token that ensures idempotency. This token expires in 10 minutes.
@@ -6516,7 +6516,7 @@ public struct UpdateDatasetInput: Swift.Equatable {
     }
 }
 
-struct UpdateDatasetInputBody: Swift.Equatable {
+struct UpdateDatasetInputBody {
     let clientToken: Swift.String?
     let datasetTitle: Swift.String?
     let kind: FinspacedataClientTypes.DatasetKind?
@@ -6565,7 +6565,7 @@ extension UpdateDatasetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response from an UpdateDataset operation
-public struct UpdateDatasetOutput: Swift.Equatable {
+public struct UpdateDatasetOutput {
     /// The unique identifier for updated Dataset.
     public var datasetId: Swift.String?
 
@@ -6577,7 +6577,7 @@ public struct UpdateDatasetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDatasetOutputBody: Swift.Equatable {
+struct UpdateDatasetOutputBody {
     let datasetId: Swift.String?
 }
 
@@ -6652,7 +6652,7 @@ extension UpdatePermissionGroupInput {
     }
 }
 
-public struct UpdatePermissionGroupInput: Swift.Equatable {
+public struct UpdatePermissionGroupInput {
     /// The permissions that are granted to a specific group for accessing the FinSpace application. When assigning application permissions, be aware that the permission ManageUsersAndGroups allows users to grant themselves or others access to any functionality in their FinSpace environment's application. It should only be granted to trusted users.
     ///
     /// * CreateDataset – Group members can create new datasets.
@@ -6695,7 +6695,7 @@ public struct UpdatePermissionGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdatePermissionGroupInputBody: Swift.Equatable {
+struct UpdatePermissionGroupInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let applicationPermissions: [FinspacedataClientTypes.ApplicationPermission]?
@@ -6744,7 +6744,7 @@ extension UpdatePermissionGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePermissionGroupOutput: Swift.Equatable {
+public struct UpdatePermissionGroupOutput {
     /// The unique identifier for the updated permission group.
     public var permissionGroupId: Swift.String?
 
@@ -6756,7 +6756,7 @@ public struct UpdatePermissionGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePermissionGroupOutputBody: Swift.Equatable {
+struct UpdatePermissionGroupOutputBody {
     let permissionGroupId: Swift.String?
 }
 
@@ -6836,7 +6836,7 @@ extension UpdateUserInput {
     }
 }
 
-public struct UpdateUserInput: Swift.Equatable {
+public struct UpdateUserInput {
     /// The option to indicate whether the user can use the GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access other FinSpace Data API operations.
     ///
     /// * ENABLED – The user has permissions to use the APIs.
@@ -6881,7 +6881,7 @@ public struct UpdateUserInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserInputBody: Swift.Equatable {
+struct UpdateUserInputBody {
     let type: FinspacedataClientTypes.UserType?
     let firstName: Swift.String?
     let lastName: Swift.String?
@@ -6929,7 +6929,7 @@ extension UpdateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserOutput: Swift.Equatable {
+public struct UpdateUserOutput {
     /// The unique identifier of the updated user.
     public var userId: Swift.String?
 
@@ -6941,7 +6941,7 @@ public struct UpdateUserOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUserOutputBody: Swift.Equatable {
+struct UpdateUserOutputBody {
     let userId: Swift.String?
 }
 
@@ -7071,7 +7071,7 @@ extension FinspacedataClientTypes.User: Swift.CustomDebugStringConvertible {
 
 extension FinspacedataClientTypes {
     /// The details of the user.
-    public struct User: Swift.Equatable {
+    public struct User {
         /// Indicates whether the user can use the GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access other FinSpace Data API operations.
         ///
         /// * ENABLED – The user has permissions to use the APIs.
@@ -7221,7 +7221,7 @@ extension FinspacedataClientTypes.UserByPermissionGroup: Swift.CustomDebugString
 
 extension FinspacedataClientTypes {
     /// The structure of a user associated with a permission group.
-    public struct UserByPermissionGroup: Swift.Equatable {
+    public struct UserByPermissionGroup {
         /// Indicates whether the user can access FinSpace API operations.
         ///
         /// * ENABLED – The user has permissions to use the API operations.
@@ -7398,7 +7398,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: Swift.String?
 }

@@ -248,7 +248,7 @@ extension MediaConvertClientTypes.AacSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value AAC. The service accepts one of two mutually exclusive groups of AAC settings--VBR and CBR. To select one of these modes, set the value of Bitrate control mode to "VBR" or "CBR". In VBR mode, you control the audio quality with the setting VBR quality. In CBR mode, you use the setting Bitrate. Defaults and valid values depend on the rate control mode.
-    public struct AacSettings: Swift.Equatable {
+    public struct AacSettings {
         /// Choose BROADCASTER_MIXED_AD when the input contains pre-mixed main audio + audio description (AD) as a stereo pair. The value for AudioType will be set to 3, which signals to downstream systems that this stream contains "broadcaster mixed AD". Note that the input received by the encoder must contain pre-mixed audio; the encoder does not perform the mixing. When you choose BROADCASTER_MIXED_AD, the encoder ignores any values you provide in AudioType and FollowInputAudioType. Choose NORMAL when the input does not contain pre-mixed audio + audio description (AD). In this case, the encoder will use any values you provide for AudioType and FollowInputAudioType.
         public var audioDescriptionBroadcasterMix: MediaConvertClientTypes.AacAudioDescriptionBroadcasterMix?
         /// Specify the average bitrate in bits per second. The set of valid values for this setting is: 6000, 8000, 10000, 12000, 14000, 16000, 20000, 24000, 28000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000, 1024000. The value you set is also constrained by the values that you choose for Profile, Bitrate control mode, and Sample rate. Default values depend on Bitrate control mode and Profile.
@@ -720,7 +720,7 @@ extension MediaConvertClientTypes.Ac3Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value AC3.
-    public struct Ac3Settings: Swift.Equatable {
+    public struct Ac3Settings {
         /// Specify the average bitrate in bits per second. The bitrate that you specify must be a multiple of 8000 within the allowed minimum and maximum values. Leave blank to use the default bitrate for the coding mode you select according ETSI TS 102 366. Valid bitrates for coding mode 1/0: Default: 96000. Minimum: 64000. Maximum: 128000. Valid bitrates for coding mode 1/1: Default: 192000. Minimum: 128000. Maximum: 384000. Valid bitrates for coding mode 2/0: Default: 192000. Minimum: 128000. Maximum: 384000. Valid bitrates for coding mode 3/2 with FLE: Default: 384000. Minimum: 384000. Maximum: 640000.
         public var bitrate: Swift.Int?
         /// Specify the bitstream mode for the AC-3 stream that the encoder emits. For more information about the AC3 bitstream mode, see ATSC A/52-2012 (Annex E).
@@ -827,7 +827,7 @@ extension MediaConvertClientTypes.AccelerationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
-    public struct AccelerationSettings: Swift.Equatable {
+    public struct AccelerationSettings {
         /// Specify the conditions when the service will run your job with accelerated transcoding.
         /// This member is required.
         public var mode: MediaConvertClientTypes.AccelerationMode?
@@ -974,7 +974,7 @@ extension MediaConvertClientTypes.AdvancedInputFilterSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Optional settings for Advanced input filter when you set Advanced input filter to Enabled.
-    public struct AdvancedInputFilterSettings: Swift.Equatable {
+    public struct AdvancedInputFilterSettings {
         /// Add texture and detail to areas of your input video content that were lost after applying the Advanced input filter. To adaptively add texture and reduce softness: Choose Enabled. To not add any texture: Keep the default value, Disabled. We recommend that you choose Disabled for input video content that doesn't have texture, including screen recordings, computer graphics, or cartoons.
         public var addTexture: MediaConvertClientTypes.AdvancedInputFilterAddTexture?
         /// Optionally specify the amount of sharpening to apply when you use the Advanced input filter. Sharpening adds contrast to the edges of your video content and can reduce softness. To apply no sharpening: Keep the default value, Off. To apply a minimal amount of sharpening choose Low, or for the maximum choose High.
@@ -1097,7 +1097,7 @@ extension MediaConvertClientTypes.AiffSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value AIFF.
-    public struct AiffSettings: Swift.Equatable {
+    public struct AiffSettings {
         /// Specify Bit depth, in bits per sample, to choose the encoding quality for this audio track.
         public var bitDepth: Swift.Int?
         /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
@@ -1152,7 +1152,7 @@ extension MediaConvertClientTypes.AllowedRenditionSize: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use Allowed renditions to specify a list of possible resolutions in your ABR stack. * MediaConvert will create an ABR stack exclusively from the list of resolutions that you specify. * Some resolutions in the Allowed renditions list may not be included, however you can force a resolution to be included by setting Required to ENABLED. * You must specify at least one resolution that is greater than or equal to any resolutions that you specify in Min top rendition size or Min bottom rendition size. * If you specify Allowed renditions, you must not specify a separate rule for Force include renditions.
-    public struct AllowedRenditionSize: Swift.Equatable {
+    public struct AllowedRenditionSize {
         /// Use Height to define the video resolution height, in pixels, for this rule.
         public var height: Swift.Int?
         /// Set to ENABLED to force a rendition to be included.
@@ -1273,7 +1273,7 @@ extension MediaConvertClientTypes.AncillarySourceSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for ancillary captions source.
-    public struct AncillarySourceSettings: Swift.Equatable {
+    public struct AncillarySourceSettings {
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert, MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public var convert608To708: MediaConvertClientTypes.AncillaryConvert608To708?
         /// Specifies the 608 channel number in the ancillary data track from which to extract captions. Unused for passthrough.
@@ -1381,7 +1381,7 @@ extension AssociateCertificateInput {
     }
 }
 
-public struct AssociateCertificateInput: Swift.Equatable {
+public struct AssociateCertificateInput {
     /// The ARN of the ACM certificate that you want to associate with your MediaConvert resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -1394,7 +1394,7 @@ public struct AssociateCertificateInput: Swift.Equatable {
     }
 }
 
-struct AssociateCertificateInputBody: Swift.Equatable {
+struct AssociateCertificateInputBody {
     let arn: Swift.String?
 }
 
@@ -1415,7 +1415,7 @@ extension AssociateCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateCertificateOutput: Swift.Equatable {
+public struct AssociateCertificateOutput {
 
     public init() { }
 }
@@ -1586,7 +1586,7 @@ extension MediaConvertClientTypes.AudioChannelTaggingSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. When you don't specify a value, MediaConvert labels your track as Center (C) by default. To use Audio layout tagging, your output must be in a QuickTime (MOV) container and your audio codec must be AAC, WAV, or AIFF.
-    public struct AudioChannelTaggingSettings: Swift.Equatable {
+    public struct AudioChannelTaggingSettings {
         /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. Enter channel layout tags in the same order as your output's audio channel order. For example, if your output audio track has a left and a right channel, enter Left (L) for the first channel and Right (R) for the second. If your output has multiple single-channel audio tracks, enter a single channel layout tag for each track.
         public var channelTag: MediaConvertClientTypes.AudioChannelTag?
         /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. Enter channel layout tags in the same order as your output's audio channel order. For example, if your output audio track has a left and a right channel, enter Left (L) for the first channel and Right (R) for the second. If your output has multiple single-channel audio tracks, enter a single channel layout tag for each track.
@@ -1754,7 +1754,7 @@ extension MediaConvertClientTypes.AudioCodecSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to audio encoding. The settings in this group vary depending on the value that you choose for your audio codec.
-    public struct AudioCodecSettings: Swift.Equatable {
+    public struct AudioCodecSettings {
         /// Required when you set Codec to the value AAC. The service accepts one of two mutually exclusive groups of AAC settings--VBR and CBR. To select one of these modes, set the value of Bitrate control mode to "VBR" or "CBR". In VBR mode, you control the audio quality with the setting VBR quality. In CBR mode, you use the setting Bitrate. Defaults and valid values depend on the rate control mode.
         public var aacSettings: MediaConvertClientTypes.AacSettings?
         /// Required when you set Codec to the value AC3.
@@ -1926,7 +1926,7 @@ extension MediaConvertClientTypes.AudioDescription: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to one audio tab on the MediaConvert console. In your job JSON, an instance of AudioDescription is equivalent to one audio tab in the console. Usually, one audio tab corresponds to one output audio track. Depending on how you set up your input audio selectors and whether you use audio selector groups, one audio tab can correspond to a group of output audio tracks.
-    public struct AudioDescription: Swift.Equatable {
+    public struct AudioDescription {
         /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. When you don't specify a value, MediaConvert labels your track as Center (C) by default. To use Audio layout tagging, your output must be in a QuickTime (MOV) container and your audio codec must be AAC, WAV, or AIFF.
         public var audioChannelTaggingSettings: MediaConvertClientTypes.AudioChannelTaggingSettings?
         /// Advanced audio normalization settings. Ignore these settings unless you need to comply with a loudness standard.
@@ -2247,7 +2247,7 @@ extension MediaConvertClientTypes.AudioNormalizationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Advanced audio normalization settings. Ignore these settings unless you need to comply with a loudness standard.
-    public struct AudioNormalizationSettings: Swift.Equatable {
+    public struct AudioNormalizationSettings {
         /// Choose one of the following audio normalization algorithms: ITU-R BS.1770-1: Ungated loudness. A measurement of ungated average loudness for an entire piece of content, suitable for measurement of short-form content under ATSC recommendation A/85. Supports up to 5.1 audio channels. ITU-R BS.1770-2: Gated loudness. A measurement of gated average loudness compliant with the requirements of EBU-R128. Supports up to 5.1 audio channels. ITU-R BS.1770-3: Modified peak. The same loudness measurement algorithm as 1770-2, with an updated true peak measurement. ITU-R BS.1770-4: Higher channel count. Allows for more audio channels than the other algorithms, including configurations such as 7.1.
         public var algorithm: MediaConvertClientTypes.AudioNormalizationAlgorithm?
         /// When enabled the output audio is corrected using the chosen algorithm. If disabled, the audio will be measured but not adjusted.
@@ -2396,7 +2396,7 @@ extension MediaConvertClientTypes.AudioSelector: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use Audio selectors to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
-    public struct AudioSelector: Swift.Equatable {
+    public struct AudioSelector {
         /// Apply audio timing corrections to help synchronize audio and video in your output. To apply timing corrections, your input must meet the following requirements: * Container: MP4, or MOV, with an accurate time-to-sample (STTS) table. * Audio track: AAC. Choose from the following audio timing correction settings: * Disabled (Default): Apply no correction. * Auto: Recommended for most inputs. MediaConvert analyzes the audio timing in your input and determines which correction setting to use, if needed. * Track: Adjust the duration of each audio frame by a constant amount to align the audio track length with STTS duration. Track-level correction does not affect pitch, and is recommended for tonal audio content such as music. * Frame: Adjust the duration of each audio frame by a variable amount to align audio frames with STTS timestamps. No corrections are made to already-aligned frames. Frame-level correction may affect the pitch of corrected frames, and is recommended for atonal audio content such as speech or percussion.
         public var audioDurationCorrection: MediaConvertClientTypes.AudioDurationCorrection?
         /// Selects a specific language code from within an audio source, using the ISO 639-2 or ISO 639-3 three-letter language code
@@ -2487,7 +2487,7 @@ extension MediaConvertClientTypes.AudioSelectorGroup: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use audio selector groups to combine multiple sidecar audio inputs so that you can assign them to a single output audio tab. Note that, if you're working with embedded audio, it's simpler to assign multiple input tracks into a single audio selector rather than use an audio selector group.
-    public struct AudioSelectorGroup: Swift.Equatable {
+    public struct AudioSelectorGroup {
         /// Name of an Audio Selector within the same input to include in the group. Audio selector names are standardized, based on their order within the input (e.g., "Audio Selector 1"). The audio selector name parameter can be repeated to add any number of audio selectors to the group.
         public var audioSelectorNames: [Swift.String]?
 
@@ -2642,7 +2642,7 @@ extension MediaConvertClientTypes.AutomatedAbrRule: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specify one or more Automated ABR rule types. Note: Force include and Allowed renditions are mutually exclusive.
-    public struct AutomatedAbrRule: Swift.Equatable {
+    public struct AutomatedAbrRule {
         /// When customer adds the allowed renditions rule for auto ABR ladder, they are required to add at leat one rendition to allowedRenditions list
         public var allowedRenditions: [MediaConvertClientTypes.AllowedRenditionSize]?
         /// When customer adds the force include renditions rule for auto ABR ladder, they are required to add at leat one rendition to forceIncludeRenditions list
@@ -2723,7 +2723,7 @@ extension MediaConvertClientTypes.AutomatedAbrSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use automated ABR to have MediaConvert set up the renditions in your ABR package for you automatically, based on characteristics of your input video. This feature optimizes video quality while minimizing the overall size of your ABR package.
-    public struct AutomatedAbrSettings: Swift.Equatable {
+    public struct AutomatedAbrSettings {
         /// Specify the maximum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default. The average bitrate of your highest-quality rendition will be equal to or below this value, depending on the quality, complexity, and resolution of your content. Note that the instantaneous maximum bitrate may vary above the value that you specify.
         public var maxAbrBitrate: Swift.Int?
         /// Optional. The maximum number of renditions that MediaConvert will create in your automated ABR stack. The number of renditions is determined automatically, based on analysis of each job, but will never exceed this limit. When you set this to Auto in the console, which is equivalent to excluding it from your JSON job specification, MediaConvert defaults to a limit of 15.
@@ -2770,7 +2770,7 @@ extension MediaConvertClientTypes.AutomatedEncodingSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use automated encoding to have MediaConvert choose your encoding settings for you, based on characteristics of your input video.
-    public struct AutomatedEncodingSettings: Swift.Equatable {
+    public struct AutomatedEncodingSettings {
         /// Use automated ABR to have MediaConvert set up the renditions in your ABR package for you automatically, based on characteristics of your input video. This feature optimizes video quality while minimizing the overall size of your ABR package.
         public var abrSettings: MediaConvertClientTypes.AutomatedAbrSettings?
 
@@ -2991,7 +2991,7 @@ extension MediaConvertClientTypes.Av1QvbrSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for quality-defined variable bitrate encoding with the AV1 codec. Use these settings only when you set QVBR for Rate control mode.
-    public struct Av1QvbrSettings: Swift.Equatable {
+    public struct Av1QvbrSettings {
         /// Use this setting only when you set Rate control mode to QVBR. Specify the target quality level for this output. MediaConvert determines the right number of bits to use for each part of the video to maintain the video quality that you specify. When you keep the default value, AUTO, MediaConvert picks a quality level for you, based on characteristics of your input video. If you prefer to specify a quality level, specify a number from 1 through 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
         public var qvbrQualityLevel: Swift.Int?
         /// Optional. Specify a value here to set the QVBR quality to a level that is between whole numbers. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33. MediaConvert rounds your QVBR quality level to the nearest third of a whole number. For example, if you set qvbrQualityLevel to 7 and you set qvbrQualityLevelFineTune to .25, your actual QVBR quality level is 7.33.
@@ -3138,7 +3138,7 @@ extension MediaConvertClientTypes.Av1Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec, under VideoDescription>CodecSettings to the value AV1.
-    public struct Av1Settings: Swift.Equatable {
+    public struct Av1Settings {
         /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to Spatial adaptive quantization.
         public var adaptiveQuantization: MediaConvertClientTypes.Av1AdaptiveQuantization?
         /// Specify the Bit depth. You can choose 8-bit or 10-bit.
@@ -3258,7 +3258,7 @@ extension MediaConvertClientTypes.AvailBlanking: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use ad avail blanking settings to specify your output content during SCTE-35 triggered ad avails. You can blank your video or overlay it with an image. MediaConvert also removes any audio and embedded captions during the ad avail. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ad-avail-blanking.html.
-    public struct AvailBlanking: Swift.Equatable {
+    public struct AvailBlanking {
         /// Blanking image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public var availBlankingImage: Swift.String?
 
@@ -3530,7 +3530,7 @@ extension MediaConvertClientTypes.AvcIntraSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you choose AVC-Intra for your output video codec. For more information about the AVC-Intra settings, see the relevant specification. For detailed information about SD and HD in AVC-Intra, see https://ieeexplore.ieee.org/document/7290936. For information about 4K/2K in AVC-Intra, see https://pro-av.panasonic.net/en/avc-ultra/AVC-ULTRAoverview.pdf.
-    public struct AvcIntraSettings: Swift.Equatable {
+    public struct AvcIntraSettings {
         /// Specify the AVC-Intra class of your output. The AVC-Intra class selection determines the output video bit rate depending on the frame rate of the output. Outputs with higher class values have higher bitrates and improved image quality. Note that for Class 4K/2K, MediaConvert supports only 4:2:2 chroma subsampling.
         public var avcIntraClass: MediaConvertClientTypes.AvcIntraClass?
         /// Optional when you set AVC-Intra class to Class 4K/2K. When you set AVC-Intra class to a different value, this object isn't allowed.
@@ -3700,7 +3700,7 @@ extension MediaConvertClientTypes.AvcIntraUhdSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Optional when you set AVC-Intra class to Class 4K/2K. When you set AVC-Intra class to a different value, this object isn't allowed.
-    public struct AvcIntraUhdSettings: Swift.Equatable {
+    public struct AvcIntraUhdSettings {
         /// Optional. Use Quality tuning level to choose how many transcoding passes MediaConvert does with your video. When you choose Multi-pass, your video quality is better and your output bitrate is more accurate. That is, the actual bitrate of your output is closer to the target bitrate defined in the specification. When you choose Single-pass, your encoding time is faster. The default behavior is Single-pass.
         public var qualityTuningLevel: MediaConvertClientTypes.AvcIntraUhdQualityTuningLevel?
 
@@ -3753,7 +3753,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -3796,7 +3796,7 @@ extension MediaConvertClientTypes.BandwidthReductionFilter: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// The Bandwidth reduction filter increases the video quality of your output relative to its bitrate. Use to lower the bitrate of your constant quality QVBR output, with little or no perceptual decrease in quality. Or, use to increase the video quality of outputs with other rate control modes relative to the bitrate that you specify. Bandwidth reduction increases further when your input is low quality or noisy. Outputs that use this feature incur pro-tier pricing. When you include Bandwidth reduction filter, you cannot include the Noise reducer preprocessor.
-    public struct BandwidthReductionFilter: Swift.Equatable {
+    public struct BandwidthReductionFilter {
         /// Optionally specify the level of sharpening to apply when you use the Bandwidth reduction filter. Sharpening adds contrast to the edges of your video content and can reduce softness. Keep the default value Off to apply no sharpening. Set Sharpening strength to Low to apply a minimal amount of sharpening, or High to apply a maximum amount of sharpening.
         public var sharpening: MediaConvertClientTypes.BandwidthReductionFilterSharpening?
         /// Specify the strength of the Bandwidth reduction filter. For most workflows, we recommend that you choose Auto to reduce the bandwidth of your output with little to no perceptual decrease in video quality. For high quality and high bitrate outputs, choose Low. For the most bandwidth reduction, choose High. We recommend that you choose High for low bitrate outputs. Note that High may incur a slight increase in the softness of your output.
@@ -4132,7 +4132,7 @@ extension MediaConvertClientTypes.BurninDestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Burn-in is a captions delivery method, rather than a captions format. Burn-in writes the captions directly on your video frames, replacing pixels of video content with the captions. Set up burn-in captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html.
-    public struct BurninDestinationSettings: Swift.Equatable {
+    public struct BurninDestinationSettings {
         /// Specify the alignment of your captions. If no explicit x_position is provided, setting alignment to centered will placethe captions at the bottom center of the output. Similarly, setting a left alignment willalign captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates.
         public var alignment: MediaConvertClientTypes.BurninSubtitleAlignment?
         /// Ignore this setting unless Style passthrough is set to Enabled and Font color set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color for additional font color controls. When you choose White text only, or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.
@@ -4576,7 +4576,7 @@ extension CancelJobInput {
     }
 }
 
-public struct CancelJobInput: Swift.Equatable {
+public struct CancelJobInput {
     /// The Job ID of the job to be cancelled.
     /// This member is required.
     public var id: Swift.String?
@@ -4589,7 +4589,7 @@ public struct CancelJobInput: Swift.Equatable {
     }
 }
 
-struct CancelJobInputBody: Swift.Equatable {
+struct CancelJobInputBody {
 }
 
 extension CancelJobInputBody: Swift.Decodable {
@@ -4603,7 +4603,7 @@ extension CancelJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelJobOutput: Swift.Equatable {
+public struct CancelJobOutput {
 
     public init() { }
 }
@@ -4669,7 +4669,7 @@ extension MediaConvertClientTypes.CaptionDescription: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// This object holds groups of settings related to captions for one output. For each output that has captions, include one instance of CaptionDescriptions.
-    public struct CaptionDescription: Swift.Equatable {
+    public struct CaptionDescription {
         /// Specifies which "Caption Selector":#inputs-caption_selector to use from each input when generating captions. The name should be of the format "Caption Selector ", which denotes that the Nth Caption Selector will be used from each input.
         public var captionSelectorName: Swift.String?
         /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
@@ -4738,7 +4738,7 @@ extension MediaConvertClientTypes.CaptionDescriptionPreset: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Caption Description for preset
-    public struct CaptionDescriptionPreset: Swift.Equatable {
+    public struct CaptionDescriptionPreset {
         /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public var customLanguageCode: Swift.String?
         /// Settings related to one captions tab on the MediaConvert console. Usually, one captions tab corresponds to one output captions track. Depending on your output captions format, one tab might correspond to a set of output captions tracks. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
@@ -4839,7 +4839,7 @@ extension MediaConvertClientTypes.CaptionDestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to one captions tab on the MediaConvert console. Usually, one captions tab corresponds to one output captions track. Depending on your output captions format, one tab might correspond to a set of output captions tracks. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
-    public struct CaptionDestinationSettings: Swift.Equatable {
+    public struct CaptionDestinationSettings {
         /// Burn-in is a captions delivery method, rather than a captions format. Burn-in writes the captions directly on your video frames, replacing pixels of video content with the captions. Set up burn-in captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html.
         public var burninDestinationSettings: MediaConvertClientTypes.BurninDestinationSettings?
         /// Specify the format for this set of captions on this output. The default format is embedded without SCTE-20. Note that your choice of video output container constrains your choice of output captions format. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/captions-support-tables.html. If you are using SCTE-20 and you want to create an output that complies with the SCTE-43 spec, choose SCTE-20 plus embedded. To create a non-compliant output where the embedded captions come first, choose Embedded plus SCTE-20.
@@ -4985,7 +4985,7 @@ extension MediaConvertClientTypes.CaptionSelector: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use captions selectors to specify the captions data from your input that you use in your outputs. You can use up to 100 captions selectors per input.
-    public struct CaptionSelector: Swift.Equatable {
+    public struct CaptionSelector {
         /// The specific language to extract from source, using the ISO 639-2 or ISO 639-3 three-letter language code. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
         public var customLanguageCode: Swift.String?
         /// The specific language to extract from source. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
@@ -5067,7 +5067,7 @@ extension MediaConvertClientTypes.CaptionSourceFramerate: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction. For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
-    public struct CaptionSourceFramerate: Swift.Equatable {
+    public struct CaptionSourceFramerate {
         /// Specify the denominator of the fraction that represents the frame rate for the setting Caption source frame rate. Use this setting along with the setting Framerate numerator.
         public var framerateDenominator: Swift.Int?
         /// Specify the numerator of the fraction that represents the frame rate for the setting Caption source frame rate. Use this setting along with the setting Framerate denominator.
@@ -5148,7 +5148,7 @@ extension MediaConvertClientTypes.CaptionSourceSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// If your input captions are SCC, TTML, STL, SMI, SRT, or IMSC in an xml file, specify the URI of the input captions source file. If your input captions are IMSC in an IMF package, use TrackSourceSettings instead of FileSoureSettings.
-    public struct CaptionSourceSettings: Swift.Equatable {
+    public struct CaptionSourceSettings {
         /// Settings for ancillary captions source.
         public var ancillarySourceSettings: MediaConvertClientTypes.AncillarySourceSettings?
         /// DVB Sub Source Settings
@@ -5292,7 +5292,7 @@ extension MediaConvertClientTypes.ChannelMapping: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Channel mapping contains the group of fields that hold the remixing value for each channel, in dB. Specify remix values to indicate how much of the content from your input audio channel you want in your output audio channels. Each instance of the InputChannels or InputChannelsFineTune array specifies these values for one output channel. Use one instance of this array for each output channel. In the console, each array corresponds to a column in the graphical depiction of the mapping matrix. The rows of the graphical matrix correspond to input channels. Valid values are within the range from -60 (mute) through 6. A setting of 0 passes the input channel unchanged to the output channel (no attenuation or amplification). Use InputChannels or InputChannelsFineTune to specify your remix values. Don't use both.
-    public struct ChannelMapping: Swift.Equatable {
+    public struct ChannelMapping {
         /// In your JSON job specification, include one child of OutputChannels for each audio channel that you want in your output. Each child should contain one instance of InputChannels or InputChannelsFineTune.
         public var outputChannels: [MediaConvertClientTypes.OutputChannelMapping]?
 
@@ -5345,7 +5345,7 @@ extension MediaConvertClientTypes.ClipLimits: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specify YUV limits and RGB tolerances when you set Sample range conversion to Limited range clip.
-    public struct ClipLimits: Swift.Equatable {
+    public struct ClipLimits {
         /// Specify the Maximum RGB color sample range tolerance for your output. MediaConvert corrects any YUV values that, when converted to RGB, would be outside the upper tolerance that you specify. Enter an integer from 90 to 105 as an offset percentage to the maximum possible value. Leave blank to use the default value 100. When you specify a value for Maximum RGB tolerance, you must set Sample range conversion to Limited range clip.
         public var maximumRGBTolerance: Swift.Int?
         /// Specify the Maximum YUV color sample limit. MediaConvert conforms any pixels in your input above the value that you specify to typical limited range bounds. Enter an integer from 920 to 1023. Leave blank to use the default value 940. The value that you enter applies to 10-bit ranges. For 8-bit ranges, MediaConvert automatically scales this value down. When you specify a value for Maximum YUV, you must set Sample range conversion to Limited range clip.
@@ -5410,7 +5410,7 @@ extension MediaConvertClientTypes.CmafAdditionalManifest: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specify the details for each pair of HLS and DASH additional manifests that you want the service to generate for this CMAF output group. Each pair of manifests can reference a different subset of outputs in the group.
-    public struct CmafAdditionalManifest: Swift.Equatable {
+    public struct CmafAdditionalManifest {
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
         public var manifestNameModifier: Swift.String?
         /// Specify the outputs that you want this additional top-level manifest to reference.
@@ -5545,7 +5545,7 @@ extension MediaConvertClientTypes.CmafEncryptionSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for CMAF encryption
-    public struct CmafEncryptionSettings: Swift.Equatable {
+    public struct CmafEncryptionSettings {
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public var constantInitializationVector: Swift.String?
         /// Specify the encryption scheme that you want the service to use when encrypting your CMAF segments. Choose AES-CBC subsample or AES_CTR.
@@ -5801,7 +5801,7 @@ extension MediaConvertClientTypes.CmafGroupSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to your CMAF output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    public struct CmafGroupSettings: Swift.Equatable {
+    public struct CmafGroupSettings {
         /// By default, the service creates one top-level .m3u8 HLS manifest and one top -level .mpd DASH manifest for each CMAF output group in your job. These default manifests reference every output in the output group. To create additional top-level manifests that reference a subset of the outputs in the output group, specify a list of them here. For each additional manifest that you specify, the service creates one HLS manifest and one DASH manifest.
         public var additionalManifests: [MediaConvertClientTypes.CmafAdditionalManifest]?
         /// A partial URI prefix that will be put in the manifest file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
@@ -6009,7 +6009,7 @@ extension MediaConvertClientTypes.CmafImageBasedTrickPlaySettings: Swift.Codable
 
 extension MediaConvertClientTypes {
     /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
-    public struct CmafImageBasedTrickPlaySettings: Swift.Equatable {
+    public struct CmafImageBasedTrickPlaySettings {
         /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
         public var intervalCadence: MediaConvertClientTypes.CmafIntervalCadence?
         /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
@@ -6940,7 +6940,7 @@ extension MediaConvertClientTypes.CmfcSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// These settings relate to the fragmented MP4 container for the segments in your CMAF outputs.
-    public struct CmfcSettings: Swift.Equatable {
+    public struct CmfcSettings {
         /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public var audioDuration: MediaConvertClientTypes.CmfcAudioDuration?
         /// Specify the audio rendition group for this audio rendition. Specify up to one value for each audio output in your output group. This value appears in your HLS parent manifest in the EXT-X-MEDIA tag of TYPE=AUDIO, as the value for the GROUP-ID attribute. For example, if you specify "audio_aac_1" for Audio group ID, it appears in your manifest like this: #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio_aac_1". Related setting: To associate the rendition group that this audio track belongs to with a video rendition, include the same value that you provide here for that video output's setting Audio rendition sets.
@@ -7117,7 +7117,7 @@ extension MediaConvertClientTypes.ColorConversion3DLUTSetting: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Custom 3D lut settings
-    public struct ColorConversion3DLUTSetting: Swift.Equatable {
+    public struct ColorConversion3DLUTSetting {
         /// Specify the input file S3, HTTP, or HTTPS URL for your 3D LUT .cube file. Note that MediaConvert accepts 3D LUT files up to 8MB in size.
         public var fileInput: Swift.String?
         /// Specify which inputs use this 3D LUT, according to their color space.
@@ -7228,7 +7228,7 @@ extension MediaConvertClientTypes.ColorCorrector: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for color correction.
-    public struct ColorCorrector: Swift.Equatable {
+    public struct ColorCorrector {
         /// Brightness level.
         public var brightness: Swift.Int?
         /// Specify YUV limits and RGB tolerances when you set Sample range conversion to Limited range clip.
@@ -7549,7 +7549,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -7634,7 +7634,7 @@ extension MediaConvertClientTypes.ContainerSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Container specific settings.
-    public struct ContainerSettings: Swift.Equatable {
+    public struct ContainerSettings {
         /// These settings relate to the fragmented MP4 container for the segments in your CMAF outputs.
         public var cmfcSettings: MediaConvertClientTypes.CmfcSettings?
         /// Container for this output. Some containers require a container settings object. If not specified, the default object will be created.
@@ -7853,7 +7853,7 @@ extension CreateJobInput {
     }
 }
 
-public struct CreateJobInput: Swift.Equatable {
+public struct CreateJobInput {
     /// Optional. Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
     public var accelerationSettings: MediaConvertClientTypes.AccelerationSettings?
     /// Optional. Choose a tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up. Any transcoding outputs that don't have an associated tag will appear in your billing report unsorted. If you don't choose a valid value for this field, your job outputs will appear on the billing report unsorted.
@@ -7915,7 +7915,7 @@ public struct CreateJobInput: Swift.Equatable {
     }
 }
 
-struct CreateJobInputBody: Swift.Equatable {
+struct CreateJobInputBody {
     let accelerationSettings: MediaConvertClientTypes.AccelerationSettings?
     let billingTagsSource: MediaConvertClientTypes.BillingTagsSource?
     let clientRequestToken: Swift.String?
@@ -8018,7 +8018,7 @@ extension CreateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJobOutput: Swift.Equatable {
+public struct CreateJobOutput {
     /// Each job converts an input file into an output file or files. For more information, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     public var job: MediaConvertClientTypes.Job?
 
@@ -8030,7 +8030,7 @@ public struct CreateJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateJobOutputBody: Swift.Equatable {
+struct CreateJobOutputBody {
     let job: MediaConvertClientTypes.Job?
 }
 
@@ -8124,7 +8124,7 @@ extension CreateJobTemplateInput {
     }
 }
 
-public struct CreateJobTemplateInput: Swift.Equatable {
+public struct CreateJobTemplateInput {
     /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
     public var accelerationSettings: MediaConvertClientTypes.AccelerationSettings?
     /// Optional. A category for the job template you are creating
@@ -8174,7 +8174,7 @@ public struct CreateJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateJobTemplateInputBody: Swift.Equatable {
+struct CreateJobTemplateInputBody {
     let accelerationSettings: MediaConvertClientTypes.AccelerationSettings?
     let category: Swift.String?
     let description: Swift.String?
@@ -8256,7 +8256,7 @@ extension CreateJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJobTemplateOutput: Swift.Equatable {
+public struct CreateJobTemplateOutput {
     /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
     public var jobTemplate: MediaConvertClientTypes.JobTemplate?
 
@@ -8268,7 +8268,7 @@ public struct CreateJobTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateJobTemplateOutputBody: Swift.Equatable {
+struct CreateJobTemplateOutputBody {
     let jobTemplate: MediaConvertClientTypes.JobTemplate?
 }
 
@@ -8339,7 +8339,7 @@ extension CreatePresetInput {
     }
 }
 
-public struct CreatePresetInput: Swift.Equatable {
+public struct CreatePresetInput {
     /// Optional. A category for the preset you are creating.
     public var category: Swift.String?
     /// Optional. A description of the preset you are creating.
@@ -8369,7 +8369,7 @@ public struct CreatePresetInput: Swift.Equatable {
     }
 }
 
-struct CreatePresetInputBody: Swift.Equatable {
+struct CreatePresetInputBody {
     let category: Swift.String?
     let description: Swift.String?
     let name: Swift.String?
@@ -8422,7 +8422,7 @@ extension CreatePresetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePresetOutput: Swift.Equatable {
+public struct CreatePresetOutput {
     /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
     public var preset: MediaConvertClientTypes.Preset?
 
@@ -8434,7 +8434,7 @@ public struct CreatePresetOutput: Swift.Equatable {
     }
 }
 
-struct CreatePresetOutputBody: Swift.Equatable {
+struct CreatePresetOutputBody {
     let preset: MediaConvertClientTypes.Preset?
 }
 
@@ -8509,7 +8509,7 @@ extension CreateQueueInput {
     }
 }
 
-public struct CreateQueueInput: Swift.Equatable {
+public struct CreateQueueInput {
     /// Optional. A description of the queue that you are creating.
     public var description: Swift.String?
     /// The name of the queue that you are creating.
@@ -8542,7 +8542,7 @@ public struct CreateQueueInput: Swift.Equatable {
     }
 }
 
-struct CreateQueueInputBody: Swift.Equatable {
+struct CreateQueueInputBody {
     let description: Swift.String?
     let name: Swift.String?
     let pricingPlan: MediaConvertClientTypes.PricingPlan?
@@ -8599,7 +8599,7 @@ extension CreateQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateQueueOutput: Swift.Equatable {
+public struct CreateQueueOutput {
     /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
     public var queue: MediaConvertClientTypes.Queue?
 
@@ -8611,7 +8611,7 @@ public struct CreateQueueOutput: Swift.Equatable {
     }
 }
 
-struct CreateQueueOutputBody: Swift.Equatable {
+struct CreateQueueOutputBody {
     let queue: MediaConvertClientTypes.Queue?
 }
 
@@ -8682,7 +8682,7 @@ extension MediaConvertClientTypes.DashAdditionalManifest: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specify the details for each additional DASH manifest that you want the service to generate for this output group. Each manifest can reference a different subset of outputs in the group.
-    public struct DashAdditionalManifest: Swift.Equatable {
+    public struct DashAdditionalManifest {
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your DASH group is film-name.mpd. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.mpd.
         public var manifestNameModifier: Swift.String?
         /// Specify the outputs that you want this additional top-level manifest to reference.
@@ -8727,7 +8727,7 @@ extension MediaConvertClientTypes.DashIsoEncryptionSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specifies DRM settings for DASH outputs.
-    public struct DashIsoEncryptionSettings: Swift.Equatable {
+    public struct DashIsoEncryptionSettings {
         /// This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH H.264 outputs with DRM encryption. Choose Unencrypted SEI only to correct problems with playback on older devices. Otherwise, keep the default setting CENC v1. If you choose Unencrypted SEI, for that output, the service will exclude the access unit delimiter and will leave the SEI NAL units unencrypted.
         public var playbackDeviceCompatibility: MediaConvertClientTypes.DashIsoPlaybackDeviceCompatibility?
         /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider. If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
@@ -8931,7 +8931,7 @@ extension MediaConvertClientTypes.DashIsoGroupSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to your DASH output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    public struct DashIsoGroupSettings: Swift.Equatable {
+    public struct DashIsoGroupSettings {
         /// By default, the service creates one .mpd DASH manifest for each DASH ISO output group in your job. This default manifest references every output in the output group. To create additional DASH manifests that reference a subset of the outputs in the output group, specify a list of them here.
         public var additionalManifests: [MediaConvertClientTypes.DashAdditionalManifest]?
         /// Use this setting only when your audio codec is a Dolby one (AC3, EAC3, or Atmos) and your downstream workflow requires that your DASH manifest use the Dolby channel configuration tag, rather than the MPEG one. For example, you might need to use this to make dynamic ad insertion work. Specify which audio channel configuration scheme ID URI MediaConvert writes in your DASH manifest. Keep the default value, MPEG channel configuration, to have MediaConvert write this: urn:mpeg:mpegB:cicp:ChannelConfiguration. Choose Dolby channel configuration to have MediaConvert write this instead: tag:dolby.com,2014:dash:audio_channel_configuration:2011.
@@ -9148,7 +9148,7 @@ extension MediaConvertClientTypes.DashIsoImageBasedTrickPlaySettings: Swift.Coda
 
 extension MediaConvertClientTypes {
     /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
-    public struct DashIsoImageBasedTrickPlaySettings: Swift.Equatable {
+    public struct DashIsoImageBasedTrickPlaySettings {
         /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
         public var intervalCadence: MediaConvertClientTypes.DashIsoIntervalCadence?
         /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
@@ -9626,7 +9626,7 @@ extension MediaConvertClientTypes.Deinterlacer: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for deinterlacer
-    public struct Deinterlacer: Swift.Equatable {
+    public struct Deinterlacer {
         /// Only applies when you set Deinterlace mode to Deinterlace or Adaptive. Interpolate produces sharper pictures, while blend produces smoother motion. If your source file includes a ticker, such as a scrolling headline at the bottom of the frame: Choose Interpolate ticker or Blend ticker. To apply field doubling: Choose Linear interpolation. Note that Linear interpolation may introduce video artifacts into your output.
         public var algorithm: MediaConvertClientTypes.DeinterlaceAlgorithm?
         /// * When set to NORMAL (default), the deinterlacer does not convert frames that are tagged in metadata as progressive. It will only convert those that are tagged as some other type. - When set to FORCE_ALL_FRAMES, the deinterlacer converts every frame to progressive - even those that are already tagged as progressive. Turn Force mode on only if there is a good chance that the metadata has tagged frames as progressive when they are not progressive. Do not turn on otherwise; processing frames that are already progressive into progressive will probably result in lower quality video.
@@ -9739,7 +9739,7 @@ extension DeleteJobTemplateInput {
     }
 }
 
-public struct DeleteJobTemplateInput: Swift.Equatable {
+public struct DeleteJobTemplateInput {
     /// The name of the job template to be deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -9752,7 +9752,7 @@ public struct DeleteJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteJobTemplateInputBody: Swift.Equatable {
+struct DeleteJobTemplateInputBody {
 }
 
 extension DeleteJobTemplateInputBody: Swift.Decodable {
@@ -9766,7 +9766,7 @@ extension DeleteJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteJobTemplateOutput: Swift.Equatable {
+public struct DeleteJobTemplateOutput {
 
     public init() { }
 }
@@ -9794,12 +9794,12 @@ extension DeletePolicyInput {
     }
 }
 
-public struct DeletePolicyInput: Swift.Equatable {
+public struct DeletePolicyInput {
 
     public init() { }
 }
 
-struct DeletePolicyInputBody: Swift.Equatable {
+struct DeletePolicyInputBody {
 }
 
 extension DeletePolicyInputBody: Swift.Decodable {
@@ -9813,7 +9813,7 @@ extension DeletePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePolicyOutput: Swift.Equatable {
+public struct DeletePolicyOutput {
 
     public init() { }
 }
@@ -9844,7 +9844,7 @@ extension DeletePresetInput {
     }
 }
 
-public struct DeletePresetInput: Swift.Equatable {
+public struct DeletePresetInput {
     /// The name of the preset to be deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -9857,7 +9857,7 @@ public struct DeletePresetInput: Swift.Equatable {
     }
 }
 
-struct DeletePresetInputBody: Swift.Equatable {
+struct DeletePresetInputBody {
 }
 
 extension DeletePresetInputBody: Swift.Decodable {
@@ -9871,7 +9871,7 @@ extension DeletePresetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePresetOutput: Swift.Equatable {
+public struct DeletePresetOutput {
 
     public init() { }
 }
@@ -9902,7 +9902,7 @@ extension DeleteQueueInput {
     }
 }
 
-public struct DeleteQueueInput: Swift.Equatable {
+public struct DeleteQueueInput {
     /// The name of the queue that you want to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -9915,7 +9915,7 @@ public struct DeleteQueueInput: Swift.Equatable {
     }
 }
 
-struct DeleteQueueInputBody: Swift.Equatable {
+struct DeleteQueueInputBody {
 }
 
 extension DeleteQueueInputBody: Swift.Decodable {
@@ -9929,7 +9929,7 @@ extension DeleteQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteQueueOutput: Swift.Equatable {
+public struct DeleteQueueOutput {
 
     public init() { }
 }
@@ -9979,7 +9979,7 @@ extension DescribeEndpointsInput {
 }
 
 @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
-public struct DescribeEndpointsInput: Swift.Equatable {
+public struct DescribeEndpointsInput {
     /// Optional. Max number of endpoints, up to twenty, that will be returned at one time.
     public var maxResults: Swift.Int?
     /// Optional field, defaults to DEFAULT. Specify DEFAULT for this operation to return your endpoints if any exist, or to create an endpoint for you and return it if one doesn't already exist. Specify GET_ONLY to return your endpoints if any exist, or an empty list if none exist.
@@ -10000,7 +10000,7 @@ public struct DescribeEndpointsInput: Swift.Equatable {
     }
 }
 
-struct DescribeEndpointsInputBody: Swift.Equatable {
+struct DescribeEndpointsInputBody {
     let maxResults: Swift.Int?
     let mode: MediaConvertClientTypes.DescribeEndpointsMode?
     let nextToken: Swift.String?
@@ -10073,7 +10073,7 @@ extension DescribeEndpointsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
-public struct DescribeEndpointsOutput: Swift.Equatable {
+public struct DescribeEndpointsOutput {
     /// List of endpoints
     public var endpoints: [MediaConvertClientTypes.Endpoint]?
     /// Use this string to request the next batch of endpoints.
@@ -10089,7 +10089,7 @@ public struct DescribeEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEndpointsOutputBody: Swift.Equatable {
+struct DescribeEndpointsOutputBody {
     let endpoints: [MediaConvertClientTypes.Endpoint]?
     let nextToken: Swift.String?
 }
@@ -10155,7 +10155,7 @@ extension MediaConvertClientTypes.DestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings associated with the destination. Will vary based on the type of destination
-    public struct DestinationSettings: Swift.Equatable {
+    public struct DestinationSettings {
         /// Settings associated with S3 destination
         public var s3Settings: MediaConvertClientTypes.S3DestinationSettings?
 
@@ -10179,7 +10179,7 @@ extension DisassociateCertificateInput {
     }
 }
 
-public struct DisassociateCertificateInput: Swift.Equatable {
+public struct DisassociateCertificateInput {
     /// The ARN of the ACM certificate that you want to disassociate from your MediaConvert resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -10192,7 +10192,7 @@ public struct DisassociateCertificateInput: Swift.Equatable {
     }
 }
 
-struct DisassociateCertificateInputBody: Swift.Equatable {
+struct DisassociateCertificateInputBody {
 }
 
 extension DisassociateCertificateInputBody: Swift.Decodable {
@@ -10206,7 +10206,7 @@ extension DisassociateCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateCertificateOutput: Swift.Equatable {
+public struct DisassociateCertificateOutput {
 
     public init() { }
 }
@@ -10266,7 +10266,7 @@ extension MediaConvertClientTypes.DolbyVision: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Create Dolby Vision Profile 5 or Profile 8.1 compatible video output.
-    public struct DolbyVision: Swift.Equatable {
+    public struct DolbyVision {
         /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override the MaxCLL and MaxFALL values in your input with new values.
         public var l6Metadata: MediaConvertClientTypes.DolbyVisionLevel6Metadata?
         /// Use Dolby Vision Mode to choose how the service will handle Dolby Vision MaxCLL and MaxFALL properies.
@@ -10319,7 +10319,7 @@ extension MediaConvertClientTypes.DolbyVisionLevel6Metadata: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override the MaxCLL and MaxFALL values in your input with new values.
-    public struct DolbyVisionLevel6Metadata: Swift.Equatable {
+    public struct DolbyVisionLevel6Metadata {
         /// Maximum Content Light Level. Static HDR metadata that corresponds to the brightest pixel in the entire stream. Measured in nits.
         public var maxCll: Swift.Int?
         /// Maximum Frame-Average Light Level. Static HDR metadata that corresponds to the highest frame-average brightness in the entire stream. Measured in nits.
@@ -10505,7 +10505,7 @@ extension MediaConvertClientTypes.DvbNitSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use these settings to insert a DVB Network Information Table (NIT) in the transport stream of this output.
-    public struct DvbNitSettings: Swift.Equatable {
+    public struct DvbNitSettings {
         /// The numeric value placed in the Network Information Table (NIT).
         public var networkId: Swift.Int?
         /// The network name text placed in the network_name_descriptor inside the Network Information Table. Maximum length is 256 characters.
@@ -10566,7 +10566,7 @@ extension MediaConvertClientTypes.DvbSdtSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use these settings to insert a DVB Service Description Table (SDT) in the transport stream of this output.
-    public struct DvbSdtSettings: Swift.Equatable {
+    public struct DvbSdtSettings {
         /// Selects method of inserting SDT information into output stream. "Follow input SDT" copies SDT information from input stream to output stream. "Follow input SDT if present" copies SDT information from input stream to output stream if SDT information is present in the input, otherwise it will fall back on the user-defined values. Enter "SDT Manually" means user will enter the SDT information. "No SDT" means output stream will not contain SDT information.
         public var outputSdt: MediaConvertClientTypes.OutputSdt?
         /// The number of milliseconds between instances of this table in the output transport stream.
@@ -10793,7 +10793,7 @@ extension MediaConvertClientTypes.DvbSubDestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to DVB-Sub captions. Set up DVB-Sub captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/dvb-sub-output-captions.html.
-    public struct DvbSubDestinationSettings: Swift.Equatable {
+    public struct DvbSubDestinationSettings {
         /// Specify the alignment of your captions. If no explicit x_position is provided, setting alignment to centered will placethe captions at the bottom center of the output. Similarly, setting a left alignment willalign captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. Within your job settings, all of your DVB-Sub settings must be identical.
         public var alignment: MediaConvertClientTypes.DvbSubtitleAlignment?
         /// Ignore this setting unless Style Passthrough is set to Enabled and Font color set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply font color for additional font color controls. When you choose White text only, or leave blank, your font color setting only applies to white text in your input captions. For example, if your font color setting is Yellow, and your input captions have red and white text, your output captions will have red and yellow text. When you choose ALL_TEXT, your font color setting applies to all of your output captions text.
@@ -10948,7 +10948,7 @@ extension MediaConvertClientTypes.DvbSubSourceSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// DVB Sub Source Settings
-    public struct DvbSubSourceSettings: Swift.Equatable {
+    public struct DvbSubSourceSettings {
         /// When using DVB-Sub with Burn-in, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public var pid: Swift.Int?
 
@@ -11373,7 +11373,7 @@ extension MediaConvertClientTypes.DvbTdtSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use these settings to insert a DVB Time and Date Table (TDT) in the transport stream of this output.
-    public struct DvbTdtSettings: Swift.Equatable {
+    public struct DvbTdtSettings {
         /// The number of milliseconds between instances of this table in the output transport stream.
         public var tdtInterval: Swift.Int?
 
@@ -11840,7 +11840,7 @@ extension MediaConvertClientTypes.Eac3AtmosSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value EAC3_ATMOS.
-    public struct Eac3AtmosSettings: Swift.Equatable {
+    public struct Eac3AtmosSettings {
         /// Specify the average bitrate for this output in bits per second. Valid values: 384k, 448k, 576k, 640k, 768k, 1024k Default value: 448k Note that MediaConvert supports 384k only with channel-based immersive (CBI) 7.1.4 and 5.1.4 inputs. For CBI 9.1.6 and other input types, MediaConvert automatically increases your output bitrate to 448k.
         public var bitrate: Swift.Int?
         /// Specify the bitstream mode for the E-AC-3 stream that the encoder emits. For more information about the EAC3 bitstream mode, see ATSC A/52-2012 (Annex E).
@@ -12533,7 +12533,7 @@ extension MediaConvertClientTypes.Eac3Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value EAC3.
-    public struct Eac3Settings: Swift.Equatable {
+    public struct Eac3Settings {
         /// If set to ATTENUATE_3_DB, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
         public var attenuationControl: MediaConvertClientTypes.Eac3AttenuationControl?
         /// Specify the average bitrate in bits per second. The bitrate that you specify must be a multiple of 8000 within the allowed minimum and maximum values. Leave blank to use the default bitrate for the coding mode you select according ETSI TS 102 366. Valid bitrates for coding mode 1/0: Default: 96000. Minimum: 32000. Maximum: 3024000. Valid bitrates for coding mode 2/0: Default: 192000. Minimum: 96000. Maximum: 3024000. Valid bitrates for coding mode 3/2: Default: 384000. Minimum: 192000. Maximum: 3024000.
@@ -12798,7 +12798,7 @@ extension MediaConvertClientTypes.EmbeddedDestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to CEA/EIA-608 and CEA/EIA-708 (also called embedded or ancillary) captions. Set up embedded captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/embedded-output-captions.html.
-    public struct EmbeddedDestinationSettings: Swift.Equatable {
+    public struct EmbeddedDestinationSettings {
         /// Ignore this setting unless your input captions are SCC format and your output captions are embedded in the video stream. Specify a CC number for each captions channel in this output. If you have two channels, choose CC numbers that aren't in the same field. For example, choose 1 and 3. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
         public var destination608ChannelNumber: Swift.Int?
         /// Ignore this setting unless your input captions are SCC format and you want both 608 and 708 captions embedded in your output stream. Optionally, specify the 708 service number for each output captions channel. Choose a different number for each channel. To use this setting, also set Force 608 to 708 upconvert to Upconvert in your input captions selector settings. If you choose to upconvert but don't specify a 708 service number, MediaConvert uses the number that you specify for CC channel number for the 708 service number. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
@@ -12855,7 +12855,7 @@ extension MediaConvertClientTypes.EmbeddedSourceSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for embedded captions Source
-    public struct EmbeddedSourceSettings: Swift.Equatable {
+    public struct EmbeddedSourceSettings {
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert, MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public var convert608To708: MediaConvertClientTypes.EmbeddedConvert608To708?
         /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
@@ -12968,7 +12968,7 @@ extension MediaConvertClientTypes.Endpoint: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Describes an account-specific API endpoint.
-    public struct Endpoint: Swift.Equatable {
+    public struct Endpoint {
         /// URL of endpoint
         public var url: Swift.String?
 
@@ -13003,7 +13003,7 @@ extension MediaConvertClientTypes.EsamManifestConfirmConditionNotification: Swif
 
 extension MediaConvertClientTypes {
     /// ESAM ManifestConfirmConditionNotification defined by OC-SP-ESAM-API-I03-131025.
-    public struct EsamManifestConfirmConditionNotification: Swift.Equatable {
+    public struct EsamManifestConfirmConditionNotification {
         /// Provide your ESAM ManifestConfirmConditionNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the Manifest Conditioning instructions in the message that you supply.
         public var mccXml: Swift.String?
 
@@ -13050,7 +13050,7 @@ extension MediaConvertClientTypes.EsamSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad insertion, you can ignore these settings.
-    public struct EsamSettings: Swift.Equatable {
+    public struct EsamSettings {
         /// Specifies an ESAM ManifestConfirmConditionNotification XML as per OC-SP-ESAM-API-I03-131025. The transcoder uses the manifest conditioning instructions that you provide in the setting MCC XML.
         public var manifestConfirmConditionNotification: MediaConvertClientTypes.EsamManifestConfirmConditionNotification?
         /// Specifies the stream distance, in milliseconds, between the SCTE 35 messages that the transcoder places and the splice points that they refer to. If the time between the start of the asset and the SCTE-35 message is less than this value, then the transcoder places the SCTE-35 marker at the beginning of the stream.
@@ -13093,7 +13093,7 @@ extension MediaConvertClientTypes.EsamSignalProcessingNotification: Swift.Codabl
 
 extension MediaConvertClientTypes {
     /// ESAM SignalProcessingNotification data defined by OC-SP-ESAM-API-I03-131025.
-    public struct EsamSignalProcessingNotification: Swift.Equatable {
+    public struct EsamSignalProcessingNotification {
         /// Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the signal processing instructions in the message that you supply. For your MPEG2-TS file outputs, if you want the service to place SCTE-35 markers at the insertion points you specify in the XML document, you must also enable SCTE-35 ESAM. Note that you can either specify an ESAM XML document or enable SCTE-35 passthrough. You can't do both.
         public var sccXml: Swift.String?
 
@@ -13134,7 +13134,7 @@ extension MediaConvertClientTypes.ExtendedDataServices: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
-    public struct ExtendedDataServices: Swift.Equatable {
+    public struct ExtendedDataServices {
         /// The action to take on copy and redistribution control XDS packets. If you select PASSTHROUGH, packets will not be changed. If you select STRIP, any packets will be removed in output captions.
         public var copyProtectionAction: MediaConvertClientTypes.CopyProtectionAction?
         /// The action to take on content advisory XDS packets. If you select PASSTHROUGH, packets will not be changed. If you select STRIP, any packets will be removed in output captions.
@@ -13206,7 +13206,7 @@ extension MediaConvertClientTypes.F4vSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for F4v container
-    public struct F4vSettings: Swift.Equatable {
+    public struct F4vSettings {
         /// To place the MOOV atom at the beginning of your output, which is useful for progressive downloading: Leave blank or choose Progressive download. To place the MOOV at the end of your output: Choose Normal.
         public var moovPlacement: MediaConvertClientTypes.F4vMoovPlacement?
 
@@ -13247,7 +13247,7 @@ extension MediaConvertClientTypes.FileGroupSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to your File output group. MediaConvert uses this group of settings to generate a single standalone file, rather than a streaming package.
-    public struct FileGroupSettings: Swift.Equatable {
+    public struct FileGroupSettings {
         /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public var destination: Swift.String?
         /// Settings associated with the destination. Will vary based on the type of destination
@@ -13349,7 +13349,7 @@ extension MediaConvertClientTypes.FileSourceSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// If your input captions are SCC, SMI, SRT, STL, TTML, WebVTT, or IMSC 1.1 in an xml file, specify the URI of the input caption source file. If your caption source is IMSC in an IMF package, use TrackSourceSettings instead of FileSoureSettings.
-    public struct FileSourceSettings: Swift.Equatable {
+    public struct FileSourceSettings {
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert, MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public var convert608To708: MediaConvertClientTypes.FileSourceConvert608To708?
         /// Choose the presentation style of your input SCC captions. To use the same presentation style as your input: Keep the default value, Disabled. To convert paint-on captions to pop-on: Choose Enabled. We also recommend that you choose Enabled if you notice additional repeated lines in your output captions.
@@ -13449,7 +13449,7 @@ extension MediaConvertClientTypes.FlacSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value FLAC.
-    public struct FlacSettings: Swift.Equatable {
+    public struct FlacSettings {
         /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
         public var bitDepth: Swift.Int?
         /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are between 1 and 8.
@@ -13546,7 +13546,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let message: Swift.String?
 }
 
@@ -13589,7 +13589,7 @@ extension MediaConvertClientTypes.ForceIncludeRenditionSize: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use Force include renditions to specify one or more resolutions to include your ABR stack. * (Recommended) To optimize automated ABR, specify as few resolutions as possible. * (Required) The number of resolutions that you specify must be equal to, or less than, the Max renditions setting. * If you specify a Min top rendition size rule, specify at least one resolution that is equal to, or greater than, Min top rendition size. * If you specify a Min bottom rendition size rule, only specify resolutions that are equal to, or greater than, Min bottom rendition size. * If you specify a Force include renditions rule, do not specify a separate rule for Allowed renditions. * Note: The ABR stack may include other resolutions that you do not specify here, depending on the Max renditions setting.
-    public struct ForceIncludeRenditionSize: Swift.Equatable {
+    public struct ForceIncludeRenditionSize {
         /// Use Height to define the video resolution height, in pixels, for this rule.
         public var height: Swift.Int?
         /// Use Width to define the video resolution width, in pixels, for this rule.
@@ -13646,7 +13646,7 @@ extension MediaConvertClientTypes.FrameCaptureSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value FRAME_CAPTURE.
-    public struct FrameCaptureSettings: Swift.Equatable {
+    public struct FrameCaptureSettings {
         /// Frame capture will encode the first frame of the output stream, then one frame every framerateDenominator/framerateNumerator seconds. For example, settings of framerateNumerator = 1 and framerateDenominator = 3 (a rate of 1/3 frame per second) will capture the first frame, then 1 frame every 3s. Files will be named as filename.n.jpg where n is the 0-based sequence number of each Capture.
         public var framerateDenominator: Swift.Int?
         /// Frame capture will encode the first frame of the output stream, then one frame every framerateDenominator/framerateNumerator seconds. For example, settings of framerateNumerator = 1 and framerateDenominator = 3 (a rate of 1/3 frame per second) will capture the first frame, then 1 frame every 3s. Files will be named as filename.NNNNNNN.jpg where N is the 0-based frame sequence number zero padded to 7 decimal places.
@@ -13682,7 +13682,7 @@ extension GetJobInput {
     }
 }
 
-public struct GetJobInput: Swift.Equatable {
+public struct GetJobInput {
     /// the job ID of the job.
     /// This member is required.
     public var id: Swift.String?
@@ -13695,7 +13695,7 @@ public struct GetJobInput: Swift.Equatable {
     }
 }
 
-struct GetJobInputBody: Swift.Equatable {
+struct GetJobInputBody {
 }
 
 extension GetJobInputBody: Swift.Decodable {
@@ -13716,7 +13716,7 @@ extension GetJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobOutput: Swift.Equatable {
+public struct GetJobOutput {
     /// Each job converts an input file into an output file or files. For more information, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     public var job: MediaConvertClientTypes.Job?
 
@@ -13728,7 +13728,7 @@ public struct GetJobOutput: Swift.Equatable {
     }
 }
 
-struct GetJobOutputBody: Swift.Equatable {
+struct GetJobOutputBody {
     let job: MediaConvertClientTypes.Job?
 }
 
@@ -13770,7 +13770,7 @@ extension GetJobTemplateInput {
     }
 }
 
-public struct GetJobTemplateInput: Swift.Equatable {
+public struct GetJobTemplateInput {
     /// The name of the job template.
     /// This member is required.
     public var name: Swift.String?
@@ -13783,7 +13783,7 @@ public struct GetJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetJobTemplateInputBody: Swift.Equatable {
+struct GetJobTemplateInputBody {
 }
 
 extension GetJobTemplateInputBody: Swift.Decodable {
@@ -13804,7 +13804,7 @@ extension GetJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobTemplateOutput: Swift.Equatable {
+public struct GetJobTemplateOutput {
     /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
     public var jobTemplate: MediaConvertClientTypes.JobTemplate?
 
@@ -13816,7 +13816,7 @@ public struct GetJobTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetJobTemplateOutputBody: Swift.Equatable {
+struct GetJobTemplateOutputBody {
     let jobTemplate: MediaConvertClientTypes.JobTemplate?
 }
 
@@ -13855,12 +13855,12 @@ extension GetPolicyInput {
     }
 }
 
-public struct GetPolicyInput: Swift.Equatable {
+public struct GetPolicyInput {
 
     public init() { }
 }
 
-struct GetPolicyInputBody: Swift.Equatable {
+struct GetPolicyInputBody {
 }
 
 extension GetPolicyInputBody: Swift.Decodable {
@@ -13881,7 +13881,7 @@ extension GetPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPolicyOutput: Swift.Equatable {
+public struct GetPolicyOutput {
     /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     public var policy: MediaConvertClientTypes.Policy?
 
@@ -13893,7 +13893,7 @@ public struct GetPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetPolicyOutputBody: Swift.Equatable {
+struct GetPolicyOutputBody {
     let policy: MediaConvertClientTypes.Policy?
 }
 
@@ -13935,7 +13935,7 @@ extension GetPresetInput {
     }
 }
 
-public struct GetPresetInput: Swift.Equatable {
+public struct GetPresetInput {
     /// The name of the preset.
     /// This member is required.
     public var name: Swift.String?
@@ -13948,7 +13948,7 @@ public struct GetPresetInput: Swift.Equatable {
     }
 }
 
-struct GetPresetInputBody: Swift.Equatable {
+struct GetPresetInputBody {
 }
 
 extension GetPresetInputBody: Swift.Decodable {
@@ -13969,7 +13969,7 @@ extension GetPresetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPresetOutput: Swift.Equatable {
+public struct GetPresetOutput {
     /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
     public var preset: MediaConvertClientTypes.Preset?
 
@@ -13981,7 +13981,7 @@ public struct GetPresetOutput: Swift.Equatable {
     }
 }
 
-struct GetPresetOutputBody: Swift.Equatable {
+struct GetPresetOutputBody {
     let preset: MediaConvertClientTypes.Preset?
 }
 
@@ -14023,7 +14023,7 @@ extension GetQueueInput {
     }
 }
 
-public struct GetQueueInput: Swift.Equatable {
+public struct GetQueueInput {
     /// The name of the queue that you want information about.
     /// This member is required.
     public var name: Swift.String?
@@ -14036,7 +14036,7 @@ public struct GetQueueInput: Swift.Equatable {
     }
 }
 
-struct GetQueueInputBody: Swift.Equatable {
+struct GetQueueInputBody {
 }
 
 extension GetQueueInputBody: Swift.Decodable {
@@ -14057,7 +14057,7 @@ extension GetQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueueOutput: Swift.Equatable {
+public struct GetQueueOutput {
     /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
     public var queue: MediaConvertClientTypes.Queue?
 
@@ -14069,7 +14069,7 @@ public struct GetQueueOutput: Swift.Equatable {
     }
 }
 
-struct GetQueueOutputBody: Swift.Equatable {
+struct GetQueueOutputBody {
     let queue: MediaConvertClientTypes.Queue?
 }
 
@@ -14722,7 +14722,7 @@ extension MediaConvertClientTypes.H264QvbrSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for quality-defined variable bitrate encoding with the H.264 codec. Use these settings only when you set QVBR for Rate control mode.
-    public struct H264QvbrSettings: Swift.Equatable {
+    public struct H264QvbrSettings {
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public var maxAverageBitrate: Swift.Int?
         /// Use this setting only when you set Rate control mode to QVBR. Specify the target quality level for this output. MediaConvert determines the right number of bits to use for each part of the video to maintain the video quality that you specify. When you keep the default value, AUTO, MediaConvert picks a quality level for you, based on characteristics of your input video. If you prefer to specify a quality level, specify a number from 1 through 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
@@ -15155,7 +15155,7 @@ extension MediaConvertClientTypes.H264Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value H_264.
-    public struct H264Settings: Swift.Equatable {
+    public struct H264Settings {
         /// Keep the default value, Auto, for this setting to have MediaConvert automatically apply the best types of quantization for your video content. When you want to apply your quantization settings manually, you must set H264AdaptiveQuantization to a value other than Auto. Use this setting to specify the strength of any adaptive quantization filters that you enable. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization to Off. Related settings: The value that you choose here applies to the following settings: H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization, and H264TemporalAdaptiveQuantization.
         public var adaptiveQuantization: MediaConvertClientTypes.H264AdaptiveQuantization?
         /// The Bandwidth reduction filter increases the video quality of your output relative to its bitrate. Use to lower the bitrate of your constant quality QVBR output, with little or no perceptual decrease in quality. Or, use to increase the video quality of outputs with other rate control modes relative to the bitrate that you specify. Bandwidth reduction increases further when your input is low quality or noisy. Outputs that use this feature incur pro-tier pricing. When you include Bandwidth reduction filter, you cannot include the Noise reducer preprocessor.
@@ -16120,7 +16120,7 @@ extension MediaConvertClientTypes.H265QvbrSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
-    public struct H265QvbrSettings: Swift.Equatable {
+    public struct H265QvbrSettings {
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public var maxAverageBitrate: Swift.Int?
         /// Use this setting only when you set Rate control mode to QVBR. Specify the target quality level for this output. MediaConvert determines the right number of bits to use for each part of the video to maintain the video quality that you specify. When you keep the default value, AUTO, MediaConvert picks a quality level for you, based on characteristics of your input video. If you prefer to specify a quality level, specify a number from 1 through 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
@@ -16556,7 +16556,7 @@ extension MediaConvertClientTypes.H265Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for H265 codec
-    public struct H265Settings: Swift.Equatable {
+    public struct H265Settings {
         /// When you set Adaptive Quantization to Auto, or leave blank, MediaConvert automatically applies quantization to improve the video quality of your output. Set Adaptive Quantization to Low, Medium, High, Higher, or Max to manually control the strength of the quantization filter. When you do, you can specify a value for Spatial Adaptive Quantization, Temporal Adaptive Quantization, and Flicker Adaptive Quantization, to further control the quantization filter. Set Adaptive Quantization to Off to apply no quantization to your output.
         public var adaptiveQuantization: MediaConvertClientTypes.H265AdaptiveQuantization?
         /// Enables Alternate Transfer Function SEI message for outputs using Hybrid Log Gamma (HLG) Electro-Optical Transfer Function (EOTF).
@@ -17125,7 +17125,7 @@ extension MediaConvertClientTypes.Hdr10Metadata: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use these settings to specify static color calibration metadata, as defined by SMPTE ST 2086. These values don't affect the pixel values that are encoded in the video stream. They are intended to help the downstream video player display content in a way that reflects the intentions of the the content creator.
-    public struct Hdr10Metadata: Swift.Equatable {
+    public struct Hdr10Metadata {
         /// HDR Master Display Information must be provided by a color grader, using color grading tools. Range is 0 to 50,000, each increment represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for color correction.
         public var bluePrimaryX: Swift.Int?
         /// HDR Master Display Information must be provided by a color grader, using color grading tools. Range is 0 to 50,000, each increment represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for color correction.
@@ -17210,7 +17210,7 @@ extension MediaConvertClientTypes.Hdr10Plus: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Setting for HDR10+ metadata insertion
-    public struct Hdr10Plus: Swift.Equatable {
+    public struct Hdr10Plus {
         /// Specify the HDR10+ mastering display normalized peak luminance, in nits. This is the normalized actual peak luminance of the mastering display, as defined by ST 2094-40.
         public var masteringMonitorNits: Swift.Int?
         /// Specify the HDR10+ target display nominal peak luminance, in nits. This is the nominal maximum luminance of the target display as defined by ST 2094-40.
@@ -17300,7 +17300,7 @@ extension MediaConvertClientTypes.HlsAdditionalManifest: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specify the details for each additional HLS manifest that you want the service to generate for this output group. Each manifest can reference a different subset of outputs in the group.
-    public struct HlsAdditionalManifest: Swift.Equatable {
+    public struct HlsAdditionalManifest {
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
         public var manifestNameModifier: Swift.String?
         /// Specify the outputs that you want this additional top-level manifest to reference.
@@ -17462,7 +17462,7 @@ extension MediaConvertClientTypes.HlsCaptionLanguageMapping: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Caption Language Mapping
-    public struct HlsCaptionLanguageMapping: Swift.Equatable {
+    public struct HlsCaptionLanguageMapping {
         /// Caption channel.
         public var captionChannel: Swift.Int?
         /// Specify the language for this captions channel, using the ISO 639-2 or ISO 639-3 three-letter language code
@@ -17746,7 +17746,7 @@ extension MediaConvertClientTypes.HlsEncryptionSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for HLS encryption
-    public struct HlsEncryptionSettings: Swift.Equatable {
+    public struct HlsEncryptionSettings {
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public var constantInitializationVector: Swift.String?
         /// Encrypts the segments with the given encryption scheme. Leave blank to disable. Selecting 'Disabled' in the web interface also disables encryption.
@@ -18060,7 +18060,7 @@ extension MediaConvertClientTypes.HlsGroupSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to your HLS output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    public struct HlsGroupSettings: Swift.Equatable {
+    public struct HlsGroupSettings {
         /// Choose one or more ad marker types to decorate your Apple HLS manifest. This setting does not determine whether SCTE-35 markers appear in the outputs themselves.
         public var adMarkers: [MediaConvertClientTypes.HlsAdMarkers]?
         /// By default, the service creates one top-level .m3u8 HLS manifest for each HLS output group in your job. This default manifest references every output in the output group. To create additional top-level manifests that reference a subset of the outputs in the output group, specify a list of them here.
@@ -18321,7 +18321,7 @@ extension MediaConvertClientTypes.HlsImageBasedTrickPlaySettings: Swift.Codable 
 
 extension MediaConvertClientTypes {
     /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
-    public struct HlsImageBasedTrickPlaySettings: Swift.Equatable {
+    public struct HlsImageBasedTrickPlaySettings {
         /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
         public var intervalCadence: MediaConvertClientTypes.HlsIntervalCadence?
         /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
@@ -18685,7 +18685,7 @@ extension MediaConvertClientTypes.HlsRenditionGroupSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings specific to audio sources in an HLS alternate rendition group. Specify the properties (renditionGroupId, renditionName or renditionLanguageCode) to identify the unique audio track among the alternative rendition groups present in the HLS manifest. If no unique track is found, or multiple tracks match the properties provided, the job fails. If no properties in hlsRenditionGroupSettings are specified, the default audio track within the video segment is chosen. If there is no audio within video segment, the alternative audio with DEFAULT=YES is chosen instead.
-    public struct HlsRenditionGroupSettings: Swift.Equatable {
+    public struct HlsRenditionGroupSettings {
         /// Optional. Specify alternative group ID
         public var renditionGroupId: Swift.String?
         /// Optional. Specify ISO 639-2 or ISO 639-3 code in the language property
@@ -18830,7 +18830,7 @@ extension MediaConvertClientTypes.HlsSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for HLS output groups
-    public struct HlsSettings: Swift.Equatable {
+    public struct HlsSettings {
         /// Specifies the group to which the audio rendition belongs.
         public var audioGroupId: Swift.String?
         /// Use this setting only in audio-only outputs. Choose MPEG-2 Transport Stream (M2TS) to create a file in an MPEG2-TS container. Keep the default value Automatic to create an audio-only file in a raw container. Regardless of the value that you specify here, if this output has video, the service will place the output into an MPEG2-TS container.
@@ -19003,7 +19003,7 @@ extension MediaConvertClientTypes.HopDestination: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Optional. Configuration for a destination queue to which the job can hop once a customer-defined minimum wait time has passed.
-    public struct HopDestination: Swift.Equatable {
+    public struct HopDestination {
         /// Optional. When you set up a job to use queue hopping, you can specify a different relative priority for the job in the destination queue. If you don't specify, the relative priority will remain the same as in the previous queue.
         public var priority: Swift.Int?
         /// Optional unless the job is submitted on the default queue. When you set up a job to use queue hopping, you can specify a destination queue. This queue cannot be the original queue to which the job is submitted. If the original queue isn't the default queue and you don't specify the destination queue, the job will move to the default queue.
@@ -19052,7 +19052,7 @@ extension MediaConvertClientTypes.Id3Insertion: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// To insert ID3 tags in your output, specify two values. Use ID3 tag to specify the base 64 encoded string and use Timecode to specify the time when the tag should be inserted. To insert multiple ID3 tags in your output, create multiple instances of ID3 insertion.
-    public struct Id3Insertion: Swift.Equatable {
+    public struct Id3Insertion {
         /// Use ID3 tag to provide a fully formed ID3 tag in base64-encode format.
         public var id3: Swift.String?
         /// Provide a Timecode in HH:MM:SS:FF or HH:MM:SS;FF format.
@@ -19109,7 +19109,7 @@ extension MediaConvertClientTypes.ImageInserter: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use the image inserter feature to include a graphic overlay on your video. Enable or disable this feature for each input or output individually. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/graphic-overlay.html. This setting is disabled by default.
-    public struct ImageInserter: Swift.Equatable {
+    public struct ImageInserter {
         /// Specify the images that you want to overlay on your video. The images must be PNG or TGA files.
         public var insertableImages: [MediaConvertClientTypes.InsertableImage]?
         /// Specify the reference white level, in nits, for all of your image inserter images. Use to correct brightness levels within HDR10 outputs. For 1,000 nit peak brightness displays, we recommend that you set SDR reference white level to 203 (according to ITU-R BT.2408). Leave blank to use the default value of 100, or specify an integer from 100 to 1000.
@@ -19187,7 +19187,7 @@ extension MediaConvertClientTypes.ImscDestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to IMSC captions. IMSC is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
-    public struct ImscDestinationSettings: Swift.Equatable {
+    public struct ImscDestinationSettings {
         /// If the IMSC captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
         public var accessibility: MediaConvertClientTypes.ImscAccessibilitySubs?
         /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
@@ -19475,7 +19475,7 @@ extension MediaConvertClientTypes.Input: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use inputs to define the source files used in your transcoding job. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/specify-input-settings.html. You can use multiple video inputs to do input stitching. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/assembling-multiple-inputs-and-input-clips.html
-    public struct Input: Swift.Equatable {
+    public struct Input {
         /// Use to remove noise, blocking, blurriness, or ringing from your input as a pre-filter step before encoding. The Advanced input filter removes more types of compression artifacts and is an improvement when compared to basic Deblock and Denoise filters. To remove video compression artifacts from your input and improve the video quality: Choose Enabled. Additionally, this filter can help increase the video quality of your output relative to its bitrate, since noisy inputs are more complex and require more bits to encode. To help restore loss of detail after applying the filter, you can optionally add texture or sharpening as an additional step. Jobs that use this feature incur pro-tier pricing. To not apply advanced input filtering: Choose Disabled. Note that you can still apply basic filtering with Deblock and Denoise.
         public var advancedInputFilter: MediaConvertClientTypes.AdvancedInputFilter?
         /// Optional settings for Advanced input filter when you set Advanced input filter to Enabled.
@@ -19616,7 +19616,7 @@ extension MediaConvertClientTypes.InputClipping: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// To transcode only portions of your input, include one input clip for each part of your input that you want in your output. All input clips that you specify will be included in every output of the job. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/assembling-multiple-inputs-and-input-clips.html.
-    public struct InputClipping: Swift.Equatable {
+    public struct InputClipping {
         /// Set End timecode to the end of the portion of the input you are clipping. The frame corresponding to the End timecode value is included in the clip. Start timecode or End timecode may be left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When choosing this value, take into account your setting for timecode source under input settings. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your clip to end six minutes into the video, use 01:06:00:00.
         public var endTimecode: Swift.String?
         /// Set Start timecode to the beginning of the portion of the input you are clipping. The frame corresponding to the Start timecode value is included in the clip. Start timecode or End timecode may be left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When choosing this value, take into account your setting for Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your clip to begin five minutes into the video, use 01:05:00:00.
@@ -19706,7 +19706,7 @@ extension MediaConvertClientTypes.InputDecryptionSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for decrypting any input files that you encrypt before you upload them to Amazon S3. MediaConvert can decrypt files only when you use AWS Key Management Service (KMS) to encrypt the data key that you use to encrypt your content.
-    public struct InputDecryptionSettings: Swift.Equatable {
+    public struct InputDecryptionSettings {
         /// Specify the encryption mode that you used to encrypt your input files.
         public var decryptionMode: MediaConvertClientTypes.DecryptionMode?
         /// Warning! Don't provide your encryption key in plaintext. Your job settings could be intercepted, making your encrypted content vulnerable. Specify the encrypted version of the data key that you used to encrypt your content. The data key must be encrypted by AWS Key Management Service (KMS). The key can be 128, 192, or 256 bits.
@@ -20183,7 +20183,7 @@ extension MediaConvertClientTypes.InputTemplate: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specified video input in a template.
-    public struct InputTemplate: Swift.Equatable {
+    public struct InputTemplate {
         /// Use to remove noise, blocking, blurriness, or ringing from your input as a pre-filter step before encoding. The Advanced input filter removes more types of compression artifacts and is an improvement when compared to basic Deblock and Denoise filters. To remove video compression artifacts from your input and improve the video quality: Choose Enabled. Additionally, this filter can help increase the video quality of your output relative to its bitrate, since noisy inputs are more complex and require more bits to encode. To help restore loss of detail after applying the filter, you can optionally add texture or sharpening as an additional step. Jobs that use this feature incur pro-tier pricing. To not apply advanced input filtering: Choose Disabled. Note that you can still apply basic filtering with Deblock and Denoise.
         public var advancedInputFilter: MediaConvertClientTypes.AdvancedInputFilter?
         /// Optional settings for Advanced input filter when you set Advanced input filter to Enabled.
@@ -20338,7 +20338,7 @@ extension MediaConvertClientTypes.InputVideoGenerator: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// When you include Video generator, MediaConvert creates a video input with black frames. Use this setting if you do not have a video input or if you want to add black video frames before, or after, other inputs. You can specify Video generator, or you can specify an Input file, but you cannot specify both. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
-    public struct InputVideoGenerator: Swift.Equatable {
+    public struct InputVideoGenerator {
         /// Specify an integer value for Black video duration from 50 to 86400000 to generate a black video input for that many milliseconds. Required when you include Video generator.
         public var duration: Swift.Int?
 
@@ -20433,7 +20433,7 @@ extension MediaConvertClientTypes.InsertableImage: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// These settings apply to a specific graphic overlay. You can include multiple overlays in your job.
-    public struct InsertableImage: Swift.Equatable {
+    public struct InsertableImage {
         /// Specify the time, in milliseconds, for the image to remain on the output video. This duration includes fade-in time but not fade-out time.
         public var duration: Swift.Int?
         /// Specify the length of time, in milliseconds, between the Start time that you specify for the image insertion and the time that the image appears at full opacity. Full opacity is the level that you specify for the opacity setting. If you don't specify a value for Fade-in, the image will appear abruptly at the overlay start time.
@@ -20526,7 +20526,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -20779,7 +20779,7 @@ extension MediaConvertClientTypes.Job: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Each job converts an input file into an output file or files. For more information, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
-    public struct Job: Swift.Equatable {
+    public struct Job {
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
         public var accelerationSettings: MediaConvertClientTypes.AccelerationSettings?
         /// Describes whether the current job is running with accelerated transcoding. For jobs that have Acceleration (AccelerationMode) set to DISABLED, AccelerationStatus is always NOT_APPLICABLE. For jobs that have Acceleration (AccelerationMode) set to ENABLED or PREFERRED, AccelerationStatus is one of the other states. AccelerationStatus is IN_PROGRESS initially, while the service determines whether the input files and job settings are compatible with accelerated transcoding. If they are, AcclerationStatus is ACCELERATED. If your input files and job settings aren't compatible with accelerated transcoding, the service either fails your job or runs it without accelerated transcoding, depending on how you set Acceleration (AccelerationMode). When the service runs your job without accelerated transcoding, AccelerationStatus is NOT_ACCELERATED.
@@ -20950,7 +20950,7 @@ extension MediaConvertClientTypes.JobMessages: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Provides messages from the service about jobs that you have already successfully submitted.
-    public struct JobMessages: Swift.Equatable {
+    public struct JobMessages {
         /// List of messages that are informational only and don't indicate a problem with your job.
         public var info: [Swift.String]?
         /// List of messages that warn about conditions that might cause your job not to run or to fail.
@@ -21139,7 +21139,7 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// JobSettings contains all the transcode settings for a job.
-    public struct JobSettings: Swift.Equatable {
+    public struct JobSettings {
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time.
         public var adAvailOffset: Swift.Int?
         /// Settings for ad avail blanking. Video can be blanked or overlaid with an image, and audio muted during SCTE-35 triggered ad avails.
@@ -21352,7 +21352,7 @@ extension MediaConvertClientTypes.JobTemplate: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
-    public struct JobTemplate: Swift.Equatable {
+    public struct JobTemplate {
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
         public var accelerationSettings: MediaConvertClientTypes.AccelerationSettings?
         /// An identifier for this resource that is unique within all of AWS.
@@ -21587,7 +21587,7 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// JobTemplateSettings contains all the transcode settings saved in the template that will be applied to jobs created from it.
-    public struct JobTemplateSettings: Swift.Equatable {
+    public struct JobTemplateSettings {
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time.
         public var adAvailOffset: Swift.Int?
         /// Settings for ad avail blanking. Video can be blanked or overlaid with an image, and audio muted during SCTE-35 triggered ad avails.
@@ -21746,7 +21746,7 @@ extension MediaConvertClientTypes.KantarWatermarkSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
-    public struct KantarWatermarkSettings: Swift.Equatable {
+    public struct KantarWatermarkSettings {
         /// Provide an audio channel name from your Kantar audio license.
         public var channelName: Swift.String?
         /// Specify a unique identifier for Kantar to use for this piece of content.
@@ -22446,7 +22446,7 @@ extension ListJobTemplatesInput {
     }
 }
 
-public struct ListJobTemplatesInput: Swift.Equatable {
+public struct ListJobTemplatesInput {
     /// Optionally, specify a job template category to limit responses to only job templates from that category.
     public var category: Swift.String?
     /// Optional. When you request a list of job templates, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by name.
@@ -22474,7 +22474,7 @@ public struct ListJobTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListJobTemplatesInputBody: Swift.Equatable {
+struct ListJobTemplatesInputBody {
 }
 
 extension ListJobTemplatesInputBody: Swift.Decodable {
@@ -22497,7 +22497,7 @@ extension ListJobTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobTemplatesOutput: Swift.Equatable {
+public struct ListJobTemplatesOutput {
     /// List of Job templates.
     public var jobTemplates: [MediaConvertClientTypes.JobTemplate]?
     /// Use this string to request the next batch of job templates.
@@ -22513,7 +22513,7 @@ public struct ListJobTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListJobTemplatesOutputBody: Swift.Equatable {
+struct ListJobTemplatesOutputBody {
     let jobTemplates: [MediaConvertClientTypes.JobTemplate]?
     let nextToken: Swift.String?
 }
@@ -22593,7 +22593,7 @@ extension ListJobsInput {
     }
 }
 
-public struct ListJobsInput: Swift.Equatable {
+public struct ListJobsInput {
     /// Optional. Number of jobs, up to twenty, that will be returned at one time.
     public var maxResults: Swift.Int?
     /// Optional. Use this string, provided with the response to a previous request, to request the next batch of jobs.
@@ -22621,7 +22621,7 @@ public struct ListJobsInput: Swift.Equatable {
     }
 }
 
-struct ListJobsInputBody: Swift.Equatable {
+struct ListJobsInputBody {
 }
 
 extension ListJobsInputBody: Swift.Decodable {
@@ -22644,7 +22644,7 @@ extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobsOutput: Swift.Equatable {
+public struct ListJobsOutput {
     /// List of jobs
     public var jobs: [MediaConvertClientTypes.Job]?
     /// Use this string to request the next batch of jobs.
@@ -22660,7 +22660,7 @@ public struct ListJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputBody: Swift.Equatable {
+struct ListJobsOutputBody {
     let jobs: [MediaConvertClientTypes.Job]?
     let nextToken: Swift.String?
 }
@@ -22740,7 +22740,7 @@ extension ListPresetsInput {
     }
 }
 
-public struct ListPresetsInput: Swift.Equatable {
+public struct ListPresetsInput {
     /// Optionally, specify a preset category to limit responses to only presets from that category.
     public var category: Swift.String?
     /// Optional. When you request a list of presets, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by name.
@@ -22768,7 +22768,7 @@ public struct ListPresetsInput: Swift.Equatable {
     }
 }
 
-struct ListPresetsInputBody: Swift.Equatable {
+struct ListPresetsInputBody {
 }
 
 extension ListPresetsInputBody: Swift.Decodable {
@@ -22791,7 +22791,7 @@ extension ListPresetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPresetsOutput: Swift.Equatable {
+public struct ListPresetsOutput {
     /// Use this string to request the next batch of presets.
     public var nextToken: Swift.String?
     /// List of presets
@@ -22807,7 +22807,7 @@ public struct ListPresetsOutput: Swift.Equatable {
     }
 }
 
-struct ListPresetsOutputBody: Swift.Equatable {
+struct ListPresetsOutputBody {
     let nextToken: Swift.String?
     let presets: [MediaConvertClientTypes.Preset]?
 }
@@ -22883,7 +22883,7 @@ extension ListQueuesInput {
     }
 }
 
-public struct ListQueuesInput: Swift.Equatable {
+public struct ListQueuesInput {
     /// Optional. When you request a list of queues, you can choose to list them alphabetically by NAME or chronologically by CREATION_DATE. If you don't specify, the service will list them by creation date.
     public var listBy: MediaConvertClientTypes.QueueListBy?
     /// Optional. Number of queues, up to twenty, that will be returned at one time.
@@ -22907,7 +22907,7 @@ public struct ListQueuesInput: Swift.Equatable {
     }
 }
 
-struct ListQueuesInputBody: Swift.Equatable {
+struct ListQueuesInputBody {
 }
 
 extension ListQueuesInputBody: Swift.Decodable {
@@ -22930,7 +22930,7 @@ extension ListQueuesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueuesOutput: Swift.Equatable {
+public struct ListQueuesOutput {
     /// Use this string to request the next batch of queues.
     public var nextToken: Swift.String?
     /// List of queues.
@@ -22946,7 +22946,7 @@ public struct ListQueuesOutput: Swift.Equatable {
     }
 }
 
-struct ListQueuesOutputBody: Swift.Equatable {
+struct ListQueuesOutputBody {
     let nextToken: Swift.String?
     let queues: [MediaConvertClientTypes.Queue]?
 }
@@ -23001,7 +23001,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to list tags for. To get the ARN, send a GET request with the resource name.
     /// This member is required.
     public var arn: Swift.String?
@@ -23014,7 +23014,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -23035,7 +23035,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The Amazon Resource Name (ARN) and tags for an AWS Elemental MediaConvert resource.
     public var resourceTags: MediaConvertClientTypes.ResourceTags?
 
@@ -23047,7 +23047,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let resourceTags: MediaConvertClientTypes.ResourceTags?
 }
 
@@ -23529,7 +23529,7 @@ extension MediaConvertClientTypes.M2tsScte35Esam: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for SCTE-35 signals from ESAM. Include this in your job settings to put SCTE-35 markers in your HLS and transport stream outputs at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML.
-    public struct M2tsScte35Esam: Swift.Equatable {
+    public struct M2tsScte35Esam {
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream generated by ESAM.
         public var scte35EsamPid: Swift.Int?
 
@@ -23945,7 +23945,7 @@ extension MediaConvertClientTypes.M2tsSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// MPEG-2 TS container settings. These apply to outputs in a File output group when the output's container is MPEG-2 Transport Stream (M2TS). In these assets, data is organized by the program map table (PMT). Each transport stream program contains subsets of data, including audio, video, and metadata. Each of these subsets of data has a numerical label called a packet identifier (PID). Each transport stream program corresponds to one MediaConvert output. The PMT lists the types of data in a program along with their PID. Downstream systems and players use the program map table to look up the PID for each type of data it accesses and then uses the PIDs to locate specific data within the asset.
-    public struct M2tsSettings: Swift.Equatable {
+    public struct M2tsSettings {
         /// Selects between the DVB and ATSC buffer models for Dolby Digital audio.
         public var audioBufferModel: MediaConvertClientTypes.M2tsAudioBufferModel?
         /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
@@ -24441,7 +24441,7 @@ extension MediaConvertClientTypes.M3u8Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// These settings relate to the MPEG-2 transport stream (MPEG2-TS) container for the MPEG2-TS segments in your HLS outputs.
-    public struct M3u8Settings: Swift.Equatable {
+    public struct M3u8Settings {
         /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public var audioDuration: MediaConvertClientTypes.M3u8AudioDuration?
         /// The number of audio frames to insert for each PES packet.
@@ -24564,7 +24564,7 @@ extension MediaConvertClientTypes.MinBottomRenditionSize: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use Min bottom rendition size to specify a minimum size for the lowest resolution in your ABR stack. * The lowest resolution in your ABR stack will be equal to or greater than the value that you enter. For example: If you specify 640x360 the lowest resolution in your ABR stack will be equal to or greater than to 640x360. * If you specify a Min top rendition size rule, the value that you specify for Min bottom rendition size must be less than, or equal to, Min top rendition size.
-    public struct MinBottomRenditionSize: Swift.Equatable {
+    public struct MinBottomRenditionSize {
         /// Use Height to define the video resolution height, in pixels, for this rule.
         public var height: Swift.Int?
         /// Use Width to define the video resolution width, in pixels, for this rule.
@@ -24609,7 +24609,7 @@ extension MediaConvertClientTypes.MinTopRenditionSize: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use Min top rendition size to specify a minimum size for the highest resolution in your ABR stack. * The highest resolution in your ABR stack will be equal to or greater than the value that you enter. For example: If you specify 1280x720 the highest resolution in your ABR stack will be equal to or greater than 1280x720. * If you specify a value for Max resolution, the value that you specify for Min top rendition size must be less than, or equal to, Max resolution.
-    public struct MinTopRenditionSize: Swift.Equatable {
+    public struct MinTopRenditionSize {
         /// Use Height to define the video resolution height, in pixels, for this rule.
         public var height: Swift.Int?
         /// Use Width to define the video resolution width, in pixels, for this rule.
@@ -24678,7 +24678,7 @@ extension MediaConvertClientTypes.MotionImageInserter: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Overlay motion graphics on top of your video. The motion graphics that you specify here appear on all outputs in all output groups. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
-    public struct MotionImageInserter: Swift.Equatable {
+    public struct MotionImageInserter {
         /// If your motion graphic asset is a .mov file, keep this setting unspecified. If your motion graphic asset is a series of .png files, specify the frame rate of the overlay in frames per second, as a fraction. For example, specify 24 fps as 24/1. Make sure that the number of images in your series matches the frame rate and your intended overlay duration. For example, if you want a 30-second overlay at 30 fps, you should have 900 .png images. This overlay frame rate doesn't need to match the frame rate of the underlying video.
         public var framerate: MediaConvertClientTypes.MotionImageInsertionFramerate?
         /// Specify the .mov file or series of .png files that you want to overlay on your video. For .png files, provide the file name of the first file in the series. Make sure that the names of the .png files end with sequential numbers that specify the order that they are played in. For example, overlay_000.png, overlay_001.png, overlay_002.png, and so on. The sequence must start at zero, and each image file name must have the same number of digits. Pad your initial file names with enough zeros to complete the sequence. For example, if the first image is overlay_0.png, there can be only 10 images in the sequence, with the last image being overlay_9.png. But if the first image is overlay_00.png, there can be 100 images in the sequence.
@@ -24739,7 +24739,7 @@ extension MediaConvertClientTypes.MotionImageInsertionFramerate: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// For motion overlays that don't have a built-in frame rate, specify the frame rate of the overlay in frames per second, as a fraction. For example, specify 24 fps as 24/1. The overlay frame rate doesn't need to match the frame rate of the underlying video.
-    public struct MotionImageInsertionFramerate: Swift.Equatable {
+    public struct MotionImageInsertionFramerate {
         /// The bottom of the fraction that expresses your overlay frame rate. For example, if your frame rate is 24 fps, set this value to 1.
         public var framerateDenominator: Swift.Int?
         /// The top of the fraction that expresses your overlay frame rate. For example, if your frame rate is 24 fps, set this value to 24.
@@ -24817,7 +24817,7 @@ extension MediaConvertClientTypes.MotionImageInsertionOffset: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specify the offset between the upper-left corner of the video frame and the top left corner of the overlay.
-    public struct MotionImageInsertionOffset: Swift.Equatable {
+    public struct MotionImageInsertionOffset {
         /// Set the distance, in pixels, between the overlay and the left edge of the video frame.
         public var imagex: Swift.Int?
         /// Set the distance, in pixels, between the overlay and the top edge of the video frame.
@@ -25078,7 +25078,7 @@ extension MediaConvertClientTypes.MovSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// These settings relate to your QuickTime MOV output container.
-    public struct MovSettings: Swift.Equatable {
+    public struct MovSettings {
         /// When enabled, include 'clap' atom if appropriate for the video output settings.
         public var clapAtom: MediaConvertClientTypes.MovClapAtom?
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
@@ -25141,7 +25141,7 @@ extension MediaConvertClientTypes.Mp2Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value MP2.
-    public struct Mp2Settings: Swift.Equatable {
+    public struct Mp2Settings {
         /// Specify the average bitrate in bits per second.
         public var bitrate: Swift.Int?
         /// Set Channels to specify the number of channels in this output audio track. Choosing Mono in will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 1 and 2.
@@ -25241,7 +25241,7 @@ extension MediaConvertClientTypes.Mp3Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value MP3.
-    public struct Mp3Settings: Swift.Equatable {
+    public struct Mp3Settings {
         /// Specify the average bitrate in bits per second.
         public var bitrate: Swift.Int?
         /// Specify the number of channels in this output audio track. Choosing Mono gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
@@ -25421,7 +25421,7 @@ extension MediaConvertClientTypes.Mp4Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// These settings relate to your MP4 output container. You can create audio only outputs with this container. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/supported-codecs-containers-audio-only.html#output-codecs-and-containers-supported-for-audio-only.
-    public struct Mp4Settings: Swift.Equatable {
+    public struct Mp4Settings {
         /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public var audioDuration: MediaConvertClientTypes.CmfcAudioDuration?
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
@@ -25767,7 +25767,7 @@ extension MediaConvertClientTypes.MpdSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// These settings relate to the fragmented MP4 container for the segments in your DASH outputs.
-    public struct MpdSettings: Swift.Equatable {
+    public struct MpdSettings {
         /// Optional. Choose Include to have MediaConvert mark up your DASH manifest with elements for embedded 608 captions. This markup isn't generally required, but some video players require it to discover and play embedded 608 captions. Keep the default value, Exclude, to leave these elements out. When you enable this setting, this is the markup that MediaConvert includes in your manifest:
         public var accessibilityCaptionHints: MediaConvertClientTypes.MpdAccessibilityCaptionHints?
         /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
@@ -26598,7 +26598,7 @@ extension MediaConvertClientTypes.Mpeg2Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value MPEG2.
-    public struct Mpeg2Settings: Swift.Equatable {
+    public struct Mpeg2Settings {
         /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to the following settings: Spatial adaptive quantization, and Temporal adaptive quantization.
         public var adaptiveQuantization: MediaConvertClientTypes.Mpeg2AdaptiveQuantization?
         /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
@@ -26947,7 +26947,7 @@ extension MediaConvertClientTypes.MsSmoothAdditionalManifest: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specify the details for each additional Microsoft Smooth Streaming manifest that you want the service to generate for this output group. Each manifest can reference a different subset of outputs in the group.
-    public struct MsSmoothAdditionalManifest: Swift.Equatable {
+    public struct MsSmoothAdditionalManifest {
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your Microsoft Smooth group is film-name.ismv. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.ismv.
         public var manifestNameModifier: Swift.String?
         /// Specify the outputs that you want this additional top-level manifest to reference.
@@ -27019,7 +27019,7 @@ extension MediaConvertClientTypes.MsSmoothEncryptionSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// If you are using DRM, set DRM System to specify the value SpekeKeyProvider.
-    public struct MsSmoothEncryptionSettings: Swift.Equatable {
+    public struct MsSmoothEncryptionSettings {
         /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider. If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
         public var spekeKeyProvider: MediaConvertClientTypes.SpekeKeyProvider?
 
@@ -27141,7 +27141,7 @@ extension MediaConvertClientTypes.MsSmoothGroupSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to your Microsoft Smooth Streaming output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    public struct MsSmoothGroupSettings: Swift.Equatable {
+    public struct MsSmoothGroupSettings {
         /// By default, the service creates one .ism Microsoft Smooth Streaming manifest for each Microsoft Smooth Streaming output group in your job. This default manifest references every output in the output group. To create additional manifests that reference a subset of the outputs in the output group, specify a list of them here.
         public var additionalManifests: [MediaConvertClientTypes.MsSmoothAdditionalManifest]?
         /// COMBINE_DUPLICATE_STREAMS combines identical audio encoding settings across a Microsoft Smooth output group into a single audio stream.
@@ -27324,7 +27324,7 @@ extension MediaConvertClientTypes.MxfSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// These settings relate to your MXF output container.
-    public struct MxfSettings: Swift.Equatable {
+    public struct MxfSettings {
         /// Optional. When you have AFD signaling set up in your output video stream, use this setting to choose whether to also include it in the MXF wrapper. Choose Don't copy to exclude AFD signaling from the MXF wrapper. Choose Copy from video stream to copy the AFD values from the video stream for this output to the MXF wrapper. Regardless of which option you choose, the AFD values remain in the video stream. Related settings: To set up your output to include or exclude AFD values, see AfdSignaling, under VideoDescription. On the console, find AFD signaling under the output's video encoding settings.
         public var afdSignaling: MediaConvertClientTypes.MxfAfdSignaling?
         /// Specify the MXF profile, also called shim, for this output. To automatically select a profile according to your output video codec and resolution, leave blank. For a list of codecs supported with each MXF profile, see https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html. For more information about the automatic selection behavior, see https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
@@ -27406,7 +27406,7 @@ extension MediaConvertClientTypes.MxfXavcProfileSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specify the XAVC profile settings for MXF outputs when you set your MXF profile to XAVC.
-    public struct MxfXavcProfileSettings: Swift.Equatable {
+    public struct MxfXavcProfileSettings {
         /// To create an output that complies with the XAVC file format guidelines for interoperability, keep the default value, Drop frames for compliance. To include all frames from your input in this output, keep the default setting, Allow any duration. The number of frames that MediaConvert excludes when you set this to Drop frames for compliance depends on the output frame rate and duration.
         public var durationMode: MediaConvertClientTypes.MxfXavcDurationMode?
         /// Specify a value for this setting only for outputs that you set up with one of these two XAVC profiles: XAVC HD Intra CBG or XAVC 4K Intra CBG. Specify the amount of space in each frame that the service reserves for ancillary data, such as teletext captions. The default value for this setting is 1492 bytes per frame. This should be sufficient to prevent overflow unless you have multiple pages of teletext captions data. If you have a large amount of teletext data, specify a larger number.
@@ -27463,7 +27463,7 @@ extension MediaConvertClientTypes.NexGuardFileMarkerSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// For forensic video watermarking, MediaConvert supports Nagra NexGuard File Marker watermarking. MediaConvert supports both PreRelease Content (NGPR/G2) and OTT Streaming workflows.
-    public struct NexGuardFileMarkerSettings: Swift.Equatable {
+    public struct NexGuardFileMarkerSettings {
         /// Use the base64 license string that Nagra provides you. Enter it directly in your JSON job specification or in the console. Required when you include Nagra NexGuard File Marker watermarking in your job.
         public var license: Swift.String?
         /// Specify the payload ID that you want associated with this output. Valid values vary depending on your Nagra NexGuard forensic watermarking workflow. Required when you include Nagra NexGuard File Marker watermarking in your job. For PreRelease Content (NGPR/G2), specify an integer from 1 through 4,194,303. You must generate a unique ID for each asset you watermark, and keep a record of which ID you have assigned to each asset. Neither Nagra nor MediaConvert keep track of the relationship between output files and your IDs. For OTT Streaming, create two adaptive bitrate (ABR) stacks for each asset. Do this by setting up two output groups. For one output group, set the value of Payload ID to 0 in every output. For the other output group, set Payload ID to 1 in every output.
@@ -27552,7 +27552,7 @@ extension MediaConvertClientTypes.NielsenConfiguration: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration, MediaConvert enables PCM to ID3 tagging for all outputs in the job.
-    public struct NielsenConfiguration: Swift.Equatable {
+    public struct NielsenConfiguration {
         /// Nielsen has discontinued the use of breakout code functionality. If you must include this property, set the value to zero.
         public var breakoutCode: Swift.Int?
         /// Use Distributor ID to specify the distributor ID that is assigned to your organization by Nielsen.
@@ -27651,7 +27651,7 @@ extension MediaConvertClientTypes.NielsenNonLinearWatermarkSettings: Swift.Codab
 
 extension MediaConvertClientTypes {
     /// Ignore these settings unless you are using Nielsen non-linear watermarking. Specify the values that MediaConvert uses to generate and place Nielsen watermarks in your output audio. In addition to specifying these values, you also need to set up your cloud TIC server. These settings apply to every output in your job. The MediaConvert implementation is currently with the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC] Version [5.0.0]
-    public struct NielsenNonLinearWatermarkSettings: Swift.Equatable {
+    public struct NielsenNonLinearWatermarkSettings {
         /// Choose the type of Nielsen watermarks that you want in your outputs. When you choose NAES 2 and NW, you must provide a value for the setting SID. When you choose CBET, you must provide a value for the setting CSID. When you choose NAES 2, NW, and CBET, you must provide values for both of these settings.
         public var activeWatermarkProcess: MediaConvertClientTypes.NielsenActiveWatermarkProcessType?
         /// Optional. Use this setting when you want the service to include an ADI file in the Nielsen metadata .zip file. To provide an ADI file, store it in Amazon S3 and provide a URL to it here. The URL should be in the following format: S3://bucket/path/ADI-file. For more information about the metadata .zip file, see the setting Metadata destination.
@@ -27882,7 +27882,7 @@ extension MediaConvertClientTypes.NoiseReducer: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Enable the Noise reducer feature to remove noise from your video output if necessary. Enable or disable this feature for each output individually. This setting is disabled by default. When you enable Noise reducer, you must also select a value for Noise reducer filter. For AVC outputs, when you include Noise reducer, you cannot include the Bandwidth reduction filter.
-    public struct NoiseReducer: Swift.Equatable {
+    public struct NoiseReducer {
         /// Use Noise reducer filter to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer. * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion.
         public var filter: MediaConvertClientTypes.NoiseReducerFilter?
         /// Settings for a noise reducer filter
@@ -27980,7 +27980,7 @@ extension MediaConvertClientTypes.NoiseReducerFilterSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for a noise reducer filter
-    public struct NoiseReducerFilterSettings: Swift.Equatable {
+    public struct NoiseReducerFilterSettings {
         /// Relative strength of noise reducing filter. Higher values produce stronger filtering.
         public var strength: Swift.Int?
 
@@ -28027,7 +28027,7 @@ extension MediaConvertClientTypes.NoiseReducerSpatialFilterSettings: Swift.Codab
 
 extension MediaConvertClientTypes {
     /// Noise reducer filter settings for spatial filter.
-    public struct NoiseReducerSpatialFilterSettings: Swift.Equatable {
+    public struct NoiseReducerSpatialFilterSettings {
         /// Specify strength of post noise reduction sharpening filter, with 0 disabling the filter and 3 enabling it at maximum strength.
         public var postFilterSharpenStrength: Swift.Int?
         /// The speed of the filter, from -2 (lower speed) to 3 (higher speed), with 0 being the nominal value.
@@ -28094,7 +28094,7 @@ extension MediaConvertClientTypes.NoiseReducerTemporalFilterSettings: Swift.Coda
 
 extension MediaConvertClientTypes {
     /// Noise reducer filter settings for temporal filter.
-    public struct NoiseReducerTemporalFilterSettings: Swift.Equatable {
+    public struct NoiseReducerTemporalFilterSettings {
         /// Use Aggressive mode for content that has complex motion. Higher values produce stronger temporal filtering. This filters highly complex scenes more aggressively and creates better VQ for low bitrate outputs.
         public var aggressiveMode: Swift.Int?
         /// When you set Noise reducer to Temporal, the bandwidth and sharpness of your output is reduced. You can optionally use Post temporal sharpening to apply sharpening to the edges of your output. Note that Post temporal sharpening will also make the bandwidth reduction from the Noise reducer smaller. The default behavior, Auto, allows the transcoder to determine whether to apply sharpening, depending on your input type and quality. When you set Post temporal sharpening to Enabled, specify how much sharpening is applied using Post temporal sharpening strength. Set Post temporal sharpening to Disabled to not apply sharpening.
@@ -28163,7 +28163,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -28212,7 +28212,7 @@ extension MediaConvertClientTypes.OpusSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value OPUS.
-    public struct OpusSettings: Swift.Equatable {
+    public struct OpusSettings {
         /// Optional. Specify the average bitrate in bits per second. Valid values are multiples of 8000, from 32000 through 192000. The default value is 96000, which we recommend for quality and bandwidth.
         public var bitrate: Swift.Int?
         /// Specify the number of channels in this output audio track. Choosing Mono on gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
@@ -28354,7 +28354,7 @@ extension MediaConvertClientTypes.Output: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Each output in your job is a collection of settings that describes how you want MediaConvert to encode a single output file or stream. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/create-outputs.html.
-    public struct Output: Swift.Equatable {
+    public struct Output {
         /// Contains groups of audio encoding settings organized by audio codec. Include one instance of per output. Can contain multiple groups of encoding settings.
         public var audioDescriptions: [MediaConvertClientTypes.AudioDescription]?
         /// Contains groups of captions settings. For each output that has captions, include one instance of CaptionDescriptions. Can contain multiple groups of captions settings.
@@ -28447,7 +28447,7 @@ extension MediaConvertClientTypes.OutputChannelMapping: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// OutputChannel mapping settings.
-    public struct OutputChannelMapping: Swift.Equatable {
+    public struct OutputChannelMapping {
         /// Use this setting to specify your remix values when they are integers, such as -10, 0, or 4.
         public var inputChannels: [Swift.Int]?
         /// Use this setting to specify your remix values when they have a decimal component, such as -10.312, 0.08, or 4.9. MediaConvert rounds your remixing values to the nearest thousandth.
@@ -28492,7 +28492,7 @@ extension MediaConvertClientTypes.OutputDetail: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Details regarding output
-    public struct OutputDetail: Swift.Equatable {
+    public struct OutputDetail {
         /// Duration in milliseconds
         public var durationInMs: Swift.Int?
         /// Contains details about the output's video stream
@@ -28567,7 +28567,7 @@ extension MediaConvertClientTypes.OutputGroup: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Group of outputs
-    public struct OutputGroup: Swift.Equatable {
+    public struct OutputGroup {
         /// Use automated encoding to have MediaConvert choose your encoding settings for you, based on characteristics of your input video.
         public var automatedEncodingSettings: MediaConvertClientTypes.AutomatedEncodingSettings?
         /// Use Custom Group Name to specify a name for the output group. This value is displayed on the console and can make your job settings JSON more human-readable. It does not affect your outputs. Use up to twelve characters that are either letters, numbers, spaces, or underscores.
@@ -28630,7 +28630,7 @@ extension MediaConvertClientTypes.OutputGroupDetail: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Contains details about the output groups specified in the job settings.
-    public struct OutputGroupDetail: Swift.Equatable {
+    public struct OutputGroupDetail {
         /// Details about the output
         public var outputDetails: [MediaConvertClientTypes.OutputDetail]?
 
@@ -28695,7 +28695,7 @@ extension MediaConvertClientTypes.OutputGroupSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Output Group settings, including type
-    public struct OutputGroupSettings: Swift.Equatable {
+    public struct OutputGroupSettings {
         /// Settings related to your CMAF output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
         public var cmafGroupSettings: MediaConvertClientTypes.CmafGroupSettings?
         /// Settings related to your DASH output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
@@ -28831,7 +28831,7 @@ extension MediaConvertClientTypes.OutputSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Specific settings for this type of output.
-    public struct OutputSettings: Swift.Equatable {
+    public struct OutputSettings {
         /// Settings for HLS output groups
         public var hlsSettings: MediaConvertClientTypes.HlsSettings?
 
@@ -28899,7 +28899,7 @@ extension MediaConvertClientTypes.PartnerWatermarking: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// If you work with a third party video watermarking partner, use the group of settings that correspond with your watermarking partner to include watermarks in your output.
-    public struct PartnerWatermarking: Swift.Equatable {
+    public struct PartnerWatermarking {
         /// For forensic video watermarking, MediaConvert supports Nagra NexGuard File Marker watermarking. MediaConvert supports both PreRelease Content (NGPR/G2) and OTT Streaming workflows.
         public var nexguardFileMarkerSettings: MediaConvertClientTypes.NexGuardFileMarkerSettings?
 
@@ -28946,7 +28946,7 @@ extension MediaConvertClientTypes.Policy: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
-    public struct Policy: Swift.Equatable {
+    public struct Policy {
         /// Allow or disallow jobs that specify HTTP inputs.
         public var httpInputs: MediaConvertClientTypes.InputPolicy?
         /// Allow or disallow jobs that specify HTTPS inputs.
@@ -29031,7 +29031,7 @@ extension MediaConvertClientTypes.Preset: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
-    public struct Preset: Swift.Equatable {
+    public struct Preset {
         /// An identifier for this resource that is unique within all of AWS.
         public var arn: Swift.String?
         /// An optional category you create to organize your presets.
@@ -29174,7 +29174,7 @@ extension MediaConvertClientTypes.PresetSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for preset
-    public struct PresetSettings: Swift.Equatable {
+    public struct PresetSettings {
         /// Contains groups of audio encoding settings organized by audio codec. Include one instance of per output. Can contain multiple groups of encoding settings.
         public var audioDescriptions: [MediaConvertClientTypes.AudioDescription]?
         /// This object holds groups of settings related to captions for one output. For each output that has captions, include one instance of CaptionDescriptions.
@@ -29581,7 +29581,7 @@ extension MediaConvertClientTypes.ProresSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value PRORES.
-    public struct ProresSettings: Swift.Equatable {
+    public struct ProresSettings {
         /// This setting applies only to ProRes 4444 and ProRes 4444 XQ outputs that you create from inputs that use 4:4:4 chroma sampling. Set Preserve 4:4:4 sampling to allow outputs to also use 4:4:4 chroma sampling. You must specify a value for this setting when your output codec profile supports 4:4:4 chroma sampling. Related Settings: For Apple ProRes outputs with 4:4:4 chroma sampling: Choose Preserve 4:4:4 sampling. Use when your input has 4:4:4 chroma sampling and your output codec Profile is Apple ProRes 4444 or 4444 XQ. Note that when you choose Preserve 4:4:4 sampling, you cannot include any of the following Preprocessors: Dolby Vision, HDR10+, or Noise reducer.
         public var chromaSampling: MediaConvertClientTypes.ProresChromaSampling?
         /// Use Profile to specify the type of Apple ProRes codec to use for this output.
@@ -29729,7 +29729,7 @@ extension PutPolicyInput {
     }
 }
 
-public struct PutPolicyInput: Swift.Equatable {
+public struct PutPolicyInput {
     /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     /// This member is required.
     public var policy: MediaConvertClientTypes.Policy?
@@ -29742,7 +29742,7 @@ public struct PutPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutPolicyInputBody: Swift.Equatable {
+struct PutPolicyInputBody {
     let policy: MediaConvertClientTypes.Policy?
 }
 
@@ -29770,7 +29770,7 @@ extension PutPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutPolicyOutput: Swift.Equatable {
+public struct PutPolicyOutput {
     /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     public var policy: MediaConvertClientTypes.Policy?
 
@@ -29782,7 +29782,7 @@ public struct PutPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutPolicyOutputBody: Swift.Equatable {
+struct PutPolicyOutputBody {
     let policy: MediaConvertClientTypes.Policy?
 }
 
@@ -29895,7 +29895,7 @@ extension MediaConvertClientTypes.Queue: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
-    public struct Queue: Swift.Equatable {
+    public struct Queue {
         /// An identifier for this resource that is unique within all of AWS.
         public var arn: Swift.String?
         /// The timestamp in epoch seconds for when you created the queue.
@@ -30049,7 +30049,7 @@ extension MediaConvertClientTypes.QueueTransition: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Description of the source and destination queues between which the job has moved, along with the timestamp of the move
-    public struct QueueTransition: Swift.Equatable {
+    public struct QueueTransition {
         /// The queue that the job was on after the transition.
         public var destinationQueue: Swift.String?
         /// The queue that the job was on before the transition.
@@ -30110,7 +30110,7 @@ extension MediaConvertClientTypes.Rectangle: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use Rectangle to identify a specific area of the video frame.
-    public struct Rectangle: Swift.Equatable {
+    public struct Rectangle {
         /// Height of rectangle in pixels. Specify only even numbers.
         public var height: Swift.Int?
         /// Width of rectangle in pixels. Specify only even numbers.
@@ -30181,7 +30181,7 @@ extension MediaConvertClientTypes.RemixSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use Manual audio remixing to adjust audio levels for each audio channel in each output of your job. With audio remixing, you can output more or fewer audio channels than your input audio source provides.
-    public struct RemixSettings: Swift.Equatable {
+    public struct RemixSettings {
         /// Optionally specify the channel in your input that contains your audio description audio signal. MediaConvert mixes your audio signal across all output channels, while reducing their volume according to your data stream. When you specify an audio description audio channel, you must also specify an audio description data channel. For more information about audio description signals, see the BBC WHP 198 and 051 white papers.
         public var audioDescriptionAudioChannel: Swift.Int?
         /// Optionally specify the channel in your input that contains your audio description data stream. MediaConvert mixes your audio signal across all output channels, while reducing their volume according to your data stream. When you specify an audio description data channel, you must also specify an audio description audio channel. For more information about audio description signals, see the BBC WHP 198 and 051 white papers.
@@ -30328,7 +30328,7 @@ extension MediaConvertClientTypes.ReservationPlan: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Details about the pricing plan for your reserved queue. Required for reserved queues and not applicable to on-demand queues.
-    public struct ReservationPlan: Swift.Equatable {
+    public struct ReservationPlan {
         /// The length of the term of your reserved queue pricing plan commitment.
         public var commitment: MediaConvertClientTypes.Commitment?
         /// The timestamp in epoch seconds for when the current pricing plan term for this reserved queue expires.
@@ -30395,7 +30395,7 @@ extension MediaConvertClientTypes.ReservationPlanSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Details about the pricing plan for your reserved queue. Required for reserved queues and not applicable to on-demand queues.
-    public struct ReservationPlanSettings: Swift.Equatable {
+    public struct ReservationPlanSettings {
         /// The length of the term of your reserved queue pricing plan commitment.
         /// This member is required.
         public var commitment: MediaConvertClientTypes.Commitment?
@@ -30492,7 +30492,7 @@ extension MediaConvertClientTypes.ResourceTags: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// The Amazon Resource Name (ARN) and tags for an AWS Elemental MediaConvert resource.
-    public struct ResourceTags: Swift.Equatable {
+    public struct ResourceTags {
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: Swift.String?
         /// The tags for the resource.
@@ -30606,7 +30606,7 @@ extension MediaConvertClientTypes.S3DestinationAccessControl: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Optional. Have MediaConvert automatically apply Amazon S3 access control for the outputs in this output group. When you don't use this setting, S3 automatically applies the default access control list PRIVATE.
-    public struct S3DestinationAccessControl: Swift.Equatable {
+    public struct S3DestinationAccessControl {
         /// Choose an Amazon S3 canned ACL for MediaConvert to apply to this output.
         public var cannedAcl: MediaConvertClientTypes.S3ObjectCannedAcl?
 
@@ -30653,7 +30653,7 @@ extension MediaConvertClientTypes.S3DestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings associated with S3 destination
-    public struct S3DestinationSettings: Swift.Equatable {
+    public struct S3DestinationSettings {
         /// Optional. Have MediaConvert automatically apply Amazon S3 access control for the outputs in this output group. When you don't use this setting, S3 automatically applies the default access control list PRIVATE.
         public var accessControl: MediaConvertClientTypes.S3DestinationAccessControl?
         /// Settings for how your job outputs are encrypted as they are uploaded to Amazon S3.
@@ -30708,7 +30708,7 @@ extension MediaConvertClientTypes.S3EncryptionSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for how your job outputs are encrypted as they are uploaded to Amazon S3.
-    public struct S3EncryptionSettings: Swift.Equatable {
+    public struct S3EncryptionSettings {
         /// Specify how you want your data keys managed. AWS uses data keys to encrypt your content. AWS also encrypts the data keys themselves, using a customer master key (CMK), and then stores the encrypted data keys alongside your encrypted content. Use this setting to specify which AWS service manages the CMK. For simplest set up, choose Amazon S3. If you want your master key to be managed by AWS Key Management Service (KMS), choose AWS KMS. By default, when you choose AWS KMS, KMS uses the AWS managed customer master key (CMK) associated with Amazon S3 to encrypt your data keys. You can optionally choose to specify a different, customer managed CMK. Do so by specifying the Amazon Resource Name (ARN) of the key for the setting KMS ARN.
         public var encryptionType: MediaConvertClientTypes.S3ServerSideEncryptionType?
         /// Optionally, specify the encryption context that you want to use alongside your KMS key. AWS KMS uses this encryption context as additional authenticated data (AAD) to support authenticated encryption. This value must be a base64-encoded UTF-8 string holding JSON which represents a string-string map. To use this setting, you must also set Server-side encryption to AWS KMS. For more information about encryption context, see: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context.
@@ -30991,7 +30991,7 @@ extension MediaConvertClientTypes.SccDestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to SCC captions. SCC is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/scc-srt-output-captions.html.
-    public struct SccDestinationSettings: Swift.Equatable {
+    public struct SccDestinationSettings {
         /// Set Framerate to make sure that the captions and the video are synchronized in the output. Specify a frame rate that matches the frame rate of the associated video. If the video frame rate is 29.97, choose 29.97 dropframe only if the video has video_insertion=true and drop_frame_timecode=true; otherwise, choose 29.97 non-dropframe.
         public var framerate: MediaConvertClientTypes.SccDestinationFramerate?
 
@@ -31089,7 +31089,7 @@ extension MediaConvertClientTypes.SpekeKeyProvider: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider. If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
-    public struct SpekeKeyProvider: Swift.Equatable {
+    public struct SpekeKeyProvider {
         /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
         public var certificateArn: Swift.String?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
@@ -31184,7 +31184,7 @@ extension MediaConvertClientTypes.SpekeKeyProviderCmaf: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// If your output group type is CMAF, use these settings when doing DRM encryption with a SPEKE-compliant key provider. If your output group type is HLS, DASH, or Microsoft Smooth, use the SpekeKeyProvider settings instead.
-    public struct SpekeKeyProviderCmaf: Swift.Equatable {
+    public struct SpekeKeyProviderCmaf {
         /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
         public var certificateArn: Swift.String?
         /// Specify the DRM system IDs that you want signaled in the DASH manifest that MediaConvert creates as part of this CMAF package. The DASH manifest can currently signal up to three system IDs. For more information, see https://dashif.org/identifiers/content_protection/.
@@ -31235,7 +31235,7 @@ extension MediaConvertClientTypes.SrtDestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to SRT captions. SRT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video.
-    public struct SrtDestinationSettings: Swift.Equatable {
+    public struct SrtDestinationSettings {
         /// Set Style passthrough to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use simplified output captions.
         public var stylePassthrough: MediaConvertClientTypes.SrtStylePassthrough?
 
@@ -31321,7 +31321,7 @@ extension MediaConvertClientTypes.StaticKeyProvider: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Use these settings to set up encryption with a static key provider.
-    public struct StaticKeyProvider: Swift.Equatable {
+    public struct StaticKeyProvider {
         /// Relates to DRM implementation. Sets the value of the KEYFORMAT attribute. Must be 'identity' or a reverse DNS string. May be omitted to indicate an implicit value of 'identity'.
         public var keyFormat: Swift.String?
         /// Relates to DRM implementation. Either a single positive integer version value or a slash delimited list of version values (1/2/3).
@@ -31446,7 +31446,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to tag. To get the ARN, send a GET request with the resource name.
     /// This member is required.
     public var arn: Swift.String?
@@ -31464,7 +31464,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let arn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -31498,7 +31498,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -31558,7 +31558,7 @@ extension MediaConvertClientTypes.TeletextDestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to teletext captions. Set up teletext captions in the same output as your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/teletext-output-captions.html.
-    public struct TeletextDestinationSettings: Swift.Equatable {
+    public struct TeletextDestinationSettings {
         /// Set pageNumber to the Teletext page number for the destination captions for this output. This value must be a three-digit hexadecimal string; strings ending in -FF are invalid. If you are passing through the entire set of Teletext data, do not use this field.
         public var pageNumber: Swift.String?
         /// Specify the page types for this Teletext page. If you don't specify a value here, the service sets the page type to the default value Subtitle. If you pass through the entire set of Teletext data, don't use this field. When you pass through a set of Teletext pages, your output has the same page types as your input.
@@ -31639,7 +31639,7 @@ extension MediaConvertClientTypes.TeletextSourceSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings specific to Teletext caption sources, including Page number.
-    public struct TeletextSourceSettings: Swift.Equatable {
+    public struct TeletextSourceSettings {
         /// Use Page Number to specify the three-digit hexadecimal page number that will be used for Teletext captions. Do not use this setting if you are passing through teletext from the input source to output.
         public var pageNumber: Swift.String?
 
@@ -31686,7 +31686,7 @@ extension MediaConvertClientTypes.TimecodeBurnin: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings for burning the output timecode and specified prefix into the output.
-    public struct TimecodeBurnin: Swift.Equatable {
+    public struct TimecodeBurnin {
         /// Use Font size to set the font size of any burned-in timecode. Valid values are 10, 16, 32, 48.
         public var fontSize: Swift.Int?
         /// Use Position under Timecode burn-in to specify the location the burned-in timecode on output video.
@@ -31801,7 +31801,7 @@ extension MediaConvertClientTypes.TimecodeConfig: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// These settings control how the service handles timecodes throughout the job. These settings don't affect input clipping.
-    public struct TimecodeConfig: Swift.Equatable {
+    public struct TimecodeConfig {
         /// If you use an editing platform that relies on an anchor timecode, use Anchor Timecode to specify a timecode that will match the input video frame to the output video frame. Use 24-hour format with frame number, (HH:MM:SS:FF) or (HH:MM:SS;FF). This setting ignores frame rate conversion. System behavior for Anchor Timecode varies depending on your setting for Source. * If Source is set to Specified Start, the first input frame is the specified value in Start Timecode. Anchor Timecode and Start Timecode are used calculate output timecode. * If Source is set to Start at 0 the first frame is 00:00:00:00. * If Source is set to Embedded, the first frame is the timecode value on the first input frame of the input.
         public var anchor: Swift.String?
         /// Use Source to set how timecodes are handled within this job. To make sure that your video, audio, captions, and markers are synchronized and that time-based features, such as image inserter, work correctly, choose the Timecode source option that matches your assets. All timecodes are in a 24-hour format with frame number (HH:MM:SS:FF). * Embedded - Use the timecode that is in the input video. If no embedded timecode is in the source, the service will use Start at 0 instead. * Start at 0 - Set the timecode of the initial frame to 00:00:00:00. * Specified Start - Set the timecode of the initial frame to a value other than zero. You use Start timecode to provide this value.
@@ -31929,7 +31929,7 @@ extension MediaConvertClientTypes.TimedMetadataInsertion: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Insert user-defined custom ID3 metadata at timecodes that you specify. In each output that you want to include this metadata, you must set ID3 metadata to Passthrough.
-    public struct TimedMetadataInsertion: Swift.Equatable {
+    public struct TimedMetadataInsertion {
         /// Id3Insertions contains the array of Id3Insertion instances.
         public var id3Insertions: [MediaConvertClientTypes.Id3Insertion]?
 
@@ -31976,7 +31976,7 @@ extension MediaConvertClientTypes.Timing: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Information about when jobs are submitted, started, and finished is specified in Unix epoch format in seconds.
-    public struct Timing: Swift.Equatable {
+    public struct Timing {
         /// The time, in Unix epoch format, that the transcoding job finished
         public var finishTime: ClientRuntime.Date?
         /// The time, in Unix epoch format, that transcoding for the job began.
@@ -32037,7 +32037,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -32074,7 +32074,7 @@ extension MediaConvertClientTypes.TrackSourceSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings specific to caption sources that are specified by track number. Currently, this is only IMSC captions in an IMF package. If your caption source is IMSC 1.1 in a separate xml file, use FileSourceSettings instead of TrackSourceSettings.
-    public struct TrackSourceSettings: Swift.Equatable {
+    public struct TrackSourceSettings {
         /// Use this setting to select a single captions track from a source. Track numbers correspond to the order in the captions source file. For IMF sources, track numbering is based on the order that the captions appear in the CPL. For example, use 1 to select the captions asset that is listed first in the CPL. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one track per selector.
         public var trackNumber: Swift.Int?
 
@@ -32142,7 +32142,7 @@ extension MediaConvertClientTypes.TtmlDestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to TTML captions. TTML is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
-    public struct TtmlDestinationSettings: Swift.Equatable {
+    public struct TtmlDestinationSettings {
         /// Pass through style and position information from a TTML-like input source (TTML, IMSC, SMPTE-TT) to the TTML output.
         public var stylePassthrough: MediaConvertClientTypes.TtmlStylePassthrough?
 
@@ -32461,7 +32461,7 @@ extension MediaConvertClientTypes.UncompressedSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec, under VideoDescription>CodecSettings to the value UNCOMPRESSED.
-    public struct UncompressedSettings: Swift.Equatable {
+    public struct UncompressedSettings {
         /// The four character code for the uncompressed video.
         public var fourcc: MediaConvertClientTypes.UncompressedFourcc?
         /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
@@ -32599,7 +32599,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from. To get the ARN, send a GET request with the resource name.
     /// This member is required.
     public var arn: Swift.String?
@@ -32616,7 +32616,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let tagKeys: [Swift.String]?
 }
 
@@ -32646,7 +32646,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -32721,7 +32721,7 @@ extension UpdateJobTemplateInput {
     }
 }
 
-public struct UpdateJobTemplateInput: Swift.Equatable {
+public struct UpdateJobTemplateInput {
     /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
     public var accelerationSettings: MediaConvertClientTypes.AccelerationSettings?
     /// The new category for the job template, if you are changing it.
@@ -32766,7 +32766,7 @@ public struct UpdateJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateJobTemplateInputBody: Swift.Equatable {
+struct UpdateJobTemplateInputBody {
     let accelerationSettings: MediaConvertClientTypes.AccelerationSettings?
     let category: Swift.String?
     let description: Swift.String?
@@ -32831,7 +32831,7 @@ extension UpdateJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJobTemplateOutput: Swift.Equatable {
+public struct UpdateJobTemplateOutput {
     /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
     public var jobTemplate: MediaConvertClientTypes.JobTemplate?
 
@@ -32843,7 +32843,7 @@ public struct UpdateJobTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateJobTemplateOutputBody: Swift.Equatable {
+struct UpdateJobTemplateOutputBody {
     let jobTemplate: MediaConvertClientTypes.JobTemplate?
 }
 
@@ -32906,7 +32906,7 @@ extension UpdatePresetInput {
     }
 }
 
-public struct UpdatePresetInput: Swift.Equatable {
+public struct UpdatePresetInput {
     /// The new category for the preset, if you are changing it.
     public var category: Swift.String?
     /// The new description for the preset, if you are changing it.
@@ -32931,7 +32931,7 @@ public struct UpdatePresetInput: Swift.Equatable {
     }
 }
 
-struct UpdatePresetInputBody: Swift.Equatable {
+struct UpdatePresetInputBody {
     let category: Swift.String?
     let description: Swift.String?
     let settings: MediaConvertClientTypes.PresetSettings?
@@ -32967,7 +32967,7 @@ extension UpdatePresetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePresetOutput: Swift.Equatable {
+public struct UpdatePresetOutput {
     /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
     public var preset: MediaConvertClientTypes.Preset?
 
@@ -32979,7 +32979,7 @@ public struct UpdatePresetOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePresetOutputBody: Swift.Equatable {
+struct UpdatePresetOutputBody {
     let preset: MediaConvertClientTypes.Preset?
 }
 
@@ -33042,7 +33042,7 @@ extension UpdateQueueInput {
     }
 }
 
-public struct UpdateQueueInput: Swift.Equatable {
+public struct UpdateQueueInput {
     /// The new description for the queue, if you are changing it.
     public var description: Swift.String?
     /// The name of the queue that you are modifying.
@@ -33067,7 +33067,7 @@ public struct UpdateQueueInput: Swift.Equatable {
     }
 }
 
-struct UpdateQueueInputBody: Swift.Equatable {
+struct UpdateQueueInputBody {
     let description: Swift.String?
     let reservationPlanSettings: MediaConvertClientTypes.ReservationPlanSettings?
     let status: MediaConvertClientTypes.QueueStatus?
@@ -33103,7 +33103,7 @@ extension UpdateQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQueueOutput: Swift.Equatable {
+public struct UpdateQueueOutput {
     /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
     public var queue: MediaConvertClientTypes.Queue?
 
@@ -33115,7 +33115,7 @@ public struct UpdateQueueOutput: Swift.Equatable {
     }
 }
 
-struct UpdateQueueOutputBody: Swift.Equatable {
+struct UpdateQueueOutputBody {
     let queue: MediaConvertClientTypes.Queue?
 }
 
@@ -33387,7 +33387,7 @@ extension MediaConvertClientTypes.Vc3Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value VC3
-    public struct Vc3Settings: Swift.Equatable {
+    public struct Vc3Settings {
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.Vc3FramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
@@ -33691,7 +33691,7 @@ extension MediaConvertClientTypes.VideoCodecSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
-    public struct VideoCodecSettings: Swift.Equatable {
+    public struct VideoCodecSettings {
         /// Required when you set Codec, under VideoDescription>CodecSettings to the value AV1.
         public var av1Settings: MediaConvertClientTypes.Av1Settings?
         /// Required when you choose AVC-Intra for your output video codec. For more information about the AVC-Intra settings, see the relevant specification. For detailed information about SD and HD in AVC-Intra, see https://ieeexplore.ieee.org/document/7290936. For information about 4K/2K in AVC-Intra, see https://pro-av.panasonic.net/en/avc-ultra/AVC-ULTRAoverview.pdf.
@@ -33858,7 +33858,7 @@ extension MediaConvertClientTypes.VideoDescription: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to video encoding of your output. The specific video settings depend on the video codec that you choose.
-    public struct VideoDescription: Swift.Equatable {
+    public struct VideoDescription {
         /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD signaling to specify whether the service includes AFD values in the output video data and what those values are. * Choose None to remove all AFD values from this output. * Choose Fixed to ignore input AFD values and instead encode the value specified in the job. * Choose Auto to calculate output AFD values based on the input AFD scaler data.
         public var afdSignaling: MediaConvertClientTypes.AfdSignaling?
         /// The anti-alias filter is automatically applied to all outputs. The service no longer accepts the value DISABLED for AntiAlias. If you specify that in your job, the service will ignore the setting.
@@ -33955,7 +33955,7 @@ extension MediaConvertClientTypes.VideoDetail: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Contains details about the output's video stream
-    public struct VideoDetail: Swift.Equatable {
+    public struct VideoDetail {
         /// Height in pixels for the output
         public var heightInPx: Swift.Int?
         /// Width in pixels for the output
@@ -34006,7 +34006,7 @@ extension MediaConvertClientTypes.VideoOverlay: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Overlay one or more videos on top of your input video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-overlays.html
-    public struct VideoOverlay: Swift.Equatable {
+    public struct VideoOverlay {
         /// Enter the end timecode in the underlying input video for this overlay. Your overlay will be active through this frame. To display your video overlay for the duration of the underlying video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for the underlying Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your overlay to end ten minutes into the video, enter 01:10:00:00.
         public var endTimecode: Swift.String?
         /// Input settings for Video overlay. You can include one or more video overlays in sequence at different times that you specify.
@@ -34079,7 +34079,7 @@ extension MediaConvertClientTypes.VideoOverlayInput: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Input settings for Video overlay. You can include one or more video overlays in sequence at different times that you specify.
-    public struct VideoOverlayInput: Swift.Equatable {
+    public struct VideoOverlayInput {
         /// Specify the input file S3, HTTP, or HTTPS URI for your video overlay. For consistency in color and formatting in your output video image, we recommend that you specify a video with similar characteristics as the underlying input video.
         public var fileInput: Swift.String?
         /// Specify one or more clips to use from your video overlay. When you include an input clip, you must also specify its start timecode, end timecode, or both start and end timecode.
@@ -34132,7 +34132,7 @@ extension MediaConvertClientTypes.VideoOverlayInputClipping: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// To transcode only portions of your video overlay, include one input clip for each part of your video overlay that you want in your output.
-    public struct VideoOverlayInputClipping: Swift.Equatable {
+    public struct VideoOverlayInputClipping {
         /// Specify the timecode of the last frame to include in your video overlay's clip. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for Timecode source.
         public var endTimecode: Swift.String?
         /// Specify the timecode of the first frame to include in your video overlay's clip. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for Timecode source.
@@ -34213,7 +34213,7 @@ extension MediaConvertClientTypes.VideoPreprocessor: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Find additional transcoding features under Preprocessors. Enable the features at each output individually. These features are disabled by default.
-    public struct VideoPreprocessor: Swift.Equatable {
+    public struct VideoPreprocessor {
         /// Use these settings to convert the color space or to modify properties such as hue and contrast for this output. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/converting-the-color-space.html.
         public var colorCorrector: MediaConvertClientTypes.ColorCorrector?
         /// Use the deinterlacer to produce smoother motion and a clearer picture. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-scan-type.html.
@@ -34336,7 +34336,7 @@ extension MediaConvertClientTypes.VideoSelector: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Input video selectors contain the video settings for the input. Each of your inputs can have up to one video selector.
-    public struct VideoSelector: Swift.Equatable {
+    public struct VideoSelector {
         /// Ignore this setting unless this input is a QuickTime animation with an alpha channel. Use this setting to create separate Key and Fill outputs. In each output, specify which part of the input MediaConvert uses. Leave this setting at the default value DISCARD to delete the alpha channel and preserve the video. Set it to REMAP_TO_LUMA to delete the video and map the alpha channel to the luma channel of your outputs.
         public var alphaBehavior: MediaConvertClientTypes.AlphaBehavior?
         /// If your input video has accurate color space metadata, or if you don't know about color space: Keep the default value, Follow. MediaConvert will automatically detect your input color space. If your input video has metadata indicating the wrong color space, or has missing metadata: Specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate: Choose Force HDR 10. Specify correct values in the input HDR 10 metadata settings. For more information about HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr. When you specify an input color space, MediaConvert uses the following color space metadata, which includes color primaries, transfer characteristics, and matrix coefficients:
@@ -34466,7 +34466,7 @@ extension MediaConvertClientTypes.VorbisSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value Vorbis.
-    public struct VorbisSettings: Swift.Equatable {
+    public struct VorbisSettings {
         /// Optional. Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2. The default value is 2.
         public var channels: Swift.Int?
         /// Optional. Specify the audio sample rate in Hz. Valid values are 22050, 32000, 44100, and 48000. The default value is 48000.
@@ -34746,7 +34746,7 @@ extension MediaConvertClientTypes.Vp8Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value VP8.
-    public struct Vp8Settings: Swift.Equatable {
+    public struct Vp8Settings {
         /// Target bitrate in bits/second. For example, enter five megabits per second as 5000000.
         public var bitrate: Swift.Int?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
@@ -35066,7 +35066,7 @@ extension MediaConvertClientTypes.Vp9Settings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value VP9.
-    public struct Vp9Settings: Swift.Equatable {
+    public struct Vp9Settings {
         /// Target bitrate in bits/second. For example, enter five megabits per second as 5000000.
         public var bitrate: Swift.Int?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
@@ -35155,7 +35155,7 @@ extension MediaConvertClientTypes.WarningGroup: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Contains any warning codes and their count for the job.
-    public struct WarningGroup: Swift.Equatable {
+    public struct WarningGroup {
         /// Warning code that identifies a specific warning in the job. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/warning_codes.html
         /// This member is required.
         public var code: Swift.Int?
@@ -35289,7 +35289,7 @@ extension MediaConvertClientTypes.WavSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value WAV.
-    public struct WavSettings: Swift.Equatable {
+    public struct WavSettings {
         /// Specify Bit depth, in bits per sample, to choose the encoding quality for this audio track.
         public var bitDepth: Swift.Int?
         /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
@@ -35375,7 +35375,7 @@ extension MediaConvertClientTypes.WebvttDestinationSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings related to WebVTT captions. WebVTT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
-    public struct WebvttDestinationSettings: Swift.Equatable {
+    public struct WebvttDestinationSettings {
         /// If the WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
         public var accessibility: MediaConvertClientTypes.WebvttAccessibilitySubs?
         /// To use the available style, color, and position information from your input captions: Set Style passthrough to Enabled. MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Set Style passthrough to Strict. MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Set Style passthrough to Disabled, or leave blank.
@@ -35426,7 +35426,7 @@ extension MediaConvertClientTypes.WebvttHlsSourceSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Settings specific to WebVTT sources in HLS alternative rendition group. Specify the properties (renditionGroupId, renditionName or renditionLanguageCode) to identify the unique subtitle track among the alternative rendition groups present in the HLS manifest. If no unique track is found, or multiple tracks match the specified properties, the job fails. If there is only one subtitle track in the rendition group, the settings can be left empty and the default subtitle track will be chosen. If your caption source is a sidecar file, use FileSourceSettings instead of WebvttHlsSourceSettings.
-    public struct WebvttHlsSourceSettings: Swift.Equatable {
+    public struct WebvttHlsSourceSettings {
         /// Optional. Specify alternative group ID
         public var renditionGroupId: Swift.String?
         /// Optional. Specify ISO 639-2 or ISO 639-3 code in the language property
@@ -35541,7 +35541,7 @@ extension MediaConvertClientTypes.Xavc4kIntraCbgProfileSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Profile to the value XAVC_4K_INTRA_CBG.
-    public struct Xavc4kIntraCbgProfileSettings: Swift.Equatable {
+    public struct Xavc4kIntraCbgProfileSettings {
         /// Specify the XAVC Intra 4k (CBG) Class to set the bitrate of your output. Outputs of the same class have similar image quality over the operating points that are valid for that class.
         public var xavcClass: MediaConvertClientTypes.Xavc4kIntraCbgProfileClass?
 
@@ -35612,7 +35612,7 @@ extension MediaConvertClientTypes.Xavc4kIntraVbrProfileSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Profile to the value XAVC_4K_INTRA_VBR.
-    public struct Xavc4kIntraVbrProfileSettings: Swift.Equatable {
+    public struct Xavc4kIntraVbrProfileSettings {
         /// Specify the XAVC Intra 4k (VBR) Class to set the bitrate of your output. Outputs of the same class have similar image quality over the operating points that are valid for that class.
         public var xavcClass: MediaConvertClientTypes.Xavc4kIntraVbrProfileClass?
 
@@ -35794,7 +35794,7 @@ extension MediaConvertClientTypes.Xavc4kProfileSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Profile to the value XAVC_4K.
-    public struct Xavc4kProfileSettings: Swift.Equatable {
+    public struct Xavc4kProfileSettings {
         /// Specify the XAVC 4k (Long GOP) Bitrate Class to set the bitrate of your output. Outputs of the same class have similar image quality over the operating points that are valid for that class.
         public var bitrateClass: MediaConvertClientTypes.Xavc4kProfileBitrateClass?
         /// Specify the codec profile for this output. Choose High, 8-bit, 4:2:0 (HIGH) or High, 10-bit, 4:2:2 (HIGH_422). These profiles are specified in ITU-T H.264.
@@ -36112,7 +36112,7 @@ extension MediaConvertClientTypes.XavcHdIntraCbgProfileSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Profile to the value XAVC_HD_INTRA_CBG.
-    public struct XavcHdIntraCbgProfileSettings: Swift.Equatable {
+    public struct XavcHdIntraCbgProfileSettings {
         /// Specify the XAVC Intra HD (CBG) Class to set the bitrate of your output. Outputs of the same class have similar image quality over the operating points that are valid for that class.
         public var xavcClass: MediaConvertClientTypes.XavcHdIntraCbgProfileClass?
 
@@ -36267,7 +36267,7 @@ extension MediaConvertClientTypes.XavcHdProfileSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Profile to the value XAVC_HD.
-    public struct XavcHdProfileSettings: Swift.Equatable {
+    public struct XavcHdProfileSettings {
         /// Specify the XAVC HD (Long GOP) Bitrate Class to set the bitrate of your output. Outputs of the same class have similar image quality over the operating points that are valid for that class.
         public var bitrateClass: MediaConvertClientTypes.XavcHdProfileBitrateClass?
         /// The best way to set up adaptive quantization is to keep the default value, Auto, for the setting Adaptive quantization. When you do so, MediaConvert automatically applies the best types of quantization for your video content. Include this setting in your JSON job specification only when you choose to change the default value for Adaptive quantization. Enable this setting to have the encoder reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. This setting is disabled by default. Related setting: In addition to enabling this setting, you must also set Adaptive quantization to a value other than Off or Auto. Use Adaptive quantization to adjust the degree of smoothing that Flicker adaptive quantization provides.
@@ -36541,7 +36541,7 @@ extension MediaConvertClientTypes.XavcSettings: Swift.Codable {
 
 extension MediaConvertClientTypes {
     /// Required when you set Codec to the value XAVC.
-    public struct XavcSettings: Swift.Equatable {
+    public struct XavcSettings {
         /// Keep the default value, Auto, for this setting to have MediaConvert automatically apply the best types of quantization for your video content. When you want to apply your quantization settings manually, you must set Adaptive quantization to a value other than Auto. Use this setting to specify the strength of any adaptive quantization filters that you enable. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization to Off. Related settings: The value that you choose here applies to the following settings: Flicker adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive quantization, and Temporal adaptive quantization.
         public var adaptiveQuantization: MediaConvertClientTypes.XavcAdaptiveQuantization?
         /// Optional. Choose a specific entropy encoding mode only when you want to override XAVC recommendations. If you choose the value auto, MediaConvert uses the mode that the XAVC file format specifies given this output's operating point.

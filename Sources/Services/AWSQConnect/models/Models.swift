@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ extension QConnectClientTypes.AppIntegrationsConfiguration: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Configuration information for Amazon AppIntegrations to automatically ingest content.
-    public struct AppIntegrationsConfiguration: Swift.Equatable {
+    public struct AppIntegrationsConfiguration {
         /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.
         ///
         /// * For [ Salesforce](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_objects_knowledge__kav.htm), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted as source fields.
@@ -203,7 +203,7 @@ extension QConnectClientTypes.AssistantAssociationData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Information about the assistant association.
-    public struct AssistantAssociationData: Swift.Equatable {
+    public struct AssistantAssociationData {
         /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -276,7 +276,7 @@ extension QConnectClientTypes.AssistantAssociationInputData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The data that is input into Amazon Q in Connect as a result of the assistant association.
-    public enum AssistantAssociationInputData: Swift.Equatable {
+    public enum AssistantAssociationInputData {
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base.
         case knowledgebaseid(Swift.String)
         case sdkUnknown(Swift.String)
@@ -313,7 +313,7 @@ extension QConnectClientTypes.AssistantAssociationOutputData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The data that is output as a result of the assistant association.
-    public enum AssistantAssociationOutputData: Swift.Equatable {
+    public enum AssistantAssociationOutputData {
         /// The knowledge base where output data is sent.
         case knowledgebaseassociation(QConnectClientTypes.KnowledgeBaseAssociationData)
         case sdkUnknown(Swift.String)
@@ -390,7 +390,7 @@ extension QConnectClientTypes.AssistantAssociationSummary: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Summary information about the assistant association.
-    public struct AssistantAssociationSummary: Swift.Equatable {
+    public struct AssistantAssociationSummary {
         /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -455,7 +455,7 @@ extension QConnectClientTypes.AssistantCapabilityConfiguration: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The capability configuration for an Amazon Q in Connect assistant.
-    public struct AssistantCapabilityConfiguration: Swift.Equatable {
+    public struct AssistantCapabilityConfiguration {
         /// The type of Amazon Q in Connect assistant capability.
         public var type: QConnectClientTypes.AssistantCapabilityType?
 
@@ -588,7 +588,7 @@ extension QConnectClientTypes.AssistantData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The assistant data.
-    public struct AssistantData: Swift.Equatable {
+    public struct AssistantData {
         /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -664,7 +664,7 @@ extension QConnectClientTypes.AssistantIntegrationConfiguration: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The configuration information for the Amazon Q in Connect assistant integration.
-    public struct AssistantIntegrationConfiguration: Swift.Equatable {
+    public struct AssistantIntegrationConfiguration {
         /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
         public var topicIntegrationArn: Swift.String?
 
@@ -809,7 +809,7 @@ extension QConnectClientTypes.AssistantSummary: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Summary information about the assistant.
-    public struct AssistantSummary: Swift.Equatable {
+    public struct AssistantSummary {
         /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -951,7 +951,7 @@ extension QConnectClientTypes.Configuration: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The configuration information of the external data source.
-    public enum Configuration: Swift.Equatable {
+    public enum Configuration {
         /// The configuration information of the Amazon Connect data source.
         case connectconfiguration(QConnectClientTypes.ConnectConfiguration)
         case sdkUnknown(Swift.String)
@@ -998,7 +998,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1035,7 +1035,7 @@ extension QConnectClientTypes.ConnectConfiguration: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The configuration information of the Amazon Connect data source.
-    public struct ConnectConfiguration: Swift.Equatable {
+    public struct ConnectConfiguration {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public var instanceId: Swift.String?
 
@@ -1177,7 +1177,7 @@ extension QConnectClientTypes.ContentData: Swift.CustomDebugStringConvertible {
 
 extension QConnectClientTypes {
     /// Information about the content.
-    public struct ContentData: Swift.Equatable {
+    public struct ContentData {
         /// The Amazon Resource Name (ARN) of the content.
         /// This member is required.
         public var contentArn: Swift.String?
@@ -1282,7 +1282,7 @@ extension QConnectClientTypes.ContentDataDetails: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Details about the content data.
-    public struct ContentDataDetails: Swift.Equatable {
+    public struct ContentDataDetails {
         /// Details about the content ranking data.
         /// This member is required.
         public var rankingData: QConnectClientTypes.RankingData?
@@ -1331,7 +1331,7 @@ extension QConnectClientTypes.ContentFeedbackData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Information about the feedback.
-    public enum ContentFeedbackData: Swift.Equatable {
+    public enum ContentFeedbackData {
         /// Information about the feedback for a generative target type.
         case generativecontentfeedbackdata(QConnectClientTypes.GenerativeContentFeedbackData)
         case sdkUnknown(Swift.String)
@@ -1378,7 +1378,7 @@ extension QConnectClientTypes.ContentReference: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Reference information about the content.
-    public struct ContentReference: Swift.Equatable {
+    public struct ContentReference {
         /// The Amazon Resource Name (ARN) of the content.
         public var contentArn: Swift.String?
         /// The identifier of the content.
@@ -1556,7 +1556,7 @@ extension QConnectClientTypes.ContentSummary: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Summary information about the content.
-    public struct ContentSummary: Swift.Equatable {
+    public struct ContentSummary {
         /// The Amazon Resource Name (ARN) of the content.
         /// This member is required.
         public var contentArn: Swift.String?
@@ -1658,7 +1658,7 @@ extension CreateAssistantAssociationInput {
     }
 }
 
-public struct CreateAssistantAssociationInput: Swift.Equatable {
+public struct CreateAssistantAssociationInput {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -1689,7 +1689,7 @@ public struct CreateAssistantAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateAssistantAssociationInputBody: Swift.Equatable {
+struct CreateAssistantAssociationInputBody {
     let associationType: QConnectClientTypes.AssociationType?
     let association: QConnectClientTypes.AssistantAssociationInputData?
     let clientToken: Swift.String?
@@ -1738,7 +1738,7 @@ extension CreateAssistantAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAssistantAssociationOutput: Swift.Equatable {
+public struct CreateAssistantAssociationOutput {
     /// The assistant association.
     public var assistantAssociation: QConnectClientTypes.AssistantAssociationData?
 
@@ -1750,7 +1750,7 @@ public struct CreateAssistantAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssistantAssociationOutputBody: Swift.Equatable {
+struct CreateAssistantAssociationOutputBody {
     let assistantAssociation: QConnectClientTypes.AssistantAssociationData?
 }
 
@@ -1824,7 +1824,7 @@ extension CreateAssistantInput {
     }
 }
 
-public struct CreateAssistantInput: Swift.Equatable {
+public struct CreateAssistantInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description of the assistant.
@@ -1858,7 +1858,7 @@ public struct CreateAssistantInput: Swift.Equatable {
     }
 }
 
-struct CreateAssistantInputBody: Swift.Equatable {
+struct CreateAssistantInputBody {
     let clientToken: Swift.String?
     let name: Swift.String?
     let type: QConnectClientTypes.AssistantType?
@@ -1915,7 +1915,7 @@ extension CreateAssistantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAssistantOutput: Swift.Equatable {
+public struct CreateAssistantOutput {
     /// Information about the assistant.
     public var assistant: QConnectClientTypes.AssistantData?
 
@@ -1927,7 +1927,7 @@ public struct CreateAssistantOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssistantOutputBody: Swift.Equatable {
+struct CreateAssistantOutputBody {
     let assistant: QConnectClientTypes.AssistantData?
 }
 
@@ -2010,7 +2010,7 @@ extension CreateContentInput {
     }
 }
 
-public struct CreateContentInput: Swift.Equatable {
+public struct CreateContentInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -2053,7 +2053,7 @@ public struct CreateContentInput: Swift.Equatable {
     }
 }
 
-struct CreateContentInputBody: Swift.Equatable {
+struct CreateContentInputBody {
     let name: Swift.String?
     let title: Swift.String?
     let overrideLinkOutUri: Swift.String?
@@ -2123,7 +2123,7 @@ extension CreateContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContentOutput: Swift.Equatable {
+public struct CreateContentOutput {
     /// The content.
     public var content: QConnectClientTypes.ContentData?
 
@@ -2135,7 +2135,7 @@ public struct CreateContentOutput: Swift.Equatable {
     }
 }
 
-struct CreateContentOutputBody: Swift.Equatable {
+struct CreateContentOutputBody {
     let content: QConnectClientTypes.ContentData?
 }
 
@@ -2217,7 +2217,7 @@ extension CreateKnowledgeBaseInput {
     }
 }
 
-public struct CreateKnowledgeBaseInput: Swift.Equatable {
+public struct CreateKnowledgeBaseInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description.
@@ -2259,7 +2259,7 @@ public struct CreateKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct CreateKnowledgeBaseInputBody: Swift.Equatable {
+struct CreateKnowledgeBaseInputBody {
     let clientToken: Swift.String?
     let name: Swift.String?
     let knowledgeBaseType: QConnectClientTypes.KnowledgeBaseType?
@@ -2324,7 +2324,7 @@ extension CreateKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateKnowledgeBaseOutput: Swift.Equatable {
+public struct CreateKnowledgeBaseOutput {
     /// The knowledge base.
     public var knowledgeBase: QConnectClientTypes.KnowledgeBaseData?
 
@@ -2336,7 +2336,7 @@ public struct CreateKnowledgeBaseOutput: Swift.Equatable {
     }
 }
 
-struct CreateKnowledgeBaseOutputBody: Swift.Equatable {
+struct CreateKnowledgeBaseOutputBody {
     let knowledgeBase: QConnectClientTypes.KnowledgeBaseData?
 }
 
@@ -2435,7 +2435,7 @@ extension CreateQuickResponseInput {
     }
 }
 
-public struct CreateQuickResponseInput: Swift.Equatable {
+public struct CreateQuickResponseInput {
     /// The Amazon Connect channels this quick response applies to.
     public var channels: [Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -2498,7 +2498,7 @@ public struct CreateQuickResponseInput: Swift.Equatable {
     }
 }
 
-struct CreateQuickResponseInputBody: Swift.Equatable {
+struct CreateQuickResponseInputBody {
     let name: Swift.String?
     let content: QConnectClientTypes.QuickResponseDataProvider?
     let contentType: Swift.String?
@@ -2584,7 +2584,7 @@ extension CreateQuickResponseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateQuickResponseOutput: Swift.Equatable {
+public struct CreateQuickResponseOutput {
     /// The quick response.
     public var quickResponse: QConnectClientTypes.QuickResponseData?
 
@@ -2596,7 +2596,7 @@ public struct CreateQuickResponseOutput: Swift.Equatable {
     }
 }
 
-struct CreateQuickResponseOutputBody: Swift.Equatable {
+struct CreateQuickResponseOutputBody {
     let quickResponse: QConnectClientTypes.QuickResponseData?
 }
 
@@ -2669,7 +2669,7 @@ extension CreateSessionInput {
     }
 }
 
-public struct CreateSessionInput: Swift.Equatable {
+public struct CreateSessionInput {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -2703,7 +2703,7 @@ public struct CreateSessionInput: Swift.Equatable {
     }
 }
 
-struct CreateSessionInputBody: Swift.Equatable {
+struct CreateSessionInputBody {
     let clientToken: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -2756,7 +2756,7 @@ extension CreateSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSessionOutput: Swift.Equatable {
+public struct CreateSessionOutput {
     /// The session.
     public var session: QConnectClientTypes.SessionData?
 
@@ -2768,7 +2768,7 @@ public struct CreateSessionOutput: Swift.Equatable {
     }
 }
 
-struct CreateSessionOutputBody: Swift.Equatable {
+struct CreateSessionOutputBody {
     let session: QConnectClientTypes.SessionData?
 }
 
@@ -2843,7 +2843,7 @@ extension QConnectClientTypes.DataDetails: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Details about the data.
-    public indirect enum DataDetails: Swift.Equatable {
+    public indirect enum DataDetails {
         /// Details about the content data.
         case contentdata(QConnectClientTypes.ContentDataDetails)
         /// Details about the generative data.
@@ -2892,7 +2892,7 @@ extension QConnectClientTypes.DataReference: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Reference data.
-    public enum DataReference: Swift.Equatable {
+    public enum DataReference {
         /// Reference information about the content.
         case contentreference(QConnectClientTypes.ContentReference)
         /// Reference information about the generative content.
@@ -2929,7 +2929,7 @@ extension QConnectClientTypes.DataSummary: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Summary of the data.
-    public struct DataSummary: Swift.Equatable {
+    public struct DataSummary {
         /// Details about the data.
         /// This member is required.
         public var details: QConnectClientTypes.DataDetails?
@@ -2962,7 +2962,7 @@ extension DeleteAssistantAssociationInput {
     }
 }
 
-public struct DeleteAssistantAssociationInput: Swift.Equatable {
+public struct DeleteAssistantAssociationInput {
     /// The identifier of the assistant association. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantAssociationId: Swift.String?
@@ -2980,7 +2980,7 @@ public struct DeleteAssistantAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssistantAssociationInputBody: Swift.Equatable {
+struct DeleteAssistantAssociationInputBody {
 }
 
 extension DeleteAssistantAssociationInputBody: Swift.Decodable {
@@ -2994,7 +2994,7 @@ extension DeleteAssistantAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAssistantAssociationOutput: Swift.Equatable {
+public struct DeleteAssistantAssociationOutput {
 
     public init() { }
 }
@@ -3022,7 +3022,7 @@ extension DeleteAssistantInput {
     }
 }
 
-public struct DeleteAssistantInput: Swift.Equatable {
+public struct DeleteAssistantInput {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -3035,7 +3035,7 @@ public struct DeleteAssistantInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssistantInputBody: Swift.Equatable {
+struct DeleteAssistantInputBody {
 }
 
 extension DeleteAssistantInputBody: Swift.Decodable {
@@ -3049,7 +3049,7 @@ extension DeleteAssistantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAssistantOutput: Swift.Equatable {
+public struct DeleteAssistantOutput {
 
     public init() { }
 }
@@ -3080,7 +3080,7 @@ extension DeleteContentInput {
     }
 }
 
-public struct DeleteContentInput: Swift.Equatable {
+public struct DeleteContentInput {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
@@ -3098,7 +3098,7 @@ public struct DeleteContentInput: Swift.Equatable {
     }
 }
 
-struct DeleteContentInputBody: Swift.Equatable {
+struct DeleteContentInputBody {
 }
 
 extension DeleteContentInputBody: Swift.Decodable {
@@ -3112,7 +3112,7 @@ extension DeleteContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContentOutput: Swift.Equatable {
+public struct DeleteContentOutput {
 
     public init() { }
 }
@@ -3143,7 +3143,7 @@ extension DeleteImportJobInput {
     }
 }
 
-public struct DeleteImportJobInput: Swift.Equatable {
+public struct DeleteImportJobInput {
     /// The identifier of the import job to be deleted.
     /// This member is required.
     public var importJobId: Swift.String?
@@ -3161,7 +3161,7 @@ public struct DeleteImportJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteImportJobInputBody: Swift.Equatable {
+struct DeleteImportJobInputBody {
 }
 
 extension DeleteImportJobInputBody: Swift.Decodable {
@@ -3175,7 +3175,7 @@ extension DeleteImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteImportJobOutput: Swift.Equatable {
+public struct DeleteImportJobOutput {
 
     public init() { }
 }
@@ -3204,7 +3204,7 @@ extension DeleteKnowledgeBaseInput {
     }
 }
 
-public struct DeleteKnowledgeBaseInput: Swift.Equatable {
+public struct DeleteKnowledgeBaseInput {
     /// The knowledge base to delete content from. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -3217,7 +3217,7 @@ public struct DeleteKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct DeleteKnowledgeBaseInputBody: Swift.Equatable {
+struct DeleteKnowledgeBaseInputBody {
 }
 
 extension DeleteKnowledgeBaseInputBody: Swift.Decodable {
@@ -3231,7 +3231,7 @@ extension DeleteKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteKnowledgeBaseOutput: Swift.Equatable {
+public struct DeleteKnowledgeBaseOutput {
 
     public init() { }
 }
@@ -3263,7 +3263,7 @@ extension DeleteQuickResponseInput {
     }
 }
 
-public struct DeleteQuickResponseInput: Swift.Equatable {
+public struct DeleteQuickResponseInput {
     /// The knowledge base from which the quick response is deleted. The identifier of the knowledge base.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -3281,7 +3281,7 @@ public struct DeleteQuickResponseInput: Swift.Equatable {
     }
 }
 
-struct DeleteQuickResponseInputBody: Swift.Equatable {
+struct DeleteQuickResponseInputBody {
 }
 
 extension DeleteQuickResponseInputBody: Swift.Decodable {
@@ -3295,7 +3295,7 @@ extension DeleteQuickResponseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteQuickResponseOutput: Swift.Equatable {
+public struct DeleteQuickResponseOutput {
 
     public init() { }
 }
@@ -3346,7 +3346,7 @@ extension QConnectClientTypes.Document: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The document.
-    public struct Document: Swift.Equatable {
+    public struct Document {
         /// A reference to the content resource.
         /// This member is required.
         public var contentReference: QConnectClientTypes.ContentReference?
@@ -3413,7 +3413,7 @@ extension QConnectClientTypes.DocumentText: Swift.CustomDebugStringConvertible {
 
 extension QConnectClientTypes {
     /// The text of the document.
-    public struct DocumentText: Swift.Equatable {
+    public struct DocumentText {
         /// Highlights in the document text.
         public var highlights: [QConnectClientTypes.Highlight]?
         /// Text in the document.
@@ -3487,7 +3487,7 @@ extension QConnectClientTypes.ExternalSourceConfiguration: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The configuration information of the external data source.
-    public struct ExternalSourceConfiguration: Swift.Equatable {
+    public struct ExternalSourceConfiguration {
         /// The configuration information of the external data source.
         /// This member is required.
         public var configuration: QConnectClientTypes.Configuration?
@@ -3540,7 +3540,7 @@ extension QConnectClientTypes.Filter: Swift.Codable {
 
 extension QConnectClientTypes {
     /// A search filter.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The field on which to filter.
         /// This member is required.
         public var field: QConnectClientTypes.FilterField?
@@ -3644,7 +3644,7 @@ extension QConnectClientTypes.GenerativeContentFeedbackData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The feedback information for a generative target type.
-    public struct GenerativeContentFeedbackData: Swift.Equatable {
+    public struct GenerativeContentFeedbackData {
         /// The relevance of the feedback.
         /// This member is required.
         public var relevance: QConnectClientTypes.Relevance?
@@ -3709,7 +3709,7 @@ extension QConnectClientTypes.GenerativeDataDetails: Swift.CustomDebugStringConv
 
 extension QConnectClientTypes {
     /// Details about generative data.
-    public struct GenerativeDataDetails: Swift.Equatable {
+    public struct GenerativeDataDetails {
         /// The LLM response.
         /// This member is required.
         public var completion: Swift.String?
@@ -3761,7 +3761,7 @@ extension QConnectClientTypes.GenerativeReference: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Reference information about generative content.
-    public struct GenerativeReference: Swift.Equatable {
+    public struct GenerativeReference {
         /// The identifier of the LLM model.
         public var generationId: Swift.String?
         /// The identifier of the LLM model.
@@ -3792,7 +3792,7 @@ extension GetAssistantAssociationInput {
     }
 }
 
-public struct GetAssistantAssociationInput: Swift.Equatable {
+public struct GetAssistantAssociationInput {
     /// The identifier of the assistant association. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantAssociationId: Swift.String?
@@ -3810,7 +3810,7 @@ public struct GetAssistantAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetAssistantAssociationInputBody: Swift.Equatable {
+struct GetAssistantAssociationInputBody {
 }
 
 extension GetAssistantAssociationInputBody: Swift.Decodable {
@@ -3831,7 +3831,7 @@ extension GetAssistantAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssistantAssociationOutput: Swift.Equatable {
+public struct GetAssistantAssociationOutput {
     /// The assistant association.
     public var assistantAssociation: QConnectClientTypes.AssistantAssociationData?
 
@@ -3843,7 +3843,7 @@ public struct GetAssistantAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetAssistantAssociationOutputBody: Swift.Equatable {
+struct GetAssistantAssociationOutputBody {
     let assistantAssociation: QConnectClientTypes.AssistantAssociationData?
 }
 
@@ -3882,7 +3882,7 @@ extension GetAssistantInput {
     }
 }
 
-public struct GetAssistantInput: Swift.Equatable {
+public struct GetAssistantInput {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -3895,7 +3895,7 @@ public struct GetAssistantInput: Swift.Equatable {
     }
 }
 
-struct GetAssistantInputBody: Swift.Equatable {
+struct GetAssistantInputBody {
 }
 
 extension GetAssistantInputBody: Swift.Decodable {
@@ -3916,7 +3916,7 @@ extension GetAssistantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssistantOutput: Swift.Equatable {
+public struct GetAssistantOutput {
     /// Information about the assistant.
     public var assistant: QConnectClientTypes.AssistantData?
 
@@ -3928,7 +3928,7 @@ public struct GetAssistantOutput: Swift.Equatable {
     }
 }
 
-struct GetAssistantOutputBody: Swift.Equatable {
+struct GetAssistantOutputBody {
     let assistant: QConnectClientTypes.AssistantData?
 }
 
@@ -3970,7 +3970,7 @@ extension GetContentInput {
     }
 }
 
-public struct GetContentInput: Swift.Equatable {
+public struct GetContentInput {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
@@ -3988,7 +3988,7 @@ public struct GetContentInput: Swift.Equatable {
     }
 }
 
-struct GetContentInputBody: Swift.Equatable {
+struct GetContentInputBody {
 }
 
 extension GetContentInputBody: Swift.Decodable {
@@ -4009,7 +4009,7 @@ extension GetContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContentOutput: Swift.Equatable {
+public struct GetContentOutput {
     /// The content.
     public var content: QConnectClientTypes.ContentData?
 
@@ -4021,7 +4021,7 @@ public struct GetContentOutput: Swift.Equatable {
     }
 }
 
-struct GetContentOutputBody: Swift.Equatable {
+struct GetContentOutputBody {
     let content: QConnectClientTypes.ContentData?
 }
 
@@ -4063,7 +4063,7 @@ extension GetContentSummaryInput {
     }
 }
 
-public struct GetContentSummaryInput: Swift.Equatable {
+public struct GetContentSummaryInput {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
@@ -4081,7 +4081,7 @@ public struct GetContentSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetContentSummaryInputBody: Swift.Equatable {
+struct GetContentSummaryInputBody {
 }
 
 extension GetContentSummaryInputBody: Swift.Decodable {
@@ -4102,7 +4102,7 @@ extension GetContentSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContentSummaryOutput: Swift.Equatable {
+public struct GetContentSummaryOutput {
     /// The content summary.
     public var contentSummary: QConnectClientTypes.ContentSummary?
 
@@ -4114,7 +4114,7 @@ public struct GetContentSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetContentSummaryOutputBody: Swift.Equatable {
+struct GetContentSummaryOutputBody {
     let contentSummary: QConnectClientTypes.ContentSummary?
 }
 
@@ -4156,7 +4156,7 @@ extension GetImportJobInput {
     }
 }
 
-public struct GetImportJobInput: Swift.Equatable {
+public struct GetImportJobInput {
     /// The identifier of the import job to retrieve.
     /// This member is required.
     public var importJobId: Swift.String?
@@ -4174,7 +4174,7 @@ public struct GetImportJobInput: Swift.Equatable {
     }
 }
 
-struct GetImportJobInputBody: Swift.Equatable {
+struct GetImportJobInputBody {
 }
 
 extension GetImportJobInputBody: Swift.Decodable {
@@ -4195,7 +4195,7 @@ extension GetImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImportJobOutput: Swift.Equatable {
+public struct GetImportJobOutput {
     /// The import job.
     public var importJob: QConnectClientTypes.ImportJobData?
 
@@ -4207,7 +4207,7 @@ public struct GetImportJobOutput: Swift.Equatable {
     }
 }
 
-struct GetImportJobOutputBody: Swift.Equatable {
+struct GetImportJobOutputBody {
     let importJob: QConnectClientTypes.ImportJobData?
 }
 
@@ -4246,7 +4246,7 @@ extension GetKnowledgeBaseInput {
     }
 }
 
-public struct GetKnowledgeBaseInput: Swift.Equatable {
+public struct GetKnowledgeBaseInput {
     /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -4259,7 +4259,7 @@ public struct GetKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct GetKnowledgeBaseInputBody: Swift.Equatable {
+struct GetKnowledgeBaseInputBody {
 }
 
 extension GetKnowledgeBaseInputBody: Swift.Decodable {
@@ -4280,7 +4280,7 @@ extension GetKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetKnowledgeBaseOutput: Swift.Equatable {
+public struct GetKnowledgeBaseOutput {
     /// The knowledge base.
     public var knowledgeBase: QConnectClientTypes.KnowledgeBaseData?
 
@@ -4292,7 +4292,7 @@ public struct GetKnowledgeBaseOutput: Swift.Equatable {
     }
 }
 
-struct GetKnowledgeBaseOutputBody: Swift.Equatable {
+struct GetKnowledgeBaseOutputBody {
     let knowledgeBase: QConnectClientTypes.KnowledgeBaseData?
 }
 
@@ -4334,7 +4334,7 @@ extension GetQuickResponseInput {
     }
 }
 
-public struct GetQuickResponseInput: Swift.Equatable {
+public struct GetQuickResponseInput {
     /// The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -4352,7 +4352,7 @@ public struct GetQuickResponseInput: Swift.Equatable {
     }
 }
 
-struct GetQuickResponseInputBody: Swift.Equatable {
+struct GetQuickResponseInputBody {
 }
 
 extension GetQuickResponseInputBody: Swift.Decodable {
@@ -4373,7 +4373,7 @@ extension GetQuickResponseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQuickResponseOutput: Swift.Equatable {
+public struct GetQuickResponseOutput {
     /// The quick response.
     public var quickResponse: QConnectClientTypes.QuickResponseData?
 
@@ -4385,7 +4385,7 @@ public struct GetQuickResponseOutput: Swift.Equatable {
     }
 }
 
-struct GetQuickResponseOutputBody: Swift.Equatable {
+struct GetQuickResponseOutputBody {
     let quickResponse: QConnectClientTypes.QuickResponseData?
 }
 
@@ -4443,7 +4443,7 @@ extension GetRecommendationsInput {
     }
 }
 
-public struct GetRecommendationsInput: Swift.Equatable {
+public struct GetRecommendationsInput {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -4469,7 +4469,7 @@ public struct GetRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationsInputBody: Swift.Equatable {
+struct GetRecommendationsInputBody {
 }
 
 extension GetRecommendationsInputBody: Swift.Decodable {
@@ -4492,7 +4492,7 @@ extension GetRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRecommendationsOutput: Swift.Equatable {
+public struct GetRecommendationsOutput {
     /// The recommendations.
     /// This member is required.
     public var recommendations: [QConnectClientTypes.RecommendationData]?
@@ -4509,7 +4509,7 @@ public struct GetRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationsOutputBody: Swift.Equatable {
+struct GetRecommendationsOutputBody {
     let recommendations: [QConnectClientTypes.RecommendationData]?
     let triggers: [QConnectClientTypes.RecommendationTrigger]?
 }
@@ -4573,7 +4573,7 @@ extension GetSessionInput {
     }
 }
 
-public struct GetSessionInput: Swift.Equatable {
+public struct GetSessionInput {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -4591,7 +4591,7 @@ public struct GetSessionInput: Swift.Equatable {
     }
 }
 
-struct GetSessionInputBody: Swift.Equatable {
+struct GetSessionInputBody {
 }
 
 extension GetSessionInputBody: Swift.Decodable {
@@ -4612,7 +4612,7 @@ extension GetSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionOutput: Swift.Equatable {
+public struct GetSessionOutput {
     /// The session.
     public var session: QConnectClientTypes.SessionData?
 
@@ -4624,7 +4624,7 @@ public struct GetSessionOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionOutputBody: Swift.Equatable {
+struct GetSessionOutputBody {
     let session: QConnectClientTypes.SessionData?
 }
 
@@ -4697,7 +4697,7 @@ extension QConnectClientTypes.GroupingConfiguration: Swift.CustomDebugStringConv
 
 extension QConnectClientTypes {
     /// The configuration information of the grouping of Amazon Q in Connect users.
-    public struct GroupingConfiguration: Swift.Equatable {
+    public struct GroupingConfiguration {
         /// The criteria used for grouping Amazon Q in Connect users. The following is the list of supported criteria values.
         ///
         /// * RoutingProfileArn: Grouping the users by their [Amazon Connect routing profile ARN](https://docs.aws.amazon.com/connect/latest/APIReference/API_RoutingProfile.html). User should have [SearchRoutingProfile](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchRoutingProfiles.html) and [DescribeRoutingProfile](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeRoutingProfile.html) permissions when setting criteria to this value.
@@ -4746,7 +4746,7 @@ extension QConnectClientTypes.Highlight: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Offset specification to describe highlighting of document excerpts for rendering search results and recommendations.
-    public struct Highlight: Swift.Equatable {
+    public struct Highlight {
         /// The offset for the start of the highlight.
         public var beginOffsetInclusive: Swift.Int
         /// The offset for the end of the highlight.
@@ -4874,7 +4874,7 @@ extension QConnectClientTypes.ImportJobData: Swift.CustomDebugStringConvertible 
 
 extension QConnectClientTypes {
     /// Summary information about the import job.
-    public struct ImportJobData: Swift.Equatable {
+    public struct ImportJobData {
         /// The timestamp when the import job was created.
         /// This member is required.
         public var createdTime: ClientRuntime.Date?
@@ -5077,7 +5077,7 @@ extension QConnectClientTypes.ImportJobSummary: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Summary information about the import job.
-    public struct ImportJobSummary: Swift.Equatable {
+    public struct ImportJobSummary {
         /// The timestamp when the import job was created.
         /// This member is required.
         public var createdTime: ClientRuntime.Date?
@@ -5191,7 +5191,7 @@ extension QConnectClientTypes.KnowledgeBaseAssociationData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Association information about the knowledge base.
-    public struct KnowledgeBaseAssociationData: Swift.Equatable {
+    public struct KnowledgeBaseAssociationData {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public var knowledgeBaseArn: Swift.String?
         /// The identifier of the knowledge base.
@@ -5302,7 +5302,7 @@ extension QConnectClientTypes.KnowledgeBaseData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Information about the knowledge base.
-    public struct KnowledgeBaseData: Swift.Equatable {
+    public struct KnowledgeBaseData {
         /// The description.
         public var description: Swift.String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
@@ -5492,7 +5492,7 @@ extension QConnectClientTypes.KnowledgeBaseSummary: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Summary information about the knowledge base.
-    public struct KnowledgeBaseSummary: Swift.Equatable {
+    public struct KnowledgeBaseSummary {
         /// The description of the knowledge base.
         public var description: Swift.String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
@@ -5608,7 +5608,7 @@ extension ListAssistantAssociationsInput {
     }
 }
 
-public struct ListAssistantAssociationsInput: Swift.Equatable {
+public struct ListAssistantAssociationsInput {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -5629,7 +5629,7 @@ public struct ListAssistantAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListAssistantAssociationsInputBody: Swift.Equatable {
+struct ListAssistantAssociationsInputBody {
 }
 
 extension ListAssistantAssociationsInputBody: Swift.Decodable {
@@ -5652,7 +5652,7 @@ extension ListAssistantAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssistantAssociationsOutput: Swift.Equatable {
+public struct ListAssistantAssociationsOutput {
     /// Summary information about assistant associations.
     /// This member is required.
     public var assistantAssociationSummaries: [QConnectClientTypes.AssistantAssociationSummary]?
@@ -5669,7 +5669,7 @@ public struct ListAssistantAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssistantAssociationsOutputBody: Swift.Equatable {
+struct ListAssistantAssociationsOutputBody {
     let assistantAssociationSummaries: [QConnectClientTypes.AssistantAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -5734,7 +5734,7 @@ extension ListAssistantsInput {
     }
 }
 
-public struct ListAssistantsInput: Swift.Equatable {
+public struct ListAssistantsInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -5750,7 +5750,7 @@ public struct ListAssistantsInput: Swift.Equatable {
     }
 }
 
-struct ListAssistantsInputBody: Swift.Equatable {
+struct ListAssistantsInputBody {
 }
 
 extension ListAssistantsInputBody: Swift.Decodable {
@@ -5773,7 +5773,7 @@ extension ListAssistantsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssistantsOutput: Swift.Equatable {
+public struct ListAssistantsOutput {
     /// Information about the assistants.
     /// This member is required.
     public var assistantSummaries: [QConnectClientTypes.AssistantSummary]?
@@ -5790,7 +5790,7 @@ public struct ListAssistantsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssistantsOutputBody: Swift.Equatable {
+struct ListAssistantsOutputBody {
     let assistantSummaries: [QConnectClientTypes.AssistantSummary]?
     let nextToken: Swift.String?
 }
@@ -5857,7 +5857,7 @@ extension ListContentsInput {
     }
 }
 
-public struct ListContentsInput: Swift.Equatable {
+public struct ListContentsInput {
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -5878,7 +5878,7 @@ public struct ListContentsInput: Swift.Equatable {
     }
 }
 
-struct ListContentsInputBody: Swift.Equatable {
+struct ListContentsInputBody {
 }
 
 extension ListContentsInputBody: Swift.Decodable {
@@ -5901,7 +5901,7 @@ extension ListContentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContentsOutput: Swift.Equatable {
+public struct ListContentsOutput {
     /// Information about the content.
     /// This member is required.
     public var contentSummaries: [QConnectClientTypes.ContentSummary]?
@@ -5918,7 +5918,7 @@ public struct ListContentsOutput: Swift.Equatable {
     }
 }
 
-struct ListContentsOutputBody: Swift.Equatable {
+struct ListContentsOutputBody {
     let contentSummaries: [QConnectClientTypes.ContentSummary]?
     let nextToken: Swift.String?
 }
@@ -5986,7 +5986,7 @@ extension ListImportJobsInput {
     }
 }
 
-public struct ListImportJobsInput: Swift.Equatable {
+public struct ListImportJobsInput {
     /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -6007,7 +6007,7 @@ public struct ListImportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListImportJobsInputBody: Swift.Equatable {
+struct ListImportJobsInputBody {
 }
 
 extension ListImportJobsInputBody: Swift.Decodable {
@@ -6030,7 +6030,7 @@ extension ListImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImportJobsOutput: Swift.Equatable {
+public struct ListImportJobsOutput {
     /// Summary information about the import jobs.
     /// This member is required.
     public var importJobSummaries: [QConnectClientTypes.ImportJobSummary]?
@@ -6047,7 +6047,7 @@ public struct ListImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListImportJobsOutputBody: Swift.Equatable {
+struct ListImportJobsOutputBody {
     let importJobSummaries: [QConnectClientTypes.ImportJobSummary]?
     let nextToken: Swift.String?
 }
@@ -6111,7 +6111,7 @@ extension ListKnowledgeBasesInput {
     }
 }
 
-public struct ListKnowledgeBasesInput: Swift.Equatable {
+public struct ListKnowledgeBasesInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -6127,7 +6127,7 @@ public struct ListKnowledgeBasesInput: Swift.Equatable {
     }
 }
 
-struct ListKnowledgeBasesInputBody: Swift.Equatable {
+struct ListKnowledgeBasesInputBody {
 }
 
 extension ListKnowledgeBasesInputBody: Swift.Decodable {
@@ -6150,7 +6150,7 @@ extension ListKnowledgeBasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKnowledgeBasesOutput: Swift.Equatable {
+public struct ListKnowledgeBasesOutput {
     /// Information about the knowledge bases.
     /// This member is required.
     public var knowledgeBaseSummaries: [QConnectClientTypes.KnowledgeBaseSummary]?
@@ -6167,7 +6167,7 @@ public struct ListKnowledgeBasesOutput: Swift.Equatable {
     }
 }
 
-struct ListKnowledgeBasesOutputBody: Swift.Equatable {
+struct ListKnowledgeBasesOutputBody {
     let knowledgeBaseSummaries: [QConnectClientTypes.KnowledgeBaseSummary]?
     let nextToken: Swift.String?
 }
@@ -6234,7 +6234,7 @@ extension ListQuickResponsesInput {
     }
 }
 
-public struct ListQuickResponsesInput: Swift.Equatable {
+public struct ListQuickResponsesInput {
     /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -6255,7 +6255,7 @@ public struct ListQuickResponsesInput: Swift.Equatable {
     }
 }
 
-struct ListQuickResponsesInputBody: Swift.Equatable {
+struct ListQuickResponsesInputBody {
 }
 
 extension ListQuickResponsesInputBody: Swift.Decodable {
@@ -6278,7 +6278,7 @@ extension ListQuickResponsesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQuickResponsesOutput: Swift.Equatable {
+public struct ListQuickResponsesOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// Summary information about the quick responses.
@@ -6295,7 +6295,7 @@ public struct ListQuickResponsesOutput: Swift.Equatable {
     }
 }
 
-struct ListQuickResponsesOutputBody: Swift.Equatable {
+struct ListQuickResponsesOutputBody {
     let quickResponseSummaries: [QConnectClientTypes.QuickResponseSummary]?
     let nextToken: Swift.String?
 }
@@ -6347,7 +6347,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6360,7 +6360,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -6381,7 +6381,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -6393,7 +6393,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6456,7 +6456,7 @@ extension QConnectClientTypes.NotifyRecommendationsReceivedError: Swift.Codable 
 
 extension QConnectClientTypes {
     /// An error occurred when creating a recommendation.
-    public struct NotifyRecommendationsReceivedError: Swift.Equatable {
+    public struct NotifyRecommendationsReceivedError {
         /// A recommendation is causing an error.
         public var message: Swift.String?
         /// The identifier of the recommendation that is in error.
@@ -6503,7 +6503,7 @@ extension NotifyRecommendationsReceivedInput {
     }
 }
 
-public struct NotifyRecommendationsReceivedInput: Swift.Equatable {
+public struct NotifyRecommendationsReceivedInput {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -6526,7 +6526,7 @@ public struct NotifyRecommendationsReceivedInput: Swift.Equatable {
     }
 }
 
-struct NotifyRecommendationsReceivedInputBody: Swift.Equatable {
+struct NotifyRecommendationsReceivedInputBody {
     let recommendationIds: [Swift.String]?
 }
 
@@ -6565,7 +6565,7 @@ extension NotifyRecommendationsReceivedOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct NotifyRecommendationsReceivedOutput: Swift.Equatable {
+public struct NotifyRecommendationsReceivedOutput {
     /// The identifiers of recommendations that are causing errors.
     public var errors: [QConnectClientTypes.NotifyRecommendationsReceivedError]?
     /// The identifiers of the recommendations.
@@ -6581,7 +6581,7 @@ public struct NotifyRecommendationsReceivedOutput: Swift.Equatable {
     }
 }
 
-struct NotifyRecommendationsReceivedOutputBody: Swift.Equatable {
+struct NotifyRecommendationsReceivedOutputBody {
     let recommendationIds: [Swift.String]?
     let errors: [QConnectClientTypes.NotifyRecommendationsReceivedError]?
 }
@@ -6681,7 +6681,7 @@ extension QConnectClientTypes.OrCondition: Swift.Codable {
 
 extension QConnectClientTypes {
     /// A list of conditions which would be applied together with an OR condition.
-    public enum OrCondition: Swift.Equatable {
+    public enum OrCondition {
         /// A list of conditions which would be applied together with an AND condition.
         case andconditions([QConnectClientTypes.TagCondition])
         /// A leaf node condition which can be used to specify a tag condition.
@@ -6762,7 +6762,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct PreconditionFailedExceptionBody: Swift.Equatable {
+struct PreconditionFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -6844,7 +6844,7 @@ extension PutFeedbackInput {
     }
 }
 
-public struct PutFeedbackInput: Swift.Equatable {
+public struct PutFeedbackInput {
     /// The identifier of the Amazon Q in Connect assistant.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -6872,7 +6872,7 @@ public struct PutFeedbackInput: Swift.Equatable {
     }
 }
 
-struct PutFeedbackInputBody: Swift.Equatable {
+struct PutFeedbackInputBody {
     let targetId: Swift.String?
     let targetType: QConnectClientTypes.TargetType?
     let contentFeedback: QConnectClientTypes.ContentFeedbackData?
@@ -6916,7 +6916,7 @@ extension PutFeedbackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutFeedbackOutput: Swift.Equatable {
+public struct PutFeedbackOutput {
     /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
     /// This member is required.
     public var assistantArn: Swift.String?
@@ -6949,7 +6949,7 @@ public struct PutFeedbackOutput: Swift.Equatable {
     }
 }
 
-struct PutFeedbackOutputBody: Swift.Equatable {
+struct PutFeedbackOutputBody {
     let assistantId: Swift.String?
     let assistantArn: Swift.String?
     let targetId: Swift.String?
@@ -7043,7 +7043,7 @@ extension QueryAssistantInput {
     }
 }
 
-public struct QueryAssistantInput: Swift.Equatable {
+public struct QueryAssistantInput {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -7077,7 +7077,7 @@ public struct QueryAssistantInput: Swift.Equatable {
     }
 }
 
-struct QueryAssistantInputBody: Swift.Equatable {
+struct QueryAssistantInputBody {
     let queryText: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7132,7 +7132,7 @@ extension QueryAssistantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct QueryAssistantOutput: Swift.Equatable {
+public struct QueryAssistantOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The results of the query.
@@ -7149,7 +7149,7 @@ public struct QueryAssistantOutput: Swift.Equatable {
     }
 }
 
-struct QueryAssistantOutputBody: Swift.Equatable {
+struct QueryAssistantOutputBody {
     let results: [QConnectClientTypes.ResultData]?
     let nextToken: Swift.String?
 }
@@ -7221,7 +7221,7 @@ extension QConnectClientTypes.QueryCondition: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Information about how to query content.
-    public enum QueryCondition: Swift.Equatable {
+    public enum QueryCondition {
         /// The condition for the query.
         case single(QConnectClientTypes.QueryConditionItem)
         case sdkUnknown(Swift.String)
@@ -7320,7 +7320,7 @@ extension QConnectClientTypes.QueryConditionItem: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The condition for the query.
-    public struct QueryConditionItem: Swift.Equatable {
+    public struct QueryConditionItem {
         /// The comparison operator for query condition to query on.
         /// This member is required.
         public var comparator: QConnectClientTypes.QueryConditionComparisonOperator?
@@ -7371,7 +7371,7 @@ extension QConnectClientTypes.QueryRecommendationTriggerData: Swift.CustomDebugS
 
 extension QConnectClientTypes {
     /// Data associated with the QUERY RecommendationTriggerType.
-    public struct QueryRecommendationTriggerData: Swift.Equatable {
+    public struct QueryRecommendationTriggerData {
         /// The text associated with the recommendation trigger.
         public var text: Swift.String?
 
@@ -7446,7 +7446,7 @@ extension QConnectClientTypes.QuickResponseContentProvider: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The container quick response content.
-    public enum QuickResponseContentProvider: Swift.Equatable {
+    public enum QuickResponseContentProvider {
         /// The content of the quick response.
         case content(Swift.String)
         case sdkUnknown(Swift.String)
@@ -7481,7 +7481,7 @@ extension QConnectClientTypes.QuickResponseContents: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The content of the quick response stored in different media types.
-    public struct QuickResponseContents: Swift.Equatable {
+    public struct QuickResponseContents {
         /// The container quick response content.
         public var markdown: QConnectClientTypes.QuickResponseContentProvider?
         /// The container quick response content.
@@ -7646,7 +7646,7 @@ extension QConnectClientTypes.QuickResponseData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Information about the quick response.
-    public struct QuickResponseData: Swift.Equatable {
+    public struct QuickResponseData {
         /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
         public var channels: [Swift.String]?
         /// The media type of the quick response content.
@@ -7770,7 +7770,7 @@ extension QConnectClientTypes.QuickResponseDataProvider: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The container of quick response data.
-    public enum QuickResponseDataProvider: Swift.Equatable {
+    public enum QuickResponseDataProvider {
         /// The content of the quick response.
         case content(Swift.String)
         case sdkUnknown(Swift.String)
@@ -7853,7 +7853,7 @@ extension QConnectClientTypes {
     /// * groupingConfiguration.criteria
     ///
     /// * groupingConfiguration.values
-    public struct QuickResponseFilterField: Swift.Equatable {
+    public struct QuickResponseFilterField {
         /// Whether to treat null value as a match for the attribute field.
         public var includeNoExistence: Swift.Bool?
         /// The name of the attribute field to filter the quick responses by.
@@ -7964,7 +7964,7 @@ extension QConnectClientTypes {
     /// * groupingConfiguration.criteria
     ///
     /// * groupingConfiguration.values
-    public struct QuickResponseOrderField: Swift.Equatable {
+    public struct QuickResponseOrderField {
         /// The name of the attribute to order the quick response query results by.
         /// This member is required.
         public var name: Swift.String?
@@ -8048,7 +8048,7 @@ extension QConnectClientTypes {
     /// * description
     ///
     /// * shortcutKey
-    public struct QuickResponseQueryField: Swift.Equatable {
+    public struct QuickResponseQueryField {
         /// Whether the query expects only exact matches on the attribute field values. The results of the query will only include exact matches if this parameter is set to false.
         public var allowFuzziness: Swift.Bool?
         /// The name of the attribute to query the quick responses by.
@@ -8170,7 +8170,7 @@ extension QConnectClientTypes.QuickResponseSearchExpression: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Information about the import job.
-    public struct QuickResponseSearchExpression: Swift.Equatable {
+    public struct QuickResponseSearchExpression {
         /// The configuration of filtering rules applied to quick response query results.
         public var filters: [QConnectClientTypes.QuickResponseFilterField]?
         /// The quick response attribute fields on which the query results are ordered.
@@ -8380,7 +8380,7 @@ extension QConnectClientTypes.QuickResponseSearchResultData: Swift.CustomDebugSt
 
 extension QConnectClientTypes {
     /// The result of quick response search.
-    public struct QuickResponseSearchResultData: Swift.Equatable {
+    public struct QuickResponseSearchResultData {
         /// The user defined contact attributes that are resolved when the search result is returned.
         public var attributesInterpolated: [Swift.String]?
         /// The user defined contact attributes that are not resolved when the search result is returned.
@@ -8658,7 +8658,7 @@ extension QConnectClientTypes.QuickResponseSummary: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The summary information about the quick response.
-    public struct QuickResponseSummary: Swift.Equatable {
+    public struct QuickResponseSummary {
         /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
         public var channels: [Swift.String]?
         /// The media type of the quick response content.
@@ -8764,7 +8764,7 @@ extension QConnectClientTypes.RankingData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Details about the source content ranking data.
-    public struct RankingData: Swift.Equatable {
+    public struct RankingData {
         /// The relevance score of the content.
         public var relevanceLevel: QConnectClientTypes.RelevanceLevel?
         /// The relevance level of the recommendation.
@@ -8833,7 +8833,7 @@ extension QConnectClientTypes.RecommendationData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Information about the recommendation.
-    public struct RecommendationData: Swift.Equatable {
+    public struct RecommendationData {
         /// Summary of the recommended content.
         public var data: QConnectClientTypes.DataSummary?
         /// The recommended document.
@@ -8960,7 +8960,7 @@ extension QConnectClientTypes.RecommendationTrigger: Swift.Codable {
 
 extension QConnectClientTypes {
     /// A recommendation trigger provides context on the event that produced the referenced recommendations. Recommendations are only referenced in recommendationIds by a single RecommendationTrigger.
-    public struct RecommendationTrigger: Swift.Equatable {
+    public struct RecommendationTrigger {
         /// A union type containing information related to the trigger.
         /// This member is required.
         public var data: QConnectClientTypes.RecommendationTriggerData?
@@ -9028,7 +9028,7 @@ extension QConnectClientTypes.RecommendationTriggerData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// A union type containing information related to the trigger.
-    public enum RecommendationTriggerData: Swift.Equatable {
+    public enum RecommendationTriggerData {
         /// Data associated with the QUERY RecommendationTriggerType.
         case query(QConnectClientTypes.QueryRecommendationTriggerData)
         case sdkUnknown(Swift.String)
@@ -9180,7 +9180,7 @@ extension RemoveKnowledgeBaseTemplateUriInput {
     }
 }
 
-public struct RemoveKnowledgeBaseTemplateUriInput: Swift.Equatable {
+public struct RemoveKnowledgeBaseTemplateUriInput {
     /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -9193,7 +9193,7 @@ public struct RemoveKnowledgeBaseTemplateUriInput: Swift.Equatable {
     }
 }
 
-struct RemoveKnowledgeBaseTemplateUriInputBody: Swift.Equatable {
+struct RemoveKnowledgeBaseTemplateUriInputBody {
 }
 
 extension RemoveKnowledgeBaseTemplateUriInputBody: Swift.Decodable {
@@ -9207,7 +9207,7 @@ extension RemoveKnowledgeBaseTemplateUriOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct RemoveKnowledgeBaseTemplateUriOutput: Swift.Equatable {
+public struct RemoveKnowledgeBaseTemplateUriOutput {
 
     public init() { }
 }
@@ -9246,7 +9246,7 @@ extension QConnectClientTypes.RenderingConfiguration: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Information about how to render the content.
-    public struct RenderingConfiguration: Swift.Equatable {
+    public struct RenderingConfiguration {
         /// A URI template containing exactly one variable in ${variableName} format. This can only be set for EXTERNAL knowledge bases. For Salesforce, ServiceNow, and Zendesk, the variable must be one of the following:
         ///
         /// * Salesforce: Id, ArticleNumber, VersionNumber, Title, PublishStatus, or IsDeleted
@@ -9308,7 +9308,7 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct RequestTimeoutExceptionBody: Swift.Equatable {
+struct RequestTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -9369,7 +9369,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -9434,7 +9434,7 @@ extension QConnectClientTypes.ResultData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Information about the result.
-    public struct ResultData: Swift.Equatable {
+    public struct ResultData {
         /// Summary of the recommended content.
         public var data: QConnectClientTypes.DataSummary?
         /// The document.
@@ -9504,7 +9504,7 @@ extension SearchContentInput {
     }
 }
 
-public struct SearchContentInput: Swift.Equatable {
+public struct SearchContentInput {
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -9530,7 +9530,7 @@ public struct SearchContentInput: Swift.Equatable {
     }
 }
 
-struct SearchContentInputBody: Swift.Equatable {
+struct SearchContentInputBody {
     let searchExpression: QConnectClientTypes.SearchExpression?
 }
 
@@ -9560,7 +9560,7 @@ extension SearchContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchContentOutput: Swift.Equatable {
+public struct SearchContentOutput {
     /// Summary information about the content.
     /// This member is required.
     public var contentSummaries: [QConnectClientTypes.ContentSummary]?
@@ -9577,7 +9577,7 @@ public struct SearchContentOutput: Swift.Equatable {
     }
 }
 
-struct SearchContentOutputBody: Swift.Equatable {
+struct SearchContentOutputBody {
     let contentSummaries: [QConnectClientTypes.ContentSummary]?
     let nextToken: Swift.String?
 }
@@ -9652,7 +9652,7 @@ extension QConnectClientTypes.SearchExpression: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The search expression.
-    public struct SearchExpression: Swift.Equatable {
+    public struct SearchExpression {
         /// The search expression filters.
         /// This member is required.
         public var filters: [QConnectClientTypes.Filter]?
@@ -9718,7 +9718,7 @@ extension SearchQuickResponsesInput {
     }
 }
 
-public struct SearchQuickResponsesInput: Swift.Equatable {
+public struct SearchQuickResponsesInput {
     /// The [user-defined Amazon Connect contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/connect-attrib-list.html#user-defined-attributes) to be resolved when search results are returned.
     public var attributes: [Swift.String:Swift.String]?
     /// The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -9748,7 +9748,7 @@ public struct SearchQuickResponsesInput: Swift.Equatable {
     }
 }
 
-struct SearchQuickResponsesInputBody: Swift.Equatable {
+struct SearchQuickResponsesInputBody {
     let searchExpression: QConnectClientTypes.QuickResponseSearchExpression?
     let attributes: [Swift.String:Swift.String]?
 }
@@ -9791,7 +9791,7 @@ extension SearchQuickResponsesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchQuickResponsesOutput: Swift.Equatable {
+public struct SearchQuickResponsesOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The results of the quick response search.
@@ -9808,7 +9808,7 @@ public struct SearchQuickResponsesOutput: Swift.Equatable {
     }
 }
 
-struct SearchQuickResponsesOutputBody: Swift.Equatable {
+struct SearchQuickResponsesOutputBody {
     let results: [QConnectClientTypes.QuickResponseSearchResultData]?
     let nextToken: Swift.String?
 }
@@ -9890,7 +9890,7 @@ extension SearchSessionsInput {
     }
 }
 
-public struct SearchSessionsInput: Swift.Equatable {
+public struct SearchSessionsInput {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -9916,7 +9916,7 @@ public struct SearchSessionsInput: Swift.Equatable {
     }
 }
 
-struct SearchSessionsInputBody: Swift.Equatable {
+struct SearchSessionsInputBody {
     let searchExpression: QConnectClientTypes.SearchExpression?
 }
 
@@ -9946,7 +9946,7 @@ extension SearchSessionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchSessionsOutput: Swift.Equatable {
+public struct SearchSessionsOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Summary information about the sessions.
@@ -9963,7 +9963,7 @@ public struct SearchSessionsOutput: Swift.Equatable {
     }
 }
 
-struct SearchSessionsOutputBody: Swift.Equatable {
+struct SearchSessionsOutputBody {
     let sessionSummaries: [QConnectClientTypes.SessionSummary]?
     let nextToken: Swift.String?
 }
@@ -10026,7 +10026,7 @@ extension QConnectClientTypes.ServerSideEncryptionConfiguration: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The configuration information for the customer managed key used for encryption.
-    public struct ServerSideEncryptionConfiguration: Swift.Equatable {
+    public struct ServerSideEncryptionConfiguration {
         /// The customer managed key used for encryption. For more information about setting up a customer managed key for Amazon Q in Connect, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html). For information about valid ID values, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id).
         public var kmsKeyId: Swift.String?
 
@@ -10079,7 +10079,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -10164,7 +10164,7 @@ extension QConnectClientTypes.SessionData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Information about the session.
-    public struct SessionData: Swift.Equatable {
+    public struct SessionData {
         /// The description of the session.
         public var description: Swift.String?
         /// The configuration information for the session integration.
@@ -10226,7 +10226,7 @@ extension QConnectClientTypes.SessionIntegrationConfiguration: Swift.Codable {
 
 extension QConnectClientTypes {
     /// The configuration information for the session integration.
-    public struct SessionIntegrationConfiguration: Swift.Equatable {
+    public struct SessionIntegrationConfiguration {
         /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
         public var topicIntegrationArn: Swift.String?
 
@@ -10279,7 +10279,7 @@ extension QConnectClientTypes.SessionSummary: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Summary information about the session.
-    public struct SessionSummary: Swift.Equatable {
+    public struct SessionSummary {
         /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -10338,7 +10338,7 @@ extension QConnectClientTypes.SourceConfiguration: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Configuration information about the external data source.
-    public enum SourceConfiguration: Swift.Equatable {
+    public enum SourceConfiguration {
         /// Configuration information for Amazon AppIntegrations to automatically ingest content.
         case appintegrations(QConnectClientTypes.AppIntegrationsConfiguration)
         case sdkUnknown(Swift.String)
@@ -10385,7 +10385,7 @@ extension QConnectClientTypes.SourceContentDataDetails: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Details about the source content data.
-    public struct SourceContentDataDetails: Swift.Equatable {
+    public struct SourceContentDataDetails {
         /// The identifier of the source content.
         /// This member is required.
         public var id: Swift.String?
@@ -10471,7 +10471,7 @@ extension StartContentUploadInput {
     }
 }
 
-public struct StartContentUploadInput: Swift.Equatable {
+public struct StartContentUploadInput {
     /// The type of content to upload.
     /// This member is required.
     public var contentType: Swift.String?
@@ -10493,7 +10493,7 @@ public struct StartContentUploadInput: Swift.Equatable {
     }
 }
 
-struct StartContentUploadInputBody: Swift.Equatable {
+struct StartContentUploadInputBody {
     let contentType: Swift.String?
     let presignedUrlTimeToLive: Swift.Int?
 }
@@ -10536,7 +10536,7 @@ extension StartContentUploadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartContentUploadOutput: Swift.Equatable {
+public struct StartContentUploadOutput {
     /// The headers to include in the upload.
     /// This member is required.
     public var headersToInclude: [Swift.String:Swift.String]?
@@ -10564,7 +10564,7 @@ public struct StartContentUploadOutput: Swift.Equatable {
     }
 }
 
-struct StartContentUploadOutputBody: Swift.Equatable {
+struct StartContentUploadOutputBody {
     let uploadId: Swift.String?
     let url: Swift.String?
     let urlExpiry: ClientRuntime.Date?
@@ -10656,7 +10656,7 @@ extension StartImportJobInput {
     }
 }
 
-public struct StartImportJobInput: Swift.Equatable {
+public struct StartImportJobInput {
     /// The tags used to organize, track, or control access for this resource.
     public var clientToken: Swift.String?
     /// The configuration information of the external source that the resource data are imported from.
@@ -10695,7 +10695,7 @@ public struct StartImportJobInput: Swift.Equatable {
     }
 }
 
-struct StartImportJobInputBody: Swift.Equatable {
+struct StartImportJobInputBody {
     let importJobType: QConnectClientTypes.ImportJobType?
     let uploadId: Swift.String?
     let clientToken: Swift.String?
@@ -10748,7 +10748,7 @@ extension StartImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImportJobOutput: Swift.Equatable {
+public struct StartImportJobOutput {
     /// The import job.
     public var importJob: QConnectClientTypes.ImportJobData?
 
@@ -10760,7 +10760,7 @@ public struct StartImportJobOutput: Swift.Equatable {
     }
 }
 
-struct StartImportJobOutputBody: Swift.Equatable {
+struct StartImportJobOutputBody {
     let importJob: QConnectClientTypes.ImportJobData?
 }
 
@@ -10818,7 +10818,7 @@ extension QConnectClientTypes.TagCondition: Swift.Codable {
 
 extension QConnectClientTypes {
     /// A leaf node condition which can be used to specify a tag condition.
-    public struct TagCondition: Swift.Equatable {
+    public struct TagCondition {
         /// The tag key in the tag condition.
         /// This member is required.
         public var key: Swift.String?
@@ -10906,7 +10906,7 @@ extension QConnectClientTypes.TagFilter: Swift.Codable {
 
 extension QConnectClientTypes {
     /// An object that can be used to specify Tag conditions.
-    public enum TagFilter: Swift.Equatable {
+    public enum TagFilter {
         /// A leaf node condition which can be used to specify a tag condition.
         case tagcondition(QConnectClientTypes.TagCondition)
         /// A list of conditions which would be applied together with an AND condition.
@@ -10944,7 +10944,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10962,7 +10962,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -10992,7 +10992,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -11068,7 +11068,7 @@ extension QConnectClientTypes.TextData: Swift.Codable {
 
 extension QConnectClientTypes {
     /// Details about the source content text data.
-    public struct TextData: Swift.Equatable {
+    public struct TextData {
         /// The text of the document.
         public var excerpt: QConnectClientTypes.DocumentText?
         /// The text of the document.
@@ -11131,7 +11131,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -11177,7 +11177,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -11195,7 +11195,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -11209,7 +11209,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -11274,7 +11274,7 @@ extension UpdateContentInput {
     }
 }
 
-public struct UpdateContentInput: Swift.Equatable {
+public struct UpdateContentInput {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
@@ -11316,7 +11316,7 @@ public struct UpdateContentInput: Swift.Equatable {
     }
 }
 
-struct UpdateContentInputBody: Swift.Equatable {
+struct UpdateContentInputBody {
     let revisionId: Swift.String?
     let title: Swift.String?
     let overrideLinkOutUri: Swift.String?
@@ -11373,7 +11373,7 @@ extension UpdateContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContentOutput: Swift.Equatable {
+public struct UpdateContentOutput {
     /// The content.
     public var content: QConnectClientTypes.ContentData?
 
@@ -11385,7 +11385,7 @@ public struct UpdateContentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateContentOutputBody: Swift.Equatable {
+struct UpdateContentOutputBody {
     let content: QConnectClientTypes.ContentData?
 }
 
@@ -11438,7 +11438,7 @@ extension UpdateKnowledgeBaseTemplateUriInput {
     }
 }
 
-public struct UpdateKnowledgeBaseTemplateUriInput: Swift.Equatable {
+public struct UpdateKnowledgeBaseTemplateUriInput {
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -11456,7 +11456,7 @@ public struct UpdateKnowledgeBaseTemplateUriInput: Swift.Equatable {
     }
 }
 
-struct UpdateKnowledgeBaseTemplateUriInputBody: Swift.Equatable {
+struct UpdateKnowledgeBaseTemplateUriInputBody {
     let templateUri: Swift.String?
 }
 
@@ -11484,7 +11484,7 @@ extension UpdateKnowledgeBaseTemplateUriOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateKnowledgeBaseTemplateUriOutput: Swift.Equatable {
+public struct UpdateKnowledgeBaseTemplateUriOutput {
     /// The knowledge base to update.
     public var knowledgeBase: QConnectClientTypes.KnowledgeBaseData?
 
@@ -11496,7 +11496,7 @@ public struct UpdateKnowledgeBaseTemplateUriOutput: Swift.Equatable {
     }
 }
 
-struct UpdateKnowledgeBaseTemplateUriOutputBody: Swift.Equatable {
+struct UpdateKnowledgeBaseTemplateUriOutputBody {
     let knowledgeBase: QConnectClientTypes.KnowledgeBaseData?
 }
 
@@ -11598,7 +11598,7 @@ extension UpdateQuickResponseInput {
     }
 }
 
-public struct UpdateQuickResponseInput: Swift.Equatable {
+public struct UpdateQuickResponseInput {
     /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
     public var channels: [Swift.String]?
     /// The updated content of the quick response.
@@ -11668,7 +11668,7 @@ public struct UpdateQuickResponseInput: Swift.Equatable {
     }
 }
 
-struct UpdateQuickResponseInputBody: Swift.Equatable {
+struct UpdateQuickResponseInputBody {
     let name: Swift.String?
     let content: QConnectClientTypes.QuickResponseDataProvider?
     let contentType: Swift.String?
@@ -11749,7 +11749,7 @@ extension UpdateQuickResponseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQuickResponseOutput: Swift.Equatable {
+public struct UpdateQuickResponseOutput {
     /// The quick response.
     public var quickResponse: QConnectClientTypes.QuickResponseData?
 
@@ -11761,7 +11761,7 @@ public struct UpdateQuickResponseOutput: Swift.Equatable {
     }
 }
 
-struct UpdateQuickResponseOutputBody: Swift.Equatable {
+struct UpdateQuickResponseOutputBody {
     let quickResponse: QConnectClientTypes.QuickResponseData?
 }
 
@@ -11822,7 +11822,7 @@ extension UpdateSessionInput {
     }
 }
 
-public struct UpdateSessionInput: Swift.Equatable {
+public struct UpdateSessionInput {
     /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -11848,7 +11848,7 @@ public struct UpdateSessionInput: Swift.Equatable {
     }
 }
 
-struct UpdateSessionInputBody: Swift.Equatable {
+struct UpdateSessionInputBody {
     let description: Swift.String?
     let tagFilter: QConnectClientTypes.TagFilter?
 }
@@ -11880,7 +11880,7 @@ extension UpdateSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSessionOutput: Swift.Equatable {
+public struct UpdateSessionOutput {
     /// Information about the session.
     public var session: QConnectClientTypes.SessionData?
 
@@ -11892,7 +11892,7 @@ public struct UpdateSessionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSessionOutputBody: Swift.Equatable {
+struct UpdateSessionOutputBody {
     let session: QConnectClientTypes.SessionData?
 }
 
@@ -11960,7 +11960,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

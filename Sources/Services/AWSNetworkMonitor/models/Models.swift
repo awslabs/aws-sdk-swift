@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -128,7 +128,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -186,7 +186,7 @@ extension CreateMonitorInput {
     }
 }
 
-public struct CreateMonitorInput: Swift.Equatable {
+public struct CreateMonitorInput {
     /// The time, in seconds, that metrics are aggregated and sent to Amazon CloudWatch. Valid values are either 30 or 60. 60 is the default if no period is chosen.
     public var aggregationPeriod: Swift.Int?
     /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
@@ -215,7 +215,7 @@ public struct CreateMonitorInput: Swift.Equatable {
     }
 }
 
-struct CreateMonitorInputBody: Swift.Equatable {
+struct CreateMonitorInputBody {
     let monitorName: Swift.String?
     let probes: [NetworkMonitorClientTypes.CreateMonitorProbeInput]?
     let aggregationPeriod: Swift.Int?
@@ -285,7 +285,7 @@ extension CreateMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMonitorOutput: Swift.Equatable {
+public struct CreateMonitorOutput {
     /// The number of seconds that metrics are aggregated by and sent to Amazon CloudWatch. This will be either 30 or 60.
     public var aggregationPeriod: Swift.Int?
     /// The ARN of the monitor.
@@ -316,7 +316,7 @@ public struct CreateMonitorOutput: Swift.Equatable {
     }
 }
 
-struct CreateMonitorOutputBody: Swift.Equatable {
+struct CreateMonitorOutputBody {
     let monitorArn: Swift.String?
     let monitorName: Swift.String?
     let state: NetworkMonitorClientTypes.MonitorState?
@@ -436,7 +436,7 @@ extension NetworkMonitorClientTypes.CreateMonitorProbeInput: Swift.Codable {
 
 extension NetworkMonitorClientTypes {
     /// Creates a monitor probe.
-    public struct CreateMonitorProbeInput: Swift.Equatable {
+    public struct CreateMonitorProbeInput {
         /// The destination IP address. This must be either IPV4 or IPV6.
         /// This member is required.
         public var destination: Swift.String?
@@ -507,7 +507,7 @@ extension CreateProbeInput {
     }
 }
 
-public struct CreateProbeInput: Swift.Equatable {
+public struct CreateProbeInput {
     /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
     public var clientToken: Swift.String?
     /// The name of the monitor to associated with the probe.
@@ -533,7 +533,7 @@ public struct CreateProbeInput: Swift.Equatable {
     }
 }
 
-struct CreateProbeInputBody: Swift.Equatable {
+struct CreateProbeInputBody {
     let probe: NetworkMonitorClientTypes.ProbeInput?
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -602,7 +602,7 @@ extension CreateProbeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProbeOutput: Swift.Equatable {
+public struct CreateProbeOutput {
     /// Indicates whether the IP address is IPV4 or IPV6.
     public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
     /// The time and date that the probe was created.
@@ -665,7 +665,7 @@ public struct CreateProbeOutput: Swift.Equatable {
     }
 }
 
-struct CreateProbeOutputBody: Swift.Equatable {
+struct CreateProbeOutputBody {
     let probeId: Swift.String?
     let probeArn: Swift.String?
     let sourceArn: Swift.String?
@@ -764,7 +764,7 @@ extension DeleteMonitorInput {
     }
 }
 
-public struct DeleteMonitorInput: Swift.Equatable {
+public struct DeleteMonitorInput {
     /// The name of the monitor to delete.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -777,7 +777,7 @@ public struct DeleteMonitorInput: Swift.Equatable {
     }
 }
 
-struct DeleteMonitorInputBody: Swift.Equatable {
+struct DeleteMonitorInputBody {
 }
 
 extension DeleteMonitorInputBody: Swift.Decodable {
@@ -791,7 +791,7 @@ extension DeleteMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMonitorOutput: Swift.Equatable {
+public struct DeleteMonitorOutput {
 
     public init() { }
 }
@@ -824,7 +824,7 @@ extension DeleteProbeInput {
     }
 }
 
-public struct DeleteProbeInput: Swift.Equatable {
+public struct DeleteProbeInput {
     /// The name of the monitor to delete.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -842,7 +842,7 @@ public struct DeleteProbeInput: Swift.Equatable {
     }
 }
 
-struct DeleteProbeInputBody: Swift.Equatable {
+struct DeleteProbeInputBody {
 }
 
 extension DeleteProbeInputBody: Swift.Decodable {
@@ -856,7 +856,7 @@ extension DeleteProbeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProbeOutput: Swift.Equatable {
+public struct DeleteProbeOutput {
 
     public init() { }
 }
@@ -887,7 +887,7 @@ extension GetMonitorInput {
     }
 }
 
-public struct GetMonitorInput: Swift.Equatable {
+public struct GetMonitorInput {
     /// The name of the monitor that details are returned for.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -900,7 +900,7 @@ public struct GetMonitorInput: Swift.Equatable {
     }
 }
 
-struct GetMonitorInputBody: Swift.Equatable {
+struct GetMonitorInputBody {
 }
 
 extension GetMonitorInputBody: Swift.Decodable {
@@ -935,7 +935,7 @@ extension GetMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMonitorOutput: Swift.Equatable {
+public struct GetMonitorOutput {
     /// The aggregation period for the specified monitor.
     /// This member is required.
     public var aggregationPeriod: Swift.Int?
@@ -981,7 +981,7 @@ public struct GetMonitorOutput: Swift.Equatable {
     }
 }
 
-struct GetMonitorOutputBody: Swift.Equatable {
+struct GetMonitorOutputBody {
     let monitorArn: Swift.String?
     let monitorName: Swift.String?
     let state: NetworkMonitorClientTypes.MonitorState?
@@ -1071,7 +1071,7 @@ extension GetProbeInput {
     }
 }
 
-public struct GetProbeInput: Swift.Equatable {
+public struct GetProbeInput {
     /// The name of the monitor associated with the probe. Run ListMonitors to get a list of monitor names.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -1089,7 +1089,7 @@ public struct GetProbeInput: Swift.Equatable {
     }
 }
 
-struct GetProbeInputBody: Swift.Equatable {
+struct GetProbeInputBody {
 }
 
 extension GetProbeInputBody: Swift.Decodable {
@@ -1134,7 +1134,7 @@ extension GetProbeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProbeOutput: Swift.Equatable {
+public struct GetProbeOutput {
     /// Indicates whether the IP address is IPV4 or IPV6.
     public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
     /// The time and date that the probe was created.
@@ -1197,7 +1197,7 @@ public struct GetProbeOutput: Swift.Equatable {
     }
 }
 
-struct GetProbeOutputBody: Swift.Equatable {
+struct GetProbeOutputBody {
     let probeId: Swift.String?
     let probeArn: Swift.String?
     let sourceArn: Swift.String?
@@ -1324,7 +1324,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1367,7 +1367,7 @@ extension ListMonitorsInput {
     }
 }
 
-public struct ListMonitorsInput: Swift.Equatable {
+public struct ListMonitorsInput {
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -1387,7 +1387,7 @@ public struct ListMonitorsInput: Swift.Equatable {
     }
 }
 
-struct ListMonitorsInputBody: Swift.Equatable {
+struct ListMonitorsInputBody {
 }
 
 extension ListMonitorsInputBody: Swift.Decodable {
@@ -1410,7 +1410,7 @@ extension ListMonitorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMonitorsOutput: Swift.Equatable {
+public struct ListMonitorsOutput {
     /// Lists individual details about each of your monitors.
     /// This member is required.
     public var monitors: [NetworkMonitorClientTypes.MonitorSummary]?
@@ -1427,7 +1427,7 @@ public struct ListMonitorsOutput: Swift.Equatable {
     }
 }
 
-struct ListMonitorsOutputBody: Swift.Equatable {
+struct ListMonitorsOutputBody {
     let monitors: [NetworkMonitorClientTypes.MonitorSummary]?
     let nextToken: Swift.String?
 }
@@ -1480,7 +1480,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1493,7 +1493,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -1514,7 +1514,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Lists the tags assigned to the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1526,7 +1526,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1665,7 +1665,7 @@ extension NetworkMonitorClientTypes.MonitorSummary: Swift.Codable {
 
 extension NetworkMonitorClientTypes {
     /// Displays summary information about a monitor.
-    public struct MonitorSummary: Swift.Equatable {
+    public struct MonitorSummary {
         /// The time, in seconds, that metrics are collected and sent to Amazon CloudWatch. Valid values are either 30 or 60.
         public var aggregationPeriod: Swift.Int?
         /// The ARN of the monitor.
@@ -1805,7 +1805,7 @@ extension NetworkMonitorClientTypes.Probe: Swift.Codable {
 
 extension NetworkMonitorClientTypes {
     /// Describes information about a network monitor probe.
-    public struct Probe: Swift.Equatable {
+    public struct Probe {
         /// The IPv4 or IPv6 address for the probe.
         public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
         /// The time and date the probe was created.
@@ -1933,7 +1933,7 @@ extension NetworkMonitorClientTypes.ProbeInput: Swift.Codable {
 
 extension NetworkMonitorClientTypes {
     /// Defines a probe when creating a probe or monitor.
-    public struct ProbeInput: Swift.Equatable {
+    public struct ProbeInput {
         /// The destination IP address. This must be either IPV4 or IPV6.
         /// This member is required.
         public var destination: Swift.String?
@@ -2085,7 +2085,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2140,7 +2140,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2182,7 +2182,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the monitor or probe to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2200,7 +2200,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2230,7 +2230,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2290,7 +2290,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -2332,7 +2332,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the monitor or probe that the tag should be removed from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2350,7 +2350,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -2364,7 +2364,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -2408,7 +2408,7 @@ extension UpdateMonitorInput {
     }
 }
 
-public struct UpdateMonitorInput: Swift.Equatable {
+public struct UpdateMonitorInput {
     /// The aggregation time, in seconds, to change to. This must be either 30 or 60.
     /// This member is required.
     public var aggregationPeriod: Swift.Int?
@@ -2426,7 +2426,7 @@ public struct UpdateMonitorInput: Swift.Equatable {
     }
 }
 
-struct UpdateMonitorInputBody: Swift.Equatable {
+struct UpdateMonitorInputBody {
     let aggregationPeriod: Swift.Int?
 }
 
@@ -2462,7 +2462,7 @@ extension UpdateMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMonitorOutput: Swift.Equatable {
+public struct UpdateMonitorOutput {
     /// The changed aggregation period.
     public var aggregationPeriod: Swift.Int?
     /// The ARN of the monitor that was updated.
@@ -2493,7 +2493,7 @@ public struct UpdateMonitorOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMonitorOutputBody: Swift.Equatable {
+struct UpdateMonitorOutputBody {
     let monitorArn: Swift.String?
     let monitorName: Swift.String?
     let state: NetworkMonitorClientTypes.MonitorState?
@@ -2592,7 +2592,7 @@ extension UpdateProbeInput {
     }
 }
 
-public struct UpdateProbeInput: Swift.Equatable {
+public struct UpdateProbeInput {
     /// The updated IP address for the probe destination. This must be either an IPv4 or IPv6 address.
     public var destination: Swift.String?
     /// The updated port for the probe destination. This is required only if the protocol is TCP and must be a number between 1 and 65536.
@@ -2630,7 +2630,7 @@ public struct UpdateProbeInput: Swift.Equatable {
     }
 }
 
-struct UpdateProbeInputBody: Swift.Equatable {
+struct UpdateProbeInputBody {
     let state: NetworkMonitorClientTypes.ProbeState?
     let destination: Swift.String?
     let destinationPort: Swift.Int?
@@ -2698,7 +2698,7 @@ extension UpdateProbeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProbeOutput: Swift.Equatable {
+public struct UpdateProbeOutput {
     /// The updated IP address family. This must be either IPV4 or IPV6.
     public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
     /// The time and date that the probe was created.
@@ -2761,7 +2761,7 @@ public struct UpdateProbeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProbeOutputBody: Swift.Equatable {
+struct UpdateProbeOutputBody {
     let probeId: Swift.String?
     let probeArn: Swift.String?
     let sourceArn: Swift.String?
@@ -2889,7 +2889,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

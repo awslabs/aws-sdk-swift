@@ -35,7 +35,7 @@ extension AlexaForBusinessClientTypes.AddressBook: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// An address book with attributes.
-    public struct AddressBook: Swift.Equatable {
+    public struct AddressBook {
         /// The ARN of the address book.
         public var addressBookArn: Swift.String?
         /// The description of the address book.
@@ -90,7 +90,7 @@ extension AlexaForBusinessClientTypes.AddressBookData: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Information related to an address book.
-    public struct AddressBookData: Swift.Equatable {
+    public struct AddressBookData {
         /// The ARN of the address book.
         public var addressBookArn: Swift.String?
         /// The description of the address book.
@@ -153,7 +153,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct AlreadyExistsExceptionBody: Swift.Equatable {
+struct AlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -189,7 +189,7 @@ extension ApproveSkillInput {
     }
 }
 
-public struct ApproveSkillInput: Swift.Equatable {
+public struct ApproveSkillInput {
     /// The unique identifier of the skill.
     /// This member is required.
     public var skillId: Swift.String?
@@ -202,7 +202,7 @@ public struct ApproveSkillInput: Swift.Equatable {
     }
 }
 
-struct ApproveSkillInputBody: Swift.Equatable {
+struct ApproveSkillInputBody {
     let skillId: Swift.String?
 }
 
@@ -223,7 +223,7 @@ extension ApproveSkillOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ApproveSkillOutput: Swift.Equatable {
+public struct ApproveSkillOutput {
 
     public init() { }
 }
@@ -265,7 +265,7 @@ extension AssociateContactWithAddressBookInput {
     }
 }
 
-public struct AssociateContactWithAddressBookInput: Swift.Equatable {
+public struct AssociateContactWithAddressBookInput {
     /// The ARN of the address book with which to associate the contact.
     /// This member is required.
     public var addressBookArn: Swift.String?
@@ -283,7 +283,7 @@ public struct AssociateContactWithAddressBookInput: Swift.Equatable {
     }
 }
 
-struct AssociateContactWithAddressBookInputBody: Swift.Equatable {
+struct AssociateContactWithAddressBookInputBody {
     let contactArn: Swift.String?
     let addressBookArn: Swift.String?
 }
@@ -308,7 +308,7 @@ extension AssociateContactWithAddressBookOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct AssociateContactWithAddressBookOutput: Swift.Equatable {
+public struct AssociateContactWithAddressBookOutput {
 
     public init() { }
 }
@@ -348,7 +348,7 @@ extension AssociateDeviceWithNetworkProfileInput {
     }
 }
 
-public struct AssociateDeviceWithNetworkProfileInput: Swift.Equatable {
+public struct AssociateDeviceWithNetworkProfileInput {
     /// The device ARN.
     /// This member is required.
     public var deviceArn: Swift.String?
@@ -366,7 +366,7 @@ public struct AssociateDeviceWithNetworkProfileInput: Swift.Equatable {
     }
 }
 
-struct AssociateDeviceWithNetworkProfileInputBody: Swift.Equatable {
+struct AssociateDeviceWithNetworkProfileInputBody {
     let deviceArn: Swift.String?
     let networkProfileArn: Swift.String?
 }
@@ -391,7 +391,7 @@ extension AssociateDeviceWithNetworkProfileOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct AssociateDeviceWithNetworkProfileOutput: Swift.Equatable {
+public struct AssociateDeviceWithNetworkProfileOutput {
 
     public init() { }
 }
@@ -433,7 +433,7 @@ extension AssociateDeviceWithRoomInput {
     }
 }
 
-public struct AssociateDeviceWithRoomInput: Swift.Equatable {
+public struct AssociateDeviceWithRoomInput {
     /// The ARN of the device to associate to a room. Required.
     public var deviceArn: Swift.String?
     /// The ARN of the room with which to associate the device. Required.
@@ -449,7 +449,7 @@ public struct AssociateDeviceWithRoomInput: Swift.Equatable {
     }
 }
 
-struct AssociateDeviceWithRoomInputBody: Swift.Equatable {
+struct AssociateDeviceWithRoomInputBody {
     let deviceArn: Swift.String?
     let roomArn: Swift.String?
 }
@@ -474,7 +474,7 @@ extension AssociateDeviceWithRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateDeviceWithRoomOutput: Swift.Equatable {
+public struct AssociateDeviceWithRoomOutput {
 
     public init() { }
 }
@@ -516,7 +516,7 @@ extension AssociateSkillGroupWithRoomInput {
     }
 }
 
-public struct AssociateSkillGroupWithRoomInput: Swift.Equatable {
+public struct AssociateSkillGroupWithRoomInput {
     /// The ARN of the room with which to associate the skill group. Required.
     public var roomArn: Swift.String?
     /// The ARN of the skill group to associate with a room. Required.
@@ -532,7 +532,7 @@ public struct AssociateSkillGroupWithRoomInput: Swift.Equatable {
     }
 }
 
-struct AssociateSkillGroupWithRoomInputBody: Swift.Equatable {
+struct AssociateSkillGroupWithRoomInputBody {
     let skillGroupArn: Swift.String?
     let roomArn: Swift.String?
 }
@@ -557,7 +557,7 @@ extension AssociateSkillGroupWithRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateSkillGroupWithRoomOutput: Swift.Equatable {
+public struct AssociateSkillGroupWithRoomOutput {
 
     public init() { }
 }
@@ -597,7 +597,7 @@ extension AssociateSkillWithSkillGroupInput {
     }
 }
 
-public struct AssociateSkillWithSkillGroupInput: Swift.Equatable {
+public struct AssociateSkillWithSkillGroupInput {
     /// The ARN of the skill group to associate the skill to. Required.
     public var skillGroupArn: Swift.String?
     /// The unique identifier of the skill.
@@ -614,7 +614,7 @@ public struct AssociateSkillWithSkillGroupInput: Swift.Equatable {
     }
 }
 
-struct AssociateSkillWithSkillGroupInputBody: Swift.Equatable {
+struct AssociateSkillWithSkillGroupInputBody {
     let skillGroupArn: Swift.String?
     let skillId: Swift.String?
 }
@@ -639,7 +639,7 @@ extension AssociateSkillWithSkillGroupOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct AssociateSkillWithSkillGroupOutput: Swift.Equatable {
+public struct AssociateSkillWithSkillGroupOutput {
 
     public init() { }
 }
@@ -677,7 +677,7 @@ extension AssociateSkillWithUsersInput {
     }
 }
 
-public struct AssociateSkillWithUsersInput: Swift.Equatable {
+public struct AssociateSkillWithUsersInput {
     /// The private skill ID you want to make available to enrolled users.
     /// This member is required.
     public var skillId: Swift.String?
@@ -690,7 +690,7 @@ public struct AssociateSkillWithUsersInput: Swift.Equatable {
     }
 }
 
-struct AssociateSkillWithUsersInputBody: Swift.Equatable {
+struct AssociateSkillWithUsersInputBody {
     let skillId: Swift.String?
 }
 
@@ -711,7 +711,7 @@ extension AssociateSkillWithUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateSkillWithUsersOutput: Swift.Equatable {
+public struct AssociateSkillWithUsersOutput {
 
     public init() { }
 }
@@ -755,7 +755,7 @@ extension AlexaForBusinessClientTypes.Audio: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The audio message. There is a 1 MB limit on the audio file input and the only supported format is MP3. To convert your MP3 audio files to an Alexa-friendly, required codec version (MPEG version 2) and bit rate (48 kbps), you might use converter software. One option for this is a command-line tool, FFmpeg. For more information, see [FFmpeg](https://www.ffmpeg.org/). The following command converts the provided to an MP3 file that is played in the announcement: ffmpeg -i -ac 2 -codec:a libmp3lame -b:a 48k -ar 16000
-    public struct Audio: Swift.Equatable {
+    public struct Audio {
         /// The locale of the audio message. Currently, en-US is supported.
         /// This member is required.
         public var locale: AlexaForBusinessClientTypes.Locale?
@@ -820,7 +820,7 @@ extension AlexaForBusinessClientTypes.BusinessReport: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Usage report with specified parameters.
-    public struct BusinessReport: Swift.Equatable {
+    public struct BusinessReport {
         /// The time of report delivery.
         public var deliveryTime: ClientRuntime.Date?
         /// The download link where a user can download the report.
@@ -871,7 +871,7 @@ extension AlexaForBusinessClientTypes.BusinessReportContentRange: Swift.Codable 
 
 extension AlexaForBusinessClientTypes {
     /// The content range of the report.
-    public struct BusinessReportContentRange: Swift.Equatable {
+    public struct BusinessReportContentRange {
         /// The interval of the content range.
         /// This member is required.
         public var interval: AlexaForBusinessClientTypes.BusinessReportInterval?
@@ -1009,7 +1009,7 @@ extension AlexaForBusinessClientTypes.BusinessReportRecurrence: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The recurrence of the reports.
-    public struct BusinessReportRecurrence: Swift.Equatable {
+    public struct BusinessReportRecurrence {
         /// The start date.
         public var startDate: Swift.String?
 
@@ -1050,7 +1050,7 @@ extension AlexaForBusinessClientTypes.BusinessReportS3Location: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The S3 location of the output reports.
-    public struct BusinessReportS3Location: Swift.Equatable {
+    public struct BusinessReportS3Location {
         /// The S3 bucket name of the output reports.
         public var bucketName: Swift.String?
         /// The path of the business report.
@@ -1131,7 +1131,7 @@ extension AlexaForBusinessClientTypes.BusinessReportSchedule: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The schedule of the usage report.
-    public struct BusinessReportSchedule: Swift.Equatable {
+    public struct BusinessReportSchedule {
         /// The content range of the reports.
         public var contentRange: AlexaForBusinessClientTypes.BusinessReportContentRange?
         /// The format of the generated report (individual CSV files or zipped files of individual files).
@@ -1235,7 +1235,7 @@ extension AlexaForBusinessClientTypes.Category: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The skill store category that is shown. Alexa skills are assigned a specific skill category during creation, such as News, Social, and Sports.
-    public struct Category: Swift.Equatable {
+    public struct Category {
         /// The ID of the skill store category.
         public var categoryId: Swift.Int?
         /// The name of the skill store category.
@@ -1327,7 +1327,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1364,7 +1364,7 @@ extension AlexaForBusinessClientTypes.ConferencePreference: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The default conference provider that is used if no other scheduled meetings are detected.
-    public struct ConferencePreference: Swift.Equatable {
+    public struct ConferencePreference {
         /// The ARN of the default conference provider.
         public var defaultConferenceProviderArn: Swift.String?
 
@@ -1429,7 +1429,7 @@ extension AlexaForBusinessClientTypes.ConferenceProvider: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// An entity that provides a conferencing solution. Alexa for Business acts as the voice interface and mediator that connects users to their preferred conference provider. Examples of conference providers include Amazon Chime, Zoom, Cisco, and Polycom.
-    public struct ConferenceProvider: Swift.Equatable {
+    public struct ConferenceProvider {
         /// The ARN of the newly created conference provider.
         public var arn: Swift.String?
         /// The IP endpoint and protocol for calling.
@@ -1637,7 +1637,7 @@ extension AlexaForBusinessClientTypes.Contact: Swift.CustomDebugStringConvertibl
 
 extension AlexaForBusinessClientTypes {
     /// A contact with attributes.
-    public struct Contact: Swift.Equatable {
+    public struct Contact {
         /// The ARN of the contact.
         public var contactArn: Swift.String?
         /// The name of the contact to display on the console.
@@ -1761,7 +1761,7 @@ extension AlexaForBusinessClientTypes.ContactData: Swift.CustomDebugStringConver
 
 extension AlexaForBusinessClientTypes {
     /// Information related to a contact.
-    public struct ContactData: Swift.Equatable {
+    public struct ContactData {
         /// The ARN of the contact.
         public var contactArn: Swift.String?
         /// The name of the contact to display on the console.
@@ -1868,7 +1868,7 @@ extension AlexaForBusinessClientTypes.Content: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The content definition. This can contain only one text, SSML, or audio list object.
-    public struct Content: Swift.Equatable {
+    public struct Content {
         /// The list of audio messages.
         public var audioList: [AlexaForBusinessClientTypes.Audio]?
         /// The list of SSML messages.
@@ -1925,7 +1925,7 @@ extension CreateAddressBookInput {
     }
 }
 
-public struct CreateAddressBookInput: Swift.Equatable {
+public struct CreateAddressBookInput {
     /// A unique, user-specified identifier for the request that ensures idempotency.
     public var clientRequestToken: Swift.String?
     /// The description of the address book.
@@ -1950,7 +1950,7 @@ public struct CreateAddressBookInput: Swift.Equatable {
     }
 }
 
-struct CreateAddressBookInputBody: Swift.Equatable {
+struct CreateAddressBookInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let clientRequestToken: Swift.String?
@@ -1999,7 +1999,7 @@ extension CreateAddressBookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAddressBookOutput: Swift.Equatable {
+public struct CreateAddressBookOutput {
     /// The ARN of the newly created address book.
     public var addressBookArn: Swift.String?
 
@@ -2011,7 +2011,7 @@ public struct CreateAddressBookOutput: Swift.Equatable {
     }
 }
 
-struct CreateAddressBookOutputBody: Swift.Equatable {
+struct CreateAddressBookOutputBody {
     let addressBookArn: Swift.String?
 }
 
@@ -2090,7 +2090,7 @@ extension CreateBusinessReportScheduleInput {
     }
 }
 
-public struct CreateBusinessReportScheduleInput: Swift.Equatable {
+public struct CreateBusinessReportScheduleInput {
     /// The client request token.
     public var clientRequestToken: Swift.String?
     /// The content range of the reports.
@@ -2132,7 +2132,7 @@ public struct CreateBusinessReportScheduleInput: Swift.Equatable {
     }
 }
 
-struct CreateBusinessReportScheduleInputBody: Swift.Equatable {
+struct CreateBusinessReportScheduleInputBody {
     let scheduleName: Swift.String?
     let s3BucketName: Swift.String?
     let s3KeyPrefix: Swift.String?
@@ -2197,7 +2197,7 @@ extension CreateBusinessReportScheduleOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateBusinessReportScheduleOutput: Swift.Equatable {
+public struct CreateBusinessReportScheduleOutput {
     /// The ARN of the business report schedule.
     public var scheduleArn: Swift.String?
 
@@ -2209,7 +2209,7 @@ public struct CreateBusinessReportScheduleOutput: Swift.Equatable {
     }
 }
 
-struct CreateBusinessReportScheduleOutputBody: Swift.Equatable {
+struct CreateBusinessReportScheduleOutputBody {
     let scheduleArn: Swift.String?
 }
 
@@ -2283,7 +2283,7 @@ extension CreateConferenceProviderInput {
     }
 }
 
-public struct CreateConferenceProviderInput: Swift.Equatable {
+public struct CreateConferenceProviderInput {
     /// The request token of the client.
     public var clientRequestToken: Swift.String?
     /// The name of the conference provider.
@@ -2322,7 +2322,7 @@ public struct CreateConferenceProviderInput: Swift.Equatable {
     }
 }
 
-struct CreateConferenceProviderInputBody: Swift.Equatable {
+struct CreateConferenceProviderInputBody {
     let conferenceProviderName: Swift.String?
     let conferenceProviderType: AlexaForBusinessClientTypes.ConferenceProviderType?
     let ipDialIn: AlexaForBusinessClientTypes.IPDialIn?
@@ -2383,7 +2383,7 @@ extension CreateConferenceProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConferenceProviderOutput: Swift.Equatable {
+public struct CreateConferenceProviderOutput {
     /// The ARN of the newly-created conference provider.
     public var conferenceProviderArn: Swift.String?
 
@@ -2395,7 +2395,7 @@ public struct CreateConferenceProviderOutput: Swift.Equatable {
     }
 }
 
-struct CreateConferenceProviderOutputBody: Swift.Equatable {
+struct CreateConferenceProviderOutputBody {
     let conferenceProviderArn: Swift.String?
 }
 
@@ -2484,7 +2484,7 @@ extension CreateContactInput {
     }
 }
 
-public struct CreateContactInput: Swift.Equatable {
+public struct CreateContactInput {
     /// A unique, user-specified identifier for this request that ensures idempotency.
     public var clientRequestToken: Swift.String?
     /// The name of the contact to display on the console.
@@ -2525,7 +2525,7 @@ public struct CreateContactInput: Swift.Equatable {
     }
 }
 
-struct CreateContactInputBody: Swift.Equatable {
+struct CreateContactInputBody {
     let displayName: Swift.String?
     let firstName: Swift.String?
     let lastName: Swift.String?
@@ -2608,7 +2608,7 @@ extension CreateContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContactOutput: Swift.Equatable {
+public struct CreateContactOutput {
     /// The ARN of the newly created address book.
     public var contactArn: Swift.String?
 
@@ -2620,7 +2620,7 @@ public struct CreateContactOutput: Swift.Equatable {
     }
 }
 
-struct CreateContactOutputBody: Swift.Equatable {
+struct CreateContactOutputBody {
     let contactArn: Swift.String?
 }
 
@@ -2693,7 +2693,7 @@ extension AlexaForBusinessClientTypes.CreateEndOfMeetingReminder: Swift.Codable 
 
 extension AlexaForBusinessClientTypes {
     /// Creates settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending.
-    public struct CreateEndOfMeetingReminder: Swift.Equatable {
+    public struct CreateEndOfMeetingReminder {
         /// Whether an end of meeting reminder is enabled or not.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -2753,7 +2753,7 @@ extension CreateGatewayGroupInput {
     }
 }
 
-public struct CreateGatewayGroupInput: Swift.Equatable {
+public struct CreateGatewayGroupInput {
     /// A unique, user-specified identifier for the request that ensures idempotency.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -2779,7 +2779,7 @@ public struct CreateGatewayGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateGatewayGroupInputBody: Swift.Equatable {
+struct CreateGatewayGroupInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let clientRequestToken: Swift.String?
@@ -2828,7 +2828,7 @@ extension CreateGatewayGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGatewayGroupOutput: Swift.Equatable {
+public struct CreateGatewayGroupOutput {
     /// The ARN of the created gateway group.
     public var gatewayGroupArn: Swift.String?
 
@@ -2840,7 +2840,7 @@ public struct CreateGatewayGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateGatewayGroupOutputBody: Swift.Equatable {
+struct CreateGatewayGroupOutputBody {
     let gatewayGroupArn: Swift.String?
 }
 
@@ -2895,7 +2895,7 @@ extension AlexaForBusinessClientTypes.CreateInstantBooking: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Creates settings for the instant booking feature that are applied to a room profile. When users start their meeting with Alexa, Alexa automatically books the room for the configured duration if the room is available.
-    public struct CreateInstantBooking: Swift.Equatable {
+    public struct CreateInstantBooking {
         /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa.
         /// This member is required.
         public var durationInMinutes: Swift.Int?
@@ -2960,7 +2960,7 @@ extension AlexaForBusinessClientTypes.CreateMeetingRoomConfiguration: Swift.Coda
 
 extension AlexaForBusinessClientTypes {
     /// Creates meeting room settings of a room profile.
-    public struct CreateMeetingRoomConfiguration: Swift.Equatable {
+    public struct CreateMeetingRoomConfiguration {
         /// Creates settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending.
         public var endOfMeetingReminder: AlexaForBusinessClientTypes.CreateEndOfMeetingReminder?
         /// Settings to automatically book a room for a configured duration if it's free when joining a meeting with Alexa.
@@ -3060,7 +3060,7 @@ extension CreateNetworkProfileInput {
     }
 }
 
-public struct CreateNetworkProfileInput: Swift.Equatable {
+public struct CreateNetworkProfileInput {
     /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices.
     public var certificateAuthorityArn: Swift.String?
     /// A unique, user-specified identifier for the request that ensures idempotency.
@@ -3116,7 +3116,7 @@ public struct CreateNetworkProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkProfileInputBody: Swift.Equatable {
+struct CreateNetworkProfileInputBody {
     let networkProfileName: Swift.String?
     let description: Swift.String?
     let ssid: Swift.String?
@@ -3202,7 +3202,7 @@ extension CreateNetworkProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNetworkProfileOutput: Swift.Equatable {
+public struct CreateNetworkProfileOutput {
     /// The ARN of the network profile associated with a device.
     public var networkProfileArn: Swift.String?
 
@@ -3214,7 +3214,7 @@ public struct CreateNetworkProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkProfileOutputBody: Swift.Equatable {
+struct CreateNetworkProfileOutputBody {
     let networkProfileArn: Swift.String?
 }
 
@@ -3265,7 +3265,7 @@ extension AlexaForBusinessClientTypes.CreateProactiveJoin: Swift.Codable {
 }
 
 extension AlexaForBusinessClientTypes {
-    public struct CreateProactiveJoin: Swift.Equatable {
+    public struct CreateProactiveJoin {
         /// This member is required.
         public var enabledByMotion: Swift.Bool?
 
@@ -3354,7 +3354,7 @@ extension CreateProfileInput {
     }
 }
 
-public struct CreateProfileInput: Swift.Equatable {
+public struct CreateProfileInput {
     /// The valid address for the room.
     /// This member is required.
     public var address: Swift.String?
@@ -3424,7 +3424,7 @@ public struct CreateProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateProfileInputBody: Swift.Equatable {
+struct CreateProfileInputBody {
     let profileName: Swift.String?
     let timezone: Swift.String?
     let address: Swift.String?
@@ -3513,7 +3513,7 @@ extension CreateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProfileOutput: Swift.Equatable {
+public struct CreateProfileOutput {
     /// The ARN of the newly created room profile in the response.
     public var profileArn: Swift.String?
 
@@ -3525,7 +3525,7 @@ public struct CreateProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateProfileOutputBody: Swift.Equatable {
+struct CreateProfileOutputBody {
     let profileArn: Swift.String?
 }
 
@@ -3581,7 +3581,7 @@ extension AlexaForBusinessClientTypes.CreateRequireCheckIn: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Creates settings for the require check in feature that are applied to a room profile. Require check in allows a meeting room’s Alexa or AVS device to prompt the user to check in; otherwise, the room will be released.
-    public struct CreateRequireCheckIn: Swift.Equatable {
+    public struct CreateRequireCheckIn {
         /// Whether require check in is enabled or not.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -3644,7 +3644,7 @@ extension CreateRoomInput {
     }
 }
 
-public struct CreateRoomInput: Swift.Equatable {
+public struct CreateRoomInput {
     /// A unique, user-specified identifier for this request that ensures idempotency.
     public var clientRequestToken: Swift.String?
     /// The description for the room.
@@ -3677,7 +3677,7 @@ public struct CreateRoomInput: Swift.Equatable {
     }
 }
 
-struct CreateRoomInputBody: Swift.Equatable {
+struct CreateRoomInputBody {
     let roomName: Swift.String?
     let description: Swift.String?
     let profileArn: Swift.String?
@@ -3734,7 +3734,7 @@ extension CreateRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRoomOutput: Swift.Equatable {
+public struct CreateRoomOutput {
     /// The ARN of the newly created room in the response.
     public var roomArn: Swift.String?
 
@@ -3746,7 +3746,7 @@ public struct CreateRoomOutput: Swift.Equatable {
     }
 }
 
-struct CreateRoomOutputBody: Swift.Equatable {
+struct CreateRoomOutputBody {
     let roomArn: Swift.String?
 }
 
@@ -3809,7 +3809,7 @@ extension CreateSkillGroupInput {
     }
 }
 
-public struct CreateSkillGroupInput: Swift.Equatable {
+public struct CreateSkillGroupInput {
     /// A unique, user-specified identifier for this request that ensures idempotency.
     public var clientRequestToken: Swift.String?
     /// The description for the skill group.
@@ -3834,7 +3834,7 @@ public struct CreateSkillGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateSkillGroupInputBody: Swift.Equatable {
+struct CreateSkillGroupInputBody {
     let skillGroupName: Swift.String?
     let description: Swift.String?
     let clientRequestToken: Swift.String?
@@ -3883,7 +3883,7 @@ extension CreateSkillGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSkillGroupOutput: Swift.Equatable {
+public struct CreateSkillGroupOutput {
     /// The ARN of the newly created skill group in the response.
     public var skillGroupArn: Swift.String?
 
@@ -3895,7 +3895,7 @@ public struct CreateSkillGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateSkillGroupOutputBody: Swift.Equatable {
+struct CreateSkillGroupOutputBody {
     let skillGroupArn: Swift.String?
 }
 
@@ -3967,7 +3967,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// A unique, user-specified identifier for this request that ensures idempotency.
     public var clientRequestToken: Swift.String?
     /// The email address for the user.
@@ -4000,7 +4000,7 @@ public struct CreateUserInput: Swift.Equatable {
     }
 }
 
-struct CreateUserInputBody: Swift.Equatable {
+struct CreateUserInputBody {
     let userId: Swift.String?
     let firstName: Swift.String?
     let lastName: Swift.String?
@@ -4057,7 +4057,7 @@ extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
     /// The ARN of the newly created user in the response.
     public var userArn: Swift.String?
 
@@ -4069,7 +4069,7 @@ public struct CreateUserOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserOutputBody: Swift.Equatable {
+struct CreateUserOutputBody {
     let userArn: Swift.String?
 }
 
@@ -4118,7 +4118,7 @@ extension DeleteAddressBookInput {
     }
 }
 
-public struct DeleteAddressBookInput: Swift.Equatable {
+public struct DeleteAddressBookInput {
     /// The ARN of the address book to delete.
     /// This member is required.
     public var addressBookArn: Swift.String?
@@ -4131,7 +4131,7 @@ public struct DeleteAddressBookInput: Swift.Equatable {
     }
 }
 
-struct DeleteAddressBookInputBody: Swift.Equatable {
+struct DeleteAddressBookInputBody {
     let addressBookArn: Swift.String?
 }
 
@@ -4152,7 +4152,7 @@ extension DeleteAddressBookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAddressBookOutput: Swift.Equatable {
+public struct DeleteAddressBookOutput {
 
     public init() { }
 }
@@ -4189,7 +4189,7 @@ extension DeleteBusinessReportScheduleInput {
     }
 }
 
-public struct DeleteBusinessReportScheduleInput: Swift.Equatable {
+public struct DeleteBusinessReportScheduleInput {
     /// The ARN of the business report schedule.
     /// This member is required.
     public var scheduleArn: Swift.String?
@@ -4202,7 +4202,7 @@ public struct DeleteBusinessReportScheduleInput: Swift.Equatable {
     }
 }
 
-struct DeleteBusinessReportScheduleInputBody: Swift.Equatable {
+struct DeleteBusinessReportScheduleInputBody {
     let scheduleArn: Swift.String?
 }
 
@@ -4223,7 +4223,7 @@ extension DeleteBusinessReportScheduleOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteBusinessReportScheduleOutput: Swift.Equatable {
+public struct DeleteBusinessReportScheduleOutput {
 
     public init() { }
 }
@@ -4260,7 +4260,7 @@ extension DeleteConferenceProviderInput {
     }
 }
 
-public struct DeleteConferenceProviderInput: Swift.Equatable {
+public struct DeleteConferenceProviderInput {
     /// The ARN of the conference provider.
     /// This member is required.
     public var conferenceProviderArn: Swift.String?
@@ -4273,7 +4273,7 @@ public struct DeleteConferenceProviderInput: Swift.Equatable {
     }
 }
 
-struct DeleteConferenceProviderInputBody: Swift.Equatable {
+struct DeleteConferenceProviderInputBody {
     let conferenceProviderArn: Swift.String?
 }
 
@@ -4294,7 +4294,7 @@ extension DeleteConferenceProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConferenceProviderOutput: Swift.Equatable {
+public struct DeleteConferenceProviderOutput {
 
     public init() { }
 }
@@ -4330,7 +4330,7 @@ extension DeleteContactInput {
     }
 }
 
-public struct DeleteContactInput: Swift.Equatable {
+public struct DeleteContactInput {
     /// The ARN of the contact to delete.
     /// This member is required.
     public var contactArn: Swift.String?
@@ -4343,7 +4343,7 @@ public struct DeleteContactInput: Swift.Equatable {
     }
 }
 
-struct DeleteContactInputBody: Swift.Equatable {
+struct DeleteContactInputBody {
     let contactArn: Swift.String?
 }
 
@@ -4364,7 +4364,7 @@ extension DeleteContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContactOutput: Swift.Equatable {
+public struct DeleteContactOutput {
 
     public init() { }
 }
@@ -4401,7 +4401,7 @@ extension DeleteDeviceInput {
     }
 }
 
-public struct DeleteDeviceInput: Swift.Equatable {
+public struct DeleteDeviceInput {
     /// The ARN of the device for which to request details.
     /// This member is required.
     public var deviceArn: Swift.String?
@@ -4414,7 +4414,7 @@ public struct DeleteDeviceInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeviceInputBody: Swift.Equatable {
+struct DeleteDeviceInputBody {
     let deviceArn: Swift.String?
 }
 
@@ -4435,7 +4435,7 @@ extension DeleteDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeviceOutput: Swift.Equatable {
+public struct DeleteDeviceOutput {
 
     public init() { }
 }
@@ -4477,7 +4477,7 @@ extension DeleteDeviceUsageDataInput {
     }
 }
 
-public struct DeleteDeviceUsageDataInput: Swift.Equatable {
+public struct DeleteDeviceUsageDataInput {
     /// The ARN of the device.
     /// This member is required.
     public var deviceArn: Swift.String?
@@ -4495,7 +4495,7 @@ public struct DeleteDeviceUsageDataInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeviceUsageDataInputBody: Swift.Equatable {
+struct DeleteDeviceUsageDataInputBody {
     let deviceArn: Swift.String?
     let deviceUsageType: AlexaForBusinessClientTypes.DeviceUsageType?
 }
@@ -4520,7 +4520,7 @@ extension DeleteDeviceUsageDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeviceUsageDataOutput: Swift.Equatable {
+public struct DeleteDeviceUsageDataOutput {
 
     public init() { }
 }
@@ -4558,7 +4558,7 @@ extension DeleteGatewayGroupInput {
     }
 }
 
-public struct DeleteGatewayGroupInput: Swift.Equatable {
+public struct DeleteGatewayGroupInput {
     /// The ARN of the gateway group to delete.
     /// This member is required.
     public var gatewayGroupArn: Swift.String?
@@ -4571,7 +4571,7 @@ public struct DeleteGatewayGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteGatewayGroupInputBody: Swift.Equatable {
+struct DeleteGatewayGroupInputBody {
     let gatewayGroupArn: Swift.String?
 }
 
@@ -4592,7 +4592,7 @@ extension DeleteGatewayGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGatewayGroupOutput: Swift.Equatable {
+public struct DeleteGatewayGroupOutput {
 
     public init() { }
 }
@@ -4628,7 +4628,7 @@ extension DeleteNetworkProfileInput {
     }
 }
 
-public struct DeleteNetworkProfileInput: Swift.Equatable {
+public struct DeleteNetworkProfileInput {
     /// The ARN of the network profile associated with a device.
     /// This member is required.
     public var networkProfileArn: Swift.String?
@@ -4641,7 +4641,7 @@ public struct DeleteNetworkProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteNetworkProfileInputBody: Swift.Equatable {
+struct DeleteNetworkProfileInputBody {
     let networkProfileArn: Swift.String?
 }
 
@@ -4662,7 +4662,7 @@ extension DeleteNetworkProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNetworkProfileOutput: Swift.Equatable {
+public struct DeleteNetworkProfileOutput {
 
     public init() { }
 }
@@ -4700,7 +4700,7 @@ extension DeleteProfileInput {
     }
 }
 
-public struct DeleteProfileInput: Swift.Equatable {
+public struct DeleteProfileInput {
     /// The ARN of the room profile to delete. Required.
     public var profileArn: Swift.String?
 
@@ -4712,7 +4712,7 @@ public struct DeleteProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteProfileInputBody: Swift.Equatable {
+struct DeleteProfileInputBody {
     let profileArn: Swift.String?
 }
 
@@ -4733,7 +4733,7 @@ extension DeleteProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProfileOutput: Swift.Equatable {
+public struct DeleteProfileOutput {
 
     public init() { }
 }
@@ -4770,7 +4770,7 @@ extension DeleteRoomInput {
     }
 }
 
-public struct DeleteRoomInput: Swift.Equatable {
+public struct DeleteRoomInput {
     /// The ARN of the room to delete. Required.
     public var roomArn: Swift.String?
 
@@ -4782,7 +4782,7 @@ public struct DeleteRoomInput: Swift.Equatable {
     }
 }
 
-struct DeleteRoomInputBody: Swift.Equatable {
+struct DeleteRoomInputBody {
     let roomArn: Swift.String?
 }
 
@@ -4803,7 +4803,7 @@ extension DeleteRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRoomOutput: Swift.Equatable {
+public struct DeleteRoomOutput {
 
     public init() { }
 }
@@ -4848,7 +4848,7 @@ extension DeleteRoomSkillParameterInput {
     }
 }
 
-public struct DeleteRoomSkillParameterInput: Swift.Equatable {
+public struct DeleteRoomSkillParameterInput {
     /// The room skill parameter key for which to remove details.
     /// This member is required.
     public var parameterKey: Swift.String?
@@ -4870,7 +4870,7 @@ public struct DeleteRoomSkillParameterInput: Swift.Equatable {
     }
 }
 
-struct DeleteRoomSkillParameterInputBody: Swift.Equatable {
+struct DeleteRoomSkillParameterInputBody {
     let roomArn: Swift.String?
     let skillId: Swift.String?
     let parameterKey: Swift.String?
@@ -4899,7 +4899,7 @@ extension DeleteRoomSkillParameterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRoomSkillParameterOutput: Swift.Equatable {
+public struct DeleteRoomSkillParameterOutput {
 
     public init() { }
 }
@@ -4939,7 +4939,7 @@ extension DeleteSkillAuthorizationInput {
     }
 }
 
-public struct DeleteSkillAuthorizationInput: Swift.Equatable {
+public struct DeleteSkillAuthorizationInput {
     /// The room that the skill is authorized for.
     public var roomArn: Swift.String?
     /// The unique identifier of a skill.
@@ -4956,7 +4956,7 @@ public struct DeleteSkillAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct DeleteSkillAuthorizationInputBody: Swift.Equatable {
+struct DeleteSkillAuthorizationInputBody {
     let skillId: Swift.String?
     let roomArn: Swift.String?
 }
@@ -4981,7 +4981,7 @@ extension DeleteSkillAuthorizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSkillAuthorizationOutput: Swift.Equatable {
+public struct DeleteSkillAuthorizationOutput {
 
     public init() { }
 }
@@ -5018,7 +5018,7 @@ extension DeleteSkillGroupInput {
     }
 }
 
-public struct DeleteSkillGroupInput: Swift.Equatable {
+public struct DeleteSkillGroupInput {
     /// The ARN of the skill group to delete. Required.
     public var skillGroupArn: Swift.String?
 
@@ -5030,7 +5030,7 @@ public struct DeleteSkillGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteSkillGroupInputBody: Swift.Equatable {
+struct DeleteSkillGroupInputBody {
     let skillGroupArn: Swift.String?
 }
 
@@ -5051,7 +5051,7 @@ extension DeleteSkillGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSkillGroupOutput: Swift.Equatable {
+public struct DeleteSkillGroupOutput {
 
     public init() { }
 }
@@ -5092,7 +5092,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// The ARN of the user's enrollment in the organization. Required.
     /// This member is required.
     public var enrollmentId: Swift.String?
@@ -5109,7 +5109,7 @@ public struct DeleteUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserInputBody: Swift.Equatable {
+struct DeleteUserInputBody {
     let userArn: Swift.String?
     let enrollmentId: Swift.String?
 }
@@ -5134,7 +5134,7 @@ extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
 
     public init() { }
 }
@@ -5190,7 +5190,7 @@ extension AlexaForBusinessClientTypes.DeveloperInfo: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The details about the developer that published the skill.
-    public struct DeveloperInfo: Swift.Equatable {
+    public struct DeveloperInfo {
         /// The name of the developer.
         public var developerName: Swift.String?
         /// The email of the developer.
@@ -5291,7 +5291,7 @@ extension AlexaForBusinessClientTypes.Device: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// A device with attributes.
-    public struct Device: Swift.Equatable {
+    public struct Device {
         /// The ARN of a device.
         public var deviceArn: Swift.String?
         /// The name of a device.
@@ -5434,7 +5434,7 @@ extension AlexaForBusinessClientTypes.DeviceData: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Device attributes.
-    public struct DeviceData: Swift.Equatable {
+    public struct DeviceData {
         /// The time (in epoch) when the device data was created.
         public var createdTime: ClientRuntime.Date?
         /// The ARN of a device.
@@ -5529,7 +5529,7 @@ extension AlexaForBusinessClientTypes.DeviceEvent: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The list of device events.
-    public struct DeviceEvent: Swift.Equatable {
+    public struct DeviceEvent {
         /// The time (in epoch) when the event occurred.
         public var timestamp: ClientRuntime.Date?
         /// The type of device event.
@@ -5616,7 +5616,7 @@ extension AlexaForBusinessClientTypes.DeviceNetworkProfileInfo: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Detailed information about a device's network profile.
-    public struct DeviceNetworkProfileInfo: Swift.Equatable {
+    public struct DeviceNetworkProfileInfo {
         /// The ARN of the certificate associated with a device.
         public var certificateArn: Swift.String?
         /// The time (in epoch) when the certificate expires.
@@ -5677,7 +5677,7 @@ public struct DeviceNotRegisteredException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct DeviceNotRegisteredExceptionBody: Swift.Equatable {
+struct DeviceNotRegisteredExceptionBody {
     let message: Swift.String?
 }
 
@@ -5761,7 +5761,7 @@ extension AlexaForBusinessClientTypes.DeviceStatusDetail: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Details of a device’s status.
-    public struct DeviceStatusDetail: Swift.Equatable {
+    public struct DeviceStatusDetail {
         /// The device status detail code.
         public var code: AlexaForBusinessClientTypes.DeviceStatusDetailCode?
         /// The list of available features on the device.
@@ -5901,7 +5901,7 @@ extension AlexaForBusinessClientTypes.DeviceStatusInfo: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Detailed information about a device's status.
-    public struct DeviceStatusInfo: Swift.Equatable {
+    public struct DeviceStatusInfo {
         /// The latest available information about the connection status of a device.
         public var connectionStatus: AlexaForBusinessClientTypes.ConnectionStatus?
         /// The time (in epoch) when the device connection status changed.
@@ -5976,7 +5976,7 @@ extension DisassociateContactFromAddressBookInput {
     }
 }
 
-public struct DisassociateContactFromAddressBookInput: Swift.Equatable {
+public struct DisassociateContactFromAddressBookInput {
     /// The ARN of the address from which to disassociate the contact.
     /// This member is required.
     public var addressBookArn: Swift.String?
@@ -5994,7 +5994,7 @@ public struct DisassociateContactFromAddressBookInput: Swift.Equatable {
     }
 }
 
-struct DisassociateContactFromAddressBookInputBody: Swift.Equatable {
+struct DisassociateContactFromAddressBookInputBody {
     let contactArn: Swift.String?
     let addressBookArn: Swift.String?
 }
@@ -6019,7 +6019,7 @@ extension DisassociateContactFromAddressBookOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DisassociateContactFromAddressBookOutput: Swift.Equatable {
+public struct DisassociateContactFromAddressBookOutput {
 
     public init() { }
 }
@@ -6054,7 +6054,7 @@ extension DisassociateDeviceFromRoomInput {
     }
 }
 
-public struct DisassociateDeviceFromRoomInput: Swift.Equatable {
+public struct DisassociateDeviceFromRoomInput {
     /// The ARN of the device to disassociate from a room. Required.
     public var deviceArn: Swift.String?
 
@@ -6066,7 +6066,7 @@ public struct DisassociateDeviceFromRoomInput: Swift.Equatable {
     }
 }
 
-struct DisassociateDeviceFromRoomInputBody: Swift.Equatable {
+struct DisassociateDeviceFromRoomInputBody {
     let deviceArn: Swift.String?
 }
 
@@ -6087,7 +6087,7 @@ extension DisassociateDeviceFromRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateDeviceFromRoomOutput: Swift.Equatable {
+public struct DisassociateDeviceFromRoomOutput {
 
     public init() { }
 }
@@ -6128,7 +6128,7 @@ extension DisassociateSkillFromSkillGroupInput {
     }
 }
 
-public struct DisassociateSkillFromSkillGroupInput: Swift.Equatable {
+public struct DisassociateSkillFromSkillGroupInput {
     /// The unique identifier of a skill. Required.
     public var skillGroupArn: Swift.String?
     /// The ARN of a skill group to associate to a skill.
@@ -6145,7 +6145,7 @@ public struct DisassociateSkillFromSkillGroupInput: Swift.Equatable {
     }
 }
 
-struct DisassociateSkillFromSkillGroupInputBody: Swift.Equatable {
+struct DisassociateSkillFromSkillGroupInputBody {
     let skillGroupArn: Swift.String?
     let skillId: Swift.String?
 }
@@ -6170,7 +6170,7 @@ extension DisassociateSkillFromSkillGroupOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DisassociateSkillFromSkillGroupOutput: Swift.Equatable {
+public struct DisassociateSkillFromSkillGroupOutput {
 
     public init() { }
 }
@@ -6207,7 +6207,7 @@ extension DisassociateSkillFromUsersInput {
     }
 }
 
-public struct DisassociateSkillFromUsersInput: Swift.Equatable {
+public struct DisassociateSkillFromUsersInput {
     /// The private skill ID you want to make unavailable for enrolled users.
     /// This member is required.
     public var skillId: Swift.String?
@@ -6220,7 +6220,7 @@ public struct DisassociateSkillFromUsersInput: Swift.Equatable {
     }
 }
 
-struct DisassociateSkillFromUsersInputBody: Swift.Equatable {
+struct DisassociateSkillFromUsersInputBody {
     let skillId: Swift.String?
 }
 
@@ -6241,7 +6241,7 @@ extension DisassociateSkillFromUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateSkillFromUsersOutput: Swift.Equatable {
+public struct DisassociateSkillFromUsersOutput {
 
     public init() { }
 }
@@ -6282,7 +6282,7 @@ extension DisassociateSkillGroupFromRoomInput {
     }
 }
 
-public struct DisassociateSkillGroupFromRoomInput: Swift.Equatable {
+public struct DisassociateSkillGroupFromRoomInput {
     /// The ARN of the room from which the skill group is to be disassociated. Required.
     public var roomArn: Swift.String?
     /// The ARN of the skill group to disassociate from a room. Required.
@@ -6298,7 +6298,7 @@ public struct DisassociateSkillGroupFromRoomInput: Swift.Equatable {
     }
 }
 
-struct DisassociateSkillGroupFromRoomInputBody: Swift.Equatable {
+struct DisassociateSkillGroupFromRoomInputBody {
     let skillGroupArn: Swift.String?
     let roomArn: Swift.String?
 }
@@ -6323,7 +6323,7 @@ extension DisassociateSkillGroupFromRoomOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DisassociateSkillGroupFromRoomOutput: Swift.Equatable {
+public struct DisassociateSkillGroupFromRoomOutput {
 
     public init() { }
 }
@@ -6480,7 +6480,7 @@ extension AlexaForBusinessClientTypes.EndOfMeetingReminder: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending.
-    public struct EndOfMeetingReminder: Swift.Equatable {
+    public struct EndOfMeetingReminder {
         /// Whether an end of meeting reminder is enabled or not.
         public var enabled: Swift.Bool?
         /// A range of 3 to 15 minutes that determines when the reminder begins.
@@ -6670,7 +6670,7 @@ extension AlexaForBusinessClientTypes.Filter: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// A filter name and value pair that is used to return a more specific list of results. Filters can be used to match a set of resources by various criteria.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The key of a filter.
         /// This member is required.
         public var key: Swift.String?
@@ -6710,7 +6710,7 @@ extension ForgetSmartHomeAppliancesInput {
     }
 }
 
-public struct ForgetSmartHomeAppliancesInput: Swift.Equatable {
+public struct ForgetSmartHomeAppliancesInput {
     /// The room that the appliances are associated with.
     /// This member is required.
     public var roomArn: Swift.String?
@@ -6723,7 +6723,7 @@ public struct ForgetSmartHomeAppliancesInput: Swift.Equatable {
     }
 }
 
-struct ForgetSmartHomeAppliancesInputBody: Swift.Equatable {
+struct ForgetSmartHomeAppliancesInputBody {
     let roomArn: Swift.String?
 }
 
@@ -6744,7 +6744,7 @@ extension ForgetSmartHomeAppliancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ForgetSmartHomeAppliancesOutput: Swift.Equatable {
+public struct ForgetSmartHomeAppliancesOutput {
 
     public init() { }
 }
@@ -6805,7 +6805,7 @@ extension AlexaForBusinessClientTypes.Gateway: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The details of the gateway.
-    public struct Gateway: Swift.Equatable {
+    public struct Gateway {
         /// The ARN of the gateway.
         public var arn: Swift.String?
         /// The description of the gateway.
@@ -6868,7 +6868,7 @@ extension AlexaForBusinessClientTypes.GatewayGroup: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The details of the gateway group.
-    public struct GatewayGroup: Swift.Equatable {
+    public struct GatewayGroup {
         /// The ARN of the gateway group.
         public var arn: Swift.String?
         /// The description of the gateway group.
@@ -6923,7 +6923,7 @@ extension AlexaForBusinessClientTypes.GatewayGroupSummary: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The summary of a gateway group.
-    public struct GatewayGroupSummary: Swift.Equatable {
+    public struct GatewayGroupSummary {
         /// The ARN of the gateway group.
         public var arn: Swift.String?
         /// The description of the gateway group.
@@ -6990,7 +6990,7 @@ extension AlexaForBusinessClientTypes.GatewaySummary: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The summary of a gateway.
-    public struct GatewaySummary: Swift.Equatable {
+    public struct GatewaySummary {
         /// The ARN of the gateway.
         public var arn: Swift.String?
         /// The description of the gateway.
@@ -7040,7 +7040,7 @@ extension GetAddressBookInput {
     }
 }
 
-public struct GetAddressBookInput: Swift.Equatable {
+public struct GetAddressBookInput {
     /// The ARN of the address book for which to request details.
     /// This member is required.
     public var addressBookArn: Swift.String?
@@ -7053,7 +7053,7 @@ public struct GetAddressBookInput: Swift.Equatable {
     }
 }
 
-struct GetAddressBookInputBody: Swift.Equatable {
+struct GetAddressBookInputBody {
     let addressBookArn: Swift.String?
 }
 
@@ -7081,7 +7081,7 @@ extension GetAddressBookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAddressBookOutput: Swift.Equatable {
+public struct GetAddressBookOutput {
     /// The details of the requested address book.
     public var addressBook: AlexaForBusinessClientTypes.AddressBook?
 
@@ -7093,7 +7093,7 @@ public struct GetAddressBookOutput: Swift.Equatable {
     }
 }
 
-struct GetAddressBookOutputBody: Swift.Equatable {
+struct GetAddressBookOutputBody {
     let addressBook: AlexaForBusinessClientTypes.AddressBook?
 }
 
@@ -7135,12 +7135,12 @@ extension GetConferencePreferenceInput {
     }
 }
 
-public struct GetConferencePreferenceInput: Swift.Equatable {
+public struct GetConferencePreferenceInput {
 
     public init() { }
 }
 
-struct GetConferencePreferenceInputBody: Swift.Equatable {
+struct GetConferencePreferenceInputBody {
 }
 
 extension GetConferencePreferenceInputBody: Swift.Decodable {
@@ -7161,7 +7161,7 @@ extension GetConferencePreferenceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConferencePreferenceOutput: Swift.Equatable {
+public struct GetConferencePreferenceOutput {
     /// The conference preference.
     public var preference: AlexaForBusinessClientTypes.ConferencePreference?
 
@@ -7173,7 +7173,7 @@ public struct GetConferencePreferenceOutput: Swift.Equatable {
     }
 }
 
-struct GetConferencePreferenceOutputBody: Swift.Equatable {
+struct GetConferencePreferenceOutputBody {
     let preference: AlexaForBusinessClientTypes.ConferencePreference?
 }
 
@@ -7220,7 +7220,7 @@ extension GetConferenceProviderInput {
     }
 }
 
-public struct GetConferenceProviderInput: Swift.Equatable {
+public struct GetConferenceProviderInput {
     /// The ARN of the newly created conference provider.
     /// This member is required.
     public var conferenceProviderArn: Swift.String?
@@ -7233,7 +7233,7 @@ public struct GetConferenceProviderInput: Swift.Equatable {
     }
 }
 
-struct GetConferenceProviderInputBody: Swift.Equatable {
+struct GetConferenceProviderInputBody {
     let conferenceProviderArn: Swift.String?
 }
 
@@ -7261,7 +7261,7 @@ extension GetConferenceProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConferenceProviderOutput: Swift.Equatable {
+public struct GetConferenceProviderOutput {
     /// The conference provider.
     public var conferenceProvider: AlexaForBusinessClientTypes.ConferenceProvider?
 
@@ -7273,7 +7273,7 @@ public struct GetConferenceProviderOutput: Swift.Equatable {
     }
 }
 
-struct GetConferenceProviderOutputBody: Swift.Equatable {
+struct GetConferenceProviderOutputBody {
     let conferenceProvider: AlexaForBusinessClientTypes.ConferenceProvider?
 }
 
@@ -7320,7 +7320,7 @@ extension GetContactInput {
     }
 }
 
-public struct GetContactInput: Swift.Equatable {
+public struct GetContactInput {
     /// The ARN of the contact for which to request details.
     /// This member is required.
     public var contactArn: Swift.String?
@@ -7333,7 +7333,7 @@ public struct GetContactInput: Swift.Equatable {
     }
 }
 
-struct GetContactInputBody: Swift.Equatable {
+struct GetContactInputBody {
     let contactArn: Swift.String?
 }
 
@@ -7361,7 +7361,7 @@ extension GetContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContactOutput: Swift.Equatable {
+public struct GetContactOutput {
     /// The details of the requested contact.
     public var contact: AlexaForBusinessClientTypes.Contact?
 
@@ -7373,7 +7373,7 @@ public struct GetContactOutput: Swift.Equatable {
     }
 }
 
-struct GetContactOutputBody: Swift.Equatable {
+struct GetContactOutputBody {
     let contact: AlexaForBusinessClientTypes.Contact?
 }
 
@@ -7420,7 +7420,7 @@ extension GetDeviceInput {
     }
 }
 
-public struct GetDeviceInput: Swift.Equatable {
+public struct GetDeviceInput {
     /// The ARN of the device for which to request details. Required.
     public var deviceArn: Swift.String?
 
@@ -7432,7 +7432,7 @@ public struct GetDeviceInput: Swift.Equatable {
     }
 }
 
-struct GetDeviceInputBody: Swift.Equatable {
+struct GetDeviceInputBody {
     let deviceArn: Swift.String?
 }
 
@@ -7460,7 +7460,7 @@ extension GetDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeviceOutput: Swift.Equatable {
+public struct GetDeviceOutput {
     /// The details of the device requested. Required.
     public var device: AlexaForBusinessClientTypes.Device?
 
@@ -7472,7 +7472,7 @@ public struct GetDeviceOutput: Swift.Equatable {
     }
 }
 
-struct GetDeviceOutputBody: Swift.Equatable {
+struct GetDeviceOutputBody {
     let device: AlexaForBusinessClientTypes.Device?
 }
 
@@ -7519,7 +7519,7 @@ extension GetGatewayGroupInput {
     }
 }
 
-public struct GetGatewayGroupInput: Swift.Equatable {
+public struct GetGatewayGroupInput {
     /// The ARN of the gateway group to get.
     /// This member is required.
     public var gatewayGroupArn: Swift.String?
@@ -7532,7 +7532,7 @@ public struct GetGatewayGroupInput: Swift.Equatable {
     }
 }
 
-struct GetGatewayGroupInputBody: Swift.Equatable {
+struct GetGatewayGroupInputBody {
     let gatewayGroupArn: Swift.String?
 }
 
@@ -7560,7 +7560,7 @@ extension GetGatewayGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGatewayGroupOutput: Swift.Equatable {
+public struct GetGatewayGroupOutput {
     /// The details of the gateway group.
     public var gatewayGroup: AlexaForBusinessClientTypes.GatewayGroup?
 
@@ -7572,7 +7572,7 @@ public struct GetGatewayGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetGatewayGroupOutputBody: Swift.Equatable {
+struct GetGatewayGroupOutputBody {
     let gatewayGroup: AlexaForBusinessClientTypes.GatewayGroup?
 }
 
@@ -7619,7 +7619,7 @@ extension GetGatewayInput {
     }
 }
 
-public struct GetGatewayInput: Swift.Equatable {
+public struct GetGatewayInput {
     /// The ARN of the gateway to get.
     /// This member is required.
     public var gatewayArn: Swift.String?
@@ -7632,7 +7632,7 @@ public struct GetGatewayInput: Swift.Equatable {
     }
 }
 
-struct GetGatewayInputBody: Swift.Equatable {
+struct GetGatewayInputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -7660,7 +7660,7 @@ extension GetGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGatewayOutput: Swift.Equatable {
+public struct GetGatewayOutput {
     /// The details of the gateway.
     public var gateway: AlexaForBusinessClientTypes.Gateway?
 
@@ -7672,7 +7672,7 @@ public struct GetGatewayOutput: Swift.Equatable {
     }
 }
 
-struct GetGatewayOutputBody: Swift.Equatable {
+struct GetGatewayOutputBody {
     let gateway: AlexaForBusinessClientTypes.Gateway?
 }
 
@@ -7714,12 +7714,12 @@ extension GetInvitationConfigurationInput {
     }
 }
 
-public struct GetInvitationConfigurationInput: Swift.Equatable {
+public struct GetInvitationConfigurationInput {
 
     public init() { }
 }
 
-struct GetInvitationConfigurationInputBody: Swift.Equatable {
+struct GetInvitationConfigurationInputBody {
 }
 
 extension GetInvitationConfigurationInputBody: Swift.Decodable {
@@ -7744,7 +7744,7 @@ extension GetInvitationConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInvitationConfigurationOutput: Swift.Equatable {
+public struct GetInvitationConfigurationOutput {
     /// The email ID of the organization or individual contact that the enrolled user can use.
     public var contactEmail: Swift.String?
     /// The name of the organization sending the enrollment invite to a user.
@@ -7764,7 +7764,7 @@ public struct GetInvitationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetInvitationConfigurationOutputBody: Swift.Equatable {
+struct GetInvitationConfigurationOutputBody {
     let organizationName: Swift.String?
     let contactEmail: Swift.String?
     let privateSkillIds: [Swift.String]?
@@ -7828,7 +7828,7 @@ extension GetNetworkProfileInput {
     }
 }
 
-public struct GetNetworkProfileInput: Swift.Equatable {
+public struct GetNetworkProfileInput {
     /// The ARN of the network profile associated with a device.
     /// This member is required.
     public var networkProfileArn: Swift.String?
@@ -7841,7 +7841,7 @@ public struct GetNetworkProfileInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkProfileInputBody: Swift.Equatable {
+struct GetNetworkProfileInputBody {
     let networkProfileArn: Swift.String?
 }
 
@@ -7869,7 +7869,7 @@ extension GetNetworkProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNetworkProfileOutput: Swift.Equatable {
+public struct GetNetworkProfileOutput {
     /// The network profile associated with a device.
     public var networkProfile: AlexaForBusinessClientTypes.NetworkProfile?
 
@@ -7881,7 +7881,7 @@ public struct GetNetworkProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkProfileOutputBody: Swift.Equatable {
+struct GetNetworkProfileOutputBody {
     let networkProfile: AlexaForBusinessClientTypes.NetworkProfile?
 }
 
@@ -7929,7 +7929,7 @@ extension GetProfileInput {
     }
 }
 
-public struct GetProfileInput: Swift.Equatable {
+public struct GetProfileInput {
     /// The ARN of the room profile for which to request details. Required.
     public var profileArn: Swift.String?
 
@@ -7941,7 +7941,7 @@ public struct GetProfileInput: Swift.Equatable {
     }
 }
 
-struct GetProfileInputBody: Swift.Equatable {
+struct GetProfileInputBody {
     let profileArn: Swift.String?
 }
 
@@ -7969,7 +7969,7 @@ extension GetProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProfileOutput: Swift.Equatable {
+public struct GetProfileOutput {
     /// The details of the room profile requested. Required.
     public var profile: AlexaForBusinessClientTypes.Profile?
 
@@ -7981,7 +7981,7 @@ public struct GetProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetProfileOutputBody: Swift.Equatable {
+struct GetProfileOutputBody {
     let profile: AlexaForBusinessClientTypes.Profile?
 }
 
@@ -8028,7 +8028,7 @@ extension GetRoomInput {
     }
 }
 
-public struct GetRoomInput: Swift.Equatable {
+public struct GetRoomInput {
     /// The ARN of the room for which to request details. Required.
     public var roomArn: Swift.String?
 
@@ -8040,7 +8040,7 @@ public struct GetRoomInput: Swift.Equatable {
     }
 }
 
-struct GetRoomInputBody: Swift.Equatable {
+struct GetRoomInputBody {
     let roomArn: Swift.String?
 }
 
@@ -8068,7 +8068,7 @@ extension GetRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRoomOutput: Swift.Equatable {
+public struct GetRoomOutput {
     /// The details of the room requested.
     public var room: AlexaForBusinessClientTypes.Room?
 
@@ -8080,7 +8080,7 @@ public struct GetRoomOutput: Swift.Equatable {
     }
 }
 
-struct GetRoomOutputBody: Swift.Equatable {
+struct GetRoomOutputBody {
     let room: AlexaForBusinessClientTypes.Room?
 }
 
@@ -8135,7 +8135,7 @@ extension GetRoomSkillParameterInput {
     }
 }
 
-public struct GetRoomSkillParameterInput: Swift.Equatable {
+public struct GetRoomSkillParameterInput {
     /// The room skill parameter key for which to get details. Required.
     /// This member is required.
     public var parameterKey: Swift.String?
@@ -8157,7 +8157,7 @@ public struct GetRoomSkillParameterInput: Swift.Equatable {
     }
 }
 
-struct GetRoomSkillParameterInputBody: Swift.Equatable {
+struct GetRoomSkillParameterInputBody {
     let roomArn: Swift.String?
     let skillId: Swift.String?
     let parameterKey: Swift.String?
@@ -8193,7 +8193,7 @@ extension GetRoomSkillParameterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRoomSkillParameterOutput: Swift.Equatable {
+public struct GetRoomSkillParameterOutput {
     /// The details of the room skill parameter requested. Required.
     public var roomSkillParameter: AlexaForBusinessClientTypes.RoomSkillParameter?
 
@@ -8205,7 +8205,7 @@ public struct GetRoomSkillParameterOutput: Swift.Equatable {
     }
 }
 
-struct GetRoomSkillParameterOutputBody: Swift.Equatable {
+struct GetRoomSkillParameterOutputBody {
     let roomSkillParameter: AlexaForBusinessClientTypes.RoomSkillParameter?
 }
 
@@ -8252,7 +8252,7 @@ extension GetSkillGroupInput {
     }
 }
 
-public struct GetSkillGroupInput: Swift.Equatable {
+public struct GetSkillGroupInput {
     /// The ARN of the skill group for which to get details. Required.
     public var skillGroupArn: Swift.String?
 
@@ -8264,7 +8264,7 @@ public struct GetSkillGroupInput: Swift.Equatable {
     }
 }
 
-struct GetSkillGroupInputBody: Swift.Equatable {
+struct GetSkillGroupInputBody {
     let skillGroupArn: Swift.String?
 }
 
@@ -8292,7 +8292,7 @@ extension GetSkillGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSkillGroupOutput: Swift.Equatable {
+public struct GetSkillGroupOutput {
     /// The details of the skill group requested. Required.
     public var skillGroup: AlexaForBusinessClientTypes.SkillGroup?
 
@@ -8304,7 +8304,7 @@ public struct GetSkillGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetSkillGroupOutputBody: Swift.Equatable {
+struct GetSkillGroupOutputBody {
     let skillGroup: AlexaForBusinessClientTypes.SkillGroup?
 }
 
@@ -8358,7 +8358,7 @@ extension AlexaForBusinessClientTypes.IPDialIn: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The IP endpoint and protocol for calling.
-    public struct IPDialIn: Swift.Equatable {
+    public struct IPDialIn {
         /// The protocol, including SIP, SIPS, and H323.
         /// This member is required.
         public var commsProtocol: AlexaForBusinessClientTypes.CommsProtocol?
@@ -8405,7 +8405,7 @@ extension AlexaForBusinessClientTypes.InstantBooking: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Settings for the instant booking feature that are applied to a room profile. When users start their meeting with Alexa, Alexa automatically books the room for the configured duration if the room is available.
-    public struct InstantBooking: Swift.Equatable {
+    public struct InstantBooking {
         /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa.
         public var durationInMinutes: Swift.Int?
         /// Whether instant booking is enabled or not.
@@ -8462,7 +8462,7 @@ public struct InvalidCertificateAuthorityException: ClientRuntime.ModeledError, 
     }
 }
 
-struct InvalidCertificateAuthorityExceptionBody: Swift.Equatable {
+struct InvalidCertificateAuthorityExceptionBody {
     let message: Swift.String?
 }
 
@@ -8517,7 +8517,7 @@ public struct InvalidDeviceException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidDeviceExceptionBody: Swift.Equatable {
+struct InvalidDeviceExceptionBody {
     let message: Swift.String?
 }
 
@@ -8572,7 +8572,7 @@ public struct InvalidSecretsManagerResourceException: ClientRuntime.ModeledError
     }
 }
 
-struct InvalidSecretsManagerResourceExceptionBody: Swift.Equatable {
+struct InvalidSecretsManagerResourceExceptionBody {
     let message: Swift.String?
 }
 
@@ -8627,7 +8627,7 @@ public struct InvalidServiceLinkedRoleStateException: ClientRuntime.ModeledError
     }
 }
 
-struct InvalidServiceLinkedRoleStateExceptionBody: Swift.Equatable {
+struct InvalidServiceLinkedRoleStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -8682,7 +8682,7 @@ public struct InvalidUserStatusException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct InvalidUserStatusExceptionBody: Swift.Equatable {
+struct InvalidUserStatusExceptionBody {
     let message: Swift.String?
 }
 
@@ -8737,7 +8737,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -8777,7 +8777,7 @@ extension ListBusinessReportSchedulesInput {
     }
 }
 
-public struct ListBusinessReportSchedulesInput: Swift.Equatable {
+public struct ListBusinessReportSchedulesInput {
     /// The maximum number of schedules listed in the call.
     public var maxResults: Swift.Int?
     /// The token used to list the remaining schedules from the previous API call.
@@ -8793,7 +8793,7 @@ public struct ListBusinessReportSchedulesInput: Swift.Equatable {
     }
 }
 
-struct ListBusinessReportSchedulesInputBody: Swift.Equatable {
+struct ListBusinessReportSchedulesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -8827,7 +8827,7 @@ extension ListBusinessReportSchedulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBusinessReportSchedulesOutput: Swift.Equatable {
+public struct ListBusinessReportSchedulesOutput {
     /// The schedule of the reports.
     public var businessReportSchedules: [AlexaForBusinessClientTypes.BusinessReportSchedule]?
     /// The token used to list the remaining schedules from the previous API call.
@@ -8843,7 +8843,7 @@ public struct ListBusinessReportSchedulesOutput: Swift.Equatable {
     }
 }
 
-struct ListBusinessReportSchedulesOutputBody: Swift.Equatable {
+struct ListBusinessReportSchedulesOutputBody {
     let businessReportSchedules: [AlexaForBusinessClientTypes.BusinessReportSchedule]?
     let nextToken: Swift.String?
 }
@@ -8906,7 +8906,7 @@ extension ListConferenceProvidersInput {
     }
 }
 
-public struct ListConferenceProvidersInput: Swift.Equatable {
+public struct ListConferenceProvidersInput {
     /// The maximum number of conference providers to be returned, per paginated calls.
     public var maxResults: Swift.Int?
     /// The tokens used for pagination.
@@ -8922,7 +8922,7 @@ public struct ListConferenceProvidersInput: Swift.Equatable {
     }
 }
 
-struct ListConferenceProvidersInputBody: Swift.Equatable {
+struct ListConferenceProvidersInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -8956,7 +8956,7 @@ extension ListConferenceProvidersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConferenceProvidersOutput: Swift.Equatable {
+public struct ListConferenceProvidersOutput {
     /// The conference providers.
     public var conferenceProviders: [AlexaForBusinessClientTypes.ConferenceProvider]?
     /// The tokens used for pagination.
@@ -8972,7 +8972,7 @@ public struct ListConferenceProvidersOutput: Swift.Equatable {
     }
 }
 
-struct ListConferenceProvidersOutputBody: Swift.Equatable {
+struct ListConferenceProvidersOutputBody {
     let conferenceProviders: [AlexaForBusinessClientTypes.ConferenceProvider]?
     let nextToken: Swift.String?
 }
@@ -9043,7 +9043,7 @@ extension ListDeviceEventsInput {
     }
 }
 
-public struct ListDeviceEventsInput: Swift.Equatable {
+public struct ListDeviceEventsInput {
     /// The ARN of a device.
     /// This member is required.
     public var deviceArn: Swift.String?
@@ -9068,7 +9068,7 @@ public struct ListDeviceEventsInput: Swift.Equatable {
     }
 }
 
-struct ListDeviceEventsInputBody: Swift.Equatable {
+struct ListDeviceEventsInputBody {
     let deviceArn: Swift.String?
     let eventType: AlexaForBusinessClientTypes.DeviceEventType?
     let nextToken: Swift.String?
@@ -9110,7 +9110,7 @@ extension ListDeviceEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeviceEventsOutput: Swift.Equatable {
+public struct ListDeviceEventsOutput {
     /// The device events requested for the device ARN.
     public var deviceEvents: [AlexaForBusinessClientTypes.DeviceEvent]?
     /// The token returned to indicate that there is more data available.
@@ -9126,7 +9126,7 @@ public struct ListDeviceEventsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeviceEventsOutputBody: Swift.Equatable {
+struct ListDeviceEventsOutputBody {
     let deviceEvents: [AlexaForBusinessClientTypes.DeviceEvent]?
     let nextToken: Swift.String?
 }
@@ -9190,7 +9190,7 @@ extension ListGatewayGroupsInput {
     }
 }
 
-public struct ListGatewayGroupsInput: Swift.Equatable {
+public struct ListGatewayGroupsInput {
     /// The maximum number of gateway group summaries to return. The default is 50.
     public var maxResults: Swift.Int?
     /// The token used to paginate though multiple pages of gateway group summaries.
@@ -9206,7 +9206,7 @@ public struct ListGatewayGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListGatewayGroupsInputBody: Swift.Equatable {
+struct ListGatewayGroupsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -9240,7 +9240,7 @@ extension ListGatewayGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGatewayGroupsOutput: Swift.Equatable {
+public struct ListGatewayGroupsOutput {
     /// The gateway groups in the list.
     public var gatewayGroups: [AlexaForBusinessClientTypes.GatewayGroupSummary]?
     /// The token used to paginate though multiple pages of gateway group summaries.
@@ -9256,7 +9256,7 @@ public struct ListGatewayGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListGatewayGroupsOutputBody: Swift.Equatable {
+struct ListGatewayGroupsOutputBody {
     let gatewayGroups: [AlexaForBusinessClientTypes.GatewayGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -9323,7 +9323,7 @@ extension ListGatewaysInput {
     }
 }
 
-public struct ListGatewaysInput: Swift.Equatable {
+public struct ListGatewaysInput {
     /// The gateway group ARN for which to list gateways.
     public var gatewayGroupArn: Swift.String?
     /// The maximum number of gateway summaries to return. The default is 50.
@@ -9343,7 +9343,7 @@ public struct ListGatewaysInput: Swift.Equatable {
     }
 }
 
-struct ListGatewaysInputBody: Swift.Equatable {
+struct ListGatewaysInputBody {
     let gatewayGroupArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9381,7 +9381,7 @@ extension ListGatewaysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGatewaysOutput: Swift.Equatable {
+public struct ListGatewaysOutput {
     /// The gateways in the list.
     public var gateways: [AlexaForBusinessClientTypes.GatewaySummary]?
     /// The token used to paginate though multiple pages of gateway summaries.
@@ -9397,7 +9397,7 @@ public struct ListGatewaysOutput: Swift.Equatable {
     }
 }
 
-struct ListGatewaysOutputBody: Swift.Equatable {
+struct ListGatewaysOutputBody {
     let gateways: [AlexaForBusinessClientTypes.GatewaySummary]?
     let nextToken: Swift.String?
 }
@@ -9472,7 +9472,7 @@ extension ListSkillsInput {
     }
 }
 
-public struct ListSkillsInput: Swift.Equatable {
+public struct ListSkillsInput {
     /// Whether the skill is enabled under the user's account.
     public var enablementType: AlexaForBusinessClientTypes.EnablementTypeFilter?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -9500,7 +9500,7 @@ public struct ListSkillsInput: Swift.Equatable {
     }
 }
 
-struct ListSkillsInputBody: Swift.Equatable {
+struct ListSkillsInputBody {
     let skillGroupArn: Swift.String?
     let enablementType: AlexaForBusinessClientTypes.EnablementTypeFilter?
     let skillType: AlexaForBusinessClientTypes.SkillTypeFilter?
@@ -9546,7 +9546,7 @@ extension ListSkillsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSkillsOutput: Swift.Equatable {
+public struct ListSkillsOutput {
     /// The token returned to indicate that there is more data available.
     public var nextToken: Swift.String?
     /// The list of enabled skills requested. Required.
@@ -9562,7 +9562,7 @@ public struct ListSkillsOutput: Swift.Equatable {
     }
 }
 
-struct ListSkillsOutputBody: Swift.Equatable {
+struct ListSkillsOutputBody {
     let skillSummaries: [AlexaForBusinessClientTypes.SkillSummary]?
     let nextToken: Swift.String?
 }
@@ -9625,7 +9625,7 @@ extension ListSkillsStoreCategoriesInput {
     }
 }
 
-public struct ListSkillsStoreCategoriesInput: Swift.Equatable {
+public struct ListSkillsStoreCategoriesInput {
     /// The maximum number of categories returned, per paginated calls.
     public var maxResults: Swift.Int?
     /// The tokens used for pagination.
@@ -9641,7 +9641,7 @@ public struct ListSkillsStoreCategoriesInput: Swift.Equatable {
     }
 }
 
-struct ListSkillsStoreCategoriesInputBody: Swift.Equatable {
+struct ListSkillsStoreCategoriesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -9675,7 +9675,7 @@ extension ListSkillsStoreCategoriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSkillsStoreCategoriesOutput: Swift.Equatable {
+public struct ListSkillsStoreCategoriesOutput {
     /// The list of categories.
     public var categoryList: [AlexaForBusinessClientTypes.Category]?
     /// The tokens used for pagination.
@@ -9691,7 +9691,7 @@ public struct ListSkillsStoreCategoriesOutput: Swift.Equatable {
     }
 }
 
-struct ListSkillsStoreCategoriesOutputBody: Swift.Equatable {
+struct ListSkillsStoreCategoriesOutputBody {
     let categoryList: [AlexaForBusinessClientTypes.Category]?
     let nextToken: Swift.String?
 }
@@ -9758,7 +9758,7 @@ extension ListSkillsStoreSkillsByCategoryInput {
     }
 }
 
-public struct ListSkillsStoreSkillsByCategoryInput: Swift.Equatable {
+public struct ListSkillsStoreSkillsByCategoryInput {
     /// The category ID for which the skills are being retrieved from the skill store.
     /// This member is required.
     public var categoryId: Swift.Int?
@@ -9779,7 +9779,7 @@ public struct ListSkillsStoreSkillsByCategoryInput: Swift.Equatable {
     }
 }
 
-struct ListSkillsStoreSkillsByCategoryInputBody: Swift.Equatable {
+struct ListSkillsStoreSkillsByCategoryInputBody {
     let categoryId: Swift.Int?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9817,7 +9817,7 @@ extension ListSkillsStoreSkillsByCategoryOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListSkillsStoreSkillsByCategoryOutput: Swift.Equatable {
+public struct ListSkillsStoreSkillsByCategoryOutput {
     /// The tokens used for pagination.
     public var nextToken: Swift.String?
     /// The skill store skills.
@@ -9833,7 +9833,7 @@ public struct ListSkillsStoreSkillsByCategoryOutput: Swift.Equatable {
     }
 }
 
-struct ListSkillsStoreSkillsByCategoryOutputBody: Swift.Equatable {
+struct ListSkillsStoreSkillsByCategoryOutputBody {
     let skillsStoreSkills: [AlexaForBusinessClientTypes.SkillsStoreSkill]?
     let nextToken: Swift.String?
 }
@@ -9900,7 +9900,7 @@ extension ListSmartHomeAppliancesInput {
     }
 }
 
-public struct ListSmartHomeAppliancesInput: Swift.Equatable {
+public struct ListSmartHomeAppliancesInput {
     /// The maximum number of appliances to be returned, per paginated calls.
     public var maxResults: Swift.Int?
     /// The tokens used for pagination.
@@ -9921,7 +9921,7 @@ public struct ListSmartHomeAppliancesInput: Swift.Equatable {
     }
 }
 
-struct ListSmartHomeAppliancesInputBody: Swift.Equatable {
+struct ListSmartHomeAppliancesInputBody {
     let roomArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9959,7 +9959,7 @@ extension ListSmartHomeAppliancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSmartHomeAppliancesOutput: Swift.Equatable {
+public struct ListSmartHomeAppliancesOutput {
     /// The tokens used for pagination.
     public var nextToken: Swift.String?
     /// The smart home appliances.
@@ -9975,7 +9975,7 @@ public struct ListSmartHomeAppliancesOutput: Swift.Equatable {
     }
 }
 
-struct ListSmartHomeAppliancesOutputBody: Swift.Equatable {
+struct ListSmartHomeAppliancesOutputBody {
     let smartHomeAppliances: [AlexaForBusinessClientTypes.SmartHomeAppliance]?
     let nextToken: Swift.String?
 }
@@ -10043,7 +10043,7 @@ extension ListTagsInput {
     }
 }
 
-public struct ListTagsInput: Swift.Equatable {
+public struct ListTagsInput {
     /// The ARN of the specified resource for which to list tags.
     /// This member is required.
     public var arn: Swift.String?
@@ -10064,7 +10064,7 @@ public struct ListTagsInput: Swift.Equatable {
     }
 }
 
-struct ListTagsInputBody: Swift.Equatable {
+struct ListTagsInputBody {
     let arn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10102,7 +10102,7 @@ extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsOutput: Swift.Equatable {
+public struct ListTagsOutput {
     /// The token returned to indicate that there is more data available.
     public var nextToken: Swift.String?
     /// The tags requested for the specified resource.
@@ -10118,7 +10118,7 @@ public struct ListTagsOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputBody: Swift.Equatable {
+struct ListTagsOutputBody {
     let tags: [AlexaForBusinessClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -10232,7 +10232,7 @@ extension AlexaForBusinessClientTypes.MeetingRoomConfiguration: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Meeting room settings of a room profile.
-    public struct MeetingRoomConfiguration: Swift.Equatable {
+    public struct MeetingRoomConfiguration {
         /// Settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending.
         public var endOfMeetingReminder: AlexaForBusinessClientTypes.EndOfMeetingReminder?
         /// Settings to automatically book the room if available for a configured duration when joining a meeting with Alexa.
@@ -10288,7 +10288,7 @@ extension AlexaForBusinessClientTypes {
     /// * If NO, Alexa will never ask for a meeting pin.
     ///
     /// * If OPTIONAL, Alexa will ask if you have a meeting pin and if the customer responds with yes, it will ask for the meeting pin.
-    public struct MeetingSetting: Swift.Equatable {
+    public struct MeetingSetting {
         /// The values that indicate whether the pin is always required.
         /// This member is required.
         public var requirePin: AlexaForBusinessClientTypes.RequirePin?
@@ -10342,7 +10342,7 @@ public struct NameInUseException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct NameInUseExceptionBody: Swift.Equatable {
+struct NameInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -10479,7 +10479,7 @@ extension AlexaForBusinessClientTypes.NetworkProfile: Swift.CustomDebugStringCon
 
 extension AlexaForBusinessClientTypes {
     /// The network profile associated with a device.
-    public struct NetworkProfile: Swift.Equatable {
+    public struct NetworkProfile {
         /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices.
         public var certificateAuthorityArn: Swift.String?
         /// The current password of the Wi-Fi network.
@@ -10586,7 +10586,7 @@ extension AlexaForBusinessClientTypes.NetworkProfileData: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The data associated with a network profile.
-    public struct NetworkProfileData: Swift.Equatable {
+    public struct NetworkProfileData {
         /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices.
         public var certificateAuthorityArn: Swift.String?
         /// Detailed information about a device's network profile.
@@ -10704,7 +10704,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -10759,7 +10759,7 @@ extension AlexaForBusinessClientTypes.PSTNDialIn: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The information for public switched telephone network (PSTN) conferencing.
-    public struct PSTNDialIn: Swift.Equatable {
+    public struct PSTNDialIn {
         /// The zip code.
         /// This member is required.
         public var countryCode: Swift.String?
@@ -10821,7 +10821,7 @@ extension AlexaForBusinessClientTypes.PhoneNumber: Swift.CustomDebugStringConver
 
 extension AlexaForBusinessClientTypes {
     /// The phone number for the contact containing the raw number and phone number type.
-    public struct PhoneNumber: Swift.Equatable {
+    public struct PhoneNumber {
         /// The raw value of the phone number.
         /// This member is required.
         public var number: Swift.String?
@@ -10896,7 +10896,7 @@ extension AlexaForBusinessClientTypes.ProactiveJoin: Swift.Codable {
 }
 
 extension AlexaForBusinessClientTypes {
-    public struct ProactiveJoin: Swift.Equatable {
+    public struct ProactiveJoin {
         public var enabledByMotion: Swift.Bool?
 
         public init(
@@ -11014,7 +11014,7 @@ extension AlexaForBusinessClientTypes.Profile: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// A room profile with attributes.
-    public struct Profile: Swift.Equatable {
+    public struct Profile {
         /// The address of a room profile.
         public var address: Swift.String?
         /// The ARN of the address book.
@@ -11153,7 +11153,7 @@ extension AlexaForBusinessClientTypes.ProfileData: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The data of a room profile.
-    public struct ProfileData: Swift.Equatable {
+    public struct ProfileData {
         /// The address of a room profile.
         public var address: Swift.String?
         /// The distance unit of a room profile.
@@ -11219,7 +11219,7 @@ extension PutConferencePreferenceInput {
     }
 }
 
-public struct PutConferencePreferenceInput: Swift.Equatable {
+public struct PutConferencePreferenceInput {
     /// The conference preference of a specific conference provider.
     /// This member is required.
     public var conferencePreference: AlexaForBusinessClientTypes.ConferencePreference?
@@ -11232,7 +11232,7 @@ public struct PutConferencePreferenceInput: Swift.Equatable {
     }
 }
 
-struct PutConferencePreferenceInputBody: Swift.Equatable {
+struct PutConferencePreferenceInputBody {
     let conferencePreference: AlexaForBusinessClientTypes.ConferencePreference?
 }
 
@@ -11253,7 +11253,7 @@ extension PutConferencePreferenceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutConferencePreferenceOutput: Swift.Equatable {
+public struct PutConferencePreferenceOutput {
 
     public init() { }
 }
@@ -11300,7 +11300,7 @@ extension PutInvitationConfigurationInput {
     }
 }
 
-public struct PutInvitationConfigurationInput: Swift.Equatable {
+public struct PutInvitationConfigurationInput {
     /// The email ID of the organization or individual contact that the enrolled user can use.
     public var contactEmail: Swift.String?
     /// The name of the organization sending the enrollment invite to a user.
@@ -11321,7 +11321,7 @@ public struct PutInvitationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutInvitationConfigurationInputBody: Swift.Equatable {
+struct PutInvitationConfigurationInputBody {
     let organizationName: Swift.String?
     let contactEmail: Swift.String?
     let privateSkillIds: [Swift.String]?
@@ -11359,7 +11359,7 @@ extension PutInvitationConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutInvitationConfigurationOutput: Swift.Equatable {
+public struct PutInvitationConfigurationOutput {
 
     public init() { }
 }
@@ -11404,7 +11404,7 @@ extension PutRoomSkillParameterInput {
     }
 }
 
-public struct PutRoomSkillParameterInput: Swift.Equatable {
+public struct PutRoomSkillParameterInput {
     /// The ARN of the room associated with the room skill parameter. Required.
     public var roomArn: Swift.String?
     /// The updated room skill parameter. Required.
@@ -11426,7 +11426,7 @@ public struct PutRoomSkillParameterInput: Swift.Equatable {
     }
 }
 
-struct PutRoomSkillParameterInputBody: Swift.Equatable {
+struct PutRoomSkillParameterInputBody {
     let roomArn: Swift.String?
     let skillId: Swift.String?
     let roomSkillParameter: AlexaForBusinessClientTypes.RoomSkillParameter?
@@ -11455,7 +11455,7 @@ extension PutRoomSkillParameterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutRoomSkillParameterOutput: Swift.Equatable {
+public struct PutRoomSkillParameterOutput {
 
     public init() { }
 }
@@ -11507,7 +11507,7 @@ extension PutSkillAuthorizationInput {
     }
 }
 
-public struct PutSkillAuthorizationInput: Swift.Equatable {
+public struct PutSkillAuthorizationInput {
     /// The authorization result specific to OAUTH code grant output. "Code” must be populated in the AuthorizationResult map to establish the authorization.
     /// This member is required.
     public var authorizationResult: [Swift.String:Swift.String]?
@@ -11529,7 +11529,7 @@ public struct PutSkillAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct PutSkillAuthorizationInputBody: Swift.Equatable {
+struct PutSkillAuthorizationInputBody {
     let authorizationResult: [Swift.String:Swift.String]?
     let skillId: Swift.String?
     let roomArn: Swift.String?
@@ -11567,7 +11567,7 @@ extension PutSkillAuthorizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSkillAuthorizationOutput: Swift.Equatable {
+public struct PutSkillAuthorizationOutput {
 
     public init() { }
 }
@@ -11631,7 +11631,7 @@ extension RegisterAVSDeviceInput {
     }
 }
 
-public struct RegisterAVSDeviceInput: Swift.Equatable {
+public struct RegisterAVSDeviceInput {
     /// The device type ID for your AVS device generated by Amazon when the OEM creates a new product on Amazon's Developer Console.
     /// This member is required.
     public var amazonId: Swift.String?
@@ -11671,7 +11671,7 @@ public struct RegisterAVSDeviceInput: Swift.Equatable {
     }
 }
 
-struct RegisterAVSDeviceInputBody: Swift.Equatable {
+struct RegisterAVSDeviceInputBody {
     let clientId: Swift.String?
     let userCode: Swift.String?
     let productId: Swift.String?
@@ -11732,7 +11732,7 @@ extension RegisterAVSDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterAVSDeviceOutput: Swift.Equatable {
+public struct RegisterAVSDeviceOutput {
     /// The ARN of the device.
     public var deviceArn: Swift.String?
 
@@ -11744,7 +11744,7 @@ public struct RegisterAVSDeviceOutput: Swift.Equatable {
     }
 }
 
-struct RegisterAVSDeviceOutputBody: Swift.Equatable {
+struct RegisterAVSDeviceOutputBody {
     let deviceArn: Swift.String?
 }
 
@@ -11794,7 +11794,7 @@ extension RejectSkillInput {
     }
 }
 
-public struct RejectSkillInput: Swift.Equatable {
+public struct RejectSkillInput {
     /// The unique identifier of the skill.
     /// This member is required.
     public var skillId: Swift.String?
@@ -11807,7 +11807,7 @@ public struct RejectSkillInput: Swift.Equatable {
     }
 }
 
-struct RejectSkillInputBody: Swift.Equatable {
+struct RejectSkillInputBody {
     let skillId: Swift.String?
 }
 
@@ -11828,7 +11828,7 @@ extension RejectSkillOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RejectSkillOutput: Swift.Equatable {
+public struct RejectSkillOutput {
 
     public init() { }
 }
@@ -11872,7 +11872,7 @@ extension AlexaForBusinessClientTypes.RequireCheckIn: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Settings for the require check in feature that are applied to a room profile. Require check in allows a meeting room’s Alexa or AVS device to prompt the user to check in; otherwise, the room will be released.
-    public struct RequireCheckIn: Swift.Equatable {
+    public struct RequireCheckIn {
         /// Whether require check in is enabled or not.
         public var enabled: Swift.Bool?
         /// Duration between 5 and 20 minutes to determine when to release the room if it's not checked into.
@@ -11949,7 +11949,7 @@ extension ResolveRoomInput {
     }
 }
 
-public struct ResolveRoomInput: Swift.Equatable {
+public struct ResolveRoomInput {
     /// The ARN of the skill that was requested. Required.
     /// This member is required.
     public var skillId: Swift.String?
@@ -11967,7 +11967,7 @@ public struct ResolveRoomInput: Swift.Equatable {
     }
 }
 
-struct ResolveRoomInputBody: Swift.Equatable {
+struct ResolveRoomInputBody {
     let userId: Swift.String?
     let skillId: Swift.String?
 }
@@ -12003,7 +12003,7 @@ extension ResolveRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResolveRoomOutput: Swift.Equatable {
+public struct ResolveRoomOutput {
     /// The ARN of the room from which the skill request was invoked.
     public var roomArn: Swift.String?
     /// The name of the room from which the skill request was invoked.
@@ -12023,7 +12023,7 @@ public struct ResolveRoomOutput: Swift.Equatable {
     }
 }
 
-struct ResolveRoomOutputBody: Swift.Equatable {
+struct ResolveRoomOutputBody {
     let roomArn: Swift.String?
     let roomName: Swift.String?
     let roomSkillParameters: [AlexaForBusinessClientTypes.RoomSkillParameter]?
@@ -12106,7 +12106,7 @@ public struct ResourceAssociatedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ResourceAssociatedExceptionBody: Swift.Equatable {
+struct ResourceAssociatedExceptionBody {
     let message: Swift.String?
 }
 
@@ -12167,7 +12167,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -12211,7 +12211,7 @@ extension RevokeInvitationInput {
     }
 }
 
-public struct RevokeInvitationInput: Swift.Equatable {
+public struct RevokeInvitationInput {
     /// The ARN of the enrollment invitation to revoke. Required.
     public var enrollmentId: Swift.String?
     /// The ARN of the user for whom to revoke an enrollment invitation. Required.
@@ -12227,7 +12227,7 @@ public struct RevokeInvitationInput: Swift.Equatable {
     }
 }
 
-struct RevokeInvitationInputBody: Swift.Equatable {
+struct RevokeInvitationInputBody {
     let userArn: Swift.String?
     let enrollmentId: Swift.String?
 }
@@ -12252,7 +12252,7 @@ extension RevokeInvitationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RevokeInvitationOutput: Swift.Equatable {
+public struct RevokeInvitationOutput {
 
     public init() { }
 }
@@ -12314,7 +12314,7 @@ extension AlexaForBusinessClientTypes.Room: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// A room with attributes.
-    public struct Room: Swift.Equatable {
+    public struct Room {
         /// The description of a room.
         public var description: Swift.String?
         /// The profile ARN of a room.
@@ -12395,7 +12395,7 @@ extension AlexaForBusinessClientTypes.RoomData: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The data of a room.
-    public struct RoomData: Swift.Equatable {
+    public struct RoomData {
         /// The description of a room.
         public var description: Swift.String?
         /// The profile ARN of a room.
@@ -12456,7 +12456,7 @@ extension AlexaForBusinessClientTypes.RoomSkillParameter: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// A skill parameter associated with a room.
-    public struct RoomSkillParameter: Swift.Equatable {
+    public struct RoomSkillParameter {
         /// The parameter key of a room skill parameter. ParameterKey is an enumerated type that only takes “DEFAULT” or “SCOPE” as valid values.
         /// This member is required.
         public var parameterKey: Swift.String?
@@ -12514,7 +12514,7 @@ extension SearchAddressBooksInput {
     }
 }
 
-public struct SearchAddressBooksInput: Swift.Equatable {
+public struct SearchAddressBooksInput {
     /// The filters to use to list a specified set of address books. The supported filter key is AddressBookName.
     public var filters: [AlexaForBusinessClientTypes.Filter]?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -12538,7 +12538,7 @@ public struct SearchAddressBooksInput: Swift.Equatable {
     }
 }
 
-struct SearchAddressBooksInputBody: Swift.Equatable {
+struct SearchAddressBooksInputBody {
     let filters: [AlexaForBusinessClientTypes.Filter]?
     let sortCriteria: [AlexaForBusinessClientTypes.Sort]?
     let nextToken: Swift.String?
@@ -12600,7 +12600,7 @@ extension SearchAddressBooksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchAddressBooksOutput: Swift.Equatable {
+public struct SearchAddressBooksOutput {
     /// The address books that meet the specified set of filter criteria, in sort order.
     public var addressBooks: [AlexaForBusinessClientTypes.AddressBookData]?
     /// The token returned to indicate that there is more data available.
@@ -12620,7 +12620,7 @@ public struct SearchAddressBooksOutput: Swift.Equatable {
     }
 }
 
-struct SearchAddressBooksOutputBody: Swift.Equatable {
+struct SearchAddressBooksOutputBody {
     let addressBooks: [AlexaForBusinessClientTypes.AddressBookData]?
     let nextToken: Swift.String?
     let totalCount: Swift.Int?
@@ -12701,7 +12701,7 @@ extension SearchContactsInput {
     }
 }
 
-public struct SearchContactsInput: Swift.Equatable {
+public struct SearchContactsInput {
     /// The filters to use to list a specified set of address books. The supported filter keys are DisplayName, FirstName, LastName, and AddressBookArns.
     public var filters: [AlexaForBusinessClientTypes.Filter]?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -12725,7 +12725,7 @@ public struct SearchContactsInput: Swift.Equatable {
     }
 }
 
-struct SearchContactsInputBody: Swift.Equatable {
+struct SearchContactsInputBody {
     let filters: [AlexaForBusinessClientTypes.Filter]?
     let sortCriteria: [AlexaForBusinessClientTypes.Sort]?
     let nextToken: Swift.String?
@@ -12787,7 +12787,7 @@ extension SearchContactsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchContactsOutput: Swift.Equatable {
+public struct SearchContactsOutput {
     /// The contacts that meet the specified set of filter criteria, in sort order.
     public var contacts: [AlexaForBusinessClientTypes.ContactData]?
     /// The token returned to indicate that there is more data available.
@@ -12807,7 +12807,7 @@ public struct SearchContactsOutput: Swift.Equatable {
     }
 }
 
-struct SearchContactsOutputBody: Swift.Equatable {
+struct SearchContactsOutputBody {
     let contacts: [AlexaForBusinessClientTypes.ContactData]?
     let nextToken: Swift.String?
     let totalCount: Swift.Int?
@@ -12888,7 +12888,7 @@ extension SearchDevicesInput {
     }
 }
 
-public struct SearchDevicesInput: Swift.Equatable {
+public struct SearchDevicesInput {
     /// The filters to use to list a specified set of devices. Supported filter keys are DeviceName, DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType, DeviceSerialNumber, UnassociatedOnly, ConnectionStatus (ONLINE and OFFLINE), NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
     public var filters: [AlexaForBusinessClientTypes.Filter]?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -12912,7 +12912,7 @@ public struct SearchDevicesInput: Swift.Equatable {
     }
 }
 
-struct SearchDevicesInputBody: Swift.Equatable {
+struct SearchDevicesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [AlexaForBusinessClientTypes.Filter]?
@@ -12974,7 +12974,7 @@ extension SearchDevicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchDevicesOutput: Swift.Equatable {
+public struct SearchDevicesOutput {
     /// The devices that meet the specified set of filter criteria, in sort order.
     public var devices: [AlexaForBusinessClientTypes.DeviceData]?
     /// The token returned to indicate that there is more data available.
@@ -12994,7 +12994,7 @@ public struct SearchDevicesOutput: Swift.Equatable {
     }
 }
 
-struct SearchDevicesOutputBody: Swift.Equatable {
+struct SearchDevicesOutputBody {
     let devices: [AlexaForBusinessClientTypes.DeviceData]?
     let nextToken: Swift.String?
     let totalCount: Swift.Int?
@@ -13075,7 +13075,7 @@ extension SearchNetworkProfilesInput {
     }
 }
 
-public struct SearchNetworkProfilesInput: Swift.Equatable {
+public struct SearchNetworkProfilesInput {
     /// The filters to use to list a specified set of network profiles. Valid filters are NetworkProfileName, Ssid, and SecurityType.
     public var filters: [AlexaForBusinessClientTypes.Filter]?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -13099,7 +13099,7 @@ public struct SearchNetworkProfilesInput: Swift.Equatable {
     }
 }
 
-struct SearchNetworkProfilesInputBody: Swift.Equatable {
+struct SearchNetworkProfilesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [AlexaForBusinessClientTypes.Filter]?
@@ -13161,7 +13161,7 @@ extension SearchNetworkProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchNetworkProfilesOutput: Swift.Equatable {
+public struct SearchNetworkProfilesOutput {
     /// The network profiles that meet the specified set of filter criteria, in sort order. It is a list of NetworkProfileData objects.
     public var networkProfiles: [AlexaForBusinessClientTypes.NetworkProfileData]?
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -13181,7 +13181,7 @@ public struct SearchNetworkProfilesOutput: Swift.Equatable {
     }
 }
 
-struct SearchNetworkProfilesOutputBody: Swift.Equatable {
+struct SearchNetworkProfilesOutputBody {
     let networkProfiles: [AlexaForBusinessClientTypes.NetworkProfileData]?
     let nextToken: Swift.String?
     let totalCount: Swift.Int?
@@ -13262,7 +13262,7 @@ extension SearchProfilesInput {
     }
 }
 
-public struct SearchProfilesInput: Swift.Equatable {
+public struct SearchProfilesInput {
     /// The filters to use to list a specified set of room profiles. Supported filter keys are ProfileName and Address. Required.
     public var filters: [AlexaForBusinessClientTypes.Filter]?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -13286,7 +13286,7 @@ public struct SearchProfilesInput: Swift.Equatable {
     }
 }
 
-struct SearchProfilesInputBody: Swift.Equatable {
+struct SearchProfilesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [AlexaForBusinessClientTypes.Filter]?
@@ -13348,7 +13348,7 @@ extension SearchProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchProfilesOutput: Swift.Equatable {
+public struct SearchProfilesOutput {
     /// The token returned to indicate that there is more data available.
     public var nextToken: Swift.String?
     /// The profiles that meet the specified set of filter criteria, in sort order.
@@ -13368,7 +13368,7 @@ public struct SearchProfilesOutput: Swift.Equatable {
     }
 }
 
-struct SearchProfilesOutputBody: Swift.Equatable {
+struct SearchProfilesOutputBody {
     let profiles: [AlexaForBusinessClientTypes.ProfileData]?
     let nextToken: Swift.String?
     let totalCount: Swift.Int?
@@ -13449,7 +13449,7 @@ extension SearchRoomsInput {
     }
 }
 
-public struct SearchRoomsInput: Swift.Equatable {
+public struct SearchRoomsInput {
     /// The filters to use to list a specified set of rooms. The supported filter keys are RoomName and ProfileName.
     public var filters: [AlexaForBusinessClientTypes.Filter]?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -13473,7 +13473,7 @@ public struct SearchRoomsInput: Swift.Equatable {
     }
 }
 
-struct SearchRoomsInputBody: Swift.Equatable {
+struct SearchRoomsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [AlexaForBusinessClientTypes.Filter]?
@@ -13535,7 +13535,7 @@ extension SearchRoomsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchRoomsOutput: Swift.Equatable {
+public struct SearchRoomsOutput {
     /// The token returned to indicate that there is more data available.
     public var nextToken: Swift.String?
     /// The rooms that meet the specified set of filter criteria, in sort order.
@@ -13555,7 +13555,7 @@ public struct SearchRoomsOutput: Swift.Equatable {
     }
 }
 
-struct SearchRoomsOutputBody: Swift.Equatable {
+struct SearchRoomsOutputBody {
     let rooms: [AlexaForBusinessClientTypes.RoomData]?
     let nextToken: Swift.String?
     let totalCount: Swift.Int?
@@ -13636,7 +13636,7 @@ extension SearchSkillGroupsInput {
     }
 }
 
-public struct SearchSkillGroupsInput: Swift.Equatable {
+public struct SearchSkillGroupsInput {
     /// The filters to use to list a specified set of skill groups. The supported filter key is SkillGroupName.
     public var filters: [AlexaForBusinessClientTypes.Filter]?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -13660,7 +13660,7 @@ public struct SearchSkillGroupsInput: Swift.Equatable {
     }
 }
 
-struct SearchSkillGroupsInputBody: Swift.Equatable {
+struct SearchSkillGroupsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [AlexaForBusinessClientTypes.Filter]?
@@ -13722,7 +13722,7 @@ extension SearchSkillGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchSkillGroupsOutput: Swift.Equatable {
+public struct SearchSkillGroupsOutput {
     /// The token returned to indicate that there is more data available.
     public var nextToken: Swift.String?
     /// The skill groups that meet the filter criteria, in sort order.
@@ -13742,7 +13742,7 @@ public struct SearchSkillGroupsOutput: Swift.Equatable {
     }
 }
 
-struct SearchSkillGroupsOutputBody: Swift.Equatable {
+struct SearchSkillGroupsOutputBody {
     let skillGroups: [AlexaForBusinessClientTypes.SkillGroupData]?
     let nextToken: Swift.String?
     let totalCount: Swift.Int?
@@ -13823,7 +13823,7 @@ extension SearchUsersInput {
     }
 }
 
-public struct SearchUsersInput: Swift.Equatable {
+public struct SearchUsersInput {
     /// The filters to use for listing a specific set of users. Required. Supported filter keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
     public var filters: [AlexaForBusinessClientTypes.Filter]?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Required.
@@ -13847,7 +13847,7 @@ public struct SearchUsersInput: Swift.Equatable {
     }
 }
 
-struct SearchUsersInputBody: Swift.Equatable {
+struct SearchUsersInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [AlexaForBusinessClientTypes.Filter]?
@@ -13909,7 +13909,7 @@ extension SearchUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchUsersOutput: Swift.Equatable {
+public struct SearchUsersOutput {
     /// The token returned to indicate that there is more data available.
     public var nextToken: Swift.String?
     /// The total number of users returned.
@@ -13929,7 +13929,7 @@ public struct SearchUsersOutput: Swift.Equatable {
     }
 }
 
-struct SearchUsersOutputBody: Swift.Equatable {
+struct SearchUsersOutputBody {
     let users: [AlexaForBusinessClientTypes.UserData]?
     let nextToken: Swift.String?
     let totalCount: Swift.Int?
@@ -14007,7 +14007,7 @@ extension SendAnnouncementInput {
     }
 }
 
-public struct SendAnnouncementInput: Swift.Equatable {
+public struct SendAnnouncementInput {
     /// The unique, user-specified identifier for the request that ensures idempotency.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -14034,7 +14034,7 @@ public struct SendAnnouncementInput: Swift.Equatable {
     }
 }
 
-struct SendAnnouncementInputBody: Swift.Equatable {
+struct SendAnnouncementInputBody {
     let roomFilters: [AlexaForBusinessClientTypes.Filter]?
     let content: AlexaForBusinessClientTypes.Content?
     let timeToLiveInSeconds: Swift.Int?
@@ -14083,7 +14083,7 @@ extension SendAnnouncementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendAnnouncementOutput: Swift.Equatable {
+public struct SendAnnouncementOutput {
     /// The identifier of the announcement.
     public var announcementArn: Swift.String?
 
@@ -14095,7 +14095,7 @@ public struct SendAnnouncementOutput: Swift.Equatable {
     }
 }
 
-struct SendAnnouncementOutputBody: Swift.Equatable {
+struct SendAnnouncementOutputBody {
     let announcementArn: Swift.String?
 }
 
@@ -14143,7 +14143,7 @@ extension SendInvitationInput {
     }
 }
 
-public struct SendInvitationInput: Swift.Equatable {
+public struct SendInvitationInput {
     /// The ARN of the user to whom to send an invitation. Required.
     public var userArn: Swift.String?
 
@@ -14155,7 +14155,7 @@ public struct SendInvitationInput: Swift.Equatable {
     }
 }
 
-struct SendInvitationInputBody: Swift.Equatable {
+struct SendInvitationInputBody {
     let userArn: Swift.String?
 }
 
@@ -14176,7 +14176,7 @@ extension SendInvitationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendInvitationOutput: Swift.Equatable {
+public struct SendInvitationOutput {
 
     public init() { }
 }
@@ -14226,7 +14226,7 @@ extension AlexaForBusinessClientTypes.SipAddress: Swift.CustomDebugStringConvert
 
 extension AlexaForBusinessClientTypes {
     /// The SIP address for the contact containing the URI and SIP address type.
-    public struct SipAddress: Swift.Equatable {
+    public struct SipAddress {
         /// The type of the SIP address.
         /// This member is required.
         public var type: AlexaForBusinessClientTypes.SipType?
@@ -14410,7 +14410,7 @@ extension AlexaForBusinessClientTypes.SkillDetails: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Granular information about the skill.
-    public struct SkillDetails: Swift.Equatable {
+    public struct SkillDetails {
         /// The details about what the skill supports organized as bullet points.
         public var bulletPoints: [Swift.String]?
         /// The details about the developer that published the skill.
@@ -14493,7 +14493,7 @@ extension AlexaForBusinessClientTypes.SkillGroup: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// A skill group with attributes.
-    public struct SkillGroup: Swift.Equatable {
+    public struct SkillGroup {
         /// The description of a skill group.
         public var description: Swift.String?
         /// The ARN of a skill group.
@@ -14548,7 +14548,7 @@ extension AlexaForBusinessClientTypes.SkillGroupData: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The attributes of a skill group.
-    public struct SkillGroupData: Swift.Equatable {
+    public struct SkillGroupData {
         /// The description of a skill group.
         public var description: Swift.String?
         /// The skill group ARN of a skill group.
@@ -14609,7 +14609,7 @@ public struct SkillNotLinkedException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct SkillNotLinkedExceptionBody: Swift.Equatable {
+struct SkillNotLinkedExceptionBody {
     let message: Swift.String?
 }
 
@@ -14670,7 +14670,7 @@ extension AlexaForBusinessClientTypes.SkillSummary: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The summary of skills.
-    public struct SkillSummary: Swift.Equatable {
+    public struct SkillSummary {
         /// Whether the skill is enabled under the user's account, or if it requires linking to be used.
         public var enablementType: AlexaForBusinessClientTypes.EnablementType?
         /// The ARN of the skill summary.
@@ -14836,7 +14836,7 @@ extension AlexaForBusinessClientTypes.SkillsStoreSkill: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The detailed information about an Alexa skill.
-    public struct SkillsStoreSkill: Swift.Equatable {
+    public struct SkillsStoreSkill {
         /// The URL where the skill icon resides.
         public var iconUrl: Swift.String?
         /// Sample utterances that interact with the skill.
@@ -14907,7 +14907,7 @@ extension AlexaForBusinessClientTypes.SmartHomeAppliance: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// A smart home appliance that can connect to a central system. Any domestic device can be a smart appliance.
-    public struct SmartHomeAppliance: Swift.Equatable {
+    public struct SmartHomeAppliance {
         /// The description of the smart home appliance.
         public var description: Swift.String?
         /// The friendly name of the smart home appliance.
@@ -14956,7 +14956,7 @@ extension AlexaForBusinessClientTypes.Sort: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// An object representing a sort criteria.
-    public struct Sort: Swift.Equatable {
+    public struct Sort {
         /// The sort key of a sort object.
         /// This member is required.
         public var key: Swift.String?
@@ -15035,7 +15035,7 @@ extension AlexaForBusinessClientTypes.Ssml: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The SSML message. For more information, see [SSML Reference](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html).
-    public struct Ssml: Swift.Equatable {
+    public struct Ssml {
         /// The locale of the SSML message. Currently, en-US is supported.
         /// This member is required.
         public var locale: AlexaForBusinessClientTypes.Locale?
@@ -15086,7 +15086,7 @@ extension StartDeviceSyncInput {
     }
 }
 
-public struct StartDeviceSyncInput: Swift.Equatable {
+public struct StartDeviceSyncInput {
     /// The ARN of the device to sync. Required.
     public var deviceArn: Swift.String?
     /// Request structure to start the device sync. Required.
@@ -15107,7 +15107,7 @@ public struct StartDeviceSyncInput: Swift.Equatable {
     }
 }
 
-struct StartDeviceSyncInputBody: Swift.Equatable {
+struct StartDeviceSyncInputBody {
     let roomArn: Swift.String?
     let deviceArn: Swift.String?
     let features: [AlexaForBusinessClientTypes.Feature]?
@@ -15145,7 +15145,7 @@ extension StartDeviceSyncOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDeviceSyncOutput: Swift.Equatable {
+public struct StartDeviceSyncOutput {
 
     public init() { }
 }
@@ -15181,7 +15181,7 @@ extension StartSmartHomeApplianceDiscoveryInput {
     }
 }
 
-public struct StartSmartHomeApplianceDiscoveryInput: Swift.Equatable {
+public struct StartSmartHomeApplianceDiscoveryInput {
     /// The room where smart home appliance discovery was initiated.
     /// This member is required.
     public var roomArn: Swift.String?
@@ -15194,7 +15194,7 @@ public struct StartSmartHomeApplianceDiscoveryInput: Swift.Equatable {
     }
 }
 
-struct StartSmartHomeApplianceDiscoveryInputBody: Swift.Equatable {
+struct StartSmartHomeApplianceDiscoveryInputBody {
     let roomArn: Swift.String?
 }
 
@@ -15215,7 +15215,7 @@ extension StartSmartHomeApplianceDiscoveryOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StartSmartHomeApplianceDiscoveryOutput: Swift.Equatable {
+public struct StartSmartHomeApplianceDiscoveryOutput {
 
     public init() { }
 }
@@ -15258,7 +15258,7 @@ extension AlexaForBusinessClientTypes.Tag: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// A key-value pair that can be associated with a resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of a tag. Tag keys are case-sensitive.
         /// This member is required.
         public var key: Swift.String?
@@ -15305,7 +15305,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource to which to add metadata tags. Required.
     /// This member is required.
     public var arn: Swift.String?
@@ -15323,7 +15323,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let arn: Swift.String?
     let tags: [AlexaForBusinessClientTypes.Tag]?
 }
@@ -15357,7 +15357,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -15432,7 +15432,7 @@ extension AlexaForBusinessClientTypes.Text: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// The text message.
-    public struct Text: Swift.Equatable {
+    public struct Text {
         /// The locale of the text message. Currently, en-US is supported.
         /// This member is required.
         public var locale: AlexaForBusinessClientTypes.Locale?
@@ -15491,7 +15491,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -15534,7 +15534,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource from which to remove metadata tags. Required.
     /// This member is required.
     public var arn: Swift.String?
@@ -15552,7 +15552,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let arn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -15586,7 +15586,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -15630,7 +15630,7 @@ extension UpdateAddressBookInput {
     }
 }
 
-public struct UpdateAddressBookInput: Swift.Equatable {
+public struct UpdateAddressBookInput {
     /// The ARN of the room to update.
     /// This member is required.
     public var addressBookArn: Swift.String?
@@ -15651,7 +15651,7 @@ public struct UpdateAddressBookInput: Swift.Equatable {
     }
 }
 
-struct UpdateAddressBookInputBody: Swift.Equatable {
+struct UpdateAddressBookInputBody {
     let addressBookArn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -15680,7 +15680,7 @@ extension UpdateAddressBookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAddressBookOutput: Swift.Equatable {
+public struct UpdateAddressBookOutput {
 
     public init() { }
 }
@@ -15738,7 +15738,7 @@ extension UpdateBusinessReportScheduleInput {
     }
 }
 
-public struct UpdateBusinessReportScheduleInput: Swift.Equatable {
+public struct UpdateBusinessReportScheduleInput {
     /// The format of the generated report (individual CSV files or zipped files of individual files).
     public var format: AlexaForBusinessClientTypes.BusinessReportFormat?
     /// The recurrence of the reports.
@@ -15771,7 +15771,7 @@ public struct UpdateBusinessReportScheduleInput: Swift.Equatable {
     }
 }
 
-struct UpdateBusinessReportScheduleInputBody: Swift.Equatable {
+struct UpdateBusinessReportScheduleInputBody {
     let scheduleArn: Swift.String?
     let s3BucketName: Swift.String?
     let s3KeyPrefix: Swift.String?
@@ -15812,7 +15812,7 @@ extension UpdateBusinessReportScheduleOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateBusinessReportScheduleOutput: Swift.Equatable {
+public struct UpdateBusinessReportScheduleOutput {
 
     public init() { }
 }
@@ -15865,7 +15865,7 @@ extension UpdateConferenceProviderInput {
     }
 }
 
-public struct UpdateConferenceProviderInput: Swift.Equatable {
+public struct UpdateConferenceProviderInput {
     /// The ARN of the conference provider.
     /// This member is required.
     public var conferenceProviderArn: Swift.String?
@@ -15896,7 +15896,7 @@ public struct UpdateConferenceProviderInput: Swift.Equatable {
     }
 }
 
-struct UpdateConferenceProviderInputBody: Swift.Equatable {
+struct UpdateConferenceProviderInputBody {
     let conferenceProviderArn: Swift.String?
     let conferenceProviderType: AlexaForBusinessClientTypes.ConferenceProviderType?
     let ipDialIn: AlexaForBusinessClientTypes.IPDialIn?
@@ -15933,7 +15933,7 @@ extension UpdateConferenceProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConferenceProviderOutput: Swift.Equatable {
+public struct UpdateConferenceProviderOutput {
 
     public init() { }
 }
@@ -16004,7 +16004,7 @@ extension UpdateContactInput {
     }
 }
 
-public struct UpdateContactInput: Swift.Equatable {
+public struct UpdateContactInput {
     /// The ARN of the contact to update.
     /// This member is required.
     public var contactArn: Swift.String?
@@ -16041,7 +16041,7 @@ public struct UpdateContactInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactInputBody: Swift.Equatable {
+struct UpdateContactInputBody {
     let contactArn: Swift.String?
     let displayName: Swift.String?
     let firstName: Swift.String?
@@ -16104,7 +16104,7 @@ extension UpdateContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactOutput: Swift.Equatable {
+public struct UpdateContactOutput {
 
     public init() { }
 }
@@ -16145,7 +16145,7 @@ extension UpdateDeviceInput {
     }
 }
 
-public struct UpdateDeviceInput: Swift.Equatable {
+public struct UpdateDeviceInput {
     /// The ARN of the device to update. Required.
     public var deviceArn: Swift.String?
     /// The updated device name. Required.
@@ -16161,7 +16161,7 @@ public struct UpdateDeviceInput: Swift.Equatable {
     }
 }
 
-struct UpdateDeviceInputBody: Swift.Equatable {
+struct UpdateDeviceInputBody {
     let deviceArn: Swift.String?
     let deviceName: Swift.String?
 }
@@ -16186,7 +16186,7 @@ extension UpdateDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDeviceOutput: Swift.Equatable {
+public struct UpdateDeviceOutput {
 
     public init() { }
 }
@@ -16249,7 +16249,7 @@ extension AlexaForBusinessClientTypes.UpdateEndOfMeetingReminder: Swift.Codable 
 
 extension AlexaForBusinessClientTypes {
     /// Settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending.
-    public struct UpdateEndOfMeetingReminder: Swift.Equatable {
+    public struct UpdateEndOfMeetingReminder {
         /// Whether an end of meeting reminder is enabled or not.
         public var enabled: Swift.Bool?
         /// Updates settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending.
@@ -16299,7 +16299,7 @@ extension UpdateGatewayGroupInput {
     }
 }
 
-public struct UpdateGatewayGroupInput: Swift.Equatable {
+public struct UpdateGatewayGroupInput {
     /// The updated description of the gateway group.
     public var description: Swift.String?
     /// The ARN of the gateway group to update.
@@ -16320,7 +16320,7 @@ public struct UpdateGatewayGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewayGroupInputBody: Swift.Equatable {
+struct UpdateGatewayGroupInputBody {
     let gatewayGroupArn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -16349,7 +16349,7 @@ extension UpdateGatewayGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGatewayGroupOutput: Swift.Equatable {
+public struct UpdateGatewayGroupOutput {
 
     public init() { }
 }
@@ -16398,7 +16398,7 @@ extension UpdateGatewayInput {
     }
 }
 
-public struct UpdateGatewayInput: Swift.Equatable {
+public struct UpdateGatewayInput {
     /// The updated description of the gateway.
     public var description: Swift.String?
     /// The ARN of the gateway to update.
@@ -16423,7 +16423,7 @@ public struct UpdateGatewayInput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewayInputBody: Swift.Equatable {
+struct UpdateGatewayInputBody {
     let gatewayArn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -16456,7 +16456,7 @@ extension UpdateGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGatewayOutput: Swift.Equatable {
+public struct UpdateGatewayOutput {
 
     public init() { }
 }
@@ -16500,7 +16500,7 @@ extension AlexaForBusinessClientTypes.UpdateInstantBooking: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Updates settings for the instant booking feature that are applied to a room profile. If instant booking is enabled, Alexa automatically reserves a room if it is free when a user joins a meeting with Alexa.
-    public struct UpdateInstantBooking: Swift.Equatable {
+    public struct UpdateInstantBooking {
         /// Duration between 15 and 240 minutes at increments of 15 that determines how long to book an available room when a meeting is started with Alexa.
         public var durationInMinutes: Swift.Int?
         /// Whether instant booking is enabled or not.
@@ -16563,7 +16563,7 @@ extension AlexaForBusinessClientTypes.UpdateMeetingRoomConfiguration: Swift.Coda
 
 extension AlexaForBusinessClientTypes {
     /// Updates meeting room settings of a room profile.
-    public struct UpdateMeetingRoomConfiguration: Swift.Equatable {
+    public struct UpdateMeetingRoomConfiguration {
         /// Settings for the end of meeting reminder feature that are applied to a room profile. The end of meeting reminder enables Alexa to remind users when a meeting is ending.
         public var endOfMeetingReminder: AlexaForBusinessClientTypes.UpdateEndOfMeetingReminder?
         /// Settings to automatically book an available room available for a configured duration when joining a meeting with Alexa.
@@ -16644,7 +16644,7 @@ extension UpdateNetworkProfileInput {
     }
 }
 
-public struct UpdateNetworkProfileInput: Swift.Equatable {
+public struct UpdateNetworkProfileInput {
     /// The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices.
     public var certificateAuthorityArn: Swift.String?
     /// The current password of the Wi-Fi network.
@@ -16681,7 +16681,7 @@ public struct UpdateNetworkProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateNetworkProfileInputBody: Swift.Equatable {
+struct UpdateNetworkProfileInputBody {
     let networkProfileArn: Swift.String?
     let networkProfileName: Swift.String?
     let description: Swift.String?
@@ -16735,7 +16735,7 @@ extension UpdateNetworkProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNetworkProfileOutput: Swift.Equatable {
+public struct UpdateNetworkProfileOutput {
 
     public init() { }
 }
@@ -16775,7 +16775,7 @@ extension AlexaForBusinessClientTypes.UpdateProactiveJoin: Swift.Codable {
 }
 
 extension AlexaForBusinessClientTypes {
-    public struct UpdateProactiveJoin: Swift.Equatable {
+    public struct UpdateProactiveJoin {
         /// This member is required.
         public var enabledByMotion: Swift.Bool?
 
@@ -16861,7 +16861,7 @@ extension UpdateProfileInput {
     }
 }
 
-public struct UpdateProfileInput: Swift.Equatable {
+public struct UpdateProfileInput {
     /// The updated address for the room profile.
     public var address: Swift.String?
     /// Whether data retention of the profile is enabled.
@@ -16925,7 +16925,7 @@ public struct UpdateProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileInputBody: Swift.Equatable {
+struct UpdateProfileInputBody {
     let profileArn: Swift.String?
     let profileName: Swift.String?
     let isDefault: Swift.Bool?
@@ -16998,7 +16998,7 @@ extension UpdateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProfileOutput: Swift.Equatable {
+public struct UpdateProfileOutput {
 
     public init() { }
 }
@@ -17043,7 +17043,7 @@ extension AlexaForBusinessClientTypes.UpdateRequireCheckIn: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Updates settings for the require check in feature that are applied to a room profile. Require check in allows a meeting room’s Alexa or AVS device to prompt the user to check in; otherwise, the room will be released.
-    public struct UpdateRequireCheckIn: Swift.Equatable {
+    public struct UpdateRequireCheckIn {
         /// Whether require check in is enabled or not.
         public var enabled: Swift.Bool?
         /// Duration between 5 and 20 minutes to determine when to release the room if it's not checked into.
@@ -17097,7 +17097,7 @@ extension UpdateRoomInput {
     }
 }
 
-public struct UpdateRoomInput: Swift.Equatable {
+public struct UpdateRoomInput {
     /// The updated description for the room.
     public var description: Swift.String?
     /// The updated profile ARN for the room.
@@ -17125,7 +17125,7 @@ public struct UpdateRoomInput: Swift.Equatable {
     }
 }
 
-struct UpdateRoomInputBody: Swift.Equatable {
+struct UpdateRoomInputBody {
     let roomArn: Swift.String?
     let roomName: Swift.String?
     let description: Swift.String?
@@ -17162,7 +17162,7 @@ extension UpdateRoomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRoomOutput: Swift.Equatable {
+public struct UpdateRoomOutput {
 
     public init() { }
 }
@@ -17207,7 +17207,7 @@ extension UpdateSkillGroupInput {
     }
 }
 
-public struct UpdateSkillGroupInput: Swift.Equatable {
+public struct UpdateSkillGroupInput {
     /// The updated description for the skill group.
     public var description: Swift.String?
     /// The ARN of the skill group to update.
@@ -17227,7 +17227,7 @@ public struct UpdateSkillGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateSkillGroupInputBody: Swift.Equatable {
+struct UpdateSkillGroupInputBody {
     let skillGroupArn: Swift.String?
     let skillGroupName: Swift.String?
     let description: Swift.String?
@@ -17256,7 +17256,7 @@ extension UpdateSkillGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSkillGroupOutput: Swift.Equatable {
+public struct UpdateSkillGroupOutput {
 
     public init() { }
 }
@@ -17325,7 +17325,7 @@ extension AlexaForBusinessClientTypes.UserData: Swift.Codable {
 
 extension AlexaForBusinessClientTypes {
     /// Information related to a user.
-    public struct UserData: Swift.Equatable {
+    public struct UserData {
         /// The email of a user.
         public var email: Swift.String?
         /// The enrollment ARN of a user.

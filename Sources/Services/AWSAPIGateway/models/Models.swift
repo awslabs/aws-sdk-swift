@@ -31,7 +31,7 @@ extension APIGatewayClientTypes.AccessLogSettings: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Access log settings, including the access log format and access log destination ARN.
-    public struct AccessLogSettings: Swift.Equatable {
+    public struct AccessLogSettings {
         /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or Kinesis Data Firehose delivery stream to receive access logs. If you specify a Kinesis Data Firehose delivery stream, the stream name must begin with amazon-apigateway-.
         public var destinationArn: Swift.String?
         /// A single line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId.
@@ -148,7 +148,7 @@ extension APIGatewayClientTypes.ApiKey: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage.
-    public struct ApiKey: Swift.Equatable {
+    public struct ApiKey {
         /// The timestamp when the API Key was created.
         public var createdDate: ClientRuntime.Date?
         /// An Amazon Web Services Marketplace customer identifier, when integrating with the Amazon Web Services SaaS Marketplace.
@@ -304,7 +304,7 @@ extension APIGatewayClientTypes.ApiStage: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// API stage name of the associated API stage in a usage plan.
-    public struct ApiStage: Swift.Equatable {
+    public struct ApiStage {
         /// API Id of the associated API stage in a usage plan.
         public var apiId: Swift.String?
         /// API stage name of the associated API stage in a usage plan.
@@ -413,7 +413,7 @@ extension APIGatewayClientTypes.Authorizer: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method.
-    public struct Authorizer: Swift.Equatable {
+    public struct Authorizer {
         /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
         public var authType: Swift.String?
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
@@ -538,7 +538,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -587,7 +587,7 @@ extension APIGatewayClientTypes.BasePathMapping: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents the base path that callers of the API must provide as part of the URL after the domain name.
-    public struct BasePathMapping: Swift.Equatable {
+    public struct BasePathMapping {
         /// The base path name that callers of the API must provide as part of the URL after the domain name.
         public var basePath: Swift.String?
         /// The string identifier of the associated RestApi.
@@ -753,7 +753,7 @@ extension APIGatewayClientTypes.CanarySettings: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Configuration settings of a canary deployment.
-    public struct CanarySettings: Swift.Equatable {
+    public struct CanarySettings {
         /// The ID of the canary deployment.
         public var deploymentId: Swift.String?
         /// The percent (0-100) of traffic diverted to a canary deployment.
@@ -842,7 +842,7 @@ extension APIGatewayClientTypes.ClientCertificate: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint.
-    public struct ClientCertificate: Swift.Equatable {
+    public struct ClientCertificate {
         /// The identifier of the client certificate.
         public var clientCertificateId: Swift.String?
         /// The timestamp when the client certificate was created.
@@ -915,7 +915,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1050,7 +1050,7 @@ extension CreateApiKeyInput {
 }
 
 /// Request to create an ApiKey resource.
-public struct CreateApiKeyInput: Swift.Equatable {
+public struct CreateApiKeyInput {
     /// An Amazon Web Services Marketplace customer identifier, when integrating with the Amazon Web Services SaaS Marketplace.
     public var customerId: Swift.String?
     /// The description of the ApiKey.
@@ -1090,7 +1090,7 @@ public struct CreateApiKeyInput: Swift.Equatable {
     }
 }
 
-struct CreateApiKeyInputBody: Swift.Equatable {
+struct CreateApiKeyInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let enabled: Swift.Bool?
@@ -1183,7 +1183,7 @@ extension CreateApiKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage.
-public struct CreateApiKeyOutput: Swift.Equatable {
+public struct CreateApiKeyOutput {
     /// The timestamp when the API Key was created.
     public var createdDate: ClientRuntime.Date?
     /// An Amazon Web Services Marketplace customer identifier, when integrating with the Amazon Web Services SaaS Marketplace.
@@ -1231,7 +1231,7 @@ public struct CreateApiKeyOutput: Swift.Equatable {
     }
 }
 
-struct CreateApiKeyOutputBody: Swift.Equatable {
+struct CreateApiKeyOutputBody {
     let id: Swift.String?
     let value: Swift.String?
     let name: Swift.String?
@@ -1376,7 +1376,7 @@ extension CreateAuthorizerInput {
 }
 
 /// Request to add a new Authorizer to an existing RestApi resource.
-public struct CreateAuthorizerInput: Swift.Equatable {
+public struct CreateAuthorizerInput {
     /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
     public var authType: Swift.String?
     /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
@@ -1427,7 +1427,7 @@ public struct CreateAuthorizerInput: Swift.Equatable {
     }
 }
 
-struct CreateAuthorizerInputBody: Swift.Equatable {
+struct CreateAuthorizerInputBody {
     let name: Swift.String?
     let type: APIGatewayClientTypes.AuthorizerType?
     let providerARNs: [Swift.String]?
@@ -1515,7 +1515,7 @@ extension CreateAuthorizerOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method.
-public struct CreateAuthorizerOutput: Swift.Equatable {
+public struct CreateAuthorizerOutput {
     /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
     public var authType: Swift.String?
     /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
@@ -1563,7 +1563,7 @@ public struct CreateAuthorizerOutput: Swift.Equatable {
     }
 }
 
-struct CreateAuthorizerOutputBody: Swift.Equatable {
+struct CreateAuthorizerOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let type: APIGatewayClientTypes.AuthorizerType?
@@ -1672,7 +1672,7 @@ extension CreateBasePathMappingInput {
 }
 
 /// Requests API Gateway to create a new BasePathMapping resource.
-public struct CreateBasePathMappingInput: Swift.Equatable {
+public struct CreateBasePathMappingInput {
     /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify a base path name after the domain name.
     public var basePath: Swift.String?
     /// The domain name of the BasePathMapping resource to create.
@@ -1698,7 +1698,7 @@ public struct CreateBasePathMappingInput: Swift.Equatable {
     }
 }
 
-struct CreateBasePathMappingInputBody: Swift.Equatable {
+struct CreateBasePathMappingInputBody {
     let basePath: Swift.String?
     let restApiId: Swift.String?
     let stage: Swift.String?
@@ -1739,7 +1739,7 @@ extension CreateBasePathMappingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the base path that callers of the API must provide as part of the URL after the domain name.
-public struct CreateBasePathMappingOutput: Swift.Equatable {
+public struct CreateBasePathMappingOutput {
     /// The base path name that callers of the API must provide as part of the URL after the domain name.
     public var basePath: Swift.String?
     /// The string identifier of the associated RestApi.
@@ -1759,7 +1759,7 @@ public struct CreateBasePathMappingOutput: Swift.Equatable {
     }
 }
 
-struct CreateBasePathMappingOutputBody: Swift.Equatable {
+struct CreateBasePathMappingOutputBody {
     let basePath: Swift.String?
     let restApiId: Swift.String?
     let stage: Swift.String?
@@ -1854,7 +1854,7 @@ extension CreateDeploymentInput {
 }
 
 /// Requests API Gateway to create a Deployment resource.
-public struct CreateDeploymentInput: Swift.Equatable {
+public struct CreateDeploymentInput {
     /// Enables a cache cluster for the Stage resource specified in the input.
     public var cacheClusterEnabled: Swift.Bool?
     /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
@@ -1899,7 +1899,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentInputBody: Swift.Equatable {
+struct CreateDeploymentInputBody {
     let stageName: Swift.String?
     let stageDescription: Swift.String?
     let description: Swift.String?
@@ -1971,7 +1971,7 @@ extension CreateDeploymentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet.
-public struct CreateDeploymentOutput: Swift.Equatable {
+public struct CreateDeploymentOutput {
     /// A summary of the RestApi at the date and time that the deployment resource was created.
     public var apiSummary: [Swift.String:[Swift.String:APIGatewayClientTypes.MethodSnapshot]]?
     /// The date and time that the deployment resource was created.
@@ -1995,7 +1995,7 @@ public struct CreateDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentOutputBody: Swift.Equatable {
+struct CreateDeploymentOutputBody {
     let id: Swift.String?
     let description: Swift.String?
     let createdDate: ClientRuntime.Date?
@@ -2084,7 +2084,7 @@ extension CreateDocumentationPartInput {
 }
 
 /// Creates a new documentation part of a given API.
-public struct CreateDocumentationPartInput: Swift.Equatable {
+public struct CreateDocumentationPartInput {
     /// The location of the targeted API entity of the to-be-created documentation part.
     /// This member is required.
     public var location: APIGatewayClientTypes.DocumentationPartLocation?
@@ -2107,7 +2107,7 @@ public struct CreateDocumentationPartInput: Swift.Equatable {
     }
 }
 
-struct CreateDocumentationPartInputBody: Swift.Equatable {
+struct CreateDocumentationPartInputBody {
     let location: APIGatewayClientTypes.DocumentationPartLocation?
     let properties: Swift.String?
 }
@@ -2144,7 +2144,7 @@ extension CreateDocumentationPartOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A documentation part for a targeted API entity.
-public struct CreateDocumentationPartOutput: Swift.Equatable {
+public struct CreateDocumentationPartOutput {
     /// The DocumentationPart identifier, generated by API Gateway when the DocumentationPart is created.
     public var id: Swift.String?
     /// The location of the API entity to which the documentation applies. Valid fields depend on the targeted API entity type. All the valid location fields are not required. If not explicitly specified, a valid location field is treated as a wildcard and associated documentation content may be inherited by matching entities, unless overridden.
@@ -2164,7 +2164,7 @@ public struct CreateDocumentationPartOutput: Swift.Equatable {
     }
 }
 
-struct CreateDocumentationPartOutputBody: Swift.Equatable {
+struct CreateDocumentationPartOutputBody {
     let id: Swift.String?
     let location: APIGatewayClientTypes.DocumentationPartLocation?
     let properties: Swift.String?
@@ -2236,7 +2236,7 @@ extension CreateDocumentationVersionInput {
 }
 
 /// Creates a new documentation version of a given API.
-public struct CreateDocumentationVersionInput: Swift.Equatable {
+public struct CreateDocumentationVersionInput {
     /// A description about the new documentation snapshot.
     public var description: Swift.String?
     /// The version identifier of the new snapshot.
@@ -2262,7 +2262,7 @@ public struct CreateDocumentationVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateDocumentationVersionInputBody: Swift.Equatable {
+struct CreateDocumentationVersionInputBody {
     let documentationVersion: Swift.String?
     let stageName: Swift.String?
     let description: Swift.String?
@@ -2303,7 +2303,7 @@ extension CreateDocumentationVersionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A snapshot of the documentation of an API.
-public struct CreateDocumentationVersionOutput: Swift.Equatable {
+public struct CreateDocumentationVersionOutput {
     /// The date when the API documentation snapshot is created.
     public var createdDate: ClientRuntime.Date?
     /// The description of the API documentation snapshot.
@@ -2323,7 +2323,7 @@ public struct CreateDocumentationVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateDocumentationVersionOutputBody: Swift.Equatable {
+struct CreateDocumentationVersionOutputBody {
     let version: Swift.String?
     let createdDate: ClientRuntime.Date?
     let description: Swift.String?
@@ -2435,7 +2435,7 @@ extension CreateDomainNameInput {
 }
 
 /// A request to create a new domain name.
-public struct CreateDomainNameInput: Swift.Equatable {
+public struct CreateDomainNameInput {
     /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
     /// [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
@@ -2496,7 +2496,7 @@ public struct CreateDomainNameInput: Swift.Equatable {
     }
 }
 
-struct CreateDomainNameInputBody: Swift.Equatable {
+struct CreateDomainNameInputBody {
     let domainName: Swift.String?
     let certificateName: Swift.String?
     let certificateBody: Swift.String?
@@ -2614,7 +2614,7 @@ extension CreateDomainNameOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
-public struct CreateDomainNameOutput: Swift.Equatable {
+public struct CreateDomainNameOutput {
     /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
     /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
@@ -2690,7 +2690,7 @@ public struct CreateDomainNameOutput: Swift.Equatable {
     }
 }
 
-struct CreateDomainNameOutputBody: Swift.Equatable {
+struct CreateDomainNameOutputBody {
     let domainName: Swift.String?
     let certificateName: Swift.String?
     let certificateArn: Swift.String?
@@ -2830,7 +2830,7 @@ extension CreateModelInput {
 }
 
 /// Request to add a new Model to an existing RestApi resource.
-public struct CreateModelInput: Swift.Equatable {
+public struct CreateModelInput {
     /// The content-type for the model.
     /// This member is required.
     public var contentType: Swift.String?
@@ -2861,7 +2861,7 @@ public struct CreateModelInput: Swift.Equatable {
     }
 }
 
-struct CreateModelInputBody: Swift.Equatable {
+struct CreateModelInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let schema: Swift.String?
@@ -2910,7 +2910,7 @@ extension CreateModelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the data structure of a method's request or response payload.
-public struct CreateModelOutput: Swift.Equatable {
+public struct CreateModelOutput {
     /// The content-type for the model.
     public var contentType: Swift.String?
     /// The description of the model.
@@ -2938,7 +2938,7 @@ public struct CreateModelOutput: Swift.Equatable {
     }
 }
 
-struct CreateModelOutputBody: Swift.Equatable {
+struct CreateModelOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -3018,7 +3018,7 @@ extension CreateRequestValidatorInput {
 }
 
 /// Creates a RequestValidator of a given RestApi.
-public struct CreateRequestValidatorInput: Swift.Equatable {
+public struct CreateRequestValidatorInput {
     /// The name of the to-be-created RequestValidator.
     public var name: Swift.String?
     /// The string identifier of the associated RestApi.
@@ -3043,7 +3043,7 @@ public struct CreateRequestValidatorInput: Swift.Equatable {
     }
 }
 
-struct CreateRequestValidatorInputBody: Swift.Equatable {
+struct CreateRequestValidatorInputBody {
     let name: Swift.String?
     let validateRequestBody: Swift.Bool?
     let validateRequestParameters: Swift.Bool?
@@ -3086,7 +3086,7 @@ extension CreateRequestValidatorOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A set of validation rules for incoming Method requests.
-public struct CreateRequestValidatorOutput: Swift.Equatable {
+public struct CreateRequestValidatorOutput {
     /// The identifier of this RequestValidator.
     public var id: Swift.String?
     /// The name of this RequestValidator
@@ -3110,7 +3110,7 @@ public struct CreateRequestValidatorOutput: Swift.Equatable {
     }
 }
 
-struct CreateRequestValidatorOutputBody: Swift.Equatable {
+struct CreateRequestValidatorOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let validateRequestBody: Swift.Bool
@@ -3181,7 +3181,7 @@ extension CreateResourceInput {
 }
 
 /// Requests API Gateway to create a Resource resource.
-public struct CreateResourceInput: Swift.Equatable {
+public struct CreateResourceInput {
     /// The parent resource's identifier.
     /// This member is required.
     public var parentId: Swift.String?
@@ -3204,7 +3204,7 @@ public struct CreateResourceInput: Swift.Equatable {
     }
 }
 
-struct CreateResourceInputBody: Swift.Equatable {
+struct CreateResourceInputBody {
     let pathPart: Swift.String?
 }
 
@@ -3241,7 +3241,7 @@ extension CreateResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an API resource.
-public struct CreateResourceOutput: Swift.Equatable {
+public struct CreateResourceOutput {
     /// The resource's identifier.
     public var id: Swift.String?
     /// The parent resource's identifier.
@@ -3269,7 +3269,7 @@ public struct CreateResourceOutput: Swift.Equatable {
     }
 }
 
-struct CreateResourceOutputBody: Swift.Equatable {
+struct CreateResourceOutputBody {
     let id: Swift.String?
     let parentId: Swift.String?
     let pathPart: Swift.String?
@@ -3393,7 +3393,7 @@ extension CreateRestApiInput {
 }
 
 /// The POST Request to add a new RestApi resource to your collection.
-public struct CreateRestApiInput: Swift.Equatable {
+public struct CreateRestApiInput {
     /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
     public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
@@ -3446,7 +3446,7 @@ public struct CreateRestApiInput: Swift.Equatable {
     }
 }
 
-struct CreateRestApiInputBody: Swift.Equatable {
+struct CreateRestApiInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let version: Swift.String?
@@ -3559,7 +3559,7 @@ extension CreateRestApiOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a REST API.
-public struct CreateRestApiOutput: Swift.Equatable {
+public struct CreateRestApiOutput {
     /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
     public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
@@ -3623,7 +3623,7 @@ public struct CreateRestApiOutput: Swift.Equatable {
     }
 }
 
-struct CreateRestApiOutputBody: Swift.Equatable {
+struct CreateRestApiOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -3799,7 +3799,7 @@ extension CreateStageInput {
 }
 
 /// Requests API Gateway to create a Stage resource.
-public struct CreateStageInput: Swift.Equatable {
+public struct CreateStageInput {
     /// Whether cache clustering is enabled for the stage.
     public var cacheClusterEnabled: Swift.Bool?
     /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
@@ -3854,7 +3854,7 @@ public struct CreateStageInput: Swift.Equatable {
     }
 }
 
-struct CreateStageInputBody: Swift.Equatable {
+struct CreateStageInputBody {
     let stageName: Swift.String?
     let deploymentId: Swift.String?
     let description: Swift.String?
@@ -3969,7 +3969,7 @@ extension CreateStageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a unique identifier for a version of a deployed RestApi that is callable by users.
-public struct CreateStageOutput: Swift.Equatable {
+public struct CreateStageOutput {
     /// Settings for logging access in this stage.
     public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
     /// Specifies whether a cache cluster is enabled for the stage. To activate a method-level cache, set CachingEnabled to true for a method.
@@ -4045,7 +4045,7 @@ public struct CreateStageOutput: Swift.Equatable {
     }
 }
 
-struct CreateStageOutputBody: Swift.Equatable {
+struct CreateStageOutputBody {
     let deploymentId: Swift.String?
     let clientCertificateId: Swift.String?
     let stageName: Swift.String?
@@ -4215,7 +4215,7 @@ extension CreateUsagePlanInput {
 }
 
 /// The POST request to create a usage plan with the name, description, throttle limits and quota limits, as well as the associated API stages, specified in the payload.
-public struct CreateUsagePlanInput: Swift.Equatable {
+public struct CreateUsagePlanInput {
     /// The associated API stages of the usage plan.
     public var apiStages: [APIGatewayClientTypes.ApiStage]?
     /// The description of the usage plan.
@@ -4248,7 +4248,7 @@ public struct CreateUsagePlanInput: Swift.Equatable {
     }
 }
 
-struct CreateUsagePlanInputBody: Swift.Equatable {
+struct CreateUsagePlanInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let apiStages: [APIGatewayClientTypes.ApiStage]?
@@ -4330,7 +4330,7 @@ extension CreateUsagePlanKeyInput {
 }
 
 /// The POST request to create a usage plan key for adding an existing API key to a usage plan.
-public struct CreateUsagePlanKeyInput: Swift.Equatable {
+public struct CreateUsagePlanKeyInput {
     /// The identifier of a UsagePlanKey resource for a plan customer.
     /// This member is required.
     public var keyId: Swift.String?
@@ -4353,7 +4353,7 @@ public struct CreateUsagePlanKeyInput: Swift.Equatable {
     }
 }
 
-struct CreateUsagePlanKeyInputBody: Swift.Equatable {
+struct CreateUsagePlanKeyInputBody {
     let keyId: Swift.String?
     let keyType: Swift.String?
 }
@@ -4392,7 +4392,7 @@ extension CreateUsagePlanKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a usage plan key to identify a plan customer.
-public struct CreateUsagePlanKeyOutput: Swift.Equatable {
+public struct CreateUsagePlanKeyOutput {
     /// The Id of a usage plan key.
     public var id: Swift.String?
     /// The name of a usage plan key.
@@ -4416,7 +4416,7 @@ public struct CreateUsagePlanKeyOutput: Swift.Equatable {
     }
 }
 
-struct CreateUsagePlanKeyOutputBody: Swift.Equatable {
+struct CreateUsagePlanKeyOutputBody {
     let id: Swift.String?
     let type: Swift.String?
     let value: Swift.String?
@@ -4487,7 +4487,7 @@ extension CreateUsagePlanOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests.
-public struct CreateUsagePlanOutput: Swift.Equatable {
+public struct CreateUsagePlanOutput {
     /// The associated API stages of a usage plan.
     public var apiStages: [APIGatewayClientTypes.ApiStage]?
     /// The description of a usage plan.
@@ -4527,7 +4527,7 @@ public struct CreateUsagePlanOutput: Swift.Equatable {
     }
 }
 
-struct CreateUsagePlanOutputBody: Swift.Equatable {
+struct CreateUsagePlanOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -4644,7 +4644,7 @@ extension CreateVpcLinkInput {
 }
 
 /// Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
-public struct CreateVpcLinkInput: Swift.Equatable {
+public struct CreateVpcLinkInput {
     /// The description of the VPC link.
     public var description: Swift.String?
     /// The name used to label and identify the VPC link.
@@ -4670,7 +4670,7 @@ public struct CreateVpcLinkInput: Swift.Equatable {
     }
 }
 
-struct CreateVpcLinkInputBody: Swift.Equatable {
+struct CreateVpcLinkInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let targetArns: [Swift.String]?
@@ -4741,7 +4741,7 @@ extension CreateVpcLinkOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC).
-public struct CreateVpcLinkOutput: Swift.Equatable {
+public struct CreateVpcLinkOutput {
     /// The description of the VPC link.
     public var description: Swift.String?
     /// The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
@@ -4777,7 +4777,7 @@ public struct CreateVpcLinkOutput: Swift.Equatable {
     }
 }
 
-struct CreateVpcLinkOutputBody: Swift.Equatable {
+struct CreateVpcLinkOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -4861,7 +4861,7 @@ extension DeleteApiKeyInput {
 }
 
 /// A request to delete the ApiKey resource.
-public struct DeleteApiKeyInput: Swift.Equatable {
+public struct DeleteApiKeyInput {
     /// The identifier of the ApiKey resource to be deleted.
     /// This member is required.
     public var apiKey: Swift.String?
@@ -4874,7 +4874,7 @@ public struct DeleteApiKeyInput: Swift.Equatable {
     }
 }
 
-struct DeleteApiKeyInputBody: Swift.Equatable {
+struct DeleteApiKeyInputBody {
 }
 
 extension DeleteApiKeyInputBody: Swift.Decodable {
@@ -4888,7 +4888,7 @@ extension DeleteApiKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApiKeyOutput: Swift.Equatable {
+public struct DeleteApiKeyOutput {
 
     public init() { }
 }
@@ -4922,7 +4922,7 @@ extension DeleteAuthorizerInput {
 }
 
 /// Request to delete an existing Authorizer resource.
-public struct DeleteAuthorizerInput: Swift.Equatable {
+public struct DeleteAuthorizerInput {
     /// The identifier of the Authorizer resource.
     /// This member is required.
     public var authorizerId: Swift.String?
@@ -4940,7 +4940,7 @@ public struct DeleteAuthorizerInput: Swift.Equatable {
     }
 }
 
-struct DeleteAuthorizerInputBody: Swift.Equatable {
+struct DeleteAuthorizerInputBody {
 }
 
 extension DeleteAuthorizerInputBody: Swift.Decodable {
@@ -4954,7 +4954,7 @@ extension DeleteAuthorizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAuthorizerOutput: Swift.Equatable {
+public struct DeleteAuthorizerOutput {
 
     public init() { }
 }
@@ -4988,7 +4988,7 @@ extension DeleteBasePathMappingInput {
 }
 
 /// A request to delete the BasePathMapping resource.
-public struct DeleteBasePathMappingInput: Swift.Equatable {
+public struct DeleteBasePathMappingInput {
     /// The base path name of the BasePathMapping resource to delete. To specify an empty base path, set this parameter to '(none)'.
     /// This member is required.
     public var basePath: Swift.String?
@@ -5006,7 +5006,7 @@ public struct DeleteBasePathMappingInput: Swift.Equatable {
     }
 }
 
-struct DeleteBasePathMappingInputBody: Swift.Equatable {
+struct DeleteBasePathMappingInputBody {
 }
 
 extension DeleteBasePathMappingInputBody: Swift.Decodable {
@@ -5020,7 +5020,7 @@ extension DeleteBasePathMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBasePathMappingOutput: Swift.Equatable {
+public struct DeleteBasePathMappingOutput {
 
     public init() { }
 }
@@ -5051,7 +5051,7 @@ extension DeleteClientCertificateInput {
 }
 
 /// A request to delete the ClientCertificate resource.
-public struct DeleteClientCertificateInput: Swift.Equatable {
+public struct DeleteClientCertificateInput {
     /// The identifier of the ClientCertificate resource to be deleted.
     /// This member is required.
     public var clientCertificateId: Swift.String?
@@ -5064,7 +5064,7 @@ public struct DeleteClientCertificateInput: Swift.Equatable {
     }
 }
 
-struct DeleteClientCertificateInputBody: Swift.Equatable {
+struct DeleteClientCertificateInputBody {
 }
 
 extension DeleteClientCertificateInputBody: Swift.Decodable {
@@ -5078,7 +5078,7 @@ extension DeleteClientCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteClientCertificateOutput: Swift.Equatable {
+public struct DeleteClientCertificateOutput {
 
     public init() { }
 }
@@ -5112,7 +5112,7 @@ extension DeleteDeploymentInput {
 }
 
 /// Requests API Gateway to delete a Deployment resource.
-public struct DeleteDeploymentInput: Swift.Equatable {
+public struct DeleteDeploymentInput {
     /// The identifier of the Deployment resource to delete.
     /// This member is required.
     public var deploymentId: Swift.String?
@@ -5130,7 +5130,7 @@ public struct DeleteDeploymentInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeploymentInputBody: Swift.Equatable {
+struct DeleteDeploymentInputBody {
 }
 
 extension DeleteDeploymentInputBody: Swift.Decodable {
@@ -5144,7 +5144,7 @@ extension DeleteDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeploymentOutput: Swift.Equatable {
+public struct DeleteDeploymentOutput {
 
     public init() { }
 }
@@ -5179,7 +5179,7 @@ extension DeleteDocumentationPartInput {
 }
 
 /// Deletes an existing documentation part of an API.
-public struct DeleteDocumentationPartInput: Swift.Equatable {
+public struct DeleteDocumentationPartInput {
     /// The identifier of the to-be-deleted documentation part.
     /// This member is required.
     public var documentationPartId: Swift.String?
@@ -5197,7 +5197,7 @@ public struct DeleteDocumentationPartInput: Swift.Equatable {
     }
 }
 
-struct DeleteDocumentationPartInputBody: Swift.Equatable {
+struct DeleteDocumentationPartInputBody {
 }
 
 extension DeleteDocumentationPartInputBody: Swift.Decodable {
@@ -5211,7 +5211,7 @@ extension DeleteDocumentationPartOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDocumentationPartOutput: Swift.Equatable {
+public struct DeleteDocumentationPartOutput {
 
     public init() { }
 }
@@ -5245,7 +5245,7 @@ extension DeleteDocumentationVersionInput {
 }
 
 /// Deletes an existing documentation version of an API.
-public struct DeleteDocumentationVersionInput: Swift.Equatable {
+public struct DeleteDocumentationVersionInput {
     /// The version identifier of a to-be-deleted documentation snapshot.
     /// This member is required.
     public var documentationVersion: Swift.String?
@@ -5263,7 +5263,7 @@ public struct DeleteDocumentationVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteDocumentationVersionInputBody: Swift.Equatable {
+struct DeleteDocumentationVersionInputBody {
 }
 
 extension DeleteDocumentationVersionInputBody: Swift.Decodable {
@@ -5277,7 +5277,7 @@ extension DeleteDocumentationVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDocumentationVersionOutput: Swift.Equatable {
+public struct DeleteDocumentationVersionOutput {
 
     public init() { }
 }
@@ -5308,7 +5308,7 @@ extension DeleteDomainNameInput {
 }
 
 /// A request to delete the DomainName resource.
-public struct DeleteDomainNameInput: Swift.Equatable {
+public struct DeleteDomainNameInput {
     /// The name of the DomainName resource to be deleted.
     /// This member is required.
     public var domainName: Swift.String?
@@ -5321,7 +5321,7 @@ public struct DeleteDomainNameInput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainNameInputBody: Swift.Equatable {
+struct DeleteDomainNameInputBody {
 }
 
 extension DeleteDomainNameInputBody: Swift.Decodable {
@@ -5335,7 +5335,7 @@ extension DeleteDomainNameOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDomainNameOutput: Swift.Equatable {
+public struct DeleteDomainNameOutput {
 
     public init() { }
 }
@@ -5369,7 +5369,7 @@ extension DeleteGatewayResponseInput {
 }
 
 /// Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
-public struct DeleteGatewayResponseInput: Swift.Equatable {
+public struct DeleteGatewayResponseInput {
     /// The response type of the associated GatewayResponse.
     /// This member is required.
     public var responseType: APIGatewayClientTypes.GatewayResponseType?
@@ -5387,7 +5387,7 @@ public struct DeleteGatewayResponseInput: Swift.Equatable {
     }
 }
 
-struct DeleteGatewayResponseInputBody: Swift.Equatable {
+struct DeleteGatewayResponseInputBody {
 }
 
 extension DeleteGatewayResponseInputBody: Swift.Decodable {
@@ -5401,7 +5401,7 @@ extension DeleteGatewayResponseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGatewayResponseOutput: Swift.Equatable {
+public struct DeleteGatewayResponseOutput {
 
     public init() { }
 }
@@ -5438,7 +5438,7 @@ extension DeleteIntegrationInput {
 }
 
 /// Represents a delete integration request.
-public struct DeleteIntegrationInput: Swift.Equatable {
+public struct DeleteIntegrationInput {
     /// Specifies a delete integration request's HTTP method.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -5461,7 +5461,7 @@ public struct DeleteIntegrationInput: Swift.Equatable {
     }
 }
 
-struct DeleteIntegrationInputBody: Swift.Equatable {
+struct DeleteIntegrationInputBody {
 }
 
 extension DeleteIntegrationInputBody: Swift.Decodable {
@@ -5475,7 +5475,7 @@ extension DeleteIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIntegrationOutput: Swift.Equatable {
+public struct DeleteIntegrationOutput {
 
     public init() { }
 }
@@ -5515,7 +5515,7 @@ extension DeleteIntegrationResponseInput {
 }
 
 /// Represents a delete integration response request.
-public struct DeleteIntegrationResponseInput: Swift.Equatable {
+public struct DeleteIntegrationResponseInput {
     /// Specifies a delete integration response request's HTTP method.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -5543,7 +5543,7 @@ public struct DeleteIntegrationResponseInput: Swift.Equatable {
     }
 }
 
-struct DeleteIntegrationResponseInputBody: Swift.Equatable {
+struct DeleteIntegrationResponseInputBody {
 }
 
 extension DeleteIntegrationResponseInputBody: Swift.Decodable {
@@ -5557,7 +5557,7 @@ extension DeleteIntegrationResponseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIntegrationResponseOutput: Swift.Equatable {
+public struct DeleteIntegrationResponseOutput {
 
     public init() { }
 }
@@ -5594,7 +5594,7 @@ extension DeleteMethodInput {
 }
 
 /// Request to delete an existing Method resource.
-public struct DeleteMethodInput: Swift.Equatable {
+public struct DeleteMethodInput {
     /// The HTTP verb of the Method resource.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -5617,7 +5617,7 @@ public struct DeleteMethodInput: Swift.Equatable {
     }
 }
 
-struct DeleteMethodInputBody: Swift.Equatable {
+struct DeleteMethodInputBody {
 }
 
 extension DeleteMethodInputBody: Swift.Decodable {
@@ -5631,7 +5631,7 @@ extension DeleteMethodOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMethodOutput: Swift.Equatable {
+public struct DeleteMethodOutput {
 
     public init() { }
 }
@@ -5670,7 +5670,7 @@ extension DeleteMethodResponseInput {
 }
 
 /// A request to delete an existing MethodResponse resource.
-public struct DeleteMethodResponseInput: Swift.Equatable {
+public struct DeleteMethodResponseInput {
     /// The HTTP verb of the Method resource.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -5698,7 +5698,7 @@ public struct DeleteMethodResponseInput: Swift.Equatable {
     }
 }
 
-struct DeleteMethodResponseInputBody: Swift.Equatable {
+struct DeleteMethodResponseInputBody {
 }
 
 extension DeleteMethodResponseInputBody: Swift.Decodable {
@@ -5712,7 +5712,7 @@ extension DeleteMethodResponseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMethodResponseOutput: Swift.Equatable {
+public struct DeleteMethodResponseOutput {
 
     public init() { }
 }
@@ -5746,7 +5746,7 @@ extension DeleteModelInput {
 }
 
 /// Request to delete an existing model in an existing RestApi resource.
-public struct DeleteModelInput: Swift.Equatable {
+public struct DeleteModelInput {
     /// The name of the model to delete.
     /// This member is required.
     public var modelName: Swift.String?
@@ -5764,7 +5764,7 @@ public struct DeleteModelInput: Swift.Equatable {
     }
 }
 
-struct DeleteModelInputBody: Swift.Equatable {
+struct DeleteModelInputBody {
 }
 
 extension DeleteModelInputBody: Swift.Decodable {
@@ -5778,7 +5778,7 @@ extension DeleteModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteModelOutput: Swift.Equatable {
+public struct DeleteModelOutput {
 
     public init() { }
 }
@@ -5812,7 +5812,7 @@ extension DeleteRequestValidatorInput {
 }
 
 /// Deletes a specified RequestValidator of a given RestApi.
-public struct DeleteRequestValidatorInput: Swift.Equatable {
+public struct DeleteRequestValidatorInput {
     /// The identifier of the RequestValidator to be deleted.
     /// This member is required.
     public var requestValidatorId: Swift.String?
@@ -5830,7 +5830,7 @@ public struct DeleteRequestValidatorInput: Swift.Equatable {
     }
 }
 
-struct DeleteRequestValidatorInputBody: Swift.Equatable {
+struct DeleteRequestValidatorInputBody {
 }
 
 extension DeleteRequestValidatorInputBody: Swift.Decodable {
@@ -5844,7 +5844,7 @@ extension DeleteRequestValidatorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRequestValidatorOutput: Swift.Equatable {
+public struct DeleteRequestValidatorOutput {
 
     public init() { }
 }
@@ -5878,7 +5878,7 @@ extension DeleteResourceInput {
 }
 
 /// Request to delete a Resource.
-public struct DeleteResourceInput: Swift.Equatable {
+public struct DeleteResourceInput {
     /// The identifier of the Resource resource.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -5896,7 +5896,7 @@ public struct DeleteResourceInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourceInputBody: Swift.Equatable {
+struct DeleteResourceInputBody {
 }
 
 extension DeleteResourceInputBody: Swift.Decodable {
@@ -5910,7 +5910,7 @@ extension DeleteResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourceOutput: Swift.Equatable {
+public struct DeleteResourceOutput {
 
     public init() { }
 }
@@ -5941,7 +5941,7 @@ extension DeleteRestApiInput {
 }
 
 /// Request to delete the specified API from your collection.
-public struct DeleteRestApiInput: Swift.Equatable {
+public struct DeleteRestApiInput {
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
@@ -5954,7 +5954,7 @@ public struct DeleteRestApiInput: Swift.Equatable {
     }
 }
 
-struct DeleteRestApiInputBody: Swift.Equatable {
+struct DeleteRestApiInputBody {
 }
 
 extension DeleteRestApiInputBody: Swift.Decodable {
@@ -5968,7 +5968,7 @@ extension DeleteRestApiOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRestApiOutput: Swift.Equatable {
+public struct DeleteRestApiOutput {
 
     public init() { }
 }
@@ -6002,7 +6002,7 @@ extension DeleteStageInput {
 }
 
 /// Requests API Gateway to delete a Stage resource.
-public struct DeleteStageInput: Swift.Equatable {
+public struct DeleteStageInput {
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
@@ -6020,7 +6020,7 @@ public struct DeleteStageInput: Swift.Equatable {
     }
 }
 
-struct DeleteStageInputBody: Swift.Equatable {
+struct DeleteStageInputBody {
 }
 
 extension DeleteStageInputBody: Swift.Decodable {
@@ -6034,7 +6034,7 @@ extension DeleteStageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteStageOutput: Swift.Equatable {
+public struct DeleteStageOutput {
 
     public init() { }
 }
@@ -6066,7 +6066,7 @@ extension DeleteUsagePlanInput {
 }
 
 /// The DELETE request to delete a usage plan of a given plan Id.
-public struct DeleteUsagePlanInput: Swift.Equatable {
+public struct DeleteUsagePlanInput {
     /// The Id of the to-be-deleted usage plan.
     /// This member is required.
     public var usagePlanId: Swift.String?
@@ -6079,7 +6079,7 @@ public struct DeleteUsagePlanInput: Swift.Equatable {
     }
 }
 
-struct DeleteUsagePlanInputBody: Swift.Equatable {
+struct DeleteUsagePlanInputBody {
 }
 
 extension DeleteUsagePlanInputBody: Swift.Decodable {
@@ -6102,7 +6102,7 @@ extension DeleteUsagePlanKeyInput {
 }
 
 /// The DELETE request to delete a usage plan key and remove the underlying API key from the associated usage plan.
-public struct DeleteUsagePlanKeyInput: Swift.Equatable {
+public struct DeleteUsagePlanKeyInput {
     /// The Id of the UsagePlanKey resource to be deleted.
     /// This member is required.
     public var keyId: Swift.String?
@@ -6120,7 +6120,7 @@ public struct DeleteUsagePlanKeyInput: Swift.Equatable {
     }
 }
 
-struct DeleteUsagePlanKeyInputBody: Swift.Equatable {
+struct DeleteUsagePlanKeyInputBody {
 }
 
 extension DeleteUsagePlanKeyInputBody: Swift.Decodable {
@@ -6134,7 +6134,7 @@ extension DeleteUsagePlanKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUsagePlanKeyOutput: Swift.Equatable {
+public struct DeleteUsagePlanKeyOutput {
 
     public init() { }
 }
@@ -6159,7 +6159,7 @@ extension DeleteUsagePlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUsagePlanOutput: Swift.Equatable {
+public struct DeleteUsagePlanOutput {
 
     public init() { }
 }
@@ -6190,7 +6190,7 @@ extension DeleteVpcLinkInput {
 }
 
 /// Deletes an existing VpcLink of a specified identifier.
-public struct DeleteVpcLinkInput: Swift.Equatable {
+public struct DeleteVpcLinkInput {
     /// The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
     /// This member is required.
     public var vpcLinkId: Swift.String?
@@ -6203,7 +6203,7 @@ public struct DeleteVpcLinkInput: Swift.Equatable {
     }
 }
 
-struct DeleteVpcLinkInputBody: Swift.Equatable {
+struct DeleteVpcLinkInputBody {
 }
 
 extension DeleteVpcLinkInputBody: Swift.Decodable {
@@ -6217,7 +6217,7 @@ extension DeleteVpcLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVpcLinkOutput: Swift.Equatable {
+public struct DeleteVpcLinkOutput {
 
     public init() { }
 }
@@ -6298,7 +6298,7 @@ extension APIGatewayClientTypes.Deployment: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet.
-    public struct Deployment: Swift.Equatable {
+    public struct Deployment {
         /// A summary of the RestApi at the date and time that the deployment resource was created.
         public var apiSummary: [Swift.String:[Swift.String:APIGatewayClientTypes.MethodSnapshot]]?
         /// The date and time that the deployment resource was created.
@@ -6369,7 +6369,7 @@ extension APIGatewayClientTypes.DeploymentCanarySettings: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// The input configuration for a canary deployment.
-    public struct DeploymentCanarySettings: Swift.Equatable {
+    public struct DeploymentCanarySettings {
         /// The percentage (0.0-100.0) of traffic routed to the canary deployment.
         public var percentTraffic: Swift.Double
         /// A stage variable overrides used for the canary release deployment. They can override existing stage variables or add new stage variables for the canary release deployment. These stage variables are represented as a string-to-string map between stage variable names and their values.
@@ -6424,7 +6424,7 @@ extension APIGatewayClientTypes.DocumentationPart: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// A documentation part for a targeted API entity.
-    public struct DocumentationPart: Swift.Equatable {
+    public struct DocumentationPart {
         /// The DocumentationPart identifier, generated by API Gateway when the DocumentationPart is created.
         public var id: Swift.String?
         /// The location of the API entity to which the documentation applies. Valid fields depend on the targeted API entity type. All the valid location fields are not required. If not explicitly specified, a valid location field is treated as a wildcard and associated documentation content may be inherited by matching entities, unless overridden.
@@ -6491,7 +6491,7 @@ extension APIGatewayClientTypes.DocumentationPartLocation: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Specifies the target API entity to which the documentation applies.
-    public struct DocumentationPartLocation: Swift.Equatable {
+    public struct DocumentationPartLocation {
         /// The HTTP verb of a method. It is a valid field for the API entity types of METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly.
         public var method: Swift.String?
         /// The name of the targeted API entity. It is a valid and required field for the API entity types of AUTHORIZER, MODEL, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY and RESPONSE_HEADER. It is an invalid field for any other entity type.
@@ -6617,7 +6617,7 @@ extension APIGatewayClientTypes.DocumentationVersion: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// A snapshot of the documentation of an API.
-    public struct DocumentationVersion: Swift.Equatable {
+    public struct DocumentationVersion {
         /// The date when the API documentation snapshot is created.
         public var createdDate: ClientRuntime.Date?
         /// The description of the API documentation snapshot.
@@ -6768,7 +6768,7 @@ extension APIGatewayClientTypes.DomainName: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
-    public struct DomainName: Swift.Equatable {
+    public struct DomainName {
         /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
         public var certificateArn: Swift.String?
         /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
@@ -6938,7 +6938,7 @@ extension APIGatewayClientTypes.EndpointConfiguration: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// The endpoint configuration to indicate the types of endpoints an API (RestApi) or its custom domain name (DomainName) has.
-    public struct EndpointConfiguration: Swift.Equatable {
+    public struct EndpointConfiguration {
         /// A list of endpoint types of an API (RestApi) or its custom domain name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE". For a regional API and its custom domain name, the endpoint type is REGIONAL. For a private API, the endpoint type is PRIVATE.
         public var types: [APIGatewayClientTypes.EndpointType]?
         /// A list of VpcEndpointIds of an API (RestApi) against which to create Route53 ALIASes. It is only supported for PRIVATE endpoint type.
@@ -7006,7 +7006,7 @@ extension FlushStageAuthorizersCacheInput {
 }
 
 /// Request to flush authorizer cache entries on a specified stage.
-public struct FlushStageAuthorizersCacheInput: Swift.Equatable {
+public struct FlushStageAuthorizersCacheInput {
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
@@ -7024,7 +7024,7 @@ public struct FlushStageAuthorizersCacheInput: Swift.Equatable {
     }
 }
 
-struct FlushStageAuthorizersCacheInputBody: Swift.Equatable {
+struct FlushStageAuthorizersCacheInputBody {
 }
 
 extension FlushStageAuthorizersCacheInputBody: Swift.Decodable {
@@ -7038,7 +7038,7 @@ extension FlushStageAuthorizersCacheOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct FlushStageAuthorizersCacheOutput: Swift.Equatable {
+public struct FlushStageAuthorizersCacheOutput {
 
     public init() { }
 }
@@ -7073,7 +7073,7 @@ extension FlushStageCacheInput {
 }
 
 /// Requests API Gateway to flush a stage's cache.
-public struct FlushStageCacheInput: Swift.Equatable {
+public struct FlushStageCacheInput {
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
@@ -7091,7 +7091,7 @@ public struct FlushStageCacheInput: Swift.Equatable {
     }
 }
 
-struct FlushStageCacheInputBody: Swift.Equatable {
+struct FlushStageCacheInputBody {
 }
 
 extension FlushStageCacheInputBody: Swift.Decodable {
@@ -7105,7 +7105,7 @@ extension FlushStageCacheOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct FlushStageCacheOutput: Swift.Equatable {
+public struct FlushStageCacheOutput {
 
     public init() { }
 }
@@ -7195,7 +7195,7 @@ extension APIGatewayClientTypes.GatewayResponse: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// A gateway response of a given response type and status code, with optional response parameters and mapping templates.
-    public struct GatewayResponse: Swift.Equatable {
+    public struct GatewayResponse {
         /// A Boolean flag to indicate whether this GatewayResponse is the default gateway response (true) or not (false). A default gateway response is one generated by API Gateway without any customization by an API developer.
         public var defaultResponse: Swift.Bool
         /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
@@ -7342,7 +7342,7 @@ extension GenerateClientCertificateInput {
 }
 
 /// A request to generate a ClientCertificate resource.
-public struct GenerateClientCertificateInput: Swift.Equatable {
+public struct GenerateClientCertificateInput {
     /// The description of the ClientCertificate.
     public var description: Swift.String?
     /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
@@ -7358,7 +7358,7 @@ public struct GenerateClientCertificateInput: Swift.Equatable {
     }
 }
 
-struct GenerateClientCertificateInputBody: Swift.Equatable {
+struct GenerateClientCertificateInputBody {
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -7410,7 +7410,7 @@ extension GenerateClientCertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint.
-public struct GenerateClientCertificateOutput: Swift.Equatable {
+public struct GenerateClientCertificateOutput {
     /// The identifier of the client certificate.
     public var clientCertificateId: Swift.String?
     /// The timestamp when the client certificate was created.
@@ -7442,7 +7442,7 @@ public struct GenerateClientCertificateOutput: Swift.Equatable {
     }
 }
 
-struct GenerateClientCertificateOutputBody: Swift.Equatable {
+struct GenerateClientCertificateOutputBody {
     let clientCertificateId: Swift.String?
     let description: Swift.String?
     let pemEncodedCertificate: Swift.String?
@@ -7510,12 +7510,12 @@ extension GetAccountInput {
 }
 
 /// Requests API Gateway to get information about the current Account resource.
-public struct GetAccountInput: Swift.Equatable {
+public struct GetAccountInput {
 
     public init() { }
 }
 
-struct GetAccountInputBody: Swift.Equatable {
+struct GetAccountInputBody {
 }
 
 extension GetAccountInputBody: Swift.Decodable {
@@ -7543,7 +7543,7 @@ extension GetAccountOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an AWS account that is associated with API Gateway.
-public struct GetAccountOutput: Swift.Equatable {
+public struct GetAccountOutput {
     /// The version of the API keys used for the account.
     public var apiKeyVersion: Swift.String?
     /// The ARN of an Amazon CloudWatch role for the current Account.
@@ -7567,7 +7567,7 @@ public struct GetAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountOutputBody: Swift.Equatable {
+struct GetAccountOutputBody {
     let cloudwatchRoleArn: Swift.String?
     let throttleSettings: APIGatewayClientTypes.ThrottleSettings?
     let features: [Swift.String]?
@@ -7641,7 +7641,7 @@ extension GetApiKeyInput {
 }
 
 /// A request to get information about the current ApiKey resource.
-public struct GetApiKeyInput: Swift.Equatable {
+public struct GetApiKeyInput {
     /// The identifier of the ApiKey resource.
     /// This member is required.
     public var apiKey: Swift.String?
@@ -7658,7 +7658,7 @@ public struct GetApiKeyInput: Swift.Equatable {
     }
 }
 
-struct GetApiKeyInputBody: Swift.Equatable {
+struct GetApiKeyInputBody {
 }
 
 extension GetApiKeyInputBody: Swift.Decodable {
@@ -7698,7 +7698,7 @@ extension GetApiKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage.
-public struct GetApiKeyOutput: Swift.Equatable {
+public struct GetApiKeyOutput {
     /// The timestamp when the API Key was created.
     public var createdDate: ClientRuntime.Date?
     /// An Amazon Web Services Marketplace customer identifier, when integrating with the Amazon Web Services SaaS Marketplace.
@@ -7746,7 +7746,7 @@ public struct GetApiKeyOutput: Swift.Equatable {
     }
 }
 
-struct GetApiKeyOutputBody: Swift.Equatable {
+struct GetApiKeyOutputBody {
     let id: Swift.String?
     let value: Swift.String?
     let name: Swift.String?
@@ -7866,7 +7866,7 @@ extension GetApiKeysInput {
 }
 
 /// A request to get information about the current ApiKeys resource.
-public struct GetApiKeysInput: Swift.Equatable {
+public struct GetApiKeysInput {
     /// The identifier of a customer in Amazon Web Services Marketplace or an external system, such as a developer portal.
     public var customerId: Swift.String?
     /// A boolean flag to specify whether (true) or not (false) the result contains key values.
@@ -7894,7 +7894,7 @@ public struct GetApiKeysInput: Swift.Equatable {
     }
 }
 
-struct GetApiKeysInputBody: Swift.Equatable {
+struct GetApiKeysInputBody {
 }
 
 extension GetApiKeysInputBody: Swift.Decodable {
@@ -7919,7 +7919,7 @@ extension GetApiKeysOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a collection of API keys as represented by an ApiKeys resource.
-public struct GetApiKeysOutput: Swift.Equatable {
+public struct GetApiKeysOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.ApiKey]?
     /// The current pagination position in the paged result set.
@@ -7939,7 +7939,7 @@ public struct GetApiKeysOutput: Swift.Equatable {
     }
 }
 
-struct GetApiKeysOutputBody: Swift.Equatable {
+struct GetApiKeysOutputBody {
     let warnings: [Swift.String]?
     let items: [APIGatewayClientTypes.ApiKey]?
 }
@@ -8005,7 +8005,7 @@ extension GetAuthorizerInput {
 }
 
 /// Request to describe an existing Authorizer resource.
-public struct GetAuthorizerInput: Swift.Equatable {
+public struct GetAuthorizerInput {
     /// The identifier of the Authorizer resource.
     /// This member is required.
     public var authorizerId: Swift.String?
@@ -8023,7 +8023,7 @@ public struct GetAuthorizerInput: Swift.Equatable {
     }
 }
 
-struct GetAuthorizerInputBody: Swift.Equatable {
+struct GetAuthorizerInputBody {
 }
 
 extension GetAuthorizerInputBody: Swift.Decodable {
@@ -8063,7 +8063,7 @@ extension GetAuthorizerOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method.
-public struct GetAuthorizerOutput: Swift.Equatable {
+public struct GetAuthorizerOutput {
     /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
     public var authType: Swift.String?
     /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
@@ -8111,7 +8111,7 @@ public struct GetAuthorizerOutput: Swift.Equatable {
     }
 }
 
-struct GetAuthorizerOutputBody: Swift.Equatable {
+struct GetAuthorizerOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let type: APIGatewayClientTypes.AuthorizerType?
@@ -8213,7 +8213,7 @@ extension GetAuthorizersInput {
 }
 
 /// Request to describe an existing Authorizers resource.
-public struct GetAuthorizersInput: Swift.Equatable {
+public struct GetAuthorizersInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -8234,7 +8234,7 @@ public struct GetAuthorizersInput: Swift.Equatable {
     }
 }
 
-struct GetAuthorizersInputBody: Swift.Equatable {
+struct GetAuthorizersInputBody {
 }
 
 extension GetAuthorizersInputBody: Swift.Decodable {
@@ -8257,7 +8257,7 @@ extension GetAuthorizersOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a collection of Authorizer resources.
-public struct GetAuthorizersOutput: Swift.Equatable {
+public struct GetAuthorizersOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.Authorizer]?
     /// The current pagination position in the paged result set.
@@ -8273,7 +8273,7 @@ public struct GetAuthorizersOutput: Swift.Equatable {
     }
 }
 
-struct GetAuthorizersOutputBody: Swift.Equatable {
+struct GetAuthorizersOutputBody {
     let items: [APIGatewayClientTypes.Authorizer]?
 }
 
@@ -8326,7 +8326,7 @@ extension GetBasePathMappingInput {
 }
 
 /// Request to describe a BasePathMapping resource.
-public struct GetBasePathMappingInput: Swift.Equatable {
+public struct GetBasePathMappingInput {
     /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify any base path name after the domain name.
     /// This member is required.
     public var basePath: Swift.String?
@@ -8344,7 +8344,7 @@ public struct GetBasePathMappingInput: Swift.Equatable {
     }
 }
 
-struct GetBasePathMappingInputBody: Swift.Equatable {
+struct GetBasePathMappingInputBody {
 }
 
 extension GetBasePathMappingInputBody: Swift.Decodable {
@@ -8370,7 +8370,7 @@ extension GetBasePathMappingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the base path that callers of the API must provide as part of the URL after the domain name.
-public struct GetBasePathMappingOutput: Swift.Equatable {
+public struct GetBasePathMappingOutput {
     /// The base path name that callers of the API must provide as part of the URL after the domain name.
     public var basePath: Swift.String?
     /// The string identifier of the associated RestApi.
@@ -8390,7 +8390,7 @@ public struct GetBasePathMappingOutput: Swift.Equatable {
     }
 }
 
-struct GetBasePathMappingOutputBody: Swift.Equatable {
+struct GetBasePathMappingOutputBody {
     let basePath: Swift.String?
     let restApiId: Swift.String?
     let stage: Swift.String?
@@ -8455,7 +8455,7 @@ extension GetBasePathMappingsInput {
 }
 
 /// A request to get information about a collection of BasePathMapping resources.
-public struct GetBasePathMappingsInput: Swift.Equatable {
+public struct GetBasePathMappingsInput {
     /// The domain name of a BasePathMapping resource.
     /// This member is required.
     public var domainName: Swift.String?
@@ -8476,7 +8476,7 @@ public struct GetBasePathMappingsInput: Swift.Equatable {
     }
 }
 
-struct GetBasePathMappingsInputBody: Swift.Equatable {
+struct GetBasePathMappingsInputBody {
 }
 
 extension GetBasePathMappingsInputBody: Swift.Decodable {
@@ -8499,7 +8499,7 @@ extension GetBasePathMappingsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a collection of BasePathMapping resources.
-public struct GetBasePathMappingsOutput: Swift.Equatable {
+public struct GetBasePathMappingsOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.BasePathMapping]?
     /// The current pagination position in the paged result set.
@@ -8515,7 +8515,7 @@ public struct GetBasePathMappingsOutput: Swift.Equatable {
     }
 }
 
-struct GetBasePathMappingsOutputBody: Swift.Equatable {
+struct GetBasePathMappingsOutputBody {
     let items: [APIGatewayClientTypes.BasePathMapping]?
 }
 
@@ -8565,7 +8565,7 @@ extension GetClientCertificateInput {
 }
 
 /// A request to get information about the current ClientCertificate resource.
-public struct GetClientCertificateInput: Swift.Equatable {
+public struct GetClientCertificateInput {
     /// The identifier of the ClientCertificate resource to be described.
     /// This member is required.
     public var clientCertificateId: Swift.String?
@@ -8578,7 +8578,7 @@ public struct GetClientCertificateInput: Swift.Equatable {
     }
 }
 
-struct GetClientCertificateInputBody: Swift.Equatable {
+struct GetClientCertificateInputBody {
 }
 
 extension GetClientCertificateInputBody: Swift.Decodable {
@@ -8610,7 +8610,7 @@ extension GetClientCertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint.
-public struct GetClientCertificateOutput: Swift.Equatable {
+public struct GetClientCertificateOutput {
     /// The identifier of the client certificate.
     public var clientCertificateId: Swift.String?
     /// The timestamp when the client certificate was created.
@@ -8642,7 +8642,7 @@ public struct GetClientCertificateOutput: Swift.Equatable {
     }
 }
 
-struct GetClientCertificateOutputBody: Swift.Equatable {
+struct GetClientCertificateOutputBody {
     let clientCertificateId: Swift.String?
     let description: Swift.String?
     let pemEncodedCertificate: Swift.String?
@@ -8725,7 +8725,7 @@ extension GetClientCertificatesInput {
 }
 
 /// A request to get information about a collection of ClientCertificate resources.
-public struct GetClientCertificatesInput: Swift.Equatable {
+public struct GetClientCertificatesInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -8741,7 +8741,7 @@ public struct GetClientCertificatesInput: Swift.Equatable {
     }
 }
 
-struct GetClientCertificatesInputBody: Swift.Equatable {
+struct GetClientCertificatesInputBody {
 }
 
 extension GetClientCertificatesInputBody: Swift.Decodable {
@@ -8764,7 +8764,7 @@ extension GetClientCertificatesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a collection of ClientCertificate resources.
-public struct GetClientCertificatesOutput: Swift.Equatable {
+public struct GetClientCertificatesOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.ClientCertificate]?
     /// The current pagination position in the paged result set.
@@ -8780,7 +8780,7 @@ public struct GetClientCertificatesOutput: Swift.Equatable {
     }
 }
 
-struct GetClientCertificatesOutputBody: Swift.Equatable {
+struct GetClientCertificatesOutputBody {
     let items: [APIGatewayClientTypes.ClientCertificate]?
 }
 
@@ -8847,7 +8847,7 @@ extension GetDeploymentInput {
 }
 
 /// Requests API Gateway to get information about a Deployment resource.
-public struct GetDeploymentInput: Swift.Equatable {
+public struct GetDeploymentInput {
     /// The identifier of the Deployment resource to get information about.
     /// This member is required.
     public var deploymentId: Swift.String?
@@ -8869,7 +8869,7 @@ public struct GetDeploymentInput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentInputBody: Swift.Equatable {
+struct GetDeploymentInputBody {
 }
 
 extension GetDeploymentInputBody: Swift.Decodable {
@@ -8897,7 +8897,7 @@ extension GetDeploymentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet.
-public struct GetDeploymentOutput: Swift.Equatable {
+public struct GetDeploymentOutput {
     /// A summary of the RestApi at the date and time that the deployment resource was created.
     public var apiSummary: [Swift.String:[Swift.String:APIGatewayClientTypes.MethodSnapshot]]?
     /// The date and time that the deployment resource was created.
@@ -8921,7 +8921,7 @@ public struct GetDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentOutputBody: Swift.Equatable {
+struct GetDeploymentOutputBody {
     let id: Swift.String?
     let description: Swift.String?
     let createdDate: ClientRuntime.Date?
@@ -9007,7 +9007,7 @@ extension GetDeploymentsInput {
 }
 
 /// Requests API Gateway to get information about a Deployments collection.
-public struct GetDeploymentsInput: Swift.Equatable {
+public struct GetDeploymentsInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -9028,7 +9028,7 @@ public struct GetDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentsInputBody: Swift.Equatable {
+struct GetDeploymentsInputBody {
 }
 
 extension GetDeploymentsInputBody: Swift.Decodable {
@@ -9051,7 +9051,7 @@ extension GetDeploymentsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a collection resource that contains zero or more references to your existing deployments, and links that guide you on how to interact with your collection. The collection offers a paginated view of the contained deployments.
-public struct GetDeploymentsOutput: Swift.Equatable {
+public struct GetDeploymentsOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.Deployment]?
     /// The current pagination position in the paged result set.
@@ -9067,7 +9067,7 @@ public struct GetDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentsOutputBody: Swift.Equatable {
+struct GetDeploymentsOutputBody {
     let items: [APIGatewayClientTypes.Deployment]?
 }
 
@@ -9121,7 +9121,7 @@ extension GetDocumentationPartInput {
 }
 
 /// Gets a specified documentation part of a given API.
-public struct GetDocumentationPartInput: Swift.Equatable {
+public struct GetDocumentationPartInput {
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var documentationPartId: Swift.String?
@@ -9139,7 +9139,7 @@ public struct GetDocumentationPartInput: Swift.Equatable {
     }
 }
 
-struct GetDocumentationPartInputBody: Swift.Equatable {
+struct GetDocumentationPartInputBody {
 }
 
 extension GetDocumentationPartInputBody: Swift.Decodable {
@@ -9165,7 +9165,7 @@ extension GetDocumentationPartOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A documentation part for a targeted API entity.
-public struct GetDocumentationPartOutput: Swift.Equatable {
+public struct GetDocumentationPartOutput {
     /// The DocumentationPart identifier, generated by API Gateway when the DocumentationPart is created.
     public var id: Swift.String?
     /// The location of the API entity to which the documentation applies. Valid fields depend on the targeted API entity type. All the valid location fields are not required. If not explicitly specified, a valid location field is treated as a wildcard and associated documentation content may be inherited by matching entities, unless overridden.
@@ -9185,7 +9185,7 @@ public struct GetDocumentationPartOutput: Swift.Equatable {
     }
 }
 
-struct GetDocumentationPartOutputBody: Swift.Equatable {
+struct GetDocumentationPartOutputBody {
     let id: Swift.String?
     let location: APIGatewayClientTypes.DocumentationPartLocation?
     let properties: Swift.String?
@@ -9266,7 +9266,7 @@ extension GetDocumentationPartsInput {
 }
 
 /// Gets the documentation parts of an API. The result may be filtered by the type, name, or path of API entities (targets).
-public struct GetDocumentationPartsInput: Swift.Equatable {
+public struct GetDocumentationPartsInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The status of the API documentation parts to retrieve. Valid values are DOCUMENTED for retrieving DocumentationPart resources with content and UNDOCUMENTED for DocumentationPart resources without content.
@@ -9303,7 +9303,7 @@ public struct GetDocumentationPartsInput: Swift.Equatable {
     }
 }
 
-struct GetDocumentationPartsInputBody: Swift.Equatable {
+struct GetDocumentationPartsInputBody {
 }
 
 extension GetDocumentationPartsInputBody: Swift.Decodable {
@@ -9326,7 +9326,7 @@ extension GetDocumentationPartsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The collection of documentation parts of an API.
-public struct GetDocumentationPartsOutput: Swift.Equatable {
+public struct GetDocumentationPartsOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.DocumentationPart]?
     /// The current pagination position in the paged result set.
@@ -9342,7 +9342,7 @@ public struct GetDocumentationPartsOutput: Swift.Equatable {
     }
 }
 
-struct GetDocumentationPartsOutputBody: Swift.Equatable {
+struct GetDocumentationPartsOutputBody {
     let items: [APIGatewayClientTypes.DocumentationPart]?
 }
 
@@ -9395,7 +9395,7 @@ extension GetDocumentationVersionInput {
 }
 
 /// Gets a documentation snapshot of an API.
-public struct GetDocumentationVersionInput: Swift.Equatable {
+public struct GetDocumentationVersionInput {
     /// The version identifier of the to-be-retrieved documentation snapshot.
     /// This member is required.
     public var documentationVersion: Swift.String?
@@ -9413,7 +9413,7 @@ public struct GetDocumentationVersionInput: Swift.Equatable {
     }
 }
 
-struct GetDocumentationVersionInputBody: Swift.Equatable {
+struct GetDocumentationVersionInputBody {
 }
 
 extension GetDocumentationVersionInputBody: Swift.Decodable {
@@ -9439,7 +9439,7 @@ extension GetDocumentationVersionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A snapshot of the documentation of an API.
-public struct GetDocumentationVersionOutput: Swift.Equatable {
+public struct GetDocumentationVersionOutput {
     /// The date when the API documentation snapshot is created.
     public var createdDate: ClientRuntime.Date?
     /// The description of the API documentation snapshot.
@@ -9459,7 +9459,7 @@ public struct GetDocumentationVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetDocumentationVersionOutputBody: Swift.Equatable {
+struct GetDocumentationVersionOutputBody {
     let version: Swift.String?
     let createdDate: ClientRuntime.Date?
     let description: Swift.String?
@@ -9523,7 +9523,7 @@ extension GetDocumentationVersionsInput {
 }
 
 /// Gets the documentation versions of an API.
-public struct GetDocumentationVersionsInput: Swift.Equatable {
+public struct GetDocumentationVersionsInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -9544,7 +9544,7 @@ public struct GetDocumentationVersionsInput: Swift.Equatable {
     }
 }
 
-struct GetDocumentationVersionsInputBody: Swift.Equatable {
+struct GetDocumentationVersionsInputBody {
 }
 
 extension GetDocumentationVersionsInputBody: Swift.Decodable {
@@ -9567,7 +9567,7 @@ extension GetDocumentationVersionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The collection of documentation snapshots of an API.
-public struct GetDocumentationVersionsOutput: Swift.Equatable {
+public struct GetDocumentationVersionsOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.DocumentationVersion]?
     /// The current pagination position in the paged result set.
@@ -9583,7 +9583,7 @@ public struct GetDocumentationVersionsOutput: Swift.Equatable {
     }
 }
 
-struct GetDocumentationVersionsOutputBody: Swift.Equatable {
+struct GetDocumentationVersionsOutputBody {
     let items: [APIGatewayClientTypes.DocumentationVersion]?
 }
 
@@ -9633,7 +9633,7 @@ extension GetDomainNameInput {
 }
 
 /// Request to get the name of a DomainName resource.
-public struct GetDomainNameInput: Swift.Equatable {
+public struct GetDomainNameInput {
     /// The name of the DomainName resource.
     /// This member is required.
     public var domainName: Swift.String?
@@ -9646,7 +9646,7 @@ public struct GetDomainNameInput: Swift.Equatable {
     }
 }
 
-struct GetDomainNameInputBody: Swift.Equatable {
+struct GetDomainNameInputBody {
 }
 
 extension GetDomainNameInputBody: Swift.Decodable {
@@ -9700,7 +9700,7 @@ extension GetDomainNameOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
-public struct GetDomainNameOutput: Swift.Equatable {
+public struct GetDomainNameOutput {
     /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
     /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
@@ -9776,7 +9776,7 @@ public struct GetDomainNameOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainNameOutputBody: Swift.Equatable {
+struct GetDomainNameOutputBody {
     let domainName: Swift.String?
     let certificateName: Swift.String?
     let certificateArn: Swift.String?
@@ -9903,7 +9903,7 @@ extension GetDomainNamesInput {
 }
 
 /// Request to describe a collection of DomainName resources.
-public struct GetDomainNamesInput: Swift.Equatable {
+public struct GetDomainNamesInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -9919,7 +9919,7 @@ public struct GetDomainNamesInput: Swift.Equatable {
     }
 }
 
-struct GetDomainNamesInputBody: Swift.Equatable {
+struct GetDomainNamesInputBody {
 }
 
 extension GetDomainNamesInputBody: Swift.Decodable {
@@ -9942,7 +9942,7 @@ extension GetDomainNamesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a collection of DomainName resources.
-public struct GetDomainNamesOutput: Swift.Equatable {
+public struct GetDomainNamesOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.DomainName]?
     /// The current pagination position in the paged result set.
@@ -9958,7 +9958,7 @@ public struct GetDomainNamesOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainNamesOutputBody: Swift.Equatable {
+struct GetDomainNamesOutputBody {
     let items: [APIGatewayClientTypes.DomainName]?
 }
 
@@ -10042,7 +10042,7 @@ extension GetExportInput {
 }
 
 /// Request a new export of a RestApi for a particular Stage.
-public struct GetExportInput: Swift.Equatable {
+public struct GetExportInput {
     /// The content-type of the export, for example application/json. Currently application/json and application/yaml are supported for exportType ofoas30 and swagger. This should be specified in the Accept header for direct API requests.
     public var accepts: Swift.String?
     /// The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and 'swagger' for Swagger/OpenAPI 2.0.
@@ -10073,7 +10073,7 @@ public struct GetExportInput: Swift.Equatable {
     }
 }
 
-struct GetExportInputBody: Swift.Equatable {
+struct GetExportInputBody {
 }
 
 extension GetExportInputBody: Swift.Decodable {
@@ -10106,7 +10106,7 @@ extension GetExportOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The binary blob response to GetExport, which contains the generated SDK.
-public struct GetExportOutput: Swift.Equatable {
+public struct GetExportOutput {
     /// The binary blob response to GetExport, which contains the export.
     public var body: ClientRuntime.Data?
     /// The content-disposition header value in the HTTP response.
@@ -10126,7 +10126,7 @@ public struct GetExportOutput: Swift.Equatable {
     }
 }
 
-struct GetExportOutputBody: Swift.Equatable {
+struct GetExportOutputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -10172,7 +10172,7 @@ extension GetGatewayResponseInput {
 }
 
 /// Gets a GatewayResponse of a specified response type on the given RestApi.
-public struct GetGatewayResponseInput: Swift.Equatable {
+public struct GetGatewayResponseInput {
     /// The response type of the associated GatewayResponse.
     /// This member is required.
     public var responseType: APIGatewayClientTypes.GatewayResponseType?
@@ -10190,7 +10190,7 @@ public struct GetGatewayResponseInput: Swift.Equatable {
     }
 }
 
-struct GetGatewayResponseInputBody: Swift.Equatable {
+struct GetGatewayResponseInputBody {
 }
 
 extension GetGatewayResponseInputBody: Swift.Decodable {
@@ -10220,7 +10220,7 @@ extension GetGatewayResponseOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A gateway response of a given response type and status code, with optional response parameters and mapping templates.
-public struct GetGatewayResponseOutput: Swift.Equatable {
+public struct GetGatewayResponseOutput {
     /// A Boolean flag to indicate whether this GatewayResponse is the default gateway response (true) or not (false). A default gateway response is one generated by API Gateway without any customization by an API developer.
     public var defaultResponse: Swift.Bool
     /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
@@ -10248,7 +10248,7 @@ public struct GetGatewayResponseOutput: Swift.Equatable {
     }
 }
 
-struct GetGatewayResponseOutputBody: Swift.Equatable {
+struct GetGatewayResponseOutputBody {
     let responseType: APIGatewayClientTypes.GatewayResponseType?
     let statusCode: Swift.String?
     let responseParameters: [Swift.String:Swift.String]?
@@ -10339,7 +10339,7 @@ extension GetGatewayResponsesInput {
 }
 
 /// Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
-public struct GetGatewayResponsesInput: Swift.Equatable {
+public struct GetGatewayResponsesInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500. The GatewayResponses collection does not support pagination and the limit does not apply here.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set. The GatewayResponse collection does not support pagination and the position does not apply here.
@@ -10360,7 +10360,7 @@ public struct GetGatewayResponsesInput: Swift.Equatable {
     }
 }
 
-struct GetGatewayResponsesInputBody: Swift.Equatable {
+struct GetGatewayResponsesInputBody {
 }
 
 extension GetGatewayResponsesInputBody: Swift.Decodable {
@@ -10383,7 +10383,7 @@ extension GetGatewayResponsesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The collection of the GatewayResponse instances of a RestApi as a responseType-to-GatewayResponse object map of key-value pairs. As such, pagination is not supported for querying this collection.
-public struct GetGatewayResponsesOutput: Swift.Equatable {
+public struct GetGatewayResponsesOutput {
     /// Returns the entire collection, because of no pagination support.
     public var items: [APIGatewayClientTypes.GatewayResponse]?
     /// The current pagination position in the paged result set. The GatewayResponse collection does not support pagination and the position does not apply here.
@@ -10399,7 +10399,7 @@ public struct GetGatewayResponsesOutput: Swift.Equatable {
     }
 }
 
-struct GetGatewayResponsesOutputBody: Swift.Equatable {
+struct GetGatewayResponsesOutputBody {
     let items: [APIGatewayClientTypes.GatewayResponse]?
 }
 
@@ -10455,7 +10455,7 @@ extension GetIntegrationInput {
 }
 
 /// Represents a request to get the integration configuration.
-public struct GetIntegrationInput: Swift.Equatable {
+public struct GetIntegrationInput {
     /// Specifies a get integration request's HTTP method.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -10478,7 +10478,7 @@ public struct GetIntegrationInput: Swift.Equatable {
     }
 }
 
-struct GetIntegrationInputBody: Swift.Equatable {
+struct GetIntegrationInputBody {
 }
 
 extension GetIntegrationInputBody: Swift.Decodable {
@@ -10528,7 +10528,7 @@ extension GetIntegrationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
-public struct GetIntegrationOutput: Swift.Equatable {
+public struct GetIntegrationOutput {
     /// A list of request parameters whose values API Gateway caches. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
     public var cacheKeyParameters: [Swift.String]?
     /// Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.
@@ -10596,7 +10596,7 @@ public struct GetIntegrationOutput: Swift.Equatable {
     }
 }
 
-struct GetIntegrationOutputBody: Swift.Equatable {
+struct GetIntegrationOutputBody {
     let type: APIGatewayClientTypes.IntegrationType?
     let httpMethod: Swift.String?
     let uri: Swift.String?
@@ -10738,7 +10738,7 @@ extension GetIntegrationResponseInput {
 }
 
 /// Represents a get integration response request.
-public struct GetIntegrationResponseInput: Swift.Equatable {
+public struct GetIntegrationResponseInput {
     /// Specifies a get integration response request's HTTP method.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -10766,7 +10766,7 @@ public struct GetIntegrationResponseInput: Swift.Equatable {
     }
 }
 
-struct GetIntegrationResponseInputBody: Swift.Equatable {
+struct GetIntegrationResponseInputBody {
 }
 
 extension GetIntegrationResponseInputBody: Swift.Decodable {
@@ -10796,7 +10796,7 @@ extension GetIntegrationResponseOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response.
-public struct GetIntegrationResponseOutput: Swift.Equatable {
+public struct GetIntegrationResponseOutput {
     /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
     public var contentHandling: APIGatewayClientTypes.ContentHandlingStrategy?
     /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
@@ -10824,7 +10824,7 @@ public struct GetIntegrationResponseOutput: Swift.Equatable {
     }
 }
 
-struct GetIntegrationResponseOutputBody: Swift.Equatable {
+struct GetIntegrationResponseOutputBody {
     let statusCode: Swift.String?
     let selectionPattern: Swift.String?
     let responseParameters: [Swift.String:Swift.String]?
@@ -10905,7 +10905,7 @@ extension GetMethodInput {
 }
 
 /// Request to describe an existing Method resource.
-public struct GetMethodInput: Swift.Equatable {
+public struct GetMethodInput {
     /// Specifies the method request's HTTP method type.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -10928,7 +10928,7 @@ public struct GetMethodInput: Swift.Equatable {
     }
 }
 
-struct GetMethodInputBody: Swift.Equatable {
+struct GetMethodInputBody {
 }
 
 extension GetMethodInputBody: Swift.Decodable {
@@ -10970,7 +10970,7 @@ extension GetMethodOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource.
-public struct GetMethodOutput: Swift.Equatable {
+public struct GetMethodOutput {
     /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
     public var apiKeyRequired: Swift.Bool?
     /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
@@ -11022,7 +11022,7 @@ public struct GetMethodOutput: Swift.Equatable {
     }
 }
 
-struct GetMethodOutputBody: Swift.Equatable {
+struct GetMethodOutputBody {
     let httpMethod: Swift.String?
     let authorizationType: Swift.String?
     let authorizerId: Swift.String?
@@ -11147,7 +11147,7 @@ extension GetMethodResponseInput {
 }
 
 /// Request to describe a MethodResponse resource.
-public struct GetMethodResponseInput: Swift.Equatable {
+public struct GetMethodResponseInput {
     /// The HTTP verb of the Method resource.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -11175,7 +11175,7 @@ public struct GetMethodResponseInput: Swift.Equatable {
     }
 }
 
-struct GetMethodResponseInputBody: Swift.Equatable {
+struct GetMethodResponseInputBody {
 }
 
 extension GetMethodResponseInputBody: Swift.Decodable {
@@ -11201,7 +11201,7 @@ extension GetMethodResponseOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template.
-public struct GetMethodResponseOutput: Swift.Equatable {
+public struct GetMethodResponseOutput {
     /// Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.
     public var responseModels: [Swift.String:Swift.String]?
     /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
@@ -11221,7 +11221,7 @@ public struct GetMethodResponseOutput: Swift.Equatable {
     }
 }
 
-struct GetMethodResponseOutputBody: Swift.Equatable {
+struct GetMethodResponseOutputBody {
     let statusCode: Swift.String?
     let responseParameters: [Swift.String:Swift.Bool]?
     let responseModels: [Swift.String:Swift.String]?
@@ -11302,7 +11302,7 @@ extension GetModelInput {
 }
 
 /// Request to list information about a model in an existing RestApi resource.
-public struct GetModelInput: Swift.Equatable {
+public struct GetModelInput {
     /// A query parameter of a Boolean value to resolve (true) all external model references and returns a flattened model schema or not (false) The default is false.
     public var flatten: Swift.Bool?
     /// The name of the model as an identifier.
@@ -11324,7 +11324,7 @@ public struct GetModelInput: Swift.Equatable {
     }
 }
 
-struct GetModelInputBody: Swift.Equatable {
+struct GetModelInputBody {
 }
 
 extension GetModelInputBody: Swift.Decodable {
@@ -11354,7 +11354,7 @@ extension GetModelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the data structure of a method's request or response payload.
-public struct GetModelOutput: Swift.Equatable {
+public struct GetModelOutput {
     /// The content-type for the model.
     public var contentType: Swift.String?
     /// The description of the model.
@@ -11382,7 +11382,7 @@ public struct GetModelOutput: Swift.Equatable {
     }
 }
 
-struct GetModelOutputBody: Swift.Equatable {
+struct GetModelOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -11442,7 +11442,7 @@ extension GetModelTemplateInput {
 }
 
 /// Request to generate a sample mapping template used to transform the payload.
-public struct GetModelTemplateInput: Swift.Equatable {
+public struct GetModelTemplateInput {
     /// The name of the model for which to generate a template.
     /// This member is required.
     public var modelName: Swift.String?
@@ -11460,7 +11460,7 @@ public struct GetModelTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetModelTemplateInputBody: Swift.Equatable {
+struct GetModelTemplateInputBody {
 }
 
 extension GetModelTemplateInputBody: Swift.Decodable {
@@ -11482,7 +11482,7 @@ extension GetModelTemplateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a mapping template used to transform a payload.
-public struct GetModelTemplateOutput: Swift.Equatable {
+public struct GetModelTemplateOutput {
     /// The Apache Velocity Template Language (VTL) template content used for the template resource.
     public var value: Swift.String?
 
@@ -11494,7 +11494,7 @@ public struct GetModelTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetModelTemplateOutputBody: Swift.Equatable {
+struct GetModelTemplateOutputBody {
     let value: Swift.String?
 }
 
@@ -11551,7 +11551,7 @@ extension GetModelsInput {
 }
 
 /// Request to list existing Models defined for a RestApi resource.
-public struct GetModelsInput: Swift.Equatable {
+public struct GetModelsInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -11572,7 +11572,7 @@ public struct GetModelsInput: Swift.Equatable {
     }
 }
 
-struct GetModelsInputBody: Swift.Equatable {
+struct GetModelsInputBody {
 }
 
 extension GetModelsInputBody: Swift.Decodable {
@@ -11595,7 +11595,7 @@ extension GetModelsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a collection of Model resources.
-public struct GetModelsOutput: Swift.Equatable {
+public struct GetModelsOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.Model]?
     /// The current pagination position in the paged result set.
@@ -11611,7 +11611,7 @@ public struct GetModelsOutput: Swift.Equatable {
     }
 }
 
-struct GetModelsOutputBody: Swift.Equatable {
+struct GetModelsOutputBody {
     let items: [APIGatewayClientTypes.Model]?
 }
 
@@ -11664,7 +11664,7 @@ extension GetRequestValidatorInput {
 }
 
 /// Gets a RequestValidator of a given RestApi.
-public struct GetRequestValidatorInput: Swift.Equatable {
+public struct GetRequestValidatorInput {
     /// The identifier of the RequestValidator to be retrieved.
     /// This member is required.
     public var requestValidatorId: Swift.String?
@@ -11682,7 +11682,7 @@ public struct GetRequestValidatorInput: Swift.Equatable {
     }
 }
 
-struct GetRequestValidatorInputBody: Swift.Equatable {
+struct GetRequestValidatorInputBody {
 }
 
 extension GetRequestValidatorInputBody: Swift.Decodable {
@@ -11710,7 +11710,7 @@ extension GetRequestValidatorOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A set of validation rules for incoming Method requests.
-public struct GetRequestValidatorOutput: Swift.Equatable {
+public struct GetRequestValidatorOutput {
     /// The identifier of this RequestValidator.
     public var id: Swift.String?
     /// The name of this RequestValidator
@@ -11734,7 +11734,7 @@ public struct GetRequestValidatorOutput: Swift.Equatable {
     }
 }
 
-struct GetRequestValidatorOutputBody: Swift.Equatable {
+struct GetRequestValidatorOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let validateRequestBody: Swift.Bool
@@ -11803,7 +11803,7 @@ extension GetRequestValidatorsInput {
 }
 
 /// Gets the RequestValidators collection of a given RestApi.
-public struct GetRequestValidatorsInput: Swift.Equatable {
+public struct GetRequestValidatorsInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -11824,7 +11824,7 @@ public struct GetRequestValidatorsInput: Swift.Equatable {
     }
 }
 
-struct GetRequestValidatorsInputBody: Swift.Equatable {
+struct GetRequestValidatorsInputBody {
 }
 
 extension GetRequestValidatorsInputBody: Swift.Decodable {
@@ -11847,7 +11847,7 @@ extension GetRequestValidatorsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A collection of RequestValidator resources of a given RestApi.
-public struct GetRequestValidatorsOutput: Swift.Equatable {
+public struct GetRequestValidatorsOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.RequestValidator]?
     /// The current pagination position in the paged result set.
@@ -11863,7 +11863,7 @@ public struct GetRequestValidatorsOutput: Swift.Equatable {
     }
 }
 
-struct GetRequestValidatorsOutputBody: Swift.Equatable {
+struct GetRequestValidatorsOutputBody {
     let items: [APIGatewayClientTypes.RequestValidator]?
 }
 
@@ -11930,7 +11930,7 @@ extension GetResourceInput {
 }
 
 /// Request to list information about a resource.
-public struct GetResourceInput: Swift.Equatable {
+public struct GetResourceInput {
     /// A query parameter to retrieve the specified resources embedded in the returned Resource representation in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods.
     public var embed: [Swift.String]?
     /// The identifier for the Resource resource.
@@ -11952,7 +11952,7 @@ public struct GetResourceInput: Swift.Equatable {
     }
 }
 
-struct GetResourceInputBody: Swift.Equatable {
+struct GetResourceInputBody {
 }
 
 extension GetResourceInputBody: Swift.Decodable {
@@ -11982,7 +11982,7 @@ extension GetResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an API resource.
-public struct GetResourceOutput: Swift.Equatable {
+public struct GetResourceOutput {
     /// The resource's identifier.
     public var id: Swift.String?
     /// The parent resource's identifier.
@@ -12010,7 +12010,7 @@ public struct GetResourceOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceOutputBody: Swift.Equatable {
+struct GetResourceOutputBody {
     let id: Swift.String?
     let parentId: Swift.String?
     let pathPart: Swift.String?
@@ -12097,7 +12097,7 @@ extension GetResourcesInput {
 }
 
 /// Request to list information about a collection of resources.
-public struct GetResourcesInput: Swift.Equatable {
+public struct GetResourcesInput {
     /// A query parameter used to retrieve the specified resources embedded in the returned Resources resource in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources?embed=methods.
     public var embed: [Swift.String]?
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -12122,7 +12122,7 @@ public struct GetResourcesInput: Swift.Equatable {
     }
 }
 
-struct GetResourcesInputBody: Swift.Equatable {
+struct GetResourcesInputBody {
 }
 
 extension GetResourcesInputBody: Swift.Decodable {
@@ -12145,7 +12145,7 @@ extension GetResourcesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a collection of Resource resources.
-public struct GetResourcesOutput: Swift.Equatable {
+public struct GetResourcesOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.Resource]?
     /// The current pagination position in the paged result set.
@@ -12161,7 +12161,7 @@ public struct GetResourcesOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcesOutputBody: Swift.Equatable {
+struct GetResourcesOutputBody {
     let items: [APIGatewayClientTypes.Resource]?
 }
 
@@ -12211,7 +12211,7 @@ extension GetRestApiInput {
 }
 
 /// The GET request to list an existing RestApi defined for your collection.
-public struct GetRestApiInput: Swift.Equatable {
+public struct GetRestApiInput {
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
@@ -12224,7 +12224,7 @@ public struct GetRestApiInput: Swift.Equatable {
     }
 }
 
-struct GetRestApiInputBody: Swift.Equatable {
+struct GetRestApiInputBody {
 }
 
 extension GetRestApiInputBody: Swift.Decodable {
@@ -12272,7 +12272,7 @@ extension GetRestApiOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a REST API.
-public struct GetRestApiOutput: Swift.Equatable {
+public struct GetRestApiOutput {
     /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
     public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
@@ -12336,7 +12336,7 @@ public struct GetRestApiOutput: Swift.Equatable {
     }
 }
 
-struct GetRestApiOutputBody: Swift.Equatable {
+struct GetRestApiOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -12469,7 +12469,7 @@ extension GetRestApisInput {
 }
 
 /// The GET request to list existing RestApis defined for your collection.
-public struct GetRestApisInput: Swift.Equatable {
+public struct GetRestApisInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -12485,7 +12485,7 @@ public struct GetRestApisInput: Swift.Equatable {
     }
 }
 
-struct GetRestApisInputBody: Swift.Equatable {
+struct GetRestApisInputBody {
 }
 
 extension GetRestApisInputBody: Swift.Decodable {
@@ -12508,7 +12508,7 @@ extension GetRestApisOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains references to your APIs and links that guide you in how to interact with your collection. A collection offers a paginated view of your APIs.
-public struct GetRestApisOutput: Swift.Equatable {
+public struct GetRestApisOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.RestApi]?
     /// The current pagination position in the paged result set.
@@ -12524,7 +12524,7 @@ public struct GetRestApisOutput: Swift.Equatable {
     }
 }
 
-struct GetRestApisOutputBody: Swift.Equatable {
+struct GetRestApisOutputBody {
     let items: [APIGatewayClientTypes.RestApi]?
 }
 
@@ -12597,7 +12597,7 @@ extension GetSdkInput {
 }
 
 /// Request a new generated client SDK for a RestApi and Stage.
-public struct GetSdkInput: Swift.Equatable {
+public struct GetSdkInput {
     /// A string-to-string key-value map of query parameters sdkType-dependent properties of the SDK. For sdkType of objectivec or swift, a parameter named classPrefix is required. For sdkType of android, parameters named groupId, artifactId, artifactVersion, and invokerPackage are required. For sdkType of java, parameters named serviceName and javaPackageName are required.
     public var parameters: [Swift.String:Swift.String]?
     /// The string identifier of the associated RestApi.
@@ -12624,7 +12624,7 @@ public struct GetSdkInput: Swift.Equatable {
     }
 }
 
-struct GetSdkInputBody: Swift.Equatable {
+struct GetSdkInputBody {
 }
 
 extension GetSdkInputBody: Swift.Decodable {
@@ -12657,7 +12657,7 @@ extension GetSdkOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The binary blob response to GetSdk, which contains the generated SDK.
-public struct GetSdkOutput: Swift.Equatable {
+public struct GetSdkOutput {
     /// The binary blob response to GetSdk, which contains the generated SDK.
     public var body: ClientRuntime.Data?
     /// The content-disposition header value in the HTTP response.
@@ -12677,7 +12677,7 @@ public struct GetSdkOutput: Swift.Equatable {
     }
 }
 
-struct GetSdkOutputBody: Swift.Equatable {
+struct GetSdkOutputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -12720,7 +12720,7 @@ extension GetSdkTypeInput {
 }
 
 /// Get an SdkType instance.
-public struct GetSdkTypeInput: Swift.Equatable {
+public struct GetSdkTypeInput {
     /// The identifier of the queried SdkType instance.
     /// This member is required.
     public var id: Swift.String?
@@ -12733,7 +12733,7 @@ public struct GetSdkTypeInput: Swift.Equatable {
     }
 }
 
-struct GetSdkTypeInputBody: Swift.Equatable {
+struct GetSdkTypeInputBody {
 }
 
 extension GetSdkTypeInputBody: Swift.Decodable {
@@ -12761,7 +12761,7 @@ extension GetSdkTypeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A type of SDK that API Gateway can generate.
-public struct GetSdkTypeOutput: Swift.Equatable {
+public struct GetSdkTypeOutput {
     /// A list of configuration properties of an SdkType.
     public var configurationProperties: [APIGatewayClientTypes.SdkConfigurationProperty]?
     /// The description of an SdkType.
@@ -12785,7 +12785,7 @@ public struct GetSdkTypeOutput: Swift.Equatable {
     }
 }
 
-struct GetSdkTypeOutputBody: Swift.Equatable {
+struct GetSdkTypeOutputBody {
     let id: Swift.String?
     let friendlyName: Swift.String?
     let description: Swift.String?
@@ -12860,7 +12860,7 @@ extension GetSdkTypesInput {
 }
 
 /// Get the SdkTypes collection.
-public struct GetSdkTypesInput: Swift.Equatable {
+public struct GetSdkTypesInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -12876,7 +12876,7 @@ public struct GetSdkTypesInput: Swift.Equatable {
     }
 }
 
-struct GetSdkTypesInputBody: Swift.Equatable {
+struct GetSdkTypesInputBody {
 }
 
 extension GetSdkTypesInputBody: Swift.Decodable {
@@ -12898,7 +12898,7 @@ extension GetSdkTypesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The collection of SdkType instances.
-public struct GetSdkTypesOutput: Swift.Equatable {
+public struct GetSdkTypesOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.SdkType]?
 
@@ -12910,7 +12910,7 @@ public struct GetSdkTypesOutput: Swift.Equatable {
     }
 }
 
-struct GetSdkTypesOutputBody: Swift.Equatable {
+struct GetSdkTypesOutputBody {
     let items: [APIGatewayClientTypes.SdkType]?
 }
 
@@ -12963,7 +12963,7 @@ extension GetStageInput {
 }
 
 /// Requests API Gateway to get information about a Stage resource.
-public struct GetStageInput: Swift.Equatable {
+public struct GetStageInput {
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
@@ -12981,7 +12981,7 @@ public struct GetStageInput: Swift.Equatable {
     }
 }
 
-struct GetStageInputBody: Swift.Equatable {
+struct GetStageInputBody {
 }
 
 extension GetStageInputBody: Swift.Decodable {
@@ -13035,7 +13035,7 @@ extension GetStageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a unique identifier for a version of a deployed RestApi that is callable by users.
-public struct GetStageOutput: Swift.Equatable {
+public struct GetStageOutput {
     /// Settings for logging access in this stage.
     public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
     /// Specifies whether a cache cluster is enabled for the stage. To activate a method-level cache, set CachingEnabled to true for a method.
@@ -13111,7 +13111,7 @@ public struct GetStageOutput: Swift.Equatable {
     }
 }
 
-struct GetStageOutputBody: Swift.Equatable {
+struct GetStageOutputBody {
     let deploymentId: Swift.String?
     let clientCertificateId: Swift.String?
     let stageName: Swift.String?
@@ -13257,7 +13257,7 @@ extension GetStagesInput {
 }
 
 /// Requests API Gateway to get information about one or more Stage resources.
-public struct GetStagesInput: Swift.Equatable {
+public struct GetStagesInput {
     /// The stages' deployment identifiers.
     public var deploymentId: Swift.String?
     /// The string identifier of the associated RestApi.
@@ -13274,7 +13274,7 @@ public struct GetStagesInput: Swift.Equatable {
     }
 }
 
-struct GetStagesInputBody: Swift.Equatable {
+struct GetStagesInputBody {
 }
 
 extension GetStagesInputBody: Swift.Decodable {
@@ -13296,7 +13296,7 @@ extension GetStagesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of Stage resources that are associated with the ApiKey resource.
-public struct GetStagesOutput: Swift.Equatable {
+public struct GetStagesOutput {
     /// The current page of elements from this collection.
     public var item: [APIGatewayClientTypes.Stage]?
 
@@ -13308,7 +13308,7 @@ public struct GetStagesOutput: Swift.Equatable {
     }
 }
 
-struct GetStagesOutputBody: Swift.Equatable {
+struct GetStagesOutputBody {
     let item: [APIGatewayClientTypes.Stage]?
 }
 
@@ -13376,7 +13376,7 @@ extension GetTagsInput {
 }
 
 /// Gets the Tags collection for a given resource.
-public struct GetTagsInput: Swift.Equatable {
+public struct GetTagsInput {
     /// (Not currently supported) The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// (Not currently supported) The current pagination position in the paged result set.
@@ -13397,7 +13397,7 @@ public struct GetTagsInput: Swift.Equatable {
     }
 }
 
-struct GetTagsInputBody: Swift.Equatable {
+struct GetTagsInputBody {
 }
 
 extension GetTagsInputBody: Swift.Decodable {
@@ -13419,7 +13419,7 @@ extension GetTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The collection of tags. Each tag element is associated with a given resource.
-public struct GetTagsOutput: Swift.Equatable {
+public struct GetTagsOutput {
     /// The collection of tags. Each tag element is associated with a given resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -13431,7 +13431,7 @@ public struct GetTagsOutput: Swift.Equatable {
     }
 }
 
-struct GetTagsOutputBody: Swift.Equatable {
+struct GetTagsOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -13513,7 +13513,7 @@ extension GetUsageInput {
 }
 
 /// The GET request to get the usage data of a usage plan in a specified time interval.
-public struct GetUsageInput: Swift.Equatable {
+public struct GetUsageInput {
     /// The ending date (e.g., 2016-12-31) of the usage data.
     /// This member is required.
     public var endDate: Swift.String?
@@ -13548,7 +13548,7 @@ public struct GetUsageInput: Swift.Equatable {
     }
 }
 
-struct GetUsageInputBody: Swift.Equatable {
+struct GetUsageInputBody {
 }
 
 extension GetUsageInputBody: Swift.Decodable {
@@ -13577,7 +13577,7 @@ extension GetUsageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the usage data of a usage plan.
-public struct GetUsageOutput: Swift.Equatable {
+public struct GetUsageOutput {
     /// The ending date of the usage data.
     public var endDate: Swift.String?
     /// The usage data, as daily logs of used and remaining quotas, over the specified time interval indexed over the API keys in a usage plan. For example, {..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100, 10]]}, where {api_key} stands for an API key value and the daily log entry is of the format [used quota, remaining quota].
@@ -13605,7 +13605,7 @@ public struct GetUsageOutput: Swift.Equatable {
     }
 }
 
-struct GetUsageOutputBody: Swift.Equatable {
+struct GetUsageOutputBody {
     let usagePlanId: Swift.String?
     let startDate: Swift.String?
     let endDate: Swift.String?
@@ -13683,7 +13683,7 @@ extension GetUsagePlanInput {
 }
 
 /// The GET request to get a usage plan of a given plan identifier.
-public struct GetUsagePlanInput: Swift.Equatable {
+public struct GetUsagePlanInput {
     /// The identifier of the UsagePlan resource to be retrieved.
     /// This member is required.
     public var usagePlanId: Swift.String?
@@ -13696,7 +13696,7 @@ public struct GetUsagePlanInput: Swift.Equatable {
     }
 }
 
-struct GetUsagePlanInputBody: Swift.Equatable {
+struct GetUsagePlanInputBody {
 }
 
 extension GetUsagePlanInputBody: Swift.Decodable {
@@ -13719,7 +13719,7 @@ extension GetUsagePlanKeyInput {
 }
 
 /// The GET request to get a usage plan key of a given key identifier.
-public struct GetUsagePlanKeyInput: Swift.Equatable {
+public struct GetUsagePlanKeyInput {
     /// The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
     /// This member is required.
     public var keyId: Swift.String?
@@ -13737,7 +13737,7 @@ public struct GetUsagePlanKeyInput: Swift.Equatable {
     }
 }
 
-struct GetUsagePlanKeyInputBody: Swift.Equatable {
+struct GetUsagePlanKeyInputBody {
 }
 
 extension GetUsagePlanKeyInputBody: Swift.Decodable {
@@ -13765,7 +13765,7 @@ extension GetUsagePlanKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a usage plan key to identify a plan customer.
-public struct GetUsagePlanKeyOutput: Swift.Equatable {
+public struct GetUsagePlanKeyOutput {
     /// The Id of a usage plan key.
     public var id: Swift.String?
     /// The name of a usage plan key.
@@ -13789,7 +13789,7 @@ public struct GetUsagePlanKeyOutput: Swift.Equatable {
     }
 }
 
-struct GetUsagePlanKeyOutputBody: Swift.Equatable {
+struct GetUsagePlanKeyOutputBody {
     let id: Swift.String?
     let type: Swift.String?
     let value: Swift.String?
@@ -13862,7 +13862,7 @@ extension GetUsagePlanKeysInput {
 }
 
 /// The GET request to get all the usage plan keys representing the API keys added to a specified usage plan.
-public struct GetUsagePlanKeysInput: Swift.Equatable {
+public struct GetUsagePlanKeysInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// A query parameter specifying the name of the to-be-returned usage plan keys.
@@ -13887,7 +13887,7 @@ public struct GetUsagePlanKeysInput: Swift.Equatable {
     }
 }
 
-struct GetUsagePlanKeysInputBody: Swift.Equatable {
+struct GetUsagePlanKeysInputBody {
 }
 
 extension GetUsagePlanKeysInputBody: Swift.Decodable {
@@ -13910,7 +13910,7 @@ extension GetUsagePlanKeysOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the collection of usage plan keys added to usage plans for the associated API keys and, possibly, other types of keys.
-public struct GetUsagePlanKeysOutput: Swift.Equatable {
+public struct GetUsagePlanKeysOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.UsagePlanKey]?
     /// The current pagination position in the paged result set.
@@ -13926,7 +13926,7 @@ public struct GetUsagePlanKeysOutput: Swift.Equatable {
     }
 }
 
-struct GetUsagePlanKeysOutputBody: Swift.Equatable {
+struct GetUsagePlanKeysOutputBody {
     let items: [APIGatewayClientTypes.UsagePlanKey]?
 }
 
@@ -13992,7 +13992,7 @@ extension GetUsagePlanOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests.
-public struct GetUsagePlanOutput: Swift.Equatable {
+public struct GetUsagePlanOutput {
     /// The associated API stages of a usage plan.
     public var apiStages: [APIGatewayClientTypes.ApiStage]?
     /// The description of a usage plan.
@@ -14032,7 +14032,7 @@ public struct GetUsagePlanOutput: Swift.Equatable {
     }
 }
 
-struct GetUsagePlanOutputBody: Swift.Equatable {
+struct GetUsagePlanOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -14136,7 +14136,7 @@ extension GetUsagePlansInput {
 }
 
 /// The GET request to get all the usage plans of the caller's account.
-public struct GetUsagePlansInput: Swift.Equatable {
+public struct GetUsagePlansInput {
     /// The identifier of the API key associated with the usage plans.
     public var keyId: Swift.String?
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
@@ -14156,7 +14156,7 @@ public struct GetUsagePlansInput: Swift.Equatable {
     }
 }
 
-struct GetUsagePlansInputBody: Swift.Equatable {
+struct GetUsagePlansInputBody {
 }
 
 extension GetUsagePlansInputBody: Swift.Decodable {
@@ -14179,7 +14179,7 @@ extension GetUsagePlansOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a collection of usage plans for an AWS account.
-public struct GetUsagePlansOutput: Swift.Equatable {
+public struct GetUsagePlansOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.UsagePlan]?
     /// The current pagination position in the paged result set.
@@ -14195,7 +14195,7 @@ public struct GetUsagePlansOutput: Swift.Equatable {
     }
 }
 
-struct GetUsagePlansOutputBody: Swift.Equatable {
+struct GetUsagePlansOutputBody {
     let items: [APIGatewayClientTypes.UsagePlan]?
 }
 
@@ -14245,7 +14245,7 @@ extension GetVpcLinkInput {
 }
 
 /// Gets a specified VPC link under the caller's account in a region.
-public struct GetVpcLinkInput: Swift.Equatable {
+public struct GetVpcLinkInput {
     /// The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
     /// This member is required.
     public var vpcLinkId: Swift.String?
@@ -14258,7 +14258,7 @@ public struct GetVpcLinkInput: Swift.Equatable {
     }
 }
 
-struct GetVpcLinkInputBody: Swift.Equatable {
+struct GetVpcLinkInputBody {
 }
 
 extension GetVpcLinkInputBody: Swift.Decodable {
@@ -14292,7 +14292,7 @@ extension GetVpcLinkOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC).
-public struct GetVpcLinkOutput: Swift.Equatable {
+public struct GetVpcLinkOutput {
     /// The description of the VPC link.
     public var description: Swift.String?
     /// The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
@@ -14328,7 +14328,7 @@ public struct GetVpcLinkOutput: Swift.Equatable {
     }
 }
 
-struct GetVpcLinkOutputBody: Swift.Equatable {
+struct GetVpcLinkOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -14424,7 +14424,7 @@ extension GetVpcLinksInput {
 }
 
 /// Gets the VpcLinks collection under the caller's account in a selected region.
-public struct GetVpcLinksInput: Swift.Equatable {
+public struct GetVpcLinksInput {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -14440,7 +14440,7 @@ public struct GetVpcLinksInput: Swift.Equatable {
     }
 }
 
-struct GetVpcLinksInputBody: Swift.Equatable {
+struct GetVpcLinksInputBody {
 }
 
 extension GetVpcLinksInputBody: Swift.Decodable {
@@ -14463,7 +14463,7 @@ extension GetVpcLinksOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The collection of VPC links under the caller's account in a region.
-public struct GetVpcLinksOutput: Swift.Equatable {
+public struct GetVpcLinksOutput {
     /// The current page of elements from this collection.
     public var items: [APIGatewayClientTypes.VpcLink]?
     /// The current pagination position in the paged result set.
@@ -14479,7 +14479,7 @@ public struct GetVpcLinksOutput: Swift.Equatable {
     }
 }
 
-struct GetVpcLinksOutputBody: Swift.Equatable {
+struct GetVpcLinksOutputBody {
     let items: [APIGatewayClientTypes.VpcLink]?
 }
 
@@ -14558,7 +14558,7 @@ extension ImportApiKeysInput {
 }
 
 /// The POST request to import API keys from an external source, such as a CSV-formatted file.
-public struct ImportApiKeysInput: Swift.Equatable {
+public struct ImportApiKeysInput {
     /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
     /// This member is required.
     public var body: ClientRuntime.Data?
@@ -14580,7 +14580,7 @@ public struct ImportApiKeysInput: Swift.Equatable {
     }
 }
 
-struct ImportApiKeysInputBody: Swift.Equatable {
+struct ImportApiKeysInputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -14611,7 +14611,7 @@ extension ImportApiKeysOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The identifier of an ApiKey used in a UsagePlan.
-public struct ImportApiKeysOutput: Swift.Equatable {
+public struct ImportApiKeysOutput {
     /// A list of all the ApiKey identifiers.
     public var ids: [Swift.String]?
     /// A list of warning messages.
@@ -14627,7 +14627,7 @@ public struct ImportApiKeysOutput: Swift.Equatable {
     }
 }
 
-struct ImportApiKeysOutputBody: Swift.Equatable {
+struct ImportApiKeysOutputBody {
     let ids: [Swift.String]?
     let warnings: [Swift.String]?
 }
@@ -14721,7 +14721,7 @@ extension ImportDocumentationPartsInput {
 }
 
 /// Import documentation parts from an external (e.g., OpenAPI) definition file.
-public struct ImportDocumentationPartsInput: Swift.Equatable {
+public struct ImportDocumentationPartsInput {
     /// Raw byte array representing the to-be-imported documentation parts. To import from an OpenAPI file, this is a JSON object.
     /// This member is required.
     public var body: ClientRuntime.Data?
@@ -14747,7 +14747,7 @@ public struct ImportDocumentationPartsInput: Swift.Equatable {
     }
 }
 
-struct ImportDocumentationPartsInputBody: Swift.Equatable {
+struct ImportDocumentationPartsInputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -14778,7 +14778,7 @@ extension ImportDocumentationPartsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A collection of the imported DocumentationPart identifiers.
-public struct ImportDocumentationPartsOutput: Swift.Equatable {
+public struct ImportDocumentationPartsOutput {
     /// A list of the returned documentation part identifiers.
     public var ids: [Swift.String]?
     /// A list of warning messages reported during import of documentation parts.
@@ -14794,7 +14794,7 @@ public struct ImportDocumentationPartsOutput: Swift.Equatable {
     }
 }
 
-struct ImportDocumentationPartsOutputBody: Swift.Equatable {
+struct ImportDocumentationPartsOutputBody {
     let ids: [Swift.String]?
     let warnings: [Swift.String]?
 }
@@ -14891,7 +14891,7 @@ extension ImportRestApiInput {
 }
 
 /// A POST request to import an API to API Gateway using an input of an API definition file.
-public struct ImportRestApiInput: Swift.Equatable {
+public struct ImportRestApiInput {
     /// The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
     /// This member is required.
     public var body: ClientRuntime.Data?
@@ -14912,7 +14912,7 @@ public struct ImportRestApiInput: Swift.Equatable {
     }
 }
 
-struct ImportRestApiInputBody: Swift.Equatable {
+struct ImportRestApiInputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -14967,7 +14967,7 @@ extension ImportRestApiOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a REST API.
-public struct ImportRestApiOutput: Swift.Equatable {
+public struct ImportRestApiOutput {
     /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
     public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
@@ -15031,7 +15031,7 @@ public struct ImportRestApiOutput: Swift.Equatable {
     }
 }
 
-struct ImportRestApiOutputBody: Swift.Equatable {
+struct ImportRestApiOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -15295,7 +15295,7 @@ extension APIGatewayClientTypes.Integration: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
-    public struct Integration: Swift.Equatable {
+    public struct Integration {
         /// A list of request parameters whose values API Gateway caches. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
         public var cacheKeyParameters: [Swift.String]?
         /// Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.
@@ -15434,7 +15434,7 @@ extension APIGatewayClientTypes.IntegrationResponse: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response.
-    public struct IntegrationResponse: Swift.Equatable {
+    public struct IntegrationResponse {
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
         public var contentHandling: APIGatewayClientTypes.ContentHandlingStrategy?
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
@@ -15553,7 +15553,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -15730,7 +15730,7 @@ extension APIGatewayClientTypes.Method: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource.
-    public struct Method: Swift.Equatable {
+    public struct Method {
         /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
         public var apiKeyRequired: Swift.Bool?
         /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
@@ -15841,7 +15841,7 @@ extension APIGatewayClientTypes.MethodResponse: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template.
-    public struct MethodResponse: Swift.Equatable {
+    public struct MethodResponse {
         /// Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.
         public var responseModels: [Swift.String:Swift.String]?
         /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
@@ -15938,7 +15938,7 @@ extension APIGatewayClientTypes.MethodSetting: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Specifies the method setting properties.
-    public struct MethodSetting: Swift.Equatable {
+    public struct MethodSetting {
         /// Specifies whether the cached responses are encrypted.
         public var cacheDataEncrypted: Swift.Bool
         /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response will be cached.
@@ -16015,7 +16015,7 @@ extension APIGatewayClientTypes.MethodSnapshot: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents a summary of a Method resource, given a particular date and time.
-    public struct MethodSnapshot: Swift.Equatable {
+    public struct MethodSnapshot {
         /// Specifies whether the method requires a valid ApiKey.
         public var apiKeyRequired: Swift.Bool
         /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
@@ -16078,7 +16078,7 @@ extension APIGatewayClientTypes.Model: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents the data structure of a method's request or response payload.
-    public struct Model: Swift.Equatable {
+    public struct Model {
         /// The content-type for the model.
         public var contentType: Swift.String?
         /// The description of the model.
@@ -16153,7 +16153,7 @@ extension APIGatewayClientTypes.MutualTlsAuthentication: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
-    public struct MutualTlsAuthentication: Swift.Equatable {
+    public struct MutualTlsAuthentication {
         /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
         public var truststoreUri: Swift.String?
         /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket.
@@ -16202,7 +16202,7 @@ extension APIGatewayClientTypes.MutualTlsAuthenticationInput: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
-    public struct MutualTlsAuthenticationInput: Swift.Equatable {
+    public struct MutualTlsAuthenticationInput {
         /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
         public var truststoreUri: Swift.String?
         /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket
@@ -16259,7 +16259,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -16358,7 +16358,7 @@ extension APIGatewayClientTypes.PatchOperation: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
-    public struct PatchOperation: Swift.Equatable {
+    public struct PatchOperation {
         /// The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with "op":"copy", "from":"/canarySettings/deploymentId" and "path":"/deploymentId".
         public var from: Swift.String?
         /// An update operation to be performed with this PATCH request. The valid value can be add, remove, replace or copy. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message..
@@ -16425,7 +16425,7 @@ extension PutGatewayResponseInput {
 }
 
 /// Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
-public struct PutGatewayResponseInput: Swift.Equatable {
+public struct PutGatewayResponseInput {
     /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
     public var responseParameters: [Swift.String:Swift.String]?
     /// Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
@@ -16455,7 +16455,7 @@ public struct PutGatewayResponseInput: Swift.Equatable {
     }
 }
 
-struct PutGatewayResponseInputBody: Swift.Equatable {
+struct PutGatewayResponseInputBody {
     let statusCode: Swift.String?
     let responseParameters: [Swift.String:Swift.String]?
     let responseTemplates: [Swift.String:Swift.String]?
@@ -16518,7 +16518,7 @@ extension PutGatewayResponseOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A gateway response of a given response type and status code, with optional response parameters and mapping templates.
-public struct PutGatewayResponseOutput: Swift.Equatable {
+public struct PutGatewayResponseOutput {
     /// A Boolean flag to indicate whether this GatewayResponse is the default gateway response (true) or not (false). A default gateway response is one generated by API Gateway without any customization by an API developer.
     public var defaultResponse: Swift.Bool
     /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
@@ -16546,7 +16546,7 @@ public struct PutGatewayResponseOutput: Swift.Equatable {
     }
 }
 
-struct PutGatewayResponseOutputBody: Swift.Equatable {
+struct PutGatewayResponseOutputBody {
     let responseType: APIGatewayClientTypes.GatewayResponseType?
     let statusCode: Swift.String?
     let responseParameters: [Swift.String:Swift.String]?
@@ -16703,7 +16703,7 @@ extension PutIntegrationInput {
 }
 
 /// Sets up a method's integration.
-public struct PutIntegrationInput: Swift.Equatable {
+public struct PutIntegrationInput {
     /// A list of request parameters whose values API Gateway caches. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
     public var cacheKeyParameters: [Swift.String]?
     /// Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.
@@ -16783,7 +16783,7 @@ public struct PutIntegrationInput: Swift.Equatable {
     }
 }
 
-struct PutIntegrationInputBody: Swift.Equatable {
+struct PutIntegrationInputBody {
     let type: APIGatewayClientTypes.IntegrationType?
     let integrationHttpMethod: Swift.String?
     let uri: Swift.String?
@@ -16919,7 +16919,7 @@ extension PutIntegrationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
-public struct PutIntegrationOutput: Swift.Equatable {
+public struct PutIntegrationOutput {
     /// A list of request parameters whose values API Gateway caches. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
     public var cacheKeyParameters: [Swift.String]?
     /// Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.
@@ -16987,7 +16987,7 @@ public struct PutIntegrationOutput: Swift.Equatable {
     }
 }
 
-struct PutIntegrationOutputBody: Swift.Equatable {
+struct PutIntegrationOutputBody {
     let type: APIGatewayClientTypes.IntegrationType?
     let httpMethod: Swift.String?
     let uri: Swift.String?
@@ -17162,7 +17162,7 @@ extension PutIntegrationResponseInput {
 }
 
 /// Represents a put integration response request.
-public struct PutIntegrationResponseInput: Swift.Equatable {
+public struct PutIntegrationResponseInput {
     /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
     public var contentHandling: APIGatewayClientTypes.ContentHandlingStrategy?
     /// Specifies a put integration response request's HTTP method.
@@ -17206,7 +17206,7 @@ public struct PutIntegrationResponseInput: Swift.Equatable {
     }
 }
 
-struct PutIntegrationResponseInputBody: Swift.Equatable {
+struct PutIntegrationResponseInputBody {
     let selectionPattern: Swift.String?
     let responseParameters: [Swift.String:Swift.String]?
     let responseTemplates: [Swift.String:Swift.String]?
@@ -17273,7 +17273,7 @@ extension PutIntegrationResponseOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response.
-public struct PutIntegrationResponseOutput: Swift.Equatable {
+public struct PutIntegrationResponseOutput {
     /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
     public var contentHandling: APIGatewayClientTypes.ContentHandlingStrategy?
     /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
@@ -17301,7 +17301,7 @@ public struct PutIntegrationResponseOutput: Swift.Equatable {
     }
 }
 
-struct PutIntegrationResponseOutputBody: Swift.Equatable {
+struct PutIntegrationResponseOutputBody {
     let statusCode: Swift.String?
     let selectionPattern: Swift.String?
     let responseParameters: [Swift.String:Swift.String]?
@@ -17434,7 +17434,7 @@ extension PutMethodInput {
 }
 
 /// Request to add a method to an existing Resource resource.
-public struct PutMethodInput: Swift.Equatable {
+public struct PutMethodInput {
     /// Specifies whether the method required a valid ApiKey.
     public var apiKeyRequired: Swift.Bool?
     /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
@@ -17490,7 +17490,7 @@ public struct PutMethodInput: Swift.Equatable {
     }
 }
 
-struct PutMethodInputBody: Swift.Equatable {
+struct PutMethodInputBody {
     let authorizationType: Swift.String?
     let authorizerId: Swift.String?
     let apiKeyRequired: Swift.Bool?
@@ -17594,7 +17594,7 @@ extension PutMethodOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource.
-public struct PutMethodOutput: Swift.Equatable {
+public struct PutMethodOutput {
     /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
     public var apiKeyRequired: Swift.Bool?
     /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
@@ -17646,7 +17646,7 @@ public struct PutMethodOutput: Swift.Equatable {
     }
 }
 
-struct PutMethodOutputBody: Swift.Equatable {
+struct PutMethodOutputBody {
     let httpMethod: Swift.String?
     let authorizationType: Swift.String?
     let authorizerId: Swift.String?
@@ -17797,7 +17797,7 @@ extension PutMethodResponseInput {
 }
 
 /// Request to add a MethodResponse to an existing Method resource.
-public struct PutMethodResponseInput: Swift.Equatable {
+public struct PutMethodResponseInput {
     /// The HTTP verb of the Method resource.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -17833,7 +17833,7 @@ public struct PutMethodResponseInput: Swift.Equatable {
     }
 }
 
-struct PutMethodResponseInputBody: Swift.Equatable {
+struct PutMethodResponseInputBody {
     let responseParameters: [Swift.String:Swift.Bool]?
     let responseModels: [Swift.String:Swift.String]?
 }
@@ -17888,7 +17888,7 @@ extension PutMethodResponseOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template.
-public struct PutMethodResponseOutput: Swift.Equatable {
+public struct PutMethodResponseOutput {
     /// Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.
     public var responseModels: [Swift.String:Swift.String]?
     /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
@@ -17908,7 +17908,7 @@ public struct PutMethodResponseOutput: Swift.Equatable {
     }
 }
 
-struct PutMethodResponseOutputBody: Swift.Equatable {
+struct PutMethodResponseOutputBody {
     let statusCode: Swift.String?
     let responseParameters: [Swift.String:Swift.Bool]?
     let responseModels: [Swift.String:Swift.String]?
@@ -18047,7 +18047,7 @@ extension PutRestApiInput {
 }
 
 /// A PUT request to update an existing API, with external API definitions specified as the request body.
-public struct PutRestApiInput: Swift.Equatable {
+public struct PutRestApiInput {
     /// The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
     /// This member is required.
     public var body: ClientRuntime.Data?
@@ -18077,7 +18077,7 @@ public struct PutRestApiInput: Swift.Equatable {
     }
 }
 
-struct PutRestApiInputBody: Swift.Equatable {
+struct PutRestApiInputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -18132,7 +18132,7 @@ extension PutRestApiOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a REST API.
-public struct PutRestApiOutput: Swift.Equatable {
+public struct PutRestApiOutput {
     /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
     public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
@@ -18196,7 +18196,7 @@ public struct PutRestApiOutput: Swift.Equatable {
     }
 }
 
-struct PutRestApiOutputBody: Swift.Equatable {
+struct PutRestApiOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -18375,7 +18375,7 @@ extension APIGatewayClientTypes.QuotaSettings: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Quotas configured for a usage plan.
-    public struct QuotaSettings: Swift.Equatable {
+    public struct QuotaSettings {
         /// The target maximum number of requests that can be made in a given time period.
         public var limit: Swift.Int
         /// The number of requests subtracted from the given limit in the initial time period.
@@ -18436,7 +18436,7 @@ extension APIGatewayClientTypes.RequestValidator: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// A set of validation rules for incoming Method requests.
-    public struct RequestValidator: Swift.Equatable {
+    public struct RequestValidator {
         /// The identifier of this RequestValidator.
         public var id: Swift.String?
         /// The name of this RequestValidator
@@ -18519,7 +18519,7 @@ extension APIGatewayClientTypes.Resource: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents an API resource.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The resource's identifier.
         public var id: Swift.String?
         /// The parent resource's identifier.
@@ -18684,7 +18684,7 @@ extension APIGatewayClientTypes.RestApi: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents a REST API.
-    public struct RestApi: Swift.Equatable {
+    public struct RestApi {
         /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
         public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
@@ -18795,7 +18795,7 @@ extension APIGatewayClientTypes.SdkConfigurationProperty: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// A configuration property of an SDK type.
-    public struct SdkConfigurationProperty: Swift.Equatable {
+    public struct SdkConfigurationProperty {
         /// The default value of an SdkType configuration property.
         public var defaultValue: Swift.String?
         /// The description of an SdkType configuration property.
@@ -18876,7 +18876,7 @@ extension APIGatewayClientTypes.SdkType: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// A type of SDK that API Gateway can generate.
-    public struct SdkType: Swift.Equatable {
+    public struct SdkType {
         /// A list of configuration properties of an SdkType.
         public var configurationProperties: [APIGatewayClientTypes.SdkConfigurationProperty]?
         /// The description of an SdkType.
@@ -18981,7 +18981,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -19150,7 +19150,7 @@ extension APIGatewayClientTypes.Stage: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents a unique identifier for a version of a deployed RestApi that is callable by users.
-    public struct Stage: Swift.Equatable {
+    public struct Stage {
         /// Settings for logging access in this stage.
         public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
         /// Specifies whether a cache cluster is enabled for the stage. To activate a method-level cache, set CachingEnabled to true for a method.
@@ -19255,7 +19255,7 @@ extension APIGatewayClientTypes.StageKey: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// A reference to a unique stage identified in the format {restApiId}/{stage}.
-    public struct StageKey: Swift.Equatable {
+    public struct StageKey {
         /// The string identifier of the associated RestApi.
         public var restApiId: Swift.String?
         /// The stage name associated with the stage key.
@@ -19300,7 +19300,7 @@ extension TagResourceInput {
 }
 
 /// Adds or updates a tag on a given resource.
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of a resource that can be tagged.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -19318,7 +19318,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -19348,7 +19348,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -19431,7 +19431,7 @@ extension TestInvokeAuthorizerInput {
 }
 
 /// Make a request to simulate the invocation of an Authorizer.
-public struct TestInvokeAuthorizerInput: Swift.Equatable {
+public struct TestInvokeAuthorizerInput {
     /// A key-value map of additional context variables.
     public var additionalContext: [Swift.String:Swift.String]?
     /// Specifies a test invoke authorizer request's Authorizer ID.
@@ -19473,7 +19473,7 @@ public struct TestInvokeAuthorizerInput: Swift.Equatable {
     }
 }
 
-struct TestInvokeAuthorizerInputBody: Swift.Equatable {
+struct TestInvokeAuthorizerInputBody {
     let headers: [Swift.String:Swift.String]?
     let multiValueHeaders: [Swift.String:[Swift.String]]?
     let pathWithQueryString: Swift.String?
@@ -19577,7 +19577,7 @@ extension TestInvokeAuthorizerOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the response of the test invoke request for a custom Authorizer
-public struct TestInvokeAuthorizerOutput: Swift.Equatable {
+public struct TestInvokeAuthorizerOutput {
     /// The authorization response.
     public var authorization: [Swift.String:[Swift.String]]?
     /// The open identity claims, with any supported custom attributes, returned from the Cognito Your User Pool configured for the API.
@@ -19613,7 +19613,7 @@ public struct TestInvokeAuthorizerOutput: Swift.Equatable {
     }
 }
 
-struct TestInvokeAuthorizerOutputBody: Swift.Equatable {
+struct TestInvokeAuthorizerOutputBody {
     let clientStatus: Swift.Int
     let log: Swift.String?
     let latency: Swift.Int
@@ -19754,7 +19754,7 @@ extension TestInvokeMethodInput {
 }
 
 /// Make a request to simulate the invocation of a Method.
-public struct TestInvokeMethodInput: Swift.Equatable {
+public struct TestInvokeMethodInput {
     /// The simulated request body of an incoming invocation request.
     public var body: Swift.String?
     /// A ClientCertificate identifier to use in the test invocation. API Gateway will use the certificate when making the HTTPS request to the defined back-end endpoint.
@@ -19801,7 +19801,7 @@ public struct TestInvokeMethodInput: Swift.Equatable {
     }
 }
 
-struct TestInvokeMethodInputBody: Swift.Equatable {
+struct TestInvokeMethodInputBody {
     let pathWithQueryString: Swift.String?
     let body: Swift.String?
     let headers: [Swift.String:Swift.String]?
@@ -19894,7 +19894,7 @@ extension TestInvokeMethodOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the response of the test invoke request in the HTTP method.
-public struct TestInvokeMethodOutput: Swift.Equatable {
+public struct TestInvokeMethodOutput {
     /// The body of the HTTP response.
     public var body: Swift.String?
     /// The headers of the HTTP response.
@@ -19926,7 +19926,7 @@ public struct TestInvokeMethodOutput: Swift.Equatable {
     }
 }
 
-struct TestInvokeMethodOutputBody: Swift.Equatable {
+struct TestInvokeMethodOutputBody {
     let status: Swift.Int
     let body: Swift.String?
     let headers: [Swift.String:Swift.String]?
@@ -20028,7 +20028,7 @@ extension APIGatewayClientTypes.ThrottleSettings: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// The API request rate limits.
-    public struct ThrottleSettings: Swift.Equatable {
+    public struct ThrottleSettings {
         /// The API target request burst rate limit. This allows more requests through for a period of time than the target rate limit.
         public var burstLimit: Swift.Int
         /// The API target request rate limit.
@@ -20067,7 +20067,7 @@ extension APIGatewayClientTypes.TlsConfig: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Specifies the TLS configuration for an integration.
-    public struct TlsConfig: Swift.Equatable {
+    public struct TlsConfig {
         /// Specifies whether or not API Gateway skips verification that the certificate for an integration endpoint is issued by a supported certificate authority. This isn’t recommended, but it enables you to use certificates that are signed by private certificate authorities, or certificates that are self-signed. If enabled, API Gateway still performs basic certificate validation, which includes checking the certificate's expiration date, hostname, and presence of a root certificate authority. Supported only for HTTP and HTTP_PROXY integrations. Enabling insecureSkipVerification isn't recommended, especially for integrations with public HTTPS endpoints. If you enable insecureSkipVerification, you increase the risk of man-in-the-middle attacks.
         public var insecureSkipVerification: Swift.Bool
 
@@ -20128,7 +20128,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -20218,7 +20218,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -20261,7 +20261,7 @@ extension UntagResourceInput {
 }
 
 /// Removes a tag from a given resource.
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of a resource that can be tagged.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -20279,7 +20279,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -20293,7 +20293,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -20338,7 +20338,7 @@ extension UpdateAccountInput {
 }
 
 /// Requests API Gateway to change information about the current Account resource.
-public struct UpdateAccountInput: Swift.Equatable {
+public struct UpdateAccountInput {
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
 
@@ -20350,7 +20350,7 @@ public struct UpdateAccountInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountInputBody: Swift.Equatable {
+struct UpdateAccountInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -20394,7 +20394,7 @@ extension UpdateAccountOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an AWS account that is associated with API Gateway.
-public struct UpdateAccountOutput: Swift.Equatable {
+public struct UpdateAccountOutput {
     /// The version of the API keys used for the account.
     public var apiKeyVersion: Swift.String?
     /// The ARN of an Amazon CloudWatch role for the current Account.
@@ -20418,7 +20418,7 @@ public struct UpdateAccountOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountOutputBody: Swift.Equatable {
+struct UpdateAccountOutputBody {
     let cloudwatchRoleArn: Swift.String?
     let throttleSettings: APIGatewayClientTypes.ThrottleSettings?
     let features: [Swift.String]?
@@ -20498,7 +20498,7 @@ extension UpdateApiKeyInput {
 }
 
 /// A request to change information about an ApiKey resource.
-public struct UpdateApiKeyInput: Swift.Equatable {
+public struct UpdateApiKeyInput {
     /// The identifier of the ApiKey resource to be updated.
     /// This member is required.
     public var apiKey: Swift.String?
@@ -20515,7 +20515,7 @@ public struct UpdateApiKeyInput: Swift.Equatable {
     }
 }
 
-struct UpdateApiKeyInputBody: Swift.Equatable {
+struct UpdateApiKeyInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -20571,7 +20571,7 @@ extension UpdateApiKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage.
-public struct UpdateApiKeyOutput: Swift.Equatable {
+public struct UpdateApiKeyOutput {
     /// The timestamp when the API Key was created.
     public var createdDate: ClientRuntime.Date?
     /// An Amazon Web Services Marketplace customer identifier, when integrating with the Amazon Web Services SaaS Marketplace.
@@ -20619,7 +20619,7 @@ public struct UpdateApiKeyOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApiKeyOutputBody: Swift.Equatable {
+struct UpdateApiKeyOutputBody {
     let id: Swift.String?
     let value: Swift.String?
     let name: Swift.String?
@@ -20735,7 +20735,7 @@ extension UpdateAuthorizerInput {
 }
 
 /// Request to update an existing Authorizer resource.
-public struct UpdateAuthorizerInput: Swift.Equatable {
+public struct UpdateAuthorizerInput {
     /// The identifier of the Authorizer resource.
     /// This member is required.
     public var authorizerId: Swift.String?
@@ -20757,7 +20757,7 @@ public struct UpdateAuthorizerInput: Swift.Equatable {
     }
 }
 
-struct UpdateAuthorizerInputBody: Swift.Equatable {
+struct UpdateAuthorizerInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -20813,7 +20813,7 @@ extension UpdateAuthorizerOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method.
-public struct UpdateAuthorizerOutput: Swift.Equatable {
+public struct UpdateAuthorizerOutput {
     /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
     public var authType: Swift.String?
     /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
@@ -20861,7 +20861,7 @@ public struct UpdateAuthorizerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAuthorizerOutputBody: Swift.Equatable {
+struct UpdateAuthorizerOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let type: APIGatewayClientTypes.AuthorizerType?
@@ -20968,7 +20968,7 @@ extension UpdateBasePathMappingInput {
 }
 
 /// A request to change information about the BasePathMapping resource.
-public struct UpdateBasePathMappingInput: Swift.Equatable {
+public struct UpdateBasePathMappingInput {
     /// The base path of the BasePathMapping resource to change. To specify an empty base path, set this parameter to '(none)'.
     /// This member is required.
     public var basePath: Swift.String?
@@ -20990,7 +20990,7 @@ public struct UpdateBasePathMappingInput: Swift.Equatable {
     }
 }
 
-struct UpdateBasePathMappingInputBody: Swift.Equatable {
+struct UpdateBasePathMappingInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -21032,7 +21032,7 @@ extension UpdateBasePathMappingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the base path that callers of the API must provide as part of the URL after the domain name.
-public struct UpdateBasePathMappingOutput: Swift.Equatable {
+public struct UpdateBasePathMappingOutput {
     /// The base path name that callers of the API must provide as part of the URL after the domain name.
     public var basePath: Swift.String?
     /// The string identifier of the associated RestApi.
@@ -21052,7 +21052,7 @@ public struct UpdateBasePathMappingOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBasePathMappingOutputBody: Swift.Equatable {
+struct UpdateBasePathMappingOutputBody {
     let basePath: Swift.String?
     let restApiId: Swift.String?
     let stage: Swift.String?
@@ -21119,7 +21119,7 @@ extension UpdateClientCertificateInput {
 }
 
 /// A request to change information about an ClientCertificate resource.
-public struct UpdateClientCertificateInput: Swift.Equatable {
+public struct UpdateClientCertificateInput {
     /// The identifier of the ClientCertificate resource to be updated.
     /// This member is required.
     public var clientCertificateId: Swift.String?
@@ -21136,7 +21136,7 @@ public struct UpdateClientCertificateInput: Swift.Equatable {
     }
 }
 
-struct UpdateClientCertificateInputBody: Swift.Equatable {
+struct UpdateClientCertificateInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -21184,7 +21184,7 @@ extension UpdateClientCertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint.
-public struct UpdateClientCertificateOutput: Swift.Equatable {
+public struct UpdateClientCertificateOutput {
     /// The identifier of the client certificate.
     public var clientCertificateId: Swift.String?
     /// The timestamp when the client certificate was created.
@@ -21216,7 +21216,7 @@ public struct UpdateClientCertificateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateClientCertificateOutputBody: Swift.Equatable {
+struct UpdateClientCertificateOutputBody {
     let clientCertificateId: Swift.String?
     let description: Swift.String?
     let pemEncodedCertificate: Swift.String?
@@ -21307,7 +21307,7 @@ extension UpdateDeploymentInput {
 }
 
 /// Requests API Gateway to change information about a Deployment resource.
-public struct UpdateDeploymentInput: Swift.Equatable {
+public struct UpdateDeploymentInput {
     /// The replacement identifier for the Deployment resource to change information about.
     /// This member is required.
     public var deploymentId: Swift.String?
@@ -21329,7 +21329,7 @@ public struct UpdateDeploymentInput: Swift.Equatable {
     }
 }
 
-struct UpdateDeploymentInputBody: Swift.Equatable {
+struct UpdateDeploymentInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -21373,7 +21373,7 @@ extension UpdateDeploymentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet.
-public struct UpdateDeploymentOutput: Swift.Equatable {
+public struct UpdateDeploymentOutput {
     /// A summary of the RestApi at the date and time that the deployment resource was created.
     public var apiSummary: [Swift.String:[Swift.String:APIGatewayClientTypes.MethodSnapshot]]?
     /// The date and time that the deployment resource was created.
@@ -21397,7 +21397,7 @@ public struct UpdateDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDeploymentOutputBody: Swift.Equatable {
+struct UpdateDeploymentOutputBody {
     let id: Swift.String?
     let description: Swift.String?
     let createdDate: ClientRuntime.Date?
@@ -21488,7 +21488,7 @@ extension UpdateDocumentationPartInput {
 }
 
 /// Updates an existing documentation part of a given API.
-public struct UpdateDocumentationPartInput: Swift.Equatable {
+public struct UpdateDocumentationPartInput {
     /// The identifier of the to-be-updated documentation part.
     /// This member is required.
     public var documentationPartId: Swift.String?
@@ -21510,7 +21510,7 @@ public struct UpdateDocumentationPartInput: Swift.Equatable {
     }
 }
 
-struct UpdateDocumentationPartInputBody: Swift.Equatable {
+struct UpdateDocumentationPartInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -21552,7 +21552,7 @@ extension UpdateDocumentationPartOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A documentation part for a targeted API entity.
-public struct UpdateDocumentationPartOutput: Swift.Equatable {
+public struct UpdateDocumentationPartOutput {
     /// The DocumentationPart identifier, generated by API Gateway when the DocumentationPart is created.
     public var id: Swift.String?
     /// The location of the API entity to which the documentation applies. Valid fields depend on the targeted API entity type. All the valid location fields are not required. If not explicitly specified, a valid location field is treated as a wildcard and associated documentation content may be inherited by matching entities, unless overridden.
@@ -21572,7 +21572,7 @@ public struct UpdateDocumentationPartOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDocumentationPartOutputBody: Swift.Equatable {
+struct UpdateDocumentationPartOutputBody {
     let id: Swift.String?
     let location: APIGatewayClientTypes.DocumentationPartLocation?
     let properties: Swift.String?
@@ -21642,7 +21642,7 @@ extension UpdateDocumentationVersionInput {
 }
 
 /// Updates an existing documentation version of an API.
-public struct UpdateDocumentationVersionInput: Swift.Equatable {
+public struct UpdateDocumentationVersionInput {
     /// The version identifier of the to-be-updated documentation version.
     /// This member is required.
     public var documentationVersion: Swift.String?
@@ -21664,7 +21664,7 @@ public struct UpdateDocumentationVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateDocumentationVersionInputBody: Swift.Equatable {
+struct UpdateDocumentationVersionInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -21706,7 +21706,7 @@ extension UpdateDocumentationVersionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A snapshot of the documentation of an API.
-public struct UpdateDocumentationVersionOutput: Swift.Equatable {
+public struct UpdateDocumentationVersionOutput {
     /// The date when the API documentation snapshot is created.
     public var createdDate: ClientRuntime.Date?
     /// The description of the API documentation snapshot.
@@ -21726,7 +21726,7 @@ public struct UpdateDocumentationVersionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDocumentationVersionOutputBody: Swift.Equatable {
+struct UpdateDocumentationVersionOutputBody {
     let version: Swift.String?
     let createdDate: ClientRuntime.Date?
     let description: Swift.String?
@@ -21793,7 +21793,7 @@ extension UpdateDomainNameInput {
 }
 
 /// A request to change information about the DomainName resource.
-public struct UpdateDomainNameInput: Swift.Equatable {
+public struct UpdateDomainNameInput {
     /// The name of the DomainName resource to be changed.
     /// This member is required.
     public var domainName: Swift.String?
@@ -21810,7 +21810,7 @@ public struct UpdateDomainNameInput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainNameInputBody: Swift.Equatable {
+struct UpdateDomainNameInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -21880,7 +21880,7 @@ extension UpdateDomainNameOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
-public struct UpdateDomainNameOutput: Swift.Equatable {
+public struct UpdateDomainNameOutput {
     /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
     /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
@@ -21956,7 +21956,7 @@ public struct UpdateDomainNameOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainNameOutputBody: Swift.Equatable {
+struct UpdateDomainNameOutputBody {
     let domainName: Swift.String?
     let certificateName: Swift.String?
     let certificateArn: Swift.String?
@@ -22091,7 +22091,7 @@ extension UpdateGatewayResponseInput {
 }
 
 /// Updates a GatewayResponse of a specified response type on the given RestApi.
-public struct UpdateGatewayResponseInput: Swift.Equatable {
+public struct UpdateGatewayResponseInput {
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
     /// The response type of the associated GatewayResponse.
@@ -22113,7 +22113,7 @@ public struct UpdateGatewayResponseInput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewayResponseInputBody: Swift.Equatable {
+struct UpdateGatewayResponseInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -22159,7 +22159,7 @@ extension UpdateGatewayResponseOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A gateway response of a given response type and status code, with optional response parameters and mapping templates.
-public struct UpdateGatewayResponseOutput: Swift.Equatable {
+public struct UpdateGatewayResponseOutput {
     /// A Boolean flag to indicate whether this GatewayResponse is the default gateway response (true) or not (false). A default gateway response is one generated by API Gateway without any customization by an API developer.
     public var defaultResponse: Swift.Bool
     /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
@@ -22187,7 +22187,7 @@ public struct UpdateGatewayResponseOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewayResponseOutputBody: Swift.Equatable {
+struct UpdateGatewayResponseOutputBody {
     let responseType: APIGatewayClientTypes.GatewayResponseType?
     let statusCode: Swift.String?
     let responseParameters: [Swift.String:Swift.String]?
@@ -22286,7 +22286,7 @@ extension UpdateIntegrationInput {
 }
 
 /// Represents an update integration request.
-public struct UpdateIntegrationInput: Swift.Equatable {
+public struct UpdateIntegrationInput {
     /// Represents an update integration request's HTTP method.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -22313,7 +22313,7 @@ public struct UpdateIntegrationInput: Swift.Equatable {
     }
 }
 
-struct UpdateIntegrationInputBody: Swift.Equatable {
+struct UpdateIntegrationInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -22379,7 +22379,7 @@ extension UpdateIntegrationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
-public struct UpdateIntegrationOutput: Swift.Equatable {
+public struct UpdateIntegrationOutput {
     /// A list of request parameters whose values API Gateway caches. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.
     public var cacheKeyParameters: [Swift.String]?
     /// Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.
@@ -22447,7 +22447,7 @@ public struct UpdateIntegrationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIntegrationOutputBody: Swift.Equatable {
+struct UpdateIntegrationOutputBody {
     let type: APIGatewayClientTypes.IntegrationType?
     let httpMethod: Swift.String?
     let uri: Swift.String?
@@ -22607,7 +22607,7 @@ extension UpdateIntegrationResponseInput {
 }
 
 /// Represents an update integration response request.
-public struct UpdateIntegrationResponseInput: Swift.Equatable {
+public struct UpdateIntegrationResponseInput {
     /// Specifies an update integration response request's HTTP method.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -22639,7 +22639,7 @@ public struct UpdateIntegrationResponseInput: Swift.Equatable {
     }
 }
 
-struct UpdateIntegrationResponseInputBody: Swift.Equatable {
+struct UpdateIntegrationResponseInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -22685,7 +22685,7 @@ extension UpdateIntegrationResponseOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response.
-public struct UpdateIntegrationResponseOutput: Swift.Equatable {
+public struct UpdateIntegrationResponseOutput {
     /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
     public var contentHandling: APIGatewayClientTypes.ContentHandlingStrategy?
     /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
@@ -22713,7 +22713,7 @@ public struct UpdateIntegrationResponseOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIntegrationResponseOutputBody: Swift.Equatable {
+struct UpdateIntegrationResponseOutputBody {
     let statusCode: Swift.String?
     let selectionPattern: Swift.String?
     let responseParameters: [Swift.String:Swift.String]?
@@ -22812,7 +22812,7 @@ extension UpdateMethodInput {
 }
 
 /// Request to update an existing Method resource.
-public struct UpdateMethodInput: Swift.Equatable {
+public struct UpdateMethodInput {
     /// The HTTP verb of the Method resource.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -22839,7 +22839,7 @@ public struct UpdateMethodInput: Swift.Equatable {
     }
 }
 
-struct UpdateMethodInputBody: Swift.Equatable {
+struct UpdateMethodInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -22897,7 +22897,7 @@ extension UpdateMethodOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource.
-public struct UpdateMethodOutput: Swift.Equatable {
+public struct UpdateMethodOutput {
     /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
     public var apiKeyRequired: Swift.Bool?
     /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
@@ -22949,7 +22949,7 @@ public struct UpdateMethodOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMethodOutputBody: Swift.Equatable {
+struct UpdateMethodOutputBody {
     let httpMethod: Swift.String?
     let authorizationType: Swift.String?
     let authorizerId: Swift.String?
@@ -23092,7 +23092,7 @@ extension UpdateMethodResponseInput {
 }
 
 /// A request to update an existing MethodResponse resource.
-public struct UpdateMethodResponseInput: Swift.Equatable {
+public struct UpdateMethodResponseInput {
     /// The HTTP verb of the Method resource.
     /// This member is required.
     public var httpMethod: Swift.String?
@@ -23124,7 +23124,7 @@ public struct UpdateMethodResponseInput: Swift.Equatable {
     }
 }
 
-struct UpdateMethodResponseInputBody: Swift.Equatable {
+struct UpdateMethodResponseInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -23166,7 +23166,7 @@ extension UpdateMethodResponseOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template.
-public struct UpdateMethodResponseOutput: Swift.Equatable {
+public struct UpdateMethodResponseOutput {
     /// Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.
     public var responseModels: [Swift.String:Swift.String]?
     /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
@@ -23186,7 +23186,7 @@ public struct UpdateMethodResponseOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMethodResponseOutputBody: Swift.Equatable {
+struct UpdateMethodResponseOutputBody {
     let statusCode: Swift.String?
     let responseParameters: [Swift.String:Swift.Bool]?
     let responseModels: [Swift.String:Swift.String]?
@@ -23274,7 +23274,7 @@ extension UpdateModelInput {
 }
 
 /// Request to update an existing model in an existing RestApi resource.
-public struct UpdateModelInput: Swift.Equatable {
+public struct UpdateModelInput {
     /// The name of the model to update.
     /// This member is required.
     public var modelName: Swift.String?
@@ -23296,7 +23296,7 @@ public struct UpdateModelInput: Swift.Equatable {
     }
 }
 
-struct UpdateModelInputBody: Swift.Equatable {
+struct UpdateModelInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -23342,7 +23342,7 @@ extension UpdateModelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the data structure of a method's request or response payload.
-public struct UpdateModelOutput: Swift.Equatable {
+public struct UpdateModelOutput {
     /// The content-type for the model.
     public var contentType: Swift.String?
     /// The description of the model.
@@ -23370,7 +23370,7 @@ public struct UpdateModelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateModelOutputBody: Swift.Equatable {
+struct UpdateModelOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -23448,7 +23448,7 @@ extension UpdateRequestValidatorInput {
 }
 
 /// Updates a RequestValidator of a given RestApi.
-public struct UpdateRequestValidatorInput: Swift.Equatable {
+public struct UpdateRequestValidatorInput {
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
     /// The identifier of RequestValidator to be updated.
@@ -23470,7 +23470,7 @@ public struct UpdateRequestValidatorInput: Swift.Equatable {
     }
 }
 
-struct UpdateRequestValidatorInputBody: Swift.Equatable {
+struct UpdateRequestValidatorInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -23514,7 +23514,7 @@ extension UpdateRequestValidatorOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A set of validation rules for incoming Method requests.
-public struct UpdateRequestValidatorOutput: Swift.Equatable {
+public struct UpdateRequestValidatorOutput {
     /// The identifier of this RequestValidator.
     public var id: Swift.String?
     /// The name of this RequestValidator
@@ -23538,7 +23538,7 @@ public struct UpdateRequestValidatorOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRequestValidatorOutputBody: Swift.Equatable {
+struct UpdateRequestValidatorOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let validateRequestBody: Swift.Bool
@@ -23612,7 +23612,7 @@ extension UpdateResourceInput {
 }
 
 /// Request to change information about a Resource resource.
-public struct UpdateResourceInput: Swift.Equatable {
+public struct UpdateResourceInput {
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
     /// The identifier of the Resource resource.
@@ -23634,7 +23634,7 @@ public struct UpdateResourceInput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceInputBody: Swift.Equatable {
+struct UpdateResourceInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -23680,7 +23680,7 @@ extension UpdateResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents an API resource.
-public struct UpdateResourceOutput: Swift.Equatable {
+public struct UpdateResourceOutput {
     /// The resource's identifier.
     public var id: Swift.String?
     /// The parent resource's identifier.
@@ -23708,7 +23708,7 @@ public struct UpdateResourceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceOutputBody: Swift.Equatable {
+struct UpdateResourceOutputBody {
     let id: Swift.String?
     let parentId: Swift.String?
     let pathPart: Swift.String?
@@ -23791,7 +23791,7 @@ extension UpdateRestApiInput {
 }
 
 /// Request to update an existing RestApi resource in your collection.
-public struct UpdateRestApiInput: Swift.Equatable {
+public struct UpdateRestApiInput {
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
     /// The string identifier of the associated RestApi.
@@ -23808,7 +23808,7 @@ public struct UpdateRestApiInput: Swift.Equatable {
     }
 }
 
-struct UpdateRestApiInputBody: Swift.Equatable {
+struct UpdateRestApiInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -23872,7 +23872,7 @@ extension UpdateRestApiOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a REST API.
-public struct UpdateRestApiOutput: Swift.Equatable {
+public struct UpdateRestApiOutput {
     /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
     public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
@@ -23936,7 +23936,7 @@ public struct UpdateRestApiOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRestApiOutputBody: Swift.Equatable {
+struct UpdateRestApiOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -24077,7 +24077,7 @@ extension UpdateStageInput {
 }
 
 /// Requests API Gateway to change information about a Stage resource.
-public struct UpdateStageInput: Swift.Equatable {
+public struct UpdateStageInput {
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
     /// The string identifier of the associated RestApi.
@@ -24099,7 +24099,7 @@ public struct UpdateStageInput: Swift.Equatable {
     }
 }
 
-struct UpdateStageInputBody: Swift.Equatable {
+struct UpdateStageInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -24169,7 +24169,7 @@ extension UpdateStageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a unique identifier for a version of a deployed RestApi that is callable by users.
-public struct UpdateStageOutput: Swift.Equatable {
+public struct UpdateStageOutput {
     /// Settings for logging access in this stage.
     public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
     /// Specifies whether a cache cluster is enabled for the stage. To activate a method-level cache, set CachingEnabled to true for a method.
@@ -24245,7 +24245,7 @@ public struct UpdateStageOutput: Swift.Equatable {
     }
 }
 
-struct UpdateStageOutputBody: Swift.Equatable {
+struct UpdateStageOutputBody {
     let deploymentId: Swift.String?
     let clientCertificateId: Swift.String?
     let stageName: Swift.String?
@@ -24398,7 +24398,7 @@ extension UpdateUsageInput {
 }
 
 /// The PATCH request to grant a temporary extension to the remaining quota of a usage plan associated with a specified API key.
-public struct UpdateUsageInput: Swift.Equatable {
+public struct UpdateUsageInput {
     /// The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
     /// This member is required.
     public var keyId: Swift.String?
@@ -24420,7 +24420,7 @@ public struct UpdateUsageInput: Swift.Equatable {
     }
 }
 
-struct UpdateUsageInputBody: Swift.Equatable {
+struct UpdateUsageInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -24465,7 +24465,7 @@ extension UpdateUsageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the usage data of a usage plan.
-public struct UpdateUsageOutput: Swift.Equatable {
+public struct UpdateUsageOutput {
     /// The ending date of the usage data.
     public var endDate: Swift.String?
     /// The usage data, as daily logs of used and remaining quotas, over the specified time interval indexed over the API keys in a usage plan. For example, {..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100, 10]]}, where {api_key} stands for an API key value and the daily log entry is of the format [used quota, remaining quota].
@@ -24493,7 +24493,7 @@ public struct UpdateUsageOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUsageOutputBody: Swift.Equatable {
+struct UpdateUsageOutputBody {
     let usagePlanId: Swift.String?
     let startDate: Swift.String?
     let endDate: Swift.String?
@@ -24589,7 +24589,7 @@ extension UpdateUsagePlanInput {
 }
 
 /// The PATCH request to update a usage plan of a given plan Id.
-public struct UpdateUsagePlanInput: Swift.Equatable {
+public struct UpdateUsagePlanInput {
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
     /// The Id of the to-be-updated usage plan.
@@ -24606,7 +24606,7 @@ public struct UpdateUsagePlanInput: Swift.Equatable {
     }
 }
 
-struct UpdateUsagePlanInputBody: Swift.Equatable {
+struct UpdateUsagePlanInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -24658,7 +24658,7 @@ extension UpdateUsagePlanOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests.
-public struct UpdateUsagePlanOutput: Swift.Equatable {
+public struct UpdateUsagePlanOutput {
     /// The associated API stages of a usage plan.
     public var apiStages: [APIGatewayClientTypes.ApiStage]?
     /// The description of a usage plan.
@@ -24698,7 +24698,7 @@ public struct UpdateUsagePlanOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUsagePlanOutputBody: Swift.Equatable {
+struct UpdateUsagePlanOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -24803,7 +24803,7 @@ extension UpdateVpcLinkInput {
 }
 
 /// Updates an existing VpcLink of a specified identifier.
-public struct UpdateVpcLinkInput: Swift.Equatable {
+public struct UpdateVpcLinkInput {
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
     /// The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
@@ -24820,7 +24820,7 @@ public struct UpdateVpcLinkInput: Swift.Equatable {
     }
 }
 
-struct UpdateVpcLinkInputBody: Swift.Equatable {
+struct UpdateVpcLinkInputBody {
     let patchOperations: [APIGatewayClientTypes.PatchOperation]?
 }
 
@@ -24870,7 +24870,7 @@ extension UpdateVpcLinkOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC).
-public struct UpdateVpcLinkOutput: Swift.Equatable {
+public struct UpdateVpcLinkOutput {
     /// The description of the VPC link.
     public var description: Swift.String?
     /// The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.
@@ -24906,7 +24906,7 @@ public struct UpdateVpcLinkOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVpcLinkOutputBody: Swift.Equatable {
+struct UpdateVpcLinkOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -25067,7 +25067,7 @@ extension APIGatewayClientTypes.UsagePlan: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests.
-    public struct UsagePlan: Swift.Equatable {
+    public struct UsagePlan {
         /// The associated API stages of a usage plan.
         public var apiStages: [APIGatewayClientTypes.ApiStage]?
         /// The description of a usage plan.
@@ -25148,7 +25148,7 @@ extension APIGatewayClientTypes.UsagePlanKey: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// Represents a usage plan key to identify a plan customer.
-    public struct UsagePlanKey: Swift.Equatable {
+    public struct UsagePlanKey {
         /// The Id of a usage plan key.
         public var id: Swift.String?
         /// The name of a usage plan key.
@@ -25255,7 +25255,7 @@ extension APIGatewayClientTypes.VpcLink: Swift.Codable {
 
 extension APIGatewayClientTypes {
     /// An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC).
-    public struct VpcLink: Swift.Equatable {
+    public struct VpcLink {
         /// The description of the VPC link.
         public var description: Swift.String?
         /// The identifier of the VpcLink. It is used in an Integration to reference this VpcLink.

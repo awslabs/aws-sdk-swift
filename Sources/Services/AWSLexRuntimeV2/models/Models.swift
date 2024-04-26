@@ -61,7 +61,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -122,7 +122,7 @@ extension LexRuntimeV2ClientTypes.ActiveContext: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Contains information about the contexts that a user is using in a session. You can configure Amazon Lex V2 to set a context when an intent is fulfilled, or you can set a context using the , , or operations. Use a context to indicate to Amazon Lex V2 intents that should be used as follow-up intents. For example, if the active context is order-fulfilled, only intents that have order-fulfilled configured as a trigger are considered for follow up.
-    public struct ActiveContext: Swift.Equatable {
+    public struct ActiveContext {
         /// A list of contexts active for the request. A context can be activated when a previous intent is fulfilled, or by including the context in the request. If you don't specify a list of contexts, Amazon Lex V2 will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared.
         /// This member is required.
         public var contextAttributes: [Swift.String:Swift.String]?
@@ -174,7 +174,7 @@ extension LexRuntimeV2ClientTypes.ActiveContextTimeToLive: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// The time that a context is active. You can specify the time to live in seconds or in conversation turns.
-    public struct ActiveContextTimeToLive: Swift.Equatable {
+    public struct ActiveContextTimeToLive {
         /// The number of seconds that the context is active. You can specify between 5 and 86400 seconds (24 hours).
         /// This member is required.
         public var timeToLiveInSeconds: Swift.Int?
@@ -233,7 +233,7 @@ extension LexRuntimeV2ClientTypes.AudioInputEvent: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Represents a chunk of audio sent from the client application to Amazon Lex V2. The audio is all or part of an utterance from the user. Amazon Lex V2 accumulates audio chunks until it recognizes a natural pause in speech before processing the input.
-    public struct AudioInputEvent: Swift.Equatable {
+    public struct AudioInputEvent {
         /// An encoded stream of audio.
         public var audioChunk: ClientRuntime.Data?
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
@@ -293,7 +293,7 @@ extension LexRuntimeV2ClientTypes.AudioResponseEvent: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// An event sent from Amazon Lex V2 to your client application containing audio to play to the user.
-    public struct AudioResponseEvent: Swift.Equatable {
+    public struct AudioResponseEvent {
         /// A chunk of the audio to play.
         public var audioChunk: ClientRuntime.Data?
         /// The encoding of the audio chunk. This is the same as the encoding configure in the contentType field of the ConfigurationEvent.
@@ -374,7 +374,7 @@ public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadGatewayExceptionBody: Swift.Equatable {
+struct BadGatewayExceptionBody {
     let message: Swift.String?
 }
 
@@ -417,7 +417,7 @@ extension LexRuntimeV2ClientTypes.Button: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// A button that appears on a response card show to the user.
-    public struct Button: Swift.Equatable {
+    public struct Button {
         /// The text that is displayed on the button.
         /// This member is required.
         public var text: Swift.String?
@@ -458,7 +458,7 @@ extension LexRuntimeV2ClientTypes.ConfidenceScore: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Provides a score that indicates the confidence that Amazon Lex V2 has that an intent is the one that satisfies the user's intent.
-    public struct ConfidenceScore: Swift.Equatable {
+    public struct ConfidenceScore {
         /// A score that indicates how confident Amazon Lex V2 is that an intent satisfies the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate higher confidence.
         public var score: Swift.Double
 
@@ -553,7 +553,7 @@ extension LexRuntimeV2ClientTypes.ConfigurationEvent: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// The initial event sent from the application to Amazon Lex V2 to configure the conversation, including session and request attributes and the response content type.
-    public struct ConfigurationEvent: Swift.Equatable {
+    public struct ConfigurationEvent {
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public var clientTimestampMillis: Swift.Int
         /// Determines whether Amazon Lex V2 should send audio responses to the client application. Set this field to false when the client is operating in a playback mode where audio responses are played to the user. If the client isn't operating in playback mode, such as a text chat application, set this to true so that Amazon Lex V2 doesn't wait for the prompt to finish playing on the client.
@@ -704,7 +704,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -790,7 +790,7 @@ extension LexRuntimeV2ClientTypes.DTMFInputEvent: Swift.CustomDebugStringConvert
 
 extension LexRuntimeV2ClientTypes {
     /// A DTMF character sent from the client application. DTMF characters are typically sent from a phone keypad to represent numbers. For example, you can have Amazon Lex V2 process a credit card number input from a phone.
-    public struct DTMFInputEvent: Swift.Equatable {
+    public struct DTMFInputEvent {
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public var clientTimestampMillis: Swift.Int
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
@@ -832,7 +832,7 @@ extension DeleteSessionInput {
     }
 }
 
-public struct DeleteSessionInput: Swift.Equatable {
+public struct DeleteSessionInput {
     /// The alias identifier in use for the bot that contains the session data.
     /// This member is required.
     public var botAliasId: Swift.String?
@@ -860,7 +860,7 @@ public struct DeleteSessionInput: Swift.Equatable {
     }
 }
 
-struct DeleteSessionInputBody: Swift.Equatable {
+struct DeleteSessionInputBody {
 }
 
 extension DeleteSessionInputBody: Swift.Decodable {
@@ -887,7 +887,7 @@ extension DeleteSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSessionOutput: Swift.Equatable {
+public struct DeleteSessionOutput {
     /// The alias identifier in use for the bot that contained the session data.
     public var botAliasId: Swift.String?
     /// The identifier of the bot that contained the session data.
@@ -911,7 +911,7 @@ public struct DeleteSessionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSessionOutputBody: Swift.Equatable {
+struct DeleteSessionOutputBody {
     let botId: Swift.String?
     let botAliasId: Swift.String?
     let localeId: Swift.String?
@@ -1014,7 +1014,7 @@ public struct DependencyFailedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct DependencyFailedExceptionBody: Swift.Equatable {
+struct DependencyFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -1069,7 +1069,7 @@ extension LexRuntimeV2ClientTypes.DialogAction: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// The next action that Amazon Lex V2 should take.
-    public struct DialogAction: Swift.Equatable {
+    public struct DialogAction {
         /// Configures the slot to use spell-by-letter or spell-by-word style. When you use a style on a slot, users can spell out their input to make it clear to your bot.
         ///
         /// * Spell by letter - "b" "o" "b"
@@ -1184,7 +1184,7 @@ extension LexRuntimeV2ClientTypes.DisconnectionEvent: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// A notification from the client that it is disconnecting from Amazon Lex V2. Sending a DisconnectionEvent event is optional, but can help identify a conversation in logs.
-    public struct DisconnectionEvent: Swift.Equatable {
+    public struct DisconnectionEvent {
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public var clientTimestampMillis: Swift.Int
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
@@ -1229,7 +1229,7 @@ extension LexRuntimeV2ClientTypes.ElicitSubSlot: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// The specific constituent sub slot of the composite slot to elicit in dialog action.
-    public struct ElicitSubSlot: Swift.Equatable {
+    public struct ElicitSubSlot {
         /// The name of the slot that should be elicited from the user.
         /// This member is required.
         public var name: Swift.String?
@@ -1267,7 +1267,7 @@ extension GetSessionInput {
     }
 }
 
-public struct GetSessionInput: Swift.Equatable {
+public struct GetSessionInput {
     /// The alias identifier in use for the bot that contains the session data.
     /// This member is required.
     public var botAliasId: Swift.String?
@@ -1295,7 +1295,7 @@ public struct GetSessionInput: Swift.Equatable {
     }
 }
 
-struct GetSessionInputBody: Swift.Equatable {
+struct GetSessionInputBody {
 }
 
 extension GetSessionInputBody: Swift.Decodable {
@@ -1322,7 +1322,7 @@ extension GetSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionOutput: Swift.Equatable {
+public struct GetSessionOutput {
     /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates how confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
     public var interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
     /// A list of messages that were last sent to the user. The messages are ordered based on the order that your returned the messages from your Lambda function or the order that messages are defined in the bot.
@@ -1346,7 +1346,7 @@ public struct GetSessionOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionOutputBody: Swift.Equatable {
+struct GetSessionOutputBody {
     let sessionId: Swift.String?
     let messages: [LexRuntimeV2ClientTypes.Message]?
     let interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
@@ -1428,7 +1428,7 @@ extension LexRuntimeV2ClientTypes.HeartbeatEvent: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Event that Amazon Lex V2 sends to indicate that the stream is still open between the client application and Amazon Lex V2
-    public struct HeartbeatEvent: Swift.Equatable {
+    public struct HeartbeatEvent {
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public var eventId: Swift.String?
 
@@ -1493,7 +1493,7 @@ extension LexRuntimeV2ClientTypes.ImageResponseCard: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// A card that is shown to the user by a messaging platform. You define the contents of the card, the card is displayed by the platform. When you use a response card, the response from the user is constrained to the text associated with a button on the card.
-    public struct ImageResponseCard: Swift.Equatable {
+    public struct ImageResponseCard {
         /// A list of buttons that should be displayed on the response card. The arrangement of the buttons is determined by the platform that displays the button.
         public var buttons: [LexRuntimeV2ClientTypes.Button]?
         /// The URL of an image to display on the response card. The image URL must be publicly available so that the platform displaying the response card has access to the image.
@@ -1606,7 +1606,7 @@ extension LexRuntimeV2ClientTypes.Intent: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// The current intent that Amazon Lex V2 is attempting to fulfill.
-    public struct Intent: Swift.Equatable {
+    public struct Intent {
         /// Indicates whether the intent has been Confirmed, Denied, or None if the confirmation stage has not yet been reached.
         public var confirmationState: LexRuntimeV2ClientTypes.ConfirmationState?
         /// The name of the intent.
@@ -1726,7 +1726,7 @@ extension LexRuntimeV2ClientTypes.IntentResultEvent: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Contains the current state of the conversation between the client application and Amazon Lex V2.
-    public struct IntentResultEvent: Swift.Equatable {
+    public struct IntentResultEvent {
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public var eventId: Swift.String?
         /// Indicates whether the input to the operation was text, speech, or from a touch-tone keypad.
@@ -1867,7 +1867,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1922,7 +1922,7 @@ extension LexRuntimeV2ClientTypes.Interpretation: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// An object containing information about an intent that Amazon Lex V2 determined might satisfy the user's utterance. The intents are ordered by the confidence score.
-    public struct Interpretation: Swift.Equatable {
+    public struct Interpretation {
         /// A list of intents that might satisfy the user's utterance. The intents are ordered by the confidence score.
         public var intent: LexRuntimeV2ClientTypes.Intent?
         /// Specifies the service that interpreted the input.
@@ -2020,7 +2020,7 @@ extension LexRuntimeV2ClientTypes.Message: Swift.CustomDebugStringConvertible {
 
 extension LexRuntimeV2ClientTypes {
     /// Container for text that is returned to the customer..
-    public struct Message: Swift.Equatable {
+    public struct Message {
         /// The text of the message.
         public var content: Swift.String?
         /// Indicates the type of response.
@@ -2108,7 +2108,7 @@ extension LexRuntimeV2ClientTypes.PlaybackCompletionEvent: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Event sent from the client application to Amazon Lex V2 to indicate that playback of audio is complete and that Amazon Lex V2 should start processing the user's input.
-    public struct PlaybackCompletionEvent: Swift.Equatable {
+    public struct PlaybackCompletionEvent {
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public var clientTimestampMillis: Swift.Int
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
@@ -2159,7 +2159,7 @@ extension LexRuntimeV2ClientTypes.PlaybackInterruptionEvent: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Event sent from Amazon Lex V2 to indicate to the client application should stop playback of audio. For example, if the client is playing a prompt that asks for the user's telephone number, the user might start to say the phone number before the prompt is complete. Amazon Lex V2 sends this event to the client application to indicate that the user is responding and that Amazon Lex V2 is processing their input.
-    public struct PlaybackInterruptionEvent: Swift.Equatable {
+    public struct PlaybackInterruptionEvent {
         /// The identifier of the event that contained the audio, DTMF, or text that caused the interruption.
         public var causedByEventId: Swift.String?
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
@@ -2273,7 +2273,7 @@ extension PutSessionInput {
     }
 }
 
-public struct PutSessionInput: Swift.Equatable {
+public struct PutSessionInput {
     /// The alias identifier of the bot that receives the session data.
     /// This member is required.
     public var botAliasId: Swift.String?
@@ -2320,7 +2320,7 @@ public struct PutSessionInput: Swift.Equatable {
     }
 }
 
-struct PutSessionInputBody: Swift.Equatable {
+struct PutSessionInputBody {
     let messages: [LexRuntimeV2ClientTypes.Message]?
     let sessionState: LexRuntimeV2ClientTypes.SessionState?
     let requestAttributes: [Swift.String:Swift.String]?
@@ -2400,7 +2400,7 @@ extension PutSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSessionOutput: Swift.Equatable {
+public struct PutSessionOutput {
     /// If the requested content type was audio, the audio version of the message to convey to the user.
     public var audioStream: ClientRuntime.ByteStream?
     /// The type of response. Same as the type specified in the responseContentType field in the request.
@@ -2432,7 +2432,7 @@ public struct PutSessionOutput: Swift.Equatable {
     }
 }
 
-struct PutSessionOutputBody: Swift.Equatable {
+struct PutSessionOutputBody {
     let audioStream: ClientRuntime.ByteStream?
 }
 
@@ -2514,7 +2514,7 @@ extension RecognizeTextInput {
     }
 }
 
-public struct RecognizeTextInput: Swift.Equatable {
+public struct RecognizeTextInput {
     /// The alias identifier in use for the bot that processes the request.
     /// This member is required.
     public var botAliasId: Swift.String?
@@ -2555,7 +2555,7 @@ public struct RecognizeTextInput: Swift.Equatable {
     }
 }
 
-struct RecognizeTextInputBody: Swift.Equatable {
+struct RecognizeTextInputBody {
     let text: Swift.String?
     let sessionState: LexRuntimeV2ClientTypes.SessionState?
     let requestAttributes: [Swift.String:Swift.String]?
@@ -2610,7 +2610,7 @@ extension RecognizeTextOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RecognizeTextOutput: Swift.Equatable {
+public struct RecognizeTextOutput {
     /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates now confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
     public var interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
     /// A list of messages last sent to the user. The messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
@@ -2642,7 +2642,7 @@ public struct RecognizeTextOutput: Swift.Equatable {
     }
 }
 
-struct RecognizeTextOutputBody: Swift.Equatable {
+struct RecognizeTextOutputBody {
     let messages: [LexRuntimeV2ClientTypes.Message]?
     let sessionState: LexRuntimeV2ClientTypes.SessionState?
     let interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
@@ -2780,7 +2780,7 @@ extension RecognizeUtteranceInput {
     }
 }
 
-public struct RecognizeUtteranceInput: Swift.Equatable {
+public struct RecognizeUtteranceInput {
     /// The alias identifier in use for the bot that should receive the request.
     /// This member is required.
     public var botAliasId: Swift.String?
@@ -2869,7 +2869,7 @@ public struct RecognizeUtteranceInput: Swift.Equatable {
     }
 }
 
-struct RecognizeUtteranceInputBody: Swift.Equatable {
+struct RecognizeUtteranceInputBody {
     let inputStream: ClientRuntime.ByteStream?
 }
 
@@ -2943,7 +2943,7 @@ extension RecognizeUtteranceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RecognizeUtteranceOutput: Swift.Equatable {
+public struct RecognizeUtteranceOutput {
     /// The prompt or statement to send to the user. This is based on the bot configuration and context. For example, if Amazon Lex V2 did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex V2 sends that message in the response.
     public var audioStream: ClientRuntime.ByteStream?
     /// Content type as specified in the responseContentType in the request.
@@ -2991,7 +2991,7 @@ public struct RecognizeUtteranceOutput: Swift.Equatable {
     }
 }
 
-struct RecognizeUtteranceOutputBody: Swift.Equatable {
+struct RecognizeUtteranceOutputBody {
     let audioStream: ClientRuntime.ByteStream?
 }
 
@@ -3052,7 +3052,7 @@ extension LexRuntimeV2ClientTypes.RecognizedBotMember: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// The bot member that processes the request.
-    public struct RecognizedBotMember: Swift.Equatable {
+    public struct RecognizedBotMember {
         /// The identifier of the bot member that processes the request.
         /// This member is required.
         public var botId: Swift.String?
@@ -3130,7 +3130,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3197,7 +3197,7 @@ extension LexRuntimeV2ClientTypes.RuntimeHintDetails: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Provides an array of phrases that should be given preference when resolving values for a slot.
-    public struct RuntimeHintDetails: Swift.Equatable {
+    public struct RuntimeHintDetails {
         /// One or more strings that Amazon Lex V2 should look for in the input to the bot. Each phrase is given preference when deciding on slot values.
         public var runtimeHintValues: [LexRuntimeV2ClientTypes.RuntimeHintValue]?
         /// A map of constituent sub slot names inside a composite slot in the intent and the phrases that should be added for each sub slot. Inside each composite slot hints, this structure provides a mechanism to add granular sub slot phrases. Only sub slot hints are supported for composite slots. The intent name, composite slot name and the constituent sub slot names must exist.
@@ -3236,7 +3236,7 @@ extension LexRuntimeV2ClientTypes.RuntimeHintValue: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Provides the phrase that Amazon Lex V2 should look for in the user's input to the bot.
-    public struct RuntimeHintValue: Swift.Equatable {
+    public struct RuntimeHintValue {
         /// The phrase that Amazon Lex V2 should look for in the user's input to the bot.
         /// This member is required.
         public var phrase: Swift.String?
@@ -3294,7 +3294,7 @@ extension LexRuntimeV2ClientTypes.RuntimeHints: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// You can provide Amazon Lex V2 with hints to the phrases that a customer is likely to use for a slot. When a slot with hints is resolved, the phrases in the runtime hints are preferred in the resolution. You can provide hints for a maximum of 100 intents. You can provide a maximum of 100 slots. Before you can use runtime hints with an existing bot, you must first rebuild the bot. For more information, see [Using runtime hints to improve recognition of slot values](https://docs.aws.amazon.com/lexv2/latest/dg/using-hints.html).
-    public struct RuntimeHints: Swift.Equatable {
+    public struct RuntimeHints {
         /// A list of the slots in the intent that should have runtime hints added, and the phrases that should be added for each slot. The first level of the slotHints map is the name of the intent. The second level is the name of the slot within the intent. For more information, see [Using hints to improve accuracy](https://docs.aws.amazon.com/lexv2/latest/dg/using-hints.html). The intent name and slot name must exist.
         public var slotHints: [Swift.String:[Swift.String:LexRuntimeV2ClientTypes.RuntimeHintDetails]]?
 
@@ -3335,7 +3335,7 @@ extension LexRuntimeV2ClientTypes.SentimentResponse: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Provides information about the sentiment expressed in a user's response in a conversation. Sentiments are determined using Amazon Comprehend. Sentiments are only returned if they are enabled for the bot. For more information, see [ Determine Sentiment ](https://docs.aws.amazon.com/comprehend/latest/dg/how-sentiment.html) in the Amazon Comprehend developer guide.
-    public struct SentimentResponse: Swift.Equatable {
+    public struct SentimentResponse {
         /// The overall sentiment expressed in the user's response. This is the sentiment most likely expressed by the user based on the analysis by Amazon Comprehend.
         public var sentiment: LexRuntimeV2ClientTypes.SentimentType?
         /// The individual sentiment responses for the utterance.
@@ -3392,7 +3392,7 @@ extension LexRuntimeV2ClientTypes.SentimentScore: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// The individual sentiment responses for the utterance.
-    public struct SentimentScore: Swift.Equatable {
+    public struct SentimentScore {
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the MIXED sentiment.
         public var mixed: Swift.Double
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the NEGATIVE sentiment.
@@ -3531,7 +3531,7 @@ extension LexRuntimeV2ClientTypes.SessionState: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// The state of the user's session with Amazon Lex V2.
-    public struct SessionState: Swift.Equatable {
+    public struct SessionState {
         /// One or more contexts that indicate to Amazon Lex V2 the context of a request. When a context is active, Amazon Lex V2 considers intents with the matching context as a trigger as the next intent in a session.
         public var activeContexts: [LexRuntimeV2ClientTypes.ActiveContext]?
         /// The next step that Amazon Lex V2 should take in the conversation with a user.
@@ -3663,7 +3663,7 @@ extension LexRuntimeV2ClientTypes.Slot: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// A value that Amazon Lex V2 uses to fulfill an intent.
-    public struct Slot: Swift.Equatable {
+    public struct Slot {
         /// When the shape value is List, it indicates that the values field contains a list of slot values. When the value is Scalar, it indicates that the value field contains a single value.
         public var shape: LexRuntimeV2ClientTypes.Shape?
         /// The constituent sub slots of a composite slot.
@@ -3719,7 +3719,7 @@ extension StartConversationInput {
     }
 }
 
-public struct StartConversationInput: Swift.Equatable {
+public struct StartConversationInput {
     /// The alias identifier in use for the bot that processes the request.
     /// This member is required.
     public var botAliasId: Swift.String?
@@ -3768,7 +3768,7 @@ extension StartConversationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartConversationOutput: Swift.Equatable {
+public struct StartConversationOutput {
     /// Represents the stream of events from Amazon Lex V2 to your application. The events are encoded as HTTP/2 data frames.
     public var responseEventStream: AsyncThrowingStream<LexRuntimeV2ClientTypes.StartConversationResponseEventStream, Swift.Error>?
 
@@ -3832,7 +3832,7 @@ extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream: ClientRun
 
 extension LexRuntimeV2ClientTypes {
     /// Represents a stream of events between your application and Amazon Lex V2.
-    public indirect enum StartConversationRequestEventStream: Swift.Equatable {
+    public indirect enum StartConversationRequestEventStream {
         /// Configuration information sent from your client application to Amazon Lex V2
         case configurationevent(LexRuntimeV2ClientTypes.ConfigurationEvent)
         /// Speech audio sent from your client application to Amazon Lex V2. Audio starts accumulating when Amazon Lex V2 identifies a voice and continues until a natural pause in the speech is found before processing.
@@ -3913,7 +3913,7 @@ extension LexRuntimeV2ClientTypes.StartConversationResponseEventStream: ClientRu
 
 extension LexRuntimeV2ClientTypes {
     /// Represents a stream of events between Amazon Lex V2 and your application.
-    public indirect enum StartConversationResponseEventStream: Swift.Equatable {
+    public indirect enum StartConversationResponseEventStream {
         /// Event sent from Amazon Lex V2 to indicate to the client application should stop playback of audio. For example, if the client is playing a prompt that asks for the user's telephone number, the user might start to say the phone number before the prompt is complete. Amazon Lex V2 sends this event to the client application to indicate that the user is responding and that Amazon Lex V2 is processing their input.
         case playbackinterruptionevent(LexRuntimeV2ClientTypes.PlaybackInterruptionEvent)
         /// Event sent from Amazon Lex V2 to your client application that contains a transcript of voice audio.
@@ -4004,7 +4004,7 @@ extension LexRuntimeV2ClientTypes.TextInputEvent: Swift.CustomDebugStringConvert
 
 extension LexRuntimeV2ClientTypes {
     /// The event sent from your client application to Amazon Lex V2 with text input from the user.
-    public struct TextInputEvent: Swift.Equatable {
+    public struct TextInputEvent {
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public var clientTimestampMillis: Swift.Int
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
@@ -4066,7 +4066,7 @@ extension LexRuntimeV2ClientTypes.TextResponseEvent: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// The event sent from Amazon Lex V2 to your application with text to present to the user.
-    public struct TextResponseEvent: Swift.Equatable {
+    public struct TextResponseEvent {
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public var eventId: Swift.String?
         /// A list of messages to send to the user. Messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
@@ -4143,7 +4143,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4186,7 +4186,7 @@ extension LexRuntimeV2ClientTypes.TranscriptEvent: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Event sent from Amazon Lex V2 to your client application that contains a transcript of voice audio.
-    public struct TranscriptEvent: Swift.Equatable {
+    public struct TranscriptEvent {
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public var eventId: Swift.String?
         /// The transcript of the voice audio from the user.
@@ -4263,7 +4263,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -4324,7 +4324,7 @@ extension LexRuntimeV2ClientTypes.Value: Swift.Codable {
 
 extension LexRuntimeV2ClientTypes {
     /// Information about the value provided for a slot and Amazon Lex V2's interpretation.
-    public struct Value: Swift.Equatable {
+    public struct Value {
         /// The value that Amazon Lex V2 determines for the slot, given the user input. The actual value depends on the setting of the value selection strategy for the bot. You can choose to use the value entered by the user, or you can have Amazon Lex V2 choose the first value in the resolvedValues list.
         /// This member is required.
         public var interpretedValue: Swift.String?

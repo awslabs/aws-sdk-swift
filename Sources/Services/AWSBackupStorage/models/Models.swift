@@ -40,7 +40,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -107,7 +107,7 @@ extension BackupStorageClientTypes.BackupObject: Swift.Codable {
 
 extension BackupStorageClientTypes {
     /// Object
-    public struct BackupObject: Swift.Equatable {
+    public struct BackupObject {
         /// Number of chunks in object
         public var chunksCount: Swift.Int?
         /// Metadata string associated with the Object
@@ -192,7 +192,7 @@ extension BackupStorageClientTypes.Chunk: Swift.Codable {
 
 extension BackupStorageClientTypes {
     /// Chunk
-    public struct Chunk: Swift.Equatable {
+    public struct Chunk {
         /// Chunk checksum
         /// This member is required.
         public var checksum: Swift.String?
@@ -278,7 +278,7 @@ public struct DataAlreadyExistsException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct DataAlreadyExistsExceptionBody: Swift.Equatable {
+struct DataAlreadyExistsExceptionBody {
     let message: Swift.String?
     let checksum: Swift.String?
     let checksumAlgorithm: Swift.String?
@@ -344,7 +344,7 @@ extension DeleteObjectInput {
     }
 }
 
-public struct DeleteObjectInput: Swift.Equatable {
+public struct DeleteObjectInput {
     /// Backup job Id for the in-progress backup.
     /// This member is required.
     public var backupJobId: Swift.String?
@@ -362,7 +362,7 @@ public struct DeleteObjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteObjectInputBody: Swift.Equatable {
+struct DeleteObjectInputBody {
 }
 
 extension DeleteObjectInputBody: Swift.Decodable {
@@ -376,7 +376,7 @@ extension DeleteObjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteObjectOutput: Swift.Equatable {
+public struct DeleteObjectOutput {
 
     public init() { }
 }
@@ -411,7 +411,7 @@ extension GetChunkInput {
     }
 }
 
-public struct GetChunkInput: Swift.Equatable {
+public struct GetChunkInput {
     /// Chunk token
     /// This member is required.
     public var chunkToken: Swift.String?
@@ -429,7 +429,7 @@ public struct GetChunkInput: Swift.Equatable {
     }
 }
 
-struct GetChunkInputBody: Swift.Equatable {
+struct GetChunkInputBody {
 }
 
 extension GetChunkInputBody: Swift.Decodable {
@@ -466,7 +466,7 @@ extension GetChunkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChunkOutput: Swift.Equatable {
+public struct GetChunkOutput {
     /// Data checksum
     /// This member is required.
     public var checksum: Swift.String?
@@ -494,7 +494,7 @@ public struct GetChunkOutput: Swift.Equatable {
     }
 }
 
-struct GetChunkOutputBody: Swift.Equatable {
+struct GetChunkOutputBody {
     let data: ClientRuntime.ByteStream?
 }
 
@@ -540,7 +540,7 @@ extension GetObjectMetadataInput {
     }
 }
 
-public struct GetObjectMetadataInput: Swift.Equatable {
+public struct GetObjectMetadataInput {
     /// Object token.
     /// This member is required.
     public var objectToken: Swift.String?
@@ -558,7 +558,7 @@ public struct GetObjectMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetObjectMetadataInputBody: Swift.Equatable {
+struct GetObjectMetadataInputBody {
 }
 
 extension GetObjectMetadataInputBody: Swift.Decodable {
@@ -600,7 +600,7 @@ extension GetObjectMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetObjectMetadataOutput: Swift.Equatable {
+public struct GetObjectMetadataOutput {
     /// Metadata blob.
     public var metadataBlob: ClientRuntime.ByteStream?
     /// MetadataBlob checksum.
@@ -628,7 +628,7 @@ public struct GetObjectMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetObjectMetadataOutputBody: Swift.Equatable {
+struct GetObjectMetadataOutputBody {
     let metadataBlob: ClientRuntime.ByteStream?
 }
 
@@ -701,7 +701,7 @@ public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct IllegalArgumentExceptionBody: Swift.Equatable {
+struct IllegalArgumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -756,7 +756,7 @@ public struct KMSInvalidKeyUsageException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct KMSInvalidKeyUsageExceptionBody: Swift.Equatable {
+struct KMSInvalidKeyUsageExceptionBody {
     let message: Swift.String?
 }
 
@@ -801,7 +801,7 @@ extension ListChunksInput {
     }
 }
 
-public struct ListChunksInput: Swift.Equatable {
+public struct ListChunksInput {
     /// Maximum number of chunks
     public var maxResults: Swift.Int?
     /// Pagination token
@@ -827,7 +827,7 @@ public struct ListChunksInput: Swift.Equatable {
     }
 }
 
-struct ListChunksInputBody: Swift.Equatable {
+struct ListChunksInputBody {
 }
 
 extension ListChunksInputBody: Swift.Decodable {
@@ -850,7 +850,7 @@ extension ListChunksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChunksOutput: Swift.Equatable {
+public struct ListChunksOutput {
     /// List of chunks
     /// This member is required.
     public var chunkList: [BackupStorageClientTypes.Chunk]?
@@ -867,7 +867,7 @@ public struct ListChunksOutput: Swift.Equatable {
     }
 }
 
-struct ListChunksOutputBody: Swift.Equatable {
+struct ListChunksOutputBody {
     let chunkList: [BackupStorageClientTypes.Chunk]?
     let nextToken: Swift.String?
 }
@@ -954,7 +954,7 @@ extension ListObjectsInput {
     }
 }
 
-public struct ListObjectsInput: Swift.Equatable {
+public struct ListObjectsInput {
     /// (Optional) Created after filter
     public var createdAfter: ClientRuntime.Date?
     /// (Optional) Created before filter
@@ -991,7 +991,7 @@ public struct ListObjectsInput: Swift.Equatable {
     }
 }
 
-struct ListObjectsInputBody: Swift.Equatable {
+struct ListObjectsInputBody {
 }
 
 extension ListObjectsInputBody: Swift.Decodable {
@@ -1014,7 +1014,7 @@ extension ListObjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListObjectsOutput: Swift.Equatable {
+public struct ListObjectsOutput {
     /// Pagination token
     public var nextToken: Swift.String?
     /// Object list
@@ -1031,7 +1031,7 @@ public struct ListObjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListObjectsOutputBody: Swift.Equatable {
+struct ListObjectsOutputBody {
     let objectList: [BackupStorageClientTypes.BackupObject]?
     let nextToken: Swift.String?
 }
@@ -1117,7 +1117,7 @@ public struct NotReadableInputStreamException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct NotReadableInputStreamExceptionBody: Swift.Equatable {
+struct NotReadableInputStreamExceptionBody {
     let message: Swift.String?
 }
 
@@ -1195,7 +1195,7 @@ extension NotifyObjectCompleteInput {
     }
 }
 
-public struct NotifyObjectCompleteInput: Swift.Equatable {
+public struct NotifyObjectCompleteInput {
     /// Backup job Id for the in-progress backup
     /// This member is required.
     public var backupJobId: Swift.String?
@@ -1243,7 +1243,7 @@ public struct NotifyObjectCompleteInput: Swift.Equatable {
     }
 }
 
-struct NotifyObjectCompleteInputBody: Swift.Equatable {
+struct NotifyObjectCompleteInputBody {
     let metadataBlob: ClientRuntime.ByteStream?
 }
 
@@ -1273,7 +1273,7 @@ extension NotifyObjectCompleteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct NotifyObjectCompleteOutput: Swift.Equatable {
+public struct NotifyObjectCompleteOutput {
     /// Object checksum
     /// This member is required.
     public var objectChecksum: Swift.String?
@@ -1291,7 +1291,7 @@ public struct NotifyObjectCompleteOutput: Swift.Equatable {
     }
 }
 
-struct NotifyObjectCompleteOutputBody: Swift.Equatable {
+struct NotifyObjectCompleteOutputBody {
     let objectChecksum: Swift.String?
     let objectChecksumAlgorithm: BackupStorageClientTypes.SummaryChecksumAlgorithm?
 }
@@ -1384,7 +1384,7 @@ extension PutChunkInput {
     }
 }
 
-public struct PutChunkInput: Swift.Equatable {
+public struct PutChunkInput {
     /// Backup job Id for the in-progress backup.
     /// This member is required.
     public var backupJobId: Swift.String?
@@ -1427,7 +1427,7 @@ public struct PutChunkInput: Swift.Equatable {
     }
 }
 
-struct PutChunkInputBody: Swift.Equatable {
+struct PutChunkInputBody {
     let data: ClientRuntime.ByteStream?
 }
 
@@ -1457,7 +1457,7 @@ extension PutChunkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutChunkOutput: Swift.Equatable {
+public struct PutChunkOutput {
     /// Chunk checksum
     /// This member is required.
     public var chunkChecksum: Swift.String?
@@ -1475,7 +1475,7 @@ public struct PutChunkOutput: Swift.Equatable {
     }
 }
 
-struct PutChunkOutputBody: Swift.Equatable {
+struct PutChunkOutputBody {
     let chunkChecksum: Swift.String?
     let chunkChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm?
 }
@@ -1575,7 +1575,7 @@ extension PutObjectInput {
     }
 }
 
-public struct PutObjectInput: Swift.Equatable {
+public struct PutObjectInput {
     /// Backup job Id for the in-progress backup.
     /// This member is required.
     public var backupJobId: Swift.String?
@@ -1625,7 +1625,7 @@ public struct PutObjectInput: Swift.Equatable {
     }
 }
 
-struct PutObjectInputBody: Swift.Equatable {
+struct PutObjectInputBody {
     let inlineChunk: ClientRuntime.ByteStream?
 }
 
@@ -1659,7 +1659,7 @@ extension PutObjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutObjectOutput: Swift.Equatable {
+public struct PutObjectOutput {
     /// Inline chunk checksum
     /// This member is required.
     public var inlineChunkChecksum: Swift.String?
@@ -1687,7 +1687,7 @@ public struct PutObjectOutput: Swift.Equatable {
     }
 }
 
-struct PutObjectOutputBody: Swift.Equatable {
+struct PutObjectOutputBody {
     let inlineChunkChecksum: Swift.String?
     let inlineChunkChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm?
     let objectChecksum: Swift.String?
@@ -1772,7 +1772,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1827,7 +1827,7 @@ public struct RetryableException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct RetryableExceptionBody: Swift.Equatable {
+struct RetryableExceptionBody {
     let message: Swift.String?
 }
 
@@ -1882,7 +1882,7 @@ public struct ServiceInternalException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ServiceInternalExceptionBody: Swift.Equatable {
+struct ServiceInternalExceptionBody {
     let message: Swift.String?
 }
 
@@ -1937,7 +1937,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -1979,7 +1979,7 @@ extension StartObjectInput {
     }
 }
 
-public struct StartObjectInput: Swift.Equatable {
+public struct StartObjectInput {
     /// Backup job Id for the in-progress backup
     /// This member is required.
     public var backupJobId: Swift.String?
@@ -2001,7 +2001,7 @@ public struct StartObjectInput: Swift.Equatable {
     }
 }
 
-struct StartObjectInputBody: Swift.Equatable {
+struct StartObjectInputBody {
     let throwOnDuplicate: Swift.Bool?
 }
 
@@ -2029,7 +2029,7 @@ extension StartObjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartObjectOutput: Swift.Equatable {
+public struct StartObjectOutput {
     /// Upload Id for a given upload.
     /// This member is required.
     public var uploadId: Swift.String?
@@ -2042,7 +2042,7 @@ public struct StartObjectOutput: Swift.Equatable {
     }
 }
 
-struct StartObjectOutputBody: Swift.Equatable {
+struct StartObjectOutputBody {
     let uploadId: Swift.String?
 }
 
@@ -2144,7 +2144,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 

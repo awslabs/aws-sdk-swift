@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ClientLimitExceededExceptionBody: Swift.Equatable {
+struct ClientLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -151,7 +151,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidArgumentExceptionBody: Swift.Equatable {
+struct InvalidArgumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -187,7 +187,7 @@ extension JoinStorageSessionInput {
     }
 }
 
-public struct JoinStorageSessionInput: Swift.Equatable {
+public struct JoinStorageSessionInput {
     /// The Amazon Resource Name (ARN) of the signaling channel.
     /// This member is required.
     public var channelArn: Swift.String?
@@ -200,7 +200,7 @@ public struct JoinStorageSessionInput: Swift.Equatable {
     }
 }
 
-struct JoinStorageSessionInputBody: Swift.Equatable {
+struct JoinStorageSessionInputBody {
     let channelArn: Swift.String?
 }
 
@@ -221,7 +221,7 @@ extension JoinStorageSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct JoinStorageSessionOutput: Swift.Equatable {
+public struct JoinStorageSessionOutput {
 
     public init() { }
 }
@@ -281,7 +281,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 

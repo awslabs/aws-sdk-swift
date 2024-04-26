@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -85,7 +85,7 @@ extension AddWorkloadInput {
     }
 }
 
-public struct AddWorkloadInput: Swift.Equatable {
+public struct AddWorkloadInput {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -108,7 +108,7 @@ public struct AddWorkloadInput: Swift.Equatable {
     }
 }
 
-struct AddWorkloadInputBody: Swift.Equatable {
+struct AddWorkloadInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
@@ -146,7 +146,7 @@ extension AddWorkloadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddWorkloadOutput: Swift.Equatable {
+public struct AddWorkloadOutput {
     /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
     public var workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
     /// The ID of the workload.
@@ -162,7 +162,7 @@ public struct AddWorkloadOutput: Swift.Equatable {
     }
 }
 
-struct AddWorkloadOutputBody: Swift.Equatable {
+struct AddWorkloadOutputBody {
     let workloadId: Swift.String?
     let workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
 }
@@ -275,7 +275,7 @@ extension ApplicationInsightsClientTypes.ApplicationComponent: Swift.Codable {
 
 extension ApplicationInsightsClientTypes {
     /// Describes a standalone resource or similarly grouped resources that the application is made up of.
-    public struct ApplicationComponent: Swift.Equatable {
+    public struct ApplicationComponent {
         /// The name of the component.
         public var componentName: Swift.String?
         /// If logging is supported for the resource type, indicates whether the component has configured logs to be monitored.
@@ -388,7 +388,7 @@ extension ApplicationInsightsClientTypes.ApplicationInfo: Swift.Codable {
 
 extension ApplicationInsightsClientTypes {
     /// Describes the status of the application.
-    public struct ApplicationInfo: Swift.Equatable {
+    public struct ApplicationInfo {
         /// The AWS account ID for the owner of the application.
         public var accountId: Swift.String?
         /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
@@ -483,7 +483,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -600,7 +600,7 @@ extension ApplicationInsightsClientTypes.ConfigurationEvent: Swift.Codable {
 
 extension ApplicationInsightsClientTypes {
     /// The event information.
-    public struct ConfigurationEvent: Swift.Equatable {
+    public struct ConfigurationEvent {
         /// The AWS account ID for the owner of the application to which the configuration event belongs.
         public var accountId: Swift.String?
         /// The details of the event in plain text.
@@ -770,7 +770,7 @@ extension CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
     public var attachMissingPermission: Swift.Bool?
     /// Indicates whether Application Insights automatically configures unmonitored resources in the resource group.
@@ -814,7 +814,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInputBody: Swift.Equatable {
+struct CreateApplicationInputBody {
     let resourceGroupName: Swift.String?
     let opsCenterEnabled: Swift.Bool?
     let cweMonitorEnabled: Swift.Bool?
@@ -883,7 +883,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// Information about the application.
     public var applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo?
 
@@ -895,7 +895,7 @@ public struct CreateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationOutputBody: Swift.Equatable {
+struct CreateApplicationOutputBody {
     let applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo?
 }
 
@@ -958,7 +958,7 @@ extension CreateComponentInput {
     }
 }
 
-public struct CreateComponentInput: Swift.Equatable {
+public struct CreateComponentInput {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -981,7 +981,7 @@ public struct CreateComponentInput: Swift.Equatable {
     }
 }
 
-struct CreateComponentInputBody: Swift.Equatable {
+struct CreateComponentInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let resourceList: [Swift.String]?
@@ -1019,7 +1019,7 @@ extension CreateComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateComponentOutput: Swift.Equatable {
+public struct CreateComponentOutput {
 
     public init() { }
 }
@@ -1074,7 +1074,7 @@ extension CreateLogPatternInput {
     }
 }
 
-public struct CreateLogPatternInput: Swift.Equatable {
+public struct CreateLogPatternInput {
     /// The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
     /// This member is required.
     public var pattern: Swift.String?
@@ -1107,7 +1107,7 @@ public struct CreateLogPatternInput: Swift.Equatable {
     }
 }
 
-struct CreateLogPatternInputBody: Swift.Equatable {
+struct CreateLogPatternInputBody {
     let resourceGroupName: Swift.String?
     let patternSetName: Swift.String?
     let patternName: Swift.String?
@@ -1153,7 +1153,7 @@ extension CreateLogPatternOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLogPatternOutput: Swift.Equatable {
+public struct CreateLogPatternOutput {
     /// The successfully created log pattern.
     public var logPattern: ApplicationInsightsClientTypes.LogPattern?
     /// The name of the resource group.
@@ -1169,7 +1169,7 @@ public struct CreateLogPatternOutput: Swift.Equatable {
     }
 }
 
-struct CreateLogPatternOutputBody: Swift.Equatable {
+struct CreateLogPatternOutputBody {
     let logPattern: ApplicationInsightsClientTypes.LogPattern?
     let resourceGroupName: Swift.String?
 }
@@ -1223,7 +1223,7 @@ extension DeleteApplicationInput {
     }
 }
 
-public struct DeleteApplicationInput: Swift.Equatable {
+public struct DeleteApplicationInput {
     /// The name of the resource group.
     /// This member is required.
     public var resourceGroupName: Swift.String?
@@ -1236,7 +1236,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationInputBody: Swift.Equatable {
+struct DeleteApplicationInputBody {
     let resourceGroupName: Swift.String?
 }
 
@@ -1257,7 +1257,7 @@ extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApplicationOutput: Swift.Equatable {
+public struct DeleteApplicationOutput {
 
     public init() { }
 }
@@ -1300,7 +1300,7 @@ extension DeleteComponentInput {
     }
 }
 
-public struct DeleteComponentInput: Swift.Equatable {
+public struct DeleteComponentInput {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -1318,7 +1318,7 @@ public struct DeleteComponentInput: Swift.Equatable {
     }
 }
 
-struct DeleteComponentInputBody: Swift.Equatable {
+struct DeleteComponentInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
 }
@@ -1343,7 +1343,7 @@ extension DeleteComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteComponentOutput: Swift.Equatable {
+public struct DeleteComponentOutput {
 
     public init() { }
 }
@@ -1389,7 +1389,7 @@ extension DeleteLogPatternInput {
     }
 }
 
-public struct DeleteLogPatternInput: Swift.Equatable {
+public struct DeleteLogPatternInput {
     /// The name of the log pattern.
     /// This member is required.
     public var patternName: Swift.String?
@@ -1412,7 +1412,7 @@ public struct DeleteLogPatternInput: Swift.Equatable {
     }
 }
 
-struct DeleteLogPatternInputBody: Swift.Equatable {
+struct DeleteLogPatternInputBody {
     let resourceGroupName: Swift.String?
     let patternSetName: Swift.String?
     let patternName: Swift.String?
@@ -1441,7 +1441,7 @@ extension DeleteLogPatternOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLogPatternOutput: Swift.Equatable {
+public struct DeleteLogPatternOutput {
 
     public init() { }
 }
@@ -1484,7 +1484,7 @@ extension DescribeApplicationInput {
     }
 }
 
-public struct DescribeApplicationInput: Swift.Equatable {
+public struct DescribeApplicationInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the resource group.
@@ -1501,7 +1501,7 @@ public struct DescribeApplicationInput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationInputBody: Swift.Equatable {
+struct DescribeApplicationInputBody {
     let resourceGroupName: Swift.String?
     let accountId: Swift.String?
 }
@@ -1533,7 +1533,7 @@ extension DescribeApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeApplicationOutput: Swift.Equatable {
+public struct DescribeApplicationOutput {
     /// Information about the application.
     public var applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo?
 
@@ -1545,7 +1545,7 @@ public struct DescribeApplicationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationOutputBody: Swift.Equatable {
+struct DescribeApplicationOutputBody {
     let applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo?
 }
 
@@ -1602,7 +1602,7 @@ extension DescribeComponentConfigurationInput {
     }
 }
 
-public struct DescribeComponentConfigurationInput: Swift.Equatable {
+public struct DescribeComponentConfigurationInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the component.
@@ -1624,7 +1624,7 @@ public struct DescribeComponentConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeComponentConfigurationInputBody: Swift.Equatable {
+struct DescribeComponentConfigurationInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let accountId: Swift.String?
@@ -1664,7 +1664,7 @@ extension DescribeComponentConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeComponentConfigurationOutput: Swift.Equatable {
+public struct DescribeComponentConfigurationOutput {
     /// The configuration settings of the component. The value is the escaped JSON of the configuration.
     public var componentConfiguration: Swift.String?
     /// Indicates whether the application component is monitored.
@@ -1684,7 +1684,7 @@ public struct DescribeComponentConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeComponentConfigurationOutputBody: Swift.Equatable {
+struct DescribeComponentConfigurationOutputBody {
     let monitor: Swift.Bool?
     let tier: ApplicationInsightsClientTypes.Tier?
     let componentConfiguration: Swift.String?
@@ -1757,7 +1757,7 @@ extension DescribeComponentConfigurationRecommendationInput {
     }
 }
 
-public struct DescribeComponentConfigurationRecommendationInput: Swift.Equatable {
+public struct DescribeComponentConfigurationRecommendationInput {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -1788,7 +1788,7 @@ public struct DescribeComponentConfigurationRecommendationInput: Swift.Equatable
     }
 }
 
-struct DescribeComponentConfigurationRecommendationInputBody: Swift.Equatable {
+struct DescribeComponentConfigurationRecommendationInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let tier: ApplicationInsightsClientTypes.Tier?
@@ -1832,7 +1832,7 @@ extension DescribeComponentConfigurationRecommendationOutput: ClientRuntime.Http
     }
 }
 
-public struct DescribeComponentConfigurationRecommendationOutput: Swift.Equatable {
+public struct DescribeComponentConfigurationRecommendationOutput {
     /// The recommended configuration settings of the component. The value is the escaped JSON of the configuration.
     public var componentConfiguration: Swift.String?
 
@@ -1844,7 +1844,7 @@ public struct DescribeComponentConfigurationRecommendationOutput: Swift.Equatabl
     }
 }
 
-struct DescribeComponentConfigurationRecommendationOutputBody: Swift.Equatable {
+struct DescribeComponentConfigurationRecommendationOutputBody {
     let componentConfiguration: Swift.String?
 }
 
@@ -1901,7 +1901,7 @@ extension DescribeComponentInput {
     }
 }
 
-public struct DescribeComponentInput: Swift.Equatable {
+public struct DescribeComponentInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the component.
@@ -1923,7 +1923,7 @@ public struct DescribeComponentInput: Swift.Equatable {
     }
 }
 
-struct DescribeComponentInputBody: Swift.Equatable {
+struct DescribeComponentInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let accountId: Swift.String?
@@ -1961,7 +1961,7 @@ extension DescribeComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeComponentOutput: Swift.Equatable {
+public struct DescribeComponentOutput {
     /// Describes a standalone resource or similarly grouped resources that the application is made up of.
     public var applicationComponent: ApplicationInsightsClientTypes.ApplicationComponent?
     /// The list of resource ARNs that belong to the component.
@@ -1977,7 +1977,7 @@ public struct DescribeComponentOutput: Swift.Equatable {
     }
 }
 
-struct DescribeComponentOutputBody: Swift.Equatable {
+struct DescribeComponentOutputBody {
     let applicationComponent: ApplicationInsightsClientTypes.ApplicationComponent?
     let resourceList: [Swift.String]?
 }
@@ -2051,7 +2051,7 @@ extension DescribeLogPatternInput {
     }
 }
 
-public struct DescribeLogPatternInput: Swift.Equatable {
+public struct DescribeLogPatternInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the log pattern.
@@ -2078,7 +2078,7 @@ public struct DescribeLogPatternInput: Swift.Equatable {
     }
 }
 
-struct DescribeLogPatternInputBody: Swift.Equatable {
+struct DescribeLogPatternInputBody {
     let resourceGroupName: Swift.String?
     let patternSetName: Swift.String?
     let patternName: Swift.String?
@@ -2122,7 +2122,7 @@ extension DescribeLogPatternOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLogPatternOutput: Swift.Equatable {
+public struct DescribeLogPatternOutput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The successfully created log pattern.
@@ -2142,7 +2142,7 @@ public struct DescribeLogPatternOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLogPatternOutputBody: Swift.Equatable {
+struct DescribeLogPatternOutputBody {
     let resourceGroupName: Swift.String?
     let accountId: Swift.String?
     let logPattern: ApplicationInsightsClientTypes.LogPattern?
@@ -2203,7 +2203,7 @@ extension DescribeObservationInput {
     }
 }
 
-public struct DescribeObservationInput: Swift.Equatable {
+public struct DescribeObservationInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The ID of the observation.
@@ -2220,7 +2220,7 @@ public struct DescribeObservationInput: Swift.Equatable {
     }
 }
 
-struct DescribeObservationInputBody: Swift.Equatable {
+struct DescribeObservationInputBody {
     let observationId: Swift.String?
     let accountId: Swift.String?
 }
@@ -2252,7 +2252,7 @@ extension DescribeObservationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeObservationOutput: Swift.Equatable {
+public struct DescribeObservationOutput {
     /// Information about the observation.
     public var observation: ApplicationInsightsClientTypes.Observation?
 
@@ -2264,7 +2264,7 @@ public struct DescribeObservationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeObservationOutputBody: Swift.Equatable {
+struct DescribeObservationOutputBody {
     let observation: ApplicationInsightsClientTypes.Observation?
 }
 
@@ -2317,7 +2317,7 @@ extension DescribeProblemInput {
     }
 }
 
-public struct DescribeProblemInput: Swift.Equatable {
+public struct DescribeProblemInput {
     /// The AWS account ID for the owner of the resource group affected by the problem.
     public var accountId: Swift.String?
     /// The ID of the problem.
@@ -2334,7 +2334,7 @@ public struct DescribeProblemInput: Swift.Equatable {
     }
 }
 
-struct DescribeProblemInputBody: Swift.Equatable {
+struct DescribeProblemInputBody {
     let problemId: Swift.String?
     let accountId: Swift.String?
 }
@@ -2378,7 +2378,7 @@ extension DescribeProblemObservationsInput {
     }
 }
 
-public struct DescribeProblemObservationsInput: Swift.Equatable {
+public struct DescribeProblemObservationsInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The ID of the problem.
@@ -2395,7 +2395,7 @@ public struct DescribeProblemObservationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeProblemObservationsInputBody: Swift.Equatable {
+struct DescribeProblemObservationsInputBody {
     let problemId: Swift.String?
     let accountId: Swift.String?
 }
@@ -2427,7 +2427,7 @@ extension DescribeProblemObservationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProblemObservationsOutput: Swift.Equatable {
+public struct DescribeProblemObservationsOutput {
     /// Observations related to the problem.
     public var relatedObservations: ApplicationInsightsClientTypes.RelatedObservations?
 
@@ -2439,7 +2439,7 @@ public struct DescribeProblemObservationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProblemObservationsOutputBody: Swift.Equatable {
+struct DescribeProblemObservationsOutputBody {
     let relatedObservations: ApplicationInsightsClientTypes.RelatedObservations?
 }
 
@@ -2480,7 +2480,7 @@ extension DescribeProblemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProblemOutput: Swift.Equatable {
+public struct DescribeProblemOutput {
     /// Information about the problem.
     public var problem: ApplicationInsightsClientTypes.Problem?
 
@@ -2492,7 +2492,7 @@ public struct DescribeProblemOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProblemOutputBody: Swift.Equatable {
+struct DescribeProblemOutputBody {
     let problem: ApplicationInsightsClientTypes.Problem?
 }
 
@@ -2553,7 +2553,7 @@ extension DescribeWorkloadInput {
     }
 }
 
-public struct DescribeWorkloadInput: Swift.Equatable {
+public struct DescribeWorkloadInput {
     /// The AWS account ID for the workload owner.
     public var accountId: Swift.String?
     /// The name of the component.
@@ -2580,7 +2580,7 @@ public struct DescribeWorkloadInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkloadInputBody: Swift.Equatable {
+struct DescribeWorkloadInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let workloadId: Swift.String?
@@ -2624,7 +2624,7 @@ extension DescribeWorkloadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorkloadOutput: Swift.Equatable {
+public struct DescribeWorkloadOutput {
     /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
     public var workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
     /// The ID of the workload.
@@ -2644,7 +2644,7 @@ public struct DescribeWorkloadOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkloadOutputBody: Swift.Equatable {
+struct DescribeWorkloadOutputBody {
     let workloadId: Swift.String?
     let workloadRemarks: Swift.String?
     let workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
@@ -2845,7 +2845,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2889,7 +2889,7 @@ extension ListApplicationsInput {
     }
 }
 
-public struct ListApplicationsInput: Swift.Equatable {
+public struct ListApplicationsInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -2909,7 +2909,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsInputBody: Swift.Equatable {
+struct ListApplicationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let accountId: Swift.String?
@@ -2947,7 +2947,7 @@ extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationsOutput: Swift.Equatable {
+public struct ListApplicationsOutput {
     /// The list of applications.
     public var applicationInfoList: [ApplicationInsightsClientTypes.ApplicationInfo]?
     /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2963,7 +2963,7 @@ public struct ListApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsOutputBody: Swift.Equatable {
+struct ListApplicationsOutputBody {
     let applicationInfoList: [ApplicationInsightsClientTypes.ApplicationInfo]?
     let nextToken: Swift.String?
 }
@@ -3036,7 +3036,7 @@ extension ListComponentsInput {
     }
 }
 
-public struct ListComponentsInput: Swift.Equatable {
+public struct ListComponentsInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -3061,7 +3061,7 @@ public struct ListComponentsInput: Swift.Equatable {
     }
 }
 
-struct ListComponentsInputBody: Swift.Equatable {
+struct ListComponentsInputBody {
     let resourceGroupName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3103,7 +3103,7 @@ extension ListComponentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentsOutput: Swift.Equatable {
+public struct ListComponentsOutput {
     /// The list of application components.
     public var applicationComponentList: [ApplicationInsightsClientTypes.ApplicationComponent]?
     /// The token to request the next page of results.
@@ -3119,7 +3119,7 @@ public struct ListComponentsOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentsOutputBody: Swift.Equatable {
+struct ListComponentsOutputBody {
     let applicationComponentList: [ApplicationInsightsClientTypes.ApplicationComponent]?
     let nextToken: Swift.String?
 }
@@ -3205,7 +3205,7 @@ extension ListConfigurationHistoryInput {
     }
 }
 
-public struct ListConfigurationHistoryInput: Swift.Equatable {
+public struct ListConfigurationHistoryInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The end time of the event.
@@ -3241,7 +3241,7 @@ public struct ListConfigurationHistoryInput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationHistoryInputBody: Swift.Equatable {
+struct ListConfigurationHistoryInputBody {
     let resourceGroupName: Swift.String?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -3295,7 +3295,7 @@ extension ListConfigurationHistoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConfigurationHistoryOutput: Swift.Equatable {
+public struct ListConfigurationHistoryOutput {
     /// The list of configuration events and their corresponding details.
     public var eventList: [ApplicationInsightsClientTypes.ConfigurationEvent]?
     /// The NextToken value to include in a future ListConfigurationHistory request. When the results of a ListConfigurationHistory request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -3311,7 +3311,7 @@ public struct ListConfigurationHistoryOutput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationHistoryOutputBody: Swift.Equatable {
+struct ListConfigurationHistoryOutputBody {
     let eventList: [ApplicationInsightsClientTypes.ConfigurationEvent]?
     let nextToken: Swift.String?
 }
@@ -3385,7 +3385,7 @@ extension ListLogPatternSetsInput {
     }
 }
 
-public struct ListLogPatternSetsInput: Swift.Equatable {
+public struct ListLogPatternSetsInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -3410,7 +3410,7 @@ public struct ListLogPatternSetsInput: Swift.Equatable {
     }
 }
 
-struct ListLogPatternSetsInputBody: Swift.Equatable {
+struct ListLogPatternSetsInputBody {
     let resourceGroupName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3456,7 +3456,7 @@ extension ListLogPatternSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLogPatternSetsOutput: Swift.Equatable {
+public struct ListLogPatternSetsOutput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The list of log pattern sets.
@@ -3480,7 +3480,7 @@ public struct ListLogPatternSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListLogPatternSetsOutputBody: Swift.Equatable {
+struct ListLogPatternSetsOutputBody {
     let resourceGroupName: Swift.String?
     let accountId: Swift.String?
     let logPatternSets: [Swift.String]?
@@ -3566,7 +3566,7 @@ extension ListLogPatternsInput {
     }
 }
 
-public struct ListLogPatternsInput: Swift.Equatable {
+public struct ListLogPatternsInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -3595,7 +3595,7 @@ public struct ListLogPatternsInput: Swift.Equatable {
     }
 }
 
-struct ListLogPatternsInputBody: Swift.Equatable {
+struct ListLogPatternsInputBody {
     let resourceGroupName: Swift.String?
     let patternSetName: Swift.String?
     let maxResults: Swift.Int?
@@ -3645,7 +3645,7 @@ extension ListLogPatternsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLogPatternsOutput: Swift.Equatable {
+public struct ListLogPatternsOutput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The list of log patterns.
@@ -3669,7 +3669,7 @@ public struct ListLogPatternsOutput: Swift.Equatable {
     }
 }
 
-struct ListLogPatternsOutputBody: Swift.Equatable {
+struct ListLogPatternsOutputBody {
     let resourceGroupName: Swift.String?
     let accountId: Swift.String?
     let logPatterns: [ApplicationInsightsClientTypes.LogPattern]?
@@ -3767,7 +3767,7 @@ extension ListProblemsInput {
     }
 }
 
-public struct ListProblemsInput: Swift.Equatable {
+public struct ListProblemsInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the component.
@@ -3807,7 +3807,7 @@ public struct ListProblemsInput: Swift.Equatable {
     }
 }
 
-struct ListProblemsInputBody: Swift.Equatable {
+struct ListProblemsInputBody {
     let accountId: Swift.String?
     let resourceGroupName: Swift.String?
     let startTime: ClientRuntime.Date?
@@ -3869,7 +3869,7 @@ extension ListProblemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProblemsOutput: Swift.Equatable {
+public struct ListProblemsOutput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -3893,7 +3893,7 @@ public struct ListProblemsOutput: Swift.Equatable {
     }
 }
 
-struct ListProblemsOutputBody: Swift.Equatable {
+struct ListProblemsOutputBody {
     let problemList: [ApplicationInsightsClientTypes.Problem]?
     let nextToken: Swift.String?
     let resourceGroupName: Swift.String?
@@ -3963,7 +3963,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the application that you want to retrieve tag information for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -3976,7 +3976,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -4004,7 +4004,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// An array that lists all the tags that are associated with the application. Each tag consists of a required tag key (Key) and an associated tag value (Value).
     public var tags: [ApplicationInsightsClientTypes.Tag]?
 
@@ -4016,7 +4016,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [ApplicationInsightsClientTypes.Tag]?
 }
 
@@ -4089,7 +4089,7 @@ extension ListWorkloadsInput {
     }
 }
 
-public struct ListWorkloadsInput: Swift.Equatable {
+public struct ListWorkloadsInput {
     /// The AWS account ID of the owner of the workload.
     public var accountId: Swift.String?
     /// The name of the component.
@@ -4119,7 +4119,7 @@ public struct ListWorkloadsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkloadsInputBody: Swift.Equatable {
+struct ListWorkloadsInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let maxResults: Swift.Int?
@@ -4165,7 +4165,7 @@ extension ListWorkloadsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkloadsOutput: Swift.Equatable {
+public struct ListWorkloadsOutput {
     /// The token to request the next page of results.
     public var nextToken: Swift.String?
     /// The list of workloads.
@@ -4181,7 +4181,7 @@ public struct ListWorkloadsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkloadsOutputBody: Swift.Equatable {
+struct ListWorkloadsOutputBody {
     let workloadList: [ApplicationInsightsClientTypes.Workload]?
     let nextToken: Swift.String?
 }
@@ -4297,7 +4297,7 @@ extension ApplicationInsightsClientTypes.LogPattern: Swift.Codable {
 
 extension ApplicationInsightsClientTypes {
     /// An object that defines the log patterns that belongs to a LogPatternSet.
-    public struct LogPattern: Swift.Equatable {
+    public struct LogPattern {
         /// A regular expression that defines the log pattern. A log pattern can contain as many as 50 characters, and it cannot be empty. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
         public var pattern: Swift.String?
         /// The name of the log pattern. A log pattern name can contain as many as 50 characters, and it cannot be empty. The characters can be Unicode letters, digits, or one of the following symbols: period, dash, underscore.
@@ -4608,7 +4608,7 @@ extension ApplicationInsightsClientTypes.Observation: Swift.Codable {
 
 extension ApplicationInsightsClientTypes {
     /// Describes an anomaly or error with the application.
-    public struct Observation: Swift.Equatable {
+    public struct Observation {
         /// The detail type of the CloudWatch Event-based observation, for example, EC2 Instance State-change Notification.
         public var cloudWatchEventDetailType: Swift.String?
         /// The ID of the CloudWatch Event-based observation related to the detected problem.
@@ -4947,7 +4947,7 @@ extension ApplicationInsightsClientTypes.Problem: Swift.Codable {
 
 extension ApplicationInsightsClientTypes {
     /// Describes a problem that is detected by correlating observations.
-    public struct Problem: Swift.Equatable {
+    public struct Problem {
         /// The AWS account ID for the owner of the resource group affected by the problem.
         public var accountId: Swift.String?
         /// The resource affected by the problem.
@@ -5085,7 +5085,7 @@ extension ApplicationInsightsClientTypes.RelatedObservations: Swift.Codable {
 
 extension ApplicationInsightsClientTypes {
     /// Describes observations related to the problem.
-    public struct RelatedObservations: Swift.Equatable {
+    public struct RelatedObservations {
         /// The list of observations related to the problem.
         public var observationList: [ApplicationInsightsClientTypes.Observation]?
 
@@ -5127,7 +5127,7 @@ extension RemoveWorkloadInput {
     }
 }
 
-public struct RemoveWorkloadInput: Swift.Equatable {
+public struct RemoveWorkloadInput {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -5150,7 +5150,7 @@ public struct RemoveWorkloadInput: Swift.Equatable {
     }
 }
 
-struct RemoveWorkloadInputBody: Swift.Equatable {
+struct RemoveWorkloadInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let workloadId: Swift.String?
@@ -5179,7 +5179,7 @@ extension RemoveWorkloadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveWorkloadOutput: Swift.Equatable {
+public struct RemoveWorkloadOutput {
 
     public init() { }
 }
@@ -5271,7 +5271,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -5326,7 +5326,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5454,7 +5454,7 @@ extension ApplicationInsightsClientTypes {
     /// * For each associated resource, each tag key must be unique and it can have only one value.
     ///
     /// * The aws: prefix is reserved for use by AWS; you can’t use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
         /// This member is required.
         public var key: Swift.String?
@@ -5501,7 +5501,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the application that you want to add one or more tags to.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -5519,7 +5519,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [ApplicationInsightsClientTypes.Tag]?
 }
@@ -5553,7 +5553,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -5610,7 +5610,7 @@ public struct TagsAlreadyExistException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct TagsAlreadyExistExceptionBody: Swift.Equatable {
+struct TagsAlreadyExistExceptionBody {
     let message: Swift.String?
 }
 
@@ -5760,7 +5760,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -5807,7 +5807,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the application that you want to remove one or more tags from.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -5825,7 +5825,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -5859,7 +5859,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -5920,7 +5920,7 @@ extension UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
     public var attachMissingPermission: Swift.Bool?
     /// Turns auto-configuration on or off.
@@ -5957,7 +5957,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationInputBody: Swift.Equatable {
+struct UpdateApplicationInputBody {
     let resourceGroupName: Swift.String?
     let opsCenterEnabled: Swift.Bool?
     let cweMonitorEnabled: Swift.Bool?
@@ -6009,7 +6009,7 @@ extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
     /// Information about the application.
     public var applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo?
 
@@ -6021,7 +6021,7 @@ public struct UpdateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationOutputBody: Swift.Equatable {
+struct UpdateApplicationOutputBody {
     let applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo?
 }
 
@@ -6090,7 +6090,7 @@ extension UpdateComponentConfigurationInput {
     }
 }
 
-public struct UpdateComponentConfigurationInput: Swift.Equatable {
+public struct UpdateComponentConfigurationInput {
     /// Automatically configures the component by applying the recommended configurations.
     public var autoConfigEnabled: Swift.Bool?
     /// The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see [Working with JSON](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/working-with-json.html). You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component. For the complete format of the component configuration file, see [Component Configuration](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/component-config.html).
@@ -6124,7 +6124,7 @@ public struct UpdateComponentConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateComponentConfigurationInputBody: Swift.Equatable {
+struct UpdateComponentConfigurationInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let monitor: Swift.Bool?
@@ -6165,7 +6165,7 @@ extension UpdateComponentConfigurationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateComponentConfigurationOutput: Swift.Equatable {
+public struct UpdateComponentConfigurationOutput {
 
     public init() { }
 }
@@ -6219,7 +6219,7 @@ extension UpdateComponentInput {
     }
 }
 
-public struct UpdateComponentInput: Swift.Equatable {
+public struct UpdateComponentInput {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -6245,7 +6245,7 @@ public struct UpdateComponentInput: Swift.Equatable {
     }
 }
 
-struct UpdateComponentInputBody: Swift.Equatable {
+struct UpdateComponentInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let newComponentName: Swift.String?
@@ -6287,7 +6287,7 @@ extension UpdateComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateComponentOutput: Swift.Equatable {
+public struct UpdateComponentOutput {
 
     public init() { }
 }
@@ -6342,7 +6342,7 @@ extension UpdateLogPatternInput {
     }
 }
 
-public struct UpdateLogPatternInput: Swift.Equatable {
+public struct UpdateLogPatternInput {
     /// The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
     public var pattern: Swift.String?
     /// The name of the log pattern.
@@ -6373,7 +6373,7 @@ public struct UpdateLogPatternInput: Swift.Equatable {
     }
 }
 
-struct UpdateLogPatternInputBody: Swift.Equatable {
+struct UpdateLogPatternInputBody {
     let resourceGroupName: Swift.String?
     let patternSetName: Swift.String?
     let patternName: Swift.String?
@@ -6419,7 +6419,7 @@ extension UpdateLogPatternOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLogPatternOutput: Swift.Equatable {
+public struct UpdateLogPatternOutput {
     /// The successfully created log pattern.
     public var logPattern: ApplicationInsightsClientTypes.LogPattern?
     /// The name of the resource group.
@@ -6435,7 +6435,7 @@ public struct UpdateLogPatternOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLogPatternOutputBody: Swift.Equatable {
+struct UpdateLogPatternOutputBody {
     let resourceGroupName: Swift.String?
     let logPattern: ApplicationInsightsClientTypes.LogPattern?
 }
@@ -6497,7 +6497,7 @@ extension UpdateProblemInput {
     }
 }
 
-public struct UpdateProblemInput: Swift.Equatable {
+public struct UpdateProblemInput {
     /// The ID of the problem.
     /// This member is required.
     public var problemId: Swift.String?
@@ -6518,7 +6518,7 @@ public struct UpdateProblemInput: Swift.Equatable {
     }
 }
 
-struct UpdateProblemInputBody: Swift.Equatable {
+struct UpdateProblemInputBody {
     let problemId: Swift.String?
     let updateStatus: ApplicationInsightsClientTypes.UpdateStatus?
     let visibility: ApplicationInsightsClientTypes.Visibility?
@@ -6547,7 +6547,7 @@ extension UpdateProblemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProblemOutput: Swift.Equatable {
+public struct UpdateProblemOutput {
 
     public init() { }
 }
@@ -6626,7 +6626,7 @@ extension UpdateWorkloadInput {
     }
 }
 
-public struct UpdateWorkloadInput: Swift.Equatable {
+public struct UpdateWorkloadInput {
     /// The name of the component.
     /// This member is required.
     public var componentName: Swift.String?
@@ -6653,7 +6653,7 @@ public struct UpdateWorkloadInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkloadInputBody: Swift.Equatable {
+struct UpdateWorkloadInputBody {
     let resourceGroupName: Swift.String?
     let componentName: Swift.String?
     let workloadId: Swift.String?
@@ -6695,7 +6695,7 @@ extension UpdateWorkloadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkloadOutput: Swift.Equatable {
+public struct UpdateWorkloadOutput {
     /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
     public var workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
     /// The ID of the workload.
@@ -6711,7 +6711,7 @@ public struct UpdateWorkloadOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkloadOutputBody: Swift.Equatable {
+struct UpdateWorkloadOutputBody {
     let workloadId: Swift.String?
     let workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration?
 }
@@ -6783,7 +6783,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -6876,7 +6876,7 @@ extension ApplicationInsightsClientTypes.Workload: Swift.Codable {
 
 extension ApplicationInsightsClientTypes {
     /// Describes the workloads on a component.
-    public struct Workload: Swift.Equatable {
+    public struct Workload {
         /// The name of the component.
         public var componentName: Swift.String?
         /// The tier of the workload.
@@ -6939,7 +6939,7 @@ extension ApplicationInsightsClientTypes.WorkloadConfiguration: Swift.Codable {
 
 extension ApplicationInsightsClientTypes {
     /// The configuration of the workload.
-    public struct WorkloadConfiguration: Swift.Equatable {
+    public struct WorkloadConfiguration {
         /// The configuration settings of the workload.
         public var configuration: Swift.String?
         /// The configuration of the workload tier.

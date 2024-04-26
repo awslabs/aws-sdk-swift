@@ -74,7 +74,7 @@ extension AcceptPageInput {
     }
 }
 
-public struct AcceptPageInput: Swift.Equatable {
+public struct AcceptPageInput {
     /// A 6-digit code used to acknowledge the page.
     /// This member is required.
     public var acceptCode: Swift.String?
@@ -109,7 +109,7 @@ public struct AcceptPageInput: Swift.Equatable {
     }
 }
 
-struct AcceptPageInputBody: Swift.Equatable {
+struct AcceptPageInputBody {
     let pageId: Swift.String?
     let contactChannelId: Swift.String?
     let acceptType: SSMContactsClientTypes.AcceptType?
@@ -150,7 +150,7 @@ extension AcceptPageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcceptPageOutput: Swift.Equatable {
+public struct AcceptPageOutput {
 
     public init() { }
 }
@@ -242,7 +242,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -282,7 +282,7 @@ extension ActivateContactChannelInput {
     }
 }
 
-public struct ActivateContactChannelInput: Swift.Equatable {
+public struct ActivateContactChannelInput {
     /// The code sent to the contact channel when it was created in the contact.
     /// This member is required.
     public var activationCode: Swift.String?
@@ -300,7 +300,7 @@ public struct ActivateContactChannelInput: Swift.Equatable {
     }
 }
 
-struct ActivateContactChannelInputBody: Swift.Equatable {
+struct ActivateContactChannelInputBody {
     let contactChannelId: Swift.String?
     let activationCode: Swift.String?
 }
@@ -325,7 +325,7 @@ extension ActivateContactChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ActivateContactChannelOutput: Swift.Equatable {
+public struct ActivateContactChannelOutput {
 
     public init() { }
 }
@@ -404,7 +404,7 @@ extension SSMContactsClientTypes.ChannelTargetInfo: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about the contact channel that Incident Manager uses to engage the contact.
-    public struct ChannelTargetInfo: Swift.Equatable {
+    public struct ChannelTargetInfo {
         /// The Amazon Resource Name (ARN) of the contact channel.
         /// This member is required.
         public var contactChannelId: Swift.String?
@@ -518,7 +518,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -594,7 +594,7 @@ extension SSMContactsClientTypes.Contact: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// A personal contact or escalation plan that Incident Manager engages during an incident.
-    public struct Contact: Swift.Equatable {
+    public struct Contact {
         /// The unique and identifiable alias of the contact or escalation plan.
         /// This member is required.
         public var alias: Swift.String?
@@ -674,7 +674,7 @@ extension SSMContactsClientTypes.ContactChannel: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// The method that Incident Manager uses to engage a contact.
-    public struct ContactChannel: Swift.Equatable {
+    public struct ContactChannel {
         /// A Boolean value describing if the contact channel has been activated or not. If the contact channel isn't activated, Incident Manager can't engage the contact through it.
         /// This member is required.
         public var activationStatus: SSMContactsClientTypes.ActivationStatus?
@@ -740,7 +740,7 @@ extension SSMContactsClientTypes.ContactChannelAddress: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// The details that Incident Manager uses when trying to engage the contact channel.
-    public struct ContactChannelAddress: Swift.Equatable {
+    public struct ContactChannelAddress {
         /// The format is dependent on the type of the contact channel. The following are the expected formats:
         ///
         /// * SMS - '+' followed by the country code and phone number
@@ -787,7 +787,7 @@ extension SSMContactsClientTypes.ContactTargetInfo: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// The contact that Incident Manager is engaging during an incident.
-    public struct ContactTargetInfo: Swift.Equatable {
+    public struct ContactTargetInfo {
         /// The Amazon Resource Name (ARN) of the contact.
         public var contactId: Swift.String?
         /// A Boolean value determining if the contact's acknowledgement stops the progress of stages in the plan.
@@ -868,7 +868,7 @@ extension SSMContactsClientTypes.CoverageTime: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about when an on-call shift begins and ends.
-    public struct CoverageTime: Swift.Equatable {
+    public struct CoverageTime {
         /// Information about when the on-call rotation shift ends.
         public var end: SSMContactsClientTypes.HandOffTime?
         /// Information about when the on-call rotation shift begins.
@@ -926,7 +926,7 @@ extension CreateContactChannelInput {
     }
 }
 
-public struct CreateContactChannelInput: Swift.Equatable {
+public struct CreateContactChannelInput {
     /// The Amazon Resource Name (ARN) of the contact you are adding the contact channel to.
     /// This member is required.
     public var contactId: Swift.String?
@@ -974,7 +974,7 @@ public struct CreateContactChannelInput: Swift.Equatable {
     }
 }
 
-struct CreateContactChannelInputBody: Swift.Equatable {
+struct CreateContactChannelInputBody {
     let contactId: Swift.String?
     let name: Swift.String?
     let type: SSMContactsClientTypes.ChannelType?
@@ -1022,7 +1022,7 @@ extension CreateContactChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContactChannelOutput: Swift.Equatable {
+public struct CreateContactChannelOutput {
     /// The Amazon Resource Name (ARN) of the contact channel.
     /// This member is required.
     public var contactChannelArn: Swift.String?
@@ -1035,7 +1035,7 @@ public struct CreateContactChannelOutput: Swift.Equatable {
     }
 }
 
-struct CreateContactChannelOutputBody: Swift.Equatable {
+struct CreateContactChannelOutputBody {
     let contactChannelArn: Swift.String?
 }
 
@@ -1110,7 +1110,7 @@ extension CreateContactInput {
     }
 }
 
-public struct CreateContactInput: Swift.Equatable {
+public struct CreateContactInput {
     /// The short name to quickly identify a contact or escalation plan. The contact alias must be unique and identifiable.
     /// This member is required.
     public var alias: Swift.String?
@@ -1145,7 +1145,7 @@ public struct CreateContactInput: Swift.Equatable {
     }
 }
 
-struct CreateContactInputBody: Swift.Equatable {
+struct CreateContactInputBody {
     let alias: Swift.String?
     let displayName: Swift.String?
     let type: SSMContactsClientTypes.ContactType?
@@ -1202,7 +1202,7 @@ extension CreateContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContactOutput: Swift.Equatable {
+public struct CreateContactOutput {
     /// The Amazon Resource Name (ARN) of the created contact or escalation plan.
     /// This member is required.
     public var contactArn: Swift.String?
@@ -1215,7 +1215,7 @@ public struct CreateContactOutput: Swift.Equatable {
     }
 }
 
-struct CreateContactOutputBody: Swift.Equatable {
+struct CreateContactOutputBody {
     let contactArn: Swift.String?
 }
 
@@ -1298,7 +1298,7 @@ extension CreateRotationInput {
     }
 }
 
-public struct CreateRotationInput: Swift.Equatable {
+public struct CreateRotationInput {
     /// The Amazon Resource Names (ARNs) of the contacts to add to the rotation. The order that you list the contacts in is their shift order in the rotation schedule. To change the order of the contact's shifts, use the [UpdateRotation] operation.
     /// This member is required.
     public var contactIds: [Swift.String]?
@@ -1338,7 +1338,7 @@ public struct CreateRotationInput: Swift.Equatable {
     }
 }
 
-struct CreateRotationInputBody: Swift.Equatable {
+struct CreateRotationInputBody {
     let name: Swift.String?
     let contactIds: [Swift.String]?
     let startTime: ClientRuntime.Date?
@@ -1408,7 +1408,7 @@ extension CreateRotationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRotationOutput: Swift.Equatable {
+public struct CreateRotationOutput {
     /// The Amazon Resource Name (ARN) of the created rotation.
     /// This member is required.
     public var rotationArn: Swift.String?
@@ -1421,7 +1421,7 @@ public struct CreateRotationOutput: Swift.Equatable {
     }
 }
 
-struct CreateRotationOutputBody: Swift.Equatable {
+struct CreateRotationOutputBody {
     let rotationArn: Swift.String?
 }
 
@@ -1492,7 +1492,7 @@ extension CreateRotationOverrideInput {
     }
 }
 
-public struct CreateRotationOverrideInput: Swift.Equatable {
+public struct CreateRotationOverrideInput {
     /// The date and time when the override ends.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -1524,7 +1524,7 @@ public struct CreateRotationOverrideInput: Swift.Equatable {
     }
 }
 
-struct CreateRotationOverrideInputBody: Swift.Equatable {
+struct CreateRotationOverrideInputBody {
     let rotationId: Swift.String?
     let newContactIds: [Swift.String]?
     let startTime: ClientRuntime.Date?
@@ -1577,7 +1577,7 @@ extension CreateRotationOverrideOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRotationOverrideOutput: Swift.Equatable {
+public struct CreateRotationOverrideOutput {
     /// The Amazon Resource Name (ARN) of the created rotation override.
     /// This member is required.
     public var rotationOverrideId: Swift.String?
@@ -1590,7 +1590,7 @@ public struct CreateRotationOverrideOutput: Swift.Equatable {
     }
 }
 
-struct CreateRotationOverrideOutputBody: Swift.Equatable {
+struct CreateRotationOverrideOutputBody {
     let rotationOverrideId: Swift.String?
 }
 
@@ -1662,7 +1662,7 @@ public struct DataEncryptionException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct DataEncryptionExceptionBody: Swift.Equatable {
+struct DataEncryptionExceptionBody {
     let message: Swift.String?
 }
 
@@ -1745,7 +1745,7 @@ extension DeactivateContactChannelInput {
     }
 }
 
-public struct DeactivateContactChannelInput: Swift.Equatable {
+public struct DeactivateContactChannelInput {
     /// The Amazon Resource Name (ARN) of the contact channel you're deactivating.
     /// This member is required.
     public var contactChannelId: Swift.String?
@@ -1758,7 +1758,7 @@ public struct DeactivateContactChannelInput: Swift.Equatable {
     }
 }
 
-struct DeactivateContactChannelInputBody: Swift.Equatable {
+struct DeactivateContactChannelInputBody {
     let contactChannelId: Swift.String?
 }
 
@@ -1779,7 +1779,7 @@ extension DeactivateContactChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeactivateContactChannelOutput: Swift.Equatable {
+public struct DeactivateContactChannelOutput {
 
     public init() { }
 }
@@ -1819,7 +1819,7 @@ extension DeleteContactChannelInput {
     }
 }
 
-public struct DeleteContactChannelInput: Swift.Equatable {
+public struct DeleteContactChannelInput {
     /// The Amazon Resource Name (ARN) of the contact channel.
     /// This member is required.
     public var contactChannelId: Swift.String?
@@ -1832,7 +1832,7 @@ public struct DeleteContactChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteContactChannelInputBody: Swift.Equatable {
+struct DeleteContactChannelInputBody {
     let contactChannelId: Swift.String?
 }
 
@@ -1853,7 +1853,7 @@ extension DeleteContactChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContactChannelOutput: Swift.Equatable {
+public struct DeleteContactChannelOutput {
 
     public init() { }
 }
@@ -1893,7 +1893,7 @@ extension DeleteContactInput {
     }
 }
 
-public struct DeleteContactInput: Swift.Equatable {
+public struct DeleteContactInput {
     /// The Amazon Resource Name (ARN) of the contact that you're deleting.
     /// This member is required.
     public var contactId: Swift.String?
@@ -1906,7 +1906,7 @@ public struct DeleteContactInput: Swift.Equatable {
     }
 }
 
-struct DeleteContactInputBody: Swift.Equatable {
+struct DeleteContactInputBody {
     let contactId: Swift.String?
 }
 
@@ -1927,7 +1927,7 @@ extension DeleteContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContactOutput: Swift.Equatable {
+public struct DeleteContactOutput {
 
     public init() { }
 }
@@ -1968,7 +1968,7 @@ extension DeleteRotationInput {
     }
 }
 
-public struct DeleteRotationInput: Swift.Equatable {
+public struct DeleteRotationInput {
     /// The Amazon Resource Name (ARN) of the on-call rotation to delete.
     /// This member is required.
     public var rotationId: Swift.String?
@@ -1981,7 +1981,7 @@ public struct DeleteRotationInput: Swift.Equatable {
     }
 }
 
-struct DeleteRotationInputBody: Swift.Equatable {
+struct DeleteRotationInputBody {
     let rotationId: Swift.String?
 }
 
@@ -2002,7 +2002,7 @@ extension DeleteRotationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRotationOutput: Swift.Equatable {
+public struct DeleteRotationOutput {
 
     public init() { }
 }
@@ -2047,7 +2047,7 @@ extension DeleteRotationOverrideInput {
     }
 }
 
-public struct DeleteRotationOverrideInput: Swift.Equatable {
+public struct DeleteRotationOverrideInput {
     /// The Amazon Resource Name (ARN) of the rotation that was overridden.
     /// This member is required.
     public var rotationId: Swift.String?
@@ -2065,7 +2065,7 @@ public struct DeleteRotationOverrideInput: Swift.Equatable {
     }
 }
 
-struct DeleteRotationOverrideInputBody: Swift.Equatable {
+struct DeleteRotationOverrideInputBody {
     let rotationId: Swift.String?
     let rotationOverrideId: Swift.String?
 }
@@ -2090,7 +2090,7 @@ extension DeleteRotationOverrideOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRotationOverrideOutput: Swift.Equatable {
+public struct DeleteRotationOverrideOutput {
 
     public init() { }
 }
@@ -2149,7 +2149,7 @@ extension SSMContactsClientTypes.DependentEntity: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about a resource that another resource is related to or depends on. For example, if a contact is a member of a rotation, the rotation is a dependent entity of the contact.
-    public struct DependentEntity: Swift.Equatable {
+    public struct DependentEntity {
         /// The Amazon Resource Names (ARNs) of the dependent resources.
         /// This member is required.
         public var dependentResourceIds: [Swift.String]?
@@ -2189,7 +2189,7 @@ extension DescribeEngagementInput {
     }
 }
 
-public struct DescribeEngagementInput: Swift.Equatable {
+public struct DescribeEngagementInput {
     /// The Amazon Resource Name (ARN) of the engagement you want the details of.
     /// This member is required.
     public var engagementId: Swift.String?
@@ -2202,7 +2202,7 @@ public struct DescribeEngagementInput: Swift.Equatable {
     }
 }
 
-struct DescribeEngagementInputBody: Swift.Equatable {
+struct DescribeEngagementInputBody {
     let engagementId: Swift.String?
 }
 
@@ -2248,7 +2248,7 @@ extension DescribeEngagementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEngagementOutput: Swift.Equatable {
+public struct DescribeEngagementOutput {
     /// The ARN of the escalation plan or contacts involved in the engagement.
     /// This member is required.
     public var contactArn: Swift.String?
@@ -2301,7 +2301,7 @@ public struct DescribeEngagementOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEngagementOutputBody: Swift.Equatable {
+struct DescribeEngagementOutputBody {
     let contactArn: Swift.String?
     let engagementArn: Swift.String?
     let sender: Swift.String?
@@ -2389,7 +2389,7 @@ extension DescribePageInput {
     }
 }
 
-public struct DescribePageInput: Swift.Equatable {
+public struct DescribePageInput {
     /// The ID of the engagement to a contact channel.
     /// This member is required.
     public var pageId: Swift.String?
@@ -2402,7 +2402,7 @@ public struct DescribePageInput: Swift.Equatable {
     }
 }
 
-struct DescribePageInputBody: Swift.Equatable {
+struct DescribePageInputBody {
     let pageId: Swift.String?
 }
 
@@ -2452,7 +2452,7 @@ extension DescribePageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePageOutput: Swift.Equatable {
+public struct DescribePageOutput {
     /// The ARN of the contact that was engaged.
     /// This member is required.
     public var contactArn: Swift.String?
@@ -2514,7 +2514,7 @@ public struct DescribePageOutput: Swift.Equatable {
     }
 }
 
-struct DescribePageOutputBody: Swift.Equatable {
+struct DescribePageOutputBody {
     let pageArn: Swift.String?
     let engagementArn: Swift.String?
     let contactArn: Swift.String?
@@ -2641,7 +2641,7 @@ extension SSMContactsClientTypes.Engagement: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Incident Manager reaching out to a contact or escalation plan to engage contact during an incident.
-    public struct Engagement: Swift.Equatable {
+    public struct Engagement {
         /// The ARN of the escalation plan or contact that Incident Manager is engaging.
         /// This member is required.
         public var contactArn: Swift.String?
@@ -2698,7 +2698,7 @@ extension GetContactChannelInput {
     }
 }
 
-public struct GetContactChannelInput: Swift.Equatable {
+public struct GetContactChannelInput {
     /// The Amazon Resource Name (ARN) of the contact channel you want information about.
     /// This member is required.
     public var contactChannelId: Swift.String?
@@ -2711,7 +2711,7 @@ public struct GetContactChannelInput: Swift.Equatable {
     }
 }
 
-struct GetContactChannelInputBody: Swift.Equatable {
+struct GetContactChannelInputBody {
     let contactChannelId: Swift.String?
 }
 
@@ -2749,7 +2749,7 @@ extension GetContactChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContactChannelOutput: Swift.Equatable {
+public struct GetContactChannelOutput {
     /// A Boolean value indicating if the contact channel has been activated or not.
     public var activationStatus: SSMContactsClientTypes.ActivationStatus?
     /// The ARN of the contact that the channel belongs to.
@@ -2786,7 +2786,7 @@ public struct GetContactChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetContactChannelOutputBody: Swift.Equatable {
+struct GetContactChannelOutputBody {
     let contactArn: Swift.String?
     let contactChannelArn: Swift.String?
     let name: Swift.String?
@@ -2858,7 +2858,7 @@ extension GetContactInput {
     }
 }
 
-public struct GetContactInput: Swift.Equatable {
+public struct GetContactInput {
     /// The Amazon Resource Name (ARN) of the contact or escalation plan.
     /// This member is required.
     public var contactId: Swift.String?
@@ -2871,7 +2871,7 @@ public struct GetContactInput: Swift.Equatable {
     }
 }
 
-struct GetContactInputBody: Swift.Equatable {
+struct GetContactInputBody {
     let contactId: Swift.String?
 }
 
@@ -2907,7 +2907,7 @@ extension GetContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContactOutput: Swift.Equatable {
+public struct GetContactOutput {
     /// The alias of the contact or escalation plan. The alias is unique and identifiable.
     /// This member is required.
     public var alias: Swift.String?
@@ -2939,7 +2939,7 @@ public struct GetContactOutput: Swift.Equatable {
     }
 }
 
-struct GetContactOutputBody: Swift.Equatable {
+struct GetContactOutputBody {
     let contactArn: Swift.String?
     let alias: Swift.String?
     let displayName: Swift.String?
@@ -3007,7 +3007,7 @@ extension GetContactPolicyInput {
     }
 }
 
-public struct GetContactPolicyInput: Swift.Equatable {
+public struct GetContactPolicyInput {
     /// The Amazon Resource Name (ARN) of the contact or escalation plan.
     /// This member is required.
     public var contactArn: Swift.String?
@@ -3020,7 +3020,7 @@ public struct GetContactPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetContactPolicyInputBody: Swift.Equatable {
+struct GetContactPolicyInputBody {
     let contactArn: Swift.String?
 }
 
@@ -3050,7 +3050,7 @@ extension GetContactPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContactPolicyOutput: Swift.Equatable {
+public struct GetContactPolicyOutput {
     /// The ARN of the contact or escalation plan.
     public var contactArn: Swift.String?
     /// Details about the resource policy attached to the contact or escalation plan.
@@ -3066,7 +3066,7 @@ public struct GetContactPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetContactPolicyOutputBody: Swift.Equatable {
+struct GetContactPolicyOutputBody {
     let contactArn: Swift.String?
     let policy: Swift.String?
 }
@@ -3121,7 +3121,7 @@ extension GetRotationInput {
     }
 }
 
-public struct GetRotationInput: Swift.Equatable {
+public struct GetRotationInput {
     /// The Amazon Resource Name (ARN) of the on-call rotation to retrieve information about.
     /// This member is required.
     public var rotationId: Swift.String?
@@ -3134,7 +3134,7 @@ public struct GetRotationInput: Swift.Equatable {
     }
 }
 
-struct GetRotationInputBody: Swift.Equatable {
+struct GetRotationInputBody {
     let rotationId: Swift.String?
 }
 
@@ -3172,7 +3172,7 @@ extension GetRotationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRotationOutput: Swift.Equatable {
+public struct GetRotationOutput {
     /// The Amazon Resource Names (ARNs) of the contacts assigned to the on-call rotation team.
     /// This member is required.
     public var contactIds: [Swift.String]?
@@ -3210,7 +3210,7 @@ public struct GetRotationOutput: Swift.Equatable {
     }
 }
 
-struct GetRotationOutputBody: Swift.Equatable {
+struct GetRotationOutputBody {
     let rotationArn: Swift.String?
     let name: Swift.String?
     let contactIds: [Swift.String]?
@@ -3294,7 +3294,7 @@ extension GetRotationOverrideInput {
     }
 }
 
-public struct GetRotationOverrideInput: Swift.Equatable {
+public struct GetRotationOverrideInput {
     /// The Amazon Resource Name (ARN) of the overridden rotation to retrieve information about.
     /// This member is required.
     public var rotationId: Swift.String?
@@ -3312,7 +3312,7 @@ public struct GetRotationOverrideInput: Swift.Equatable {
     }
 }
 
-struct GetRotationOverrideInputBody: Swift.Equatable {
+struct GetRotationOverrideInputBody {
     let rotationId: Swift.String?
     let rotationOverrideId: Swift.String?
 }
@@ -3354,7 +3354,7 @@ extension GetRotationOverrideOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRotationOverrideOutput: Swift.Equatable {
+public struct GetRotationOverrideOutput {
     /// The date and time when the override was created.
     public var createTime: ClientRuntime.Date?
     /// The date and time when the override ends.
@@ -3386,7 +3386,7 @@ public struct GetRotationOverrideOutput: Swift.Equatable {
     }
 }
 
-struct GetRotationOverrideOutputBody: Swift.Equatable {
+struct GetRotationOverrideOutputBody {
     let rotationOverrideId: Swift.String?
     let rotationArn: Swift.String?
     let newContactIds: [Swift.String]?
@@ -3473,7 +3473,7 @@ extension SSMContactsClientTypes.HandOffTime: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Details about when an on-call rotation shift begins or ends.
-    public struct HandOffTime: Swift.Equatable {
+    public struct HandOffTime {
         /// The hour when an on-call rotation shift begins or ends.
         /// This member is required.
         public var hourOfDay: Swift.Int
@@ -3542,7 +3542,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -3586,7 +3586,7 @@ extension ListContactChannelsInput {
     }
 }
 
-public struct ListContactChannelsInput: Swift.Equatable {
+public struct ListContactChannelsInput {
     /// The Amazon Resource Name (ARN) of the contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -3607,7 +3607,7 @@ public struct ListContactChannelsInput: Swift.Equatable {
     }
 }
 
-struct ListContactChannelsInputBody: Swift.Equatable {
+struct ListContactChannelsInputBody {
     let contactId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3645,7 +3645,7 @@ extension ListContactChannelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContactChannelsOutput: Swift.Equatable {
+public struct ListContactChannelsOutput {
     /// A list of contact channels related to the specified contact.
     /// This member is required.
     public var contactChannels: [SSMContactsClientTypes.ContactChannel]?
@@ -3662,7 +3662,7 @@ public struct ListContactChannelsOutput: Swift.Equatable {
     }
 }
 
-struct ListContactChannelsOutputBody: Swift.Equatable {
+struct ListContactChannelsOutputBody {
     let nextToken: Swift.String?
     let contactChannels: [SSMContactsClientTypes.ContactChannel]?
 }
@@ -3739,7 +3739,7 @@ extension ListContactsInput {
     }
 }
 
-public struct ListContactsInput: Swift.Equatable {
+public struct ListContactsInput {
     /// Used to list only contacts who's aliases start with the specified prefix.
     public var aliasPrefix: Swift.String?
     /// The maximum number of contacts and escalation plans per page of results.
@@ -3763,7 +3763,7 @@ public struct ListContactsInput: Swift.Equatable {
     }
 }
 
-struct ListContactsInputBody: Swift.Equatable {
+struct ListContactsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let aliasPrefix: Swift.String?
@@ -3805,7 +3805,7 @@ extension ListContactsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContactsOutput: Swift.Equatable {
+public struct ListContactsOutput {
     /// A list of the contacts and escalation plans in your Incident Manager account.
     public var contacts: [SSMContactsClientTypes.Contact]?
     /// The pagination token to continue to the next page of results.
@@ -3821,7 +3821,7 @@ public struct ListContactsOutput: Swift.Equatable {
     }
 }
 
-struct ListContactsOutputBody: Swift.Equatable {
+struct ListContactsOutputBody {
     let nextToken: Swift.String?
     let contacts: [SSMContactsClientTypes.Contact]?
 }
@@ -3896,7 +3896,7 @@ extension ListEngagementsInput {
     }
 }
 
-public struct ListEngagementsInput: Swift.Equatable {
+public struct ListEngagementsInput {
     /// The Amazon Resource Name (ARN) of the incident you're listing engagements for.
     public var incidentId: Swift.String?
     /// The maximum number of engagements per page of results.
@@ -3920,7 +3920,7 @@ public struct ListEngagementsInput: Swift.Equatable {
     }
 }
 
-struct ListEngagementsInputBody: Swift.Equatable {
+struct ListEngagementsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let incidentId: Swift.String?
@@ -3962,7 +3962,7 @@ extension ListEngagementsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEngagementsOutput: Swift.Equatable {
+public struct ListEngagementsOutput {
     /// A list of each engagement that occurred during the specified time range of an incident.
     /// This member is required.
     public var engagements: [SSMContactsClientTypes.Engagement]?
@@ -3979,7 +3979,7 @@ public struct ListEngagementsOutput: Swift.Equatable {
     }
 }
 
-struct ListEngagementsOutputBody: Swift.Equatable {
+struct ListEngagementsOutputBody {
     let nextToken: Swift.String?
     let engagements: [SSMContactsClientTypes.Engagement]?
 }
@@ -4050,7 +4050,7 @@ extension ListPageReceiptsInput {
     }
 }
 
-public struct ListPageReceiptsInput: Swift.Equatable {
+public struct ListPageReceiptsInput {
     /// The maximum number of acknowledgements per page of results.
     public var maxResults: Swift.Int?
     /// The pagination token to continue to the next page of results.
@@ -4071,7 +4071,7 @@ public struct ListPageReceiptsInput: Swift.Equatable {
     }
 }
 
-struct ListPageReceiptsInputBody: Swift.Equatable {
+struct ListPageReceiptsInputBody {
     let pageId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4109,7 +4109,7 @@ extension ListPageReceiptsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPageReceiptsOutput: Swift.Equatable {
+public struct ListPageReceiptsOutput {
     /// The pagination token to continue to the next page of results.
     public var nextToken: Swift.String?
     /// A list of each acknowledgement.
@@ -4125,7 +4125,7 @@ public struct ListPageReceiptsOutput: Swift.Equatable {
     }
 }
 
-struct ListPageReceiptsOutputBody: Swift.Equatable {
+struct ListPageReceiptsOutputBody {
     let nextToken: Swift.String?
     let receipts: [SSMContactsClientTypes.Receipt]?
 }
@@ -4193,7 +4193,7 @@ extension ListPageResolutionsInput {
     }
 }
 
-public struct ListPageResolutionsInput: Swift.Equatable {
+public struct ListPageResolutionsInput {
     /// A token to start the list. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the contact engaged for the incident.
@@ -4210,7 +4210,7 @@ public struct ListPageResolutionsInput: Swift.Equatable {
     }
 }
 
-struct ListPageResolutionsInputBody: Swift.Equatable {
+struct ListPageResolutionsInputBody {
     let nextToken: Swift.String?
     let pageId: Swift.String?
 }
@@ -4244,7 +4244,7 @@ extension ListPageResolutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPageResolutionsOutput: Swift.Equatable {
+public struct ListPageResolutionsOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// Information about the resolution for an engagement.
@@ -4261,7 +4261,7 @@ public struct ListPageResolutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListPageResolutionsOutputBody: Swift.Equatable {
+struct ListPageResolutionsOutputBody {
     let nextToken: Swift.String?
     let pageResolutions: [SSMContactsClientTypes.ResolutionContact]?
 }
@@ -4333,7 +4333,7 @@ extension ListPagesByContactInput {
     }
 }
 
-public struct ListPagesByContactInput: Swift.Equatable {
+public struct ListPagesByContactInput {
     /// The Amazon Resource Name (ARN) of the contact you are retrieving engagements for.
     /// This member is required.
     public var contactId: Swift.String?
@@ -4354,7 +4354,7 @@ public struct ListPagesByContactInput: Swift.Equatable {
     }
 }
 
-struct ListPagesByContactInputBody: Swift.Equatable {
+struct ListPagesByContactInputBody {
     let contactId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4392,7 +4392,7 @@ extension ListPagesByContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPagesByContactOutput: Swift.Equatable {
+public struct ListPagesByContactOutput {
     /// The pagination token to continue to the next page of results.
     public var nextToken: Swift.String?
     /// The list of engagements to a contact's contact channel.
@@ -4409,7 +4409,7 @@ public struct ListPagesByContactOutput: Swift.Equatable {
     }
 }
 
-struct ListPagesByContactOutputBody: Swift.Equatable {
+struct ListPagesByContactOutputBody {
     let nextToken: Swift.String?
     let pages: [SSMContactsClientTypes.Page]?
 }
@@ -4481,7 +4481,7 @@ extension ListPagesByEngagementInput {
     }
 }
 
-public struct ListPagesByEngagementInput: Swift.Equatable {
+public struct ListPagesByEngagementInput {
     /// The Amazon Resource Name (ARN) of the engagement.
     /// This member is required.
     public var engagementId: Swift.String?
@@ -4502,7 +4502,7 @@ public struct ListPagesByEngagementInput: Swift.Equatable {
     }
 }
 
-struct ListPagesByEngagementInputBody: Swift.Equatable {
+struct ListPagesByEngagementInputBody {
     let engagementId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4540,7 +4540,7 @@ extension ListPagesByEngagementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPagesByEngagementOutput: Swift.Equatable {
+public struct ListPagesByEngagementOutput {
     /// The pagination token to continue to the next page of results.
     public var nextToken: Swift.String?
     /// The list of engagements to contact channels.
@@ -4557,7 +4557,7 @@ public struct ListPagesByEngagementOutput: Swift.Equatable {
     }
 }
 
-struct ListPagesByEngagementOutputBody: Swift.Equatable {
+struct ListPagesByEngagementOutputBody {
     let nextToken: Swift.String?
     let pages: [SSMContactsClientTypes.Page]?
 }
@@ -4659,7 +4659,7 @@ extension ListPreviewRotationShiftsInput {
     }
 }
 
-public struct ListPreviewRotationShiftsInput: Swift.Equatable {
+public struct ListPreviewRotationShiftsInput {
     /// The date and time a rotation shift would end.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -4707,7 +4707,7 @@ public struct ListPreviewRotationShiftsInput: Swift.Equatable {
     }
 }
 
-struct ListPreviewRotationShiftsInputBody: Swift.Equatable {
+struct ListPreviewRotationShiftsInputBody {
     let rotationStartTime: ClientRuntime.Date?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -4787,7 +4787,7 @@ extension ListPreviewRotationShiftsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPreviewRotationShiftsOutput: Swift.Equatable {
+public struct ListPreviewRotationShiftsOutput {
     /// The token for the next set of items to return. This token is used to get the next set of results.
     public var nextToken: Swift.String?
     /// Details about a rotation shift, including times, types, and contacts.
@@ -4803,7 +4803,7 @@ public struct ListPreviewRotationShiftsOutput: Swift.Equatable {
     }
 }
 
-struct ListPreviewRotationShiftsOutputBody: Swift.Equatable {
+struct ListPreviewRotationShiftsOutputBody {
     let rotationShifts: [SSMContactsClientTypes.RotationShift]?
     let nextToken: Swift.String?
 }
@@ -4882,7 +4882,7 @@ extension ListRotationOverridesInput {
     }
 }
 
-public struct ListRotationOverridesInput: Swift.Equatable {
+public struct ListRotationOverridesInput {
     /// The date and time for the end of a time range for listing overrides.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -4913,7 +4913,7 @@ public struct ListRotationOverridesInput: Swift.Equatable {
     }
 }
 
-struct ListRotationOverridesInputBody: Swift.Equatable {
+struct ListRotationOverridesInputBody {
     let rotationId: Swift.String?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -4959,7 +4959,7 @@ extension ListRotationOverridesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRotationOverridesOutput: Swift.Equatable {
+public struct ListRotationOverridesOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// A list of rotation overrides in the specified time range.
@@ -4975,7 +4975,7 @@ public struct ListRotationOverridesOutput: Swift.Equatable {
     }
 }
 
-struct ListRotationOverridesOutputBody: Swift.Equatable {
+struct ListRotationOverridesOutputBody {
     let rotationOverrides: [SSMContactsClientTypes.RotationOverride]?
     let nextToken: Swift.String?
 }
@@ -5055,7 +5055,7 @@ extension ListRotationShiftsInput {
     }
 }
 
-public struct ListRotationShiftsInput: Swift.Equatable {
+public struct ListRotationShiftsInput {
     /// The date and time for the end of the time range to list shifts for.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -5085,7 +5085,7 @@ public struct ListRotationShiftsInput: Swift.Equatable {
     }
 }
 
-struct ListRotationShiftsInputBody: Swift.Equatable {
+struct ListRotationShiftsInputBody {
     let rotationId: Swift.String?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -5131,7 +5131,7 @@ extension ListRotationShiftsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRotationShiftsOutput: Swift.Equatable {
+public struct ListRotationShiftsOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// Information about shifts that meet the filter criteria.
@@ -5147,7 +5147,7 @@ public struct ListRotationShiftsOutput: Swift.Equatable {
     }
 }
 
-struct ListRotationShiftsOutputBody: Swift.Equatable {
+struct ListRotationShiftsOutputBody {
     let rotationShifts: [SSMContactsClientTypes.RotationShift]?
     let nextToken: Swift.String?
 }
@@ -5220,7 +5220,7 @@ extension ListRotationsInput {
     }
 }
 
-public struct ListRotationsInput: Swift.Equatable {
+public struct ListRotationsInput {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
@@ -5240,7 +5240,7 @@ public struct ListRotationsInput: Swift.Equatable {
     }
 }
 
-struct ListRotationsInputBody: Swift.Equatable {
+struct ListRotationsInputBody {
     let rotationNamePrefix: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -5278,7 +5278,7 @@ extension ListRotationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRotationsOutput: Swift.Equatable {
+public struct ListRotationsOutput {
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
     /// Information about rotations that meet the filter criteria.
@@ -5295,7 +5295,7 @@ public struct ListRotationsOutput: Swift.Equatable {
     }
 }
 
-struct ListRotationsOutputBody: Swift.Equatable {
+struct ListRotationsOutputBody {
     let nextToken: Swift.String?
     let rotations: [SSMContactsClientTypes.Rotation]?
 }
@@ -5359,7 +5359,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the contact or escalation plan.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -5372,7 +5372,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -5400,7 +5400,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags related to the contact or escalation plan.
     public var tags: [SSMContactsClientTypes.Tag]?
 
@@ -5412,7 +5412,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [SSMContactsClientTypes.Tag]?
 }
 
@@ -5479,7 +5479,7 @@ extension SSMContactsClientTypes.MonthlySetting: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about on-call rotations that recur monthly.
-    public struct MonthlySetting: Swift.Equatable {
+    public struct MonthlySetting {
         /// The day of the month when monthly recurring on-call rotations begin.
         /// This member is required.
         public var dayOfMonth: Swift.Int?
@@ -5562,7 +5562,7 @@ extension SSMContactsClientTypes.Page: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Incident Manager engaging a contact's contact channel.
-    public struct Page: Swift.Equatable {
+    public struct Page {
         /// The ARN of the contact that Incident Manager is engaging.
         /// This member is required.
         public var contactArn: Swift.String?
@@ -5659,7 +5659,7 @@ extension SSMContactsClientTypes.Plan: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about the stages and on-call rotation teams associated with an escalation plan or engagement plan.
-    public struct Plan: Swift.Equatable {
+    public struct Plan {
         /// The Amazon Resource Names (ARNs) of the on-call rotations associated with the plan.
         public var rotationIds: [Swift.String]?
         /// A list of stages that the escalation plan or engagement plan uses to engage contacts and contact methods.
@@ -5722,7 +5722,7 @@ extension SSMContactsClientTypes.PreviewOverride: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about contacts and times that an on-call override replaces.
-    public struct PreviewOverride: Swift.Equatable {
+    public struct PreviewOverride {
         /// Information about the time a rotation override would end.
         public var endTime: ClientRuntime.Date?
         /// Information about contacts to add to an on-call rotation override.
@@ -5768,7 +5768,7 @@ extension PutContactPolicyInput {
     }
 }
 
-public struct PutContactPolicyInput: Swift.Equatable {
+public struct PutContactPolicyInput {
     /// The Amazon Resource Name (ARN) of the contact or escalation plan.
     /// This member is required.
     public var contactArn: Swift.String?
@@ -5786,7 +5786,7 @@ public struct PutContactPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutContactPolicyInputBody: Swift.Equatable {
+struct PutContactPolicyInputBody {
     let contactArn: Swift.String?
     let policy: Swift.String?
 }
@@ -5811,7 +5811,7 @@ extension PutContactPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutContactPolicyOutput: Swift.Equatable {
+public struct PutContactPolicyOutput {
 
     public init() { }
 }
@@ -5871,7 +5871,7 @@ extension SSMContactsClientTypes.Receipt: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Records events during an engagement.
-    public struct Receipt: Swift.Equatable {
+    public struct Receipt {
         /// The Amazon Resource Name (ARN) of the contact channel Incident Manager engaged.
         public var contactChannelArn: Swift.String?
         /// Information provided during the page acknowledgement.
@@ -6049,7 +6049,7 @@ extension SSMContactsClientTypes.RecurrenceSettings: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about when an on-call rotation is in effect and how long the rotation period lasts.
-    public struct RecurrenceSettings: Swift.Equatable {
+    public struct RecurrenceSettings {
         /// Information about on-call rotations that recur daily.
         public var dailySettings: [SSMContactsClientTypes.HandOffTime]?
         /// Information about on-call rotations that recur monthly.
@@ -6118,7 +6118,7 @@ extension SSMContactsClientTypes.ResolutionContact: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about the engagement resolution steps. The resolution starts from the first contact, which can be an escalation plan, then resolves to an on-call rotation, and finally to a personal contact. The ResolutionContact structure describes the information for each node or step in that process. It contains information about different contact types, such as the escalation, rotation, and personal contacts.
-    public struct ResolutionContact: Swift.Equatable {
+    public struct ResolutionContact {
         /// The Amazon Resource Name (ARN) of a contact in the engagement resolution process.
         /// This member is required.
         public var contactArn: Swift.String?
@@ -6196,7 +6196,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -6283,7 +6283,7 @@ extension SSMContactsClientTypes.Rotation: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about a rotation in an on-call schedule.
-    public struct Rotation: Swift.Equatable {
+    public struct Rotation {
         /// The Amazon Resource Names (ARNs) of the contacts assigned to the rotation team.
         public var contactIds: [Swift.String]?
         /// The name of the rotation.
@@ -6376,7 +6376,7 @@ extension SSMContactsClientTypes.RotationOverride: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about an override specified for an on-call rotation.
-    public struct RotationOverride: Swift.Equatable {
+    public struct RotationOverride {
         /// The time a rotation override was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
@@ -6468,7 +6468,7 @@ extension SSMContactsClientTypes.RotationShift: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about a shift that belongs to an on-call rotation.
-    public struct RotationShift: Swift.Equatable {
+    public struct RotationShift {
         /// The Amazon Resource Names (ARNs) of the contacts who are part of the shift rotation.
         public var contactIds: [Swift.String]?
         /// The time a shift rotation ends.
@@ -6522,7 +6522,7 @@ extension SendActivationCodeInput {
     }
 }
 
-public struct SendActivationCodeInput: Swift.Equatable {
+public struct SendActivationCodeInput {
     /// The Amazon Resource Name (ARN) of the contact channel.
     /// This member is required.
     public var contactChannelId: Swift.String?
@@ -6535,7 +6535,7 @@ public struct SendActivationCodeInput: Swift.Equatable {
     }
 }
 
-struct SendActivationCodeInputBody: Swift.Equatable {
+struct SendActivationCodeInputBody {
     let contactChannelId: Swift.String?
 }
 
@@ -6556,7 +6556,7 @@ extension SendActivationCodeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendActivationCodeOutput: Swift.Equatable {
+public struct SendActivationCodeOutput {
 
     public init() { }
 }
@@ -6644,7 +6644,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -6709,7 +6709,7 @@ extension SSMContactsClientTypes.ShiftDetails: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about overrides to an on-call rotation shift.
-    public struct ShiftDetails: Swift.Equatable {
+    public struct ShiftDetails {
         /// The Amazon Resources Names (ARNs) of the contacts who were replaced in a shift when an override was created. If the override is deleted, these contacts are restored to the shift.
         /// This member is required.
         public var overriddenContactIds: [Swift.String]?
@@ -6795,7 +6795,7 @@ extension SSMContactsClientTypes.Stage: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// A set amount of time that an escalation plan or engagement plan engages the specified contacts or contact methods.
-    public struct Stage: Swift.Equatable {
+    public struct Stage {
         /// The time to wait until beginning the next stage. The duration can only be set to 0 if a target is specified.
         /// This member is required.
         public var durationInMinutes: Swift.Int?
@@ -6863,7 +6863,7 @@ extension StartEngagementInput {
     }
 }
 
-public struct StartEngagementInput: Swift.Equatable {
+public struct StartEngagementInput {
     /// The Amazon Resource Name (ARN) of the contact being engaged.
     /// This member is required.
     public var contactId: Swift.String?
@@ -6907,7 +6907,7 @@ public struct StartEngagementInput: Swift.Equatable {
     }
 }
 
-struct StartEngagementInputBody: Swift.Equatable {
+struct StartEngagementInputBody {
     let contactId: Swift.String?
     let sender: Swift.String?
     let subject: Swift.String?
@@ -6963,7 +6963,7 @@ extension StartEngagementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartEngagementOutput: Swift.Equatable {
+public struct StartEngagementOutput {
     /// The ARN of the engagement.
     /// This member is required.
     public var engagementArn: Swift.String?
@@ -6976,7 +6976,7 @@ public struct StartEngagementOutput: Swift.Equatable {
     }
 }
 
-struct StartEngagementOutputBody: Swift.Equatable {
+struct StartEngagementOutputBody {
     let engagementArn: Swift.String?
 }
 
@@ -7032,7 +7032,7 @@ extension StopEngagementInput {
     }
 }
 
-public struct StopEngagementInput: Swift.Equatable {
+public struct StopEngagementInput {
     /// The Amazon Resource Name (ARN) of the engagement.
     /// This member is required.
     public var engagementId: Swift.String?
@@ -7049,7 +7049,7 @@ public struct StopEngagementInput: Swift.Equatable {
     }
 }
 
-struct StopEngagementInputBody: Swift.Equatable {
+struct StopEngagementInputBody {
     let engagementId: Swift.String?
     let reason: Swift.String?
 }
@@ -7074,7 +7074,7 @@ extension StopEngagementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopEngagementOutput: Swift.Equatable {
+public struct StopEngagementOutput {
 
     public init() { }
 }
@@ -7121,7 +7121,7 @@ extension SSMContactsClientTypes.Tag: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// A container of a key-value name pair.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Name of the object key.
         public var key: Swift.String?
         /// Value of the tag.
@@ -7166,7 +7166,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the contact or escalation plan.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -7184,7 +7184,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [SSMContactsClientTypes.Tag]?
 }
@@ -7218,7 +7218,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -7266,7 +7266,7 @@ extension SSMContactsClientTypes.Target: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// The contact or contact channel that's being engaged.
-    public struct Target: Swift.Equatable {
+    public struct Target {
         /// Information about the contact channel Incident Manager is engaging.
         public var channelTargetInfo: SSMContactsClientTypes.ChannelTargetInfo?
         /// Information about the contact that Incident Manager is engaging.
@@ -7345,7 +7345,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let quotaCode: Swift.String?
     let serviceCode: Swift.String?
@@ -7396,7 +7396,7 @@ extension SSMContactsClientTypes.TimeRange: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// A range of between two set times
-    public struct TimeRange: Swift.Equatable {
+    public struct TimeRange {
         /// The end of the time range.
         public var endTime: ClientRuntime.Date?
         /// The start of the time range.
@@ -7441,7 +7441,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the contact or escalation plan.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -7459,7 +7459,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -7493,7 +7493,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -7541,7 +7541,7 @@ extension UpdateContactChannelInput {
     }
 }
 
-public struct UpdateContactChannelInput: Swift.Equatable {
+public struct UpdateContactChannelInput {
     /// The Amazon Resource Name (ARN) of the contact channel you want to update.
     /// This member is required.
     public var contactChannelId: Swift.String?
@@ -7562,7 +7562,7 @@ public struct UpdateContactChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactChannelInputBody: Swift.Equatable {
+struct UpdateContactChannelInputBody {
     let contactChannelId: Swift.String?
     let name: Swift.String?
     let deliveryAddress: SSMContactsClientTypes.ContactChannelAddress?
@@ -7591,7 +7591,7 @@ extension UpdateContactChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactChannelOutput: Swift.Equatable {
+public struct UpdateContactChannelOutput {
 
     public init() { }
 }
@@ -7641,7 +7641,7 @@ extension UpdateContactInput {
     }
 }
 
-public struct UpdateContactInput: Swift.Equatable {
+public struct UpdateContactInput {
     /// The Amazon Resource Name (ARN) of the contact or escalation plan you're updating.
     /// This member is required.
     public var contactId: Swift.String?
@@ -7662,7 +7662,7 @@ public struct UpdateContactInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactInputBody: Swift.Equatable {
+struct UpdateContactInputBody {
     let contactId: Swift.String?
     let displayName: Swift.String?
     let plan: SSMContactsClientTypes.Plan?
@@ -7691,7 +7691,7 @@ extension UpdateContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactOutput: Swift.Equatable {
+public struct UpdateContactOutput {
 
     public init() { }
 }
@@ -7752,7 +7752,7 @@ extension UpdateRotationInput {
     }
 }
 
-public struct UpdateRotationInput: Swift.Equatable {
+public struct UpdateRotationInput {
     /// The Amazon Resource Names (ARNs) of the contacts to include in the updated rotation. The order in which you list the contacts is their shift order in the rotation schedule.
     public var contactIds: [Swift.String]?
     /// Information about how long the updated rotation lasts before restarting at the beginning of the shift order.
@@ -7782,7 +7782,7 @@ public struct UpdateRotationInput: Swift.Equatable {
     }
 }
 
-struct UpdateRotationInputBody: Swift.Equatable {
+struct UpdateRotationInputBody {
     let rotationId: Swift.String?
     let contactIds: [Swift.String]?
     let startTime: ClientRuntime.Date?
@@ -7828,7 +7828,7 @@ extension UpdateRotationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRotationOutput: Swift.Equatable {
+public struct UpdateRotationOutput {
 
     public init() { }
 }
@@ -7901,7 +7901,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: SSMContactsClientTypes.ValidationExceptionReason?
     let fields: [SSMContactsClientTypes.ValidationExceptionField]?
@@ -7961,7 +7961,7 @@ extension SSMContactsClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Provides information about which field caused the exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// Information about what caused the field to cause an exception.
         /// This member is required.
         public var message: Swift.String?
@@ -8046,7 +8046,7 @@ extension SSMContactsClientTypes.WeeklySetting: Swift.Codable {
 
 extension SSMContactsClientTypes {
     /// Information about rotations that recur weekly.
-    public struct WeeklySetting: Swift.Equatable {
+    public struct WeeklySetting {
         /// The day of the week when weekly recurring on-call shift rotations begins.
         /// This member is required.
         public var dayOfWeek: SSMContactsClientTypes.DayOfWeek?

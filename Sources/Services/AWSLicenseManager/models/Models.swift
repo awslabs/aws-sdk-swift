@@ -22,7 +22,7 @@ extension AcceptGrantInput {
     }
 }
 
-public struct AcceptGrantInput: Swift.Equatable {
+public struct AcceptGrantInput {
     /// Amazon Resource Name (ARN) of the grant.
     /// This member is required.
     public var grantArn: Swift.String?
@@ -35,7 +35,7 @@ public struct AcceptGrantInput: Swift.Equatable {
     }
 }
 
-struct AcceptGrantInputBody: Swift.Equatable {
+struct AcceptGrantInputBody {
     let grantArn: Swift.String?
 }
 
@@ -67,7 +67,7 @@ extension AcceptGrantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcceptGrantOutput: Swift.Equatable {
+public struct AcceptGrantOutput {
     /// Grant ARN.
     public var grantArn: Swift.String?
     /// Grant status.
@@ -87,7 +87,7 @@ public struct AcceptGrantOutput: Swift.Equatable {
     }
 }
 
-struct AcceptGrantOutputBody: Swift.Equatable {
+struct AcceptGrantOutputBody {
     let grantArn: Swift.String?
     let status: LicenseManagerClientTypes.GrantStatus?
     let version: Swift.String?
@@ -167,7 +167,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -301,7 +301,7 @@ public struct AuthorizationException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct AuthorizationExceptionBody: Swift.Equatable {
+struct AuthorizationExceptionBody {
     let message: Swift.String?
 }
 
@@ -338,7 +338,7 @@ extension LicenseManagerClientTypes.AutomatedDiscoveryInformation: Swift.Codable
 
 extension LicenseManagerClientTypes {
     /// Describes automated discovery.
-    public struct AutomatedDiscoveryInformation: Swift.Equatable {
+    public struct AutomatedDiscoveryInformation {
         /// Time that automated discovery last ran.
         public var lastRunTime: ClientRuntime.Date?
 
@@ -379,7 +379,7 @@ extension LicenseManagerClientTypes.BorrowConfiguration: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details about a borrow configuration.
-    public struct BorrowConfiguration: Swift.Equatable {
+    public struct BorrowConfiguration {
         /// Indicates whether early check-ins are allowed.
         /// This member is required.
         public var allowEarlyCheckIn: Swift.Bool?
@@ -423,7 +423,7 @@ extension CheckInLicenseInput {
     }
 }
 
-public struct CheckInLicenseInput: Swift.Equatable {
+public struct CheckInLicenseInput {
     /// License beneficiary.
     public var beneficiary: Swift.String?
     /// License consumption token.
@@ -440,7 +440,7 @@ public struct CheckInLicenseInput: Swift.Equatable {
     }
 }
 
-struct CheckInLicenseInputBody: Swift.Equatable {
+struct CheckInLicenseInputBody {
     let licenseConsumptionToken: Swift.String?
     let beneficiary: Swift.String?
 }
@@ -465,7 +465,7 @@ extension CheckInLicenseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CheckInLicenseOutput: Swift.Equatable {
+public struct CheckInLicenseOutput {
 
     public init() { }
 }
@@ -534,7 +534,7 @@ extension CheckoutBorrowLicenseInput {
     }
 }
 
-public struct CheckoutBorrowLicenseInput: Swift.Equatable {
+public struct CheckoutBorrowLicenseInput {
     /// Information about constraints.
     public var checkoutMetadata: [LicenseManagerClientTypes.Metadata]?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -570,7 +570,7 @@ public struct CheckoutBorrowLicenseInput: Swift.Equatable {
     }
 }
 
-struct CheckoutBorrowLicenseInputBody: Swift.Equatable {
+struct CheckoutBorrowLicenseInputBody {
     let licenseArn: Swift.String?
     let entitlements: [LicenseManagerClientTypes.EntitlementData]?
     let digitalSignatureMethod: LicenseManagerClientTypes.DigitalSignatureMethod?
@@ -650,7 +650,7 @@ extension CheckoutBorrowLicenseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CheckoutBorrowLicenseOutput: Swift.Equatable {
+public struct CheckoutBorrowLicenseOutput {
     /// Information about constraints.
     public var checkoutMetadata: [LicenseManagerClientTypes.Metadata]?
     /// Allowed license entitlements.
@@ -690,7 +690,7 @@ public struct CheckoutBorrowLicenseOutput: Swift.Equatable {
     }
 }
 
-struct CheckoutBorrowLicenseOutputBody: Swift.Equatable {
+struct CheckoutBorrowLicenseOutputBody {
     let licenseArn: Swift.String?
     let licenseConsumptionToken: Swift.String?
     let entitlementsAllowed: [LicenseManagerClientTypes.EntitlementData]?
@@ -820,7 +820,7 @@ extension CheckoutLicenseInput {
     }
 }
 
-public struct CheckoutLicenseInput: Swift.Equatable {
+public struct CheckoutLicenseInput {
     /// License beneficiary.
     public var beneficiary: Swift.String?
     /// Checkout type.
@@ -861,7 +861,7 @@ public struct CheckoutLicenseInput: Swift.Equatable {
     }
 }
 
-struct CheckoutLicenseInputBody: Swift.Equatable {
+struct CheckoutLicenseInputBody {
     let productSKU: Swift.String?
     let checkoutType: LicenseManagerClientTypes.CheckoutType?
     let keyFingerprint: Swift.String?
@@ -936,7 +936,7 @@ extension CheckoutLicenseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CheckoutLicenseOutput: Swift.Equatable {
+public struct CheckoutLicenseOutput {
     /// Checkout type.
     public var checkoutType: LicenseManagerClientTypes.CheckoutType?
     /// Allowed license entitlements.
@@ -976,7 +976,7 @@ public struct CheckoutLicenseOutput: Swift.Equatable {
     }
 }
 
-struct CheckoutLicenseOutputBody: Swift.Equatable {
+struct CheckoutLicenseOutputBody {
     let checkoutType: LicenseManagerClientTypes.CheckoutType?
     let licenseConsumptionToken: Swift.String?
     let entitlementsAllowed: [LicenseManagerClientTypes.EntitlementData]?
@@ -1120,7 +1120,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1163,7 +1163,7 @@ extension LicenseManagerClientTypes.ConsumedLicenseSummary: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details about license consumption.
-    public struct ConsumedLicenseSummary: Swift.Equatable {
+    public struct ConsumedLicenseSummary {
         /// Number of licenses consumed by the resource.
         public var consumedLicenses: Swift.Int?
         /// Resource type of the resource consuming a license.
@@ -1214,7 +1214,7 @@ extension LicenseManagerClientTypes.ConsumptionConfiguration: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details about a consumption configuration.
-    public struct ConsumptionConfiguration: Swift.Equatable {
+    public struct ConsumptionConfiguration {
         /// Details about a borrow configuration.
         public var borrowConfiguration: LicenseManagerClientTypes.BorrowConfiguration?
         /// Details about a provisional configuration.
@@ -1282,7 +1282,7 @@ extension CreateGrantInput {
     }
 }
 
-public struct CreateGrantInput: Swift.Equatable {
+public struct CreateGrantInput {
     /// Allowed operations for the grant.
     /// This member is required.
     public var allowedOperations: [LicenseManagerClientTypes.AllowedOperation]?
@@ -1332,7 +1332,7 @@ public struct CreateGrantInput: Swift.Equatable {
     }
 }
 
-struct CreateGrantInputBody: Swift.Equatable {
+struct CreateGrantInputBody {
     let clientToken: Swift.String?
     let grantName: Swift.String?
     let licenseArn: Swift.String?
@@ -1402,7 +1402,7 @@ extension CreateGrantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGrantOutput: Swift.Equatable {
+public struct CreateGrantOutput {
     /// Grant ARN.
     public var grantArn: Swift.String?
     /// Grant status.
@@ -1422,7 +1422,7 @@ public struct CreateGrantOutput: Swift.Equatable {
     }
 }
 
-struct CreateGrantOutputBody: Swift.Equatable {
+struct CreateGrantOutputBody {
     let grantArn: Swift.String?
     let status: LicenseManagerClientTypes.GrantStatus?
     let version: Swift.String?
@@ -1514,7 +1514,7 @@ extension CreateGrantVersionInput {
     }
 }
 
-public struct CreateGrantVersionInput: Swift.Equatable {
+public struct CreateGrantVersionInput {
     /// Allowed operations for the grant.
     public var allowedOperations: [LicenseManagerClientTypes.AllowedOperation]?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -1556,7 +1556,7 @@ public struct CreateGrantVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateGrantVersionInputBody: Swift.Equatable {
+struct CreateGrantVersionInputBody {
     let clientToken: Swift.String?
     let grantArn: Swift.String?
     let grantName: Swift.String?
@@ -1625,7 +1625,7 @@ extension CreateGrantVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGrantVersionOutput: Swift.Equatable {
+public struct CreateGrantVersionOutput {
     /// Grant ARN.
     public var grantArn: Swift.String?
     /// Grant status.
@@ -1645,7 +1645,7 @@ public struct CreateGrantVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateGrantVersionOutputBody: Swift.Equatable {
+struct CreateGrantVersionOutputBody {
     let grantArn: Swift.String?
     let status: LicenseManagerClientTypes.GrantStatus?
     let version: Swift.String?
@@ -1747,7 +1747,7 @@ extension CreateLicenseConfigurationInput {
     }
 }
 
-public struct CreateLicenseConfigurationInput: Swift.Equatable {
+public struct CreateLicenseConfigurationInput {
     /// Description of the license configuration.
     public var description: Swift.String?
     /// When true, disassociates a resource when software is uninstalled.
@@ -1804,7 +1804,7 @@ public struct CreateLicenseConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseConfigurationInputBody: Swift.Equatable {
+struct CreateLicenseConfigurationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let licenseCountingType: LicenseManagerClientTypes.LicenseCountingType?
@@ -1891,7 +1891,7 @@ extension CreateLicenseConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLicenseConfigurationOutput: Swift.Equatable {
+public struct CreateLicenseConfigurationOutput {
     /// Amazon Resource Name (ARN) of the license configuration.
     public var licenseConfigurationArn: Swift.String?
 
@@ -1903,7 +1903,7 @@ public struct CreateLicenseConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseConfigurationOutputBody: Swift.Equatable {
+struct CreateLicenseConfigurationOutputBody {
     let licenseConfigurationArn: Swift.String?
 }
 
@@ -1963,7 +1963,7 @@ extension CreateLicenseConversionTaskForResourceInput {
     }
 }
 
-public struct CreateLicenseConversionTaskForResourceInput: Swift.Equatable {
+public struct CreateLicenseConversionTaskForResourceInput {
     /// Information that identifies the license type you are converting to. For the structure of the destination license, see [Convert a license type using the CLI ](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli) in the License Manager User Guide.
     /// This member is required.
     public var destinationLicenseContext: LicenseManagerClientTypes.LicenseConversionContext?
@@ -1986,7 +1986,7 @@ public struct CreateLicenseConversionTaskForResourceInput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseConversionTaskForResourceInputBody: Swift.Equatable {
+struct CreateLicenseConversionTaskForResourceInputBody {
     let resourceArn: Swift.String?
     let sourceLicenseContext: LicenseManagerClientTypes.LicenseConversionContext?
     let destinationLicenseContext: LicenseManagerClientTypes.LicenseConversionContext?
@@ -2022,7 +2022,7 @@ extension CreateLicenseConversionTaskForResourceOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct CreateLicenseConversionTaskForResourceOutput: Swift.Equatable {
+public struct CreateLicenseConversionTaskForResourceOutput {
     /// The ID of the created license type conversion task.
     public var licenseConversionTaskId: Swift.String?
 
@@ -2034,7 +2034,7 @@ public struct CreateLicenseConversionTaskForResourceOutput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseConversionTaskForResourceOutputBody: Swift.Equatable {
+struct CreateLicenseConversionTaskForResourceOutputBody {
     let licenseConversionTaskId: Swift.String?
 }
 
@@ -2132,7 +2132,7 @@ extension CreateLicenseInput {
     }
 }
 
-public struct CreateLicenseInput: Swift.Equatable {
+public struct CreateLicenseInput {
     /// License beneficiary.
     /// This member is required.
     public var beneficiary: Swift.String?
@@ -2194,7 +2194,7 @@ public struct CreateLicenseInput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseInputBody: Swift.Equatable {
+struct CreateLicenseInputBody {
     let licenseName: Swift.String?
     let productName: Swift.String?
     let productSKU: Swift.String?
@@ -2318,7 +2318,7 @@ extension CreateLicenseManagerReportGeneratorInput {
     }
 }
 
-public struct CreateLicenseManagerReportGeneratorInput: Swift.Equatable {
+public struct CreateLicenseManagerReportGeneratorInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -2363,7 +2363,7 @@ public struct CreateLicenseManagerReportGeneratorInput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseManagerReportGeneratorInputBody: Swift.Equatable {
+struct CreateLicenseManagerReportGeneratorInputBody {
     let reportGeneratorName: Swift.String?
     let type: [LicenseManagerClientTypes.ReportType]?
     let reportContext: LicenseManagerClientTypes.ReportContext?
@@ -2433,7 +2433,7 @@ extension CreateLicenseManagerReportGeneratorOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct CreateLicenseManagerReportGeneratorOutput: Swift.Equatable {
+public struct CreateLicenseManagerReportGeneratorOutput {
     /// The Amazon Resource Name (ARN) of the new report generator.
     public var licenseManagerReportGeneratorArn: Swift.String?
 
@@ -2445,7 +2445,7 @@ public struct CreateLicenseManagerReportGeneratorOutput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseManagerReportGeneratorOutputBody: Swift.Equatable {
+struct CreateLicenseManagerReportGeneratorOutputBody {
     let licenseManagerReportGeneratorArn: Swift.String?
 }
 
@@ -2495,7 +2495,7 @@ extension CreateLicenseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLicenseOutput: Swift.Equatable {
+public struct CreateLicenseOutput {
     /// Amazon Resource Name (ARN) of the license.
     public var licenseArn: Swift.String?
     /// License status.
@@ -2515,7 +2515,7 @@ public struct CreateLicenseOutput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseOutputBody: Swift.Equatable {
+struct CreateLicenseOutputBody {
     let licenseArn: Swift.String?
     let status: LicenseManagerClientTypes.LicenseStatus?
     let version: Swift.String?
@@ -2626,7 +2626,7 @@ extension CreateLicenseVersionInput {
     }
 }
 
-public struct CreateLicenseVersionInput: Swift.Equatable {
+public struct CreateLicenseVersionInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -2692,7 +2692,7 @@ public struct CreateLicenseVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseVersionInputBody: Swift.Equatable {
+struct CreateLicenseVersionInputBody {
     let licenseArn: Swift.String?
     let licenseName: Swift.String?
     let productName: Swift.String?
@@ -2786,7 +2786,7 @@ extension CreateLicenseVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLicenseVersionOutput: Swift.Equatable {
+public struct CreateLicenseVersionOutput {
     /// License ARN.
     public var licenseArn: Swift.String?
     /// License status.
@@ -2806,7 +2806,7 @@ public struct CreateLicenseVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseVersionOutputBody: Swift.Equatable {
+struct CreateLicenseVersionOutputBody {
     let licenseArn: Swift.String?
     let version: Swift.String?
     let status: LicenseManagerClientTypes.LicenseStatus?
@@ -2890,7 +2890,7 @@ extension CreateTokenInput {
     }
 }
 
-public struct CreateTokenInput: Swift.Equatable {
+public struct CreateTokenInput {
     /// Idempotency token, valid for 10 minutes.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -2920,7 +2920,7 @@ public struct CreateTokenInput: Swift.Equatable {
     }
 }
 
-struct CreateTokenInputBody: Swift.Equatable {
+struct CreateTokenInputBody {
     let licenseArn: Swift.String?
     let roleArns: [Swift.String]?
     let expirationInDays: Swift.Int?
@@ -2986,7 +2986,7 @@ extension CreateTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTokenOutput: Swift.Equatable {
+public struct CreateTokenOutput {
     /// Refresh token, encoded as a JWT token.
     public var token: Swift.String?
     /// Token ID.
@@ -3006,7 +3006,7 @@ public struct CreateTokenOutput: Swift.Equatable {
     }
 }
 
-struct CreateTokenOutputBody: Swift.Equatable {
+struct CreateTokenOutputBody {
     let tokenId: Swift.String?
     let tokenType: LicenseManagerClientTypes.TokenType?
     let token: Swift.String?
@@ -3075,7 +3075,7 @@ extension LicenseManagerClientTypes.DatetimeRange: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Describes a time range, in ISO8601-UTC format.
-    public struct DatetimeRange: Swift.Equatable {
+    public struct DatetimeRange {
         /// Start of the time range.
         /// This member is required.
         public var begin: Swift.String?
@@ -3122,7 +3122,7 @@ extension DeleteGrantInput {
     }
 }
 
-public struct DeleteGrantInput: Swift.Equatable {
+public struct DeleteGrantInput {
     /// Amazon Resource Name (ARN) of the grant.
     /// This member is required.
     public var grantArn: Swift.String?
@@ -3144,7 +3144,7 @@ public struct DeleteGrantInput: Swift.Equatable {
     }
 }
 
-struct DeleteGrantInputBody: Swift.Equatable {
+struct DeleteGrantInputBody {
     let grantArn: Swift.String?
     let statusReason: Swift.String?
     let version: Swift.String?
@@ -3184,7 +3184,7 @@ extension DeleteGrantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGrantOutput: Swift.Equatable {
+public struct DeleteGrantOutput {
     /// Grant ARN.
     public var grantArn: Swift.String?
     /// Grant status.
@@ -3204,7 +3204,7 @@ public struct DeleteGrantOutput: Swift.Equatable {
     }
 }
 
-struct DeleteGrantOutputBody: Swift.Equatable {
+struct DeleteGrantOutputBody {
     let grantArn: Swift.String?
     let status: LicenseManagerClientTypes.GrantStatus?
     let version: Swift.String?
@@ -3265,7 +3265,7 @@ extension DeleteLicenseConfigurationInput {
     }
 }
 
-public struct DeleteLicenseConfigurationInput: Swift.Equatable {
+public struct DeleteLicenseConfigurationInput {
     /// ID of the license configuration.
     /// This member is required.
     public var licenseConfigurationArn: Swift.String?
@@ -3278,7 +3278,7 @@ public struct DeleteLicenseConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteLicenseConfigurationInputBody: Swift.Equatable {
+struct DeleteLicenseConfigurationInputBody {
     let licenseConfigurationArn: Swift.String?
 }
 
@@ -3299,7 +3299,7 @@ extension DeleteLicenseConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLicenseConfigurationOutput: Swift.Equatable {
+public struct DeleteLicenseConfigurationOutput {
 
     public init() { }
 }
@@ -3343,7 +3343,7 @@ extension DeleteLicenseInput {
     }
 }
 
-public struct DeleteLicenseInput: Swift.Equatable {
+public struct DeleteLicenseInput {
     /// Amazon Resource Name (ARN) of the license.
     /// This member is required.
     public var licenseArn: Swift.String?
@@ -3361,7 +3361,7 @@ public struct DeleteLicenseInput: Swift.Equatable {
     }
 }
 
-struct DeleteLicenseInputBody: Swift.Equatable {
+struct DeleteLicenseInputBody {
     let licenseArn: Swift.String?
     let sourceVersion: Swift.String?
 }
@@ -3401,7 +3401,7 @@ extension DeleteLicenseManagerReportGeneratorInput {
     }
 }
 
-public struct DeleteLicenseManagerReportGeneratorInput: Swift.Equatable {
+public struct DeleteLicenseManagerReportGeneratorInput {
     /// Amazon Resource Name (ARN) of the report generator to be deleted.
     /// This member is required.
     public var licenseManagerReportGeneratorArn: Swift.String?
@@ -3414,7 +3414,7 @@ public struct DeleteLicenseManagerReportGeneratorInput: Swift.Equatable {
     }
 }
 
-struct DeleteLicenseManagerReportGeneratorInputBody: Swift.Equatable {
+struct DeleteLicenseManagerReportGeneratorInputBody {
     let licenseManagerReportGeneratorArn: Swift.String?
 }
 
@@ -3435,7 +3435,7 @@ extension DeleteLicenseManagerReportGeneratorOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DeleteLicenseManagerReportGeneratorOutput: Swift.Equatable {
+public struct DeleteLicenseManagerReportGeneratorOutput {
 
     public init() { }
 }
@@ -3472,7 +3472,7 @@ extension DeleteLicenseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLicenseOutput: Swift.Equatable {
+public struct DeleteLicenseOutput {
     /// Date when the license is deleted.
     public var deletionDate: Swift.String?
     /// License status.
@@ -3488,7 +3488,7 @@ public struct DeleteLicenseOutput: Swift.Equatable {
     }
 }
 
-struct DeleteLicenseOutputBody: Swift.Equatable {
+struct DeleteLicenseOutputBody {
     let status: LicenseManagerClientTypes.LicenseDeletionStatus?
     let deletionDate: Swift.String?
 }
@@ -3546,7 +3546,7 @@ extension DeleteTokenInput {
     }
 }
 
-public struct DeleteTokenInput: Swift.Equatable {
+public struct DeleteTokenInput {
     /// Token ID.
     /// This member is required.
     public var tokenId: Swift.String?
@@ -3559,7 +3559,7 @@ public struct DeleteTokenInput: Swift.Equatable {
     }
 }
 
-struct DeleteTokenInputBody: Swift.Equatable {
+struct DeleteTokenInputBody {
     let tokenId: Swift.String?
 }
 
@@ -3580,7 +3580,7 @@ extension DeleteTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTokenOutput: Swift.Equatable {
+public struct DeleteTokenOutput {
 
     public init() { }
 }
@@ -3682,7 +3682,7 @@ extension LicenseManagerClientTypes.Entitlement: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Describes a resource entitled for use with a license.
-    public struct Entitlement: Swift.Equatable {
+    public struct Entitlement {
         /// Indicates whether check-ins are allowed.
         public var allowCheckIn: Swift.Bool?
         /// Maximum entitlement count. Use if the unit is not None.
@@ -3751,7 +3751,7 @@ extension LicenseManagerClientTypes.EntitlementData: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Data associated with an entitlement resource.
-    public struct EntitlementData: Swift.Equatable {
+    public struct EntitlementData {
         /// Entitlement data name.
         /// This member is required.
         public var name: Swift.String?
@@ -3921,7 +3921,7 @@ public struct EntitlementNotAllowedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct EntitlementNotAllowedExceptionBody: Swift.Equatable {
+struct EntitlementNotAllowedExceptionBody {
     let message: Swift.String?
 }
 
@@ -4083,7 +4083,7 @@ extension LicenseManagerClientTypes.EntitlementUsage: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Usage associated with an entitlement resource.
-    public struct EntitlementUsage: Swift.Equatable {
+    public struct EntitlementUsage {
         /// Resource usage consumed.
         /// This member is required.
         public var consumedValue: Swift.String?
@@ -4136,7 +4136,7 @@ extension ExtendLicenseConsumptionInput {
     }
 }
 
-public struct ExtendLicenseConsumptionInput: Swift.Equatable {
+public struct ExtendLicenseConsumptionInput {
     /// Checks whether you have the required permissions for the action, without actually making the request. Provides an error response if you do not have the required permissions.
     public var dryRun: Swift.Bool?
     /// License consumption token.
@@ -4153,7 +4153,7 @@ public struct ExtendLicenseConsumptionInput: Swift.Equatable {
     }
 }
 
-struct ExtendLicenseConsumptionInputBody: Swift.Equatable {
+struct ExtendLicenseConsumptionInputBody {
     let licenseConsumptionToken: Swift.String?
     let dryRun: Swift.Bool?
 }
@@ -4187,7 +4187,7 @@ extension ExtendLicenseConsumptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExtendLicenseConsumptionOutput: Swift.Equatable {
+public struct ExtendLicenseConsumptionOutput {
     /// Date and time at which the license consumption expires.
     public var expiration: Swift.String?
     /// License consumption token.
@@ -4203,7 +4203,7 @@ public struct ExtendLicenseConsumptionOutput: Swift.Equatable {
     }
 }
 
-struct ExtendLicenseConsumptionOutputBody: Swift.Equatable {
+struct ExtendLicenseConsumptionOutputBody {
     let licenseConsumptionToken: Swift.String?
     let expiration: Swift.String?
 }
@@ -4284,7 +4284,7 @@ public struct FailedDependencyException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct FailedDependencyExceptionBody: Swift.Equatable {
+struct FailedDependencyExceptionBody {
     let message: Swift.String?
     let errorCode: Swift.String?
 }
@@ -4343,7 +4343,7 @@ extension LicenseManagerClientTypes.Filter: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// A filter name and value pair that is used to return more specific results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// Name of the filter. Filter names are case-sensitive.
         public var name: Swift.String?
         /// The value of the filter, which is case-sensitive. You can only specify one value for the filter.
@@ -4400,7 +4400,7 @@ public struct FilterLimitExceededException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct FilterLimitExceededExceptionBody: Swift.Equatable {
+struct FilterLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4443,7 +4443,7 @@ extension GetAccessTokenInput {
     }
 }
 
-public struct GetAccessTokenInput: Swift.Equatable {
+public struct GetAccessTokenInput {
     /// Refresh token, encoded as a JWT token.
     /// This member is required.
     public var token: Swift.String?
@@ -4460,7 +4460,7 @@ public struct GetAccessTokenInput: Swift.Equatable {
     }
 }
 
-struct GetAccessTokenInputBody: Swift.Equatable {
+struct GetAccessTokenInputBody {
     let token: Swift.String?
     let tokenProperties: [Swift.String]?
 }
@@ -4501,7 +4501,7 @@ extension GetAccessTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccessTokenOutput: Swift.Equatable {
+public struct GetAccessTokenOutput {
     /// Temporary access token.
     public var accessToken: Swift.String?
 
@@ -4513,7 +4513,7 @@ public struct GetAccessTokenOutput: Swift.Equatable {
     }
 }
 
-struct GetAccessTokenOutputBody: Swift.Equatable {
+struct GetAccessTokenOutputBody {
     let accessToken: Swift.String?
 }
 
@@ -4568,7 +4568,7 @@ extension GetGrantInput {
     }
 }
 
-public struct GetGrantInput: Swift.Equatable {
+public struct GetGrantInput {
     /// Amazon Resource Name (ARN) of the grant.
     /// This member is required.
     public var grantArn: Swift.String?
@@ -4585,7 +4585,7 @@ public struct GetGrantInput: Swift.Equatable {
     }
 }
 
-struct GetGrantInputBody: Swift.Equatable {
+struct GetGrantInputBody {
     let grantArn: Swift.String?
     let version: Swift.String?
 }
@@ -4617,7 +4617,7 @@ extension GetGrantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGrantOutput: Swift.Equatable {
+public struct GetGrantOutput {
     /// Grant details.
     public var grant: LicenseManagerClientTypes.Grant?
 
@@ -4629,7 +4629,7 @@ public struct GetGrantOutput: Swift.Equatable {
     }
 }
 
-struct GetGrantOutputBody: Swift.Equatable {
+struct GetGrantOutputBody {
     let grant: LicenseManagerClientTypes.Grant?
 }
 
@@ -4682,7 +4682,7 @@ extension GetLicenseConfigurationInput {
     }
 }
 
-public struct GetLicenseConfigurationInput: Swift.Equatable {
+public struct GetLicenseConfigurationInput {
     /// Amazon Resource Name (ARN) of the license configuration.
     /// This member is required.
     public var licenseConfigurationArn: Swift.String?
@@ -4695,7 +4695,7 @@ public struct GetLicenseConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetLicenseConfigurationInputBody: Swift.Equatable {
+struct GetLicenseConfigurationInputBody {
     let licenseConfigurationArn: Swift.String?
 }
 
@@ -4755,7 +4755,7 @@ extension GetLicenseConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLicenseConfigurationOutput: Swift.Equatable {
+public struct GetLicenseConfigurationOutput {
     /// Automated discovery information.
     public var automatedDiscoveryInformation: LicenseManagerClientTypes.AutomatedDiscoveryInformation?
     /// Summaries of the licenses consumed by resources.
@@ -4831,7 +4831,7 @@ public struct GetLicenseConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetLicenseConfigurationOutputBody: Swift.Equatable {
+struct GetLicenseConfigurationOutputBody {
     let licenseConfigurationId: Swift.String?
     let licenseConfigurationArn: Swift.String?
     let name: Swift.String?
@@ -4991,7 +4991,7 @@ extension GetLicenseConversionTaskInput {
     }
 }
 
-public struct GetLicenseConversionTaskInput: Swift.Equatable {
+public struct GetLicenseConversionTaskInput {
     /// ID of the license type conversion task to retrieve information on.
     /// This member is required.
     public var licenseConversionTaskId: Swift.String?
@@ -5004,7 +5004,7 @@ public struct GetLicenseConversionTaskInput: Swift.Equatable {
     }
 }
 
-struct GetLicenseConversionTaskInputBody: Swift.Equatable {
+struct GetLicenseConversionTaskInputBody {
     let licenseConversionTaskId: Swift.String?
 }
 
@@ -5048,7 +5048,7 @@ extension GetLicenseConversionTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLicenseConversionTaskOutput: Swift.Equatable {
+public struct GetLicenseConversionTaskOutput {
     /// Information about the license type converted to.
     public var destinationLicenseContext: LicenseManagerClientTypes.LicenseConversionContext?
     /// Time at which the license type conversion task was completed.
@@ -5092,7 +5092,7 @@ public struct GetLicenseConversionTaskOutput: Swift.Equatable {
     }
 }
 
-struct GetLicenseConversionTaskOutputBody: Swift.Equatable {
+struct GetLicenseConversionTaskOutputBody {
     let licenseConversionTaskId: Swift.String?
     let resourceArn: Swift.String?
     let sourceLicenseContext: LicenseManagerClientTypes.LicenseConversionContext?
@@ -5179,7 +5179,7 @@ extension GetLicenseInput {
     }
 }
 
-public struct GetLicenseInput: Swift.Equatable {
+public struct GetLicenseInput {
     /// Amazon Resource Name (ARN) of the license.
     /// This member is required.
     public var licenseArn: Swift.String?
@@ -5196,7 +5196,7 @@ public struct GetLicenseInput: Swift.Equatable {
     }
 }
 
-struct GetLicenseInputBody: Swift.Equatable {
+struct GetLicenseInputBody {
     let licenseArn: Swift.String?
     let version: Swift.String?
 }
@@ -5236,7 +5236,7 @@ extension GetLicenseManagerReportGeneratorInput {
     }
 }
 
-public struct GetLicenseManagerReportGeneratorInput: Swift.Equatable {
+public struct GetLicenseManagerReportGeneratorInput {
     /// Amazon Resource Name (ARN) of the report generator.
     /// This member is required.
     public var licenseManagerReportGeneratorArn: Swift.String?
@@ -5249,7 +5249,7 @@ public struct GetLicenseManagerReportGeneratorInput: Swift.Equatable {
     }
 }
 
-struct GetLicenseManagerReportGeneratorInputBody: Swift.Equatable {
+struct GetLicenseManagerReportGeneratorInputBody {
     let licenseManagerReportGeneratorArn: Swift.String?
 }
 
@@ -5277,7 +5277,7 @@ extension GetLicenseManagerReportGeneratorOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetLicenseManagerReportGeneratorOutput: Swift.Equatable {
+public struct GetLicenseManagerReportGeneratorOutput {
     /// A report generator that creates periodic reports about your license configurations.
     public var reportGenerator: LicenseManagerClientTypes.ReportGenerator?
 
@@ -5289,7 +5289,7 @@ public struct GetLicenseManagerReportGeneratorOutput: Swift.Equatable {
     }
 }
 
-struct GetLicenseManagerReportGeneratorOutputBody: Swift.Equatable {
+struct GetLicenseManagerReportGeneratorOutputBody {
     let reportGenerator: LicenseManagerClientTypes.ReportGenerator?
 }
 
@@ -5335,7 +5335,7 @@ extension GetLicenseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLicenseOutput: Swift.Equatable {
+public struct GetLicenseOutput {
     /// License details.
     public var license: LicenseManagerClientTypes.License?
 
@@ -5347,7 +5347,7 @@ public struct GetLicenseOutput: Swift.Equatable {
     }
 }
 
-struct GetLicenseOutputBody: Swift.Equatable {
+struct GetLicenseOutputBody {
     let license: LicenseManagerClientTypes.License?
 }
 
@@ -5399,7 +5399,7 @@ extension GetLicenseUsageInput {
     }
 }
 
-public struct GetLicenseUsageInput: Swift.Equatable {
+public struct GetLicenseUsageInput {
     /// Amazon Resource Name (ARN) of the license.
     /// This member is required.
     public var licenseArn: Swift.String?
@@ -5412,7 +5412,7 @@ public struct GetLicenseUsageInput: Swift.Equatable {
     }
 }
 
-struct GetLicenseUsageInputBody: Swift.Equatable {
+struct GetLicenseUsageInputBody {
     let licenseArn: Swift.String?
 }
 
@@ -5440,7 +5440,7 @@ extension GetLicenseUsageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLicenseUsageOutput: Swift.Equatable {
+public struct GetLicenseUsageOutput {
     /// License usage details.
     public var licenseUsage: LicenseManagerClientTypes.LicenseUsage?
 
@@ -5452,7 +5452,7 @@ public struct GetLicenseUsageOutput: Swift.Equatable {
     }
 }
 
-struct GetLicenseUsageOutputBody: Swift.Equatable {
+struct GetLicenseUsageOutputBody {
     let licenseUsage: LicenseManagerClientTypes.LicenseUsage?
 }
 
@@ -5499,12 +5499,12 @@ extension GetServiceSettingsInput {
     }
 }
 
-public struct GetServiceSettingsInput: Swift.Equatable {
+public struct GetServiceSettingsInput {
 
     public init() { }
 }
 
-struct GetServiceSettingsInputBody: Swift.Equatable {
+struct GetServiceSettingsInputBody {
 }
 
 extension GetServiceSettingsInputBody: Swift.Decodable {
@@ -5533,7 +5533,7 @@ extension GetServiceSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceSettingsOutput: Swift.Equatable {
+public struct GetServiceSettingsOutput {
     /// Indicates whether cross-account discovery is enabled.
     public var enableCrossAccountsDiscovery: Swift.Bool?
     /// Amazon Resource Name (ARN) of the resource share. The License Manager management account provides member accounts with access to this share.
@@ -5561,7 +5561,7 @@ public struct GetServiceSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceSettingsOutputBody: Swift.Equatable {
+struct GetServiceSettingsOutputBody {
     let s3BucketArn: Swift.String?
     let snsTopicArn: Swift.String?
     let organizationConfiguration: LicenseManagerClientTypes.OrganizationConfiguration?
@@ -5700,7 +5700,7 @@ extension LicenseManagerClientTypes.Grant: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Describes a grant.
-    public struct Grant: Swift.Equatable {
+    public struct Grant {
         /// Amazon Resource Name (ARN) of the grant.
         /// This member is required.
         public var grantArn: Swift.String?
@@ -5945,7 +5945,7 @@ extension LicenseManagerClientTypes.GrantedLicense: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Describes a license that is granted to a grantee.
-    public struct GrantedLicense: Swift.Equatable {
+    public struct GrantedLicense {
         /// Granted license beneficiary.
         public var beneficiary: Swift.String?
         /// Configuration for consumption of the license.
@@ -6054,7 +6054,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidParameterValueExceptionBody: Swift.Equatable {
+struct InvalidParameterValueExceptionBody {
     let message: Swift.String?
 }
 
@@ -6109,7 +6109,7 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidResourceStateExceptionBody: Swift.Equatable {
+struct InvalidResourceStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -6158,7 +6158,7 @@ extension LicenseManagerClientTypes.InventoryFilter: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// An inventory filter.
-    public struct InventoryFilter: Swift.Equatable {
+    public struct InventoryFilter {
         /// Condition of the filter.
         /// This member is required.
         public var condition: LicenseManagerClientTypes.InventoryFilterCondition?
@@ -6247,7 +6247,7 @@ extension LicenseManagerClientTypes.Issuer: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details about the issuer of a license.
-    public struct Issuer: Swift.Equatable {
+    public struct Issuer {
         /// Issuer name.
         /// This member is required.
         public var name: Swift.String?
@@ -6299,7 +6299,7 @@ extension LicenseManagerClientTypes.IssuerDetails: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details associated with the issuer of a license.
-    public struct IssuerDetails: Swift.Equatable {
+    public struct IssuerDetails {
         /// Issuer key fingerprint.
         public var keyFingerprint: Swift.String?
         /// Issuer name.
@@ -6444,7 +6444,7 @@ extension LicenseManagerClientTypes.License: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Software license that is managed in License Manager.
-    public struct License: Swift.Equatable {
+    public struct License {
         /// License beneficiary.
         public var beneficiary: Swift.String?
         /// Configuration for consumption of the license.
@@ -6669,7 +6669,7 @@ extension LicenseManagerClientTypes.LicenseConfiguration: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), host affinity (how long a VM must be associated with a host), and the number of licenses purchased and used.
-    public struct LicenseConfiguration: Swift.Equatable {
+    public struct LicenseConfiguration {
         /// Automated discovery information.
         public var automatedDiscoveryInformation: LicenseManagerClientTypes.AutomatedDiscoveryInformation?
         /// Summaries for licenses consumed by various resources.
@@ -6788,7 +6788,7 @@ extension LicenseManagerClientTypes.LicenseConfigurationAssociation: Swift.Codab
 
 extension LicenseManagerClientTypes {
     /// Describes an association with a license configuration.
-    public struct LicenseConfigurationAssociation: Swift.Equatable {
+    public struct LicenseConfigurationAssociation {
         /// Scope of AMI associations. The possible value is cross-account.
         public var amiAssociationScope: Swift.String?
         /// Time when the license configuration was associated with the resource.
@@ -6901,7 +6901,7 @@ extension LicenseManagerClientTypes.LicenseConfigurationUsage: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details about the usage of a resource associated with a license configuration.
-    public struct LicenseConfigurationUsage: Swift.Equatable {
+    public struct LicenseConfigurationUsage {
         /// Time when the license configuration was initially associated with the resource.
         public var associationTime: ClientRuntime.Date?
         /// Number of licenses consumed by the resource.
@@ -6956,7 +6956,7 @@ extension LicenseManagerClientTypes.LicenseConversionContext: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Information about a license type conversion task.
-    public struct LicenseConversionContext: Swift.Equatable {
+    public struct LicenseConversionContext {
         /// The Usage operation value that corresponds to the license type you are converting your resource from. For more information about which platforms correspond to which usage operation values see [Sample data: usage operation by platform ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html#billing-info)
         public var usageOperation: Swift.String?
 
@@ -7039,7 +7039,7 @@ extension LicenseManagerClientTypes.LicenseConversionTask: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Information about a license type conversion task.
-    public struct LicenseConversionTask: Swift.Equatable {
+    public struct LicenseConversionTask {
         /// Information about the license type this conversion task converted to.
         public var destinationLicenseContext: LicenseManagerClientTypes.LicenseConversionContext?
         /// The time the conversion task was completed.
@@ -7267,7 +7267,7 @@ extension LicenseManagerClientTypes.LicenseOperationFailure: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Describes the failure of a license operation.
-    public struct LicenseOperationFailure: Swift.Equatable {
+    public struct LicenseOperationFailure {
         /// Error message.
         public var errorMessage: Swift.String?
         /// Failure time.
@@ -7336,7 +7336,7 @@ extension LicenseManagerClientTypes.LicenseSpecification: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details for associating a license configuration with a resource.
-    public struct LicenseSpecification: Swift.Equatable {
+    public struct LicenseSpecification {
         /// Scope of AMI associations. The possible value is cross-account.
         public var amiAssociationScope: Swift.String?
         /// Amazon Resource Name (ARN) of the license configuration.
@@ -7435,7 +7435,7 @@ extension LicenseManagerClientTypes.LicenseUsage: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Describes the entitlement usage associated with a license.
-    public struct LicenseUsage: Swift.Equatable {
+    public struct LicenseUsage {
         /// License entitlement usages.
         public var entitlementUsages: [LicenseManagerClientTypes.EntitlementUsage]?
 
@@ -7488,7 +7488,7 @@ public struct LicenseUsageException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct LicenseUsageExceptionBody: Swift.Equatable {
+struct LicenseUsageExceptionBody {
     let message: Swift.String?
 }
 
@@ -7532,7 +7532,7 @@ extension ListAssociationsForLicenseConfigurationInput {
     }
 }
 
-public struct ListAssociationsForLicenseConfigurationInput: Swift.Equatable {
+public struct ListAssociationsForLicenseConfigurationInput {
     /// Amazon Resource Name (ARN) of a license configuration.
     /// This member is required.
     public var licenseConfigurationArn: Swift.String?
@@ -7553,7 +7553,7 @@ public struct ListAssociationsForLicenseConfigurationInput: Swift.Equatable {
     }
 }
 
-struct ListAssociationsForLicenseConfigurationInputBody: Swift.Equatable {
+struct ListAssociationsForLicenseConfigurationInputBody {
     let licenseConfigurationArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -7591,7 +7591,7 @@ extension ListAssociationsForLicenseConfigurationOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListAssociationsForLicenseConfigurationOutput: Swift.Equatable {
+public struct ListAssociationsForLicenseConfigurationOutput {
     /// Information about the associations for the license configuration.
     public var licenseConfigurationAssociations: [LicenseManagerClientTypes.LicenseConfigurationAssociation]?
     /// Token for the next set of results.
@@ -7607,7 +7607,7 @@ public struct ListAssociationsForLicenseConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct ListAssociationsForLicenseConfigurationOutputBody: Swift.Equatable {
+struct ListAssociationsForLicenseConfigurationOutputBody {
     let licenseConfigurationAssociations: [LicenseManagerClientTypes.LicenseConfigurationAssociation]?
     let nextToken: Swift.String?
 }
@@ -7690,7 +7690,7 @@ extension ListDistributedGrantsInput {
     }
 }
 
-public struct ListDistributedGrantsInput: Swift.Equatable {
+public struct ListDistributedGrantsInput {
     /// Filters to scope the results. The following filters are supported:
     ///
     /// * LicenseArn
@@ -7724,7 +7724,7 @@ public struct ListDistributedGrantsInput: Swift.Equatable {
     }
 }
 
-struct ListDistributedGrantsInputBody: Swift.Equatable {
+struct ListDistributedGrantsInputBody {
     let grantArns: [Swift.String]?
     let filters: [LicenseManagerClientTypes.Filter]?
     let nextToken: Swift.String?
@@ -7784,7 +7784,7 @@ extension ListDistributedGrantsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDistributedGrantsOutput: Swift.Equatable {
+public struct ListDistributedGrantsOutput {
     /// Distributed grant details.
     public var grants: [LicenseManagerClientTypes.Grant]?
     /// Token for the next set of results.
@@ -7800,7 +7800,7 @@ public struct ListDistributedGrantsOutput: Swift.Equatable {
     }
 }
 
-struct ListDistributedGrantsOutputBody: Swift.Equatable {
+struct ListDistributedGrantsOutputBody {
     let grants: [LicenseManagerClientTypes.Grant]?
     let nextToken: Swift.String?
 }
@@ -7874,7 +7874,7 @@ extension ListFailuresForLicenseConfigurationOperationsInput {
     }
 }
 
-public struct ListFailuresForLicenseConfigurationOperationsInput: Swift.Equatable {
+public struct ListFailuresForLicenseConfigurationOperationsInput {
     /// Amazon Resource Name of the license configuration.
     /// This member is required.
     public var licenseConfigurationArn: Swift.String?
@@ -7895,7 +7895,7 @@ public struct ListFailuresForLicenseConfigurationOperationsInput: Swift.Equatabl
     }
 }
 
-struct ListFailuresForLicenseConfigurationOperationsInputBody: Swift.Equatable {
+struct ListFailuresForLicenseConfigurationOperationsInputBody {
     let licenseConfigurationArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -7933,7 +7933,7 @@ extension ListFailuresForLicenseConfigurationOperationsOutput: ClientRuntime.Htt
     }
 }
 
-public struct ListFailuresForLicenseConfigurationOperationsOutput: Swift.Equatable {
+public struct ListFailuresForLicenseConfigurationOperationsOutput {
     /// License configuration operations that failed.
     public var licenseOperationFailureList: [LicenseManagerClientTypes.LicenseOperationFailure]?
     /// Token for the next set of results.
@@ -7949,7 +7949,7 @@ public struct ListFailuresForLicenseConfigurationOperationsOutput: Swift.Equatab
     }
 }
 
-struct ListFailuresForLicenseConfigurationOperationsOutputBody: Swift.Equatable {
+struct ListFailuresForLicenseConfigurationOperationsOutputBody {
     let licenseOperationFailureList: [LicenseManagerClientTypes.LicenseOperationFailure]?
     let nextToken: Swift.String?
 }
@@ -8031,7 +8031,7 @@ extension ListLicenseConfigurationsInput {
     }
 }
 
-public struct ListLicenseConfigurationsInput: Swift.Equatable {
+public struct ListLicenseConfigurationsInput {
     /// Filters to scope the results. The following filters and logical operators are supported:
     ///
     /// * licenseCountingType - The dimension for which licenses are counted. Possible values are vCPU | Instance | Core | Socket. Logical operators are EQUALS | NOT_EQUALS.
@@ -8061,7 +8061,7 @@ public struct ListLicenseConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListLicenseConfigurationsInputBody: Swift.Equatable {
+struct ListLicenseConfigurationsInputBody {
     let licenseConfigurationArns: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -8121,7 +8121,7 @@ extension ListLicenseConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLicenseConfigurationsOutput: Swift.Equatable {
+public struct ListLicenseConfigurationsOutput {
     /// Information about the license configurations.
     public var licenseConfigurations: [LicenseManagerClientTypes.LicenseConfiguration]?
     /// Token for the next set of results.
@@ -8137,7 +8137,7 @@ public struct ListLicenseConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListLicenseConfigurationsOutputBody: Swift.Equatable {
+struct ListLicenseConfigurationsOutputBody {
     let licenseConfigurations: [LicenseManagerClientTypes.LicenseConfiguration]?
     let nextToken: Swift.String?
 }
@@ -8213,7 +8213,7 @@ extension ListLicenseConversionTasksInput {
     }
 }
 
-public struct ListLicenseConversionTasksInput: Swift.Equatable {
+public struct ListLicenseConversionTasksInput {
     /// Filters to scope the results. Valid filters are ResourceArns and Status.
     public var filters: [LicenseManagerClientTypes.Filter]?
     /// Maximum number of results to return in a single call.
@@ -8233,7 +8233,7 @@ public struct ListLicenseConversionTasksInput: Swift.Equatable {
     }
 }
 
-struct ListLicenseConversionTasksInputBody: Swift.Equatable {
+struct ListLicenseConversionTasksInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [LicenseManagerClientTypes.Filter]?
@@ -8280,7 +8280,7 @@ extension ListLicenseConversionTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLicenseConversionTasksOutput: Swift.Equatable {
+public struct ListLicenseConversionTasksOutput {
     /// Information about the license configuration tasks for your account.
     public var licenseConversionTasks: [LicenseManagerClientTypes.LicenseConversionTask]?
     /// Token for the next set of results.
@@ -8296,7 +8296,7 @@ public struct ListLicenseConversionTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListLicenseConversionTasksOutputBody: Swift.Equatable {
+struct ListLicenseConversionTasksOutputBody {
     let licenseConversionTasks: [LicenseManagerClientTypes.LicenseConversionTask]?
     let nextToken: Swift.String?
 }
@@ -8371,7 +8371,7 @@ extension ListLicenseManagerReportGeneratorsInput {
     }
 }
 
-public struct ListLicenseManagerReportGeneratorsInput: Swift.Equatable {
+public struct ListLicenseManagerReportGeneratorsInput {
     /// Filters to scope the results. The following filters are supported:
     ///
     /// * LicenseConfigurationArn
@@ -8393,7 +8393,7 @@ public struct ListLicenseManagerReportGeneratorsInput: Swift.Equatable {
     }
 }
 
-struct ListLicenseManagerReportGeneratorsInputBody: Swift.Equatable {
+struct ListLicenseManagerReportGeneratorsInputBody {
     let filters: [LicenseManagerClientTypes.Filter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8440,7 +8440,7 @@ extension ListLicenseManagerReportGeneratorsOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListLicenseManagerReportGeneratorsOutput: Swift.Equatable {
+public struct ListLicenseManagerReportGeneratorsOutput {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
     /// A report generator that creates periodic reports about your license configurations.
@@ -8456,7 +8456,7 @@ public struct ListLicenseManagerReportGeneratorsOutput: Swift.Equatable {
     }
 }
 
-struct ListLicenseManagerReportGeneratorsOutputBody: Swift.Equatable {
+struct ListLicenseManagerReportGeneratorsOutputBody {
     let reportGenerators: [LicenseManagerClientTypes.ReportGenerator]?
     let nextToken: Swift.String?
 }
@@ -8531,7 +8531,7 @@ extension ListLicenseSpecificationsForResourceInput {
     }
 }
 
-public struct ListLicenseSpecificationsForResourceInput: Swift.Equatable {
+public struct ListLicenseSpecificationsForResourceInput {
     /// Maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// Token for the next set of results.
@@ -8552,7 +8552,7 @@ public struct ListLicenseSpecificationsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListLicenseSpecificationsForResourceInputBody: Swift.Equatable {
+struct ListLicenseSpecificationsForResourceInputBody {
     let resourceArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -8590,7 +8590,7 @@ extension ListLicenseSpecificationsForResourceOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct ListLicenseSpecificationsForResourceOutput: Swift.Equatable {
+public struct ListLicenseSpecificationsForResourceOutput {
     /// License configurations associated with a resource.
     public var licenseSpecifications: [LicenseManagerClientTypes.LicenseSpecification]?
     /// Token for the next set of results.
@@ -8606,7 +8606,7 @@ public struct ListLicenseSpecificationsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListLicenseSpecificationsForResourceOutputBody: Swift.Equatable {
+struct ListLicenseSpecificationsForResourceOutputBody {
     let licenseSpecifications: [LicenseManagerClientTypes.LicenseSpecification]?
     let nextToken: Swift.String?
 }
@@ -8678,7 +8678,7 @@ extension ListLicenseVersionsInput {
     }
 }
 
-public struct ListLicenseVersionsInput: Swift.Equatable {
+public struct ListLicenseVersionsInput {
     /// Amazon Resource Name (ARN) of the license.
     /// This member is required.
     public var licenseArn: Swift.String?
@@ -8699,7 +8699,7 @@ public struct ListLicenseVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListLicenseVersionsInputBody: Swift.Equatable {
+struct ListLicenseVersionsInputBody {
     let licenseArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8737,7 +8737,7 @@ extension ListLicenseVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLicenseVersionsOutput: Swift.Equatable {
+public struct ListLicenseVersionsOutput {
     /// License details.
     public var licenses: [LicenseManagerClientTypes.License]?
     /// Token for the next set of results.
@@ -8753,7 +8753,7 @@ public struct ListLicenseVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListLicenseVersionsOutputBody: Swift.Equatable {
+struct ListLicenseVersionsOutputBody {
     let licenses: [LicenseManagerClientTypes.License]?
     let nextToken: Swift.String?
 }
@@ -8835,7 +8835,7 @@ extension ListLicensesInput {
     }
 }
 
-public struct ListLicensesInput: Swift.Equatable {
+public struct ListLicensesInput {
     /// Filters to scope the results. The following filters are supported:
     ///
     /// * Beneficiary
@@ -8867,7 +8867,7 @@ public struct ListLicensesInput: Swift.Equatable {
     }
 }
 
-struct ListLicensesInputBody: Swift.Equatable {
+struct ListLicensesInputBody {
     let licenseArns: [Swift.String]?
     let filters: [LicenseManagerClientTypes.Filter]?
     let nextToken: Swift.String?
@@ -8927,7 +8927,7 @@ extension ListLicensesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLicensesOutput: Swift.Equatable {
+public struct ListLicensesOutput {
     /// License details.
     public var licenses: [LicenseManagerClientTypes.License]?
     /// Token for the next set of results.
@@ -8943,7 +8943,7 @@ public struct ListLicensesOutput: Swift.Equatable {
     }
 }
 
-struct ListLicensesOutputBody: Swift.Equatable {
+struct ListLicensesOutputBody {
     let licenses: [LicenseManagerClientTypes.License]?
     let nextToken: Swift.String?
 }
@@ -9023,7 +9023,7 @@ extension ListReceivedGrantsForOrganizationInput {
     }
 }
 
-public struct ListReceivedGrantsForOrganizationInput: Swift.Equatable {
+public struct ListReceivedGrantsForOrganizationInput {
     /// Filters to scope the results. The following filters are supported:
     ///
     /// * ParentArn
@@ -9052,7 +9052,7 @@ public struct ListReceivedGrantsForOrganizationInput: Swift.Equatable {
     }
 }
 
-struct ListReceivedGrantsForOrganizationInputBody: Swift.Equatable {
+struct ListReceivedGrantsForOrganizationInputBody {
     let licenseArn: Swift.String?
     let filters: [LicenseManagerClientTypes.Filter]?
     let nextToken: Swift.String?
@@ -9103,7 +9103,7 @@ extension ListReceivedGrantsForOrganizationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListReceivedGrantsForOrganizationOutput: Swift.Equatable {
+public struct ListReceivedGrantsForOrganizationOutput {
     /// Lists the grants the organization has received.
     public var grants: [LicenseManagerClientTypes.Grant]?
     /// Token for the next set of results.
@@ -9119,7 +9119,7 @@ public struct ListReceivedGrantsForOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct ListReceivedGrantsForOrganizationOutputBody: Swift.Equatable {
+struct ListReceivedGrantsForOrganizationOutputBody {
     let grants: [LicenseManagerClientTypes.Grant]?
     let nextToken: Swift.String?
 }
@@ -9203,7 +9203,7 @@ extension ListReceivedGrantsInput {
     }
 }
 
-public struct ListReceivedGrantsInput: Swift.Equatable {
+public struct ListReceivedGrantsInput {
     /// Filters to scope the results. The following filters are supported:
     ///
     /// * ProductSKU
@@ -9237,7 +9237,7 @@ public struct ListReceivedGrantsInput: Swift.Equatable {
     }
 }
 
-struct ListReceivedGrantsInputBody: Swift.Equatable {
+struct ListReceivedGrantsInputBody {
     let grantArns: [Swift.String]?
     let filters: [LicenseManagerClientTypes.Filter]?
     let nextToken: Swift.String?
@@ -9297,7 +9297,7 @@ extension ListReceivedGrantsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReceivedGrantsOutput: Swift.Equatable {
+public struct ListReceivedGrantsOutput {
     /// Received grant details.
     public var grants: [LicenseManagerClientTypes.Grant]?
     /// Token for the next set of results.
@@ -9313,7 +9313,7 @@ public struct ListReceivedGrantsOutput: Swift.Equatable {
     }
 }
 
-struct ListReceivedGrantsOutputBody: Swift.Equatable {
+struct ListReceivedGrantsOutputBody {
     let grants: [LicenseManagerClientTypes.Grant]?
     let nextToken: Swift.String?
 }
@@ -9390,7 +9390,7 @@ extension ListReceivedLicensesForOrganizationInput {
     }
 }
 
-public struct ListReceivedLicensesForOrganizationInput: Swift.Equatable {
+public struct ListReceivedLicensesForOrganizationInput {
     /// Filters to scope the results. The following filters are supported:
     ///
     /// * Beneficiary
@@ -9414,7 +9414,7 @@ public struct ListReceivedLicensesForOrganizationInput: Swift.Equatable {
     }
 }
 
-struct ListReceivedLicensesForOrganizationInputBody: Swift.Equatable {
+struct ListReceivedLicensesForOrganizationInputBody {
     let filters: [LicenseManagerClientTypes.Filter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9461,7 +9461,7 @@ extension ListReceivedLicensesForOrganizationOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListReceivedLicensesForOrganizationOutput: Swift.Equatable {
+public struct ListReceivedLicensesForOrganizationOutput {
     /// Lists the licenses the organization has received.
     public var licenses: [LicenseManagerClientTypes.GrantedLicense]?
     /// Token for the next set of results.
@@ -9477,7 +9477,7 @@ public struct ListReceivedLicensesForOrganizationOutput: Swift.Equatable {
     }
 }
 
-struct ListReceivedLicensesForOrganizationOutputBody: Swift.Equatable {
+struct ListReceivedLicensesForOrganizationOutputBody {
     let licenses: [LicenseManagerClientTypes.GrantedLicense]?
     let nextToken: Swift.String?
 }
@@ -9561,7 +9561,7 @@ extension ListReceivedLicensesInput {
     }
 }
 
-public struct ListReceivedLicensesInput: Swift.Equatable {
+public struct ListReceivedLicensesInput {
     /// Filters to scope the results. The following filters are supported:
     ///
     /// * ProductSKU
@@ -9595,7 +9595,7 @@ public struct ListReceivedLicensesInput: Swift.Equatable {
     }
 }
 
-struct ListReceivedLicensesInputBody: Swift.Equatable {
+struct ListReceivedLicensesInputBody {
     let licenseArns: [Swift.String]?
     let filters: [LicenseManagerClientTypes.Filter]?
     let nextToken: Swift.String?
@@ -9655,7 +9655,7 @@ extension ListReceivedLicensesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReceivedLicensesOutput: Swift.Equatable {
+public struct ListReceivedLicensesOutput {
     /// Received license details.
     public var licenses: [LicenseManagerClientTypes.GrantedLicense]?
     /// Token for the next set of results.
@@ -9671,7 +9671,7 @@ public struct ListReceivedLicensesOutput: Swift.Equatable {
     }
 }
 
-struct ListReceivedLicensesOutputBody: Swift.Equatable {
+struct ListReceivedLicensesOutputBody {
     let licenses: [LicenseManagerClientTypes.GrantedLicense]?
     let nextToken: Swift.String?
 }
@@ -9748,7 +9748,7 @@ extension ListResourceInventoryInput {
     }
 }
 
-public struct ListResourceInventoryInput: Swift.Equatable {
+public struct ListResourceInventoryInput {
     /// Filters to scope the results. The following filters and logical operators are supported:
     ///
     /// * account_id - The ID of the Amazon Web Services account that owns the resource. Logical operators are EQUALS | NOT_EQUALS.
@@ -9780,7 +9780,7 @@ public struct ListResourceInventoryInput: Swift.Equatable {
     }
 }
 
-struct ListResourceInventoryInputBody: Swift.Equatable {
+struct ListResourceInventoryInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [LicenseManagerClientTypes.InventoryFilter]?
@@ -9827,7 +9827,7 @@ extension ListResourceInventoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourceInventoryOutput: Swift.Equatable {
+public struct ListResourceInventoryOutput {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
     /// Information about the resources.
@@ -9843,7 +9843,7 @@ public struct ListResourceInventoryOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceInventoryOutputBody: Swift.Equatable {
+struct ListResourceInventoryOutputBody {
     let resourceInventoryList: [LicenseManagerClientTypes.ResourceInventory]?
     let nextToken: Swift.String?
 }
@@ -9909,7 +9909,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// Amazon Resource Name (ARN) of the license configuration.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9922,7 +9922,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -9950,7 +9950,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Information about the tags.
     public var tags: [LicenseManagerClientTypes.Tag]?
 
@@ -9962,7 +9962,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [LicenseManagerClientTypes.Tag]?
 }
 
@@ -10040,7 +10040,7 @@ extension ListTokensInput {
     }
 }
 
-public struct ListTokensInput: Swift.Equatable {
+public struct ListTokensInput {
     /// Filters to scope the results. The following filter is supported:
     ///
     /// * LicenseArns
@@ -10066,7 +10066,7 @@ public struct ListTokensInput: Swift.Equatable {
     }
 }
 
-struct ListTokensInputBody: Swift.Equatable {
+struct ListTokensInputBody {
     let tokenIds: [Swift.String]?
     let filters: [LicenseManagerClientTypes.Filter]?
     let nextToken: Swift.String?
@@ -10126,7 +10126,7 @@ extension ListTokensOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTokensOutput: Swift.Equatable {
+public struct ListTokensOutput {
     /// Token for the next set of results.
     public var nextToken: Swift.String?
     /// Received token details.
@@ -10142,7 +10142,7 @@ public struct ListTokensOutput: Swift.Equatable {
     }
 }
 
-struct ListTokensOutputBody: Swift.Equatable {
+struct ListTokensOutputBody {
     let tokens: [LicenseManagerClientTypes.TokenData]?
     let nextToken: Swift.String?
 }
@@ -10221,7 +10221,7 @@ extension ListUsageForLicenseConfigurationInput {
     }
 }
 
-public struct ListUsageForLicenseConfigurationInput: Swift.Equatable {
+public struct ListUsageForLicenseConfigurationInput {
     /// Filters to scope the results. The following filters and logical operators are supported:
     ///
     /// * resourceArn - The ARN of the license configuration resource. Logical operators are EQUALS | NOT_EQUALS.
@@ -10252,7 +10252,7 @@ public struct ListUsageForLicenseConfigurationInput: Swift.Equatable {
     }
 }
 
-struct ListUsageForLicenseConfigurationInputBody: Swift.Equatable {
+struct ListUsageForLicenseConfigurationInputBody {
     let licenseConfigurationArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -10303,7 +10303,7 @@ extension ListUsageForLicenseConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListUsageForLicenseConfigurationOutput: Swift.Equatable {
+public struct ListUsageForLicenseConfigurationOutput {
     /// Information about the license configurations.
     public var licenseConfigurationUsageList: [LicenseManagerClientTypes.LicenseConfigurationUsage]?
     /// Token for the next set of results.
@@ -10319,7 +10319,7 @@ public struct ListUsageForLicenseConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct ListUsageForLicenseConfigurationOutputBody: Swift.Equatable {
+struct ListUsageForLicenseConfigurationOutputBody {
     let licenseConfigurationUsageList: [LicenseManagerClientTypes.LicenseConfigurationUsage]?
     let nextToken: Swift.String?
 }
@@ -10391,7 +10391,7 @@ extension LicenseManagerClientTypes.ManagedResourceSummary: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Summary information about a managed resource.
-    public struct ManagedResourceSummary: Swift.Equatable {
+    public struct ManagedResourceSummary {
         /// Number of resources associated with licenses.
         public var associationCount: Swift.Int?
         /// Type of resource associated with a license.
@@ -10436,7 +10436,7 @@ extension LicenseManagerClientTypes.Metadata: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Describes key/value pairs.
-    public struct Metadata: Swift.Equatable {
+    public struct Metadata {
         /// The key name.
         public var name: Swift.String?
         /// The value.
@@ -10493,7 +10493,7 @@ public struct NoEntitlementsAllowedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct NoEntitlementsAllowedExceptionBody: Swift.Equatable {
+struct NoEntitlementsAllowedExceptionBody {
     let message: Swift.String?
 }
 
@@ -10530,7 +10530,7 @@ extension LicenseManagerClientTypes.Options: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// The options you can specify when you create a new version of a grant, such as activation override behavior. For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
-    public struct Options: Swift.Equatable {
+    public struct Options {
         /// An activation option for your grant that determines the behavior of activating a grant. Activation options can only be used with granted licenses sourced from the Amazon Web Services Marketplace. Additionally, the operation must specify the value of ACTIVE for the Status parameter.
         ///
         /// * As a license administrator, you can optionally specify an ActivationOverrideBehavior when activating a grant.
@@ -10574,7 +10574,7 @@ extension LicenseManagerClientTypes.OrganizationConfiguration: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Configuration information for Organizations.
-    public struct OrganizationConfiguration: Swift.Equatable {
+    public struct OrganizationConfiguration {
         /// Enables Organizations integration.
         /// This member is required.
         public var enableIntegration: Swift.Bool
@@ -10628,7 +10628,7 @@ extension LicenseManagerClientTypes.ProductInformation: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Describes product information for a license configuration.
-    public struct ProductInformation: Swift.Equatable {
+    public struct ProductInformation {
         /// A Product information filter consists of a ProductInformationFilterComparator which is a logical operator, a ProductInformationFilterName which specifies the type of filter being declared, and a ProductInformationFilterValue that specifies the value to filter on. Accepted values for ProductInformationFilterName are listed here along with descriptions and valid options for ProductInformationFilterComparator. The following filters and are supported when the resource type is SSM_MANAGED:
         ///
         /// * Application Name - The name of the application. Logical operator is EQUALS.
@@ -10716,7 +10716,7 @@ extension LicenseManagerClientTypes.ProductInformationFilter: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Describes product information filters.
-    public struct ProductInformationFilter: Swift.Equatable {
+    public struct ProductInformationFilter {
         /// Logical operator.
         /// This member is required.
         public var productInformationFilterComparator: Swift.String?
@@ -10761,7 +10761,7 @@ extension LicenseManagerClientTypes.ProvisionalConfiguration: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details about a provisional configuration.
-    public struct ProvisionalConfiguration: Swift.Equatable {
+    public struct ProvisionalConfiguration {
         /// Maximum time for the provisional configuration, in minutes.
         /// This member is required.
         public var maxTimeToLiveInMinutes: Swift.Int?
@@ -10815,7 +10815,7 @@ public struct RateLimitExceededException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct RateLimitExceededExceptionBody: Swift.Equatable {
+struct RateLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -10876,7 +10876,7 @@ extension LicenseManagerClientTypes.ReceivedMetadata: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Metadata associated with received licenses and grants.
-    public struct ReceivedMetadata: Swift.Equatable {
+    public struct ReceivedMetadata {
         /// Allowed operations.
         public var allowedOperations: [LicenseManagerClientTypes.AllowedOperation]?
         /// Received status.
@@ -10995,7 +10995,7 @@ public struct RedirectException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct RedirectExceptionBody: Swift.Equatable {
+struct RedirectExceptionBody {
     let message: Swift.String?
 }
 
@@ -11031,7 +11031,7 @@ extension RejectGrantInput {
     }
 }
 
-public struct RejectGrantInput: Swift.Equatable {
+public struct RejectGrantInput {
     /// Amazon Resource Name (ARN) of the grant.
     /// This member is required.
     public var grantArn: Swift.String?
@@ -11044,7 +11044,7 @@ public struct RejectGrantInput: Swift.Equatable {
     }
 }
 
-struct RejectGrantInputBody: Swift.Equatable {
+struct RejectGrantInputBody {
     let grantArn: Swift.String?
 }
 
@@ -11076,7 +11076,7 @@ extension RejectGrantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RejectGrantOutput: Swift.Equatable {
+public struct RejectGrantOutput {
     /// Grant ARN.
     public var grantArn: Swift.String?
     /// Grant status.
@@ -11096,7 +11096,7 @@ public struct RejectGrantOutput: Swift.Equatable {
     }
 }
 
-struct RejectGrantOutputBody: Swift.Equatable {
+struct RejectGrantOutputBody {
     let grantArn: Swift.String?
     let status: LicenseManagerClientTypes.GrantStatus?
     let version: Swift.String?
@@ -11205,7 +11205,7 @@ extension LicenseManagerClientTypes.ReportContext: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details of the license configuration that this generator reports on.
-    public struct ReportContext: Swift.Equatable {
+    public struct ReportContext {
         /// Amazon Resource Name (ARN) of the license configuration that this generator reports on.
         /// This member is required.
         public var licenseConfigurationArns: [Swift.String]?
@@ -11247,7 +11247,7 @@ extension LicenseManagerClientTypes.ReportFrequency: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details about how frequently reports are generated.
-    public struct ReportFrequency: Swift.Equatable {
+    public struct ReportFrequency {
         /// Time period between each report. The period can be daily, weekly, or monthly.
         public var period: LicenseManagerClientTypes.ReportFrequencyType?
         /// Number of times within the frequency period that a report is generated. The only supported value is 1.
@@ -11417,7 +11417,7 @@ extension LicenseManagerClientTypes.ReportGenerator: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Describe the details of a report generator.
-    public struct ReportGenerator: Swift.Equatable {
+    public struct ReportGenerator {
         /// Time the report was created.
         public var createTime: Swift.String?
         /// Description of the report generator.
@@ -11562,7 +11562,7 @@ extension LicenseManagerClientTypes.ResourceInventory: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details about a resource.
-    public struct ResourceInventory: Swift.Equatable {
+    public struct ResourceInventory {
         /// Platform of the resource.
         public var platform: Swift.String?
         /// Platform version of the resource in the inventory.
@@ -11635,7 +11635,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceLimitExceededExceptionBody: Swift.Equatable {
+struct ResourceLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -11690,7 +11690,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11774,7 +11774,7 @@ extension LicenseManagerClientTypes.S3Location: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details of the S3 bucket that report generator reports are published to.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// Name of the S3 bucket reports are published to.
         public var bucket: Swift.String?
         /// Prefix of the S3 bucket reports are published to.
@@ -11831,7 +11831,7 @@ public struct ServerInternalException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ServerInternalExceptionBody: Swift.Equatable {
+struct ServerInternalExceptionBody {
     let message: Swift.String?
 }
 
@@ -11874,7 +11874,7 @@ extension LicenseManagerClientTypes.Tag: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Details about a tag for a license configuration.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Tag key.
         public var key: Swift.String?
         /// Tag value.
@@ -11919,7 +11919,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// Amazon Resource Name (ARN) of the license configuration.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -11937,7 +11937,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [LicenseManagerClientTypes.Tag]?
 }
@@ -11971,7 +11971,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -12072,7 +12072,7 @@ extension LicenseManagerClientTypes.TokenData: Swift.Codable {
 
 extension LicenseManagerClientTypes {
     /// Describes a token.
-    public struct TokenData: Swift.Equatable {
+    public struct TokenData {
         /// Token expiration time, in ISO8601-UTC format.
         public var expirationTime: Swift.String?
         /// Amazon Resource Name (ARN) of the license.
@@ -12178,7 +12178,7 @@ public struct UnsupportedDigitalSignatureMethodException: ClientRuntime.ModeledE
     }
 }
 
-struct UnsupportedDigitalSignatureMethodExceptionBody: Swift.Equatable {
+struct UnsupportedDigitalSignatureMethodExceptionBody {
     let message: Swift.String?
 }
 
@@ -12221,7 +12221,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// Amazon Resource Name (ARN) of the license configuration.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12239,7 +12239,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -12273,7 +12273,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -12351,7 +12351,7 @@ extension UpdateLicenseConfigurationInput {
     }
 }
 
-public struct UpdateLicenseConfigurationInput: Swift.Equatable {
+public struct UpdateLicenseConfigurationInput {
     /// New description of the license configuration.
     public var description: Swift.String?
     /// When true, disassociates a resource when software is uninstalled.
@@ -12396,7 +12396,7 @@ public struct UpdateLicenseConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateLicenseConfigurationInputBody: Swift.Equatable {
+struct UpdateLicenseConfigurationInputBody {
     let licenseConfigurationArn: Swift.String?
     let licenseConfigurationStatus: LicenseManagerClientTypes.LicenseConfigurationStatus?
     let licenseRules: [Swift.String]?
@@ -12467,7 +12467,7 @@ extension UpdateLicenseConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLicenseConfigurationOutput: Swift.Equatable {
+public struct UpdateLicenseConfigurationOutput {
 
     public init() { }
 }
@@ -12535,7 +12535,7 @@ extension UpdateLicenseManagerReportGeneratorInput {
     }
 }
 
-public struct UpdateLicenseManagerReportGeneratorInput: Swift.Equatable {
+public struct UpdateLicenseManagerReportGeneratorInput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -12581,7 +12581,7 @@ public struct UpdateLicenseManagerReportGeneratorInput: Swift.Equatable {
     }
 }
 
-struct UpdateLicenseManagerReportGeneratorInputBody: Swift.Equatable {
+struct UpdateLicenseManagerReportGeneratorInputBody {
     let licenseManagerReportGeneratorArn: Swift.String?
     let reportGeneratorName: Swift.String?
     let type: [LicenseManagerClientTypes.ReportType]?
@@ -12635,7 +12635,7 @@ extension UpdateLicenseManagerReportGeneratorOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct UpdateLicenseManagerReportGeneratorOutput: Swift.Equatable {
+public struct UpdateLicenseManagerReportGeneratorOutput {
 
     public init() { }
 }
@@ -12692,7 +12692,7 @@ extension UpdateLicenseSpecificationsForResourceInput {
     }
 }
 
-public struct UpdateLicenseSpecificationsForResourceInput: Swift.Equatable {
+public struct UpdateLicenseSpecificationsForResourceInput {
     /// ARNs of the license configurations to add.
     public var addLicenseSpecifications: [LicenseManagerClientTypes.LicenseSpecification]?
     /// ARNs of the license configurations to remove.
@@ -12713,7 +12713,7 @@ public struct UpdateLicenseSpecificationsForResourceInput: Swift.Equatable {
     }
 }
 
-struct UpdateLicenseSpecificationsForResourceInputBody: Swift.Equatable {
+struct UpdateLicenseSpecificationsForResourceInputBody {
     let resourceArn: Swift.String?
     let addLicenseSpecifications: [LicenseManagerClientTypes.LicenseSpecification]?
     let removeLicenseSpecifications: [LicenseManagerClientTypes.LicenseSpecification]?
@@ -12760,7 +12760,7 @@ extension UpdateLicenseSpecificationsForResourceOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct UpdateLicenseSpecificationsForResourceOutput: Swift.Equatable {
+public struct UpdateLicenseSpecificationsForResourceOutput {
 
     public init() { }
 }
@@ -12814,7 +12814,7 @@ extension UpdateServiceSettingsInput {
     }
 }
 
-public struct UpdateServiceSettingsInput: Swift.Equatable {
+public struct UpdateServiceSettingsInput {
     /// Activates cross-account discovery.
     public var enableCrossAccountsDiscovery: Swift.Bool?
     /// Enables integration with Organizations for cross-account discovery.
@@ -12838,7 +12838,7 @@ public struct UpdateServiceSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceSettingsInputBody: Swift.Equatable {
+struct UpdateServiceSettingsInputBody {
     let s3BucketArn: Swift.String?
     let snsTopicArn: Swift.String?
     let organizationConfiguration: LicenseManagerClientTypes.OrganizationConfiguration?
@@ -12871,7 +12871,7 @@ extension UpdateServiceSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServiceSettingsOutput: Swift.Equatable {
+public struct UpdateServiceSettingsOutput {
 
     public init() { }
 }
@@ -12930,7 +12930,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

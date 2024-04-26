@@ -48,7 +48,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -92,7 +92,7 @@ extension AssociateGatewayToServerInput {
     }
 }
 
-public struct AssociateGatewayToServerInput: Swift.Equatable {
+public struct AssociateGatewayToServerInput {
     /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region.
     /// This member is required.
     public var gatewayArn: Swift.String?
@@ -110,7 +110,7 @@ public struct AssociateGatewayToServerInput: Swift.Equatable {
     }
 }
 
-struct AssociateGatewayToServerInputBody: Swift.Equatable {
+struct AssociateGatewayToServerInputBody {
     let gatewayArn: Swift.String?
     let serverArn: Swift.String?
 }
@@ -142,7 +142,7 @@ extension AssociateGatewayToServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateGatewayToServerOutput: Swift.Equatable {
+public struct AssociateGatewayToServerOutput {
     /// The Amazon Resource Name (ARN) of a gateway.
     public var gatewayArn: Swift.String?
 
@@ -154,7 +154,7 @@ public struct AssociateGatewayToServerOutput: Swift.Equatable {
     }
 }
 
-struct AssociateGatewayToServerOutputBody: Swift.Equatable {
+struct AssociateGatewayToServerOutputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -259,7 +259,7 @@ extension BackupGatewayClientTypes.BandwidthRateLimitInterval: Swift.Codable {
 
 extension BackupGatewayClientTypes {
     /// Describes a bandwidth rate limit interval for a gateway. A bandwidth rate limit schedule consists of one or more bandwidth rate limit intervals. A bandwidth rate limit interval defines a period of time on one or more days of the week, during which bandwidth rate limits are specified for uploading, downloading, or both.
-    public struct BandwidthRateLimitInterval: Swift.Equatable {
+    public struct BandwidthRateLimitInterval {
         /// The average upload rate limit component of the bandwidth rate limit interval, in bits per second. This field does not appear in the response if the upload rate limit is not set. For Backup Gateway, the minimum value is (Value).
         public var averageUploadRateLimitInBitsPerSec: Swift.Int?
         /// The days of the week component of the bandwidth rate limit interval, represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 represents Saturday.
@@ -344,7 +344,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -399,7 +399,7 @@ extension CreateGatewayInput {
     }
 }
 
-public struct CreateGatewayInput: Swift.Equatable {
+public struct CreateGatewayInput {
     /// The activation key of the created gateway.
     /// This member is required.
     public var activationKey: Swift.String?
@@ -426,7 +426,7 @@ public struct CreateGatewayInput: Swift.Equatable {
     }
 }
 
-struct CreateGatewayInputBody: Swift.Equatable {
+struct CreateGatewayInputBody {
     let activationKey: Swift.String?
     let gatewayDisplayName: Swift.String?
     let gatewayType: BackupGatewayClientTypes.GatewayType?
@@ -475,7 +475,7 @@ extension CreateGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGatewayOutput: Swift.Equatable {
+public struct CreateGatewayOutput {
     /// The Amazon Resource Name (ARN) of the gateway you create.
     public var gatewayArn: Swift.String?
 
@@ -487,7 +487,7 @@ public struct CreateGatewayOutput: Swift.Equatable {
     }
 }
 
-struct CreateGatewayOutputBody: Swift.Equatable {
+struct CreateGatewayOutputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -535,7 +535,7 @@ extension DeleteGatewayInput {
     }
 }
 
-public struct DeleteGatewayInput: Swift.Equatable {
+public struct DeleteGatewayInput {
     /// The Amazon Resource Name (ARN) of the gateway to delete.
     /// This member is required.
     public var gatewayArn: Swift.String?
@@ -548,7 +548,7 @@ public struct DeleteGatewayInput: Swift.Equatable {
     }
 }
 
-struct DeleteGatewayInputBody: Swift.Equatable {
+struct DeleteGatewayInputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -576,7 +576,7 @@ extension DeleteGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGatewayOutput: Swift.Equatable {
+public struct DeleteGatewayOutput {
     /// The Amazon Resource Name (ARN) of the gateway you deleted.
     public var gatewayArn: Swift.String?
 
@@ -588,7 +588,7 @@ public struct DeleteGatewayOutput: Swift.Equatable {
     }
 }
 
-struct DeleteGatewayOutputBody: Swift.Equatable {
+struct DeleteGatewayOutputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -637,7 +637,7 @@ extension DeleteHypervisorInput {
     }
 }
 
-public struct DeleteHypervisorInput: Swift.Equatable {
+public struct DeleteHypervisorInput {
     /// The Amazon Resource Name (ARN) of the hypervisor to delete.
     /// This member is required.
     public var hypervisorArn: Swift.String?
@@ -650,7 +650,7 @@ public struct DeleteHypervisorInput: Swift.Equatable {
     }
 }
 
-struct DeleteHypervisorInputBody: Swift.Equatable {
+struct DeleteHypervisorInputBody {
     let hypervisorArn: Swift.String?
 }
 
@@ -678,7 +678,7 @@ extension DeleteHypervisorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteHypervisorOutput: Swift.Equatable {
+public struct DeleteHypervisorOutput {
     /// The Amazon Resource Name (ARN) of the hypervisor you deleted.
     public var hypervisorArn: Swift.String?
 
@@ -690,7 +690,7 @@ public struct DeleteHypervisorOutput: Swift.Equatable {
     }
 }
 
-struct DeleteHypervisorOutputBody: Swift.Equatable {
+struct DeleteHypervisorOutputBody {
     let hypervisorArn: Swift.String?
 }
 
@@ -741,7 +741,7 @@ extension DisassociateGatewayFromServerInput {
     }
 }
 
-public struct DisassociateGatewayFromServerInput: Swift.Equatable {
+public struct DisassociateGatewayFromServerInput {
     /// The Amazon Resource Name (ARN) of the gateway to disassociate.
     /// This member is required.
     public var gatewayArn: Swift.String?
@@ -754,7 +754,7 @@ public struct DisassociateGatewayFromServerInput: Swift.Equatable {
     }
 }
 
-struct DisassociateGatewayFromServerInputBody: Swift.Equatable {
+struct DisassociateGatewayFromServerInputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -782,7 +782,7 @@ extension DisassociateGatewayFromServerOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DisassociateGatewayFromServerOutput: Swift.Equatable {
+public struct DisassociateGatewayFromServerOutput {
     /// The Amazon Resource Name (ARN) of the gateway you disassociated.
     public var gatewayArn: Swift.String?
 
@@ -794,7 +794,7 @@ public struct DisassociateGatewayFromServerOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateGatewayFromServerOutputBody: Swift.Equatable {
+struct DisassociateGatewayFromServerOutputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -869,7 +869,7 @@ extension BackupGatewayClientTypes.Gateway: Swift.Codable {
 
 extension BackupGatewayClientTypes {
     /// A gateway is an Backup Gateway appliance that runs on the customer's network to provide seamless connectivity to backup storage in the Amazon Web Services Cloud.
-    public struct Gateway: Swift.Equatable {
+    public struct Gateway {
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region.
         public var gatewayArn: Swift.String?
         /// The display name of the gateway.
@@ -962,7 +962,7 @@ extension BackupGatewayClientTypes.GatewayDetails: Swift.Codable {
 
 extension BackupGatewayClientTypes {
     /// The details of gateway.
-    public struct GatewayDetails: Swift.Equatable {
+    public struct GatewayDetails {
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region.
         public var gatewayArn: Swift.String?
         /// The display name of the gateway.
@@ -1053,7 +1053,7 @@ extension GetBandwidthRateLimitScheduleInput {
     }
 }
 
-public struct GetBandwidthRateLimitScheduleInput: Swift.Equatable {
+public struct GetBandwidthRateLimitScheduleInput {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html) operation to return a list of gateways for your account and Amazon Web Services Region.
     /// This member is required.
     public var gatewayArn: Swift.String?
@@ -1066,7 +1066,7 @@ public struct GetBandwidthRateLimitScheduleInput: Swift.Equatable {
     }
 }
 
-struct GetBandwidthRateLimitScheduleInputBody: Swift.Equatable {
+struct GetBandwidthRateLimitScheduleInputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -1096,7 +1096,7 @@ extension GetBandwidthRateLimitScheduleOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetBandwidthRateLimitScheduleOutput: Swift.Equatable {
+public struct GetBandwidthRateLimitScheduleOutput {
     /// An array containing bandwidth rate limit schedule intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the array is empty.
     public var bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]?
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html) operation to return a list of gateways for your account and Amazon Web Services Region.
@@ -1112,7 +1112,7 @@ public struct GetBandwidthRateLimitScheduleOutput: Swift.Equatable {
     }
 }
 
-struct GetBandwidthRateLimitScheduleOutputBody: Swift.Equatable {
+struct GetBandwidthRateLimitScheduleOutputBody {
     let gatewayArn: Swift.String?
     let bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]?
 }
@@ -1174,7 +1174,7 @@ extension GetGatewayInput {
     }
 }
 
-public struct GetGatewayInput: Swift.Equatable {
+public struct GetGatewayInput {
     /// The Amazon Resource Name (ARN) of the gateway.
     /// This member is required.
     public var gatewayArn: Swift.String?
@@ -1187,7 +1187,7 @@ public struct GetGatewayInput: Swift.Equatable {
     }
 }
 
-struct GetGatewayInputBody: Swift.Equatable {
+struct GetGatewayInputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -1215,7 +1215,7 @@ extension GetGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGatewayOutput: Swift.Equatable {
+public struct GetGatewayOutput {
     /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
     public var gateway: BackupGatewayClientTypes.GatewayDetails?
 
@@ -1227,7 +1227,7 @@ public struct GetGatewayOutput: Swift.Equatable {
     }
 }
 
-struct GetGatewayOutputBody: Swift.Equatable {
+struct GetGatewayOutputBody {
     let gateway: BackupGatewayClientTypes.GatewayDetails?
 }
 
@@ -1276,7 +1276,7 @@ extension GetHypervisorInput {
     }
 }
 
-public struct GetHypervisorInput: Swift.Equatable {
+public struct GetHypervisorInput {
     /// The Amazon Resource Name (ARN) of the hypervisor.
     /// This member is required.
     public var hypervisorArn: Swift.String?
@@ -1289,7 +1289,7 @@ public struct GetHypervisorInput: Swift.Equatable {
     }
 }
 
-struct GetHypervisorInputBody: Swift.Equatable {
+struct GetHypervisorInputBody {
     let hypervisorArn: Swift.String?
 }
 
@@ -1317,7 +1317,7 @@ extension GetHypervisorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetHypervisorOutput: Swift.Equatable {
+public struct GetHypervisorOutput {
     /// Details about the requested hypervisor.
     public var hypervisor: BackupGatewayClientTypes.HypervisorDetails?
 
@@ -1329,7 +1329,7 @@ public struct GetHypervisorOutput: Swift.Equatable {
     }
 }
 
-struct GetHypervisorOutputBody: Swift.Equatable {
+struct GetHypervisorOutputBody {
     let hypervisor: BackupGatewayClientTypes.HypervisorDetails?
 }
 
@@ -1378,7 +1378,7 @@ extension GetHypervisorPropertyMappingsInput {
     }
 }
 
-public struct GetHypervisorPropertyMappingsInput: Swift.Equatable {
+public struct GetHypervisorPropertyMappingsInput {
     /// The Amazon Resource Name (ARN) of the hypervisor.
     /// This member is required.
     public var hypervisorArn: Swift.String?
@@ -1391,7 +1391,7 @@ public struct GetHypervisorPropertyMappingsInput: Swift.Equatable {
     }
 }
 
-struct GetHypervisorPropertyMappingsInputBody: Swift.Equatable {
+struct GetHypervisorPropertyMappingsInputBody {
     let hypervisorArn: Swift.String?
 }
 
@@ -1423,7 +1423,7 @@ extension GetHypervisorPropertyMappingsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetHypervisorPropertyMappingsOutput: Swift.Equatable {
+public struct GetHypervisorPropertyMappingsOutput {
     /// The Amazon Resource Name (ARN) of the hypervisor.
     public var hypervisorArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role.
@@ -1443,7 +1443,7 @@ public struct GetHypervisorPropertyMappingsOutput: Swift.Equatable {
     }
 }
 
-struct GetHypervisorPropertyMappingsOutputBody: Swift.Equatable {
+struct GetHypervisorPropertyMappingsOutputBody {
     let hypervisorArn: Swift.String?
     let vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]?
     let iamRoleArn: Swift.String?
@@ -1509,7 +1509,7 @@ extension GetVirtualMachineInput {
     }
 }
 
-public struct GetVirtualMachineInput: Swift.Equatable {
+public struct GetVirtualMachineInput {
     /// The Amazon Resource Name (ARN) of the virtual machine.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1522,7 +1522,7 @@ public struct GetVirtualMachineInput: Swift.Equatable {
     }
 }
 
-struct GetVirtualMachineInputBody: Swift.Equatable {
+struct GetVirtualMachineInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -1550,7 +1550,7 @@ extension GetVirtualMachineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetVirtualMachineOutput: Swift.Equatable {
+public struct GetVirtualMachineOutput {
     /// This object contains the basic attributes of VirtualMachine contained by the output of GetVirtualMachine
     public var virtualMachine: BackupGatewayClientTypes.VirtualMachineDetails?
 
@@ -1562,7 +1562,7 @@ public struct GetVirtualMachineOutput: Swift.Equatable {
     }
 }
 
-struct GetVirtualMachineOutputBody: Swift.Equatable {
+struct GetVirtualMachineOutputBody {
     let virtualMachine: BackupGatewayClientTypes.VirtualMachineDetails?
 }
 
@@ -1636,7 +1636,7 @@ extension BackupGatewayClientTypes.Hypervisor: Swift.Codable {
 
 extension BackupGatewayClientTypes {
     /// Represents the hypervisor's permissions to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
-    public struct Hypervisor: Swift.Equatable {
+    public struct Hypervisor {
         /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN).
         public var host: Swift.String?
         /// The Amazon Resource Name (ARN) of the hypervisor.
@@ -1735,7 +1735,7 @@ extension BackupGatewayClientTypes.HypervisorDetails: Swift.Codable {
 
 extension BackupGatewayClientTypes {
     /// These are the details of the specified hypervisor. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
-    public struct HypervisorDetails: Swift.Equatable {
+    public struct HypervisorDetails {
         /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN).
         public var host: Swift.String?
         /// The Amazon Resource Name (ARN) of the hypervisor.
@@ -1867,7 +1867,7 @@ extension ImportHypervisorConfigurationInput {
     }
 }
 
-public struct ImportHypervisorConfigurationInput: Swift.Equatable {
+public struct ImportHypervisorConfigurationInput {
     /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN).
     /// This member is required.
     public var host: Swift.String?
@@ -1901,7 +1901,7 @@ public struct ImportHypervisorConfigurationInput: Swift.Equatable {
     }
 }
 
-struct ImportHypervisorConfigurationInputBody: Swift.Equatable {
+struct ImportHypervisorConfigurationInputBody {
     let name: Swift.String?
     let host: Swift.String?
     let username: Swift.String?
@@ -1958,7 +1958,7 @@ extension ImportHypervisorConfigurationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ImportHypervisorConfigurationOutput: Swift.Equatable {
+public struct ImportHypervisorConfigurationOutput {
     /// The Amazon Resource Name (ARN) of the hypervisor you disassociated.
     public var hypervisorArn: Swift.String?
 
@@ -1970,7 +1970,7 @@ public struct ImportHypervisorConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct ImportHypervisorConfigurationOutputBody: Swift.Equatable {
+struct ImportHypervisorConfigurationOutputBody {
     let hypervisorArn: Swift.String?
 }
 
@@ -2045,7 +2045,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -2089,7 +2089,7 @@ extension ListGatewaysInput {
     }
 }
 
-public struct ListGatewaysInput: Swift.Equatable {
+public struct ListGatewaysInput {
     /// The maximum number of gateways to list.
     public var maxResults: Swift.Int?
     /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -2105,7 +2105,7 @@ public struct ListGatewaysInput: Swift.Equatable {
     }
 }
 
-struct ListGatewaysInputBody: Swift.Equatable {
+struct ListGatewaysInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -2139,7 +2139,7 @@ extension ListGatewaysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGatewaysOutput: Swift.Equatable {
+public struct ListGatewaysOutput {
     /// A list of your gateways.
     public var gateways: [BackupGatewayClientTypes.Gateway]?
     /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -2155,7 +2155,7 @@ public struct ListGatewaysOutput: Swift.Equatable {
     }
 }
 
-struct ListGatewaysOutputBody: Swift.Equatable {
+struct ListGatewaysOutputBody {
     let gateways: [BackupGatewayClientTypes.Gateway]?
     let nextToken: Swift.String?
 }
@@ -2220,7 +2220,7 @@ extension ListHypervisorsInput {
     }
 }
 
-public struct ListHypervisorsInput: Swift.Equatable {
+public struct ListHypervisorsInput {
     /// The maximum number of hypervisors to list.
     public var maxResults: Swift.Int?
     /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -2236,7 +2236,7 @@ public struct ListHypervisorsInput: Swift.Equatable {
     }
 }
 
-struct ListHypervisorsInputBody: Swift.Equatable {
+struct ListHypervisorsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -2270,7 +2270,7 @@ extension ListHypervisorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHypervisorsOutput: Swift.Equatable {
+public struct ListHypervisorsOutput {
     /// A list of your Hypervisor objects, ordered by their Amazon Resource Names (ARNs).
     public var hypervisors: [BackupGatewayClientTypes.Hypervisor]?
     /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -2286,7 +2286,7 @@ public struct ListHypervisorsOutput: Swift.Equatable {
     }
 }
 
-struct ListHypervisorsOutputBody: Swift.Equatable {
+struct ListHypervisorsOutputBody {
     let hypervisors: [BackupGatewayClientTypes.Hypervisor]?
     let nextToken: Swift.String?
 }
@@ -2347,7 +2347,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource's tags to list.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2360,7 +2360,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -2390,7 +2390,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The Amazon Resource Name (ARN) of the resource's tags that you listed.
     public var resourceArn: Swift.String?
     /// A list of the resource's tags.
@@ -2406,7 +2406,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let resourceArn: Swift.String?
     let tags: [BackupGatewayClientTypes.Tag]?
 }
@@ -2476,7 +2476,7 @@ extension ListVirtualMachinesInput {
     }
 }
 
-public struct ListVirtualMachinesInput: Swift.Equatable {
+public struct ListVirtualMachinesInput {
     /// The Amazon Resource Name (ARN) of the hypervisor connected to your virtual machine.
     public var hypervisorArn: Swift.String?
     /// The maximum number of virtual machines to list.
@@ -2496,7 +2496,7 @@ public struct ListVirtualMachinesInput: Swift.Equatable {
     }
 }
 
-struct ListVirtualMachinesInputBody: Swift.Equatable {
+struct ListVirtualMachinesInputBody {
     let hypervisorArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -2534,7 +2534,7 @@ extension ListVirtualMachinesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVirtualMachinesOutput: Swift.Equatable {
+public struct ListVirtualMachinesOutput {
     /// The next item following a partial list of returned resources. For example, if a request is made to return maxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     public var nextToken: Swift.String?
     /// A list of your VirtualMachine objects, ordered by their Amazon Resource Names (ARNs).
@@ -2550,7 +2550,7 @@ public struct ListVirtualMachinesOutput: Swift.Equatable {
     }
 }
 
-struct ListVirtualMachinesOutputBody: Swift.Equatable {
+struct ListVirtualMachinesOutputBody {
     let virtualMachines: [BackupGatewayClientTypes.VirtualMachine]?
     let nextToken: Swift.String?
 }
@@ -2630,7 +2630,7 @@ extension BackupGatewayClientTypes.MaintenanceStartTime: Swift.Codable {
 
 extension BackupGatewayClientTypes {
     /// This is your gateway's weekly maintenance start time including the day and time of the week. Note that values are in terms of the gateway's time zone. Can be weekly or monthly.
-    public struct MaintenanceStartTime: Swift.Equatable {
+    public struct MaintenanceStartTime {
         /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.
         public var dayOfMonth: Swift.Int?
         /// An ordinal number between 0 and 6 that represents the day of the week, where 0 represents Sunday and 6 represents Saturday. The day of week is in the time zone of the gateway.
@@ -2685,7 +2685,7 @@ extension PutBandwidthRateLimitScheduleInput {
     }
 }
 
-public struct PutBandwidthRateLimitScheduleInput: Swift.Equatable {
+public struct PutBandwidthRateLimitScheduleInput {
     /// An array containing bandwidth rate limit schedule intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the array is empty.
     /// This member is required.
     public var bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]?
@@ -2703,7 +2703,7 @@ public struct PutBandwidthRateLimitScheduleInput: Swift.Equatable {
     }
 }
 
-struct PutBandwidthRateLimitScheduleInputBody: Swift.Equatable {
+struct PutBandwidthRateLimitScheduleInputBody {
     let gatewayArn: Swift.String?
     let bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]?
 }
@@ -2744,7 +2744,7 @@ extension PutBandwidthRateLimitScheduleOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct PutBandwidthRateLimitScheduleOutput: Swift.Equatable {
+public struct PutBandwidthRateLimitScheduleOutput {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html) operation to return a list of gateways for your account and Amazon Web Services Region.
     public var gatewayArn: Swift.String?
 
@@ -2756,7 +2756,7 @@ public struct PutBandwidthRateLimitScheduleOutput: Swift.Equatable {
     }
 }
 
-struct PutBandwidthRateLimitScheduleOutputBody: Swift.Equatable {
+struct PutBandwidthRateLimitScheduleOutputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -2816,7 +2816,7 @@ extension PutHypervisorPropertyMappingsInput {
     }
 }
 
-public struct PutHypervisorPropertyMappingsInput: Swift.Equatable {
+public struct PutHypervisorPropertyMappingsInput {
     /// The Amazon Resource Name (ARN) of the hypervisor.
     /// This member is required.
     public var hypervisorArn: Swift.String?
@@ -2839,7 +2839,7 @@ public struct PutHypervisorPropertyMappingsInput: Swift.Equatable {
     }
 }
 
-struct PutHypervisorPropertyMappingsInputBody: Swift.Equatable {
+struct PutHypervisorPropertyMappingsInputBody {
     let hypervisorArn: Swift.String?
     let vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]?
     let iamRoleArn: Swift.String?
@@ -2884,7 +2884,7 @@ extension PutHypervisorPropertyMappingsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct PutHypervisorPropertyMappingsOutput: Swift.Equatable {
+public struct PutHypervisorPropertyMappingsOutput {
     /// The Amazon Resource Name (ARN) of the hypervisor.
     public var hypervisorArn: Swift.String?
 
@@ -2896,7 +2896,7 @@ public struct PutHypervisorPropertyMappingsOutput: Swift.Equatable {
     }
 }
 
-struct PutHypervisorPropertyMappingsOutputBody: Swift.Equatable {
+struct PutHypervisorPropertyMappingsOutputBody {
     let hypervisorArn: Swift.String?
 }
 
@@ -2963,7 +2963,7 @@ extension PutMaintenanceStartTimeInput {
     }
 }
 
-public struct PutMaintenanceStartTimeInput: Swift.Equatable {
+public struct PutMaintenanceStartTimeInput {
     /// The day of the month start maintenance on a gateway. Valid values range from Sunday to Saturday.
     public var dayOfMonth: Swift.Int?
     /// The day of the week to start maintenance on a gateway.
@@ -2994,7 +2994,7 @@ public struct PutMaintenanceStartTimeInput: Swift.Equatable {
     }
 }
 
-struct PutMaintenanceStartTimeInputBody: Swift.Equatable {
+struct PutMaintenanceStartTimeInputBody {
     let gatewayArn: Swift.String?
     let hourOfDay: Swift.Int?
     let minuteOfHour: Swift.Int?
@@ -3038,7 +3038,7 @@ extension PutMaintenanceStartTimeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutMaintenanceStartTimeOutput: Swift.Equatable {
+public struct PutMaintenanceStartTimeOutput {
     /// The Amazon Resource Name (ARN) of a gateway for which you set the maintenance start time.
     public var gatewayArn: Swift.String?
 
@@ -3050,7 +3050,7 @@ public struct PutMaintenanceStartTimeOutput: Swift.Equatable {
     }
 }
 
-struct PutMaintenanceStartTimeOutputBody: Swift.Equatable {
+struct PutMaintenanceStartTimeOutputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -3125,7 +3125,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -3165,7 +3165,7 @@ extension StartVirtualMachinesMetadataSyncInput {
     }
 }
 
-public struct StartVirtualMachinesMetadataSyncInput: Swift.Equatable {
+public struct StartVirtualMachinesMetadataSyncInput {
     /// The Amazon Resource Name (ARN) of the hypervisor.
     /// This member is required.
     public var hypervisorArn: Swift.String?
@@ -3178,7 +3178,7 @@ public struct StartVirtualMachinesMetadataSyncInput: Swift.Equatable {
     }
 }
 
-struct StartVirtualMachinesMetadataSyncInputBody: Swift.Equatable {
+struct StartVirtualMachinesMetadataSyncInputBody {
     let hypervisorArn: Swift.String?
 }
 
@@ -3206,7 +3206,7 @@ extension StartVirtualMachinesMetadataSyncOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StartVirtualMachinesMetadataSyncOutput: Swift.Equatable {
+public struct StartVirtualMachinesMetadataSyncOutput {
     /// The Amazon Resource Name (ARN) of the hypervisor.
     public var hypervisorArn: Swift.String?
 
@@ -3218,7 +3218,7 @@ public struct StartVirtualMachinesMetadataSyncOutput: Swift.Equatable {
     }
 }
 
-struct StartVirtualMachinesMetadataSyncOutputBody: Swift.Equatable {
+struct StartVirtualMachinesMetadataSyncOutputBody {
     let hypervisorArn: Swift.String?
 }
 
@@ -3316,7 +3316,7 @@ extension BackupGatewayClientTypes.Tag: Swift.Codable {
 
 extension BackupGatewayClientTypes {
     /// A key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, spaces, and the following characters: + - = . _ : /.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key part of a tag's key-value pair. The key can't start with aws:.
         /// This member is required.
         public var key: Swift.String?
@@ -3363,7 +3363,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to tag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -3381,7 +3381,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [BackupGatewayClientTypes.Tag]?
 }
@@ -3422,7 +3422,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
     /// The Amazon Resource Name (ARN) of the resource you tagged.
     public var resourceARN: Swift.String?
 
@@ -3434,7 +3434,7 @@ public struct TagResourceOutput: Swift.Equatable {
     }
 }
 
-struct TagResourceOutputBody: Swift.Equatable {
+struct TagResourceOutputBody {
     let resourceARN: Swift.String?
 }
 
@@ -3500,7 +3500,7 @@ extension TestHypervisorConfigurationInput {
     }
 }
 
-public struct TestHypervisorConfigurationInput: Swift.Equatable {
+public struct TestHypervisorConfigurationInput {
     /// The Amazon Resource Name (ARN) of the gateway to the hypervisor to test.
     /// This member is required.
     public var gatewayArn: Swift.String?
@@ -3526,7 +3526,7 @@ public struct TestHypervisorConfigurationInput: Swift.Equatable {
     }
 }
 
-struct TestHypervisorConfigurationInputBody: Swift.Equatable {
+struct TestHypervisorConfigurationInputBody {
     let gatewayArn: Swift.String?
     let host: Swift.String?
     let username: Swift.String?
@@ -3559,7 +3559,7 @@ extension TestHypervisorConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestHypervisorConfigurationOutput: Swift.Equatable {
+public struct TestHypervisorConfigurationOutput {
 
     public init() { }
 }
@@ -3624,7 +3624,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -3671,7 +3671,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource from which to remove tags.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -3689,7 +3689,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -3730,7 +3730,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
     /// The Amazon Resource Name (ARN) of the resource from which you removed tags.
     public var resourceARN: Swift.String?
 
@@ -3742,7 +3742,7 @@ public struct UntagResourceOutput: Swift.Equatable {
     }
 }
 
-struct UntagResourceOutputBody: Swift.Equatable {
+struct UntagResourceOutputBody {
     let resourceARN: Swift.String?
 }
 
@@ -3795,7 +3795,7 @@ extension UpdateGatewayInformationInput {
     }
 }
 
-public struct UpdateGatewayInformationInput: Swift.Equatable {
+public struct UpdateGatewayInformationInput {
     /// The Amazon Resource Name (ARN) of the gateway to update.
     /// This member is required.
     public var gatewayArn: Swift.String?
@@ -3812,7 +3812,7 @@ public struct UpdateGatewayInformationInput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewayInformationInputBody: Swift.Equatable {
+struct UpdateGatewayInformationInputBody {
     let gatewayArn: Swift.String?
     let gatewayDisplayName: Swift.String?
 }
@@ -3844,7 +3844,7 @@ extension UpdateGatewayInformationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGatewayInformationOutput: Swift.Equatable {
+public struct UpdateGatewayInformationOutput {
     /// The Amazon Resource Name (ARN) of the gateway you updated.
     public var gatewayArn: Swift.String?
 
@@ -3856,7 +3856,7 @@ public struct UpdateGatewayInformationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewayInformationOutputBody: Swift.Equatable {
+struct UpdateGatewayInformationOutputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -3906,7 +3906,7 @@ extension UpdateGatewaySoftwareNowInput {
     }
 }
 
-public struct UpdateGatewaySoftwareNowInput: Swift.Equatable {
+public struct UpdateGatewaySoftwareNowInput {
     /// The Amazon Resource Name (ARN) of the gateway to be updated.
     /// This member is required.
     public var gatewayArn: Swift.String?
@@ -3919,7 +3919,7 @@ public struct UpdateGatewaySoftwareNowInput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewaySoftwareNowInputBody: Swift.Equatable {
+struct UpdateGatewaySoftwareNowInputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -3947,7 +3947,7 @@ extension UpdateGatewaySoftwareNowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGatewaySoftwareNowOutput: Swift.Equatable {
+public struct UpdateGatewaySoftwareNowOutput {
     /// The Amazon Resource Name (ARN) of the gateway you updated.
     public var gatewayArn: Swift.String?
 
@@ -3959,7 +3959,7 @@ public struct UpdateGatewaySoftwareNowOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGatewaySoftwareNowOutputBody: Swift.Equatable {
+struct UpdateGatewaySoftwareNowOutputBody {
     let gatewayArn: Swift.String?
 }
 
@@ -4033,7 +4033,7 @@ extension UpdateHypervisorInput {
     }
 }
 
-public struct UpdateHypervisorInput: Swift.Equatable {
+public struct UpdateHypervisorInput {
     /// The updated host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN).
     public var host: Swift.String?
     /// The Amazon Resource Name (ARN) of the hypervisor to update.
@@ -4066,7 +4066,7 @@ public struct UpdateHypervisorInput: Swift.Equatable {
     }
 }
 
-struct UpdateHypervisorInputBody: Swift.Equatable {
+struct UpdateHypervisorInputBody {
     let hypervisorArn: Swift.String?
     let host: Swift.String?
     let username: Swift.String?
@@ -4114,7 +4114,7 @@ extension UpdateHypervisorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateHypervisorOutput: Swift.Equatable {
+public struct UpdateHypervisorOutput {
     /// The Amazon Resource Name (ARN) of the hypervisor you updated.
     public var hypervisorArn: Swift.String?
 
@@ -4126,7 +4126,7 @@ public struct UpdateHypervisorOutput: Swift.Equatable {
     }
 }
 
-struct UpdateHypervisorOutputBody: Swift.Equatable {
+struct UpdateHypervisorOutputBody {
     let hypervisorArn: Swift.String?
 }
 
@@ -4202,7 +4202,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -4273,7 +4273,7 @@ extension BackupGatewayClientTypes.VirtualMachine: Swift.Codable {
 
 extension BackupGatewayClientTypes {
     /// A virtual machine that is on a hypervisor.
-    public struct VirtualMachine: Swift.Equatable {
+    public struct VirtualMachine {
         /// The host name of the virtual machine.
         public var hostName: Swift.String?
         /// The ID of the virtual machine's hypervisor.
@@ -4376,7 +4376,7 @@ extension BackupGatewayClientTypes.VirtualMachineDetails: Swift.Codable {
 
 extension BackupGatewayClientTypes {
     /// Your VirtualMachine objects, ordered by their Amazon Resource Names (ARNs).
-    public struct VirtualMachineDetails: Swift.Equatable {
+    public struct VirtualMachineDetails {
         /// The host name of the virtual machine.
         public var hostName: Swift.String?
         /// The ID of the virtual machine's hypervisor.
@@ -4447,7 +4447,7 @@ extension BackupGatewayClientTypes.VmwareTag: Swift.Codable {
 
 extension BackupGatewayClientTypes {
     /// A VMware tag is a tag attached to a specific virtual machine. A [tag](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_Tag.html) is a key-value pair you can use to manage, filter, and search for your resources. The content of VMware tags can be matched to Amazon Web Services tags.
-    public struct VmwareTag: Swift.Equatable {
+    public struct VmwareTag {
         /// The is the category of VMware.
         public var vmwareCategory: Swift.String?
         /// This is a user-defined description of a VMware tag.
@@ -4508,7 +4508,7 @@ extension BackupGatewayClientTypes.VmwareToAwsTagMapping: Swift.Codable {
 
 extension BackupGatewayClientTypes {
     /// This displays the mapping of on-premises VMware tags to the corresponding Amazon Web Services tags.
-    public struct VmwareToAwsTagMapping: Swift.Equatable {
+    public struct VmwareToAwsTagMapping {
         /// The key part of the Amazon Web Services tag's key-value pair.
         /// This member is required.
         public var awsTagKey: Swift.String?

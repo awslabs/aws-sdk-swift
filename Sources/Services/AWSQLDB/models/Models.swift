@@ -15,7 +15,7 @@ extension CancelJournalKinesisStreamInput {
     }
 }
 
-public struct CancelJournalKinesisStreamInput: Swift.Equatable {
+public struct CancelJournalKinesisStreamInput {
     /// The name of the ledger.
     /// This member is required.
     public var ledgerName: Swift.String?
@@ -33,7 +33,7 @@ public struct CancelJournalKinesisStreamInput: Swift.Equatable {
     }
 }
 
-struct CancelJournalKinesisStreamInputBody: Swift.Equatable {
+struct CancelJournalKinesisStreamInputBody {
 }
 
 extension CancelJournalKinesisStreamInputBody: Swift.Decodable {
@@ -54,7 +54,7 @@ extension CancelJournalKinesisStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelJournalKinesisStreamOutput: Swift.Equatable {
+public struct CancelJournalKinesisStreamOutput {
     /// The UUID (Base62-encoded text) of the canceled QLDB journal stream.
     public var streamId: Swift.String?
 
@@ -66,7 +66,7 @@ public struct CancelJournalKinesisStreamOutput: Swift.Equatable {
     }
 }
 
-struct CancelJournalKinesisStreamOutputBody: Swift.Equatable {
+struct CancelJournalKinesisStreamOutputBody {
     let streamId: Swift.String?
 }
 
@@ -138,7 +138,7 @@ extension CreateLedgerInput {
     }
 }
 
-public struct CreateLedgerInput: Swift.Equatable {
+public struct CreateLedgerInput {
     /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public var deletionProtection: Swift.Bool?
     /// The key in Key Management Service (KMS) to use for encryption of data at rest in the ledger. For more information, see [Encryption at rest](https://docs.aws.amazon.com/qldb/latest/developerguide/encryption-at-rest.html) in the Amazon QLDB Developer Guide. Use one of the following options to specify this parameter:
@@ -195,7 +195,7 @@ public struct CreateLedgerInput: Swift.Equatable {
     }
 }
 
-struct CreateLedgerInputBody: Swift.Equatable {
+struct CreateLedgerInputBody {
     let name: Swift.String?
     let tags: [Swift.String:Swift.String?]?
     let permissionsMode: QLDBClientTypes.PermissionsMode?
@@ -258,7 +258,7 @@ extension CreateLedgerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLedgerOutput: Swift.Equatable {
+public struct CreateLedgerOutput {
     /// The Amazon Resource Name (ARN) for the ledger.
     public var arn: Swift.String?
     /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
@@ -294,7 +294,7 @@ public struct CreateLedgerOutput: Swift.Equatable {
     }
 }
 
-struct CreateLedgerOutputBody: Swift.Equatable {
+struct CreateLedgerOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let state: QLDBClientTypes.LedgerState?
@@ -358,7 +358,7 @@ extension DeleteLedgerInput {
     }
 }
 
-public struct DeleteLedgerInput: Swift.Equatable {
+public struct DeleteLedgerInput {
     /// The name of the ledger that you want to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -371,7 +371,7 @@ public struct DeleteLedgerInput: Swift.Equatable {
     }
 }
 
-struct DeleteLedgerInputBody: Swift.Equatable {
+struct DeleteLedgerInputBody {
 }
 
 extension DeleteLedgerInputBody: Swift.Decodable {
@@ -385,7 +385,7 @@ extension DeleteLedgerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLedgerOutput: Swift.Equatable {
+public struct DeleteLedgerOutput {
 
     public init() { }
 }
@@ -417,7 +417,7 @@ extension DescribeJournalKinesisStreamInput {
     }
 }
 
-public struct DescribeJournalKinesisStreamInput: Swift.Equatable {
+public struct DescribeJournalKinesisStreamInput {
     /// The name of the ledger.
     /// This member is required.
     public var ledgerName: Swift.String?
@@ -435,7 +435,7 @@ public struct DescribeJournalKinesisStreamInput: Swift.Equatable {
     }
 }
 
-struct DescribeJournalKinesisStreamInputBody: Swift.Equatable {
+struct DescribeJournalKinesisStreamInputBody {
 }
 
 extension DescribeJournalKinesisStreamInputBody: Swift.Decodable {
@@ -456,7 +456,7 @@ extension DescribeJournalKinesisStreamOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeJournalKinesisStreamOutput: Swift.Equatable {
+public struct DescribeJournalKinesisStreamOutput {
     /// Information about the QLDB journal stream returned by a DescribeJournalS3Export request.
     public var stream: QLDBClientTypes.JournalKinesisStreamDescription?
 
@@ -468,7 +468,7 @@ public struct DescribeJournalKinesisStreamOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJournalKinesisStreamOutputBody: Swift.Equatable {
+struct DescribeJournalKinesisStreamOutputBody {
     let stream: QLDBClientTypes.JournalKinesisStreamDescription?
 }
 
@@ -510,7 +510,7 @@ extension DescribeJournalS3ExportInput {
     }
 }
 
-public struct DescribeJournalS3ExportInput: Swift.Equatable {
+public struct DescribeJournalS3ExportInput {
     /// The UUID (represented in Base62-encoded text) of the journal export job to describe.
     /// This member is required.
     public var exportId: Swift.String?
@@ -528,7 +528,7 @@ public struct DescribeJournalS3ExportInput: Swift.Equatable {
     }
 }
 
-struct DescribeJournalS3ExportInputBody: Swift.Equatable {
+struct DescribeJournalS3ExportInputBody {
 }
 
 extension DescribeJournalS3ExportInputBody: Swift.Decodable {
@@ -549,7 +549,7 @@ extension DescribeJournalS3ExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJournalS3ExportOutput: Swift.Equatable {
+public struct DescribeJournalS3ExportOutput {
     /// Information about the journal export job returned by a DescribeJournalS3Export request.
     /// This member is required.
     public var exportDescription: QLDBClientTypes.JournalS3ExportDescription?
@@ -562,7 +562,7 @@ public struct DescribeJournalS3ExportOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJournalS3ExportOutputBody: Swift.Equatable {
+struct DescribeJournalS3ExportOutputBody {
     let exportDescription: QLDBClientTypes.JournalS3ExportDescription?
 }
 
@@ -599,7 +599,7 @@ extension DescribeLedgerInput {
     }
 }
 
-public struct DescribeLedgerInput: Swift.Equatable {
+public struct DescribeLedgerInput {
     /// The name of the ledger that you want to describe.
     /// This member is required.
     public var name: Swift.String?
@@ -612,7 +612,7 @@ public struct DescribeLedgerInput: Swift.Equatable {
     }
 }
 
-struct DescribeLedgerInputBody: Swift.Equatable {
+struct DescribeLedgerInputBody {
 }
 
 extension DescribeLedgerInputBody: Swift.Decodable {
@@ -645,7 +645,7 @@ extension DescribeLedgerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLedgerOutput: Swift.Equatable {
+public struct DescribeLedgerOutput {
     /// The Amazon Resource Name (ARN) for the ledger.
     public var arn: Swift.String?
     /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
@@ -681,7 +681,7 @@ public struct DescribeLedgerOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLedgerOutputBody: Swift.Equatable {
+struct DescribeLedgerOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let state: QLDBClientTypes.LedgerState?
@@ -839,7 +839,7 @@ extension ExportJournalToS3Input {
     }
 }
 
-public struct ExportJournalToS3Input: Swift.Equatable {
+public struct ExportJournalToS3Input {
     /// The exclusive end date and time for the range of journal contents to export. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The ExclusiveEndTime must be less than or equal to the current UTC date and time.
     /// This member is required.
     public var exclusiveEndTime: ClientRuntime.Date?
@@ -883,7 +883,7 @@ public struct ExportJournalToS3Input: Swift.Equatable {
     }
 }
 
-struct ExportJournalToS3InputBody: Swift.Equatable {
+struct ExportJournalToS3InputBody {
     let inclusiveStartTime: ClientRuntime.Date?
     let exclusiveEndTime: ClientRuntime.Date?
     let s3ExportConfiguration: QLDBClientTypes.S3ExportConfiguration?
@@ -927,7 +927,7 @@ extension ExportJournalToS3Output: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportJournalToS3Output: Swift.Equatable {
+public struct ExportJournalToS3Output {
     /// The UUID (represented in Base62-encoded text) that QLDB assigns to each journal export job. To describe your export request and check the status of the job, you can use ExportId to call DescribeJournalS3Export.
     /// This member is required.
     public var exportId: Swift.String?
@@ -940,7 +940,7 @@ public struct ExportJournalToS3Output: Swift.Equatable {
     }
 }
 
-struct ExportJournalToS3OutputBody: Swift.Equatable {
+struct ExportJournalToS3OutputBody {
     let exportId: Swift.String?
 }
 
@@ -1035,7 +1035,7 @@ extension GetBlockInput {
     }
 }
 
-public struct GetBlockInput: Swift.Equatable {
+public struct GetBlockInput {
     /// The location of the block that you want to request. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}.
     /// This member is required.
     public var blockAddress: QLDBClientTypes.ValueHolder?
@@ -1057,7 +1057,7 @@ public struct GetBlockInput: Swift.Equatable {
     }
 }
 
-struct GetBlockInputBody: Swift.Equatable {
+struct GetBlockInputBody {
     let blockAddress: QLDBClientTypes.ValueHolder?
     let digestTipAddress: QLDBClientTypes.ValueHolder?
 }
@@ -1096,7 +1096,7 @@ extension GetBlockOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBlockOutput: Swift.Equatable {
+public struct GetBlockOutput {
     /// The block data object in Amazon Ion format.
     /// This member is required.
     public var block: QLDBClientTypes.ValueHolder?
@@ -1113,7 +1113,7 @@ public struct GetBlockOutput: Swift.Equatable {
     }
 }
 
-struct GetBlockOutputBody: Swift.Equatable {
+struct GetBlockOutputBody {
     let block: QLDBClientTypes.ValueHolder?
     let proof: QLDBClientTypes.ValueHolder?
 }
@@ -1156,7 +1156,7 @@ extension GetDigestInput {
     }
 }
 
-public struct GetDigestInput: Swift.Equatable {
+public struct GetDigestInput {
     /// The name of the ledger.
     /// This member is required.
     public var name: Swift.String?
@@ -1169,7 +1169,7 @@ public struct GetDigestInput: Swift.Equatable {
     }
 }
 
-struct GetDigestInputBody: Swift.Equatable {
+struct GetDigestInputBody {
 }
 
 extension GetDigestInputBody: Swift.Decodable {
@@ -1197,7 +1197,7 @@ extension GetDigestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDigestOutput: Swift.Equatable {
+public struct GetDigestOutput {
     /// The 256-bit hash value representing the digest returned by a GetDigest request.
     /// This member is required.
     public var digest: ClientRuntime.Data?
@@ -1215,7 +1215,7 @@ public struct GetDigestOutput: Swift.Equatable {
     }
 }
 
-struct GetDigestOutputBody: Swift.Equatable {
+struct GetDigestOutputBody {
     let digest: ClientRuntime.Data?
     let digestTipAddress: QLDBClientTypes.ValueHolder?
 }
@@ -1284,7 +1284,7 @@ extension GetRevisionInput {
     }
 }
 
-public struct GetRevisionInput: Swift.Equatable {
+public struct GetRevisionInput {
     /// The block location of the document revision to be verified. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}.
     /// This member is required.
     public var blockAddress: QLDBClientTypes.ValueHolder?
@@ -1311,7 +1311,7 @@ public struct GetRevisionInput: Swift.Equatable {
     }
 }
 
-struct GetRevisionInputBody: Swift.Equatable {
+struct GetRevisionInputBody {
     let blockAddress: QLDBClientTypes.ValueHolder?
     let documentId: Swift.String?
     let digestTipAddress: QLDBClientTypes.ValueHolder?
@@ -1354,7 +1354,7 @@ extension GetRevisionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRevisionOutput: Swift.Equatable {
+public struct GetRevisionOutput {
     /// The proof object in Amazon Ion format returned by a GetRevision request. A proof contains the list of hash values that are required to recalculate the specified digest using a Merkle tree, starting with the specified document revision.
     public var proof: QLDBClientTypes.ValueHolder?
     /// The document revision data object in Amazon Ion format.
@@ -1371,7 +1371,7 @@ public struct GetRevisionOutput: Swift.Equatable {
     }
 }
 
-struct GetRevisionOutputBody: Swift.Equatable {
+struct GetRevisionOutputBody {
     let proof: QLDBClientTypes.ValueHolder?
     let revision: QLDBClientTypes.ValueHolder?
 }
@@ -1449,7 +1449,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
     let parameterName: Swift.String?
 }
@@ -1550,7 +1550,7 @@ extension QLDBClientTypes.JournalKinesisStreamDescription: Swift.Codable {
 
 extension QLDBClientTypes {
     /// Information about an Amazon QLDB journal stream, including the Amazon Resource Name (ARN), stream name, creation time, current status, and the parameters of the original stream creation request.
-    public struct JournalKinesisStreamDescription: Swift.Equatable {
+    public struct JournalKinesisStreamDescription {
         /// The Amazon Resource Name (ARN) of the QLDB journal stream.
         public var arn: Swift.String?
         /// The date and time, in epoch time format, when the QLDB journal stream was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
@@ -1679,7 +1679,7 @@ extension QLDBClientTypes.JournalS3ExportDescription: Swift.Codable {
 
 extension QLDBClientTypes {
     /// Information about a journal export job, including the ledger name, export ID, creation time, current status, and the parameters of the original export creation request.
-    public struct JournalS3ExportDescription: Swift.Equatable {
+    public struct JournalS3ExportDescription {
         /// The exclusive end date and time for the range of journal contents that was specified in the original export request.
         /// This member is required.
         public var exclusiveEndTime: ClientRuntime.Date?
@@ -1764,7 +1764,7 @@ extension QLDBClientTypes.KinesisConfiguration: Swift.Codable {
 
 extension QLDBClientTypes {
     /// The configuration settings of the Amazon Kinesis Data Streams destination for an Amazon QLDB journal stream.
-    public struct KinesisConfiguration: Swift.Equatable {
+    public struct KinesisConfiguration {
         /// Enables QLDB to publish multiple data records in a single Kinesis Data Streams record, increasing the number of records sent per API call. Default: True Record aggregation has important implications for processing records and requires de-aggregation in your stream consumer. To learn more, see [KPL Key Concepts](https://docs.aws.amazon.com/streams/latest/dev/kinesis-kpl-concepts.html) and [Consumer De-aggregation](https://docs.aws.amazon.com/streams/latest/dev/kinesis-kpl-consumer-deaggregation.html) in the Amazon Kinesis Data Streams Developer Guide.
         public var aggregationEnabled: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the Kinesis Data Streams resource.
@@ -1816,7 +1816,7 @@ extension QLDBClientTypes.LedgerEncryptionDescription: Swift.Codable {
 
 extension QLDBClientTypes {
     /// Information about the encryption of data at rest in an Amazon QLDB ledger. This includes the current status, the key in Key Management Service (KMS), and when the key became inaccessible (in the case of an error). For more information, see [Encryption at rest](https://docs.aws.amazon.com/qldb/latest/developerguide/encryption-at-rest.html) in the Amazon QLDB Developer Guide.
-    public struct LedgerEncryptionDescription: Swift.Equatable {
+    public struct LedgerEncryptionDescription {
         /// The current state of encryption at rest for the ledger. This can be one of the following values:
         ///
         /// * ENABLED: Encryption is fully enabled using the specified key.
@@ -1917,7 +1917,7 @@ extension QLDBClientTypes.LedgerSummary: Swift.Codable {
 
 extension QLDBClientTypes {
     /// Information about a ledger, including its name, state, and when it was created.
-    public struct LedgerSummary: Swift.Equatable {
+    public struct LedgerSummary {
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
         public var creationDateTime: ClientRuntime.Date?
         /// The name of the ledger.
@@ -1984,7 +1984,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -2030,7 +2030,7 @@ extension ListJournalKinesisStreamsForLedgerInput {
     }
 }
 
-public struct ListJournalKinesisStreamsForLedgerInput: Swift.Equatable {
+public struct ListJournalKinesisStreamsForLedgerInput {
     /// The name of the ledger.
     /// This member is required.
     public var ledgerName: Swift.String?
@@ -2051,7 +2051,7 @@ public struct ListJournalKinesisStreamsForLedgerInput: Swift.Equatable {
     }
 }
 
-struct ListJournalKinesisStreamsForLedgerInputBody: Swift.Equatable {
+struct ListJournalKinesisStreamsForLedgerInputBody {
 }
 
 extension ListJournalKinesisStreamsForLedgerInputBody: Swift.Decodable {
@@ -2074,7 +2074,7 @@ extension ListJournalKinesisStreamsForLedgerOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListJournalKinesisStreamsForLedgerOutput: Swift.Equatable {
+public struct ListJournalKinesisStreamsForLedgerOutput {
     /// * If NextToken is empty, the last page of results has been processed and there are no more results to be retrieved.
     ///
     /// * If NextToken is not empty, more results are available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalKinesisStreamsForLedger call.
@@ -2092,7 +2092,7 @@ public struct ListJournalKinesisStreamsForLedgerOutput: Swift.Equatable {
     }
 }
 
-struct ListJournalKinesisStreamsForLedgerOutputBody: Swift.Equatable {
+struct ListJournalKinesisStreamsForLedgerOutputBody {
     let streams: [QLDBClientTypes.JournalKinesisStreamDescription]?
     let nextToken: Swift.String?
 }
@@ -2160,7 +2160,7 @@ extension ListJournalS3ExportsForLedgerInput {
     }
 }
 
-public struct ListJournalS3ExportsForLedgerInput: Swift.Equatable {
+public struct ListJournalS3ExportsForLedgerInput {
     /// The maximum number of results to return in a single ListJournalS3ExportsForLedger request. (The actual number of results returned might be fewer.)
     public var maxResults: Swift.Int?
     /// The name of the ledger.
@@ -2181,7 +2181,7 @@ public struct ListJournalS3ExportsForLedgerInput: Swift.Equatable {
     }
 }
 
-struct ListJournalS3ExportsForLedgerInputBody: Swift.Equatable {
+struct ListJournalS3ExportsForLedgerInputBody {
 }
 
 extension ListJournalS3ExportsForLedgerInputBody: Swift.Decodable {
@@ -2204,7 +2204,7 @@ extension ListJournalS3ExportsForLedgerOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListJournalS3ExportsForLedgerOutput: Swift.Equatable {
+public struct ListJournalS3ExportsForLedgerOutput {
     /// The journal export jobs that are currently associated with the specified ledger.
     public var journalS3Exports: [QLDBClientTypes.JournalS3ExportDescription]?
     /// * If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.
@@ -2222,7 +2222,7 @@ public struct ListJournalS3ExportsForLedgerOutput: Swift.Equatable {
     }
 }
 
-struct ListJournalS3ExportsForLedgerOutputBody: Swift.Equatable {
+struct ListJournalS3ExportsForLedgerOutputBody {
     let journalS3Exports: [QLDBClientTypes.JournalS3ExportDescription]?
     let nextToken: Swift.String?
 }
@@ -2284,7 +2284,7 @@ extension ListJournalS3ExportsInput {
     }
 }
 
-public struct ListJournalS3ExportsInput: Swift.Equatable {
+public struct ListJournalS3ExportsInput {
     /// The maximum number of results to return in a single ListJournalS3Exports request. (The actual number of results returned might be fewer.)
     public var maxResults: Swift.Int?
     /// A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListJournalS3Exports call, then you should use that value as input here.
@@ -2300,7 +2300,7 @@ public struct ListJournalS3ExportsInput: Swift.Equatable {
     }
 }
 
-struct ListJournalS3ExportsInputBody: Swift.Equatable {
+struct ListJournalS3ExportsInputBody {
 }
 
 extension ListJournalS3ExportsInputBody: Swift.Decodable {
@@ -2323,7 +2323,7 @@ extension ListJournalS3ExportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJournalS3ExportsOutput: Swift.Equatable {
+public struct ListJournalS3ExportsOutput {
     /// The journal export jobs for all ledgers that are associated with the current Amazon Web Services account and Region.
     public var journalS3Exports: [QLDBClientTypes.JournalS3ExportDescription]?
     /// * If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.
@@ -2341,7 +2341,7 @@ public struct ListJournalS3ExportsOutput: Swift.Equatable {
     }
 }
 
-struct ListJournalS3ExportsOutputBody: Swift.Equatable {
+struct ListJournalS3ExportsOutputBody {
     let journalS3Exports: [QLDBClientTypes.JournalS3ExportDescription]?
     let nextToken: Swift.String?
 }
@@ -2403,7 +2403,7 @@ extension ListLedgersInput {
     }
 }
 
-public struct ListLedgersInput: Swift.Equatable {
+public struct ListLedgersInput {
     /// The maximum number of results to return in a single ListLedgers request. (The actual number of results returned might be fewer.)
     public var maxResults: Swift.Int?
     /// A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListLedgers call, then you should use that value as input here.
@@ -2419,7 +2419,7 @@ public struct ListLedgersInput: Swift.Equatable {
     }
 }
 
-struct ListLedgersInputBody: Swift.Equatable {
+struct ListLedgersInputBody {
 }
 
 extension ListLedgersInputBody: Swift.Decodable {
@@ -2442,7 +2442,7 @@ extension ListLedgersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLedgersOutput: Swift.Equatable {
+public struct ListLedgersOutput {
     /// The ledgers that are associated with the current Amazon Web Services account and Region.
     public var ledgers: [QLDBClientTypes.LedgerSummary]?
     /// A pagination token, indicating whether there are more results available:
@@ -2462,7 +2462,7 @@ public struct ListLedgersOutput: Swift.Equatable {
     }
 }
 
-struct ListLedgersOutputBody: Swift.Equatable {
+struct ListLedgersOutputBody {
     let ledgers: [QLDBClientTypes.LedgerSummary]?
     let nextToken: Swift.String?
 }
@@ -2511,7 +2511,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) for which to list the tags. For example: arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2524,7 +2524,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2545,7 +2545,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags that are currently associated with the specified Amazon QLDB resource.
     public var tags: [Swift.String:Swift.String?]?
 
@@ -2557,7 +2557,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String?]?
 }
 
@@ -2712,7 +2712,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
     let resourceName: Swift.String?
@@ -2787,7 +2787,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
     let resourceName: Swift.String?
@@ -2862,7 +2862,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
     let resourceName: Swift.String?
@@ -2937,7 +2937,7 @@ public struct ResourcePreconditionNotMetException: ClientRuntime.ModeledError, A
     }
 }
 
-struct ResourcePreconditionNotMetExceptionBody: Swift.Equatable {
+struct ResourcePreconditionNotMetExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
     let resourceName: Swift.String?
@@ -2988,7 +2988,7 @@ extension QLDBClientTypes.S3EncryptionConfiguration: Swift.Codable {
 
 extension QLDBClientTypes {
     /// The encryption settings that are used by a journal export job to write data in an Amazon Simple Storage Service (Amazon S3) bucket.
-    public struct S3EncryptionConfiguration: Swift.Equatable {
+    public struct S3EncryptionConfiguration {
         /// The Amazon Resource Name (ARN) of a symmetric encryption key in Key Management Service (KMS). Amazon S3 does not support asymmetric KMS keys. You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType. KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
         public var kmsKeyArn: Swift.String?
         /// The Amazon S3 object encryption type. To learn more about server-side encryption options in Amazon S3, see [Protecting Data Using Server-Side Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html) in the Amazon S3 Developer Guide.
@@ -3040,7 +3040,7 @@ extension QLDBClientTypes.S3ExportConfiguration: Swift.Codable {
 
 extension QLDBClientTypes {
     /// The Amazon Simple Storage Service (Amazon S3) bucket location in which a journal export job writes the journal contents.
-    public struct S3ExportConfiguration: Swift.Equatable {
+    public struct S3ExportConfiguration {
         /// The Amazon S3 bucket name in which a journal export job writes the journal contents. The bucket name must comply with the Amazon S3 bucket naming conventions. For more information, see [Bucket Restrictions and Limitations](https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html) in the Amazon S3 Developer Guide.
         /// This member is required.
         public var bucket: Swift.String?
@@ -3156,7 +3156,7 @@ extension StreamJournalToKinesisInput {
     }
 }
 
-public struct StreamJournalToKinesisInput: Swift.Equatable {
+public struct StreamJournalToKinesisInput {
     /// The exclusive date and time that specifies when the stream ends. If you don't define this parameter, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z.
     public var exclusiveEndTime: ClientRuntime.Date?
     /// The inclusive start date and time from which to start streaming journal data. This parameter must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The InclusiveStartTime cannot be in the future and must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, QLDB effectively defaults it to the ledger's CreationDateTime.
@@ -3197,7 +3197,7 @@ public struct StreamJournalToKinesisInput: Swift.Equatable {
     }
 }
 
-struct StreamJournalToKinesisInputBody: Swift.Equatable {
+struct StreamJournalToKinesisInputBody {
     let roleArn: Swift.String?
     let tags: [Swift.String:Swift.String?]?
     let inclusiveStartTime: ClientRuntime.Date?
@@ -3252,7 +3252,7 @@ extension StreamJournalToKinesisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StreamJournalToKinesisOutput: Swift.Equatable {
+public struct StreamJournalToKinesisOutput {
     /// The UUID (represented in Base62-encoded text) that QLDB assigns to each QLDB journal stream.
     public var streamId: Swift.String?
 
@@ -3264,7 +3264,7 @@ public struct StreamJournalToKinesisOutput: Swift.Equatable {
     }
 }
 
-struct StreamJournalToKinesisOutputBody: Swift.Equatable {
+struct StreamJournalToKinesisOutputBody {
     let streamId: Swift.String?
 }
 
@@ -3364,7 +3364,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) to which you want to add the tags. For example: arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3382,7 +3382,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String?]?
 }
 
@@ -3410,7 +3410,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3453,7 +3453,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) from which to remove the tags. For example: arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3471,7 +3471,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -3485,7 +3485,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3529,7 +3529,7 @@ extension UpdateLedgerInput {
     }
 }
 
-public struct UpdateLedgerInput: Swift.Equatable {
+public struct UpdateLedgerInput {
     /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public var deletionProtection: Swift.Bool?
     /// The key in Key Management Service (KMS) to use for encryption of data at rest in the ledger. For more information, see [Encryption at rest](https://docs.aws.amazon.com/qldb/latest/developerguide/encryption-at-rest.html) in the Amazon QLDB Developer Guide. Use one of the following options to specify this parameter:
@@ -3570,7 +3570,7 @@ public struct UpdateLedgerInput: Swift.Equatable {
     }
 }
 
-struct UpdateLedgerInputBody: Swift.Equatable {
+struct UpdateLedgerInputBody {
     let deletionProtection: Swift.Bool?
     let kmsKey: Swift.String?
 }
@@ -3612,7 +3612,7 @@ extension UpdateLedgerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLedgerOutput: Swift.Equatable {
+public struct UpdateLedgerOutput {
     /// The Amazon Resource Name (ARN) for the ledger.
     public var arn: Swift.String?
     /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
@@ -3644,7 +3644,7 @@ public struct UpdateLedgerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLedgerOutputBody: Swift.Equatable {
+struct UpdateLedgerOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let state: QLDBClientTypes.LedgerState?
@@ -3715,7 +3715,7 @@ extension UpdateLedgerPermissionsModeInput {
     }
 }
 
-public struct UpdateLedgerPermissionsModeInput: Swift.Equatable {
+public struct UpdateLedgerPermissionsModeInput {
     /// The name of the ledger.
     /// This member is required.
     public var name: Swift.String?
@@ -3740,7 +3740,7 @@ public struct UpdateLedgerPermissionsModeInput: Swift.Equatable {
     }
 }
 
-struct UpdateLedgerPermissionsModeInputBody: Swift.Equatable {
+struct UpdateLedgerPermissionsModeInputBody {
     let permissionsMode: QLDBClientTypes.PermissionsMode?
 }
 
@@ -3772,7 +3772,7 @@ extension UpdateLedgerPermissionsModeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLedgerPermissionsModeOutput: Swift.Equatable {
+public struct UpdateLedgerPermissionsModeOutput {
     /// The Amazon Resource Name (ARN) for the ledger.
     public var arn: Swift.String?
     /// The name of the ledger.
@@ -3792,7 +3792,7 @@ public struct UpdateLedgerPermissionsModeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLedgerPermissionsModeOutputBody: Swift.Equatable {
+struct UpdateLedgerPermissionsModeOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let permissionsMode: QLDBClientTypes.PermissionsMode?
@@ -3855,7 +3855,7 @@ extension QLDBClientTypes.ValueHolder: Swift.CustomDebugStringConvertible {
 
 extension QLDBClientTypes {
     /// A structure that can contain a value in multiple encoding formats.
-    public struct ValueHolder: Swift.Equatable {
+    public struct ValueHolder {
         /// An Amazon Ion plaintext value contained in a ValueHolder structure.
         public var ionText: Swift.String?
 

@@ -47,7 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -94,7 +94,7 @@ extension QuickSightClientTypes.AccountCustomization: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The Amazon QuickSight customizations associated with your Amazon Web Services account or a QuickSight namespace in a specific Amazon Web Services Region.
-    public struct AccountCustomization: Swift.Equatable {
+    public struct AccountCustomization {
         /// The default email customization template.
         public var defaultEmailCustomizationTemplate: Swift.String?
         /// The default theme for this Amazon QuickSight subscription.
@@ -173,7 +173,7 @@ extension QuickSightClientTypes {
     /// * The authentication type of the Amazon QuickSight account.
     ///
     /// * The status of the Amazon QuickSight account's subscription.
-    public struct AccountInfo: Swift.Equatable {
+    public struct AccountInfo {
         /// The account name that you provided for the Amazon QuickSight subscription in your Amazon Web Services account. You create this name when you sign up for Amazon QuickSight. It's unique over all of Amazon Web Services, and it appears only when users sign in.
         public var accountName: Swift.String?
         /// The status of your account subscription.
@@ -258,7 +258,7 @@ extension QuickSightClientTypes.AccountSettings: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The Amazon QuickSight settings associated with your Amazon Web Services account.
-    public struct AccountSettings: Swift.Equatable {
+    public struct AccountSettings {
         /// The "account name" you provided for the Amazon QuickSight subscription in your Amazon Web Services account. You create this name when you sign up for Amazon QuickSight. It is unique in all of Amazon Web Services and it appears only when users sign in.
         public var accountName: Swift.String?
         /// The default Amazon QuickSight namespace for your Amazon Web Services account.
@@ -319,7 +319,7 @@ extension QuickSightClientTypes.ActiveIAMPolicyAssignment: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The active Identity and Access Management (IAM) policy assignment.
-    public struct ActiveIAMPolicyAssignment: Swift.Equatable {
+    public struct ActiveIAMPolicyAssignment {
         /// A name for the IAM policy assignment.
         public var assignmentName: Swift.String?
         /// The Amazon Resource Name (ARN) of the resource.
@@ -358,7 +358,7 @@ extension QuickSightClientTypes.AdHocFilteringOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An ad hoc (one-time) filtering option.
-    public struct AdHocFilteringOption: Swift.Equatable {
+    public struct AdHocFilteringOption {
         /// Availability status.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
@@ -411,7 +411,7 @@ extension QuickSightClientTypes.AggregationFunction: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An aggregation function aggregates values from a dimension or measure. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct AggregationFunction: Swift.Equatable {
+    public struct AggregationFunction {
         /// Aggregation for attributes.
         public var attributeAggregationFunction: QuickSightClientTypes.AttributeAggregationFunction?
         /// Aggregation for categorical values.
@@ -482,7 +482,7 @@ extension QuickSightClientTypes.AggregationSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration options to sort aggregated values.
-    public struct AggregationSortConfiguration: Swift.Equatable {
+    public struct AggregationSortConfiguration {
         /// The function that aggregates the values in Column.
         public var aggregationFunction: QuickSightClientTypes.AggregationFunction?
         /// The column that determines the sort order of aggregated values.
@@ -523,7 +523,7 @@ extension QuickSightClientTypes.AllSheetsFilterScopeConfiguration: Swift.Codable
 
 extension QuickSightClientTypes {
     /// An empty object that represents that the AllSheets option is the chosen value for the FilterScopeConfiguration parameter. This structure applies the filter to all visuals on all sheets of an Analysis, Dashboard, or Template. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct AllSheetsFilterScopeConfiguration: Swift.Equatable {
+    public struct AllSheetsFilterScopeConfiguration {
 
         public init() { }
     }
@@ -551,7 +551,7 @@ extension QuickSightClientTypes.AmazonElasticsearchParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for OpenSearch.
-    public struct AmazonElasticsearchParameters: Swift.Equatable {
+    public struct AmazonElasticsearchParameters {
         /// The OpenSearch domain.
         /// This member is required.
         public var domain: Swift.String?
@@ -587,7 +587,7 @@ extension QuickSightClientTypes.AmazonOpenSearchParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for OpenSearch.
-    public struct AmazonOpenSearchParameters: Swift.Equatable {
+    public struct AmazonOpenSearchParameters {
         /// The OpenSearch domain.
         /// This member is required.
         public var domain: Swift.String?
@@ -713,7 +713,7 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Metadata structure for an analysis in Amazon QuickSight
-    public struct Analysis: Swift.Equatable {
+    public struct Analysis {
         /// The ID of the analysis.
         public var analysisId: Swift.String?
         /// The Amazon Resource Name (ARN) of the analysis.
@@ -784,7 +784,7 @@ extension QuickSightClientTypes.AnalysisDefaults: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration for default analysis settings.
-    public struct AnalysisDefaults: Swift.Equatable {
+    public struct AnalysisDefaults {
         /// The configuration for default new sheet settings.
         /// This member is required.
         public var defaultNewSheetConfiguration: QuickSightClientTypes.DefaultNewSheetConfiguration?
@@ -934,7 +934,7 @@ extension QuickSightClientTypes.AnalysisDefinition: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The definition of an analysis.
-    public struct AnalysisDefinition: Swift.Equatable {
+    public struct AnalysisDefinition {
         /// The configuration for default analysis settings.
         public var analysisDefaults: QuickSightClientTypes.AnalysisDefaults?
         /// An array of calculated field definitions for the analysis.
@@ -1022,7 +1022,7 @@ extension QuickSightClientTypes.AnalysisError: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Analysis error.
-    public struct AnalysisError: Swift.Equatable {
+    public struct AnalysisError {
         /// The message associated with the analysis error.
         public var message: Swift.String?
         /// The type of the analysis error.
@@ -1180,7 +1180,7 @@ extension QuickSightClientTypes.AnalysisSearchFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A filter that you apply when searching for one or more analyses.
-    public struct AnalysisSearchFilter: Swift.Equatable {
+    public struct AnalysisSearchFilter {
         /// The name of the value that you want to use as a filter, for example "Name": "QUICKSIGHT_OWNER". Valid values are defined as follows:
         ///
         /// * QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as one of the analysis' owners or viewers are returned. Implicit permissions from folders or groups are considered.
@@ -1235,7 +1235,7 @@ extension QuickSightClientTypes.AnalysisSourceEntity: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The source entity of an analysis.
-    public struct AnalysisSourceEntity: Swift.Equatable {
+    public struct AnalysisSourceEntity {
         /// The source template for the source entity of the analysis.
         public var sourceTemplate: QuickSightClientTypes.AnalysisSourceTemplate?
 
@@ -1288,7 +1288,7 @@ extension QuickSightClientTypes.AnalysisSourceTemplate: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The source template of an analysis.
-    public struct AnalysisSourceTemplate: Swift.Equatable {
+    public struct AnalysisSourceTemplate {
         /// The Amazon Resource Name (ARN) of the source template of an analysis.
         /// This member is required.
         public var arn: Swift.String?
@@ -1359,7 +1359,7 @@ extension QuickSightClientTypes.AnalysisSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The summary metadata that describes an analysis.
-    public struct AnalysisSummary: Swift.Equatable {
+    public struct AnalysisSummary {
         /// The ID of the analysis. This ID displays in the URL.
         public var analysisId: Swift.String?
         /// The Amazon Resource Name (ARN) for the analysis.
@@ -1420,7 +1420,7 @@ extension QuickSightClientTypes.AnchorDateConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The date configuration of the filter.
-    public struct AnchorDateConfiguration: Swift.Equatable {
+    public struct AnchorDateConfiguration {
         /// The options for the date configuration. Choose one of the options below:
         ///
         /// * NOW
@@ -1490,7 +1490,7 @@ extension QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfiguration: Sw
 
 extension QuickSightClientTypes {
     /// Information about the dashboard that you want to embed.
-    public struct AnonymousUserDashboardEmbeddingConfiguration: Swift.Equatable {
+    public struct AnonymousUserDashboardEmbeddingConfiguration {
         /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         /// This member is required.
         public var initialDashboardId: Swift.String?
@@ -1526,7 +1526,7 @@ extension QuickSightClientTypes.AnonymousUserDashboardVisualEmbeddingConfigurati
 
 extension QuickSightClientTypes {
     /// The experience that you are embedding. You can use this object to generate a url that embeds a visual into your application.
-    public struct AnonymousUserDashboardVisualEmbeddingConfiguration: Swift.Equatable {
+    public struct AnonymousUserDashboardVisualEmbeddingConfiguration {
         /// The visual ID for the visual that you want the user to see. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         /// This member is required.
         public var initialDashboardVisualId: QuickSightClientTypes.DashboardVisualId?
@@ -1574,7 +1574,7 @@ extension QuickSightClientTypes.AnonymousUserEmbeddingExperienceConfiguration: S
 
 extension QuickSightClientTypes {
     /// The type of experience you want to embed. For anonymous users, you can embed Amazon QuickSight dashboards.
-    public struct AnonymousUserEmbeddingExperienceConfiguration: Swift.Equatable {
+    public struct AnonymousUserEmbeddingExperienceConfiguration {
         /// The type of embedding experience. In this case, Amazon QuickSight dashboards.
         public var dashboard: QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfiguration?
         /// The type of embedding experience. In this case, Amazon QuickSight visuals.
@@ -1617,7 +1617,7 @@ extension QuickSightClientTypes.AnonymousUserQSearchBarEmbeddingConfiguration: S
 
 extension QuickSightClientTypes {
     /// The settings that you want to use with the Q search bar.
-    public struct AnonymousUserQSearchBarEmbeddingConfiguration: Swift.Equatable {
+    public struct AnonymousUserQSearchBarEmbeddingConfiguration {
         /// The QuickSight Q topic ID of the topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Q search bar with this topic pre-selected. The Amazon Resource Name (ARN) of this Q topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         /// This member is required.
         public var initialTopicId: Swift.String?
@@ -1665,7 +1665,7 @@ extension QuickSightClientTypes.AnonymousUserSnapshotJobResult: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that contains the file groups that are requested for the artifact generation in a StartDashboardSnapshotJob API call.
-    public struct AnonymousUserSnapshotJobResult: Swift.Equatable {
+    public struct AnonymousUserSnapshotJobResult {
         /// A list of SnapshotJobResultFileGroup objects that contain information on the files that are requested during a StartDashboardSnapshotJob API call. If the job succeeds, these objects contain the location where the snapshot artifacts are stored. If the job fails, the objects contain information about the error that caused the job to fail.
         public var fileGroups: [QuickSightClientTypes.SnapshotJobResultFileGroup]?
 
@@ -1706,7 +1706,7 @@ extension QuickSightClientTypes.ArcAxisConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The arc axis configuration of a GaugeChartVisual.
-    public struct ArcAxisConfiguration: Swift.Equatable {
+    public struct ArcAxisConfiguration {
         /// The arc axis range of a GaugeChartVisual.
         public var range: QuickSightClientTypes.ArcAxisDisplayRange?
         /// The reserved range of the arc axis.
@@ -1751,7 +1751,7 @@ extension QuickSightClientTypes.ArcAxisDisplayRange: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The arc axis range of a GaugeChartVisual.
-    public struct ArcAxisDisplayRange: Swift.Equatable {
+    public struct ArcAxisDisplayRange {
         /// The maximum value of the arc axis range.
         public var max: Swift.Double?
         /// The minimum value of the arc axis range.
@@ -1796,7 +1796,7 @@ extension QuickSightClientTypes.ArcConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The arc configuration of a GaugeChartVisual.
-    public struct ArcConfiguration: Swift.Equatable {
+    public struct ArcConfiguration {
         /// The option that determines the arc angle of a GaugeChartVisual.
         public var arcAngle: Swift.Double?
         /// The options that determine the arc thickness of a GaugeChartVisual.
@@ -1835,7 +1835,7 @@ extension QuickSightClientTypes.ArcOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the arc thickness of a GaugeChartVisual.
-    public struct ArcOptions: Swift.Equatable {
+    public struct ArcOptions {
         /// The arc thickness of a GaugeChartVisual.
         public var arcThickness: QuickSightClientTypes.ArcThickness?
 
@@ -2069,7 +2069,7 @@ extension QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfigu
 
 extension QuickSightClientTypes {
     /// An optional collection of CloudFormation property configurations that control how the export job is generated.
-    public struct AssetBundleCloudFormationOverridePropertyConfiguration: Swift.Equatable {
+    public struct AssetBundleCloudFormationOverridePropertyConfiguration {
         /// An optional list of structures that control how Analysis resources are parameterized in the returned CloudFormation template.
         public var analyses: [QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties]?
         /// An optional list of structures that control how Dashboard resources are parameterized in the returned CloudFormation template.
@@ -2182,7 +2182,7 @@ extension QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties: 
 
 extension QuickSightClientTypes {
     /// Controls how a specific Analysis resource is parameterized in the returned CloudFormation template.
-    public struct AssetBundleExportJobAnalysisOverrideProperties: Swift.Equatable {
+    public struct AssetBundleExportJobAnalysisOverrideProperties {
         /// The ARN of the specific Analysis resource whose override properties are configured in this structure.
         /// This member is required.
         public var arn: Swift.String?
@@ -2270,7 +2270,7 @@ extension QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties:
 
 extension QuickSightClientTypes {
     /// Controls how a specific Dashboard resource is parameterized in the returned CloudFormation template.
-    public struct AssetBundleExportJobDashboardOverrideProperties: Swift.Equatable {
+    public struct AssetBundleExportJobDashboardOverrideProperties {
         /// The ARN of the specific Dashboard resource whose override properties are configured in this structure.
         /// This member is required.
         public var arn: Swift.String?
@@ -2358,7 +2358,7 @@ extension QuickSightClientTypes.AssetBundleExportJobDataSetOverrideProperties: S
 
 extension QuickSightClientTypes {
     /// Controls how a specific DataSet resource is parameterized in the returned CloudFormation template.
-    public struct AssetBundleExportJobDataSetOverrideProperties: Swift.Equatable {
+    public struct AssetBundleExportJobDataSetOverrideProperties {
         /// The ARN of the specific DataSet resource whose override properties are configured in this structure.
         /// This member is required.
         public var arn: Swift.String?
@@ -2446,7 +2446,7 @@ extension QuickSightClientTypes.AssetBundleExportJobDataSourceOverrideProperties
 
 extension QuickSightClientTypes {
     /// Controls how a specific DataSource resource is parameterized in the returned CloudFormation template.
-    public struct AssetBundleExportJobDataSourceOverrideProperties: Swift.Equatable {
+    public struct AssetBundleExportJobDataSourceOverrideProperties {
         /// The ARN of the specific DataSource resource whose override properties are configured in this structure.
         /// This member is required.
         public var arn: Swift.String?
@@ -2579,7 +2579,7 @@ extension QuickSightClientTypes.AssetBundleExportJobError: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Describes an error that occurred during an Asset Bundle export job.
-    public struct AssetBundleExportJobError: Swift.Equatable {
+    public struct AssetBundleExportJobError {
         /// The ARN of the resource whose processing caused an error.
         public var arn: Swift.String?
         /// A description of the error.
@@ -2640,7 +2640,7 @@ extension QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverridePrope
 
 extension QuickSightClientTypes {
     /// Controls how a specific RefreshSchedule resource is parameterized in the returned CloudFormation template.
-    public struct AssetBundleExportJobRefreshScheduleOverrideProperties: Swift.Equatable {
+    public struct AssetBundleExportJobRefreshScheduleOverrideProperties {
         /// The ARN of the specific RefreshSchedule resource whose override properties are configured in this structure.
         /// This member is required.
         public var arn: Swift.String?
@@ -2710,7 +2710,7 @@ extension QuickSightClientTypes.AssetBundleExportJobResourceIdOverrideConfigurat
 
 extension QuickSightClientTypes {
     /// An optional structure that configures resource ID overrides for the export job.
-    public struct AssetBundleExportJobResourceIdOverrideConfiguration: Swift.Equatable {
+    public struct AssetBundleExportJobResourceIdOverrideConfiguration {
         /// An option to request a CloudFormation variable for a prefix to be prepended to each resource's ID before import. The prefix is only added to the asset IDs and does not change the name of the asset.
         public var prefixForAllResources: Swift.Bool
 
@@ -2825,7 +2825,7 @@ extension QuickSightClientTypes.AssetBundleExportJobSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A summary of the export job that includes details of the job's configuration and its current status.
-    public struct AssetBundleExportJobSummary: Swift.Equatable {
+    public struct AssetBundleExportJobSummary {
         /// The ARN of the export job.
         public var arn: Swift.String?
         /// The ID of the export job.
@@ -2906,7 +2906,7 @@ extension QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties: Swi
 
 extension QuickSightClientTypes {
     /// Controls how a specific Theme resource is parameterized in the returned CloudFormation template.
-    public struct AssetBundleExportJobThemeOverrideProperties: Swift.Equatable {
+    public struct AssetBundleExportJobThemeOverrideProperties {
         /// The ARN of the specific Theme resource whose override properties are configured in this structure.
         /// This member is required.
         public var arn: Swift.String?
@@ -2994,7 +2994,7 @@ extension QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverridePropert
 
 extension QuickSightClientTypes {
     /// Controls how a specific VPCConnection resource is parameterized in the outputted CloudFormation template.
-    public struct AssetBundleExportJobVPCConnectionOverrideProperties: Swift.Equatable {
+    public struct AssetBundleExportJobVPCConnectionOverrideProperties {
         /// The ARN of the specific VPCConnection resource whose override properties are configured in this structure.
         /// This member is required.
         public var arn: Swift.String?
@@ -3070,7 +3070,7 @@ extension QuickSightClientTypes.AssetBundleExportJobValidationStrategy: Swift.Co
 
 extension QuickSightClientTypes {
     /// The option to relax the validation that is required to export each asset. When StrictModeForAllResource is set to false, validation is skipped for specific UI errors.
-    public struct AssetBundleExportJobValidationStrategy: Swift.Equatable {
+    public struct AssetBundleExportJobValidationStrategy {
         /// A Boolean value that indicates whether to export resources under strict or lenient mode.
         public var strictModeForAllResources: Swift.Bool
 
@@ -3111,7 +3111,7 @@ extension QuickSightClientTypes.AssetBundleExportJobWarning: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Describes a warning that occurred during an Asset Bundle export job.
-    public struct AssetBundleExportJobWarning: Swift.Equatable {
+    public struct AssetBundleExportJobWarning {
         /// The ARN of the resource whose processing caused a warning.
         public var arn: Swift.String?
         /// A description of the warning.
@@ -3188,7 +3188,7 @@ extension QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters: 
 
 extension QuickSightClientTypes {
     /// The override parameters for a single analysis that is being imported.
-    public struct AssetBundleImportJobAnalysisOverrideParameters: Swift.Equatable {
+    public struct AssetBundleImportJobAnalysisOverrideParameters {
         /// The ID of the analysis that you ant to apply overrides to.
         /// This member is required.
         public var analysisId: Swift.String?
@@ -3246,7 +3246,7 @@ extension QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions:
 
 extension QuickSightClientTypes {
     /// An object that contains a list of permissions to be applied to a list of analysis IDs.
-    public struct AssetBundleImportJobAnalysisOverridePermissions: Swift.Equatable {
+    public struct AssetBundleImportJobAnalysisOverridePermissions {
         /// A list of analysis IDs that you want to apply overrides to. You can use * to override all analyses in this asset bundle.
         /// This member is required.
         public var analysisIds: [Swift.String]?
@@ -3317,7 +3317,7 @@ extension QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags: Swift.
 
 extension QuickSightClientTypes {
     /// An object that contains a list of tags to be assigned to a list of analysis IDs.
-    public struct AssetBundleImportJobAnalysisOverrideTags: Swift.Equatable {
+    public struct AssetBundleImportJobAnalysisOverrideTags {
         /// A list of analysis IDs that you want to apply overrides to. You can use * to override all analyses in this asset bundle.
         /// This member is required.
         public var analysisIds: [Swift.String]?
@@ -3364,7 +3364,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters:
 
 extension QuickSightClientTypes {
     /// The override parameters for a single dashboard that is being imported.
-    public struct AssetBundleImportJobDashboardOverrideParameters: Swift.Equatable {
+    public struct AssetBundleImportJobDashboardOverrideParameters {
         /// The ID of the dashboard that you want to apply overrides to.
         /// This member is required.
         public var dashboardId: Swift.String?
@@ -3428,7 +3428,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions
 
 extension QuickSightClientTypes {
     /// An object that contains a list of permissions to be applied to a list of dashboard IDs.
-    public struct AssetBundleImportJobDashboardOverridePermissions: Swift.Equatable {
+    public struct AssetBundleImportJobDashboardOverridePermissions {
         /// A list of dashboard IDs that you want to apply overrides to. You can use * to override all dashboards in this asset bundle.
         /// This member is required.
         public var dashboardIds: [Swift.String]?
@@ -3502,7 +3502,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags: Swift
 
 extension QuickSightClientTypes {
     /// An object that contains a list of tags to be assigned to a list of dashboard IDs.
-    public struct AssetBundleImportJobDashboardOverrideTags: Swift.Equatable {
+    public struct AssetBundleImportJobDashboardOverrideTags {
         /// A list of dashboard IDs that you want to apply overrides to. You can use * to override all dashboards in this asset bundle.
         /// This member is required.
         public var dashboardIds: [Swift.String]?
@@ -3549,7 +3549,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters: S
 
 extension QuickSightClientTypes {
     /// The override parameters for a single dataset that is being imported.
-    public struct AssetBundleImportJobDataSetOverrideParameters: Swift.Equatable {
+    public struct AssetBundleImportJobDataSetOverrideParameters {
         /// The ID of the dataset to apply overrides to.
         /// This member is required.
         public var dataSetId: Swift.String?
@@ -3607,7 +3607,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions: 
 
 extension QuickSightClientTypes {
     /// An object that contains a list of permissions to be applied to a list of dataset IDs.
-    public struct AssetBundleImportJobDataSetOverridePermissions: Swift.Equatable {
+    public struct AssetBundleImportJobDataSetOverridePermissions {
         /// A list of dataset IDs that you want to apply overrides to. You can use * to override all datasets in this asset bundle.
         /// This member is required.
         public var dataSetIds: [Swift.String]?
@@ -3678,7 +3678,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags: Swift.C
 
 extension QuickSightClientTypes {
     /// An object that contains a list of tags to be assigned to a list of dataset IDs.
-    public struct AssetBundleImportJobDataSetOverrideTags: Swift.Equatable {
+    public struct AssetBundleImportJobDataSetOverrideTags {
         /// A list of dataset IDs that you want to apply overrides to. You can use * to override all datasets in this asset bundle.
         /// This member is required.
         public var dataSetIds: [Swift.String]?
@@ -3731,7 +3731,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair: Sw
 
 extension QuickSightClientTypes {
     /// A username and password credential pair to use to import a data source resource.
-    public struct AssetBundleImportJobDataSourceCredentialPair: Swift.Equatable {
+    public struct AssetBundleImportJobDataSourceCredentialPair {
         /// The password for the data source connection.
         /// This member is required.
         public var password: Swift.String?
@@ -3783,7 +3783,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSourceCredentials: Swift
 
 extension QuickSightClientTypes {
     /// The login credentials to use to import a data source resource.
-    public struct AssetBundleImportJobDataSourceCredentials: Swift.Equatable {
+    public struct AssetBundleImportJobDataSourceCredentials {
         /// A username and password credential pair to be used to create the imported data source. Keep this field blank if you are using a Secrets Manager secret to provide credentials.
         public var credentialPair: QuickSightClientTypes.AssetBundleImportJobDataSourceCredentialPair?
         /// The ARN of the Secrets Manager secret that's used to create the imported data source. Keep this field blank, unless you are using a secret in place of a credential pair.
@@ -3852,7 +3852,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideParameters
 
 extension QuickSightClientTypes {
     /// The override parameters for a single data source that is being imported.
-    public struct AssetBundleImportJobDataSourceOverrideParameters: Swift.Equatable {
+    public struct AssetBundleImportJobDataSourceOverrideParameters {
         /// An optional structure that provides the credentials to be used to create the imported data source.
         public var credentials: QuickSightClientTypes.AssetBundleImportJobDataSourceCredentials?
         /// The ID of the data source to apply overrides to.
@@ -3926,7 +3926,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermission
 
 extension QuickSightClientTypes {
     /// An object that contains a list of permissions to be applied to a list of data source IDs.
-    public struct AssetBundleImportJobDataSourceOverridePermissions: Swift.Equatable {
+    public struct AssetBundleImportJobDataSourceOverridePermissions {
         /// A list of data source IDs that you want to apply overrides to. You can use * to override all data sources in this asset bundle.
         /// This member is required.
         public var dataSourceIds: [Swift.String]?
@@ -3997,7 +3997,7 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags: Swif
 
 extension QuickSightClientTypes {
     /// An object that contains a list of tags to be assigned to a list of data source IDs.
-    public struct AssetBundleImportJobDataSourceOverrideTags: Swift.Equatable {
+    public struct AssetBundleImportJobDataSourceOverrideTags {
         /// A list of data source IDs that you want to apply overrides to. You can use * to override all data sources in this asset bundle.
         /// This member is required.
         public var dataSourceIds: [Swift.String]?
@@ -4050,7 +4050,7 @@ extension QuickSightClientTypes.AssetBundleImportJobError: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Describes an error that occurred within an Asset Bundle import execution.
-    public struct AssetBundleImportJobError: Swift.Equatable {
+    public struct AssetBundleImportJobError {
         /// The ARN of the resource whose processing caused an error.
         public var arn: Swift.String?
         /// A description of the error.
@@ -4219,7 +4219,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverrideParameters: Swift.Co
 
 extension QuickSightClientTypes {
     /// A list of overrides that modify the asset bundle resource configuration before the resource is imported.
-    public struct AssetBundleImportJobOverrideParameters: Swift.Equatable {
+    public struct AssetBundleImportJobOverrideParameters {
         /// A list of overrides for any Analysis resources that are present in the asset bundle that is imported.
         public var analyses: [QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters]?
         /// A list of overrides for any Dashboard resources that are present in the asset bundle that is imported.
@@ -4366,7 +4366,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverridePermissions: Swift.C
 
 extension QuickSightClientTypes {
     /// A structure that contains the override permission configurations that modify the permissions for specified resources before the resource is imported.
-    public struct AssetBundleImportJobOverridePermissions: Swift.Equatable {
+    public struct AssetBundleImportJobOverridePermissions {
         /// A list of permissions overrides for any Analysis resources that are present in the asset bundle that is imported.
         public var analyses: [QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions]?
         /// A list of permissions overrides for any Dashboard resources that are present in the asset bundle that is imported.
@@ -4519,7 +4519,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverrideTags: Swift.Codable 
 
 extension QuickSightClientTypes {
     /// A structure that contains the override tag configuration that modify the tags that are assigned to specified resources before the resource is imported.
-    public struct AssetBundleImportJobOverrideTags: Swift.Equatable {
+    public struct AssetBundleImportJobOverrideTags {
         /// A list of tag overrides for any Analysis resources that are present in the asset bundle that is imported.
         public var analyses: [QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags]?
         /// A list of tag overrides for any Dashboard resources that are present in the asset bundle that is imported.
@@ -4574,7 +4574,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy: 
 
 extension QuickSightClientTypes {
     /// An optional parameter that overrides the validation strategy for all analyses and dashboards before the resource is imported.
-    public struct AssetBundleImportJobOverrideValidationStrategy: Swift.Equatable {
+    public struct AssetBundleImportJobOverrideValidationStrategy {
         /// A Boolean value that indicates whether to import all analyses and dashboards under strict or lenient mode.
         public var strictModeForAllResources: Swift.Bool
 
@@ -4621,7 +4621,7 @@ extension QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParam
 
 extension QuickSightClientTypes {
     /// A list of overrides for a specific RefreshsSchedule resource that is present in the asset bundle that is imported.
-    public struct AssetBundleImportJobRefreshScheduleOverrideParameters: Swift.Equatable {
+    public struct AssetBundleImportJobRefreshScheduleOverrideParameters {
         /// A partial identifier for the specific RefreshSchedule resource that is being overridden. This structure is used together with the ScheduleID structure.
         /// This member is required.
         public var dataSetId: Swift.String?
@@ -4666,7 +4666,7 @@ extension QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfigurat
 
 extension QuickSightClientTypes {
     /// An optional structure that configures resource ID overrides for the import job.
-    public struct AssetBundleImportJobResourceIdOverrideConfiguration: Swift.Equatable {
+    public struct AssetBundleImportJobResourceIdOverrideConfiguration {
         /// An option to request a CloudFormation variable for a prefix to be prepended to each resource's ID before import. The prefix is only added to the asset IDs and does not change the name of the asset.
         public var prefixForAllResources: Swift.String?
 
@@ -4772,7 +4772,7 @@ extension QuickSightClientTypes.AssetBundleImportJobSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A summary of the import job that includes details of the requested job's configuration and its current status.
-    public struct AssetBundleImportJobSummary: Swift.Equatable {
+    public struct AssetBundleImportJobSummary {
         /// The ARN of the import job.
         public var arn: Swift.String?
         /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
@@ -4829,7 +4829,7 @@ extension QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters: Swi
 
 extension QuickSightClientTypes {
     /// The override parameters for a single theme that is imported.
-    public struct AssetBundleImportJobThemeOverrideParameters: Swift.Equatable {
+    public struct AssetBundleImportJobThemeOverrideParameters {
         /// A new name for the theme.
         public var name: Swift.String?
         /// The ID of the theme to apply overrides to.
@@ -4887,7 +4887,7 @@ extension QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions: Sw
 
 extension QuickSightClientTypes {
     /// An object that contains a list of permissions to be applied to a list of theme IDs.
-    public struct AssetBundleImportJobThemeOverridePermissions: Swift.Equatable {
+    public struct AssetBundleImportJobThemeOverridePermissions {
         /// A list of permissions for the themes that you want to apply overrides to.
         /// This member is required.
         public var permissions: QuickSightClientTypes.AssetBundleResourcePermissions?
@@ -4958,7 +4958,7 @@ extension QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags: Swift.Cod
 
 extension QuickSightClientTypes {
     /// An object that contains a list of tags to be assigned to a list of theme IDs.
-    public struct AssetBundleImportJobThemeOverrideTags: Swift.Equatable {
+    public struct AssetBundleImportJobThemeOverrideTags {
         /// A list of tags for the themes that you want to apply overrides to.
         /// This member is required.
         public var tags: [QuickSightClientTypes.Tag]?
@@ -5065,7 +5065,7 @@ extension QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParamet
 
 extension QuickSightClientTypes {
     /// The override parameters for a single VPC connection that is imported.
-    public struct AssetBundleImportJobVPCConnectionOverrideParameters: Swift.Equatable {
+    public struct AssetBundleImportJobVPCConnectionOverrideParameters {
         /// An optional override of DNS resolvers to be used by the VPC connection.
         public var dnsResolvers: [Swift.String]?
         /// A new name for the VPC connection.
@@ -5151,7 +5151,7 @@ extension QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags: S
 
 extension QuickSightClientTypes {
     /// An object that contains a list of tags to be assigned to a list of VPC connection IDs.
-    public struct AssetBundleImportJobVPCConnectionOverrideTags: Swift.Equatable {
+    public struct AssetBundleImportJobVPCConnectionOverrideTags {
         /// A list of tags for the VPC connections that you want to apply overrides to.
         /// This member is required.
         public var tags: [QuickSightClientTypes.Tag]?
@@ -5198,7 +5198,7 @@ extension QuickSightClientTypes.AssetBundleImportJobWarning: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Describes a warning that occurred during an Asset Bundle import job.
-    public struct AssetBundleImportJobWarning: Swift.Equatable {
+    public struct AssetBundleImportJobWarning {
         /// The ARN of the resource that the warning occurred for.
         public var arn: Swift.String?
         /// A description of the warning that occurred during an Asset Bundle import job.
@@ -5248,7 +5248,7 @@ extension QuickSightClientTypes.AssetBundleImportSource: Swift.CustomDebugString
 
 extension QuickSightClientTypes {
     /// The source of the asset bundle zip file that contains the data that you want to import. The file must be in QUICKSIGHT_JSON format.
-    public struct AssetBundleImportSource: Swift.Equatable {
+    public struct AssetBundleImportSource {
         /// The bytes of the base64 encoded asset bundle import zip file. This file can't exceed 20 MB. If you are calling the API operations from the Amazon Web Services SDK for Java, JavaScript, Python, or PHP, the SDK encodes base64 automatically to allow the direct setting of the zip file's bytes. If you are using an SDK for a different language or receiving related errors, try to base64 encode your data.
         public var body: ClientRuntime.Data?
         /// The Amazon S3 URI for an asset bundle import file that exists in an Amazon S3 bucket that the caller has read access to. The file must be a zip format file and can't exceed 20 MB.
@@ -5298,7 +5298,7 @@ extension QuickSightClientTypes.AssetBundleImportSourceDescription: Swift.Custom
 
 extension QuickSightClientTypes {
     /// A description of the import source that you provide at the start of an import job. This value is set to either Body or S3Uri, depending on how the StartAssetBundleImportJobRequest is configured.
-    public struct AssetBundleImportSourceDescription: Swift.Equatable {
+    public struct AssetBundleImportSourceDescription {
         /// An HTTPS download URL for the provided asset bundle that you optionally provided at the start of the import job. This URL is valid for five minutes after issuance. Call DescribeAssetBundleExportJob again for a fresh URL if needed. The downloaded asset bundle is a .qs zip file.
         public var body: Swift.String?
         /// The Amazon S3 URI that you provided at the start of the import job.
@@ -5337,7 +5337,7 @@ extension QuickSightClientTypes.AssetBundleResourceLinkSharingConfiguration: Swi
 
 extension QuickSightClientTypes {
     /// A structure that contains the configuration of a shared link to an Amazon QuickSight dashboard.
-    public struct AssetBundleResourceLinkSharingConfiguration: Swift.Equatable {
+    public struct AssetBundleResourceLinkSharingConfiguration {
         /// A list of link sharing permissions for the dashboards that you want to apply overrides to.
         public var permissions: QuickSightClientTypes.AssetBundleResourcePermissions?
 
@@ -5402,7 +5402,7 @@ extension QuickSightClientTypes.AssetBundleResourcePermissions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that contains the permissions for the resource that you want to override in an asset bundle import job.
-    public struct AssetBundleResourcePermissions: Swift.Equatable {
+    public struct AssetBundleResourcePermissions {
         /// A list of IAM actions to grant permissions on.
         /// This member is required.
         public var actions: [Swift.String]?
@@ -5449,7 +5449,7 @@ extension QuickSightClientTypes.AssetOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An array of analysis level configurations.
-    public struct AssetOptions: Swift.Equatable {
+    public struct AssetOptions {
         /// Determines the timezone for the analysis.
         public var timezone: Swift.String?
         /// Determines the week start day for an analysis.
@@ -5529,7 +5529,7 @@ extension QuickSightClientTypes.AthenaParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Parameters for Amazon Athena.
-    public struct AthenaParameters: Swift.Equatable {
+    public struct AthenaParameters {
         /// Use the RoleArn structure to override an account-wide role for a specific Athena data source. For example, say an account administrator has turned off all Athena access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow Athena access for the single Athena data source that is specified in the structure, even if the account-wide role forbidding Athena access is still active.
         public var roleArn: Swift.String?
         /// The workgroup that Amazon Athena uses.
@@ -5574,7 +5574,7 @@ extension QuickSightClientTypes.AttributeAggregationFunction: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Aggregation for attributes.
-    public struct AttributeAggregationFunction: Swift.Equatable {
+    public struct AttributeAggregationFunction {
         /// The built-in aggregation functions for attributes.
         ///
         /// * UNIQUE_VALUE: Returns the unique value for a field, aggregated by the dimension fields.
@@ -5627,7 +5627,7 @@ extension QuickSightClientTypes.AuroraParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Parameters for Amazon Aurora.
-    public struct AuroraParameters: Swift.Equatable {
+    public struct AuroraParameters {
         /// Database.
         /// This member is required.
         public var database: Swift.String?
@@ -5685,7 +5685,7 @@ extension QuickSightClientTypes.AuroraPostgreSqlParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Parameters for Amazon Aurora PostgreSQL-Compatible Edition.
-    public struct AuroraPostgreSqlParameters: Swift.Equatable {
+    public struct AuroraPostgreSqlParameters {
         /// The Amazon Aurora PostgreSQL database to connect to.
         /// This member is required.
         public var database: Swift.String?
@@ -5849,7 +5849,7 @@ extension QuickSightClientTypes.AuthorizedTargetsByService: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The authorized targets that are associated with a service.
-    public struct AuthorizedTargetsByService: Swift.Equatable {
+    public struct AuthorizedTargetsByService {
         /// Aist of authorized targets that are represented by IAM Identity Center application ARNs.
         public var authorizedTargets: [Swift.String]?
         /// The name of the Amazon Web Services service.
@@ -5888,7 +5888,7 @@ extension QuickSightClientTypes.AwsIotAnalyticsParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for IoT Analytics.
-    public struct AwsIotAnalyticsParameters: Swift.Equatable {
+    public struct AwsIotAnalyticsParameters {
         /// Dataset name.
         /// This member is required.
         public var dataSetName: Swift.String?
@@ -5962,7 +5962,7 @@ extension QuickSightClientTypes.AxisDataOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The data options for an axis. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct AxisDataOptions: Swift.Equatable {
+    public struct AxisDataOptions {
         /// The options for an axis with a date field.
         public var dateAxisOptions: QuickSightClientTypes.DateAxisOptions?
         /// The options for an axis with a numeric field.
@@ -5993,7 +5993,7 @@ extension QuickSightClientTypes.AxisDisplayDataDrivenRange: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that are saved for future extension.
-    public struct AxisDisplayDataDrivenRange: Swift.Equatable {
+    public struct AxisDisplayDataDrivenRange {
 
         public init() { }
     }
@@ -6027,7 +6027,7 @@ extension QuickSightClientTypes.AxisDisplayMinMaxRange: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The minimum and maximum setup for an axis display range.
-    public struct AxisDisplayMinMaxRange: Swift.Equatable {
+    public struct AxisDisplayMinMaxRange {
         /// The maximum setup for an axis display range.
         public var maximum: Swift.Double?
         /// The minimum setup for an axis display range.
@@ -6096,7 +6096,7 @@ extension QuickSightClientTypes.AxisDisplayOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The display options for the axis label.
-    public struct AxisDisplayOptions: Swift.Equatable {
+    public struct AxisDisplayOptions {
         /// Determines whether or not the axis line is visible.
         public var axisLineVisibility: QuickSightClientTypes.Visibility?
         /// The offset value that determines the starting placement of the axis within a visual's bounds.
@@ -6157,7 +6157,7 @@ extension QuickSightClientTypes.AxisDisplayRange: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The range setup of a numeric axis display range. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct AxisDisplayRange: Swift.Equatable {
+    public struct AxisDisplayRange {
         /// The data-driven setup of an axis display range.
         public var dataDriven: QuickSightClientTypes.AxisDisplayDataDrivenRange?
         /// The minimum and maximum setup of an axis display range.
@@ -6208,7 +6208,7 @@ extension QuickSightClientTypes.AxisLabelOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The label options for a chart axis. You must specify the field that the label is targeted to.
-    public struct AxisLabelOptions: Swift.Equatable {
+    public struct AxisLabelOptions {
         /// The options that indicate which field the label belongs to.
         public var applyTo: QuickSightClientTypes.AxisLabelReferenceOptions?
         /// The text for the axis label.
@@ -6257,7 +6257,7 @@ extension QuickSightClientTypes.AxisLabelReferenceOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The reference that specifies where the axis label is applied to.
-    public struct AxisLabelReferenceOptions: Swift.Equatable {
+    public struct AxisLabelReferenceOptions {
         /// The column that the axis label is targeted to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
@@ -6304,7 +6304,7 @@ extension QuickSightClientTypes.AxisLinearScale: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The liner axis scale setup. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct AxisLinearScale: Swift.Equatable {
+    public struct AxisLinearScale {
         /// The step count setup of a linear axis.
         public var stepCount: Swift.Int?
         /// The step size setup of a linear axis.
@@ -6343,7 +6343,7 @@ extension QuickSightClientTypes.AxisLogarithmicScale: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The logarithmic axis scale setup.
-    public struct AxisLogarithmicScale: Swift.Equatable {
+    public struct AxisLogarithmicScale {
         /// The base setup of a logarithmic axis scale.
         public var base: Swift.Double?
 
@@ -6384,7 +6384,7 @@ extension QuickSightClientTypes.AxisScale: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The scale setup options for a numeric axis display. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct AxisScale: Swift.Equatable {
+    public struct AxisScale {
         /// The linear axis scale setup.
         public var linear: QuickSightClientTypes.AxisLinearScale?
         /// The logarithmic axis scale setup.
@@ -6429,7 +6429,7 @@ extension QuickSightClientTypes.AxisTickLabelOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The tick label options of an axis.
-    public struct AxisTickLabelOptions: Swift.Equatable {
+    public struct AxisTickLabelOptions {
         /// Determines whether or not the axis ticks are visible.
         public var labelOptions: QuickSightClientTypes.LabelOptions?
         /// The rotation angle of the axis tick labels.
@@ -6534,7 +6534,7 @@ extension QuickSightClientTypes.BarChartAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The aggregated field wells of a bar chart.
-    public struct BarChartAggregatedFieldWells: Swift.Equatable {
+    public struct BarChartAggregatedFieldWells {
         /// The category (y-axis) field well of a bar chart.
         public var category: [QuickSightClientTypes.DimensionField]?
         /// The color (group/color) field well of a bar chart.
@@ -6701,7 +6701,7 @@ extension QuickSightClientTypes.BarChartConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a BarChartVisual.
-    public struct BarChartConfiguration: Swift.Equatable {
+    public struct BarChartConfiguration {
         /// Determines the arrangement of the bars. The orientation and arrangement of bars determine the type of bar that is used in the visual.
         public var barsArrangement: QuickSightClientTypes.BarsArrangement?
         /// The label display options (grid line, range, scale, axis step) for bar chart category.
@@ -6804,7 +6804,7 @@ extension QuickSightClientTypes.BarChartFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field wells of a BarChartVisual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct BarChartFieldWells: Swift.Equatable {
+    public struct BarChartFieldWells {
         /// The aggregated field wells of a bar chart.
         public var barChartAggregatedFieldWells: QuickSightClientTypes.BarChartAggregatedFieldWells?
 
@@ -6937,7 +6937,7 @@ extension QuickSightClientTypes.BarChartSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// sort-configuration-description
-    public struct BarChartSortConfiguration: Swift.Equatable {
+    public struct BarChartSortConfiguration {
         /// The limit on the number of categories displayed in a bar chart.
         public var categoryItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration?
         /// The sort configuration of category fields.
@@ -7061,7 +7061,7 @@ extension QuickSightClientTypes {
     ///
     ///
     /// For more information, see [Using bar charts](https://docs.aws.amazon.com/quicksight/latest/user/bar-charts.html) in the Amazon QuickSight User Guide.
-    public struct BarChartVisual: Swift.Equatable {
+    public struct BarChartVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration settings of the visual.
@@ -7196,7 +7196,7 @@ extension QuickSightClientTypes.BigQueryParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters that are required to connect to a Google BigQuery data source.
-    public struct BigQueryParameters: Swift.Equatable {
+    public struct BigQueryParameters {
         /// The storage location where you create a Google BigQuery data source.
         public var dataSetRegion: Swift.String?
         /// The Google Cloud Platform project ID where your datasource was created.
@@ -7236,7 +7236,7 @@ extension QuickSightClientTypes.BinCountOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the bin count of a histogram.
-    public struct BinCountOptions: Swift.Equatable {
+    public struct BinCountOptions {
         /// The options that determine the bin count value.
         public var value: Swift.Int?
 
@@ -7277,7 +7277,7 @@ extension QuickSightClientTypes.BinWidthOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the bin width of a histogram.
-    public struct BinWidthOptions: Swift.Equatable {
+    public struct BinWidthOptions {
         /// The options that determine the bin count limit.
         public var binCountLimit: Swift.Int?
         /// The options that determine the bin width value.
@@ -7334,7 +7334,7 @@ extension QuickSightClientTypes.BodySectionConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a body section.
-    public struct BodySectionConfiguration: Swift.Equatable {
+    public struct BodySectionConfiguration {
         /// The configuration of content in a body section.
         /// This member is required.
         public var content: QuickSightClientTypes.BodySectionContent?
@@ -7383,7 +7383,7 @@ extension QuickSightClientTypes.BodySectionContent: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of content in a body section.
-    public struct BodySectionContent: Swift.Equatable {
+    public struct BodySectionContent {
         /// The layout configuration of a body section.
         public var layout: QuickSightClientTypes.SectionLayoutConfiguration?
 
@@ -7418,7 +7418,7 @@ extension QuickSightClientTypes.BookmarksConfigurations: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The bookmarks configuration of an embedded dashboard.
-    public struct BookmarksConfigurations: Swift.Equatable {
+    public struct BookmarksConfigurations {
         /// A Boolean value that determines whether a user can bookmark an embedded dashboard.
         /// This member is required.
         public var enabled: Swift.Bool
@@ -7454,7 +7454,7 @@ extension QuickSightClientTypes.BorderStyle: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The display options for tile borders for visuals.
-    public struct BorderStyle: Swift.Equatable {
+    public struct BorderStyle {
         /// The option to enable display of borders for visuals.
         public var show: Swift.Bool?
 
@@ -7519,7 +7519,7 @@ extension QuickSightClientTypes.BoxPlotAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The aggregated field well for a box plot.
-    public struct BoxPlotAggregatedFieldWells: Swift.Equatable {
+    public struct BoxPlotAggregatedFieldWells {
         /// The group by field well of a box plot chart. Values are grouped based on group by fields.
         public var groupBy: [QuickSightClientTypes.DimensionField]?
         /// The value field well of a box plot chart. Values are aggregated based on group by fields.
@@ -7636,7 +7636,7 @@ extension QuickSightClientTypes.BoxPlotChartConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a BoxPlotVisual.
-    public struct BoxPlotChartConfiguration: Swift.Equatable {
+    public struct BoxPlotChartConfiguration {
         /// The box plot chart options for a box plot visual
         public var boxPlotOptions: QuickSightClientTypes.BoxPlotOptions?
         /// The label display options (grid line, range, scale, axis step) of a box plot category.
@@ -7715,7 +7715,7 @@ extension QuickSightClientTypes.BoxPlotFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field wells of a BoxPlotVisual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct BoxPlotFieldWells: Swift.Equatable {
+    public struct BoxPlotFieldWells {
         /// The aggregated field wells of a box plot.
         public var boxPlotAggregatedFieldWells: QuickSightClientTypes.BoxPlotAggregatedFieldWells?
 
@@ -7794,7 +7794,7 @@ extension QuickSightClientTypes.BoxPlotOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options of a box plot visual.
-    public struct BoxPlotOptions: Swift.Equatable {
+    public struct BoxPlotOptions {
         /// Determines the visibility of all data points of the box plot.
         public var allDataPointsVisibility: QuickSightClientTypes.Visibility?
         /// Determines the visibility of the outlier in a box plot.
@@ -7855,7 +7855,7 @@ extension QuickSightClientTypes.BoxPlotSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a BoxPlotVisual.
-    public struct BoxPlotSortConfiguration: Swift.Equatable {
+    public struct BoxPlotSortConfiguration {
         /// The sort configuration of a group by fields.
         public var categorySort: [QuickSightClientTypes.FieldSortOptions]?
         /// The pagination configuration of a table visual or box plot.
@@ -7894,7 +7894,7 @@ extension QuickSightClientTypes.BoxPlotStyleOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The style options of the box plot.
-    public struct BoxPlotStyleOptions: Swift.Equatable {
+    public struct BoxPlotStyleOptions {
         /// The fill styles (solid, transparent) of the box plot.
         public var fillStyle: QuickSightClientTypes.BoxPlotFillStyle?
 
@@ -7983,7 +7983,7 @@ extension QuickSightClientTypes.BoxPlotVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A box plot. For more information, see [Using box plots](https://docs.aws.amazon.com/quicksight/latest/user/box-plots.html) in the Amazon QuickSight User Guide.
-    public struct BoxPlotVisual: Swift.Equatable {
+    public struct BoxPlotVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration settings of the visual.
@@ -8056,7 +8056,7 @@ extension QuickSightClientTypes.CalculatedColumn: Swift.CustomDebugStringConvert
 
 extension QuickSightClientTypes {
     /// A calculated column for a dataset.
-    public struct CalculatedColumn: Swift.Equatable {
+    public struct CalculatedColumn {
         /// A unique ID to identify a calculated column. During a dataset update, if the column ID of a calculated column matches that of an existing calculated column, Amazon QuickSight preserves the existing calculated column.
         /// This member is required.
         public var columnId: Swift.String?
@@ -8119,7 +8119,7 @@ extension QuickSightClientTypes.CalculatedField: Swift.CustomDebugStringConverti
 
 extension QuickSightClientTypes {
     /// The calculated field of an analysis.
-    public struct CalculatedField: Swift.Equatable {
+    public struct CalculatedField {
         /// The data set that is used in this calculated field.
         /// This member is required.
         public var dataSetIdentifier: Swift.String?
@@ -8176,7 +8176,7 @@ extension QuickSightClientTypes.CalculatedMeasureField: Swift.CustomDebugStringC
 
 extension QuickSightClientTypes {
     /// The table calculation measure field for pivot tables.
-    public struct CalculatedMeasureField: Swift.Equatable {
+    public struct CalculatedMeasureField {
         /// The expression in the table calculation.
         /// This member is required.
         public var expression: Swift.String?
@@ -8212,7 +8212,7 @@ extension CancelIngestionInput {
     }
 }
 
-public struct CancelIngestionInput: Swift.Equatable {
+public struct CancelIngestionInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -8235,7 +8235,7 @@ public struct CancelIngestionInput: Swift.Equatable {
     }
 }
 
-struct CancelIngestionInputBody: Swift.Equatable {
+struct CancelIngestionInputBody {
 }
 
 extension CancelIngestionInputBody: Swift.Decodable {
@@ -8261,7 +8261,7 @@ extension CancelIngestionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelIngestionOutput: Swift.Equatable {
+public struct CancelIngestionOutput {
     /// The Amazon Resource Name (ARN) for the data ingestion.
     public var arn: Swift.String?
     /// An ID for the ingestion.
@@ -8285,7 +8285,7 @@ public struct CancelIngestionOutput: Swift.Equatable {
     }
 }
 
-struct CancelIngestionOutputBody: Swift.Equatable {
+struct CancelIngestionOutputBody {
     let arn: Swift.String?
     let ingestionId: Swift.String?
     let requestId: Swift.String?
@@ -8362,7 +8362,7 @@ extension QuickSightClientTypes.CascadingControlConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
-    public struct CascadingControlConfiguration: Swift.Equatable {
+    public struct CascadingControlConfiguration {
         /// A list of source controls that determine the values that are used in the current control.
         public var sourceControls: [QuickSightClientTypes.CascadingControlSource]?
 
@@ -8403,7 +8403,7 @@ extension QuickSightClientTypes.CascadingControlSource: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The source controls that are used in a CascadingControlConfiguration.
-    public struct CascadingControlSource: Swift.Equatable {
+    public struct CascadingControlSource {
         /// The column identifier that determines which column to look up for the source sheet control.
         public var columnToMatch: QuickSightClientTypes.ColumnIdentifier?
         /// The source sheet control ID of a CascadingControlSource.
@@ -8460,7 +8460,7 @@ extension QuickSightClientTypes.CastColumnTypeOperation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A transform operation that casts a column to a different type.
-    public struct CastColumnTypeOperation: Swift.Equatable {
+    public struct CastColumnTypeOperation {
         /// Column name.
         /// This member is required.
         public var columnName: Swift.String?
@@ -8559,7 +8559,7 @@ extension QuickSightClientTypes.CategoricalDimensionField: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The dimension type field with categorical type columns..
-    public struct CategoricalDimensionField: Swift.Equatable {
+    public struct CategoricalDimensionField {
         /// The column that is used in the CategoricalDimensionField.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
@@ -8626,7 +8626,7 @@ extension QuickSightClientTypes.CategoricalMeasureField: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The measure type field with categorical type columns.
-    public struct CategoricalMeasureField: Swift.Equatable {
+    public struct CategoricalMeasureField {
         /// The aggregation function of the measure field.
         public var aggregationFunction: QuickSightClientTypes.CategoricalAggregationFunction?
         /// The column that is used in the CategoricalMeasureField.
@@ -8693,7 +8693,7 @@ extension QuickSightClientTypes.CategoryDrillDownFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The category drill down filter.
-    public struct CategoryDrillDownFilter: Swift.Equatable {
+    public struct CategoryDrillDownFilter {
         /// A list of the string inputs that are the values of the category drill down filter.
         /// This member is required.
         public var categoryValues: [Swift.String]?
@@ -8752,7 +8752,7 @@ extension QuickSightClientTypes.CategoryFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A CategoryFilter filters text values. For more information, see [Adding text filters](https://docs.aws.amazon.com/quicksight/latest/user/add-a-text-filter-data-prep.html) in the Amazon QuickSight User Guide.
-    public struct CategoryFilter: Swift.Equatable {
+    public struct CategoryFilter {
         /// The column that the filter is applied to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
@@ -8814,7 +8814,7 @@ extension QuickSightClientTypes.CategoryFilterConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration for a CategoryFilter. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct CategoryFilterConfiguration: Swift.Equatable {
+    public struct CategoryFilterConfiguration {
         /// A custom filter that filters based on a single value. This filter can be partially matched.
         public var customFilterConfiguration: QuickSightClientTypes.CustomFilterConfiguration?
         /// A list of custom filter values. In the Amazon QuickSight console, this filter type is called a custom filter list.
@@ -9015,7 +9015,7 @@ extension QuickSightClientTypes.CellValueSynonym: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents the cell value synonym.
-    public struct CellValueSynonym: Swift.Equatable {
+    public struct CellValueSynonym {
         /// The cell value.
         public var cellValue: Swift.String?
         /// Other names or aliases for the cell value.
@@ -9078,7 +9078,7 @@ extension QuickSightClientTypes.ChartAxisLabelOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The label options for an axis on a chart.
-    public struct ChartAxisLabelOptions: Swift.Equatable {
+    public struct ChartAxisLabelOptions {
         /// The label options for a chart axis.
         public var axisLabelOptions: [QuickSightClientTypes.AxisLabelOptions]?
         /// The visibility configuration of the sort icon on a chart's axis label.
@@ -9125,7 +9125,7 @@ extension QuickSightClientTypes.ClusterMarker: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The cluster marker that is a part of the cluster marker configuration.
-    public struct ClusterMarker: Swift.Equatable {
+    public struct ClusterMarker {
         /// The simple cluster marker of the cluster marker.
         public var simpleClusterMarker: QuickSightClientTypes.SimpleClusterMarker?
 
@@ -9160,7 +9160,7 @@ extension QuickSightClientTypes.ClusterMarkerConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The cluster marker configuration of the geospatial map selected point style.
-    public struct ClusterMarkerConfiguration: Swift.Equatable {
+    public struct ClusterMarkerConfiguration {
         /// The cluster marker that is a part of the cluster marker configuration.
         public var clusterMarker: QuickSightClientTypes.ClusterMarker?
 
@@ -9207,7 +9207,7 @@ extension QuickSightClientTypes.CollectiveConstant: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a collective constant.
-    public struct CollectiveConstant: Swift.Equatable {
+    public struct CollectiveConstant {
         /// A list of values for the collective constant.
         public var valueList: [Swift.String]?
 
@@ -9298,7 +9298,7 @@ extension QuickSightClientTypes.ColorScale: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Determines the color scale that is applied to the visual.
-    public struct ColorScale: Swift.Equatable {
+    public struct ColorScale {
         /// Determines the color fill type.
         /// This member is required.
         public var colorFillType: QuickSightClientTypes.ColorFillType?
@@ -9355,7 +9355,7 @@ extension QuickSightClientTypes.ColorsConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The color configurations for a column.
-    public struct ColorsConfiguration: Swift.Equatable {
+    public struct ColorsConfiguration {
         /// A list of up to 50 custom colors.
         public var customColors: [QuickSightClientTypes.CustomColor]?
 
@@ -9408,7 +9408,7 @@ extension QuickSightClientTypes.ColumnConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The general configuration of a column.
-    public struct ColumnConfiguration: Swift.Equatable {
+    public struct ColumnConfiguration {
         /// The color configurations of the column.
         public var colorsConfiguration: QuickSightClientTypes.ColorsConfiguration?
         /// The column.
@@ -9558,7 +9558,7 @@ extension QuickSightClientTypes.ColumnDescription: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Metadata that contains a description for a column.
-    public struct ColumnDescription: Swift.Equatable {
+    public struct ColumnDescription {
         /// The text of a description for a column.
         public var text: Swift.String?
 
@@ -9593,7 +9593,7 @@ extension QuickSightClientTypes.ColumnGroup: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Groupings of columns that work together in certain Amazon QuickSight features. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
-    public struct ColumnGroup: Swift.Equatable {
+    public struct ColumnGroup {
         /// Geospatial column group that denotes a hierarchy.
         public var geoSpatialColumnGroup: QuickSightClientTypes.GeoSpatialColumnGroup?
 
@@ -9628,7 +9628,7 @@ extension QuickSightClientTypes.ColumnGroupColumnSchema: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure describing the name, data type, and geographic role of the columns.
-    public struct ColumnGroupColumnSchema: Swift.Equatable {
+    public struct ColumnGroupColumnSchema {
         /// The name of the column group's column schema.
         public var name: Swift.String?
 
@@ -9681,7 +9681,7 @@ extension QuickSightClientTypes.ColumnGroupSchema: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The column group schema.
-    public struct ColumnGroupSchema: Swift.Equatable {
+    public struct ColumnGroupSchema {
         /// A structure containing the list of schemas for column group columns.
         public var columnGroupColumnSchemaList: [QuickSightClientTypes.ColumnGroupColumnSchema]?
         /// The name of the column group schema.
@@ -9732,7 +9732,7 @@ extension QuickSightClientTypes.ColumnHierarchy: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The option that determines the hierarchy of the fields for a visual element.
-    public struct ColumnHierarchy: Swift.Equatable {
+    public struct ColumnHierarchy {
         /// The option that determines the hierarchy of any DateTime fields.
         public var dateTimeHierarchy: QuickSightClientTypes.DateTimeHierarchy?
         /// The option that determines the hierarchy of the fields that are built within a visual's field wells. These fields can't be duplicated to other visuals.
@@ -9781,7 +9781,7 @@ extension QuickSightClientTypes.ColumnIdentifier: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A column of a data set.
-    public struct ColumnIdentifier: Swift.Equatable {
+    public struct ColumnIdentifier {
         /// The name of the column.
         /// This member is required.
         public var columnName: Swift.String?
@@ -9852,7 +9852,7 @@ extension QuickSightClientTypes.ColumnLevelPermissionRule: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A rule defined to grant access on one or more restricted columns. Each dataset can have multiple rules. To create a restricted column, you add it to one or more rules. Each rule must contain at least one column and at least one user or group. To be able to see a restricted column, a user or group needs to be added to a rule for that column.
-    public struct ColumnLevelPermissionRule: Swift.Equatable {
+    public struct ColumnLevelPermissionRule {
         /// An array of column names.
         public var columnNames: [Swift.String]?
         /// An array of Amazon Resource Names (ARNs) for Amazon QuickSight users or groups.
@@ -9970,7 +9970,7 @@ extension QuickSightClientTypes.ColumnSchema: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The column schema.
-    public struct ColumnSchema: Swift.Equatable {
+    public struct ColumnSchema {
         /// The data type of the column schema.
         public var dataType: Swift.String?
         /// The geographic role of the column schema.
@@ -10025,7 +10025,7 @@ extension QuickSightClientTypes.ColumnSort: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration for a column that is not used in a field well.
-    public struct ColumnSort: Swift.Equatable {
+    public struct ColumnSort {
         /// The aggregation function that is defined in the column sort.
         public var aggregationFunction: QuickSightClientTypes.AggregationFunction?
         /// The sort direction.
@@ -10076,7 +10076,7 @@ extension QuickSightClientTypes.ColumnTag: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A tag for a column in a [TagColumnOperation](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_TagColumnOperation.html) structure. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
-    public struct ColumnTag: Swift.Equatable {
+    public struct ColumnTag {
         /// A description for a column.
         public var columnDescription: QuickSightClientTypes.ColumnDescription?
         /// A geospatial role for a column.
@@ -10171,7 +10171,7 @@ extension QuickSightClientTypes.ColumnTooltipItem: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The tooltip item for the columns that are not part of a field well.
-    public struct ColumnTooltipItem: Swift.Equatable {
+    public struct ColumnTooltipItem {
         /// The aggregation function of the column tooltip item.
         public var aggregation: QuickSightClientTypes.AggregationFunction?
         /// The target column of the tooltip item.
@@ -10289,7 +10289,7 @@ extension QuickSightClientTypes.ComboChartAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The aggregated field wells of a combo chart.
-    public struct ComboChartAggregatedFieldWells: Swift.Equatable {
+    public struct ComboChartAggregatedFieldWells {
         /// The aggregated BarValues field well of a combo chart.
         public var barValues: [QuickSightClientTypes.MeasureField]?
         /// The aggregated category field wells of a combo chart.
@@ -10450,7 +10450,7 @@ extension QuickSightClientTypes.ComboChartConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a ComboChartVisual.
-    public struct ComboChartConfiguration: Swift.Equatable {
+    public struct ComboChartConfiguration {
         /// The options that determine if visual data labels are displayed. The data label options for a bar in a combo chart.
         public var barDataLabels: QuickSightClientTypes.DataLabelOptions?
         /// Determines the bar arrangement in a combo chart. The following are valid values in this structure:
@@ -10559,7 +10559,7 @@ extension QuickSightClientTypes.ComboChartFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field wells of the visual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct ComboChartFieldWells: Swift.Equatable {
+    public struct ComboChartFieldWells {
         /// The aggregated field wells of a combo chart. Combo charts only have aggregated field wells. Columns in a combo chart are aggregated by category.
         public var comboChartAggregatedFieldWells: QuickSightClientTypes.ComboChartAggregatedFieldWells?
 
@@ -10636,7 +10636,7 @@ extension QuickSightClientTypes.ComboChartSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a ComboChartVisual.
-    public struct ComboChartSortConfiguration: Swift.Equatable {
+    public struct ComboChartSortConfiguration {
         /// The item limit configuration for the category field well of a combo chart.
         public var categoryItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration?
         /// The sort configuration of the category field well in a combo chart.
@@ -10737,7 +10737,7 @@ extension QuickSightClientTypes.ComboChartVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A combo chart. The ComboChartVisual includes stacked bar combo charts and clustered bar combo charts For more information, see [Using combo charts](https://docs.aws.amazon.com/quicksight/latest/user/combo-charts.html) in the Amazon QuickSight User Guide.
-    public struct ComboChartVisual: Swift.Equatable {
+    public struct ComboChartVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration settings of the visual.
@@ -10817,7 +10817,7 @@ extension QuickSightClientTypes.ComparativeOrder: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a comparative order.
-    public struct ComparativeOrder: Swift.Equatable {
+    public struct ComparativeOrder {
         /// The list of columns to be used in the ordering.
         public var specifedOrder: [Swift.String]?
         /// The treat of undefined specified values. Valid values for this structure are LEAST and MOST.
@@ -10866,7 +10866,7 @@ extension QuickSightClientTypes.ComparisonConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The comparison display configuration of a KPI or gauge chart.
-    public struct ComparisonConfiguration: Swift.Equatable {
+    public struct ComparisonConfiguration {
         /// The format of the comparison.
         public var comparisonFormat: QuickSightClientTypes.ComparisonFormatConfiguration?
         /// The method of the comparison. Choose from the following options:
@@ -10917,7 +10917,7 @@ extension QuickSightClientTypes.ComparisonFormatConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The format of the comparison. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct ComparisonFormatConfiguration: Swift.Equatable {
+    public struct ComparisonFormatConfiguration {
         /// The number display format.
         public var numberDisplayFormatConfiguration: QuickSightClientTypes.NumberDisplayFormatConfiguration?
         /// The percentage display format.
@@ -11045,7 +11045,7 @@ extension QuickSightClientTypes.Computation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The computation union that is used in an insight visual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct Computation: Swift.Equatable {
+    public struct Computation {
         /// The forecast computation configuration.
         public var forecast: QuickSightClientTypes.ForecastComputation?
         /// The growth rate computation configuration.
@@ -11139,7 +11139,7 @@ public struct ConcurrentUpdatingException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ConcurrentUpdatingExceptionBody: Swift.Equatable {
+struct ConcurrentUpdatingExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -11186,7 +11186,7 @@ extension QuickSightClientTypes.ConditionalFormattingColor: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The formatting configuration for the color.
-    public struct ConditionalFormattingColor: Swift.Equatable {
+    public struct ConditionalFormattingColor {
         /// Formatting configuration for gradient color.
         public var gradient: QuickSightClientTypes.ConditionalFormattingGradientColor?
         /// Formatting configuration for solid color.
@@ -11248,7 +11248,7 @@ extension QuickSightClientTypes.ConditionalFormattingCustomIconCondition: Swift.
 
 extension QuickSightClientTypes {
     /// Determines the custom condition for an icon set.
-    public struct ConditionalFormattingCustomIconCondition: Swift.Equatable {
+    public struct ConditionalFormattingCustomIconCondition {
         /// Determines the color of the icon.
         public var color: Swift.String?
         /// Determines the icon display configuration.
@@ -11303,7 +11303,7 @@ extension QuickSightClientTypes.ConditionalFormattingCustomIconOptions: Swift.Co
 
 extension QuickSightClientTypes {
     /// Custom icon options for an icon set.
-    public struct ConditionalFormattingCustomIconOptions: Swift.Equatable {
+    public struct ConditionalFormattingCustomIconOptions {
         /// Determines the type of icon.
         public var icon: QuickSightClientTypes.Icon?
         /// Determines the Unicode icon type.
@@ -11353,7 +11353,7 @@ extension QuickSightClientTypes.ConditionalFormattingGradientColor: Swift.Custom
 
 extension QuickSightClientTypes {
     /// Formatting configuration for gradient color.
-    public struct ConditionalFormattingGradientColor: Swift.Equatable {
+    public struct ConditionalFormattingGradientColor {
         /// Determines the color.
         /// This member is required.
         public var color: QuickSightClientTypes.GradientColor?
@@ -11400,7 +11400,7 @@ extension QuickSightClientTypes.ConditionalFormattingIcon: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The formatting configuration for the icon.
-    public struct ConditionalFormattingIcon: Swift.Equatable {
+    public struct ConditionalFormattingIcon {
         /// Determines the custom condition for an icon set.
         public var customCondition: QuickSightClientTypes.ConditionalFormattingCustomIconCondition?
         /// Formatting configuration for icon set.
@@ -11439,7 +11439,7 @@ extension QuickSightClientTypes.ConditionalFormattingIconDisplayConfiguration: S
 
 extension QuickSightClientTypes {
     /// Determines the icon display configuration.
-    public struct ConditionalFormattingIconDisplayConfiguration: Swift.Equatable {
+    public struct ConditionalFormattingIconDisplayConfiguration {
         /// Determines the icon display configuration.
         public var iconDisplayOption: QuickSightClientTypes.ConditionalFormattingIconDisplayOption?
 
@@ -11514,7 +11514,7 @@ extension QuickSightClientTypes.ConditionalFormattingIconSet: Swift.CustomDebugS
 
 extension QuickSightClientTypes {
     /// Formatting configuration for icon set.
-    public struct ConditionalFormattingIconSet: Swift.Equatable {
+    public struct ConditionalFormattingIconSet {
         /// The expression that determines the formatting configuration for the icon set.
         /// This member is required.
         public var expression: Swift.String?
@@ -11624,7 +11624,7 @@ extension QuickSightClientTypes.ConditionalFormattingSolidColor: Swift.CustomDeb
 
 extension QuickSightClientTypes {
     /// Formatting configuration for solid color.
-    public struct ConditionalFormattingSolidColor: Swift.Equatable {
+    public struct ConditionalFormattingSolidColor {
         /// Determines the color.
         public var color: Swift.String?
         /// The expression that determines the formatting configuration for solid color.
@@ -11688,7 +11688,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -11764,7 +11764,7 @@ extension QuickSightClientTypes.ContextMenuOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The context menu options for a visual's interactions.
-    public struct ContextMenuOption: Swift.Equatable {
+    public struct ContextMenuOption {
         /// The availability status of the context menu options. If the value of this property is set to ENABLED, dashboard readers can interact with the context menu.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
@@ -11817,7 +11817,7 @@ extension QuickSightClientTypes.ContributionAnalysisDefault: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The contribution analysis visual display for a line, pie, or bar chart.
-    public struct ContributionAnalysisDefault: Swift.Equatable {
+    public struct ContributionAnalysisDefault {
         /// The dimensions columns that are used in the contribution analysis, usually a list of ColumnIdentifiers.
         /// This member is required.
         public var contributorDimensions: [QuickSightClientTypes.ColumnIdentifier]?
@@ -11879,7 +11879,7 @@ extension CreateAccountCustomizationInput {
     }
 }
 
-public struct CreateAccountCustomizationInput: Swift.Equatable {
+public struct CreateAccountCustomizationInput {
     /// The Amazon QuickSight customizations you're adding in the current Amazon Web Services Region. You can add these to an Amazon Web Services account and a QuickSight namespace. For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
     /// This member is required.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
@@ -11905,7 +11905,7 @@ public struct CreateAccountCustomizationInput: Swift.Equatable {
     }
 }
 
-struct CreateAccountCustomizationInputBody: Swift.Equatable {
+struct CreateAccountCustomizationInputBody {
     let accountCustomization: QuickSightClientTypes.AccountCustomization?
     let tags: [QuickSightClientTypes.Tag]?
 }
@@ -11955,7 +11955,7 @@ extension CreateAccountCustomizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAccountCustomizationOutput: Swift.Equatable {
+public struct CreateAccountCustomizationOutput {
     /// The Amazon QuickSight customizations you're adding in the current Amazon Web Services Region.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
     /// The Amazon Resource Name (ARN) for the customization that you created for this Amazon Web Services account.
@@ -11987,7 +11987,7 @@ public struct CreateAccountCustomizationOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccountCustomizationOutputBody: Swift.Equatable {
+struct CreateAccountCustomizationOutputBody {
     let arn: Swift.String?
     let awsAccountId: Swift.String?
     let namespace: Swift.String?
@@ -12129,7 +12129,7 @@ extension CreateAccountSubscriptionInput {
     }
 }
 
-public struct CreateAccountSubscriptionInput: Swift.Equatable {
+public struct CreateAccountSubscriptionInput {
     /// The name of your Amazon QuickSight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon QuickSight account is created.
     /// This member is required.
     public var accountName: Swift.String?
@@ -12214,7 +12214,7 @@ public struct CreateAccountSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct CreateAccountSubscriptionInputBody: Swift.Equatable {
+struct CreateAccountSubscriptionInputBody {
     let edition: QuickSightClientTypes.Edition?
     let authenticationMethod: QuickSightClientTypes.AuthenticationMethodOption?
     let accountName: Swift.String?
@@ -12328,7 +12328,7 @@ extension CreateAccountSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAccountSubscriptionOutput: Swift.Equatable {
+public struct CreateAccountSubscriptionOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// A SignupResponse object that returns information about a newly created Amazon QuickSight account.
@@ -12348,7 +12348,7 @@ public struct CreateAccountSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccountSubscriptionOutputBody: Swift.Equatable {
+struct CreateAccountSubscriptionOutputBody {
     let signupResponse: QuickSightClientTypes.SignupResponse?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -12458,7 +12458,7 @@ extension CreateAnalysisInput {
     }
 }
 
-public struct CreateAnalysisInput: Swift.Equatable {
+public struct CreateAnalysisInput {
     /// The ID for the analysis that you're creating. This ID displays in the URL of the analysis.
     /// This member is required.
     public var analysisId: Swift.String?
@@ -12513,7 +12513,7 @@ public struct CreateAnalysisInput: Swift.Equatable {
     }
 }
 
-struct CreateAnalysisInputBody: Swift.Equatable {
+struct CreateAnalysisInputBody {
     let name: Swift.String?
     let parameters: QuickSightClientTypes.Parameters?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -12607,7 +12607,7 @@ extension CreateAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAnalysisOutput: Swift.Equatable {
+public struct CreateAnalysisOutput {
     /// The ID of the analysis.
     public var analysisId: Swift.String?
     /// The ARN for the analysis.
@@ -12635,7 +12635,7 @@ public struct CreateAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct CreateAnalysisOutputBody: Swift.Equatable {
+struct CreateAnalysisOutputBody {
     let arn: Swift.String?
     let analysisId: Swift.String?
     let creationStatus: QuickSightClientTypes.ResourceStatus?
@@ -12718,7 +12718,7 @@ extension QuickSightClientTypes.CreateColumnsOperation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A transform operation that creates calculated columns. Columns created in one such operation form a lexical closure.
-    public struct CreateColumnsOperation: Swift.Equatable {
+    public struct CreateColumnsOperation {
         /// Calculated columns to create.
         /// This member is required.
         public var columns: [QuickSightClientTypes.CalculatedColumn]?
@@ -12819,7 +12819,7 @@ extension CreateDashboardInput {
     }
 }
 
-public struct CreateDashboardInput: Swift.Equatable {
+public struct CreateDashboardInput {
     /// The ID of the Amazon Web Services account where you want to create the dashboard.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -12896,7 +12896,7 @@ public struct CreateDashboardInput: Swift.Equatable {
     }
 }
 
-struct CreateDashboardInputBody: Swift.Equatable {
+struct CreateDashboardInputBody {
     let name: Swift.String?
     let parameters: QuickSightClientTypes.Parameters?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -13017,7 +13017,7 @@ extension CreateDashboardOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDashboardOutput: Swift.Equatable {
+public struct CreateDashboardOutput {
     /// The ARN of the dashboard.
     public var arn: Swift.String?
     /// The status of the dashboard creation request.
@@ -13049,7 +13049,7 @@ public struct CreateDashboardOutput: Swift.Equatable {
     }
 }
 
-struct CreateDashboardOutputBody: Swift.Equatable {
+struct CreateDashboardOutputBody {
     let arn: Swift.String?
     let versionArn: Swift.String?
     let dashboardId: Swift.String?
@@ -13209,7 +13209,7 @@ extension CreateDataSetInput {
     }
 }
 
-public struct CreateDataSetInput: Swift.Equatable {
+public struct CreateDataSetInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -13286,7 +13286,7 @@ public struct CreateDataSetInput: Swift.Equatable {
     }
 }
 
-struct CreateDataSetInputBody: Swift.Equatable {
+struct CreateDataSetInputBody {
     let dataSetId: Swift.String?
     let name: Swift.String?
     let physicalTableMap: [Swift.String:QuickSightClientTypes.PhysicalTable]?
@@ -13460,7 +13460,7 @@ extension CreateDataSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataSetOutput: Swift.Equatable {
+public struct CreateDataSetOutput {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var arn: Swift.String?
     /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -13492,7 +13492,7 @@ public struct CreateDataSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataSetOutputBody: Swift.Equatable {
+struct CreateDataSetOutputBody {
     let arn: Swift.String?
     let dataSetId: Swift.String?
     let ingestionArn: Swift.String?
@@ -13620,7 +13620,7 @@ extension CreateDataSourceInput {
     }
 }
 
-public struct CreateDataSourceInput: Swift.Equatable {
+public struct CreateDataSourceInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -13676,7 +13676,7 @@ public struct CreateDataSourceInput: Swift.Equatable {
     }
 }
 
-struct CreateDataSourceInputBody: Swift.Equatable {
+struct CreateDataSourceInputBody {
     let dataSourceId: Swift.String?
     let name: Swift.String?
     let type: QuickSightClientTypes.DataSourceType?
@@ -13774,7 +13774,7 @@ extension CreateDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataSourceOutput: Swift.Equatable {
+public struct CreateDataSourceOutput {
     /// The Amazon Resource Name (ARN) of the data source.
     public var arn: Swift.String?
     /// The status of creating the data source.
@@ -13802,7 +13802,7 @@ public struct CreateDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataSourceOutputBody: Swift.Equatable {
+struct CreateDataSourceOutputBody {
     let arn: Swift.String?
     let dataSourceId: Swift.String?
     let creationStatus: QuickSightClientTypes.ResourceStatus?
@@ -13904,7 +13904,7 @@ extension CreateFolderInput {
     }
 }
 
-public struct CreateFolderInput: Swift.Equatable {
+public struct CreateFolderInput {
     /// The ID for the Amazon Web Services account where you want to create the folder.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -13946,7 +13946,7 @@ public struct CreateFolderInput: Swift.Equatable {
     }
 }
 
-struct CreateFolderInputBody: Swift.Equatable {
+struct CreateFolderInputBody {
     let name: Swift.String?
     let folderType: QuickSightClientTypes.FolderType?
     let parentFolderArn: Swift.String?
@@ -14019,7 +14019,7 @@ extension CreateFolderMembershipInput {
     }
 }
 
-public struct CreateFolderMembershipInput: Swift.Equatable {
+public struct CreateFolderMembershipInput {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -14047,7 +14047,7 @@ public struct CreateFolderMembershipInput: Swift.Equatable {
     }
 }
 
-struct CreateFolderMembershipInputBody: Swift.Equatable {
+struct CreateFolderMembershipInputBody {
 }
 
 extension CreateFolderMembershipInputBody: Swift.Decodable {
@@ -14072,7 +14072,7 @@ extension CreateFolderMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFolderMembershipOutput: Swift.Equatable {
+public struct CreateFolderMembershipOutput {
     /// Information about the member in the folder.
     public var folderMember: QuickSightClientTypes.FolderMember?
     /// The Amazon Web Services request ID for this operation.
@@ -14092,7 +14092,7 @@ public struct CreateFolderMembershipOutput: Swift.Equatable {
     }
 }
 
-struct CreateFolderMembershipOutputBody: Swift.Equatable {
+struct CreateFolderMembershipOutputBody {
     let status: Swift.Int
     let folderMember: QuickSightClientTypes.FolderMember?
     let requestId: Swift.String?
@@ -14151,7 +14151,7 @@ extension CreateFolderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFolderOutput: Swift.Equatable {
+public struct CreateFolderOutput {
     /// The Amazon Resource Name (ARN) for the newly created folder.
     public var arn: Swift.String?
     /// The folder ID for the newly created folder.
@@ -14175,7 +14175,7 @@ public struct CreateFolderOutput: Swift.Equatable {
     }
 }
 
-struct CreateFolderOutputBody: Swift.Equatable {
+struct CreateFolderOutputBody {
     let status: Swift.Int
     let arn: Swift.String?
     let folderId: Swift.String?
@@ -14253,7 +14253,7 @@ extension CreateGroupInput {
 }
 
 /// The request object for this operation.
-public struct CreateGroupInput: Swift.Equatable {
+public struct CreateGroupInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -14280,7 +14280,7 @@ public struct CreateGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateGroupInputBody: Swift.Equatable {
+struct CreateGroupInputBody {
     let groupName: Swift.String?
     let description: Swift.String?
 }
@@ -14319,7 +14319,7 @@ extension CreateGroupMembershipInput {
     }
 }
 
-public struct CreateGroupMembershipInput: Swift.Equatable {
+public struct CreateGroupMembershipInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -14347,7 +14347,7 @@ public struct CreateGroupMembershipInput: Swift.Equatable {
     }
 }
 
-struct CreateGroupMembershipInputBody: Swift.Equatable {
+struct CreateGroupMembershipInputBody {
 }
 
 extension CreateGroupMembershipInputBody: Swift.Decodable {
@@ -14371,7 +14371,7 @@ extension CreateGroupMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGroupMembershipOutput: Swift.Equatable {
+public struct CreateGroupMembershipOutput {
     /// The group member.
     public var groupMember: QuickSightClientTypes.GroupMember?
     /// The Amazon Web Services request ID for this operation.
@@ -14391,7 +14391,7 @@ public struct CreateGroupMembershipOutput: Swift.Equatable {
     }
 }
 
-struct CreateGroupMembershipOutputBody: Swift.Equatable {
+struct CreateGroupMembershipOutputBody {
     let groupMember: QuickSightClientTypes.GroupMember?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -14448,7 +14448,7 @@ extension CreateGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for this operation.
-public struct CreateGroupOutput: Swift.Equatable {
+public struct CreateGroupOutput {
     /// The name of the group.
     public var group: QuickSightClientTypes.Group?
     /// The Amazon Web Services request ID for this operation.
@@ -14468,7 +14468,7 @@ public struct CreateGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateGroupOutputBody: Swift.Equatable {
+struct CreateGroupOutputBody {
     let group: QuickSightClientTypes.Group?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -14555,7 +14555,7 @@ extension CreateIAMPolicyAssignmentInput {
     }
 }
 
-public struct CreateIAMPolicyAssignmentInput: Swift.Equatable {
+public struct CreateIAMPolicyAssignmentInput {
     /// The name of the assignment, also called a rule. The name must be unique within the Amazon Web Services account.
     /// This member is required.
     public var assignmentName: Swift.String?
@@ -14597,7 +14597,7 @@ public struct CreateIAMPolicyAssignmentInput: Swift.Equatable {
     }
 }
 
-struct CreateIAMPolicyAssignmentInputBody: Swift.Equatable {
+struct CreateIAMPolicyAssignmentInputBody {
     let assignmentName: Swift.String?
     let assignmentStatus: QuickSightClientTypes.AssignmentStatus?
     let policyArn: Swift.String?
@@ -14664,7 +14664,7 @@ extension CreateIAMPolicyAssignmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIAMPolicyAssignmentOutput: Swift.Equatable {
+public struct CreateIAMPolicyAssignmentOutput {
     /// The ID for the assignment.
     public var assignmentId: Swift.String?
     /// The name of the assignment. The name must be unique within the Amazon Web Services account.
@@ -14706,7 +14706,7 @@ public struct CreateIAMPolicyAssignmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateIAMPolicyAssignmentOutputBody: Swift.Equatable {
+struct CreateIAMPolicyAssignmentOutputBody {
     let assignmentName: Swift.String?
     let assignmentId: Swift.String?
     let assignmentStatus: QuickSightClientTypes.AssignmentStatus?
@@ -14808,7 +14808,7 @@ extension CreateIngestionInput {
     }
 }
 
-public struct CreateIngestionInput: Swift.Equatable {
+public struct CreateIngestionInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -14835,7 +14835,7 @@ public struct CreateIngestionInput: Swift.Equatable {
     }
 }
 
-struct CreateIngestionInputBody: Swift.Equatable {
+struct CreateIngestionInputBody {
     let ingestionType: QuickSightClientTypes.IngestionType?
 }
 
@@ -14870,7 +14870,7 @@ extension CreateIngestionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIngestionOutput: Swift.Equatable {
+public struct CreateIngestionOutput {
     /// The Amazon Resource Name (ARN) for the data ingestion.
     public var arn: Swift.String?
     /// An ID for the ingestion.
@@ -14898,7 +14898,7 @@ public struct CreateIngestionOutput: Swift.Equatable {
     }
 }
 
-struct CreateIngestionOutputBody: Swift.Equatable {
+struct CreateIngestionOutputBody {
     let arn: Swift.String?
     let ingestionId: Swift.String?
     let ingestionStatus: QuickSightClientTypes.IngestionStatus?
@@ -14981,7 +14981,7 @@ extension CreateNamespaceInput {
     }
 }
 
-public struct CreateNamespaceInput: Swift.Equatable {
+public struct CreateNamespaceInput {
     /// The ID for the Amazon Web Services account that you want to create the Amazon QuickSight namespace in.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -15008,7 +15008,7 @@ public struct CreateNamespaceInput: Swift.Equatable {
     }
 }
 
-struct CreateNamespaceInputBody: Swift.Equatable {
+struct CreateNamespaceInputBody {
     let namespace: Swift.String?
     let identityStore: QuickSightClientTypes.IdentityStore?
     let tags: [QuickSightClientTypes.Tag]?
@@ -15064,7 +15064,7 @@ extension CreateNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNamespaceOutput: Swift.Equatable {
+public struct CreateNamespaceOutput {
     /// The ARN of the Amazon QuickSight namespace you created.
     public var arn: Swift.String?
     /// The Amazon Web Services Region; that you want to use for the free SPICE capacity for the new namespace. This is set to the region that you run CreateNamespace in.
@@ -15100,7 +15100,7 @@ public struct CreateNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct CreateNamespaceOutputBody: Swift.Equatable {
+struct CreateNamespaceOutputBody {
     let arn: Swift.String?
     let name: Swift.String?
     let capacityRegion: Swift.String?
@@ -15186,7 +15186,7 @@ extension CreateRefreshScheduleInput {
     }
 }
 
-public struct CreateRefreshScheduleInput: Swift.Equatable {
+public struct CreateRefreshScheduleInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -15209,7 +15209,7 @@ public struct CreateRefreshScheduleInput: Swift.Equatable {
     }
 }
 
-struct CreateRefreshScheduleInputBody: Swift.Equatable {
+struct CreateRefreshScheduleInputBody {
     let schedule: QuickSightClientTypes.RefreshSchedule?
 }
 
@@ -15242,7 +15242,7 @@ extension CreateRefreshScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRefreshScheduleOutput: Swift.Equatable {
+public struct CreateRefreshScheduleOutput {
     /// The Amazon Resource Name (ARN) for the refresh schedule.
     public var arn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -15266,7 +15266,7 @@ public struct CreateRefreshScheduleOutput: Swift.Equatable {
     }
 }
 
-struct CreateRefreshScheduleOutputBody: Swift.Equatable {
+struct CreateRefreshScheduleOutputBody {
     let status: Swift.Int
     let requestId: Swift.String?
     let scheduleId: Swift.String?
@@ -15331,7 +15331,7 @@ extension CreateRoleMembershipInput {
     }
 }
 
-public struct CreateRoleMembershipInput: Swift.Equatable {
+public struct CreateRoleMembershipInput {
     /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -15359,7 +15359,7 @@ public struct CreateRoleMembershipInput: Swift.Equatable {
     }
 }
 
-struct CreateRoleMembershipInputBody: Swift.Equatable {
+struct CreateRoleMembershipInputBody {
 }
 
 extension CreateRoleMembershipInputBody: Swift.Decodable {
@@ -15381,7 +15381,7 @@ extension CreateRoleMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRoleMembershipOutput: Swift.Equatable {
+public struct CreateRoleMembershipOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -15397,7 +15397,7 @@ public struct CreateRoleMembershipOutput: Swift.Equatable {
     }
 }
 
-struct CreateRoleMembershipOutputBody: Swift.Equatable {
+struct CreateRoleMembershipOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -15463,7 +15463,7 @@ extension CreateTemplateAliasInput {
     }
 }
 
-public struct CreateTemplateAliasInput: Swift.Equatable {
+public struct CreateTemplateAliasInput {
     /// The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by Amazon QuickSight.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -15491,7 +15491,7 @@ public struct CreateTemplateAliasInput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateAliasInputBody: Swift.Equatable {
+struct CreateTemplateAliasInputBody {
     let templateVersionNumber: Swift.Int?
 }
 
@@ -15522,7 +15522,7 @@ extension CreateTemplateAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTemplateAliasOutput: Swift.Equatable {
+public struct CreateTemplateAliasOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -15542,7 +15542,7 @@ public struct CreateTemplateAliasOutput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateAliasOutputBody: Swift.Equatable {
+struct CreateTemplateAliasOutputBody {
     let templateAlias: QuickSightClientTypes.TemplateAlias?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -15639,7 +15639,7 @@ extension CreateTemplateInput {
     }
 }
 
-public struct CreateTemplateInput: Swift.Equatable {
+public struct CreateTemplateInput {
     /// The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -15685,7 +15685,7 @@ public struct CreateTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateInputBody: Swift.Equatable {
+struct CreateTemplateInputBody {
     let name: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
     let sourceEntity: QuickSightClientTypes.TemplateSourceEntity?
@@ -15764,7 +15764,7 @@ extension CreateTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTemplateOutput: Swift.Equatable {
+public struct CreateTemplateOutput {
     /// The ARN for the template.
     public var arn: Swift.String?
     /// The template creation status.
@@ -15796,7 +15796,7 @@ public struct CreateTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateOutputBody: Swift.Equatable {
+struct CreateTemplateOutputBody {
     let arn: Swift.String?
     let versionArn: Swift.String?
     let templateId: Swift.String?
@@ -15880,7 +15880,7 @@ extension CreateThemeAliasInput {
     }
 }
 
-public struct CreateThemeAliasInput: Swift.Equatable {
+public struct CreateThemeAliasInput {
     /// The name that you want to give to the theme alias that you are creating. The alias name can't begin with a $. Alias names that start with $ are reserved by Amazon QuickSight.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -15908,7 +15908,7 @@ public struct CreateThemeAliasInput: Swift.Equatable {
     }
 }
 
-struct CreateThemeAliasInputBody: Swift.Equatable {
+struct CreateThemeAliasInputBody {
     let themeVersionNumber: Swift.Int?
 }
 
@@ -15939,7 +15939,7 @@ extension CreateThemeAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateThemeAliasOutput: Swift.Equatable {
+public struct CreateThemeAliasOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -15959,7 +15959,7 @@ public struct CreateThemeAliasOutput: Swift.Equatable {
     }
 }
 
-struct CreateThemeAliasOutputBody: Swift.Equatable {
+struct CreateThemeAliasOutputBody {
     let themeAlias: QuickSightClientTypes.ThemeAlias?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -16053,7 +16053,7 @@ extension CreateThemeInput {
     }
 }
 
-public struct CreateThemeInput: Swift.Equatable {
+public struct CreateThemeInput {
     /// The ID of the Amazon Web Services account where you want to store the new theme.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -16098,7 +16098,7 @@ public struct CreateThemeInput: Swift.Equatable {
     }
 }
 
-struct CreateThemeInputBody: Swift.Equatable {
+struct CreateThemeInputBody {
     let name: Swift.String?
     let baseThemeId: Swift.String?
     let versionDescription: Swift.String?
@@ -16173,7 +16173,7 @@ extension CreateThemeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateThemeOutput: Swift.Equatable {
+public struct CreateThemeOutput {
     /// The Amazon Resource Name (ARN) for the theme.
     public var arn: Swift.String?
     /// The theme creation status.
@@ -16205,7 +16205,7 @@ public struct CreateThemeOutput: Swift.Equatable {
     }
 }
 
-struct CreateThemeOutputBody: Swift.Equatable {
+struct CreateThemeOutputBody {
     let arn: Swift.String?
     let versionArn: Swift.String?
     let themeId: Swift.String?
@@ -16293,7 +16293,7 @@ extension CreateTopicInput {
     }
 }
 
-public struct CreateTopicInput: Swift.Equatable {
+public struct CreateTopicInput {
     /// The ID of the Amazon Web Services account that you want to create a topic in.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -16320,7 +16320,7 @@ public struct CreateTopicInput: Swift.Equatable {
     }
 }
 
-struct CreateTopicInputBody: Swift.Equatable {
+struct CreateTopicInputBody {
     let topicId: Swift.String?
     let topic: QuickSightClientTypes.TopicDetails?
     let tags: [QuickSightClientTypes.Tag]?
@@ -16372,7 +16372,7 @@ extension CreateTopicOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTopicOutput: Swift.Equatable {
+public struct CreateTopicOutput {
     /// The Amazon Resource Name (ARN) of the topic.
     public var arn: Swift.String?
     /// The Amazon Resource Name (ARN) of the topic refresh.
@@ -16400,7 +16400,7 @@ public struct CreateTopicOutput: Swift.Equatable {
     }
 }
 
-struct CreateTopicOutputBody: Swift.Equatable {
+struct CreateTopicOutputBody {
     let arn: Swift.String?
     let topicId: Swift.String?
     let refreshArn: Swift.String?
@@ -16484,7 +16484,7 @@ extension CreateTopicRefreshScheduleInput {
     }
 }
 
-public struct CreateTopicRefreshScheduleInput: Swift.Equatable {
+public struct CreateTopicRefreshScheduleInput {
     /// The ID of the Amazon Web Services account that contains the topic you're creating a refresh schedule for.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -16516,7 +16516,7 @@ public struct CreateTopicRefreshScheduleInput: Swift.Equatable {
     }
 }
 
-struct CreateTopicRefreshScheduleInputBody: Swift.Equatable {
+struct CreateTopicRefreshScheduleInputBody {
     let datasetArn: Swift.String?
     let datasetName: Swift.String?
     let refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule?
@@ -16559,7 +16559,7 @@ extension CreateTopicRefreshScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTopicRefreshScheduleOutput: Swift.Equatable {
+public struct CreateTopicRefreshScheduleOutput {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var datasetArn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -16587,7 +16587,7 @@ public struct CreateTopicRefreshScheduleOutput: Swift.Equatable {
     }
 }
 
-struct CreateTopicRefreshScheduleOutputBody: Swift.Equatable {
+struct CreateTopicRefreshScheduleOutputBody {
     let topicId: Swift.String?
     let topicArn: Swift.String?
     let datasetArn: Swift.String?
@@ -16696,7 +16696,7 @@ extension CreateVPCConnectionInput {
     }
 }
 
-public struct CreateVPCConnectionInput: Swift.Equatable {
+public struct CreateVPCConnectionInput {
     /// The Amazon Web Services account ID of the account where you want to create a new VPC connection.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -16742,7 +16742,7 @@ public struct CreateVPCConnectionInput: Swift.Equatable {
     }
 }
 
-struct CreateVPCConnectionInputBody: Swift.Equatable {
+struct CreateVPCConnectionInputBody {
     let vpcConnectionId: Swift.String?
     let name: Swift.String?
     let subnetIds: [Swift.String]?
@@ -16839,7 +16839,7 @@ extension CreateVPCConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVPCConnectionOutput: Swift.Equatable {
+public struct CreateVPCConnectionOutput {
     /// The Amazon Resource Name (ARN) of the VPC connection.
     public var arn: Swift.String?
     /// The availability status of the VPC connection.
@@ -16871,7 +16871,7 @@ public struct CreateVPCConnectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateVPCConnectionOutputBody: Swift.Equatable {
+struct CreateVPCConnectionOutputBody {
     let arn: Swift.String?
     let vpcConnectionId: Swift.String?
     let creationStatus: QuickSightClientTypes.VPCConnectionResourceStatus?
@@ -16970,7 +16970,7 @@ extension QuickSightClientTypes.CredentialPair: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The combination of user name and password that are used as credentials.
-    public struct CredentialPair: Swift.Equatable {
+    public struct CredentialPair {
         /// A set of alternate data source parameters that you want to share for these credentials. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API operation compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allow list. If the structures are an exact match, the request is allowed to use the new data source with the existing credentials. If the AlternateDataSourceParameters list is null, the DataSourceParameters originally used with these Credentials is automatically allowed.
         public var alternateDataSourceParameters: [QuickSightClientTypes.DataSourceParameters]?
         /// Password.
@@ -17094,7 +17094,7 @@ extension QuickSightClientTypes.CurrencyDisplayFormatConfiguration: Swift.Custom
 
 extension QuickSightClientTypes {
     /// The options that determine the currency display format configuration.
-    public struct CurrencyDisplayFormatConfiguration: Swift.Equatable {
+    public struct CurrencyDisplayFormatConfiguration {
         /// The option that determines the decimal places configuration.
         public var decimalPlacesConfiguration: QuickSightClientTypes.DecimalPlacesConfiguration?
         /// The options that determine the negative value configuration.
@@ -17163,7 +17163,7 @@ extension QuickSightClientTypes.CustomActionFilterOperation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The filter operation that filters data included in a visual or in an entire sheet.
-    public struct CustomActionFilterOperation: Swift.Equatable {
+    public struct CustomActionFilterOperation {
         /// The configuration that chooses the fields to be filtered.
         /// This member is required.
         public var selectedFieldsConfiguration: QuickSightClientTypes.FilterOperationSelectedFieldsConfiguration?
@@ -17204,7 +17204,7 @@ extension QuickSightClientTypes.CustomActionNavigationOperation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The navigation operation that navigates between different sheets in the same analysis. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct CustomActionNavigationOperation: Swift.Equatable {
+    public struct CustomActionNavigationOperation {
         /// The configuration that chooses the navigation target.
         public var localNavigationConfiguration: QuickSightClientTypes.LocalNavigationConfiguration?
 
@@ -17251,7 +17251,7 @@ extension QuickSightClientTypes.CustomActionSetParametersOperation: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// The set parameter operation that sets parameters in custom action.
-    public struct CustomActionSetParametersOperation: Swift.Equatable {
+    public struct CustomActionSetParametersOperation {
         /// The parameter that determines the value configuration.
         /// This member is required.
         public var parameterValueConfigurations: [QuickSightClientTypes.SetParameterValueConfiguration]?
@@ -17293,7 +17293,7 @@ extension QuickSightClientTypes.CustomActionURLOperation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The URL operation that opens a link to another webpage.
-    public struct CustomActionURLOperation: Swift.Equatable {
+    public struct CustomActionURLOperation {
         /// The target of the CustomActionURLOperation. Valid values are defined as follows:
         ///
         /// * NEW_TAB: Opens the target URL in a new browser tab.
@@ -17357,7 +17357,7 @@ extension QuickSightClientTypes.CustomColor: Swift.CustomDebugStringConvertible 
 
 extension QuickSightClientTypes {
     /// Determines the color that's applied to a particular data value in a column.
-    public struct CustomColor: Swift.Equatable {
+    public struct CustomColor {
         /// The color that is applied to the data value.
         /// This member is required.
         public var color: Swift.String?
@@ -17419,7 +17419,7 @@ extension QuickSightClientTypes.CustomContentConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a CustomContentVisual.
-    public struct CustomContentConfiguration: Swift.Equatable {
+    public struct CustomContentConfiguration {
         /// The content type of the custom content visual. You can use this to have the visual render as an image.
         public var contentType: QuickSightClientTypes.CustomContentType?
         /// The input URL that links to the custom content that you want in the custom visual.
@@ -17578,7 +17578,7 @@ extension QuickSightClientTypes.CustomContentVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A visual that contains custom content. For more information, see [Using custom visual content](https://docs.aws.amazon.com/quicksight/latest/user/custom-visual-content.html) in the Amazon QuickSight User Guide.
-    public struct CustomContentVisual: Swift.Equatable {
+    public struct CustomContentVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration of a CustomContentVisual.
@@ -17659,7 +17659,7 @@ extension QuickSightClientTypes.CustomFilterConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A custom filter that filters based on a single value. This filter can be partially matched.
-    public struct CustomFilterConfiguration: Swift.Equatable {
+    public struct CustomFilterConfiguration {
         /// The category value for the filter. This field is mutually exclusive to ParameterName.
         public var categoryValue: Swift.String?
         /// The match operator that is used to determine if a filter should be applied.
@@ -17750,7 +17750,7 @@ extension QuickSightClientTypes.CustomFilterListConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A list of custom filter values.
-    public struct CustomFilterListConfiguration: Swift.Equatable {
+    public struct CustomFilterListConfiguration {
         /// The list of category values for the filter.
         public var categoryValues: [Swift.String]?
         /// The match operator that is used to determine if a filter should be applied.
@@ -17807,7 +17807,7 @@ extension QuickSightClientTypes.CustomNarrativeOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The custom narrative options.
-    public struct CustomNarrativeOptions: Swift.Equatable {
+    public struct CustomNarrativeOptions {
         /// The string input of custom narrative.
         /// This member is required.
         public var narrative: Swift.String?
@@ -17909,7 +17909,7 @@ extension QuickSightClientTypes.CustomParameterValues: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The customized parameter values. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct CustomParameterValues: Swift.Equatable {
+    public struct CustomParameterValues {
         /// A list of datetime-type parameter values.
         public var dateTimeValues: [ClientRuntime.Date]?
         /// A list of decimal-type parameter values.
@@ -17986,7 +17986,7 @@ extension QuickSightClientTypes.CustomSql: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A physical table type built from the results of the custom SQL query.
-    public struct CustomSql: Swift.Equatable {
+    public struct CustomSql {
         /// The column schema from the SQL query result set.
         public var columns: [QuickSightClientTypes.InputColumn]?
         /// The Amazon Resource Name (ARN) of the data source.
@@ -18042,7 +18042,7 @@ extension QuickSightClientTypes.CustomValuesConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of custom values for the destination parameter in DestinationParameterValueConfiguration.
-    public struct CustomValuesConfiguration: Swift.Equatable {
+    public struct CustomValuesConfiguration {
         /// The customized parameter values. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
         /// This member is required.
         public var customValues: QuickSightClientTypes.CustomParameterValues?
@@ -18136,7 +18136,7 @@ extension QuickSightClientTypes.Dashboard: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dashboard.
-    public struct Dashboard: Swift.Equatable {
+    public struct Dashboard {
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: Swift.String?
         /// The time that this dashboard was created.
@@ -18255,7 +18255,7 @@ extension QuickSightClientTypes.DashboardError: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dashboard error.
-    public struct DashboardError: Swift.Equatable {
+    public struct DashboardError {
         /// Message.
         public var message: Swift.String?
         /// Type.
@@ -18461,7 +18461,7 @@ extension QuickSightClientTypes.DashboardPublishOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dashboard publish options.
-    public struct DashboardPublishOptions: Swift.Equatable {
+    public struct DashboardPublishOptions {
         /// Ad hoc (one-time) filtering option.
         public var adHocFilteringOption: QuickSightClientTypes.AdHocFilteringOption?
         /// The drill-down options of data points in a dashboard.
@@ -18549,7 +18549,7 @@ extension QuickSightClientTypes.DashboardSearchFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A filter that you apply when searching for dashboards.
-    public struct DashboardSearchFilter: Swift.Equatable {
+    public struct DashboardSearchFilter {
         /// The name of the value that you want to use as a filter, for example, "Name": "QUICKSIGHT_OWNER". Valid values are defined as follows:
         ///
         /// * QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any dashboards with that ARN listed as one of the dashboards's owners or viewers are returned. Implicit permissions from folders or groups are considered.
@@ -18605,7 +18605,7 @@ extension QuickSightClientTypes.DashboardSourceEntity: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dashboard source entity.
-    public struct DashboardSourceEntity: Swift.Equatable {
+    public struct DashboardSourceEntity {
         /// Source template.
         public var sourceTemplate: QuickSightClientTypes.DashboardSourceTemplate?
 
@@ -18658,7 +18658,7 @@ extension QuickSightClientTypes.DashboardSourceTemplate: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dashboard source template.
-    public struct DashboardSourceTemplate: Swift.Equatable {
+    public struct DashboardSourceTemplate {
         /// The Amazon Resource Name (ARN) of the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -18735,7 +18735,7 @@ extension QuickSightClientTypes.DashboardSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dashboard summary.
-    public struct DashboardSummary: Swift.Equatable {
+    public struct DashboardSummary {
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: Swift.String?
         /// The time that this dashboard was created.
@@ -18916,7 +18916,7 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dashboard version.
-    public struct DashboardVersion: Swift.Equatable {
+    public struct DashboardVersion {
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: Swift.String?
         /// The time that this dashboard version was created.
@@ -19101,7 +19101,7 @@ extension QuickSightClientTypes.DashboardVersionDefinition: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The contents of a dashboard.
-    public struct DashboardVersionDefinition: Swift.Equatable {
+    public struct DashboardVersionDefinition {
         /// The configuration for default analysis settings.
         public var analysisDefaults: QuickSightClientTypes.AnalysisDefaults?
         /// An array of calculated field definitions for the dashboard.
@@ -19195,7 +19195,7 @@ extension QuickSightClientTypes.DashboardVersionSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dashboard version summary.
-    public struct DashboardVersionSummary: Swift.Equatable {
+    public struct DashboardVersionSummary {
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: Swift.String?
         /// The time that this dashboard version was created.
@@ -19271,7 +19271,7 @@ extension QuickSightClientTypes {
     ///
     ///
     /// The DashboardId, SheetId, and VisualId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console. You can also get the DashboardId with a ListDashboards API operation.
-    public struct DashboardVisualId: Swift.Equatable {
+    public struct DashboardVisualId {
         /// The ID of the dashboard that has the visual that you want to embed. The DashboardId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console. You can also get the DashboardId with a ListDashboards API operation.
         /// This member is required.
         public var dashboardId: Swift.String?
@@ -19317,7 +19317,7 @@ extension QuickSightClientTypes.DashboardVisualPublishOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The visual publish options of a visual in a dashboard
-    public struct DashboardVisualPublishOptions: Swift.Equatable {
+    public struct DashboardVisualPublishOptions {
         /// Determines if hidden fields are included in an exported dashboard.
         public var exportHiddenFieldsOption: QuickSightClientTypes.ExportHiddenFieldsOption?
 
@@ -19358,7 +19358,7 @@ extension QuickSightClientTypes.DataAggregation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a data aggregation.
-    public struct DataAggregation: Swift.Equatable {
+    public struct DataAggregation {
         /// The level of time precision that is used to aggregate DateTime values.
         public var datasetRowDateGranularity: QuickSightClientTypes.TopicTimeGranularity?
         /// The column name for the default date.
@@ -19409,7 +19409,7 @@ extension QuickSightClientTypes.DataBarsOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options for data bars.
-    public struct DataBarsOptions: Swift.Equatable {
+    public struct DataBarsOptions {
         /// The field ID for the data bars options.
         /// This member is required.
         public var fieldId: Swift.String?
@@ -19459,7 +19459,7 @@ extension QuickSightClientTypes.DataColor: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Determines the color that is applied to a particular data value.
-    public struct DataColor: Swift.Equatable {
+    public struct DataColor {
         /// The color that is applied to the data value.
         public var color: Swift.String?
         /// The data value that the color is applied to.
@@ -19534,7 +19534,7 @@ extension QuickSightClientTypes.DataColorPalette: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The theme colors that are used for data colors in charts. The colors description is a hexadecimal color code that consists of six alphanumerical characters, prefixed with #, for example #37BFF5.
-    public struct DataColorPalette: Swift.Equatable {
+    public struct DataColorPalette {
         /// The hexadecimal codes for the colors.
         public var colors: [Swift.String]?
         /// The hexadecimal code of a color that applies to charts where a lack of data is highlighted.
@@ -19600,7 +19600,7 @@ extension QuickSightClientTypes.DataFieldSeriesItem: Swift.CustomDebugStringConv
 
 extension QuickSightClientTypes {
     /// The data field series item configuration of a line chart.
-    public struct DataFieldSeriesItem: Swift.Equatable {
+    public struct DataFieldSeriesItem {
         /// The axis that you are binding the field to.
         /// This member is required.
         public var axisBinding: QuickSightClientTypes.AxisBinding?
@@ -19750,7 +19750,7 @@ extension QuickSightClientTypes.DataLabelOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the presentation of the data labels.
-    public struct DataLabelOptions: Swift.Equatable {
+    public struct DataLabelOptions {
         /// Determines the visibility of the category field labels.
         public var categoryLabelVisibility: QuickSightClientTypes.Visibility?
         /// The option that determines the data label type.
@@ -19921,7 +19921,7 @@ extension QuickSightClientTypes.DataLabelType: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The option that determines the data label type. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct DataLabelType: Swift.Equatable {
+    public struct DataLabelType {
         /// The option that specifies individual data values for labels.
         public var dataPathLabelType: QuickSightClientTypes.DataPathLabelType?
         /// Determines the label configuration for the entire field.
@@ -19984,7 +19984,7 @@ extension QuickSightClientTypes.DataPathColor: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The color map that determines the color options for a particular element.
-    public struct DataPathColor: Swift.Equatable {
+    public struct DataPathColor {
         /// The color that needs to be applied to the element.
         /// This member is required.
         public var color: Swift.String?
@@ -20046,7 +20046,7 @@ extension QuickSightClientTypes.DataPathLabelType: Swift.CustomDebugStringConver
 
 extension QuickSightClientTypes {
     /// The option that specifies individual data values for labels.
-    public struct DataPathLabelType: Swift.Equatable {
+    public struct DataPathLabelType {
         /// The field ID of the field that the data label needs to be applied to.
         public var fieldId: Swift.String?
         /// The actual value of the field that is labeled.
@@ -20107,7 +20107,7 @@ extension QuickSightClientTypes.DataPathSort: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Allows data paths to be sorted by a specific data value.
-    public struct DataPathSort: Swift.Equatable {
+    public struct DataPathSort {
         /// Determines the sort direction.
         /// This member is required.
         public var direction: QuickSightClientTypes.SortDirection?
@@ -20148,7 +20148,7 @@ extension QuickSightClientTypes.DataPathType: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The type of the data path value.
-    public struct DataPathType: Swift.Equatable {
+    public struct DataPathType {
         /// The type of data path value utilized in a pivot table. Choose one of the following options:
         ///
         /// * HIERARCHY_ROWS_LAYOUT_COLUMN - The type of data path for the rows layout column, when RowsLayout is set to HIERARCHY.
@@ -20208,7 +20208,7 @@ extension QuickSightClientTypes.DataPathValue: Swift.CustomDebugStringConvertibl
 
 extension QuickSightClientTypes {
     /// The data path that needs to be sorted.
-    public struct DataPathValue: Swift.Equatable {
+    public struct DataPathValue {
         /// The type configuration of the field.
         public var dataPathType: QuickSightClientTypes.DataPathType?
         /// The field ID of the field that needs to be sorted.
@@ -20251,7 +20251,7 @@ extension QuickSightClientTypes.DataPointDrillUpDownOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The drill down options for data points in a dashbaord.
-    public struct DataPointDrillUpDownOption: Swift.Equatable {
+    public struct DataPointDrillUpDownOption {
         /// The status of the drill down options of data points.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
@@ -20286,7 +20286,7 @@ extension QuickSightClientTypes.DataPointMenuLabelOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The data point menu options of a dashboard.
-    public struct DataPointMenuLabelOption: Swift.Equatable {
+    public struct DataPointMenuLabelOption {
         /// The status of the data point menu options.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
@@ -20321,7 +20321,7 @@ extension QuickSightClientTypes.DataPointTooltipOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The data point tooltip options.
-    public struct DataPointTooltipOption: Swift.Equatable {
+    public struct DataPointTooltipOption {
         /// The status of the data point tool tip options.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
@@ -20536,7 +20536,7 @@ extension QuickSightClientTypes.DataSet: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dataset.
-    public struct DataSet: Swift.Equatable {
+    public struct DataSet {
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: Swift.String?
         /// Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
@@ -20659,7 +20659,7 @@ extension QuickSightClientTypes.DataSetConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dataset configuration.
-    public struct DataSetConfiguration: Swift.Equatable {
+    public struct DataSetConfiguration {
         /// A structure containing the list of column group schemas.
         public var columnGroupSchemaList: [QuickSightClientTypes.ColumnGroupSchema]?
         /// Dataset schema.
@@ -20752,7 +20752,7 @@ extension QuickSightClientTypes.DataSetIdentifierDeclaration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A data set.
-    public struct DataSetIdentifierDeclaration: Swift.Equatable {
+    public struct DataSetIdentifierDeclaration {
         /// The Amazon Resource Name (ARN) of the data set.
         /// This member is required.
         public var dataSetArn: Swift.String?
@@ -20831,7 +20831,7 @@ extension QuickSightClientTypes.DataSetReference: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dataset reference.
-    public struct DataSetReference: Swift.Equatable {
+    public struct DataSetReference {
         /// Dataset Amazon Resource Name (ARN).
         /// This member is required.
         public var dataSetArn: Swift.String?
@@ -20872,7 +20872,7 @@ extension QuickSightClientTypes.DataSetRefreshProperties: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The refresh properties of a dataset.
-    public struct DataSetRefreshProperties: Swift.Equatable {
+    public struct DataSetRefreshProperties {
         /// The refresh configuration for a dataset.
         /// This member is required.
         public var refreshConfiguration: QuickSightClientTypes.RefreshConfiguration?
@@ -20920,7 +20920,7 @@ extension QuickSightClientTypes.DataSetSchema: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dataset schema.
-    public struct DataSetSchema: Swift.Equatable {
+    public struct DataSetSchema {
         /// A structure containing the list of column schemas.
         public var columnSchemaList: [QuickSightClientTypes.ColumnSchema]?
 
@@ -20967,7 +20967,7 @@ extension QuickSightClientTypes.DataSetSearchFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A filter that you apply when searching for datasets.
-    public struct DataSetSearchFilter: Swift.Equatable {
+    public struct DataSetSearchFilter {
         /// The name of the value that you want to use as a filter, for example, "Name": "QUICKSIGHT_OWNER". Valid values are defined as follows:
         ///
         /// * QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any datasets with that ARN listed as one of the dataset owners or viewers are returned. Implicit permissions from folders or groups are considered.
@@ -21073,7 +21073,7 @@ extension QuickSightClientTypes.DataSetSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Dataset summary.
-    public struct DataSetSummary: Swift.Equatable {
+    public struct DataSetSummary {
         /// The Amazon Resource Name (ARN) of the dataset.
         public var arn: Swift.String?
         /// A value that indicates if the dataset has column level permission configured.
@@ -21146,7 +21146,7 @@ extension QuickSightClientTypes.DataSetUsageConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The usage configuration to apply to child datasets that reference this dataset as a source.
-    public struct DataSetUsageConfiguration: Swift.Equatable {
+    public struct DataSetUsageConfiguration {
         /// An option that controls whether a child dataset of a direct query can use this dataset as a source.
         public var disableUseAsDirectQuerySource: Swift.Bool
         /// An option that controls whether a child dataset that's stored in QuickSight can use this dataset as a source.
@@ -21269,7 +21269,7 @@ extension QuickSightClientTypes.DataSource: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The structure of a data source.
-    public struct DataSource: Swift.Equatable {
+    public struct DataSource {
         /// A set of alternate data source parameters that you want to share for the credentials stored with this data source. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API operation compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allow list. If the structures are an exact match, the request is allowed to use the credentials from this existing data source. If the AlternateDataSourceParameters list is null, the Credentials originally used with this DataSourceParameters are automatically allowed.
         public var alternateDataSourceParameters: [QuickSightClientTypes.DataSourceParameters]?
         /// The Amazon Resource Name (ARN) of the data source.
@@ -21370,7 +21370,7 @@ extension QuickSightClientTypes.DataSourceCredentials: Swift.CustomDebugStringCo
 
 extension QuickSightClientTypes {
     /// Data source credentials. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
-    public struct DataSourceCredentials: Swift.Equatable {
+    public struct DataSourceCredentials {
         /// The Amazon Resource Name (ARN) of a data source that has the credential pair that you want to use. When CopySourceArn is not null, the credential pair from the data source in the ARN is used as the credentials for the DataSourceCredentials structure.
         public var copySourceArn: Swift.String?
         /// Credential pair. For more information, see [CredentialPair](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CredentialPair.html).
@@ -21419,7 +21419,7 @@ extension QuickSightClientTypes.DataSourceErrorInfo: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Error information for the data source creation or update.
-    public struct DataSourceErrorInfo: Swift.Equatable {
+    public struct DataSourceErrorInfo {
         /// Error message.
         public var message: Swift.String?
         /// Error type.
@@ -21754,7 +21754,7 @@ extension QuickSightClientTypes.DataSourceParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters that Amazon QuickSight uses to connect to your underlying data source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
-    public enum DataSourceParameters: Swift.Equatable {
+    public enum DataSourceParameters {
         /// The parameters for OpenSearch.
         case amazonelasticsearchparameters(QuickSightClientTypes.AmazonElasticsearchParameters)
         /// The parameters for Amazon Athena.
@@ -21845,7 +21845,7 @@ extension QuickSightClientTypes.DataSourceSearchFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A filter that you apply when searching for data sources.
-    public struct DataSourceSearchFilter: Swift.Equatable {
+    public struct DataSourceSearchFilter {
         /// The name of the value that you want to use as a filter, for example, "Name": "DIRECT_QUICKSIGHT_OWNER". Valid values are defined as follows:
         ///
         /// * DIRECT_QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any data sources with that ARN listed as one of the owners or viewers of the data sources are returned. Implicit permissions from folders or groups are not considered.
@@ -21929,7 +21929,7 @@ extension QuickSightClientTypes.DataSourceSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A DataSourceSummary object that returns a summary of a data source.
-    public struct DataSourceSummary: Swift.Equatable {
+    public struct DataSourceSummary {
         /// The arn of the datasource.
         public var arn: Swift.String?
         /// The date and time that the data source was created. This value is expressed in MM-DD-YYYY HH:MM:SS format.
@@ -22109,7 +22109,7 @@ extension QuickSightClientTypes.DatabricksParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters that are required to connect to a Databricks data source.
-    public struct DatabricksParameters: Swift.Equatable {
+    public struct DatabricksParameters {
         /// The host name of the Databricks data source.
         /// This member is required.
         public var host: Swift.String?
@@ -22245,7 +22245,7 @@ extension QuickSightClientTypes.DatasetMetadata: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a dataset.
-    public struct DatasetMetadata: Swift.Equatable {
+    public struct DatasetMetadata {
         /// The list of calculated field definitions.
         public var calculatedFields: [QuickSightClientTypes.TopicCalculatedField]?
         /// The list of column definitions.
@@ -22327,7 +22327,7 @@ extension QuickSightClientTypes.DatasetParameter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A parameter that is created in a dataset. The parameter can be a string, integer, decimal, or datetime data type.
-    public struct DatasetParameter: Swift.Equatable {
+    public struct DatasetParameter {
         /// A date time parameter that is created in the dataset.
         public var dateTimeDatasetParameter: QuickSightClientTypes.DateTimeDatasetParameter?
         /// A decimal parameter that is created in the dataset.
@@ -22445,7 +22445,7 @@ extension QuickSightClientTypes.DateAxisOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine how a date axis is displayed.
-    public struct DateAxisOptions: Swift.Equatable {
+    public struct DateAxisOptions {
         /// Determines whether or not missing dates are displayed.
         public var missingDateVisibility: QuickSightClientTypes.Visibility?
 
@@ -22504,7 +22504,7 @@ extension QuickSightClientTypes.DateDimensionField: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The dimension type field with date type columns.
-    public struct DateDimensionField: Swift.Equatable {
+    public struct DateDimensionField {
         /// The column that is used in the DateDimensionField.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
@@ -22593,7 +22593,7 @@ extension QuickSightClientTypes.DateMeasureField: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The measure type field with date type columns.
-    public struct DateMeasureField: Swift.Equatable {
+    public struct DateMeasureField {
         /// The aggregation function of the measure field.
         public var aggregationFunction: QuickSightClientTypes.DateAggregationFunction?
         /// The column that is used in the DateMeasureField.
@@ -22666,7 +22666,7 @@ extension QuickSightClientTypes.DateTimeDatasetParameter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A date time parameter for a dataset.
-    public struct DateTimeDatasetParameter: Swift.Equatable {
+    public struct DateTimeDatasetParameter {
         /// A list of default values for a given date time parameter. This structure only accepts static values.
         public var defaultValues: QuickSightClientTypes.DateTimeDatasetParameterDefaultValues?
         /// An identifier for the parameter that is created in the dataset.
@@ -22732,7 +22732,7 @@ extension QuickSightClientTypes.DateTimeDatasetParameterDefaultValues: Swift.Cod
 
 extension QuickSightClientTypes {
     /// The default values of a date time parameter.
-    public struct DateTimeDatasetParameterDefaultValues: Swift.Equatable {
+    public struct DateTimeDatasetParameterDefaultValues {
         /// A list of static default values for a given date time parameter.
         public var staticValues: [ClientRuntime.Date]?
 
@@ -22791,7 +22791,7 @@ extension QuickSightClientTypes.DateTimeDefaultValues: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The default values of the DateTimeParameterDeclaration.
-    public struct DateTimeDefaultValues: Swift.Equatable {
+    public struct DateTimeDefaultValues {
         /// The dynamic value of the DataTimeDefaultValues. Different defaults are displayed according to users, groups, and values mapping.
         public var dynamicValue: QuickSightClientTypes.DynamicDefaultValue?
         /// The rolling date of the DataTimeDefaultValues. The date is determined from the dataset based on input expression.
@@ -22846,7 +22846,7 @@ extension QuickSightClientTypes.DateTimeFormatConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Formatting configuration for DateTime fields.
-    public struct DateTimeFormatConfiguration: Swift.Equatable {
+    public struct DateTimeFormatConfiguration {
         /// Determines the DateTime format.
         public var dateTimeFormat: Swift.String?
         /// The options that determine the null value format configuration.
@@ -22907,7 +22907,7 @@ extension QuickSightClientTypes.DateTimeHierarchy: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The option that determines the hierarchy of any DateTime fields.
-    public struct DateTimeHierarchy: Swift.Equatable {
+    public struct DateTimeHierarchy {
         /// The option that determines the drill down filters for the DateTime hierarchy.
         public var drillDownFilters: [QuickSightClientTypes.DrillDownFilter]?
         /// The hierarchy ID of the DateTime hierarchy.
@@ -22965,7 +22965,7 @@ extension QuickSightClientTypes.DateTimeParameter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A date-time parameter.
-    public struct DateTimeParameter: Swift.Equatable {
+    public struct DateTimeParameter {
         /// A display name for the date-time parameter.
         /// This member is required.
         public var name: Swift.String?
@@ -23042,7 +23042,7 @@ extension QuickSightClientTypes.DateTimeParameterDeclaration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A parameter declaration for the DateTime data type.
-    public struct DateTimeParameterDeclaration: Swift.Equatable {
+    public struct DateTimeParameterDeclaration {
         /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
         public var defaultValues: QuickSightClientTypes.DateTimeDefaultValues?
         /// A list of dataset parameters that are mapped to an analysis parameter.
@@ -23106,7 +23106,7 @@ extension QuickSightClientTypes.DateTimePickerControlDisplayOptions: Swift.Codab
 
 extension QuickSightClientTypes {
     /// The display options of a control.
-    public struct DateTimePickerControlDisplayOptions: Swift.Equatable {
+    public struct DateTimePickerControlDisplayOptions {
         /// Customize how dates are formatted in controls.
         public var dateTimeFormat: Swift.String?
         /// The configuration of info icon label options.
@@ -23160,7 +23160,7 @@ extension QuickSightClientTypes.DateTimeValueWhenUnsetConfiguration: Swift.Custo
 
 extension QuickSightClientTypes {
     /// The configuration that defines the default value of a DateTime parameter when a value has not been set.
-    public struct DateTimeValueWhenUnsetConfiguration: Swift.Equatable {
+    public struct DateTimeValueWhenUnsetConfiguration {
         /// A custom value that's used when the value of a parameter isn't set.
         public var customValue: ClientRuntime.Date?
         /// The built-in options for default values. The value can be one of the following:
@@ -23315,7 +23315,7 @@ extension QuickSightClientTypes.DecimalDatasetParameter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A decimal parameter for a dataset.
-    public struct DecimalDatasetParameter: Swift.Equatable {
+    public struct DecimalDatasetParameter {
         /// A list of default values for a given decimal parameter. This structure only accepts static values.
         public var defaultValues: QuickSightClientTypes.DecimalDatasetParameterDefaultValues?
         /// An identifier for the decimal parameter created in the dataset.
@@ -23377,7 +23377,7 @@ extension QuickSightClientTypes.DecimalDatasetParameterDefaultValues: Swift.Coda
 
 extension QuickSightClientTypes {
     /// The default values of a decimal parameter.
-    public struct DecimalDatasetParameterDefaultValues: Swift.Equatable {
+    public struct DecimalDatasetParameterDefaultValues {
         /// A list of static default values for a given decimal parameter.
         public var staticValues: [Swift.Double]?
 
@@ -23430,7 +23430,7 @@ extension QuickSightClientTypes.DecimalDefaultValues: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The default values of the DecimalParameterDeclaration.
-    public struct DecimalDefaultValues: Swift.Equatable {
+    public struct DecimalDefaultValues {
         /// The dynamic value of the DecimalDefaultValues. Different defaults are displayed according to users, groups, and values mapping.
         public var dynamicValue: QuickSightClientTypes.DynamicDefaultValue?
         /// The static values of the DecimalDefaultValues.
@@ -23487,7 +23487,7 @@ extension QuickSightClientTypes.DecimalParameter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A decimal parameter.
-    public struct DecimalParameter: Swift.Equatable {
+    public struct DecimalParameter {
         /// A display name for the decimal parameter.
         /// This member is required.
         public var name: Swift.String?
@@ -23564,7 +23564,7 @@ extension QuickSightClientTypes.DecimalParameterDeclaration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A parameter declaration for the Decimal data type.
-    public struct DecimalParameterDeclaration: Swift.Equatable {
+    public struct DecimalParameterDeclaration {
         /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
         public var defaultValues: QuickSightClientTypes.DecimalDefaultValues?
         /// A list of dataset parameters that are mapped to an analysis parameter.
@@ -23617,7 +23617,7 @@ extension QuickSightClientTypes.DecimalPlacesConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The option that determines the decimal places configuration.
-    public struct DecimalPlacesConfiguration: Swift.Equatable {
+    public struct DecimalPlacesConfiguration {
         /// The values of the decimal places.
         /// This member is required.
         public var decimalPlaces: Swift.Int?
@@ -23664,7 +23664,7 @@ extension QuickSightClientTypes.DecimalValueWhenUnsetConfiguration: Swift.Custom
 
 extension QuickSightClientTypes {
     /// The configuration that defines the default value of a Decimal parameter when a value has not been set.
-    public struct DecimalValueWhenUnsetConfiguration: Swift.Equatable {
+    public struct DecimalValueWhenUnsetConfiguration {
         /// A custom value that's used when the value of a parameter isn't set.
         public var customValue: Swift.Double?
         /// The built-in options for default values. The value can be one of the following:
@@ -23772,7 +23772,7 @@ extension QuickSightClientTypes.DefaultDateTimePickerControlOptions: Swift.Codab
 
 extension QuickSightClientTypes {
     /// The default options that correspond to the filter control type of a DateTimePicker.
-    public struct DefaultDateTimePickerControlOptions: Swift.Equatable {
+    public struct DefaultDateTimePickerControlOptions {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions?
         /// The date time picker type of the DefaultDateTimePickerControlOptions. Choose one of the following options:
@@ -23821,7 +23821,7 @@ extension QuickSightClientTypes.DefaultFilterControlConfiguration: Swift.Codable
 
 extension QuickSightClientTypes {
     /// The default configuration for all dependent controls of the filter.
-    public struct DefaultFilterControlConfiguration: Swift.Equatable {
+    public struct DefaultFilterControlConfiguration {
         /// The control option for the DefaultFilterControlConfiguration.
         /// This member is required.
         public var controlOptions: QuickSightClientTypes.DefaultFilterControlOptions?
@@ -23898,7 +23898,7 @@ extension QuickSightClientTypes.DefaultFilterControlOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The option that corresponds to the control type of the filter.
-    public struct DefaultFilterControlOptions: Swift.Equatable {
+    public struct DefaultFilterControlOptions {
         /// The default options that correspond to the filter control type of a DateTimePicker.
         public var defaultDateTimePickerOptions: QuickSightClientTypes.DefaultDateTimePickerControlOptions?
         /// The default options that correspond to the Dropdown filter control type.
@@ -23969,7 +23969,7 @@ extension QuickSightClientTypes.DefaultFilterDropDownControlOptions: Swift.Codab
 
 extension QuickSightClientTypes {
     /// The default options that correspond to the Dropdown filter control type.
-    public struct DefaultFilterDropDownControlOptions: Swift.Equatable {
+    public struct DefaultFilterDropDownControlOptions {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
         /// A list of selectable values that are used in a control.
@@ -24028,7 +24028,7 @@ extension QuickSightClientTypes.DefaultFilterListControlOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The default options that correspond to the List filter control type.
-    public struct DefaultFilterListControlOptions: Swift.Equatable {
+    public struct DefaultFilterListControlOptions {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.ListControlDisplayOptions?
         /// A list of selectable values that are used in a control.
@@ -24081,7 +24081,7 @@ extension QuickSightClientTypes.DefaultFormatting: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a default formatting definition.
-    public struct DefaultFormatting: Swift.Equatable {
+    public struct DefaultFormatting {
         /// The display format. Valid values for this structure are AUTO, PERCENT, CURRENCY, NUMBER, DATE, and STRING.
         public var displayFormat: QuickSightClientTypes.DisplayFormat?
         /// The additional options for display formatting.
@@ -24120,7 +24120,7 @@ extension QuickSightClientTypes.DefaultFreeFormLayoutConfiguration: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// The options that determine the default settings of a free-form layout configuration.
-    public struct DefaultFreeFormLayoutConfiguration: Swift.Equatable {
+    public struct DefaultFreeFormLayoutConfiguration {
         /// Determines the screen canvas size options for a free-form layout.
         /// This member is required.
         public var canvasSizeOptions: QuickSightClientTypes.FreeFormLayoutCanvasSizeOptions?
@@ -24156,7 +24156,7 @@ extension QuickSightClientTypes.DefaultGridLayoutConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the default settings for a grid layout configuration.
-    public struct DefaultGridLayoutConfiguration: Swift.Equatable {
+    public struct DefaultGridLayoutConfiguration {
         /// Determines the screen canvas size options for a grid layout.
         /// This member is required.
         public var canvasSizeOptions: QuickSightClientTypes.GridLayoutCanvasSizeOptions?
@@ -24198,7 +24198,7 @@ extension QuickSightClientTypes.DefaultInteractiveLayoutConfiguration: Swift.Cod
 
 extension QuickSightClientTypes {
     /// The options that determine the default settings for interactive layout configuration.
-    public struct DefaultInteractiveLayoutConfiguration: Swift.Equatable {
+    public struct DefaultInteractiveLayoutConfiguration {
         /// The options that determine the default settings of a free-form layout configuration.
         public var freeForm: QuickSightClientTypes.DefaultFreeFormLayoutConfiguration?
         /// The options that determine the default settings for a grid layout configuration.
@@ -24249,7 +24249,7 @@ extension QuickSightClientTypes.DefaultNewSheetConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration for default new sheet settings.
-    public struct DefaultNewSheetConfiguration: Swift.Equatable {
+    public struct DefaultNewSheetConfiguration {
         /// The options that determine the default settings for interactive layout configuration.
         public var interactiveLayoutConfiguration: QuickSightClientTypes.DefaultInteractiveLayoutConfiguration?
         /// The options that determine the default settings for a paginated layout configuration.
@@ -24292,7 +24292,7 @@ extension QuickSightClientTypes.DefaultPaginatedLayoutConfiguration: Swift.Codab
 
 extension QuickSightClientTypes {
     /// The options that determine the default settings for a paginated layout configuration.
-    public struct DefaultPaginatedLayoutConfiguration: Swift.Equatable {
+    public struct DefaultPaginatedLayoutConfiguration {
         /// The options that determine the default settings for a section-based layout configuration.
         public var sectionBased: QuickSightClientTypes.DefaultSectionBasedLayoutConfiguration?
 
@@ -24327,7 +24327,7 @@ extension QuickSightClientTypes.DefaultRelativeDateTimeControlOptions: Swift.Cod
 
 extension QuickSightClientTypes {
     /// The default options that correspond to the RelativeDateTime filter control type.
-    public struct DefaultRelativeDateTimeControlOptions: Swift.Equatable {
+    public struct DefaultRelativeDateTimeControlOptions {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions?
 
@@ -24362,7 +24362,7 @@ extension QuickSightClientTypes.DefaultSectionBasedLayoutConfiguration: Swift.Co
 
 extension QuickSightClientTypes {
     /// The options that determine the default settings for a section-based layout configuration.
-    public struct DefaultSectionBasedLayoutConfiguration: Swift.Equatable {
+    public struct DefaultSectionBasedLayoutConfiguration {
         /// Determines the screen canvas size options for a section-based layout.
         /// This member is required.
         public var canvasSizeOptions: QuickSightClientTypes.SectionBasedLayoutCanvasSizeOptions?
@@ -24422,7 +24422,7 @@ extension QuickSightClientTypes.DefaultSliderControlOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The default options that correspond to the Slider filter control type.
-    public struct DefaultSliderControlOptions: Swift.Equatable {
+    public struct DefaultSliderControlOptions {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.SliderControlDisplayOptions?
         /// The larger value that is displayed at the right of the slider.
@@ -24486,7 +24486,7 @@ extension QuickSightClientTypes.DefaultTextAreaControlOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The default options that correspond to the TextArea filter control type.
-    public struct DefaultTextAreaControlOptions: Swift.Equatable {
+    public struct DefaultTextAreaControlOptions {
         /// The delimiter that is used to separate the lines in text.
         public var delimiter: Swift.String?
         /// The display options of a control.
@@ -24525,7 +24525,7 @@ extension QuickSightClientTypes.DefaultTextFieldControlOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The default options that correspond to the TextField filter control type.
-    public struct DefaultTextFieldControlOptions: Swift.Equatable {
+    public struct DefaultTextFieldControlOptions {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions?
 
@@ -24561,7 +24561,7 @@ extension DeleteAccountCustomizationInput {
     }
 }
 
-public struct DeleteAccountCustomizationInput: Swift.Equatable {
+public struct DeleteAccountCustomizationInput {
     /// The ID for the Amazon Web Services account that you want to delete Amazon QuickSight customizations from in this Amazon Web Services Region.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -24578,7 +24578,7 @@ public struct DeleteAccountCustomizationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccountCustomizationInputBody: Swift.Equatable {
+struct DeleteAccountCustomizationInputBody {
 }
 
 extension DeleteAccountCustomizationInputBody: Swift.Decodable {
@@ -24600,7 +24600,7 @@ extension DeleteAccountCustomizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAccountCustomizationOutput: Swift.Equatable {
+public struct DeleteAccountCustomizationOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -24616,7 +24616,7 @@ public struct DeleteAccountCustomizationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAccountCustomizationOutputBody: Swift.Equatable {
+struct DeleteAccountCustomizationOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -24665,7 +24665,7 @@ extension DeleteAccountSubscriptionInput {
     }
 }
 
-public struct DeleteAccountSubscriptionInput: Swift.Equatable {
+public struct DeleteAccountSubscriptionInput {
     /// The Amazon Web Services account ID of the account that you want to delete.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -24678,7 +24678,7 @@ public struct DeleteAccountSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccountSubscriptionInputBody: Swift.Equatable {
+struct DeleteAccountSubscriptionInputBody {
 }
 
 extension DeleteAccountSubscriptionInputBody: Swift.Decodable {
@@ -24700,7 +24700,7 @@ extension DeleteAccountSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAccountSubscriptionOutput: Swift.Equatable {
+public struct DeleteAccountSubscriptionOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -24716,7 +24716,7 @@ public struct DeleteAccountSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAccountSubscriptionOutputBody: Swift.Equatable {
+struct DeleteAccountSubscriptionOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -24782,7 +24782,7 @@ extension DeleteAnalysisInput {
     }
 }
 
-public struct DeleteAnalysisInput: Swift.Equatable {
+public struct DeleteAnalysisInput {
     /// The ID of the analysis that you're deleting.
     /// This member is required.
     public var analysisId: Swift.String?
@@ -24808,7 +24808,7 @@ public struct DeleteAnalysisInput: Swift.Equatable {
     }
 }
 
-struct DeleteAnalysisInputBody: Swift.Equatable {
+struct DeleteAnalysisInputBody {
 }
 
 extension DeleteAnalysisInputBody: Swift.Decodable {
@@ -24836,7 +24836,7 @@ extension DeleteAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAnalysisOutput: Swift.Equatable {
+public struct DeleteAnalysisOutput {
     /// The ID of the deleted analysis.
     public var analysisId: Swift.String?
     /// The Amazon Resource Name (ARN) of the deleted analysis.
@@ -24864,7 +24864,7 @@ public struct DeleteAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAnalysisOutputBody: Swift.Equatable {
+struct DeleteAnalysisOutputBody {
     let status: Swift.Int
     let arn: Swift.String?
     let analysisId: Swift.String?
@@ -24937,7 +24937,7 @@ extension DeleteDashboardInput {
     }
 }
 
-public struct DeleteDashboardInput: Swift.Equatable {
+public struct DeleteDashboardInput {
     /// The ID of the Amazon Web Services account that contains the dashboard that you're deleting.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -24959,7 +24959,7 @@ public struct DeleteDashboardInput: Swift.Equatable {
     }
 }
 
-struct DeleteDashboardInputBody: Swift.Equatable {
+struct DeleteDashboardInputBody {
 }
 
 extension DeleteDashboardInputBody: Swift.Decodable {
@@ -24985,7 +24985,7 @@ extension DeleteDashboardOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDashboardOutput: Swift.Equatable {
+public struct DeleteDashboardOutput {
     /// The Secure Socket Layer (SSL) properties that apply for the resource.
     public var arn: Swift.String?
     /// The ID of the dashboard.
@@ -25009,7 +25009,7 @@ public struct DeleteDashboardOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDashboardOutputBody: Swift.Equatable {
+struct DeleteDashboardOutputBody {
     let status: Swift.Int
     let arn: Swift.String?
     let dashboardId: Swift.String?
@@ -25066,7 +25066,7 @@ extension DeleteDataSetInput {
     }
 }
 
-public struct DeleteDataSetInput: Swift.Equatable {
+public struct DeleteDataSetInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -25084,7 +25084,7 @@ public struct DeleteDataSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSetInputBody: Swift.Equatable {
+struct DeleteDataSetInputBody {
 }
 
 extension DeleteDataSetInputBody: Swift.Decodable {
@@ -25110,7 +25110,7 @@ extension DeleteDataSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDataSetOutput: Swift.Equatable {
+public struct DeleteDataSetOutput {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var arn: Swift.String?
     /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -25134,7 +25134,7 @@ public struct DeleteDataSetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSetOutputBody: Swift.Equatable {
+struct DeleteDataSetOutputBody {
     let arn: Swift.String?
     let dataSetId: Swift.String?
     let requestId: Swift.String?
@@ -25190,7 +25190,7 @@ extension DeleteDataSetRefreshPropertiesInput {
     }
 }
 
-public struct DeleteDataSetRefreshPropertiesInput: Swift.Equatable {
+public struct DeleteDataSetRefreshPropertiesInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -25208,7 +25208,7 @@ public struct DeleteDataSetRefreshPropertiesInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSetRefreshPropertiesInputBody: Swift.Equatable {
+struct DeleteDataSetRefreshPropertiesInputBody {
 }
 
 extension DeleteDataSetRefreshPropertiesInputBody: Swift.Decodable {
@@ -25230,7 +25230,7 @@ extension DeleteDataSetRefreshPropertiesOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteDataSetRefreshPropertiesOutput: Swift.Equatable {
+public struct DeleteDataSetRefreshPropertiesOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -25246,7 +25246,7 @@ public struct DeleteDataSetRefreshPropertiesOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSetRefreshPropertiesOutputBody: Swift.Equatable {
+struct DeleteDataSetRefreshPropertiesOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -25296,7 +25296,7 @@ extension DeleteDataSourceInput {
     }
 }
 
-public struct DeleteDataSourceInput: Swift.Equatable {
+public struct DeleteDataSourceInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -25314,7 +25314,7 @@ public struct DeleteDataSourceInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSourceInputBody: Swift.Equatable {
+struct DeleteDataSourceInputBody {
 }
 
 extension DeleteDataSourceInputBody: Swift.Decodable {
@@ -25340,7 +25340,7 @@ extension DeleteDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDataSourceOutput: Swift.Equatable {
+public struct DeleteDataSourceOutput {
     /// The Amazon Resource Name (ARN) of the data source that you deleted.
     public var arn: Swift.String?
     /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -25364,7 +25364,7 @@ public struct DeleteDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDataSourceOutputBody: Swift.Equatable {
+struct DeleteDataSourceOutputBody {
     let arn: Swift.String?
     let dataSourceId: Swift.String?
     let requestId: Swift.String?
@@ -25420,7 +25420,7 @@ extension DeleteFolderInput {
     }
 }
 
-public struct DeleteFolderInput: Swift.Equatable {
+public struct DeleteFolderInput {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -25438,7 +25438,7 @@ public struct DeleteFolderInput: Swift.Equatable {
     }
 }
 
-struct DeleteFolderInputBody: Swift.Equatable {
+struct DeleteFolderInputBody {
 }
 
 extension DeleteFolderInputBody: Swift.Decodable {
@@ -25466,7 +25466,7 @@ extension DeleteFolderMembershipInput {
     }
 }
 
-public struct DeleteFolderMembershipInput: Swift.Equatable {
+public struct DeleteFolderMembershipInput {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -25494,7 +25494,7 @@ public struct DeleteFolderMembershipInput: Swift.Equatable {
     }
 }
 
-struct DeleteFolderMembershipInputBody: Swift.Equatable {
+struct DeleteFolderMembershipInputBody {
 }
 
 extension DeleteFolderMembershipInputBody: Swift.Decodable {
@@ -25517,7 +25517,7 @@ extension DeleteFolderMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFolderMembershipOutput: Swift.Equatable {
+public struct DeleteFolderMembershipOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -25533,7 +25533,7 @@ public struct DeleteFolderMembershipOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFolderMembershipOutputBody: Swift.Equatable {
+struct DeleteFolderMembershipOutputBody {
     let status: Swift.Int
     let requestId: Swift.String?
 }
@@ -25586,7 +25586,7 @@ extension DeleteFolderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFolderOutput: Swift.Equatable {
+public struct DeleteFolderOutput {
     /// The Amazon Resource Name of the deleted folder.
     public var arn: Swift.String?
     /// The ID of the folder.
@@ -25610,7 +25610,7 @@ public struct DeleteFolderOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFolderOutputBody: Swift.Equatable {
+struct DeleteFolderOutputBody {
     let status: Swift.Int
     let arn: Swift.String?
     let folderId: Swift.String?
@@ -25672,7 +25672,7 @@ extension DeleteGroupInput {
     }
 }
 
-public struct DeleteGroupInput: Swift.Equatable {
+public struct DeleteGroupInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -25695,7 +25695,7 @@ public struct DeleteGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupInputBody: Swift.Equatable {
+struct DeleteGroupInputBody {
 }
 
 extension DeleteGroupInputBody: Swift.Decodable {
@@ -25723,7 +25723,7 @@ extension DeleteGroupMembershipInput {
     }
 }
 
-public struct DeleteGroupMembershipInput: Swift.Equatable {
+public struct DeleteGroupMembershipInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -25751,7 +25751,7 @@ public struct DeleteGroupMembershipInput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupMembershipInputBody: Swift.Equatable {
+struct DeleteGroupMembershipInputBody {
 }
 
 extension DeleteGroupMembershipInputBody: Swift.Decodable {
@@ -25773,7 +25773,7 @@ extension DeleteGroupMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGroupMembershipOutput: Swift.Equatable {
+public struct DeleteGroupMembershipOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -25789,7 +25789,7 @@ public struct DeleteGroupMembershipOutput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupMembershipOutputBody: Swift.Equatable {
+struct DeleteGroupMembershipOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -25839,7 +25839,7 @@ extension DeleteGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGroupOutput: Swift.Equatable {
+public struct DeleteGroupOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -25855,7 +25855,7 @@ public struct DeleteGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupOutputBody: Swift.Equatable {
+struct DeleteGroupOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -25908,7 +25908,7 @@ extension DeleteIAMPolicyAssignmentInput {
     }
 }
 
-public struct DeleteIAMPolicyAssignmentInput: Swift.Equatable {
+public struct DeleteIAMPolicyAssignmentInput {
     /// The name of the assignment.
     /// This member is required.
     public var assignmentName: Swift.String?
@@ -25931,7 +25931,7 @@ public struct DeleteIAMPolicyAssignmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteIAMPolicyAssignmentInputBody: Swift.Equatable {
+struct DeleteIAMPolicyAssignmentInputBody {
 }
 
 extension DeleteIAMPolicyAssignmentInputBody: Swift.Decodable {
@@ -25955,7 +25955,7 @@ extension DeleteIAMPolicyAssignmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIAMPolicyAssignmentOutput: Swift.Equatable {
+public struct DeleteIAMPolicyAssignmentOutput {
     /// The name of the assignment.
     public var assignmentName: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -25975,7 +25975,7 @@ public struct DeleteIAMPolicyAssignmentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteIAMPolicyAssignmentOutputBody: Swift.Equatable {
+struct DeleteIAMPolicyAssignmentOutputBody {
     let assignmentName: Swift.String?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -26029,7 +26029,7 @@ extension DeleteIdentityPropagationConfigInput {
     }
 }
 
-public struct DeleteIdentityPropagationConfigInput: Swift.Equatable {
+public struct DeleteIdentityPropagationConfigInput {
     /// The ID of the Amazon Web Services account that you want to delete an identity propagation configuration from.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -26047,7 +26047,7 @@ public struct DeleteIdentityPropagationConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteIdentityPropagationConfigInputBody: Swift.Equatable {
+struct DeleteIdentityPropagationConfigInputBody {
 }
 
 extension DeleteIdentityPropagationConfigInputBody: Swift.Decodable {
@@ -26069,7 +26069,7 @@ extension DeleteIdentityPropagationConfigOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteIdentityPropagationConfigOutput: Swift.Equatable {
+public struct DeleteIdentityPropagationConfigOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -26085,7 +26085,7 @@ public struct DeleteIdentityPropagationConfigOutput: Swift.Equatable {
     }
 }
 
-struct DeleteIdentityPropagationConfigOutputBody: Swift.Equatable {
+struct DeleteIdentityPropagationConfigOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -26133,7 +26133,7 @@ extension DeleteNamespaceInput {
     }
 }
 
-public struct DeleteNamespaceInput: Swift.Equatable {
+public struct DeleteNamespaceInput {
     /// The ID for the Amazon Web Services account that you want to delete the Amazon QuickSight namespace from.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -26151,7 +26151,7 @@ public struct DeleteNamespaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteNamespaceInputBody: Swift.Equatable {
+struct DeleteNamespaceInputBody {
 }
 
 extension DeleteNamespaceInputBody: Swift.Decodable {
@@ -26173,7 +26173,7 @@ extension DeleteNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNamespaceOutput: Swift.Equatable {
+public struct DeleteNamespaceOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -26189,7 +26189,7 @@ public struct DeleteNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteNamespaceOutputBody: Swift.Equatable {
+struct DeleteNamespaceOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -26242,7 +26242,7 @@ extension DeleteRefreshScheduleInput {
     }
 }
 
-public struct DeleteRefreshScheduleInput: Swift.Equatable {
+public struct DeleteRefreshScheduleInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -26265,7 +26265,7 @@ public struct DeleteRefreshScheduleInput: Swift.Equatable {
     }
 }
 
-struct DeleteRefreshScheduleInputBody: Swift.Equatable {
+struct DeleteRefreshScheduleInputBody {
 }
 
 extension DeleteRefreshScheduleInputBody: Swift.Decodable {
@@ -26291,7 +26291,7 @@ extension DeleteRefreshScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRefreshScheduleOutput: Swift.Equatable {
+public struct DeleteRefreshScheduleOutput {
     /// The Amazon Resource Name (ARN) for the refresh schedule.
     public var arn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -26315,7 +26315,7 @@ public struct DeleteRefreshScheduleOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRefreshScheduleOutputBody: Swift.Equatable {
+struct DeleteRefreshScheduleOutputBody {
     let status: Swift.Int
     let requestId: Swift.String?
     let scheduleId: Swift.String?
@@ -26375,7 +26375,7 @@ extension DeleteRoleCustomPermissionInput {
     }
 }
 
-public struct DeleteRoleCustomPermissionInput: Swift.Equatable {
+public struct DeleteRoleCustomPermissionInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -26398,7 +26398,7 @@ public struct DeleteRoleCustomPermissionInput: Swift.Equatable {
     }
 }
 
-struct DeleteRoleCustomPermissionInputBody: Swift.Equatable {
+struct DeleteRoleCustomPermissionInputBody {
 }
 
 extension DeleteRoleCustomPermissionInputBody: Swift.Decodable {
@@ -26421,7 +26421,7 @@ extension DeleteRoleCustomPermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRoleCustomPermissionOutput: Swift.Equatable {
+public struct DeleteRoleCustomPermissionOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -26437,7 +26437,7 @@ public struct DeleteRoleCustomPermissionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRoleCustomPermissionOutputBody: Swift.Equatable {
+struct DeleteRoleCustomPermissionOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -26493,7 +26493,7 @@ extension DeleteRoleMembershipInput {
     }
 }
 
-public struct DeleteRoleMembershipInput: Swift.Equatable {
+public struct DeleteRoleMembershipInput {
     /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -26521,7 +26521,7 @@ public struct DeleteRoleMembershipInput: Swift.Equatable {
     }
 }
 
-struct DeleteRoleMembershipInputBody: Swift.Equatable {
+struct DeleteRoleMembershipInputBody {
 }
 
 extension DeleteRoleMembershipInputBody: Swift.Decodable {
@@ -26543,7 +26543,7 @@ extension DeleteRoleMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRoleMembershipOutput: Swift.Equatable {
+public struct DeleteRoleMembershipOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -26559,7 +26559,7 @@ public struct DeleteRoleMembershipOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRoleMembershipOutputBody: Swift.Equatable {
+struct DeleteRoleMembershipOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -26612,7 +26612,7 @@ extension DeleteTemplateAliasInput {
     }
 }
 
-public struct DeleteTemplateAliasInput: Swift.Equatable {
+public struct DeleteTemplateAliasInput {
     /// The name for the template alias. To delete a specific alias, you delete the version that the alias points to. You can specify the alias name, or specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -26635,7 +26635,7 @@ public struct DeleteTemplateAliasInput: Swift.Equatable {
     }
 }
 
-struct DeleteTemplateAliasInputBody: Swift.Equatable {
+struct DeleteTemplateAliasInputBody {
 }
 
 extension DeleteTemplateAliasInputBody: Swift.Decodable {
@@ -26663,7 +26663,7 @@ extension DeleteTemplateAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTemplateAliasOutput: Swift.Equatable {
+public struct DeleteTemplateAliasOutput {
     /// The name for the template alias.
     public var aliasName: Swift.String?
     /// The Amazon Resource Name (ARN) of the template you want to delete.
@@ -26691,7 +26691,7 @@ public struct DeleteTemplateAliasOutput: Swift.Equatable {
     }
 }
 
-struct DeleteTemplateAliasOutputBody: Swift.Equatable {
+struct DeleteTemplateAliasOutputBody {
     let status: Swift.Int
     let templateId: Swift.String?
     let aliasName: Swift.String?
@@ -26763,7 +26763,7 @@ extension DeleteTemplateInput {
     }
 }
 
-public struct DeleteTemplateInput: Swift.Equatable {
+public struct DeleteTemplateInput {
     /// The ID of the Amazon Web Services account that contains the template that you're deleting.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -26785,7 +26785,7 @@ public struct DeleteTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteTemplateInputBody: Swift.Equatable {
+struct DeleteTemplateInputBody {
 }
 
 extension DeleteTemplateInputBody: Swift.Decodable {
@@ -26811,7 +26811,7 @@ extension DeleteTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTemplateOutput: Swift.Equatable {
+public struct DeleteTemplateOutput {
     /// The Amazon Resource Name (ARN) of the resource.
     public var arn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -26835,7 +26835,7 @@ public struct DeleteTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DeleteTemplateOutputBody: Swift.Equatable {
+struct DeleteTemplateOutputBody {
     let requestId: Swift.String?
     let arn: Swift.String?
     let templateId: Swift.String?
@@ -26896,7 +26896,7 @@ extension DeleteThemeAliasInput {
     }
 }
 
-public struct DeleteThemeAliasInput: Swift.Equatable {
+public struct DeleteThemeAliasInput {
     /// The unique name for the theme alias to delete.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -26919,7 +26919,7 @@ public struct DeleteThemeAliasInput: Swift.Equatable {
     }
 }
 
-struct DeleteThemeAliasInputBody: Swift.Equatable {
+struct DeleteThemeAliasInputBody {
 }
 
 extension DeleteThemeAliasInputBody: Swift.Decodable {
@@ -26947,7 +26947,7 @@ extension DeleteThemeAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteThemeAliasOutput: Swift.Equatable {
+public struct DeleteThemeAliasOutput {
     /// The name for the theme alias.
     public var aliasName: Swift.String?
     /// The Amazon Resource Name (ARN) of the theme resource using the deleted alias.
@@ -26975,7 +26975,7 @@ public struct DeleteThemeAliasOutput: Swift.Equatable {
     }
 }
 
-struct DeleteThemeAliasOutputBody: Swift.Equatable {
+struct DeleteThemeAliasOutputBody {
     let aliasName: Swift.String?
     let arn: Swift.String?
     let requestId: Swift.String?
@@ -27048,7 +27048,7 @@ extension DeleteThemeInput {
     }
 }
 
-public struct DeleteThemeInput: Swift.Equatable {
+public struct DeleteThemeInput {
     /// The ID of the Amazon Web Services account that contains the theme that you're deleting.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -27070,7 +27070,7 @@ public struct DeleteThemeInput: Swift.Equatable {
     }
 }
 
-struct DeleteThemeInputBody: Swift.Equatable {
+struct DeleteThemeInputBody {
 }
 
 extension DeleteThemeInputBody: Swift.Decodable {
@@ -27096,7 +27096,7 @@ extension DeleteThemeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteThemeOutput: Swift.Equatable {
+public struct DeleteThemeOutput {
     /// The Amazon Resource Name (ARN) of the resource.
     public var arn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -27120,7 +27120,7 @@ public struct DeleteThemeOutput: Swift.Equatable {
     }
 }
 
-struct DeleteThemeOutputBody: Swift.Equatable {
+struct DeleteThemeOutputBody {
     let arn: Swift.String?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -27178,7 +27178,7 @@ extension DeleteTopicInput {
     }
 }
 
-public struct DeleteTopicInput: Swift.Equatable {
+public struct DeleteTopicInput {
     /// The ID of the Amazon Web Services account that contains the topic that you want to delete.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -27196,7 +27196,7 @@ public struct DeleteTopicInput: Swift.Equatable {
     }
 }
 
-struct DeleteTopicInputBody: Swift.Equatable {
+struct DeleteTopicInputBody {
 }
 
 extension DeleteTopicInputBody: Swift.Decodable {
@@ -27222,7 +27222,7 @@ extension DeleteTopicOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTopicOutput: Swift.Equatable {
+public struct DeleteTopicOutput {
     /// The Amazon Resource Name (ARN) of the topic.
     public var arn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -27246,7 +27246,7 @@ public struct DeleteTopicOutput: Swift.Equatable {
     }
 }
 
-struct DeleteTopicOutputBody: Swift.Equatable {
+struct DeleteTopicOutputBody {
     let arn: Swift.String?
     let topicId: Swift.String?
     let requestId: Swift.String?
@@ -27306,7 +27306,7 @@ extension DeleteTopicRefreshScheduleInput {
     }
 }
 
-public struct DeleteTopicRefreshScheduleInput: Swift.Equatable {
+public struct DeleteTopicRefreshScheduleInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -27329,7 +27329,7 @@ public struct DeleteTopicRefreshScheduleInput: Swift.Equatable {
     }
 }
 
-struct DeleteTopicRefreshScheduleInputBody: Swift.Equatable {
+struct DeleteTopicRefreshScheduleInputBody {
 }
 
 extension DeleteTopicRefreshScheduleInputBody: Swift.Decodable {
@@ -27357,7 +27357,7 @@ extension DeleteTopicRefreshScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTopicRefreshScheduleOutput: Swift.Equatable {
+public struct DeleteTopicRefreshScheduleOutput {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var datasetArn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -27385,7 +27385,7 @@ public struct DeleteTopicRefreshScheduleOutput: Swift.Equatable {
     }
 }
 
-struct DeleteTopicRefreshScheduleOutputBody: Swift.Equatable {
+struct DeleteTopicRefreshScheduleOutputBody {
     let topicId: Swift.String?
     let topicArn: Swift.String?
     let datasetArn: Swift.String?
@@ -27452,7 +27452,7 @@ extension DeleteUserByPrincipalIdInput {
 }
 
 ///
-public struct DeleteUserByPrincipalIdInput: Swift.Equatable {
+public struct DeleteUserByPrincipalIdInput {
     /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -27475,7 +27475,7 @@ public struct DeleteUserByPrincipalIdInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserByPrincipalIdInputBody: Swift.Equatable {
+struct DeleteUserByPrincipalIdInputBody {
 }
 
 extension DeleteUserByPrincipalIdInputBody: Swift.Decodable {
@@ -27497,7 +27497,7 @@ extension DeleteUserByPrincipalIdOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserByPrincipalIdOutput: Swift.Equatable {
+public struct DeleteUserByPrincipalIdOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -27513,7 +27513,7 @@ public struct DeleteUserByPrincipalIdOutput: Swift.Equatable {
     }
 }
 
-struct DeleteUserByPrincipalIdOutputBody: Swift.Equatable {
+struct DeleteUserByPrincipalIdOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -27566,7 +27566,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -27589,7 +27589,7 @@ public struct DeleteUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserInputBody: Swift.Equatable {
+struct DeleteUserInputBody {
 }
 
 extension DeleteUserInputBody: Swift.Decodable {
@@ -27611,7 +27611,7 @@ extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -27627,7 +27627,7 @@ public struct DeleteUserOutput: Swift.Equatable {
     }
 }
 
-struct DeleteUserOutputBody: Swift.Equatable {
+struct DeleteUserOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -27677,7 +27677,7 @@ extension DeleteVPCConnectionInput {
     }
 }
 
-public struct DeleteVPCConnectionInput: Swift.Equatable {
+public struct DeleteVPCConnectionInput {
     /// The Amazon Web Services account ID of the account where you want to delete a VPC connection.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -27695,7 +27695,7 @@ public struct DeleteVPCConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteVPCConnectionInputBody: Swift.Equatable {
+struct DeleteVPCConnectionInputBody {
 }
 
 extension DeleteVPCConnectionInputBody: Swift.Decodable {
@@ -27725,7 +27725,7 @@ extension DeleteVPCConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVPCConnectionOutput: Swift.Equatable {
+public struct DeleteVPCConnectionOutput {
     /// The Amazon Resource Name (ARN) of the deleted VPC connection.
     public var arn: Swift.String?
     /// The availability status of the VPC connection.
@@ -27757,7 +27757,7 @@ public struct DeleteVPCConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVPCConnectionOutputBody: Swift.Equatable {
+struct DeleteVPCConnectionOutputBody {
     let arn: Swift.String?
     let vpcConnectionId: Swift.String?
     let deletionStatus: QuickSightClientTypes.VPCConnectionResourceStatus?
@@ -27836,7 +27836,7 @@ extension DescribeAccountCustomizationInput {
     }
 }
 
-public struct DescribeAccountCustomizationInput: Swift.Equatable {
+public struct DescribeAccountCustomizationInput {
     /// The ID for the Amazon Web Services account that you want to describe Amazon QuickSight customizations for.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -27857,7 +27857,7 @@ public struct DescribeAccountCustomizationInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountCustomizationInputBody: Swift.Equatable {
+struct DescribeAccountCustomizationInputBody {
 }
 
 extension DescribeAccountCustomizationInputBody: Swift.Decodable {
@@ -27887,7 +27887,7 @@ extension DescribeAccountCustomizationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeAccountCustomizationOutput: Swift.Equatable {
+public struct DescribeAccountCustomizationOutput {
     /// The Amazon QuickSight customizations that exist in the current Amazon Web Services Region.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
     /// The Amazon Resource Name (ARN) of the customization that's associated with this Amazon Web Services account.
@@ -27919,7 +27919,7 @@ public struct DescribeAccountCustomizationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountCustomizationOutputBody: Swift.Equatable {
+struct DescribeAccountCustomizationOutputBody {
     let arn: Swift.String?
     let awsAccountId: Swift.String?
     let namespace: Swift.String?
@@ -27981,7 +27981,7 @@ extension DescribeAccountSettingsInput {
     }
 }
 
-public struct DescribeAccountSettingsInput: Swift.Equatable {
+public struct DescribeAccountSettingsInput {
     /// The ID for the Amazon Web Services account that contains the settings that you want to list.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -27994,7 +27994,7 @@ public struct DescribeAccountSettingsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountSettingsInputBody: Swift.Equatable {
+struct DescribeAccountSettingsInputBody {
 }
 
 extension DescribeAccountSettingsInputBody: Swift.Decodable {
@@ -28018,7 +28018,7 @@ extension DescribeAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccountSettingsOutput: Swift.Equatable {
+public struct DescribeAccountSettingsOutput {
     /// The Amazon QuickSight settings for this Amazon Web Services account. This information includes the edition of Amazon Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon QuickSight subscription. In the QuickSight console, the Amazon QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon QuickSight service for your Amazon Web Services account. The edition that you subscribe to applies to Amazon QuickSight in every Amazon Web Services Region where you use it.
     public var accountSettings: QuickSightClientTypes.AccountSettings?
     /// The Amazon Web Services request ID for this operation.
@@ -28038,7 +28038,7 @@ public struct DescribeAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountSettingsOutputBody: Swift.Equatable {
+struct DescribeAccountSettingsOutputBody {
     let accountSettings: QuickSightClientTypes.AccountSettings?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -28088,7 +28088,7 @@ extension DescribeAccountSubscriptionInput {
     }
 }
 
-public struct DescribeAccountSubscriptionInput: Swift.Equatable {
+public struct DescribeAccountSubscriptionInput {
     /// The Amazon Web Services account ID associated with your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -28101,7 +28101,7 @@ public struct DescribeAccountSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountSubscriptionInputBody: Swift.Equatable {
+struct DescribeAccountSubscriptionInputBody {
 }
 
 extension DescribeAccountSubscriptionInputBody: Swift.Decodable {
@@ -28125,7 +28125,7 @@ extension DescribeAccountSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccountSubscriptionOutput: Swift.Equatable {
+public struct DescribeAccountSubscriptionOutput {
     /// A structure that contains the following elements:
     ///
     /// * Your Amazon QuickSight account name.
@@ -28155,7 +28155,7 @@ public struct DescribeAccountSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountSubscriptionOutputBody: Swift.Equatable {
+struct DescribeAccountSubscriptionOutputBody {
     let accountInfo: QuickSightClientTypes.AccountInfo?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -28208,7 +28208,7 @@ extension DescribeAnalysisDefinitionInput {
     }
 }
 
-public struct DescribeAnalysisDefinitionInput: Swift.Equatable {
+public struct DescribeAnalysisDefinitionInput {
     /// The ID of the analysis that you're describing. The ID is part of the URL of the analysis.
     /// This member is required.
     public var analysisId: Swift.String?
@@ -28226,7 +28226,7 @@ public struct DescribeAnalysisDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DescribeAnalysisDefinitionInputBody: Swift.Equatable {
+struct DescribeAnalysisDefinitionInputBody {
 }
 
 extension DescribeAnalysisDefinitionInputBody: Swift.Decodable {
@@ -28260,7 +28260,7 @@ extension DescribeAnalysisDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAnalysisDefinitionOutput: Swift.Equatable {
+public struct DescribeAnalysisDefinitionOutput {
     /// The ID of the analysis described.
     public var analysisId: Swift.String?
     /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
@@ -28314,7 +28314,7 @@ public struct DescribeAnalysisDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAnalysisDefinitionOutputBody: Swift.Equatable {
+struct DescribeAnalysisDefinitionOutputBody {
     let analysisId: Swift.String?
     let name: Swift.String?
     let errors: [QuickSightClientTypes.AnalysisError]?
@@ -28398,7 +28398,7 @@ extension DescribeAnalysisInput {
     }
 }
 
-public struct DescribeAnalysisInput: Swift.Equatable {
+public struct DescribeAnalysisInput {
     /// The ID of the analysis that you're describing. The ID is part of the URL of the analysis.
     /// This member is required.
     public var analysisId: Swift.String?
@@ -28416,7 +28416,7 @@ public struct DescribeAnalysisInput: Swift.Equatable {
     }
 }
 
-struct DescribeAnalysisInputBody: Swift.Equatable {
+struct DescribeAnalysisInputBody {
 }
 
 extension DescribeAnalysisInputBody: Swift.Decodable {
@@ -28440,7 +28440,7 @@ extension DescribeAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAnalysisOutput: Swift.Equatable {
+public struct DescribeAnalysisOutput {
     /// A metadata structure that contains summary information for the analysis that you're describing.
     public var analysis: QuickSightClientTypes.Analysis?
     /// The Amazon Web Services request ID for this operation.
@@ -28460,7 +28460,7 @@ public struct DescribeAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAnalysisOutputBody: Swift.Equatable {
+struct DescribeAnalysisOutputBody {
     let analysis: QuickSightClientTypes.Analysis?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -28513,7 +28513,7 @@ extension DescribeAnalysisPermissionsInput {
     }
 }
 
-public struct DescribeAnalysisPermissionsInput: Swift.Equatable {
+public struct DescribeAnalysisPermissionsInput {
     /// The ID of the analysis whose permissions you're describing. The ID is part of the analysis URL.
     /// This member is required.
     public var analysisId: Swift.String?
@@ -28531,7 +28531,7 @@ public struct DescribeAnalysisPermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAnalysisPermissionsInputBody: Swift.Equatable {
+struct DescribeAnalysisPermissionsInputBody {
 }
 
 extension DescribeAnalysisPermissionsInputBody: Swift.Decodable {
@@ -28559,7 +28559,7 @@ extension DescribeAnalysisPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAnalysisPermissionsOutput: Swift.Equatable {
+public struct DescribeAnalysisPermissionsOutput {
     /// The Amazon Resource Name (ARN) of the analysis whose permissions you're describing.
     public var analysisArn: Swift.String?
     /// The ID of the analysis whose permissions you're describing.
@@ -28587,7 +28587,7 @@ public struct DescribeAnalysisPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAnalysisPermissionsOutputBody: Swift.Equatable {
+struct DescribeAnalysisPermissionsOutputBody {
     let analysisId: Swift.String?
     let analysisArn: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -28656,7 +28656,7 @@ extension DescribeAssetBundleExportJobInput {
     }
 }
 
-public struct DescribeAssetBundleExportJobInput: Swift.Equatable {
+public struct DescribeAssetBundleExportJobInput {
     /// The ID of the job that you want described. The job ID is set when you start a new job with a StartAssetBundleExportJob API call.
     /// This member is required.
     public var assetBundleExportJobId: Swift.String?
@@ -28674,7 +28674,7 @@ public struct DescribeAssetBundleExportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetBundleExportJobInputBody: Swift.Equatable {
+struct DescribeAssetBundleExportJobInputBody {
 }
 
 extension DescribeAssetBundleExportJobInputBody: Swift.Decodable {
@@ -28731,7 +28731,7 @@ extension DescribeAssetBundleExportJobOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeAssetBundleExportJobOutput: Swift.Equatable {
+public struct DescribeAssetBundleExportJobOutput {
     /// The Amazon Resource Name (ARN) for the export job.
     public var arn: Swift.String?
     /// The ID of the job. The job ID is set when you start a new job with a StartAssetBundleExportJob API call.
@@ -28807,7 +28807,7 @@ public struct DescribeAssetBundleExportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetBundleExportJobOutputBody: Swift.Equatable {
+struct DescribeAssetBundleExportJobOutputBody {
     let jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus?
     let downloadUrl: Swift.String?
     let errors: [QuickSightClientTypes.AssetBundleExportJobError]?
@@ -28940,7 +28940,7 @@ extension DescribeAssetBundleImportJobInput {
     }
 }
 
-public struct DescribeAssetBundleImportJobInput: Swift.Equatable {
+public struct DescribeAssetBundleImportJobInput {
     /// The ID of the job. The job ID is set when you start a new job with a StartAssetBundleImportJob API call.
     /// This member is required.
     public var assetBundleImportJobId: Swift.String?
@@ -28958,7 +28958,7 @@ public struct DescribeAssetBundleImportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetBundleImportJobInputBody: Swift.Equatable {
+struct DescribeAssetBundleImportJobInputBody {
 }
 
 extension DescribeAssetBundleImportJobInputBody: Swift.Decodable {
@@ -29008,7 +29008,7 @@ extension DescribeAssetBundleImportJobOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeAssetBundleImportJobOutput: Swift.Equatable {
+public struct DescribeAssetBundleImportJobOutput {
     /// The Amazon Resource Name (ARN) for the import job.
     public var arn: Swift.String?
     /// The ID of the job. The job ID is set when you start a new job with a StartAssetBundleImportJob API call.
@@ -29088,7 +29088,7 @@ public struct DescribeAssetBundleImportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAssetBundleImportJobOutputBody: Swift.Equatable {
+struct DescribeAssetBundleImportJobOutputBody {
     let jobStatus: QuickSightClientTypes.AssetBundleImportJobStatus?
     let errors: [QuickSightClientTypes.AssetBundleImportJobError]?
     let rollbackErrors: [QuickSightClientTypes.AssetBundleImportJobError]?
@@ -29233,7 +29233,7 @@ extension DescribeDashboardDefinitionInput {
     }
 }
 
-public struct DescribeDashboardDefinitionInput: Swift.Equatable {
+public struct DescribeDashboardDefinitionInput {
     /// The alias name.
     public var aliasName: Swift.String?
     /// The ID of the Amazon Web Services account that contains the dashboard that you're describing.
@@ -29259,7 +29259,7 @@ public struct DescribeDashboardDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardDefinitionInputBody: Swift.Equatable {
+struct DescribeDashboardDefinitionInputBody {
 }
 
 extension DescribeDashboardDefinitionInputBody: Swift.Decodable {
@@ -29295,7 +29295,7 @@ extension DescribeDashboardDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDashboardDefinitionOutput: Swift.Equatable {
+public struct DescribeDashboardDefinitionOutput {
     /// The ID of the dashboard described.
     public var dashboardId: Swift.String?
     /// Options for publishing the dashboard:
@@ -29359,7 +29359,7 @@ public struct DescribeDashboardDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardDefinitionOutputBody: Swift.Equatable {
+struct DescribeDashboardDefinitionOutputBody {
     let dashboardId: Swift.String?
     let errors: [QuickSightClientTypes.DashboardError]?
     let name: Swift.String?
@@ -29463,7 +29463,7 @@ extension DescribeDashboardInput {
     }
 }
 
-public struct DescribeDashboardInput: Swift.Equatable {
+public struct DescribeDashboardInput {
     /// The alias name.
     public var aliasName: Swift.String?
     /// The ID of the Amazon Web Services account that contains the dashboard that you're describing.
@@ -29489,7 +29489,7 @@ public struct DescribeDashboardInput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardInputBody: Swift.Equatable {
+struct DescribeDashboardInputBody {
 }
 
 extension DescribeDashboardInputBody: Swift.Decodable {
@@ -29513,7 +29513,7 @@ extension DescribeDashboardOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDashboardOutput: Swift.Equatable {
+public struct DescribeDashboardOutput {
     /// Information about the dashboard.
     public var dashboard: QuickSightClientTypes.Dashboard?
     /// The Amazon Web Services request ID for this operation.
@@ -29533,7 +29533,7 @@ public struct DescribeDashboardOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardOutputBody: Swift.Equatable {
+struct DescribeDashboardOutputBody {
     let dashboard: QuickSightClientTypes.Dashboard?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -29586,7 +29586,7 @@ extension DescribeDashboardPermissionsInput {
     }
 }
 
-public struct DescribeDashboardPermissionsInput: Swift.Equatable {
+public struct DescribeDashboardPermissionsInput {
     /// The ID of the Amazon Web Services account that contains the dashboard that you're describing permissions for.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -29604,7 +29604,7 @@ public struct DescribeDashboardPermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardPermissionsInputBody: Swift.Equatable {
+struct DescribeDashboardPermissionsInputBody {
 }
 
 extension DescribeDashboardPermissionsInputBody: Swift.Decodable {
@@ -29634,7 +29634,7 @@ extension DescribeDashboardPermissionsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeDashboardPermissionsOutput: Swift.Equatable {
+public struct DescribeDashboardPermissionsOutput {
     /// The Amazon Resource Name (ARN) of the dashboard.
     public var dashboardArn: Swift.String?
     /// The ID for the dashboard.
@@ -29666,7 +29666,7 @@ public struct DescribeDashboardPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardPermissionsOutputBody: Swift.Equatable {
+struct DescribeDashboardPermissionsOutputBody {
     let dashboardId: Swift.String?
     let dashboardArn: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -29742,7 +29742,7 @@ extension DescribeDashboardSnapshotJobInput {
     }
 }
 
-public struct DescribeDashboardSnapshotJobInput: Swift.Equatable {
+public struct DescribeDashboardSnapshotJobInput {
     /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -29765,7 +29765,7 @@ public struct DescribeDashboardSnapshotJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardSnapshotJobInputBody: Swift.Equatable {
+struct DescribeDashboardSnapshotJobInputBody {
 }
 
 extension DescribeDashboardSnapshotJobInputBody: Swift.Decodable {
@@ -29806,7 +29806,7 @@ extension DescribeDashboardSnapshotJobOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeDashboardSnapshotJobOutput: Swift.Equatable {
+public struct DescribeDashboardSnapshotJobOutput {
     /// The Amazon Resource Name (ARN) for the snapshot job. The job ARN is generated when you start a new job with a StartDashboardSnapshotJob API call.
     public var arn: Swift.String?
     /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
@@ -29866,7 +29866,7 @@ public struct DescribeDashboardSnapshotJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardSnapshotJobOutputBody: Swift.Equatable {
+struct DescribeDashboardSnapshotJobOutputBody {
     let awsAccountId: Swift.String?
     let dashboardId: Swift.String?
     let snapshotJobId: Swift.String?
@@ -29953,7 +29953,7 @@ extension DescribeDashboardSnapshotJobResultInput {
     }
 }
 
-public struct DescribeDashboardSnapshotJobResultInput: Swift.Equatable {
+public struct DescribeDashboardSnapshotJobResultInput {
     /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -29976,7 +29976,7 @@ public struct DescribeDashboardSnapshotJobResultInput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardSnapshotJobResultInputBody: Swift.Equatable {
+struct DescribeDashboardSnapshotJobResultInputBody {
 }
 
 extension DescribeDashboardSnapshotJobResultInputBody: Swift.Decodable {
@@ -30010,7 +30010,7 @@ extension DescribeDashboardSnapshotJobResultOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeDashboardSnapshotJobResultOutput: Swift.Equatable {
+public struct DescribeDashboardSnapshotJobResultOutput {
     /// The Amazon Resource Name (ARN) for the snapshot job. The job ARN is generated when you start a new job with a StartDashboardSnapshotJob API call.
     public var arn: Swift.String?
     /// The time that a snapshot job was created.
@@ -30050,7 +30050,7 @@ public struct DescribeDashboardSnapshotJobResultOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDashboardSnapshotJobResultOutputBody: Swift.Equatable {
+struct DescribeDashboardSnapshotJobResultOutputBody {
     let arn: Swift.String?
     let jobStatus: QuickSightClientTypes.SnapshotJobStatus?
     let createdTime: ClientRuntime.Date?
@@ -30124,7 +30124,7 @@ extension DescribeDataSetInput {
     }
 }
 
-public struct DescribeDataSetInput: Swift.Equatable {
+public struct DescribeDataSetInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -30142,7 +30142,7 @@ public struct DescribeDataSetInput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSetInputBody: Swift.Equatable {
+struct DescribeDataSetInputBody {
 }
 
 extension DescribeDataSetInputBody: Swift.Decodable {
@@ -30166,7 +30166,7 @@ extension DescribeDataSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDataSetOutput: Swift.Equatable {
+public struct DescribeDataSetOutput {
     /// Information on the dataset.
     public var dataSet: QuickSightClientTypes.DataSet?
     /// The Amazon Web Services request ID for this operation.
@@ -30186,7 +30186,7 @@ public struct DescribeDataSetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSetOutputBody: Swift.Equatable {
+struct DescribeDataSetOutputBody {
     let dataSet: QuickSightClientTypes.DataSet?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -30238,7 +30238,7 @@ extension DescribeDataSetPermissionsInput {
     }
 }
 
-public struct DescribeDataSetPermissionsInput: Swift.Equatable {
+public struct DescribeDataSetPermissionsInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -30256,7 +30256,7 @@ public struct DescribeDataSetPermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSetPermissionsInputBody: Swift.Equatable {
+struct DescribeDataSetPermissionsInputBody {
 }
 
 extension DescribeDataSetPermissionsInputBody: Swift.Decodable {
@@ -30284,7 +30284,7 @@ extension DescribeDataSetPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDataSetPermissionsOutput: Swift.Equatable {
+public struct DescribeDataSetPermissionsOutput {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var dataSetArn: Swift.String?
     /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -30312,7 +30312,7 @@ public struct DescribeDataSetPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSetPermissionsOutputBody: Swift.Equatable {
+struct DescribeDataSetPermissionsOutputBody {
     let dataSetArn: Swift.String?
     let dataSetId: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -30381,7 +30381,7 @@ extension DescribeDataSetRefreshPropertiesInput {
     }
 }
 
-public struct DescribeDataSetRefreshPropertiesInput: Swift.Equatable {
+public struct DescribeDataSetRefreshPropertiesInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -30399,7 +30399,7 @@ public struct DescribeDataSetRefreshPropertiesInput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSetRefreshPropertiesInputBody: Swift.Equatable {
+struct DescribeDataSetRefreshPropertiesInputBody {
 }
 
 extension DescribeDataSetRefreshPropertiesInputBody: Swift.Decodable {
@@ -30423,7 +30423,7 @@ extension DescribeDataSetRefreshPropertiesOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeDataSetRefreshPropertiesOutput: Swift.Equatable {
+public struct DescribeDataSetRefreshPropertiesOutput {
     /// The dataset refresh properties.
     public var dataSetRefreshProperties: QuickSightClientTypes.DataSetRefreshProperties?
     /// The Amazon Web Services request ID for this operation.
@@ -30443,7 +30443,7 @@ public struct DescribeDataSetRefreshPropertiesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSetRefreshPropertiesOutputBody: Swift.Equatable {
+struct DescribeDataSetRefreshPropertiesOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
     let dataSetRefreshProperties: QuickSightClientTypes.DataSetRefreshProperties?
@@ -30497,7 +30497,7 @@ extension DescribeDataSourceInput {
     }
 }
 
-public struct DescribeDataSourceInput: Swift.Equatable {
+public struct DescribeDataSourceInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -30515,7 +30515,7 @@ public struct DescribeDataSourceInput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSourceInputBody: Swift.Equatable {
+struct DescribeDataSourceInputBody {
 }
 
 extension DescribeDataSourceInputBody: Swift.Decodable {
@@ -30539,7 +30539,7 @@ extension DescribeDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDataSourceOutput: Swift.Equatable {
+public struct DescribeDataSourceOutput {
     /// The information on the data source.
     public var dataSource: QuickSightClientTypes.DataSource?
     /// The Amazon Web Services request ID for this operation.
@@ -30559,7 +30559,7 @@ public struct DescribeDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSourceOutputBody: Swift.Equatable {
+struct DescribeDataSourceOutputBody {
     let dataSource: QuickSightClientTypes.DataSource?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -30611,7 +30611,7 @@ extension DescribeDataSourcePermissionsInput {
     }
 }
 
-public struct DescribeDataSourcePermissionsInput: Swift.Equatable {
+public struct DescribeDataSourcePermissionsInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -30629,7 +30629,7 @@ public struct DescribeDataSourcePermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSourcePermissionsInputBody: Swift.Equatable {
+struct DescribeDataSourcePermissionsInputBody {
 }
 
 extension DescribeDataSourcePermissionsInputBody: Swift.Decodable {
@@ -30657,7 +30657,7 @@ extension DescribeDataSourcePermissionsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeDataSourcePermissionsOutput: Swift.Equatable {
+public struct DescribeDataSourcePermissionsOutput {
     /// The Amazon Resource Name (ARN) of the data source.
     public var dataSourceArn: Swift.String?
     /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -30685,7 +30685,7 @@ public struct DescribeDataSourcePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDataSourcePermissionsOutputBody: Swift.Equatable {
+struct DescribeDataSourcePermissionsOutputBody {
     let dataSourceArn: Swift.String?
     let dataSourceId: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -30754,7 +30754,7 @@ extension DescribeFolderInput {
     }
 }
 
-public struct DescribeFolderInput: Swift.Equatable {
+public struct DescribeFolderInput {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -30772,7 +30772,7 @@ public struct DescribeFolderInput: Swift.Equatable {
     }
 }
 
-struct DescribeFolderInputBody: Swift.Equatable {
+struct DescribeFolderInputBody {
 }
 
 extension DescribeFolderInputBody: Swift.Decodable {
@@ -30796,7 +30796,7 @@ extension DescribeFolderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFolderOutput: Swift.Equatable {
+public struct DescribeFolderOutput {
     /// Information about the folder.
     public var folder: QuickSightClientTypes.Folder?
     /// The Amazon Web Services request ID for this operation.
@@ -30816,7 +30816,7 @@ public struct DescribeFolderOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFolderOutputBody: Swift.Equatable {
+struct DescribeFolderOutputBody {
     let status: Swift.Int
     let folder: QuickSightClientTypes.Folder?
     let requestId: Swift.String?
@@ -30889,7 +30889,7 @@ extension DescribeFolderPermissionsInput {
     }
 }
 
-public struct DescribeFolderPermissionsInput: Swift.Equatable {
+public struct DescribeFolderPermissionsInput {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -30919,7 +30919,7 @@ public struct DescribeFolderPermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeFolderPermissionsInputBody: Swift.Equatable {
+struct DescribeFolderPermissionsInputBody {
 }
 
 extension DescribeFolderPermissionsInputBody: Swift.Decodable {
@@ -30949,7 +30949,7 @@ extension DescribeFolderPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFolderPermissionsOutput: Swift.Equatable {
+public struct DescribeFolderPermissionsOutput {
     /// The Amazon Resource Name (ARN) for the folder.
     public var arn: Swift.String?
     /// The ID of the folder.
@@ -30981,7 +30981,7 @@ public struct DescribeFolderPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFolderPermissionsOutputBody: Swift.Equatable {
+struct DescribeFolderPermissionsOutputBody {
     let status: Swift.Int
     let folderId: Swift.String?
     let arn: Swift.String?
@@ -31076,7 +31076,7 @@ extension DescribeFolderResolvedPermissionsInput {
     }
 }
 
-public struct DescribeFolderResolvedPermissionsInput: Swift.Equatable {
+public struct DescribeFolderResolvedPermissionsInput {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -31106,7 +31106,7 @@ public struct DescribeFolderResolvedPermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeFolderResolvedPermissionsInputBody: Swift.Equatable {
+struct DescribeFolderResolvedPermissionsInputBody {
 }
 
 extension DescribeFolderResolvedPermissionsInputBody: Swift.Decodable {
@@ -31136,7 +31136,7 @@ extension DescribeFolderResolvedPermissionsOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeFolderResolvedPermissionsOutput: Swift.Equatable {
+public struct DescribeFolderResolvedPermissionsOutput {
     /// The Amazon Resource Name (ARN) of the folder.
     public var arn: Swift.String?
     /// The ID of the folder.
@@ -31168,7 +31168,7 @@ public struct DescribeFolderResolvedPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFolderResolvedPermissionsOutputBody: Swift.Equatable {
+struct DescribeFolderResolvedPermissionsOutputBody {
     let status: Swift.Int
     let folderId: Swift.String?
     let arn: Swift.String?
@@ -31246,7 +31246,7 @@ extension DescribeGroupInput {
     }
 }
 
-public struct DescribeGroupInput: Swift.Equatable {
+public struct DescribeGroupInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -31269,7 +31269,7 @@ public struct DescribeGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupInputBody: Swift.Equatable {
+struct DescribeGroupInputBody {
 }
 
 extension DescribeGroupInputBody: Swift.Decodable {
@@ -31297,7 +31297,7 @@ extension DescribeGroupMembershipInput {
     }
 }
 
-public struct DescribeGroupMembershipInput: Swift.Equatable {
+public struct DescribeGroupMembershipInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -31325,7 +31325,7 @@ public struct DescribeGroupMembershipInput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupMembershipInputBody: Swift.Equatable {
+struct DescribeGroupMembershipInputBody {
 }
 
 extension DescribeGroupMembershipInputBody: Swift.Decodable {
@@ -31349,7 +31349,7 @@ extension DescribeGroupMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeGroupMembershipOutput: Swift.Equatable {
+public struct DescribeGroupMembershipOutput {
     /// A member of an Amazon QuickSight group. Currently, group members must be users. Groups can't be members of another group. .
     public var groupMember: QuickSightClientTypes.GroupMember?
     /// The Amazon Web Services request ID for this operation.
@@ -31369,7 +31369,7 @@ public struct DescribeGroupMembershipOutput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupMembershipOutputBody: Swift.Equatable {
+struct DescribeGroupMembershipOutputBody {
     let groupMember: QuickSightClientTypes.GroupMember?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -31425,7 +31425,7 @@ extension DescribeGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeGroupOutput: Swift.Equatable {
+public struct DescribeGroupOutput {
     /// The name of the group.
     public var group: QuickSightClientTypes.Group?
     /// The Amazon Web Services request ID for this operation.
@@ -31445,7 +31445,7 @@ public struct DescribeGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupOutputBody: Swift.Equatable {
+struct DescribeGroupOutputBody {
     let group: QuickSightClientTypes.Group?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -31502,7 +31502,7 @@ extension DescribeIAMPolicyAssignmentInput {
     }
 }
 
-public struct DescribeIAMPolicyAssignmentInput: Swift.Equatable {
+public struct DescribeIAMPolicyAssignmentInput {
     /// The name of the assignment, also called a rule.
     /// This member is required.
     public var assignmentName: Swift.String?
@@ -31525,7 +31525,7 @@ public struct DescribeIAMPolicyAssignmentInput: Swift.Equatable {
     }
 }
 
-struct DescribeIAMPolicyAssignmentInputBody: Swift.Equatable {
+struct DescribeIAMPolicyAssignmentInputBody {
 }
 
 extension DescribeIAMPolicyAssignmentInputBody: Swift.Decodable {
@@ -31549,7 +31549,7 @@ extension DescribeIAMPolicyAssignmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeIAMPolicyAssignmentOutput: Swift.Equatable {
+public struct DescribeIAMPolicyAssignmentOutput {
     /// Information describing the IAM policy assignment.
     public var iamPolicyAssignment: QuickSightClientTypes.IAMPolicyAssignment?
     /// The Amazon Web Services request ID for this operation.
@@ -31569,7 +31569,7 @@ public struct DescribeIAMPolicyAssignmentOutput: Swift.Equatable {
     }
 }
 
-struct DescribeIAMPolicyAssignmentOutputBody: Swift.Equatable {
+struct DescribeIAMPolicyAssignmentOutputBody {
     let iamPolicyAssignment: QuickSightClientTypes.IAMPolicyAssignment?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -31625,7 +31625,7 @@ extension DescribeIngestionInput {
     }
 }
 
-public struct DescribeIngestionInput: Swift.Equatable {
+public struct DescribeIngestionInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -31648,7 +31648,7 @@ public struct DescribeIngestionInput: Swift.Equatable {
     }
 }
 
-struct DescribeIngestionInputBody: Swift.Equatable {
+struct DescribeIngestionInputBody {
 }
 
 extension DescribeIngestionInputBody: Swift.Decodable {
@@ -31672,7 +31672,7 @@ extension DescribeIngestionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeIngestionOutput: Swift.Equatable {
+public struct DescribeIngestionOutput {
     /// Information about the ingestion.
     public var ingestion: QuickSightClientTypes.Ingestion?
     /// The Amazon Web Services request ID for this operation.
@@ -31692,7 +31692,7 @@ public struct DescribeIngestionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeIngestionOutputBody: Swift.Equatable {
+struct DescribeIngestionOutputBody {
     let ingestion: QuickSightClientTypes.Ingestion?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -31742,7 +31742,7 @@ extension DescribeIpRestrictionInput {
     }
 }
 
-public struct DescribeIpRestrictionInput: Swift.Equatable {
+public struct DescribeIpRestrictionInput {
     /// The ID of the Amazon Web Services account that contains the IP rules.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -31755,7 +31755,7 @@ public struct DescribeIpRestrictionInput: Swift.Equatable {
     }
 }
 
-struct DescribeIpRestrictionInputBody: Swift.Equatable {
+struct DescribeIpRestrictionInputBody {
 }
 
 extension DescribeIpRestrictionInputBody: Swift.Decodable {
@@ -31787,7 +31787,7 @@ extension DescribeIpRestrictionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeIpRestrictionOutput: Swift.Equatable {
+public struct DescribeIpRestrictionOutput {
     /// The ID of the Amazon Web Services account that contains the IP rules.
     public var awsAccountId: Swift.String?
     /// A value that specifies whether IP rules are turned on.
@@ -31823,7 +31823,7 @@ public struct DescribeIpRestrictionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeIpRestrictionOutputBody: Swift.Equatable {
+struct DescribeIpRestrictionOutputBody {
     let awsAccountId: Swift.String?
     let ipRestrictionRuleMap: [Swift.String:Swift.String]?
     let vpcIdRestrictionRuleMap: [Swift.String:Swift.String]?
@@ -31918,7 +31918,7 @@ extension DescribeNamespaceInput {
     }
 }
 
-public struct DescribeNamespaceInput: Swift.Equatable {
+public struct DescribeNamespaceInput {
     /// The ID for the Amazon Web Services account that contains the Amazon QuickSight namespace that you want to describe.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -31936,7 +31936,7 @@ public struct DescribeNamespaceInput: Swift.Equatable {
     }
 }
 
-struct DescribeNamespaceInputBody: Swift.Equatable {
+struct DescribeNamespaceInputBody {
 }
 
 extension DescribeNamespaceInputBody: Swift.Decodable {
@@ -31960,7 +31960,7 @@ extension DescribeNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeNamespaceOutput: Swift.Equatable {
+public struct DescribeNamespaceOutput {
     /// The information about the namespace that you're describing. The response includes the namespace ARN, name, Amazon Web Services Region, creation status, and identity store. DescribeNamespace also works for namespaces that are in the process of being created. For incomplete namespaces, this API operation lists the namespace error types and messages associated with the creation process.
     public var namespace: QuickSightClientTypes.NamespaceInfoV2?
     /// The Amazon Web Services request ID for this operation.
@@ -31980,7 +31980,7 @@ public struct DescribeNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeNamespaceOutputBody: Swift.Equatable {
+struct DescribeNamespaceOutputBody {
     let namespace: QuickSightClientTypes.NamespaceInfoV2?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -32036,7 +32036,7 @@ extension DescribeRefreshScheduleInput {
     }
 }
 
-public struct DescribeRefreshScheduleInput: Swift.Equatable {
+public struct DescribeRefreshScheduleInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -32059,7 +32059,7 @@ public struct DescribeRefreshScheduleInput: Swift.Equatable {
     }
 }
 
-struct DescribeRefreshScheduleInputBody: Swift.Equatable {
+struct DescribeRefreshScheduleInputBody {
 }
 
 extension DescribeRefreshScheduleInputBody: Swift.Decodable {
@@ -32085,7 +32085,7 @@ extension DescribeRefreshScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRefreshScheduleOutput: Swift.Equatable {
+public struct DescribeRefreshScheduleOutput {
     /// The Amazon Resource Name (ARN) for the refresh schedule.
     public var arn: Swift.String?
     /// The refresh schedule.
@@ -32109,7 +32109,7 @@ public struct DescribeRefreshScheduleOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRefreshScheduleOutputBody: Swift.Equatable {
+struct DescribeRefreshScheduleOutputBody {
     let refreshSchedule: QuickSightClientTypes.RefreshSchedule?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -32169,7 +32169,7 @@ extension DescribeRoleCustomPermissionInput {
     }
 }
 
-public struct DescribeRoleCustomPermissionInput: Swift.Equatable {
+public struct DescribeRoleCustomPermissionInput {
     /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -32192,7 +32192,7 @@ public struct DescribeRoleCustomPermissionInput: Swift.Equatable {
     }
 }
 
-struct DescribeRoleCustomPermissionInputBody: Swift.Equatable {
+struct DescribeRoleCustomPermissionInputBody {
 }
 
 extension DescribeRoleCustomPermissionInputBody: Swift.Decodable {
@@ -32217,7 +32217,7 @@ extension DescribeRoleCustomPermissionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeRoleCustomPermissionOutput: Swift.Equatable {
+public struct DescribeRoleCustomPermissionOutput {
     /// The name of the custom permission that is described.
     public var customPermissionsName: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -32237,7 +32237,7 @@ public struct DescribeRoleCustomPermissionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRoleCustomPermissionOutputBody: Swift.Equatable {
+struct DescribeRoleCustomPermissionOutputBody {
     let customPermissionsName: Swift.String?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -32294,7 +32294,7 @@ extension DescribeTemplateAliasInput {
     }
 }
 
-public struct DescribeTemplateAliasInput: Swift.Equatable {
+public struct DescribeTemplateAliasInput {
     /// The name of the template alias that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -32317,7 +32317,7 @@ public struct DescribeTemplateAliasInput: Swift.Equatable {
     }
 }
 
-struct DescribeTemplateAliasInputBody: Swift.Equatable {
+struct DescribeTemplateAliasInputBody {
 }
 
 extension DescribeTemplateAliasInputBody: Swift.Decodable {
@@ -32341,7 +32341,7 @@ extension DescribeTemplateAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTemplateAliasOutput: Swift.Equatable {
+public struct DescribeTemplateAliasOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -32361,7 +32361,7 @@ public struct DescribeTemplateAliasOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTemplateAliasOutputBody: Swift.Equatable {
+struct DescribeTemplateAliasOutputBody {
     let templateAlias: QuickSightClientTypes.TemplateAlias?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -32428,7 +32428,7 @@ extension DescribeTemplateDefinitionInput {
     }
 }
 
-public struct DescribeTemplateDefinitionInput: Swift.Equatable {
+public struct DescribeTemplateDefinitionInput {
     /// The alias of the template that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
     public var aliasName: Swift.String?
     /// The ID of the Amazon Web Services account that contains the template. You must be using the Amazon Web Services account that the template is in.
@@ -32454,7 +32454,7 @@ public struct DescribeTemplateDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DescribeTemplateDefinitionInputBody: Swift.Equatable {
+struct DescribeTemplateDefinitionInputBody {
 }
 
 extension DescribeTemplateDefinitionInputBody: Swift.Decodable {
@@ -32488,7 +32488,7 @@ extension DescribeTemplateDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTemplateDefinitionOutput: Swift.Equatable {
+public struct DescribeTemplateDefinitionOutput {
     /// The definition of the template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
     public var definition: QuickSightClientTypes.TemplateVersionDefinition?
     /// Errors associated with the template version.
@@ -32542,7 +32542,7 @@ public struct DescribeTemplateDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTemplateDefinitionOutputBody: Swift.Equatable {
+struct DescribeTemplateDefinitionOutputBody {
     let name: Swift.String?
     let templateId: Swift.String?
     let errors: [QuickSightClientTypes.TemplateError]?
@@ -32642,7 +32642,7 @@ extension DescribeTemplateInput {
     }
 }
 
-public struct DescribeTemplateInput: Swift.Equatable {
+public struct DescribeTemplateInput {
     /// The alias of the template that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
     public var aliasName: Swift.String?
     /// The ID of the Amazon Web Services account that contains the template that you're describing.
@@ -32668,7 +32668,7 @@ public struct DescribeTemplateInput: Swift.Equatable {
     }
 }
 
-struct DescribeTemplateInputBody: Swift.Equatable {
+struct DescribeTemplateInputBody {
 }
 
 extension DescribeTemplateInputBody: Swift.Decodable {
@@ -32692,7 +32692,7 @@ extension DescribeTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTemplateOutput: Swift.Equatable {
+public struct DescribeTemplateOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -32712,7 +32712,7 @@ public struct DescribeTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTemplateOutputBody: Swift.Equatable {
+struct DescribeTemplateOutputBody {
     let template: QuickSightClientTypes.Template?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -32767,7 +32767,7 @@ extension DescribeTemplatePermissionsInput {
     }
 }
 
-public struct DescribeTemplatePermissionsInput: Swift.Equatable {
+public struct DescribeTemplatePermissionsInput {
     /// The ID of the Amazon Web Services account that contains the template that you're describing.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -32785,7 +32785,7 @@ public struct DescribeTemplatePermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeTemplatePermissionsInputBody: Swift.Equatable {
+struct DescribeTemplatePermissionsInputBody {
 }
 
 extension DescribeTemplatePermissionsInputBody: Swift.Decodable {
@@ -32813,7 +32813,7 @@ extension DescribeTemplatePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTemplatePermissionsOutput: Swift.Equatable {
+public struct DescribeTemplatePermissionsOutput {
     /// A list of resource permissions to be set on the template.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
     /// The Amazon Web Services request ID for this operation.
@@ -32841,7 +32841,7 @@ public struct DescribeTemplatePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTemplatePermissionsOutputBody: Swift.Equatable {
+struct DescribeTemplatePermissionsOutputBody {
     let templateId: Swift.String?
     let templateArn: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -32914,7 +32914,7 @@ extension DescribeThemeAliasInput {
     }
 }
 
-public struct DescribeThemeAliasInput: Swift.Equatable {
+public struct DescribeThemeAliasInput {
     /// The name of the theme alias that you want to describe.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -32937,7 +32937,7 @@ public struct DescribeThemeAliasInput: Swift.Equatable {
     }
 }
 
-struct DescribeThemeAliasInputBody: Swift.Equatable {
+struct DescribeThemeAliasInputBody {
 }
 
 extension DescribeThemeAliasInputBody: Swift.Decodable {
@@ -32961,7 +32961,7 @@ extension DescribeThemeAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeThemeAliasOutput: Swift.Equatable {
+public struct DescribeThemeAliasOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -32981,7 +32981,7 @@ public struct DescribeThemeAliasOutput: Swift.Equatable {
     }
 }
 
-struct DescribeThemeAliasOutputBody: Swift.Equatable {
+struct DescribeThemeAliasOutputBody {
     let themeAlias: QuickSightClientTypes.ThemeAlias?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -33050,7 +33050,7 @@ extension DescribeThemeInput {
     }
 }
 
-public struct DescribeThemeInput: Swift.Equatable {
+public struct DescribeThemeInput {
     /// The alias of the theme that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the theme by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to themes.
     public var aliasName: Swift.String?
     /// The ID of the Amazon Web Services account that contains the theme that you're describing.
@@ -33076,7 +33076,7 @@ public struct DescribeThemeInput: Swift.Equatable {
     }
 }
 
-struct DescribeThemeInputBody: Swift.Equatable {
+struct DescribeThemeInputBody {
 }
 
 extension DescribeThemeInputBody: Swift.Decodable {
@@ -33100,7 +33100,7 @@ extension DescribeThemeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeThemeOutput: Swift.Equatable {
+public struct DescribeThemeOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -33120,7 +33120,7 @@ public struct DescribeThemeOutput: Swift.Equatable {
     }
 }
 
-struct DescribeThemeOutputBody: Swift.Equatable {
+struct DescribeThemeOutputBody {
     let theme: QuickSightClientTypes.Theme?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -33174,7 +33174,7 @@ extension DescribeThemePermissionsInput {
     }
 }
 
-public struct DescribeThemePermissionsInput: Swift.Equatable {
+public struct DescribeThemePermissionsInput {
     /// The ID of the Amazon Web Services account that contains the theme that you're describing.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -33192,7 +33192,7 @@ public struct DescribeThemePermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeThemePermissionsInputBody: Swift.Equatable {
+struct DescribeThemePermissionsInputBody {
 }
 
 extension DescribeThemePermissionsInputBody: Swift.Decodable {
@@ -33220,7 +33220,7 @@ extension DescribeThemePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeThemePermissionsOutput: Swift.Equatable {
+public struct DescribeThemePermissionsOutput {
     /// A list of resource permissions set on the theme.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
     /// The Amazon Web Services request ID for this operation.
@@ -33248,7 +33248,7 @@ public struct DescribeThemePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeThemePermissionsOutputBody: Swift.Equatable {
+struct DescribeThemePermissionsOutputBody {
     let themeId: Swift.String?
     let themeArn: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -33318,7 +33318,7 @@ extension DescribeTopicInput {
     }
 }
 
-public struct DescribeTopicInput: Swift.Equatable {
+public struct DescribeTopicInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -33336,7 +33336,7 @@ public struct DescribeTopicInput: Swift.Equatable {
     }
 }
 
-struct DescribeTopicInputBody: Swift.Equatable {
+struct DescribeTopicInputBody {
 }
 
 extension DescribeTopicInputBody: Swift.Decodable {
@@ -33364,7 +33364,7 @@ extension DescribeTopicOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTopicOutput: Swift.Equatable {
+public struct DescribeTopicOutput {
     /// The Amazon Resource Name (ARN) of the topic.
     public var arn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -33392,7 +33392,7 @@ public struct DescribeTopicOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTopicOutputBody: Swift.Equatable {
+struct DescribeTopicOutputBody {
     let arn: Swift.String?
     let topicId: Swift.String?
     let topic: QuickSightClientTypes.TopicDetails?
@@ -33452,7 +33452,7 @@ extension DescribeTopicPermissionsInput {
     }
 }
 
-public struct DescribeTopicPermissionsInput: Swift.Equatable {
+public struct DescribeTopicPermissionsInput {
     /// The ID of the Amazon Web Services account that contains the topic that you want described.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -33470,7 +33470,7 @@ public struct DescribeTopicPermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeTopicPermissionsInputBody: Swift.Equatable {
+struct DescribeTopicPermissionsInputBody {
 }
 
 extension DescribeTopicPermissionsInputBody: Swift.Decodable {
@@ -33498,7 +33498,7 @@ extension DescribeTopicPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTopicPermissionsOutput: Swift.Equatable {
+public struct DescribeTopicPermissionsOutput {
     /// A list of resource permissions that are configured to the topic.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
     /// The Amazon Web Services request ID for this operation.
@@ -33526,7 +33526,7 @@ public struct DescribeTopicPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTopicPermissionsOutputBody: Swift.Equatable {
+struct DescribeTopicPermissionsOutputBody {
     let topicId: Swift.String?
     let topicArn: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -33598,7 +33598,7 @@ extension DescribeTopicRefreshInput {
     }
 }
 
-public struct DescribeTopicRefreshInput: Swift.Equatable {
+public struct DescribeTopicRefreshInput {
     /// The ID of the Amazon Web Services account that contains the topic whose refresh you want to describe.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -33621,7 +33621,7 @@ public struct DescribeTopicRefreshInput: Swift.Equatable {
     }
 }
 
-struct DescribeTopicRefreshInputBody: Swift.Equatable {
+struct DescribeTopicRefreshInputBody {
 }
 
 extension DescribeTopicRefreshInputBody: Swift.Decodable {
@@ -33645,7 +33645,7 @@ extension DescribeTopicRefreshOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTopicRefreshOutput: Swift.Equatable {
+public struct DescribeTopicRefreshOutput {
     /// Details of the refresh, which is performed when the topic is created or updated.
     public var refreshDetails: QuickSightClientTypes.TopicRefreshDetails?
     /// The Amazon Web Services request ID for this operation.
@@ -33665,7 +33665,7 @@ public struct DescribeTopicRefreshOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTopicRefreshOutputBody: Swift.Equatable {
+struct DescribeTopicRefreshOutputBody {
     let refreshDetails: QuickSightClientTypes.TopicRefreshDetails?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -33720,7 +33720,7 @@ extension DescribeTopicRefreshScheduleInput {
     }
 }
 
-public struct DescribeTopicRefreshScheduleInput: Swift.Equatable {
+public struct DescribeTopicRefreshScheduleInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -33743,7 +33743,7 @@ public struct DescribeTopicRefreshScheduleInput: Swift.Equatable {
     }
 }
 
-struct DescribeTopicRefreshScheduleInputBody: Swift.Equatable {
+struct DescribeTopicRefreshScheduleInputBody {
 }
 
 extension DescribeTopicRefreshScheduleInputBody: Swift.Decodable {
@@ -33773,7 +33773,7 @@ extension DescribeTopicRefreshScheduleOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeTopicRefreshScheduleOutput: Swift.Equatable {
+public struct DescribeTopicRefreshScheduleOutput {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var datasetArn: Swift.String?
     /// The definition of a refresh schedule.
@@ -33805,7 +33805,7 @@ public struct DescribeTopicRefreshScheduleOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTopicRefreshScheduleOutputBody: Swift.Equatable {
+struct DescribeTopicRefreshScheduleOutputBody {
     let topicId: Swift.String?
     let topicArn: Swift.String?
     let datasetArn: Swift.String?
@@ -33875,7 +33875,7 @@ extension DescribeUserInput {
     }
 }
 
-public struct DescribeUserInput: Swift.Equatable {
+public struct DescribeUserInput {
     /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -33898,7 +33898,7 @@ public struct DescribeUserInput: Swift.Equatable {
     }
 }
 
-struct DescribeUserInputBody: Swift.Equatable {
+struct DescribeUserInputBody {
 }
 
 extension DescribeUserInputBody: Swift.Decodable {
@@ -33922,7 +33922,7 @@ extension DescribeUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUserOutput: Swift.Equatable {
+public struct DescribeUserOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -33942,7 +33942,7 @@ public struct DescribeUserOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUserOutputBody: Swift.Equatable {
+struct DescribeUserOutputBody {
     let user: QuickSightClientTypes.User?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -33996,7 +33996,7 @@ extension DescribeVPCConnectionInput {
     }
 }
 
-public struct DescribeVPCConnectionInput: Swift.Equatable {
+public struct DescribeVPCConnectionInput {
     /// The Amazon Web Services account ID of the account that contains the VPC connection that you want described.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -34014,7 +34014,7 @@ public struct DescribeVPCConnectionInput: Swift.Equatable {
     }
 }
 
-struct DescribeVPCConnectionInputBody: Swift.Equatable {
+struct DescribeVPCConnectionInputBody {
 }
 
 extension DescribeVPCConnectionInputBody: Swift.Decodable {
@@ -34039,7 +34039,7 @@ extension DescribeVPCConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVPCConnectionOutput: Swift.Equatable {
+public struct DescribeVPCConnectionOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -34059,7 +34059,7 @@ public struct DescribeVPCConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVPCConnectionOutputBody: Swift.Equatable {
+struct DescribeVPCConnectionOutputBody {
     let vpcConnection: QuickSightClientTypes.VPCConnection?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -34144,7 +34144,7 @@ extension QuickSightClientTypes.DestinationParameterValueConfiguration: Swift.Co
 
 extension QuickSightClientTypes {
     /// The configuration of destination parameter values. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct DestinationParameterValueConfiguration: Swift.Equatable {
+    public struct DestinationParameterValueConfiguration {
         /// The configuration of custom values for destination parameter in DestinationParameterValueConfiguration.
         public var customValuesConfiguration: QuickSightClientTypes.CustomValuesConfiguration?
         /// The configuration that selects all options.
@@ -34207,7 +34207,7 @@ extension QuickSightClientTypes.DimensionField: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The dimension type field.
-    public struct DimensionField: Swift.Equatable {
+    public struct DimensionField {
         /// The dimension type field with categorical type columns.
         public var categoricalDimensionField: QuickSightClientTypes.CategoricalDimensionField?
         /// The dimension type field with date type columns.
@@ -34360,7 +34360,7 @@ extension QuickSightClientTypes.DisplayFormatOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents additional options for display formatting.
-    public struct DisplayFormatOptions: Swift.Equatable {
+    public struct DisplayFormatOptions {
         /// Determines the blank cell format.
         public var blankCellFormat: Swift.String?
         /// The currency symbol, such as USD.
@@ -34463,7 +34463,7 @@ public struct DomainNotWhitelistedException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct DomainNotWhitelistedExceptionBody: Swift.Equatable {
+struct DomainNotWhitelistedExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -34504,7 +34504,7 @@ extension QuickSightClientTypes.DonutCenterOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The label options of the label that is displayed in the center of a donut chart. This option isn't available for pie charts.
-    public struct DonutCenterOptions: Swift.Equatable {
+    public struct DonutCenterOptions {
         /// Determines the visibility of the label in a donut chart. In the Amazon QuickSight console, this option is called 'Show total'.
         public var labelVisibility: QuickSightClientTypes.Visibility?
 
@@ -34545,7 +34545,7 @@ extension QuickSightClientTypes.DonutOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options for configuring a donut chart or pie chart.
-    public struct DonutOptions: Swift.Equatable {
+    public struct DonutOptions {
         /// The option for define the arc of the chart shape. Valid values are as follows:
         ///
         /// * WHOLE - A pie chart
@@ -34604,7 +34604,7 @@ extension QuickSightClientTypes.DrillDownFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The drill down filter for the column hierarchies. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct DrillDownFilter: Swift.Equatable {
+    public struct DrillDownFilter {
         /// The category type drill down filter. This filter is used for string type columns.
         public var categoryFilter: QuickSightClientTypes.CategoryDrillDownFilter?
         /// The numeric equality type drill down filter. This filter is used for number type columns.
@@ -34659,7 +34659,7 @@ extension QuickSightClientTypes.DropDownControlDisplayOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The display options of a control.
-    public struct DropDownControlDisplayOptions: Swift.Equatable {
+    public struct DropDownControlDisplayOptions {
         /// The configuration of info icon label options.
         public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The configuration of the Select all options in a dropdown control.
@@ -34714,7 +34714,7 @@ extension QuickSightClientTypes.DynamicDefaultValue: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Defines different defaults to the users or groups based on mapping.
-    public struct DynamicDefaultValue: Swift.Equatable {
+    public struct DynamicDefaultValue {
         /// The column that contains the default value of each user or group.
         /// This member is required.
         public var defaultValueColumn: QuickSightClientTypes.ColumnIdentifier?
@@ -34852,7 +34852,7 @@ extension QuickSightClientTypes.EmptyVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An empty visual. Empty visuals are used in layouts but have not been configured to show any data. A new visual created in the Amazon QuickSight console is considered an EmptyVisual until a visual type is selected.
-    public struct EmptyVisual: Swift.Equatable {
+    public struct EmptyVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The data set that is used in the empty visual. Every visual requires a dataset to render.
@@ -34897,7 +34897,7 @@ extension QuickSightClientTypes.Entity: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An object, structure, or sub-structure of an analysis, template, or dashboard.
-    public struct Entity: Swift.Equatable {
+    public struct Entity {
         /// The hierarchical path of the entity within the analysis, template, or dashboard definition tree.
         public var path: Swift.String?
 
@@ -34938,7 +34938,7 @@ extension QuickSightClientTypes.ErrorInfo: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Error information for the SPICE ingestion of a dataset.
-    public struct ErrorInfo: Swift.Equatable {
+    public struct ErrorInfo {
         /// Error message.
         public var message: Swift.String?
         /// Error type.
@@ -34983,7 +34983,7 @@ extension QuickSightClientTypes.ExasolParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The required parameters for connecting to an Exasol data source.
-    public struct ExasolParameters: Swift.Equatable {
+    public struct ExasolParameters {
         /// The hostname or IP address of the Exasol data source.
         /// This member is required.
         public var host: Swift.String?
@@ -35089,7 +35089,7 @@ extension QuickSightClientTypes.ExcludePeriodConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The exclude period of TimeRangeFilter or RelativeDatesFilter.
-    public struct ExcludePeriodConfiguration: Swift.Equatable {
+    public struct ExcludePeriodConfiguration {
         /// The amount or number of the exclude period.
         /// This member is required.
         public var amount: Swift.Int?
@@ -35174,7 +35174,7 @@ extension QuickSightClientTypes.ExplicitHierarchy: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The option that determines the hierarchy of the fields that are built within a visual's field wells. These fields can't be duplicated to other visuals.
-    public struct ExplicitHierarchy: Swift.Equatable {
+    public struct ExplicitHierarchy {
         /// The list of columns that define the explicit hierarchy.
         /// This member is required.
         public var columns: [QuickSightClientTypes.ColumnIdentifier]?
@@ -35219,7 +35219,7 @@ extension QuickSightClientTypes.ExportHiddenFieldsOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Determines if hidden fields are included in an exported dashboard.
-    public struct ExportHiddenFieldsOption: Swift.Equatable {
+    public struct ExportHiddenFieldsOption {
         /// The status of the export hidden fields options of a dashbaord.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
@@ -35254,7 +35254,7 @@ extension QuickSightClientTypes.ExportToCSVOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Export to .csv option.
-    public struct ExportToCSVOption: Swift.Equatable {
+    public struct ExportToCSVOption {
         /// Availability status.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
@@ -35289,7 +35289,7 @@ extension QuickSightClientTypes.ExportWithHiddenFieldsOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Determines whether or not hidden fields are visible on exported dashbaords.
-    public struct ExportWithHiddenFieldsOption: Swift.Equatable {
+    public struct ExportWithHiddenFieldsOption {
         /// The status of the export with hidden fields options.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
@@ -35348,7 +35348,7 @@ extension QuickSightClientTypes.FieldBasedTooltip: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The setup for the detailed tooltip.
-    public struct FieldBasedTooltip: Swift.Equatable {
+    public struct FieldBasedTooltip {
         /// The visibility of Show aggregations.
         public var aggregationVisibility: QuickSightClientTypes.Visibility?
         /// The fields configuration in the tooltip.
@@ -35413,7 +35413,7 @@ extension QuickSightClientTypes.FieldFolder: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A FieldFolder element is a folder that contains fields and nested subfolders.
-    public struct FieldFolder: Swift.Equatable {
+    public struct FieldFolder {
         /// A folder has a list of columns. A column can only be in one folder.
         public var columns: [Swift.String]?
         /// The description for a field folder.
@@ -35458,7 +35458,7 @@ extension QuickSightClientTypes.FieldLabelType: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field label type.
-    public struct FieldLabelType: Swift.Equatable {
+    public struct FieldLabelType {
         /// Indicates the field that is targeted by the field label.
         public var fieldId: Swift.String?
         /// The visibility of the field label.
@@ -35509,7 +35509,7 @@ extension QuickSightClientTypes.FieldSeriesItem: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field series item configuration of a line chart.
-    public struct FieldSeriesItem: Swift.Equatable {
+    public struct FieldSeriesItem {
         /// The axis that you are binding the field to.
         /// This member is required.
         public var axisBinding: QuickSightClientTypes.AxisBinding?
@@ -35560,7 +35560,7 @@ extension QuickSightClientTypes.FieldSort: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration for a field in a field well.
-    public struct FieldSort: Swift.Equatable {
+    public struct FieldSort {
         /// The sort direction. Choose one of the following options:
         ///
         /// * ASC: Ascending
@@ -35611,7 +35611,7 @@ extension QuickSightClientTypes.FieldSortOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field sort options in a chart configuration.
-    public struct FieldSortOptions: Swift.Equatable {
+    public struct FieldSortOptions {
         /// The sort configuration for a column that is not used in a field well.
         public var columnSort: QuickSightClientTypes.ColumnSort?
         /// The sort configuration for a field in a field well.
@@ -35668,7 +35668,7 @@ extension QuickSightClientTypes.FieldTooltipItem: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The tooltip item for the fields.
-    public struct FieldTooltipItem: Swift.Equatable {
+    public struct FieldTooltipItem {
         /// The unique ID of the field that is targeted by the tooltip.
         /// This member is required.
         public var fieldId: Swift.String?
@@ -35790,7 +35790,7 @@ extension QuickSightClientTypes.FilledMapAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The aggregated field well of the filled map.
-    public struct FilledMapAggregatedFieldWells: Swift.Equatable {
+    public struct FilledMapAggregatedFieldWells {
         /// The aggregated location field well of the filled map. Values are grouped by location fields.
         public var geospatial: [QuickSightClientTypes.DimensionField]?
         /// The aggregated color field well of a filled map. Values are aggregated based on location fields.
@@ -35841,7 +35841,7 @@ extension QuickSightClientTypes.FilledMapConditionalFormatting: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The conditional formatting of a FilledMapVisual.
-    public struct FilledMapConditionalFormatting: Swift.Equatable {
+    public struct FilledMapConditionalFormatting {
         /// Conditional formatting options of a FilledMapVisual.
         /// This member is required.
         public var conditionalFormattingOptions: [QuickSightClientTypes.FilledMapConditionalFormattingOption]?
@@ -35877,7 +35877,7 @@ extension QuickSightClientTypes.FilledMapConditionalFormattingOption: Swift.Coda
 
 extension QuickSightClientTypes {
     /// Conditional formatting options of a FilledMapVisual.
-    public struct FilledMapConditionalFormattingOption: Swift.Equatable {
+    public struct FilledMapConditionalFormattingOption {
         /// The conditional formatting that determines the shape of the filled map.
         /// This member is required.
         public var shape: QuickSightClientTypes.FilledMapShapeConditionalFormatting?
@@ -35949,7 +35949,7 @@ extension QuickSightClientTypes.FilledMapConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration for a FilledMapVisual.
-    public struct FilledMapConfiguration: Swift.Equatable {
+    public struct FilledMapConfiguration {
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.FilledMapFieldWells?
         /// The general visual interactions setup for a visual.
@@ -36008,7 +36008,7 @@ extension QuickSightClientTypes.FilledMapFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field wells of a FilledMapVisual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct FilledMapFieldWells: Swift.Equatable {
+    public struct FilledMapFieldWells {
         /// The aggregated field well of the filled map.
         public var filledMapAggregatedFieldWells: QuickSightClientTypes.FilledMapAggregatedFieldWells?
 
@@ -36049,7 +36049,7 @@ extension QuickSightClientTypes.FilledMapShapeConditionalFormatting: Swift.Codab
 
 extension QuickSightClientTypes {
     /// The conditional formatting that determines the shape of the filled map.
-    public struct FilledMapShapeConditionalFormatting: Swift.Equatable {
+    public struct FilledMapShapeConditionalFormatting {
         /// The field ID of the filled map shape.
         /// This member is required.
         public var fieldId: Swift.String?
@@ -36101,7 +36101,7 @@ extension QuickSightClientTypes.FilledMapSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a FilledMapVisual.
-    public struct FilledMapSortConfiguration: Swift.Equatable {
+    public struct FilledMapSortConfiguration {
         /// The sort configuration of the location fields.
         public var categorySort: [QuickSightClientTypes.FieldSortOptions]?
 
@@ -36196,7 +36196,7 @@ extension QuickSightClientTypes.FilledMapVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A filled map. For more information, see [Creating filled maps](https://docs.aws.amazon.com/quicksight/latest/user/filled-maps.html) in the Amazon QuickSight User Guide.
-    public struct FilledMapVisual: Swift.Equatable {
+    public struct FilledMapVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration settings of the visual.
@@ -36292,7 +36292,7 @@ extension QuickSightClientTypes.Filter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// With a Filter, you can remove portions of data from a particular visual or view. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// A CategoryFilter filters text values. For more information, see [Adding text filters](https://docs.aws.amazon.com/quicksight/latest/user/add-a-text-filter-data-prep.html) in the Amazon QuickSight User Guide.
         public var categoryFilter: QuickSightClientTypes.CategoryFilter?
         /// A NumericEqualityFilter filters numeric values that equal or do not equal a given numeric value.
@@ -36428,7 +36428,7 @@ extension QuickSightClientTypes.FilterControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The control of a filter that is used to interact with a dashboard or an analysis. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct FilterControl: Swift.Equatable {
+    public struct FilterControl {
         /// A control from a filter that is scoped across more than one sheet. This represents your filter control on a sheet
         public var crossSheet: QuickSightClientTypes.FilterCrossSheetControl?
         /// A control from a date filter that is used to specify date and time.
@@ -36503,7 +36503,7 @@ extension QuickSightClientTypes.FilterCrossSheetControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control from a filter that is scoped across more than one sheet. This represents your filter control on a sheet
-    public struct FilterCrossSheetControl: Swift.Equatable {
+    public struct FilterCrossSheetControl {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
         /// The ID of the FilterCrossSheetControl.
@@ -36572,7 +36572,7 @@ extension QuickSightClientTypes.FilterDateTimePickerControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control from a date filter that is used to specify date and time.
-    public struct FilterDateTimePickerControl: Swift.Equatable {
+    public struct FilterDateTimePickerControl {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions?
         /// The ID of the FilterDateTimePickerControl.
@@ -36666,7 +36666,7 @@ extension QuickSightClientTypes.FilterDropDownControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control to display a dropdown list with buttons that are used to select a single value.
-    public struct FilterDropDownControl: Swift.Equatable {
+    public struct FilterDropDownControl {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
         /// The display options of the FilterDropDownControl.
@@ -36768,7 +36768,7 @@ extension QuickSightClientTypes.FilterGroup: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A grouping of individual filters. Filter groups are applied to the same group of visuals. For more information, see [Adding filter conditions (group filters) with AND and OR operators](https://docs.aws.amazon.com/quicksight/latest/user/add-a-compound-filter.html) in the Amazon QuickSight User Guide.
-    public struct FilterGroup: Swift.Equatable {
+    public struct FilterGroup {
         /// The filter new feature which can apply filter group to all data sets. Choose one of the following options:
         ///
         /// * ALL_DATASETS
@@ -36857,7 +36857,7 @@ extension QuickSightClientTypes.FilterListConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A list of filter configurations.
-    public struct FilterListConfiguration: Swift.Equatable {
+    public struct FilterListConfiguration {
         /// The list of category values for the filter.
         public var categoryValues: [Swift.String]?
         /// The match operator that is used to determine if a filter should be applied.
@@ -36949,7 +36949,7 @@ extension QuickSightClientTypes.FilterListControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control to display a list of buttons or boxes. This is used to select either a single value or multiple values.
-    public struct FilterListControl: Swift.Equatable {
+    public struct FilterListControl {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
         /// The display options of a control.
@@ -37055,7 +37055,7 @@ extension QuickSightClientTypes.FilterOperation: Swift.CustomDebugStringConverti
 
 extension QuickSightClientTypes {
     /// A transform operation that filters rows based on a condition.
-    public struct FilterOperation: Swift.Equatable {
+    public struct FilterOperation {
         /// An expression that must evaluate to a Boolean value. Rows for which the expression evaluates to true are kept in the dataset.
         /// This member is required.
         public var conditionExpression: Swift.String?
@@ -37127,7 +37127,7 @@ extension QuickSightClientTypes.FilterOperationSelectedFieldsConfiguration: Swif
 
 extension QuickSightClientTypes {
     /// The configuration of selected fields in theCustomActionFilterOperation. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct FilterOperationSelectedFieldsConfiguration: Swift.Equatable {
+    public struct FilterOperationSelectedFieldsConfiguration {
         /// The selected columns of a dataset.
         public var selectedColumns: [QuickSightClientTypes.ColumnIdentifier]?
         /// A structure that contains the options that choose which fields are filtered in the CustomActionFilterOperation. Valid values are defined as follows:
@@ -37172,7 +37172,7 @@ extension QuickSightClientTypes.FilterOperationTargetVisualsConfiguration: Swift
 
 extension QuickSightClientTypes {
     /// The configuration of target visuals that you want to be filtered. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct FilterOperationTargetVisualsConfiguration: Swift.Equatable {
+    public struct FilterOperationTargetVisualsConfiguration {
         /// The configuration of the same-sheet target visuals that you want to be filtered.
         public var sameSheetTargetVisualConfiguration: QuickSightClientTypes.SameSheetTargetVisualConfiguration?
 
@@ -37257,7 +37257,7 @@ extension QuickSightClientTypes.FilterRelativeDateTimeControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control from a date filter that is used to specify the relative date.
-    public struct FilterRelativeDateTimeControl: Swift.Equatable {
+    public struct FilterRelativeDateTimeControl {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions?
         /// The ID of the FilterTextAreaControl.
@@ -37313,7 +37313,7 @@ extension QuickSightClientTypes.FilterScopeConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The scope configuration for a FilterGroup. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct FilterScopeConfiguration: Swift.Equatable {
+    public struct FilterScopeConfiguration {
         /// The configuration that applies a filter to all sheets. When you choose AllSheets as the value for a FilterScopeConfiguration, this filter is applied to all visuals of all sheets in an Analysis, Dashboard, or Template. The AllSheetsFilterScopeConfiguration is chosen.
         public var allSheets: QuickSightClientTypes.AllSheetsFilterScopeConfiguration?
         /// The configuration for applying a filter to specific sheets.
@@ -37364,7 +37364,7 @@ extension QuickSightClientTypes.FilterSelectableValues: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A list of selectable values that are used in a control.
-    public struct FilterSelectableValues: Swift.Equatable {
+    public struct FilterSelectableValues {
         /// The values that are used in the FilterSelectableValues.
         public var values: [Swift.String]?
 
@@ -37441,7 +37441,7 @@ extension QuickSightClientTypes.FilterSliderControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control to display a horizontal toggle bar. This is used to change a value by sliding the toggle.
-    public struct FilterSliderControl: Swift.Equatable {
+    public struct FilterSliderControl {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.SliderControlDisplayOptions?
         /// The ID of the FilterSliderControl.
@@ -37538,7 +37538,7 @@ extension QuickSightClientTypes.FilterTextAreaControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control to display a text box that is used to enter multiple entries.
-    public struct FilterTextAreaControl: Swift.Equatable {
+    public struct FilterTextAreaControl {
         /// The delimiter that is used to separate the lines in text.
         public var delimiter: Swift.String?
         /// The display options of a control.
@@ -37610,7 +37610,7 @@ extension QuickSightClientTypes.FilterTextFieldControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control to display a text box that is used to enter a single entry.
-    public struct FilterTextFieldControl: Swift.Equatable {
+    public struct FilterTextFieldControl {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions?
         /// The ID of the FilterTextFieldControl.
@@ -37746,7 +37746,7 @@ extension QuickSightClientTypes.Folder: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A folder in Amazon QuickSight.
-    public struct Folder: Swift.Equatable {
+    public struct Folder {
         /// The Amazon Resource Name (ARN) for the folder.
         public var arn: Swift.String?
         /// The time that the folder was created.
@@ -37862,7 +37862,7 @@ extension QuickSightClientTypes.FolderMember: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An asset in a Amazon QuickSight folder, such as a dashboard, analysis, or dataset.
-    public struct FolderMember: Swift.Equatable {
+    public struct FolderMember {
         /// The ID of an asset in the folder.
         public var memberId: Swift.String?
         /// The type of asset that it is.
@@ -37913,7 +37913,7 @@ extension QuickSightClientTypes.FolderSearchFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A filter to use to search an Amazon QuickSight folder.
-    public struct FolderSearchFilter: Swift.Equatable {
+    public struct FolderSearchFilter {
         /// The name of a value that you want to use in the filter. For example, "Name": "QUICKSIGHT_OWNER". Valid values are defined as follows:
         ///
         /// * QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any folders with that ARN listed as one of the folder's owners or viewers are returned. Implicit permissions from folders or groups are considered.
@@ -38006,7 +38006,7 @@ extension QuickSightClientTypes.FolderSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A summary of information about an existing Amazon QuickSight folder.
-    public struct FolderSummary: Swift.Equatable {
+    public struct FolderSummary {
         /// The Amazon Resource Name (ARN) of the folder.
         public var arn: Swift.String?
         /// The time that the folder was created.
@@ -38097,7 +38097,7 @@ extension QuickSightClientTypes.Font: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Determines the font settings.
-    public struct Font: Swift.Equatable {
+    public struct Font {
         /// Determines the font family settings.
         public var fontFamily: Swift.String?
 
@@ -38156,7 +38156,7 @@ extension QuickSightClientTypes.FontConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Configures the display properties of the given text.
-    public struct FontConfiguration: Swift.Equatable {
+    public struct FontConfiguration {
         /// Determines the color of the text.
         public var fontColor: Swift.String?
         /// Determines the appearance of decorative lines on the text.
@@ -38239,7 +38239,7 @@ extension QuickSightClientTypes.FontSize: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The option that determines the text display size.
-    public struct FontSize: Swift.Equatable {
+    public struct FontSize {
         /// The lexical name for the text size, proportional to its surrounding context.
         public var relative: QuickSightClientTypes.RelativeFontSize?
 
@@ -38306,7 +38306,7 @@ extension QuickSightClientTypes.FontWeight: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The option that determines the text display weight, or boldness.
-    public struct FontWeight: Swift.Equatable {
+    public struct FontWeight {
         /// The lexical name for the level of boldness of the text display.
         public var name: QuickSightClientTypes.FontWeightName?
 
@@ -38433,7 +38433,7 @@ extension QuickSightClientTypes.ForecastComputation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The forecast computation configuration.
-    public struct ForecastComputation: Swift.Equatable {
+    public struct ForecastComputation {
         /// The ID for a computation.
         /// This member is required.
         public var computationId: Swift.String?
@@ -38551,7 +38551,7 @@ extension QuickSightClientTypes.ForecastConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The forecast configuration that is used in a line chart's display properties.
-    public struct ForecastConfiguration: Swift.Equatable {
+    public struct ForecastConfiguration {
         /// The forecast properties setup of a forecast in the line chart.
         public var forecastProperties: QuickSightClientTypes.TimeBasedForecastProperties?
         /// The forecast scenario of a forecast in the line chart.
@@ -38596,7 +38596,7 @@ extension QuickSightClientTypes.ForecastScenario: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The forecast scenario of a forecast in the line chart.
-    public struct ForecastScenario: Swift.Equatable {
+    public struct ForecastScenario {
         /// The what-if analysis forecast setup with the target date.
         public var whatIfPointScenario: QuickSightClientTypes.WhatIfPointScenario?
         /// The what-if analysis forecast setup with the date range.
@@ -38647,7 +38647,7 @@ extension QuickSightClientTypes.FormatConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The formatting configuration for all types of field.
-    public struct FormatConfiguration: Swift.Equatable {
+    public struct FormatConfiguration {
         /// Formatting configuration for DateTime fields.
         public var dateTimeFormatConfiguration: QuickSightClientTypes.DateTimeFormatConfiguration?
         /// Formatting configuration for number fields.
@@ -38690,7 +38690,7 @@ extension QuickSightClientTypes.FreeFormLayoutCanvasSizeOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Configuration options for the canvas of a free-form layout.
-    public struct FreeFormLayoutCanvasSizeOptions: Swift.Equatable {
+    public struct FreeFormLayoutCanvasSizeOptions {
         /// The options that determine the sizing of the canvas used in a free-form layout.
         public var screenCanvasSizeOptions: QuickSightClientTypes.FreeFormLayoutScreenCanvasSizeOptions?
 
@@ -38743,7 +38743,7 @@ extension QuickSightClientTypes.FreeFormLayoutConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a free-form layout.
-    public struct FreeFormLayoutConfiguration: Swift.Equatable {
+    public struct FreeFormLayoutConfiguration {
         /// Configuration options for the canvas of a free-form layout.
         public var canvasSizeOptions: QuickSightClientTypes.FreeFormLayoutCanvasSizeOptions?
         /// The elements that are included in a free-form layout.
@@ -38861,7 +38861,7 @@ extension QuickSightClientTypes.FreeFormLayoutElement: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An element within a free-form layout.
-    public struct FreeFormLayoutElement: Swift.Equatable {
+    public struct FreeFormLayoutElement {
         /// The background style configuration of a free-form layout element.
         public var backgroundStyle: QuickSightClientTypes.FreeFormLayoutElementBackgroundStyle?
         /// The border style configuration of a free-form layout element.
@@ -38952,7 +38952,7 @@ extension QuickSightClientTypes.FreeFormLayoutElementBackgroundStyle: Swift.Coda
 
 extension QuickSightClientTypes {
     /// The background style configuration of a free-form layout element.
-    public struct FreeFormLayoutElementBackgroundStyle: Swift.Equatable {
+    public struct FreeFormLayoutElementBackgroundStyle {
         /// The background color of a free-form layout element.
         public var color: Swift.String?
         /// The background visibility of a free-form layout element.
@@ -38997,7 +38997,7 @@ extension QuickSightClientTypes.FreeFormLayoutElementBorderStyle: Swift.Codable 
 
 extension QuickSightClientTypes {
     /// The background style configuration of a free-form layout element.
-    public struct FreeFormLayoutElementBorderStyle: Swift.Equatable {
+    public struct FreeFormLayoutElementBorderStyle {
         /// The border color of a free-form layout element.
         public var color: Swift.String?
         /// The border visibility of a free-form layout element.
@@ -39036,7 +39036,7 @@ extension QuickSightClientTypes.FreeFormLayoutScreenCanvasSizeOptions: Swift.Cod
 
 extension QuickSightClientTypes {
     /// The options that determine the sizing of the canvas used in a free-form layout.
-    public struct FreeFormLayoutScreenCanvasSizeOptions: Swift.Equatable {
+    public struct FreeFormLayoutScreenCanvasSizeOptions {
         /// The width that the view port will be optimized for when the layout renders.
         /// This member is required.
         public var optimizedViewPortWidth: Swift.String?
@@ -39084,7 +39084,7 @@ extension QuickSightClientTypes.FreeFormSectionLayoutConfiguration: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// The free-form layout configuration of a section.
-    public struct FreeFormSectionLayoutConfiguration: Swift.Equatable {
+    public struct FreeFormSectionLayoutConfiguration {
         /// The elements that are included in the free-form layout.
         /// This member is required.
         public var elements: [QuickSightClientTypes.FreeFormLayoutElement]?
@@ -39150,7 +39150,7 @@ extension QuickSightClientTypes.FunnelChartAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a FunnelChartVisual.
-    public struct FunnelChartAggregatedFieldWells: Swift.Equatable {
+    public struct FunnelChartAggregatedFieldWells {
         /// The category field wells of a funnel chart. Values are grouped by category fields.
         public var category: [QuickSightClientTypes.DimensionField]?
         /// The value field wells of a funnel chart. Values are aggregated based on categories.
@@ -39231,7 +39231,7 @@ extension QuickSightClientTypes.FunnelChartConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a FunnelChartVisual.
-    public struct FunnelChartConfiguration: Swift.Equatable {
+    public struct FunnelChartConfiguration {
         /// The label options of the categories that are displayed in a FunnelChartVisual.
         public var categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
         /// The options that determine the presentation of the data labels.
@@ -39330,7 +39330,7 @@ extension QuickSightClientTypes.FunnelChartDataLabelOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the presentation of the data labels.
-    public struct FunnelChartDataLabelOptions: Swift.Equatable {
+    public struct FunnelChartDataLabelOptions {
         /// The visibility of the category labels within the data labels.
         public var categoryLabelVisibility: QuickSightClientTypes.Visibility?
         /// The color of the data label text.
@@ -39389,7 +39389,7 @@ extension QuickSightClientTypes.FunnelChartFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a FunnelChartVisual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct FunnelChartFieldWells: Swift.Equatable {
+    public struct FunnelChartFieldWells {
         /// The field well configuration of a FunnelChartVisual.
         public var funnelChartAggregatedFieldWells: QuickSightClientTypes.FunnelChartAggregatedFieldWells?
 
@@ -39483,7 +39483,7 @@ extension QuickSightClientTypes.FunnelChartSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a FunnelChartVisual.
-    public struct FunnelChartSortConfiguration: Swift.Equatable {
+    public struct FunnelChartSortConfiguration {
         /// The limit on the number of categories displayed.
         public var categoryItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration?
         /// The sort configuration of the category fields.
@@ -39576,7 +39576,7 @@ extension QuickSightClientTypes.FunnelChartVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A funnel chart. For more information, see [Using funnel charts](https://docs.aws.amazon.com/quicksight/latest/user/funnel-visual-content.html) in the Amazon QuickSight User Guide.
-    public struct FunnelChartVisual: Swift.Equatable {
+    public struct FunnelChartVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration of a FunnelChartVisual.
@@ -39632,7 +39632,7 @@ extension QuickSightClientTypes.GaugeChartArcConditionalFormatting: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// The options that determine the presentation of the arc of a GaugeChartVisual.
-    public struct GaugeChartArcConditionalFormatting: Swift.Equatable {
+    public struct GaugeChartArcConditionalFormatting {
         /// The conditional formatting of the arc foreground color.
         public var foregroundColor: QuickSightClientTypes.ConditionalFormattingColor?
 
@@ -39679,7 +39679,7 @@ extension QuickSightClientTypes.GaugeChartConditionalFormatting: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The conditional formatting of a GaugeChartVisual.
-    public struct GaugeChartConditionalFormatting: Swift.Equatable {
+    public struct GaugeChartConditionalFormatting {
         /// Conditional formatting options of a GaugeChartVisual.
         public var conditionalFormattingOptions: [QuickSightClientTypes.GaugeChartConditionalFormattingOption]?
 
@@ -39720,7 +39720,7 @@ extension QuickSightClientTypes.GaugeChartConditionalFormattingOption: Swift.Cod
 
 extension QuickSightClientTypes {
     /// Conditional formatting options of a GaugeChartVisual.
-    public struct GaugeChartConditionalFormattingOption: Swift.Equatable {
+    public struct GaugeChartConditionalFormattingOption {
         /// The options that determine the presentation of the arc of a GaugeChartVisual.
         public var arc: QuickSightClientTypes.GaugeChartArcConditionalFormatting?
         /// The conditional formatting for the primary value of a GaugeChartVisual.
@@ -39789,7 +39789,7 @@ extension QuickSightClientTypes.GaugeChartConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a GaugeChartVisual.
-    public struct GaugeChartConfiguration: Swift.Equatable {
+    public struct GaugeChartConfiguration {
         /// The data label configuration of a GaugeChartVisual.
         public var dataLabels: QuickSightClientTypes.DataLabelOptions?
         /// The field well configuration of a GaugeChartVisual.
@@ -39874,7 +39874,7 @@ extension QuickSightClientTypes.GaugeChartFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a GaugeChartVisual.
-    public struct GaugeChartFieldWells: Swift.Equatable {
+    public struct GaugeChartFieldWells {
         /// The target value field wells of a GaugeChartVisual.
         public var targetValues: [QuickSightClientTypes.MeasureField]?
         /// The value field wells of a GaugeChartVisual.
@@ -39937,7 +39937,7 @@ extension QuickSightClientTypes.GaugeChartOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the presentation of the GaugeChartVisual.
-    public struct GaugeChartOptions: Swift.Equatable {
+    public struct GaugeChartOptions {
         /// The arc configuration of a GaugeChartVisual.
         public var arc: QuickSightClientTypes.ArcConfiguration?
         /// The arc axis configuration of a GaugeChartVisual.
@@ -39994,7 +39994,7 @@ extension QuickSightClientTypes.GaugeChartPrimaryValueConditionalFormatting: Swi
 
 extension QuickSightClientTypes {
     /// The conditional formatting for the primary value of a GaugeChartVisual.
-    public struct GaugeChartPrimaryValueConditionalFormatting: Swift.Equatable {
+    public struct GaugeChartPrimaryValueConditionalFormatting {
         /// The conditional formatting of the primary value icon.
         public var icon: QuickSightClientTypes.ConditionalFormattingIcon?
         /// The conditional formatting of the primary value text color.
@@ -40075,7 +40075,7 @@ extension QuickSightClientTypes.GaugeChartVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A gauge chart. For more information, see [Using gauge charts](https://docs.aws.amazon.com/quicksight/latest/user/gauge-chart.html) in the Amazon QuickSight User Guide.
-    public struct GaugeChartVisual: Swift.Equatable {
+    public struct GaugeChartVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration of a GaugeChartVisual.
@@ -40162,7 +40162,7 @@ extension GenerateEmbedUrlForAnonymousUserInput {
     }
 }
 
-public struct GenerateEmbedUrlForAnonymousUserInput: Swift.Equatable {
+public struct GenerateEmbedUrlForAnonymousUserInput {
     /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
     public var allowedDomains: [Swift.String]?
     /// The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to. Currently, you can pass up to 25 theme ARNs in each API call.
@@ -40202,7 +40202,7 @@ public struct GenerateEmbedUrlForAnonymousUserInput: Swift.Equatable {
     }
 }
 
-struct GenerateEmbedUrlForAnonymousUserInputBody: Swift.Equatable {
+struct GenerateEmbedUrlForAnonymousUserInputBody {
     let sessionLifetimeInMinutes: Swift.Int?
     let namespace: Swift.String?
     let sessionTags: [QuickSightClientTypes.SessionTag]?
@@ -40287,7 +40287,7 @@ extension GenerateEmbedUrlForAnonymousUserOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GenerateEmbedUrlForAnonymousUserOutput: Swift.Equatable {
+public struct GenerateEmbedUrlForAnonymousUserOutput {
     /// The Amazon Resource Name (ARN) to use for the anonymous Amazon QuickSight user.
     /// This member is required.
     public var anonymousUserArn: Swift.String?
@@ -40315,7 +40315,7 @@ public struct GenerateEmbedUrlForAnonymousUserOutput: Swift.Equatable {
     }
 }
 
-struct GenerateEmbedUrlForAnonymousUserOutputBody: Swift.Equatable {
+struct GenerateEmbedUrlForAnonymousUserOutputBody {
     let embedUrl: Swift.String?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -40399,7 +40399,7 @@ extension GenerateEmbedUrlForRegisteredUserInput {
     }
 }
 
-public struct GenerateEmbedUrlForRegisteredUserInput: Swift.Equatable {
+public struct GenerateEmbedUrlForRegisteredUserInput {
     /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
     public var allowedDomains: [Swift.String]?
     /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
@@ -40430,7 +40430,7 @@ public struct GenerateEmbedUrlForRegisteredUserInput: Swift.Equatable {
     }
 }
 
-struct GenerateEmbedUrlForRegisteredUserInputBody: Swift.Equatable {
+struct GenerateEmbedUrlForRegisteredUserInputBody {
     let sessionLifetimeInMinutes: Swift.Int?
     let userArn: Swift.String?
     let experienceConfiguration: QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration?
@@ -40487,7 +40487,7 @@ extension GenerateEmbedUrlForRegisteredUserOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GenerateEmbedUrlForRegisteredUserOutput: Swift.Equatable {
+public struct GenerateEmbedUrlForRegisteredUserOutput {
     /// The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, or console.
     /// This member is required.
     public var embedUrl: Swift.String?
@@ -40510,7 +40510,7 @@ public struct GenerateEmbedUrlForRegisteredUserOutput: Swift.Equatable {
     }
 }
 
-struct GenerateEmbedUrlForRegisteredUserOutputBody: Swift.Equatable {
+struct GenerateEmbedUrlForRegisteredUserOutputBody {
     let embedUrl: Swift.String?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -40598,7 +40598,7 @@ extension QuickSightClientTypes.GeoSpatialColumnGroup: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Geospatial column group that denotes a hierarchy.
-    public struct GeoSpatialColumnGroup: Swift.Equatable {
+    public struct GeoSpatialColumnGroup {
         /// Columns in this hierarchy.
         /// This member is required.
         public var columns: [Swift.String]?
@@ -40737,7 +40737,7 @@ extension QuickSightClientTypes.GeospatialCoordinateBounds: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The bound options (north, south, west, east) of the geospatial window options.
-    public struct GeospatialCoordinateBounds: Swift.Equatable {
+    public struct GeospatialCoordinateBounds {
         /// The longitude of the east bound of the geospatial coordinate bounds.
         /// This member is required.
         public var east: Swift.Double?
@@ -40800,7 +40800,7 @@ extension QuickSightClientTypes.GeospatialHeatmapColorScale: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The color scale specification for the heatmap point style.
-    public struct GeospatialHeatmapColorScale: Swift.Equatable {
+    public struct GeospatialHeatmapColorScale {
         /// The list of colors to be used in heatmap point style.
         public var colors: [QuickSightClientTypes.GeospatialHeatmapDataColor]?
 
@@ -40835,7 +40835,7 @@ extension QuickSightClientTypes.GeospatialHeatmapConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The heatmap configuration of the geospatial point style.
-    public struct GeospatialHeatmapConfiguration: Swift.Equatable {
+    public struct GeospatialHeatmapConfiguration {
         /// The color scale specification for the heatmap point style.
         public var heatmapColor: QuickSightClientTypes.GeospatialHeatmapColorScale?
 
@@ -40870,7 +40870,7 @@ extension QuickSightClientTypes.GeospatialHeatmapDataColor: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The color to be used in the heatmap point style.
-    public struct GeospatialHeatmapDataColor: Swift.Equatable {
+    public struct GeospatialHeatmapDataColor {
         /// The hex color to be used in the heatmap point style.
         /// This member is required.
         public var color: Swift.String?
@@ -40954,7 +40954,7 @@ extension QuickSightClientTypes.GeospatialMapAggregatedFieldWells: Swift.Codable
 
 extension QuickSightClientTypes {
     /// The aggregated field wells for a geospatial map.
-    public struct GeospatialMapAggregatedFieldWells: Swift.Equatable {
+    public struct GeospatialMapAggregatedFieldWells {
         /// The color field wells of a geospatial map.
         public var colors: [QuickSightClientTypes.DimensionField]?
         /// The geospatial field wells of a geospatial map. Values are grouped by geospatial fields.
@@ -41039,7 +41039,7 @@ extension QuickSightClientTypes.GeospatialMapConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a GeospatialMapVisual.
-    public struct GeospatialMapConfiguration: Swift.Equatable {
+    public struct GeospatialMapConfiguration {
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.GeospatialMapFieldWells?
         /// The general visual interactions setup for a visual.
@@ -41102,7 +41102,7 @@ extension QuickSightClientTypes.GeospatialMapFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field wells of a GeospatialMapVisual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct GeospatialMapFieldWells: Swift.Equatable {
+    public struct GeospatialMapFieldWells {
         /// The aggregated field well for a geospatial map.
         public var geospatialMapAggregatedFieldWells: QuickSightClientTypes.GeospatialMapAggregatedFieldWells?
 
@@ -41137,7 +41137,7 @@ extension QuickSightClientTypes.GeospatialMapStyleOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The map style options of the geospatial map.
-    public struct GeospatialMapStyleOptions: Swift.Equatable {
+    public struct GeospatialMapStyleOptions {
         /// The base map style of the geospatial map.
         public var baseMapStyle: QuickSightClientTypes.BaseMapStyleType?
 
@@ -41226,7 +41226,7 @@ extension QuickSightClientTypes.GeospatialMapVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A geospatial map or a points on map visual. For more information, see [Creating point maps](https://docs.aws.amazon.com/quicksight/latest/user/point-maps.html) in the Amazon QuickSight User Guide.
-    public struct GeospatialMapVisual: Swift.Equatable {
+    public struct GeospatialMapVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration settings of the visual.
@@ -41294,7 +41294,7 @@ extension QuickSightClientTypes.GeospatialPointStyleOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The point style of the geospatial map.
-    public struct GeospatialPointStyleOptions: Swift.Equatable {
+    public struct GeospatialPointStyleOptions {
         /// The cluster marker configuration of the geospatial point style.
         public var clusterMarkerConfiguration: QuickSightClientTypes.ClusterMarkerConfiguration?
         /// The heatmap configuration of the geospatial point style.
@@ -41378,7 +41378,7 @@ extension QuickSightClientTypes.GeospatialWindowOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The window options of the geospatial map visual.
-    public struct GeospatialWindowOptions: Swift.Equatable {
+    public struct GeospatialWindowOptions {
         /// The bounds options (north, south, west, east) of the geospatial window options.
         public var bounds: QuickSightClientTypes.GeospatialCoordinateBounds?
         /// The map zoom modes (manual, auto) of the geospatial window options.
@@ -41453,7 +41453,7 @@ extension GetDashboardEmbedUrlInput {
     }
 }
 
-public struct GetDashboardEmbedUrlInput: Swift.Equatable {
+public struct GetDashboardEmbedUrlInput {
     /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Amazon QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
     public var additionalDashboardIds: [Swift.String]?
     /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
@@ -41513,7 +41513,7 @@ public struct GetDashboardEmbedUrlInput: Swift.Equatable {
     }
 }
 
-struct GetDashboardEmbedUrlInputBody: Swift.Equatable {
+struct GetDashboardEmbedUrlInputBody {
 }
 
 extension GetDashboardEmbedUrlInputBody: Swift.Decodable {
@@ -41543,7 +41543,7 @@ extension GetDashboardEmbedUrlOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output returned from the GetDashboardEmbedUrl operation.
-public struct GetDashboardEmbedUrlOutput: Swift.Equatable {
+public struct GetDashboardEmbedUrlOutput {
     /// A single-use URL that you can put into your server-side webpage to embed your dashboard. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours.
     public var embedUrl: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -41563,7 +41563,7 @@ public struct GetDashboardEmbedUrlOutput: Swift.Equatable {
     }
 }
 
-struct GetDashboardEmbedUrlOutputBody: Swift.Equatable {
+struct GetDashboardEmbedUrlOutputBody {
     let embedUrl: Swift.String?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -41639,7 +41639,7 @@ extension GetSessionEmbedUrlInput {
     }
 }
 
-public struct GetSessionEmbedUrlInput: Swift.Equatable {
+public struct GetSessionEmbedUrlInput {
     /// The ID for the Amazon Web Services account associated with your Amazon QuickSight subscription.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -41685,7 +41685,7 @@ public struct GetSessionEmbedUrlInput: Swift.Equatable {
     }
 }
 
-struct GetSessionEmbedUrlInputBody: Swift.Equatable {
+struct GetSessionEmbedUrlInputBody {
 }
 
 extension GetSessionEmbedUrlInputBody: Swift.Decodable {
@@ -41714,7 +41714,7 @@ extension GetSessionEmbedUrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionEmbedUrlOutput: Swift.Equatable {
+public struct GetSessionEmbedUrlOutput {
     /// A single-use URL that you can put into your server-side web page to embed your Amazon QuickSight session. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours.
     public var embedUrl: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -41734,7 +41734,7 @@ public struct GetSessionEmbedUrlOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionEmbedUrlOutputBody: Swift.Equatable {
+struct GetSessionEmbedUrlOutputBody {
     let embedUrl: Swift.String?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -41804,7 +41804,7 @@ extension QuickSightClientTypes.GlobalTableBorderOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Determines the border options for a table visual.
-    public struct GlobalTableBorderOptions: Swift.Equatable {
+    public struct GlobalTableBorderOptions {
         /// Determines the options for side specific border.
         public var sideSpecificBorder: QuickSightClientTypes.TableSideBorderOptions?
         /// Determines the options for uniform border.
@@ -41855,7 +41855,7 @@ extension QuickSightClientTypes.GradientColor: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Determines the gradient color settings.
-    public struct GradientColor: Swift.Equatable {
+    public struct GradientColor {
         /// The list of gradient color stops.
         public var stops: [QuickSightClientTypes.GradientStop]?
 
@@ -41902,7 +41902,7 @@ extension QuickSightClientTypes.GradientStop: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Determines the gradient stop configuration.
-    public struct GradientStop: Swift.Equatable {
+    public struct GradientStop {
         /// Determines the color.
         public var color: Swift.String?
         /// Determines the data value.
@@ -41946,7 +41946,7 @@ extension QuickSightClientTypes.GridLayoutCanvasSizeOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Configuration options for the canvas of a grid layout.
-    public struct GridLayoutCanvasSizeOptions: Swift.Equatable {
+    public struct GridLayoutCanvasSizeOptions {
         /// The options that determine the sizing of the canvas used in a grid layout.
         public var screenCanvasSizeOptions: QuickSightClientTypes.GridLayoutScreenCanvasSizeOptions?
 
@@ -41999,7 +41999,7 @@ extension QuickSightClientTypes.GridLayoutConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration for a grid layout. Also called a tiled layout. Visuals snap to a grid with standard spacing and alignment. Dashboards are displayed as designed, with options to fit to screen or view at actual size.
-    public struct GridLayoutConfiguration: Swift.Equatable {
+    public struct GridLayoutConfiguration {
         /// Configuration options for the canvas of a grid layout.
         public var canvasSizeOptions: QuickSightClientTypes.GridLayoutCanvasSizeOptions?
         /// The elements that are included in a grid layout.
@@ -42069,7 +42069,7 @@ extension QuickSightClientTypes.GridLayoutElement: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An element within a grid layout.
-    public struct GridLayoutElement: Swift.Equatable {
+    public struct GridLayoutElement {
         /// The column index for the upper left corner of an element.
         public var columnIndex: Swift.Int?
         /// The width of a grid element expressed as a number of grid columns.
@@ -42134,7 +42134,7 @@ extension QuickSightClientTypes.GridLayoutScreenCanvasSizeOptions: Swift.Codable
 
 extension QuickSightClientTypes {
     /// The options that determine the sizing of the canvas used in a grid layout.
-    public struct GridLayoutScreenCanvasSizeOptions: Swift.Equatable {
+    public struct GridLayoutScreenCanvasSizeOptions {
         /// The width that the view port will be optimized for when the layout renders.
         public var optimizedViewPortWidth: Swift.String?
         /// This value determines the layout behavior when the viewport is resized.
@@ -42196,7 +42196,7 @@ extension QuickSightClientTypes.Group: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A group in Amazon QuickSight consists of a set of users. You can use groups to make it easier to manage access and security.
-    public struct Group: Swift.Equatable {
+    public struct Group {
         /// The Amazon Resource Name (ARN) for the group.
         public var arn: Swift.String?
         /// The group description.
@@ -42307,7 +42307,7 @@ extension QuickSightClientTypes.GroupMember: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A member of an Amazon QuickSight group. Currently, group members must be users. Groups can't be members of another group. .
-    public struct GroupMember: Swift.Equatable {
+    public struct GroupMember {
         /// The Amazon Resource Name (ARN) for the group member (user).
         public var arn: Swift.String?
         /// The name of the group member (user).
@@ -42358,7 +42358,7 @@ extension QuickSightClientTypes.GroupSearchFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A GroupSearchFilter object that you want to apply to your search.
-    public struct GroupSearchFilter: Swift.Equatable {
+    public struct GroupSearchFilter {
         /// The name of the value that you want to use as a filter, for example "Name": "GROUP_NAME". Currently, the only supported name is GROUP_NAME.
         /// This member is required.
         public var name: QuickSightClientTypes.GroupFilterAttribute?
@@ -42428,7 +42428,7 @@ extension QuickSightClientTypes.GrowthRateComputation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The growth rate computation configuration.
-    public struct GrowthRateComputation: Swift.Equatable {
+    public struct GrowthRateComputation {
         /// The ID for a computation.
         /// This member is required.
         public var computationId: Swift.String?
@@ -42480,7 +42480,7 @@ extension QuickSightClientTypes.GutterStyle: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The display options for gutter spacing between tiles on a sheet.
-    public struct GutterStyle: Swift.Equatable {
+    public struct GutterStyle {
         /// This Boolean value controls whether to display a gutter space between sheet tiles.
         public var show: Swift.Bool?
 
@@ -42527,7 +42527,7 @@ extension QuickSightClientTypes.HeaderFooterSectionConfiguration: Swift.Codable 
 
 extension QuickSightClientTypes {
     /// The configuration of a header or footer section.
-    public struct HeaderFooterSectionConfiguration: Swift.Equatable {
+    public struct HeaderFooterSectionConfiguration {
         /// The layout configuration of the header or footer section.
         /// This member is required.
         public var layout: QuickSightClientTypes.SectionLayoutConfiguration?
@@ -42620,7 +42620,7 @@ extension QuickSightClientTypes.HeatMapAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The aggregated field wells of a heat map.
-    public struct HeatMapAggregatedFieldWells: Swift.Equatable {
+    public struct HeatMapAggregatedFieldWells {
         /// The columns field well of a heat map.
         public var columns: [QuickSightClientTypes.DimensionField]?
         /// The rows field well of a heat map.
@@ -42711,7 +42711,7 @@ extension QuickSightClientTypes.HeatMapConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a heat map.
-    public struct HeatMapConfiguration: Swift.Equatable {
+    public struct HeatMapConfiguration {
         /// The color options (gradient color, point of divergence) in a heat map.
         public var colorScale: QuickSightClientTypes.ColorScale?
         /// The label options of the column that is displayed in a heat map.
@@ -42778,7 +42778,7 @@ extension QuickSightClientTypes.HeatMapFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a heat map. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct HeatMapFieldWells: Swift.Equatable {
+    public struct HeatMapFieldWells {
         /// The aggregated field wells of a heat map.
         public var heatMapAggregatedFieldWells: QuickSightClientTypes.HeatMapAggregatedFieldWells?
 
@@ -42855,7 +42855,7 @@ extension QuickSightClientTypes.HeatMapSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a heat map.
-    public struct HeatMapSortConfiguration: Swift.Equatable {
+    public struct HeatMapSortConfiguration {
         /// The limit on the number of columns that are displayed in a heat map.
         public var heatMapColumnItemsLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration?
         /// The column sort configuration for heat map for columns that aren't a part of a field well.
@@ -42956,7 +42956,7 @@ extension QuickSightClientTypes.HeatMapVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A heat map. For more information, see [Using heat maps](https://docs.aws.amazon.com/quicksight/latest/user/heat-map.html) in the Amazon QuickSight User Guide.
-    public struct HeatMapVisual: Swift.Equatable {
+    public struct HeatMapVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration of a heat map.
@@ -43024,7 +43024,7 @@ extension QuickSightClientTypes.HistogramAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a histogram.
-    public struct HistogramAggregatedFieldWells: Swift.Equatable {
+    public struct HistogramAggregatedFieldWells {
         /// The value field wells of a histogram. Values are aggregated by COUNT or DISTINCT_COUNT.
         public var values: [QuickSightClientTypes.MeasureField]?
 
@@ -43077,7 +43077,7 @@ extension QuickSightClientTypes.HistogramBinOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the presentation of histogram bins.
-    public struct HistogramBinOptions: Swift.Equatable {
+    public struct HistogramBinOptions {
         /// The options that determine the bin count of a histogram.
         public var binCount: QuickSightClientTypes.BinCountOptions?
         /// The options that determine the bin width of a histogram.
@@ -43204,7 +43204,7 @@ extension QuickSightClientTypes.HistogramConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration for a HistogramVisual.
-    public struct HistogramConfiguration: Swift.Equatable {
+    public struct HistogramConfiguration {
         /// The options that determine the presentation of histogram bins.
         public var binOptions: QuickSightClientTypes.HistogramBinOptions?
         /// The data label configuration of a histogram.
@@ -43271,7 +43271,7 @@ extension QuickSightClientTypes.HistogramFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a histogram.
-    public struct HistogramFieldWells: Swift.Equatable {
+    public struct HistogramFieldWells {
         /// The field well configuration of a histogram.
         public var histogramAggregatedFieldWells: QuickSightClientTypes.HistogramAggregatedFieldWells?
 
@@ -43342,7 +43342,7 @@ extension QuickSightClientTypes.HistogramVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A histogram. For more information, see [Using histograms](https://docs.aws.amazon.com/quicksight/latest/user/histogram-charts.html) in the Amazon QuickSight User Guide.
-    public struct HistogramVisual: Swift.Equatable {
+    public struct HistogramVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration for a HistogramVisual.
@@ -43484,7 +43484,7 @@ extension QuickSightClientTypes.IAMPolicyAssignment: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An Identity and Access Management (IAM) policy assignment.
-    public struct IAMPolicyAssignment: Swift.Equatable {
+    public struct IAMPolicyAssignment {
         /// Assignment ID.
         public var assignmentId: Swift.String?
         /// Assignment name.
@@ -43545,7 +43545,7 @@ extension QuickSightClientTypes.IAMPolicyAssignmentSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// IAM policy assignment summary.
-    public struct IAMPolicyAssignmentSummary: Swift.Equatable {
+    public struct IAMPolicyAssignmentSummary {
         /// Assignment name.
         public var assignmentName: Swift.String?
         /// Assignment status.
@@ -43688,7 +43688,7 @@ extension QuickSightClientTypes.IdentityCenterConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for an IAM Identity Center configuration.
-    public struct IdentityCenterConfiguration: Swift.Equatable {
+    public struct IdentityCenterConfiguration {
         /// A Boolean option that controls whether Trusted Identity Propagation should be used.
         public var enableIdentityPropagation: Swift.Bool?
 
@@ -43811,7 +43811,7 @@ public struct IdentityTypeNotSupportedException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct IdentityTypeNotSupportedExceptionBody: Swift.Equatable {
+struct IdentityTypeNotSupportedExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -43852,7 +43852,7 @@ extension QuickSightClientTypes.IncrementalRefresh: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The incremental refresh configuration for a dataset.
-    public struct IncrementalRefresh: Swift.Equatable {
+    public struct IncrementalRefresh {
         /// The lookback window setup for an incremental refresh configuration.
         /// This member is required.
         public var lookbackWindow: QuickSightClientTypes.LookbackWindow?
@@ -43948,7 +43948,7 @@ extension QuickSightClientTypes.Ingestion: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Information about the SPICE ingestion for a dataset.
-    public struct Ingestion: Swift.Equatable {
+    public struct Ingestion {
         /// The Amazon Resource Name (ARN) of the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -44347,7 +44347,7 @@ extension QuickSightClientTypes.InputColumn: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Metadata for a column that is used as the input of a transform operation.
-    public struct InputColumn: Swift.Equatable {
+    public struct InputColumn {
         /// The name of this column in the underlying data source.
         /// This member is required.
         public var name: Swift.String?
@@ -44463,7 +44463,7 @@ extension QuickSightClientTypes.InsightConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of an insight visual.
-    public struct InsightConfiguration: Swift.Equatable {
+    public struct InsightConfiguration {
         /// The computations configurations of the insight visual
         public var computations: [QuickSightClientTypes.Computation]?
         /// The custom narrative of the insight visual.
@@ -44548,7 +44548,7 @@ extension QuickSightClientTypes.InsightVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An insight visual. For more information, see [Working with insights](https://docs.aws.amazon.com/quicksight/latest/user/computational-insights.html) in the Amazon QuickSight User Guide.
-    public struct InsightVisual: Swift.Equatable {
+    public struct InsightVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The dataset that is used in the insight visual.
@@ -44623,7 +44623,7 @@ extension QuickSightClientTypes.IntegerDatasetParameter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An integer parameter for a dataset.
-    public struct IntegerDatasetParameter: Swift.Equatable {
+    public struct IntegerDatasetParameter {
         /// A list of default values for a given integer parameter. This structure only accepts static values.
         public var defaultValues: QuickSightClientTypes.IntegerDatasetParameterDefaultValues?
         /// An identifier for the integer parameter created in the dataset.
@@ -44685,7 +44685,7 @@ extension QuickSightClientTypes.IntegerDatasetParameterDefaultValues: Swift.Coda
 
 extension QuickSightClientTypes {
     /// The default values of an integer parameter.
-    public struct IntegerDatasetParameterDefaultValues: Swift.Equatable {
+    public struct IntegerDatasetParameterDefaultValues {
         /// A list of static default values for a given integer parameter.
         public var staticValues: [Swift.Int]?
 
@@ -44738,7 +44738,7 @@ extension QuickSightClientTypes.IntegerDefaultValues: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The default values of the IntegerParameterDeclaration.
-    public struct IntegerDefaultValues: Swift.Equatable {
+    public struct IntegerDefaultValues {
         /// The dynamic value of the IntegerDefaultValues. Different defaults are displayed according to users, groups, and values mapping.
         public var dynamicValue: QuickSightClientTypes.DynamicDefaultValue?
         /// The static values of the IntegerDefaultValues.
@@ -44795,7 +44795,7 @@ extension QuickSightClientTypes.IntegerParameter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An integer parameter.
-    public struct IntegerParameter: Swift.Equatable {
+    public struct IntegerParameter {
         /// The name of the integer parameter.
         /// This member is required.
         public var name: Swift.String?
@@ -44872,7 +44872,7 @@ extension QuickSightClientTypes.IntegerParameterDeclaration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A parameter declaration for the Integer data type.
-    public struct IntegerParameterDeclaration: Swift.Equatable {
+    public struct IntegerParameterDeclaration {
         /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
         public var defaultValues: QuickSightClientTypes.IntegerDefaultValues?
         /// A list of dataset parameters that are mapped to an analysis parameter.
@@ -44936,7 +44936,7 @@ extension QuickSightClientTypes.IntegerValueWhenUnsetConfiguration: Swift.Custom
 
 extension QuickSightClientTypes {
     /// A parameter declaration for the Integer data type. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct IntegerValueWhenUnsetConfiguration: Swift.Equatable {
+    public struct IntegerValueWhenUnsetConfiguration {
         /// A custom value that's used when the value of a parameter isn't set.
         public var customValue: Swift.Int?
         /// The built-in options for default values. The value can be one of the following:
@@ -45003,7 +45003,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -45068,7 +45068,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -45133,7 +45133,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidParameterValueExceptionBody: Swift.Equatable {
+struct InvalidParameterValueExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -45198,7 +45198,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -45245,7 +45245,7 @@ extension QuickSightClientTypes.ItemsLimitConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The limit configuration of the visual display for an axis.
-    public struct ItemsLimitConfiguration: Swift.Equatable {
+    public struct ItemsLimitConfiguration {
         /// The limit on how many items of a field are showed in the chart. For example, the number of slices that are displayed in a pie chart.
         public var itemsLimit: Swift.Int?
         /// The Show other of an axis in the chart. Choose one of the following options:
@@ -45288,7 +45288,7 @@ extension QuickSightClientTypes.JiraParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for Jira.
-    public struct JiraParameters: Swift.Equatable {
+    public struct JiraParameters {
         /// The base URL of the Jira site.
         /// This member is required.
         public var siteBaseUrl: Swift.String?
@@ -45354,7 +45354,7 @@ extension QuickSightClientTypes.JoinInstruction: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The instructions associated with a join.
-    public struct JoinInstruction: Swift.Equatable {
+    public struct JoinInstruction {
         /// Join key properties of the left operand.
         public var leftJoinKeyProperties: QuickSightClientTypes.JoinKeyProperties?
         /// The operand on the left side of a join.
@@ -45413,7 +45413,7 @@ extension QuickSightClientTypes.JoinKeyProperties: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Properties associated with the columns participating in a join.
-    public struct JoinKeyProperties: Swift.Equatable {
+    public struct JoinKeyProperties {
         /// A value that indicates that a row in a table is uniquely identified by the columns in a join key. This is used by Amazon QuickSight to optimize query performance.
         public var uniqueKey: Swift.Bool?
 
@@ -45492,7 +45492,7 @@ extension QuickSightClientTypes.KPIActualValueConditionalFormatting: Swift.Codab
 
 extension QuickSightClientTypes {
     /// The conditional formatting for the actual value of a KPI visual.
-    public struct KPIActualValueConditionalFormatting: Swift.Equatable {
+    public struct KPIActualValueConditionalFormatting {
         /// The conditional formatting of the actual value's icon.
         public var icon: QuickSightClientTypes.ConditionalFormattingIcon?
         /// The conditional formatting of the actual value's text color.
@@ -45537,7 +45537,7 @@ extension QuickSightClientTypes.KPIComparisonValueConditionalFormatting: Swift.C
 
 extension QuickSightClientTypes {
     /// The conditional formatting for the comparison value of a KPI visual.
-    public struct KPIComparisonValueConditionalFormatting: Swift.Equatable {
+    public struct KPIComparisonValueConditionalFormatting {
         /// The conditional formatting of the comparison value's icon.
         public var icon: QuickSightClientTypes.ConditionalFormattingIcon?
         /// The conditional formatting of the comparison value's text color.
@@ -45588,7 +45588,7 @@ extension QuickSightClientTypes.KPIConditionalFormatting: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The conditional formatting of a KPI visual.
-    public struct KPIConditionalFormatting: Swift.Equatable {
+    public struct KPIConditionalFormatting {
         /// The conditional formatting options of a KPI visual.
         public var conditionalFormattingOptions: [QuickSightClientTypes.KPIConditionalFormattingOption]?
 
@@ -45641,7 +45641,7 @@ extension QuickSightClientTypes.KPIConditionalFormattingOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The conditional formatting options of a KPI visual.
-    public struct KPIConditionalFormattingOption: Swift.Equatable {
+    public struct KPIConditionalFormattingOption {
         /// The conditional formatting for the actual value of a KPI visual.
         public var actualValue: QuickSightClientTypes.KPIActualValueConditionalFormatting?
         /// The conditional formatting for the comparison value of a KPI visual.
@@ -45706,7 +45706,7 @@ extension QuickSightClientTypes.KPIConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a KPI visual.
-    public struct KPIConfiguration: Swift.Equatable {
+    public struct KPIConfiguration {
         /// The field well configuration of a KPI visual.
         public var fieldWells: QuickSightClientTypes.KPIFieldWells?
         /// The general visual interactions setup for a visual.
@@ -45801,7 +45801,7 @@ extension QuickSightClientTypes.KPIFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a KPI visual.
-    public struct KPIFieldWells: Swift.Equatable {
+    public struct KPIFieldWells {
         /// The target value field wells of a KPI visual.
         public var targetValues: [QuickSightClientTypes.MeasureField]?
         /// The trend group field wells of a KPI visual.
@@ -45892,7 +45892,7 @@ extension QuickSightClientTypes.KPIOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the presentation of a KPI visual.
-    public struct KPIOptions: Swift.Equatable {
+    public struct KPIOptions {
         /// The comparison configuration of a KPI visual.
         public var comparison: QuickSightClientTypes.ComparisonConfiguration?
         /// The options that determine the primary value display type.
@@ -45965,7 +45965,7 @@ extension QuickSightClientTypes.KPIPrimaryValueConditionalFormatting: Swift.Coda
 
 extension QuickSightClientTypes {
     /// The conditional formatting for the primary value of a KPI visual.
-    public struct KPIPrimaryValueConditionalFormatting: Swift.Equatable {
+    public struct KPIPrimaryValueConditionalFormatting {
         /// The conditional formatting of the primary value's icon.
         public var icon: QuickSightClientTypes.ConditionalFormattingIcon?
         /// The conditional formatting of the primary value's text color.
@@ -46004,7 +46004,7 @@ extension QuickSightClientTypes.KPIProgressBarConditionalFormatting: Swift.Codab
 
 extension QuickSightClientTypes {
     /// The conditional formatting for the progress bar of a KPI visual.
-    public struct KPIProgressBarConditionalFormatting: Swift.Equatable {
+    public struct KPIProgressBarConditionalFormatting {
         /// The conditional formatting of the progress bar's foreground color.
         public var foregroundColor: QuickSightClientTypes.ConditionalFormattingColor?
 
@@ -46051,7 +46051,7 @@ extension QuickSightClientTypes.KPISortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a KPI visual.
-    public struct KPISortConfiguration: Swift.Equatable {
+    public struct KPISortConfiguration {
         /// The sort configuration of the trend group fields.
         public var trendGroupSort: [QuickSightClientTypes.FieldSortOptions]?
 
@@ -46104,7 +46104,7 @@ extension QuickSightClientTypes.KPISparklineOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the visibility, color, type, and tooltip visibility of the sparkline of a KPI visual.
-    public struct KPISparklineOptions: Swift.Equatable {
+    public struct KPISparklineOptions {
         /// The color of the sparkline.
         public var color: Swift.String?
         /// The tooltip visibility of the sparkline.
@@ -46244,7 +46244,7 @@ extension QuickSightClientTypes.KPIVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A key performance indicator (KPI). For more information, see [Using KPIs](https://docs.aws.amazon.com/quicksight/latest/user/kpi.html) in the Amazon QuickSight User Guide.
-    public struct KPIVisual: Swift.Equatable {
+    public struct KPIVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration of a KPI visual.
@@ -46304,7 +46304,7 @@ extension QuickSightClientTypes.KPIVisualLayoutOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the layout a KPI visual.
-    public struct KPIVisualLayoutOptions: Swift.Equatable {
+    public struct KPIVisualLayoutOptions {
         /// The standard layout of the KPI visual.
         public var standardLayout: QuickSightClientTypes.KPIVisualStandardLayout?
 
@@ -46339,7 +46339,7 @@ extension QuickSightClientTypes.KPIVisualStandardLayout: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The standard layout of the KPI visual.
-    public struct KPIVisualStandardLayout: Swift.Equatable {
+    public struct KPIVisualStandardLayout {
         /// The standard layout type.
         /// This member is required.
         public var type: QuickSightClientTypes.KPIVisualStandardLayoutType?
@@ -46419,7 +46419,7 @@ extension QuickSightClientTypes.LabelOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The share label options for the labels.
-    public struct LabelOptions: Swift.Equatable {
+    public struct LabelOptions {
         /// The text for the label.
         public var customLabel: Swift.String?
         /// The font configuration of the label.
@@ -46462,7 +46462,7 @@ extension QuickSightClientTypes.Layout: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A Layout defines the placement of elements within a sheet. For more information, see [Types of layout](https://docs.aws.amazon.com/quicksight/latest/user/types-of-layout.html) in the Amazon QuickSight User Guide. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct Layout: Swift.Equatable {
+    public struct Layout {
         /// The configuration that determines what the type of layout for a sheet.
         /// This member is required.
         public var configuration: QuickSightClientTypes.LayoutConfiguration?
@@ -46510,7 +46510,7 @@ extension QuickSightClientTypes.LayoutConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration that determines what the type of layout will be used on a sheet. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct LayoutConfiguration: Swift.Equatable {
+    public struct LayoutConfiguration {
         /// A free-form is optimized for a fixed width and has more control over the exact placement of layout elements.
         public var freeFormLayout: QuickSightClientTypes.FreeFormLayoutConfiguration?
         /// A type of layout that can be used on a sheet. In a grid layout, visuals snap to a grid with standard spacing and alignment. Dashboards are displayed as designed, with options to fit to screen or view at actual size. A grid layout can be configured to behave in one of two ways when the viewport is resized: FIXED or RESPONSIVE.
@@ -46615,7 +46615,7 @@ extension QuickSightClientTypes.LegendOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options for the legend setup of a visual.
-    public struct LegendOptions: Swift.Equatable {
+    public struct LegendOptions {
         /// The height of the legend. If this value is omitted, a default height is used when rendering.
         public var height: Swift.String?
         /// The positions for the legend. Choose one of the following options:
@@ -46742,7 +46742,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
     let resourceType: QuickSightClientTypes.ExceptionResourceType?
     let requestId: Swift.String?
@@ -46853,7 +46853,7 @@ extension QuickSightClientTypes.LineChartAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a line chart.
-    public struct LineChartAggregatedFieldWells: Swift.Equatable {
+    public struct LineChartAggregatedFieldWells {
         /// The category field wells of a line chart. Values are grouped by category fields.
         public var category: [QuickSightClientTypes.DimensionField]?
         /// The color field wells of a line chart. Values are grouped by category fields.
@@ -47068,7 +47068,7 @@ extension QuickSightClientTypes.LineChartConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a line chart.
-    public struct LineChartConfiguration: Swift.Equatable {
+    public struct LineChartConfiguration {
         /// The default configuration of a line chart's contribution analysis.
         public var contributionAnalysisDefaults: [QuickSightClientTypes.ContributionAnalysisDefault]?
         /// The data label configuration of a line chart.
@@ -47195,7 +47195,7 @@ extension QuickSightClientTypes.LineChartDefaultSeriesSettings: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the default presentation of all line series in LineChartVisual.
-    public struct LineChartDefaultSeriesSettings: Swift.Equatable {
+    public struct LineChartDefaultSeriesSettings {
         /// The axis to which you are binding all line series to.
         public var axisBinding: QuickSightClientTypes.AxisBinding?
         /// Line styles options for all line series in the visual.
@@ -47238,7 +47238,7 @@ extension QuickSightClientTypes.LineChartFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a line chart.
-    public struct LineChartFieldWells: Swift.Equatable {
+    public struct LineChartFieldWells {
         /// The field well configuration of a line chart.
         public var lineChartAggregatedFieldWells: QuickSightClientTypes.LineChartAggregatedFieldWells?
 
@@ -47326,7 +47326,7 @@ extension QuickSightClientTypes.LineChartLineStyleSettings: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Line styles options for a line series in LineChartVisual.
-    public struct LineChartLineStyleSettings: Swift.Equatable {
+    public struct LineChartLineStyleSettings {
         /// Interpolation style for line series.
         ///
         /// * LINEAR: Show as default, linear style.
@@ -47444,7 +47444,7 @@ extension QuickSightClientTypes.LineChartMarkerStyleSettings: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Marker styles options for a line series in LineChartVisual.
-    public struct LineChartMarkerStyleSettings: Swift.Equatable {
+    public struct LineChartMarkerStyleSettings {
         /// Color of marker in the series.
         public var markerColor: Swift.String?
         /// Shape option for markers in the series.
@@ -47507,7 +47507,7 @@ extension QuickSightClientTypes.LineChartSeriesSettings: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the presentation of a line series in the visual
-    public struct LineChartSeriesSettings: Swift.Equatable {
+    public struct LineChartSeriesSettings {
         /// Line styles options for a line series in LineChartVisual.
         public var lineStyleSettings: QuickSightClientTypes.LineChartLineStyleSettings?
         /// Marker styles options for a line series in LineChartVisual.
@@ -47594,7 +47594,7 @@ extension QuickSightClientTypes.LineChartSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a line chart.
-    public struct LineChartSortConfiguration: Swift.Equatable {
+    public struct LineChartSortConfiguration {
         /// The limit on the number of categories that are displayed in a line chart.
         public var categoryItemsLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration?
         /// The sort configuration of the category fields.
@@ -47734,7 +47734,7 @@ extension QuickSightClientTypes.LineChartVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A line chart. For more information, see [Using line charts](https://docs.aws.amazon.com/quicksight/latest/user/line-charts.html) in the Amazon QuickSight User Guide.
-    public struct LineChartVisual: Swift.Equatable {
+    public struct LineChartVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration of a line chart.
@@ -47843,7 +47843,7 @@ extension QuickSightClientTypes.LineSeriesAxisDisplayOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The series axis configuration of a line chart.
-    public struct LineSeriesAxisDisplayOptions: Swift.Equatable {
+    public struct LineSeriesAxisDisplayOptions {
         /// The options that determine the presentation of the line series axis.
         public var axisOptions: QuickSightClientTypes.AxisDisplayOptions?
         /// The configuration options that determine how missing data is treated during the rendering of a line chart.
@@ -47894,7 +47894,7 @@ extension QuickSightClientTypes.LinkSharingConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that contains the configuration of a shareable link to the dashboard.
-    public struct LinkSharingConfiguration: Swift.Equatable {
+    public struct LinkSharingConfiguration {
         /// A structure that contains the permissions of a shareable link.
         public var permissions: [QuickSightClientTypes.ResourcePermission]?
 
@@ -47934,7 +47934,7 @@ extension ListAnalysesInput {
     }
 }
 
-public struct ListAnalysesInput: Swift.Equatable {
+public struct ListAnalysesInput {
     /// The ID of the Amazon Web Services account that contains the analyses.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -47955,7 +47955,7 @@ public struct ListAnalysesInput: Swift.Equatable {
     }
 }
 
-struct ListAnalysesInputBody: Swift.Equatable {
+struct ListAnalysesInputBody {
 }
 
 extension ListAnalysesInputBody: Swift.Decodable {
@@ -47981,7 +47981,7 @@ extension ListAnalysesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAnalysesOutput: Swift.Equatable {
+public struct ListAnalysesOutput {
     /// Metadata describing each of the analyses that are listed.
     public var analysisSummaryList: [QuickSightClientTypes.AnalysisSummary]?
     /// A pagination token that can be used in a subsequent request.
@@ -48005,7 +48005,7 @@ public struct ListAnalysesOutput: Swift.Equatable {
     }
 }
 
-struct ListAnalysesOutputBody: Swift.Equatable {
+struct ListAnalysesOutputBody {
     let analysisSummaryList: [QuickSightClientTypes.AnalysisSummary]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -48082,7 +48082,7 @@ extension ListAssetBundleExportJobsInput {
     }
 }
 
-public struct ListAssetBundleExportJobsInput: Swift.Equatable {
+public struct ListAssetBundleExportJobsInput {
     /// The ID of the Amazon Web Services account that the export jobs were executed in.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -48103,7 +48103,7 @@ public struct ListAssetBundleExportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListAssetBundleExportJobsInputBody: Swift.Equatable {
+struct ListAssetBundleExportJobsInputBody {
 }
 
 extension ListAssetBundleExportJobsInputBody: Swift.Decodable {
@@ -48129,7 +48129,7 @@ extension ListAssetBundleExportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssetBundleExportJobsOutput: Swift.Equatable {
+public struct ListAssetBundleExportJobsOutput {
     /// A list of export job summaries.
     public var assetBundleExportJobSummaryList: [QuickSightClientTypes.AssetBundleExportJobSummary]?
     /// The token for the next set of results, or null if there are no more results.
@@ -48153,7 +48153,7 @@ public struct ListAssetBundleExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssetBundleExportJobsOutputBody: Swift.Equatable {
+struct ListAssetBundleExportJobsOutputBody {
     let assetBundleExportJobSummaryList: [QuickSightClientTypes.AssetBundleExportJobSummary]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -48231,7 +48231,7 @@ extension ListAssetBundleImportJobsInput {
     }
 }
 
-public struct ListAssetBundleImportJobsInput: Swift.Equatable {
+public struct ListAssetBundleImportJobsInput {
     /// The ID of the Amazon Web Services account that the import jobs were executed in.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -48252,7 +48252,7 @@ public struct ListAssetBundleImportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListAssetBundleImportJobsInputBody: Swift.Equatable {
+struct ListAssetBundleImportJobsInputBody {
 }
 
 extension ListAssetBundleImportJobsInputBody: Swift.Decodable {
@@ -48278,7 +48278,7 @@ extension ListAssetBundleImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssetBundleImportJobsOutput: Swift.Equatable {
+public struct ListAssetBundleImportJobsOutput {
     /// A list of import job summaries.
     public var assetBundleImportJobSummaryList: [QuickSightClientTypes.AssetBundleImportJobSummary]?
     /// The token for the next set of results, or null if there are no more results.
@@ -48302,7 +48302,7 @@ public struct ListAssetBundleImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssetBundleImportJobsOutputBody: Swift.Equatable {
+struct ListAssetBundleImportJobsOutputBody {
     let assetBundleImportJobSummaryList: [QuickSightClientTypes.AssetBundleImportJobSummary]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -48393,7 +48393,7 @@ extension QuickSightClientTypes.ListControlDisplayOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The display options of a control.
-    public struct ListControlDisplayOptions: Swift.Equatable {
+    public struct ListControlDisplayOptions {
         /// The configuration of info icon label options.
         public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The configuration of the search options in a list control.
@@ -48440,7 +48440,7 @@ extension QuickSightClientTypes.ListControlSearchOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of the search options in a list control.
-    public struct ListControlSearchOptions: Swift.Equatable {
+    public struct ListControlSearchOptions {
         /// The visibility configuration of the search options in a list control.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -48475,7 +48475,7 @@ extension QuickSightClientTypes.ListControlSelectAllOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of the Select all options in a list control.
-    public struct ListControlSelectAllOptions: Swift.Equatable {
+    public struct ListControlSelectAllOptions {
         /// The visibility configuration of the Select all options in a list control.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -48518,7 +48518,7 @@ extension ListDashboardVersionsInput {
     }
 }
 
-public struct ListDashboardVersionsInput: Swift.Equatable {
+public struct ListDashboardVersionsInput {
     /// The ID of the Amazon Web Services account that contains the dashboard that you're listing versions for.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -48544,7 +48544,7 @@ public struct ListDashboardVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListDashboardVersionsInputBody: Swift.Equatable {
+struct ListDashboardVersionsInputBody {
 }
 
 extension ListDashboardVersionsInputBody: Swift.Decodable {
@@ -48570,7 +48570,7 @@ extension ListDashboardVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDashboardVersionsOutput: Swift.Equatable {
+public struct ListDashboardVersionsOutput {
     /// A structure that contains information about each version of the dashboard.
     public var dashboardVersionSummaryList: [QuickSightClientTypes.DashboardVersionSummary]?
     /// The token for the next set of results, or null if there are no more results.
@@ -48594,7 +48594,7 @@ public struct ListDashboardVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListDashboardVersionsOutputBody: Swift.Equatable {
+struct ListDashboardVersionsOutputBody {
     let dashboardVersionSummaryList: [QuickSightClientTypes.DashboardVersionSummary]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -48673,7 +48673,7 @@ extension ListDashboardsInput {
     }
 }
 
-public struct ListDashboardsInput: Swift.Equatable {
+public struct ListDashboardsInput {
     /// The ID of the Amazon Web Services account that contains the dashboards that you're listing.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -48694,7 +48694,7 @@ public struct ListDashboardsInput: Swift.Equatable {
     }
 }
 
-struct ListDashboardsInputBody: Swift.Equatable {
+struct ListDashboardsInputBody {
 }
 
 extension ListDashboardsInputBody: Swift.Decodable {
@@ -48720,7 +48720,7 @@ extension ListDashboardsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDashboardsOutput: Swift.Equatable {
+public struct ListDashboardsOutput {
     /// A structure that contains all of the dashboards in your Amazon Web Services account. This structure provides basic information about the dashboards.
     public var dashboardSummaryList: [QuickSightClientTypes.DashboardSummary]?
     /// The token for the next set of results, or null if there are no more results.
@@ -48744,7 +48744,7 @@ public struct ListDashboardsOutput: Swift.Equatable {
     }
 }
 
-struct ListDashboardsOutputBody: Swift.Equatable {
+struct ListDashboardsOutputBody {
     let dashboardSummaryList: [QuickSightClientTypes.DashboardSummary]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -48821,7 +48821,7 @@ extension ListDataSetsInput {
     }
 }
 
-public struct ListDataSetsInput: Swift.Equatable {
+public struct ListDataSetsInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -48842,7 +48842,7 @@ public struct ListDataSetsInput: Swift.Equatable {
     }
 }
 
-struct ListDataSetsInputBody: Swift.Equatable {
+struct ListDataSetsInputBody {
 }
 
 extension ListDataSetsInputBody: Swift.Decodable {
@@ -48868,7 +48868,7 @@ extension ListDataSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataSetsOutput: Swift.Equatable {
+public struct ListDataSetsOutput {
     /// The list of dataset summaries.
     public var dataSetSummaries: [QuickSightClientTypes.DataSetSummary]?
     /// The token for the next set of results, or null if there are no more results.
@@ -48892,7 +48892,7 @@ public struct ListDataSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSetsOutputBody: Swift.Equatable {
+struct ListDataSetsOutputBody {
     let dataSetSummaries: [QuickSightClientTypes.DataSetSummary]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -48970,7 +48970,7 @@ extension ListDataSourcesInput {
     }
 }
 
-public struct ListDataSourcesInput: Swift.Equatable {
+public struct ListDataSourcesInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -48991,7 +48991,7 @@ public struct ListDataSourcesInput: Swift.Equatable {
     }
 }
 
-struct ListDataSourcesInputBody: Swift.Equatable {
+struct ListDataSourcesInputBody {
 }
 
 extension ListDataSourcesInputBody: Swift.Decodable {
@@ -49017,7 +49017,7 @@ extension ListDataSourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataSourcesOutput: Swift.Equatable {
+public struct ListDataSourcesOutput {
     /// A list of data sources.
     public var dataSources: [QuickSightClientTypes.DataSource]?
     /// The token for the next set of results, or null if there are no more results.
@@ -49041,7 +49041,7 @@ public struct ListDataSourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSourcesOutputBody: Swift.Equatable {
+struct ListDataSourcesOutputBody {
     let dataSources: [QuickSightClientTypes.DataSource]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -49122,7 +49122,7 @@ extension ListFolderMembersInput {
     }
 }
 
-public struct ListFolderMembersInput: Swift.Equatable {
+public struct ListFolderMembersInput {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -49148,7 +49148,7 @@ public struct ListFolderMembersInput: Swift.Equatable {
     }
 }
 
-struct ListFolderMembersInputBody: Swift.Equatable {
+struct ListFolderMembersInputBody {
 }
 
 extension ListFolderMembersInputBody: Swift.Decodable {
@@ -49174,7 +49174,7 @@ extension ListFolderMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFolderMembersOutput: Swift.Equatable {
+public struct ListFolderMembersOutput {
     /// A structure that contains all of the folder members (dashboards, analyses, and datasets) in the folder.
     public var folderMemberList: [QuickSightClientTypes.MemberIdArnPair]?
     /// The token for the next set of results, or null if there are no more results.
@@ -49198,7 +49198,7 @@ public struct ListFolderMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListFolderMembersOutputBody: Swift.Equatable {
+struct ListFolderMembersOutputBody {
     let status: Swift.Int
     let folderMemberList: [QuickSightClientTypes.MemberIdArnPair]?
     let nextToken: Swift.String?
@@ -49278,7 +49278,7 @@ extension ListFoldersInput {
     }
 }
 
-public struct ListFoldersInput: Swift.Equatable {
+public struct ListFoldersInput {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -49299,7 +49299,7 @@ public struct ListFoldersInput: Swift.Equatable {
     }
 }
 
-struct ListFoldersInputBody: Swift.Equatable {
+struct ListFoldersInputBody {
 }
 
 extension ListFoldersInputBody: Swift.Decodable {
@@ -49325,7 +49325,7 @@ extension ListFoldersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFoldersOutput: Swift.Equatable {
+public struct ListFoldersOutput {
     /// A structure that contains all of the folders in the Amazon Web Services account. This structure provides basic information about the folders.
     public var folderSummaryList: [QuickSightClientTypes.FolderSummary]?
     /// The token for the next set of results, or null if there are no more results.
@@ -49349,7 +49349,7 @@ public struct ListFoldersOutput: Swift.Equatable {
     }
 }
 
-struct ListFoldersOutputBody: Swift.Equatable {
+struct ListFoldersOutputBody {
     let status: Swift.Int
     let folderSummaryList: [QuickSightClientTypes.FolderSummary]?
     let nextToken: Swift.String?
@@ -49435,7 +49435,7 @@ extension ListGroupMembershipsInput {
     }
 }
 
-public struct ListGroupMembershipsInput: Swift.Equatable {
+public struct ListGroupMembershipsInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -49466,7 +49466,7 @@ public struct ListGroupMembershipsInput: Swift.Equatable {
     }
 }
 
-struct ListGroupMembershipsInputBody: Swift.Equatable {
+struct ListGroupMembershipsInputBody {
 }
 
 extension ListGroupMembershipsInputBody: Swift.Decodable {
@@ -49492,7 +49492,7 @@ extension ListGroupMembershipsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupMembershipsOutput: Swift.Equatable {
+public struct ListGroupMembershipsOutput {
     /// The list of the members of the group.
     public var groupMemberList: [QuickSightClientTypes.GroupMember]?
     /// A pagination token that can be used in a subsequent request.
@@ -49516,7 +49516,7 @@ public struct ListGroupMembershipsOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupMembershipsOutputBody: Swift.Equatable {
+struct ListGroupMembershipsOutputBody {
     let groupMemberList: [QuickSightClientTypes.GroupMember]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -49600,7 +49600,7 @@ extension ListGroupsInput {
     }
 }
 
-public struct ListGroupsInput: Swift.Equatable {
+public struct ListGroupsInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -49626,7 +49626,7 @@ public struct ListGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListGroupsInputBody: Swift.Equatable {
+struct ListGroupsInputBody {
 }
 
 extension ListGroupsInputBody: Swift.Decodable {
@@ -49652,7 +49652,7 @@ extension ListGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupsOutput: Swift.Equatable {
+public struct ListGroupsOutput {
     /// The list of the groups.
     public var groupList: [QuickSightClientTypes.Group]?
     /// A pagination token that can be used in a subsequent request.
@@ -49676,7 +49676,7 @@ public struct ListGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupsOutputBody: Swift.Equatable {
+struct ListGroupsOutputBody {
     let groupList: [QuickSightClientTypes.Group]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -49763,7 +49763,7 @@ extension ListIAMPolicyAssignmentsForUserInput {
     }
 }
 
-public struct ListIAMPolicyAssignmentsForUserInput: Swift.Equatable {
+public struct ListIAMPolicyAssignmentsForUserInput {
     /// The ID of the Amazon Web Services account that contains the assignments.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -49794,7 +49794,7 @@ public struct ListIAMPolicyAssignmentsForUserInput: Swift.Equatable {
     }
 }
 
-struct ListIAMPolicyAssignmentsForUserInputBody: Swift.Equatable {
+struct ListIAMPolicyAssignmentsForUserInputBody {
 }
 
 extension ListIAMPolicyAssignmentsForUserInputBody: Swift.Decodable {
@@ -49820,7 +49820,7 @@ extension ListIAMPolicyAssignmentsForUserOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListIAMPolicyAssignmentsForUserOutput: Swift.Equatable {
+public struct ListIAMPolicyAssignmentsForUserOutput {
     /// The active assignments for this user.
     public var activeAssignments: [QuickSightClientTypes.ActiveIAMPolicyAssignment]?
     /// The token for the next set of results, or null if there are no more results.
@@ -49844,7 +49844,7 @@ public struct ListIAMPolicyAssignmentsForUserOutput: Swift.Equatable {
     }
 }
 
-struct ListIAMPolicyAssignmentsForUserOutputBody: Swift.Equatable {
+struct ListIAMPolicyAssignmentsForUserOutputBody {
     let activeAssignments: [QuickSightClientTypes.ActiveIAMPolicyAssignment]?
     let requestId: Swift.String?
     let nextToken: Swift.String?
@@ -49931,7 +49931,7 @@ extension ListIAMPolicyAssignmentsInput {
     }
 }
 
-public struct ListIAMPolicyAssignmentsInput: Swift.Equatable {
+public struct ListIAMPolicyAssignmentsInput {
     /// The status of the assignments.
     public var assignmentStatus: QuickSightClientTypes.AssignmentStatus?
     /// The ID of the Amazon Web Services account that contains these IAM policy assignments.
@@ -49961,7 +49961,7 @@ public struct ListIAMPolicyAssignmentsInput: Swift.Equatable {
     }
 }
 
-struct ListIAMPolicyAssignmentsInputBody: Swift.Equatable {
+struct ListIAMPolicyAssignmentsInputBody {
 }
 
 extension ListIAMPolicyAssignmentsInputBody: Swift.Decodable {
@@ -49987,7 +49987,7 @@ extension ListIAMPolicyAssignmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIAMPolicyAssignmentsOutput: Swift.Equatable {
+public struct ListIAMPolicyAssignmentsOutput {
     /// Information describing the IAM policy assignments.
     public var iamPolicyAssignments: [QuickSightClientTypes.IAMPolicyAssignmentSummary]?
     /// The token for the next set of results, or null if there are no more results.
@@ -50011,7 +50011,7 @@ public struct ListIAMPolicyAssignmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListIAMPolicyAssignmentsOutputBody: Swift.Equatable {
+struct ListIAMPolicyAssignmentsOutputBody {
     let iamPolicyAssignments: [QuickSightClientTypes.IAMPolicyAssignmentSummary]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -50090,7 +50090,7 @@ extension ListIdentityPropagationConfigsInput {
     }
 }
 
-public struct ListIdentityPropagationConfigsInput: Swift.Equatable {
+public struct ListIdentityPropagationConfigsInput {
     /// The ID of the Amazon Web Services account that contain the identity propagation configurations of.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -50111,7 +50111,7 @@ public struct ListIdentityPropagationConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListIdentityPropagationConfigsInputBody: Swift.Equatable {
+struct ListIdentityPropagationConfigsInputBody {
 }
 
 extension ListIdentityPropagationConfigsInputBody: Swift.Decodable {
@@ -50137,7 +50137,7 @@ extension ListIdentityPropagationConfigsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListIdentityPropagationConfigsOutput: Swift.Equatable {
+public struct ListIdentityPropagationConfigsOutput {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -50161,7 +50161,7 @@ public struct ListIdentityPropagationConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListIdentityPropagationConfigsOutputBody: Swift.Equatable {
+struct ListIdentityPropagationConfigsOutputBody {
     let services: [QuickSightClientTypes.AuthorizedTargetsByService]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -50242,7 +50242,7 @@ extension ListIngestionsInput {
     }
 }
 
-public struct ListIngestionsInput: Swift.Equatable {
+public struct ListIngestionsInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -50268,7 +50268,7 @@ public struct ListIngestionsInput: Swift.Equatable {
     }
 }
 
-struct ListIngestionsInputBody: Swift.Equatable {
+struct ListIngestionsInputBody {
 }
 
 extension ListIngestionsInputBody: Swift.Decodable {
@@ -50294,7 +50294,7 @@ extension ListIngestionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIngestionsOutput: Swift.Equatable {
+public struct ListIngestionsOutput {
     /// A list of the ingestions.
     public var ingestions: [QuickSightClientTypes.Ingestion]?
     /// The token for the next set of results, or null if there are no more results.
@@ -50318,7 +50318,7 @@ public struct ListIngestionsOutput: Swift.Equatable {
     }
 }
 
-struct ListIngestionsOutputBody: Swift.Equatable {
+struct ListIngestionsOutputBody {
     let ingestions: [QuickSightClientTypes.Ingestion]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -50398,7 +50398,7 @@ extension ListNamespacesInput {
     }
 }
 
-public struct ListNamespacesInput: Swift.Equatable {
+public struct ListNamespacesInput {
     /// The ID for the Amazon Web Services account that contains the Amazon QuickSight namespaces that you want to list.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -50419,7 +50419,7 @@ public struct ListNamespacesInput: Swift.Equatable {
     }
 }
 
-struct ListNamespacesInputBody: Swift.Equatable {
+struct ListNamespacesInputBody {
 }
 
 extension ListNamespacesInputBody: Swift.Decodable {
@@ -50445,7 +50445,7 @@ extension ListNamespacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNamespacesOutput: Swift.Equatable {
+public struct ListNamespacesOutput {
     /// The information about the namespaces in this Amazon Web Services account. The response includes the namespace ARN, name, Amazon Web Services Region, notification email address, creation status, and identity store.
     public var namespaces: [QuickSightClientTypes.NamespaceInfoV2]?
     /// A unique pagination token that can be used in a subsequent request. Receiving NextToken in your response inticates that there is more data that can be returned. To receive the data, make another ListNamespaces API call with the returned token to retrieve the next page of data. Each token is valid for 24 hours. If you try to make a ListNamespaces API call with an expired token, you will receive a HTTP 400 InvalidNextTokenException error.
@@ -50469,7 +50469,7 @@ public struct ListNamespacesOutput: Swift.Equatable {
     }
 }
 
-struct ListNamespacesOutputBody: Swift.Equatable {
+struct ListNamespacesOutputBody {
     let namespaces: [QuickSightClientTypes.NamespaceInfoV2]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -50537,7 +50537,7 @@ extension ListRefreshSchedulesInput {
     }
 }
 
-public struct ListRefreshSchedulesInput: Swift.Equatable {
+public struct ListRefreshSchedulesInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -50555,7 +50555,7 @@ public struct ListRefreshSchedulesInput: Swift.Equatable {
     }
 }
 
-struct ListRefreshSchedulesInputBody: Swift.Equatable {
+struct ListRefreshSchedulesInputBody {
 }
 
 extension ListRefreshSchedulesInputBody: Swift.Decodable {
@@ -50579,7 +50579,7 @@ extension ListRefreshSchedulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRefreshSchedulesOutput: Swift.Equatable {
+public struct ListRefreshSchedulesOutput {
     /// The list of refresh schedules for the dataset.
     public var refreshSchedules: [QuickSightClientTypes.RefreshSchedule]?
     /// The Amazon Web Services request ID for this operation.
@@ -50599,7 +50599,7 @@ public struct ListRefreshSchedulesOutput: Swift.Equatable {
     }
 }
 
-struct ListRefreshSchedulesOutputBody: Swift.Equatable {
+struct ListRefreshSchedulesOutputBody {
     let refreshSchedules: [QuickSightClientTypes.RefreshSchedule]?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -50680,7 +50680,7 @@ extension ListRoleMembershipsInput {
     }
 }
 
-public struct ListRoleMembershipsInput: Swift.Equatable {
+public struct ListRoleMembershipsInput {
     /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -50711,7 +50711,7 @@ public struct ListRoleMembershipsInput: Swift.Equatable {
     }
 }
 
-struct ListRoleMembershipsInputBody: Swift.Equatable {
+struct ListRoleMembershipsInputBody {
 }
 
 extension ListRoleMembershipsInputBody: Swift.Decodable {
@@ -50737,7 +50737,7 @@ extension ListRoleMembershipsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRoleMembershipsOutput: Swift.Equatable {
+public struct ListRoleMembershipsOutput {
     /// The list of groups associated with a role
     public var membersList: [Swift.String]?
     /// A pagination token that can be used in a subsequent request.
@@ -50761,7 +50761,7 @@ public struct ListRoleMembershipsOutput: Swift.Equatable {
     }
 }
 
-struct ListRoleMembershipsOutputBody: Swift.Equatable {
+struct ListRoleMembershipsOutputBody {
     let membersList: [Swift.String]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -50827,7 +50827,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want a list of tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -50840,7 +50840,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -50864,7 +50864,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -50884,7 +50884,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [QuickSightClientTypes.Tag]?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -50961,7 +50961,7 @@ extension ListTemplateAliasesInput {
     }
 }
 
-public struct ListTemplateAliasesInput: Swift.Equatable {
+public struct ListTemplateAliasesInput {
     /// The ID of the Amazon Web Services account that contains the template aliases that you're listing.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -50987,7 +50987,7 @@ public struct ListTemplateAliasesInput: Swift.Equatable {
     }
 }
 
-struct ListTemplateAliasesInputBody: Swift.Equatable {
+struct ListTemplateAliasesInputBody {
 }
 
 extension ListTemplateAliasesInputBody: Swift.Decodable {
@@ -51013,7 +51013,7 @@ extension ListTemplateAliasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplateAliasesOutput: Swift.Equatable {
+public struct ListTemplateAliasesOutput {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -51037,7 +51037,7 @@ public struct ListTemplateAliasesOutput: Swift.Equatable {
     }
 }
 
-struct ListTemplateAliasesOutputBody: Swift.Equatable {
+struct ListTemplateAliasesOutputBody {
     let templateAliasList: [QuickSightClientTypes.TemplateAlias]?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -51118,7 +51118,7 @@ extension ListTemplateVersionsInput {
     }
 }
 
-public struct ListTemplateVersionsInput: Swift.Equatable {
+public struct ListTemplateVersionsInput {
     /// The ID of the Amazon Web Services account that contains the templates that you're listing.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -51144,7 +51144,7 @@ public struct ListTemplateVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListTemplateVersionsInputBody: Swift.Equatable {
+struct ListTemplateVersionsInputBody {
 }
 
 extension ListTemplateVersionsInputBody: Swift.Decodable {
@@ -51170,7 +51170,7 @@ extension ListTemplateVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplateVersionsOutput: Swift.Equatable {
+public struct ListTemplateVersionsOutput {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -51194,7 +51194,7 @@ public struct ListTemplateVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListTemplateVersionsOutputBody: Swift.Equatable {
+struct ListTemplateVersionsOutputBody {
     let templateVersionSummaryList: [QuickSightClientTypes.TemplateVersionSummary]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -51273,7 +51273,7 @@ extension ListTemplatesInput {
     }
 }
 
-public struct ListTemplatesInput: Swift.Equatable {
+public struct ListTemplatesInput {
     /// The ID of the Amazon Web Services account that contains the templates that you're listing.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -51294,7 +51294,7 @@ public struct ListTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListTemplatesInputBody: Swift.Equatable {
+struct ListTemplatesInputBody {
 }
 
 extension ListTemplatesInputBody: Swift.Decodable {
@@ -51320,7 +51320,7 @@ extension ListTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplatesOutput: Swift.Equatable {
+public struct ListTemplatesOutput {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -51344,7 +51344,7 @@ public struct ListTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListTemplatesOutputBody: Swift.Equatable {
+struct ListTemplatesOutputBody {
     let templateSummaryList: [QuickSightClientTypes.TemplateSummary]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -51426,7 +51426,7 @@ extension ListThemeAliasesInput {
     }
 }
 
-public struct ListThemeAliasesInput: Swift.Equatable {
+public struct ListThemeAliasesInput {
     /// The ID of the Amazon Web Services account that contains the theme aliases that you're listing.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -51452,7 +51452,7 @@ public struct ListThemeAliasesInput: Swift.Equatable {
     }
 }
 
-struct ListThemeAliasesInputBody: Swift.Equatable {
+struct ListThemeAliasesInputBody {
 }
 
 extension ListThemeAliasesInputBody: Swift.Decodable {
@@ -51478,7 +51478,7 @@ extension ListThemeAliasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThemeAliasesOutput: Swift.Equatable {
+public struct ListThemeAliasesOutput {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -51502,7 +51502,7 @@ public struct ListThemeAliasesOutput: Swift.Equatable {
     }
 }
 
-struct ListThemeAliasesOutputBody: Swift.Equatable {
+struct ListThemeAliasesOutputBody {
     let themeAliasList: [QuickSightClientTypes.ThemeAlias]?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -51585,7 +51585,7 @@ extension ListThemeVersionsInput {
     }
 }
 
-public struct ListThemeVersionsInput: Swift.Equatable {
+public struct ListThemeVersionsInput {
     /// The ID of the Amazon Web Services account that contains the themes that you're listing.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -51611,7 +51611,7 @@ public struct ListThemeVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListThemeVersionsInputBody: Swift.Equatable {
+struct ListThemeVersionsInputBody {
 }
 
 extension ListThemeVersionsInputBody: Swift.Decodable {
@@ -51637,7 +51637,7 @@ extension ListThemeVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThemeVersionsOutput: Swift.Equatable {
+public struct ListThemeVersionsOutput {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -51661,7 +51661,7 @@ public struct ListThemeVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListThemeVersionsOutputBody: Swift.Equatable {
+struct ListThemeVersionsOutputBody {
     let themeVersionSummaryList: [QuickSightClientTypes.ThemeVersionSummary]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -51745,7 +51745,7 @@ extension ListThemesInput {
     }
 }
 
-public struct ListThemesInput: Swift.Equatable {
+public struct ListThemesInput {
     /// The ID of the Amazon Web Services account that contains the themes that you're listing.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -51776,7 +51776,7 @@ public struct ListThemesInput: Swift.Equatable {
     }
 }
 
-struct ListThemesInputBody: Swift.Equatable {
+struct ListThemesInputBody {
 }
 
 extension ListThemesInputBody: Swift.Decodable {
@@ -51802,7 +51802,7 @@ extension ListThemesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThemesOutput: Swift.Equatable {
+public struct ListThemesOutput {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -51826,7 +51826,7 @@ public struct ListThemesOutput: Swift.Equatable {
     }
 }
 
-struct ListThemesOutputBody: Swift.Equatable {
+struct ListThemesOutputBody {
     let themeSummaryList: [QuickSightClientTypes.ThemeSummary]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -51893,7 +51893,7 @@ extension ListTopicRefreshSchedulesInput {
     }
 }
 
-public struct ListTopicRefreshSchedulesInput: Swift.Equatable {
+public struct ListTopicRefreshSchedulesInput {
     /// The ID of the Amazon Web Services account that contains the topic whose refresh schedule you want described.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -51911,7 +51911,7 @@ public struct ListTopicRefreshSchedulesInput: Swift.Equatable {
     }
 }
 
-struct ListTopicRefreshSchedulesInputBody: Swift.Equatable {
+struct ListTopicRefreshSchedulesInputBody {
 }
 
 extension ListTopicRefreshSchedulesInputBody: Swift.Decodable {
@@ -51939,7 +51939,7 @@ extension ListTopicRefreshSchedulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTopicRefreshSchedulesOutput: Swift.Equatable {
+public struct ListTopicRefreshSchedulesOutput {
     /// The list of topic refresh schedules.
     public var refreshSchedules: [QuickSightClientTypes.TopicRefreshScheduleSummary]?
     /// The Amazon Web Services request ID for this operation.
@@ -51967,7 +51967,7 @@ public struct ListTopicRefreshSchedulesOutput: Swift.Equatable {
     }
 }
 
-struct ListTopicRefreshSchedulesOutputBody: Swift.Equatable {
+struct ListTopicRefreshSchedulesOutputBody {
     let topicId: Swift.String?
     let topicArn: Swift.String?
     let refreshSchedules: [QuickSightClientTypes.TopicRefreshScheduleSummary]?
@@ -52052,7 +52052,7 @@ extension ListTopicsInput {
     }
 }
 
-public struct ListTopicsInput: Swift.Equatable {
+public struct ListTopicsInput {
     /// The ID of the Amazon Web Services account that contains the topics that you want to list.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -52073,7 +52073,7 @@ public struct ListTopicsInput: Swift.Equatable {
     }
 }
 
-struct ListTopicsInputBody: Swift.Equatable {
+struct ListTopicsInputBody {
 }
 
 extension ListTopicsInputBody: Swift.Decodable {
@@ -52099,7 +52099,7 @@ extension ListTopicsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTopicsOutput: Swift.Equatable {
+public struct ListTopicsOutput {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -52123,7 +52123,7 @@ public struct ListTopicsOutput: Swift.Equatable {
     }
 }
 
-struct ListTopicsOutputBody: Swift.Equatable {
+struct ListTopicsOutputBody {
     let topicsSummaries: [QuickSightClientTypes.TopicSummary]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -52207,7 +52207,7 @@ extension ListUserGroupsInput {
     }
 }
 
-public struct ListUserGroupsInput: Swift.Equatable {
+public struct ListUserGroupsInput {
     /// The Amazon Web Services account ID that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -52238,7 +52238,7 @@ public struct ListUserGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListUserGroupsInputBody: Swift.Equatable {
+struct ListUserGroupsInputBody {
 }
 
 extension ListUserGroupsInputBody: Swift.Decodable {
@@ -52264,7 +52264,7 @@ extension ListUserGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUserGroupsOutput: Swift.Equatable {
+public struct ListUserGroupsOutput {
     /// The list of groups the user is a member of.
     public var groupList: [QuickSightClientTypes.Group]?
     /// A pagination token that can be used in a subsequent request.
@@ -52288,7 +52288,7 @@ public struct ListUserGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListUserGroupsOutputBody: Swift.Equatable {
+struct ListUserGroupsOutputBody {
     let groupList: [QuickSightClientTypes.Group]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -52371,7 +52371,7 @@ extension ListUsersInput {
     }
 }
 
-public struct ListUsersInput: Swift.Equatable {
+public struct ListUsersInput {
     /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -52397,7 +52397,7 @@ public struct ListUsersInput: Swift.Equatable {
     }
 }
 
-struct ListUsersInputBody: Swift.Equatable {
+struct ListUsersInputBody {
 }
 
 extension ListUsersInputBody: Swift.Decodable {
@@ -52423,7 +52423,7 @@ extension ListUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUsersOutput: Swift.Equatable {
+public struct ListUsersOutput {
     /// A pagination token that can be used in a subsequent request.
     public var nextToken: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -52447,7 +52447,7 @@ public struct ListUsersOutput: Swift.Equatable {
     }
 }
 
-struct ListUsersOutputBody: Swift.Equatable {
+struct ListUsersOutputBody {
     let userList: [QuickSightClientTypes.User]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -52528,7 +52528,7 @@ extension ListVPCConnectionsInput {
     }
 }
 
-public struct ListVPCConnectionsInput: Swift.Equatable {
+public struct ListVPCConnectionsInput {
     /// The Amazon Web Services account ID of the account that contains the VPC connections that you want to list.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -52549,7 +52549,7 @@ public struct ListVPCConnectionsInput: Swift.Equatable {
     }
 }
 
-struct ListVPCConnectionsInputBody: Swift.Equatable {
+struct ListVPCConnectionsInputBody {
 }
 
 extension ListVPCConnectionsInputBody: Swift.Decodable {
@@ -52575,7 +52575,7 @@ extension ListVPCConnectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVPCConnectionsOutput: Swift.Equatable {
+public struct ListVPCConnectionsOutput {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -52599,7 +52599,7 @@ public struct ListVPCConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListVPCConnectionsOutputBody: Swift.Equatable {
+struct ListVPCConnectionsOutputBody {
     let vpcConnectionSummaries: [QuickSightClientTypes.VPCConnectionSummary]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -52673,7 +52673,7 @@ extension QuickSightClientTypes.LoadingAnimation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of loading animation in free-form layout.
-    public struct LoadingAnimation: Swift.Equatable {
+    public struct LoadingAnimation {
         /// The visibility configuration of LoadingAnimation.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -52708,7 +52708,7 @@ extension QuickSightClientTypes.LocalNavigationConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The navigation configuration for CustomActionNavigationOperation.
-    public struct LocalNavigationConfiguration: Swift.Equatable {
+    public struct LocalNavigationConfiguration {
         /// The sheet that is targeted for navigation in the same analysis.
         /// This member is required.
         public var targetSheetId: Swift.String?
@@ -52768,7 +52768,7 @@ extension QuickSightClientTypes.LogicalTable: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A logical table is a unit that joins and that data transformations operate on. A logical table has a source, which can be either a physical table or result of a join. When a logical table points to a physical table, the logical table acts as a mutable copy of that physical table through transform operations.
-    public struct LogicalTable: Swift.Equatable {
+    public struct LogicalTable {
         /// A display name for the logical table.
         /// This member is required.
         public var alias: Swift.String?
@@ -52825,7 +52825,7 @@ extension QuickSightClientTypes.LogicalTableSource: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Information about the source of a logical table. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
-    public struct LogicalTableSource: Swift.Equatable {
+    public struct LogicalTableSource {
         /// The Amazon Resource Number (ARN) of the parent dataset.
         public var dataSetArn: Swift.String?
         /// Specifies the result of a join of two logical tables.
@@ -52874,7 +52874,7 @@ extension QuickSightClientTypes.LongFormatText: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The text format for a subtitle. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct LongFormatText: Swift.Equatable {
+    public struct LongFormatText {
         /// Plain text format.
         public var plainText: Swift.String?
         /// Rich text. Examples of rich text include bold, underline, and italics.
@@ -52925,7 +52925,7 @@ extension QuickSightClientTypes.LookbackWindow: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The lookback window setup of an incremental refresh configuration.
-    public struct LookbackWindow: Swift.Equatable {
+    public struct LookbackWindow {
         /// The name of the lookback window column.
         /// This member is required.
         public var columnName: Swift.String?
@@ -53012,7 +53012,7 @@ extension QuickSightClientTypes.ManifestFileLocation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Amazon S3 manifest file location.
-    public struct ManifestFileLocation: Swift.Equatable {
+    public struct ManifestFileLocation {
         /// Amazon S3 bucket.
         /// This member is required.
         public var bucket: Swift.String?
@@ -53091,7 +53091,7 @@ extension QuickSightClientTypes.MappedDataSetParameter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A dataset parameter that is mapped to an analysis parameter.
-    public struct MappedDataSetParameter: Swift.Equatable {
+    public struct MappedDataSetParameter {
         /// A unique name that identifies a dataset within the analysis or dashboard.
         /// This member is required.
         public var dataSetIdentifier: Swift.String?
@@ -53132,7 +53132,7 @@ extension QuickSightClientTypes.MarginStyle: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The display options for margins around the outside edge of sheets.
-    public struct MarginStyle: Swift.Equatable {
+    public struct MarginStyle {
         /// This Boolean value controls whether to display sheet margins.
         public var show: Swift.Bool?
 
@@ -53179,7 +53179,7 @@ extension QuickSightClientTypes.MariaDbParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for MariaDB.
-    public struct MariaDbParameters: Swift.Equatable {
+    public struct MariaDbParameters {
         /// Database.
         /// This member is required.
         public var database: Swift.String?
@@ -53225,7 +53225,7 @@ extension QuickSightClientTypes.MaximumLabelType: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The maximum label of a data path label.
-    public struct MaximumLabelType: Swift.Equatable {
+    public struct MaximumLabelType {
         /// The visibility of the maximum label.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -53284,7 +53284,7 @@ extension QuickSightClientTypes.MaximumMinimumComputation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The maximum and minimum computation configuration.
-    public struct MaximumMinimumComputation: Swift.Equatable {
+    public struct MaximumMinimumComputation {
         /// The ID for a computation.
         /// This member is required.
         public var computationId: Swift.String?
@@ -53391,7 +53391,7 @@ extension QuickSightClientTypes.MeasureField: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The measure (metric) type field.
-    public struct MeasureField: Swift.Equatable {
+    public struct MeasureField {
         /// The calculated measure field only used in pivot tables.
         public var calculatedMeasureField: QuickSightClientTypes.CalculatedMeasureField?
         /// The measure type field with categorical type columns.
@@ -53444,7 +53444,7 @@ extension QuickSightClientTypes.MemberIdArnPair: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An object that consists of a member Amazon Resource Name (ARN) and a member ID.
-    public struct MemberIdArnPair: Swift.Equatable {
+    public struct MemberIdArnPair {
         /// The Amazon Resource Name (ARN) of the member.
         public var memberArn: Swift.String?
         /// The ID of the member.
@@ -53548,7 +53548,7 @@ extension QuickSightClientTypes.MetricComparisonComputation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The metric comparison computation configuration.
-    public struct MetricComparisonComputation: Swift.Equatable {
+    public struct MetricComparisonComputation {
         /// The ID for a computation.
         /// This member is required.
         public var computationId: Swift.String?
@@ -53600,7 +53600,7 @@ extension QuickSightClientTypes.MinimumLabelType: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The minimum label of a data path label.
-    public struct MinimumLabelType: Swift.Equatable {
+    public struct MinimumLabelType {
         /// The visibility of the minimum label.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -53635,7 +53635,7 @@ extension QuickSightClientTypes.MissingDataConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration options that determine how missing data is treated during the rendering of a line chart.
-    public struct MissingDataConfiguration: Swift.Equatable {
+    public struct MissingDataConfiguration {
         /// The treatment option that determines how missing data should be rendered. Choose from the following options:
         ///
         /// * INTERPOLATE: Interpolate missing values between the prior and the next known value.
@@ -53723,7 +53723,7 @@ extension QuickSightClientTypes.MySqlParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for MySQL.
-    public struct MySqlParameters: Swift.Equatable {
+    public struct MySqlParameters {
         /// Database.
         /// This member is required.
         public var database: Swift.String?
@@ -53858,7 +53858,7 @@ extension QuickSightClientTypes.NamedEntityDefinition: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a named entity.
-    public struct NamedEntityDefinition: Swift.Equatable {
+    public struct NamedEntityDefinition {
         /// The name of the entity.
         public var fieldName: Swift.String?
         /// The definition of a metric.
@@ -53927,7 +53927,7 @@ extension QuickSightClientTypes.NamedEntityDefinitionMetric: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a metric.
-    public struct NamedEntityDefinitionMetric: Swift.Equatable {
+    public struct NamedEntityDefinitionMetric {
         /// The aggregation of a named entity. Valid values for this structure are SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, and CUSTOM.
         public var aggregation: QuickSightClientTypes.NamedEntityAggType?
         /// The additional parameters for an aggregation function.
@@ -54075,7 +54075,7 @@ extension QuickSightClientTypes.NamespaceError: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Errors that occur during namespace creation.
-    public struct NamespaceError: Swift.Equatable {
+    public struct NamespaceError {
         /// The message for the error.
         public var message: Swift.String?
         /// The error type.
@@ -54176,7 +54176,7 @@ extension QuickSightClientTypes.NamespaceInfoV2: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The error type.
-    public struct NamespaceInfoV2: Swift.Equatable {
+    public struct NamespaceInfoV2 {
         /// The namespace ARN.
         public var arn: Swift.String?
         /// The namespace Amazon Web Services Region.
@@ -54278,7 +54278,7 @@ extension QuickSightClientTypes.NegativeFormat: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a negative format.
-    public struct NegativeFormat: Swift.Equatable {
+    public struct NegativeFormat {
         /// The prefix for a negative format.
         public var `prefix`: Swift.String?
         /// The suffix for a negative format.
@@ -54317,7 +54317,7 @@ extension QuickSightClientTypes.NegativeValueConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the negative value configuration.
-    public struct NegativeValueConfiguration: Swift.Equatable {
+    public struct NegativeValueConfiguration {
         /// Determines the display mode of the negative value configuration.
         /// This member is required.
         public var displayMode: QuickSightClientTypes.NegativeValueDisplayMode?
@@ -54409,7 +54409,7 @@ extension QuickSightClientTypes.NetworkInterface: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The structure that contains information about a network interface.
-    public struct NetworkInterface: Swift.Equatable {
+    public struct NetworkInterface {
         /// The availability zone that the network interface resides in.
         public var availabilityZone: Swift.String?
         /// An error message.
@@ -54582,7 +54582,7 @@ extension QuickSightClientTypes.NewDefaultValues: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration that overrides the existing default values for a dataset parameter that is inherited from another dataset.
-    public struct NewDefaultValues: Swift.Equatable {
+    public struct NewDefaultValues {
         /// A list of static default values for a given date time parameter.
         public var dateTimeStaticValues: [ClientRuntime.Date]?
         /// A list of static default values for a given decimal parameter.
@@ -54634,7 +54634,7 @@ extension QuickSightClientTypes.NullValueFormatConfiguration: Swift.CustomDebugS
 
 extension QuickSightClientTypes {
     /// The options that determine the null value format configuration.
-    public struct NullValueFormatConfiguration: Swift.Equatable {
+    public struct NullValueFormatConfiguration {
         /// Determines the null string of null values.
         /// This member is required.
         public var nullString: Swift.String?
@@ -54711,7 +54711,7 @@ extension QuickSightClientTypes.NumberDisplayFormatConfiguration: Swift.CustomDe
 
 extension QuickSightClientTypes {
     /// The options that determine the number display format configuration.
-    public struct NumberDisplayFormatConfiguration: Swift.Equatable {
+    public struct NumberDisplayFormatConfiguration {
         /// The option that determines the decimal places configuration.
         public var decimalPlacesConfiguration: QuickSightClientTypes.DecimalPlacesConfiguration?
         /// The options that determine the negative value configuration.
@@ -54770,7 +54770,7 @@ extension QuickSightClientTypes.NumberFormatConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Formatting configuration for number fields.
-    public struct NumberFormatConfiguration: Swift.Equatable {
+    public struct NumberFormatConfiguration {
         /// The options that determine the numeric format configuration.
         public var formatConfiguration: QuickSightClientTypes.NumericFormatConfiguration?
 
@@ -54855,7 +54855,7 @@ extension QuickSightClientTypes.NumericAxisOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options for an axis with a numeric field.
-    public struct NumericAxisOptions: Swift.Equatable {
+    public struct NumericAxisOptions {
         /// The range setup of a numeric axis.
         public var range: QuickSightClientTypes.AxisDisplayRange?
         /// The scale setup of a numeric axis.
@@ -54900,7 +54900,7 @@ extension QuickSightClientTypes.NumericEqualityDrillDownFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The numeric equality type drill down filter.
-    public struct NumericEqualityDrillDownFilter: Swift.Equatable {
+    public struct NumericEqualityDrillDownFilter {
         /// The column that the filter is applied to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
@@ -54989,7 +54989,7 @@ extension QuickSightClientTypes.NumericEqualityFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A NumericEqualityFilter filters values that are equal to the specified value.
-    public struct NumericEqualityFilter: Swift.Equatable {
+    public struct NumericEqualityFilter {
         /// The aggregation function of the filter.
         public var aggregationFunction: QuickSightClientTypes.AggregationFunction?
         /// The column that the filter is applied to.
@@ -55141,7 +55141,7 @@ extension QuickSightClientTypes.NumericFormatConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the numeric format configuration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct NumericFormatConfiguration: Swift.Equatable {
+    public struct NumericFormatConfiguration {
         /// The options that determine the currency display format configuration.
         public var currencyDisplayFormatConfiguration: QuickSightClientTypes.CurrencyDisplayFormatConfiguration?
         /// The options that determine the number display format configuration.
@@ -55238,7 +55238,7 @@ extension QuickSightClientTypes.NumericRangeFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A NumericRangeFilter filters values that are within the value range.
-    public struct NumericRangeFilter: Swift.Equatable {
+    public struct NumericRangeFilter {
         /// The aggregation function of the filter.
         public var aggregationFunction: QuickSightClientTypes.AggregationFunction?
         /// The column that the filter is applied to.
@@ -55326,7 +55326,7 @@ extension QuickSightClientTypes.NumericRangeFilterValue: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The value input pf the numeric range filter.
-    public struct NumericRangeFilterValue: Swift.Equatable {
+    public struct NumericRangeFilterValue {
         /// The parameter that is used in the numeric range.
         public var parameter: Swift.String?
         /// The static value of the numeric range filter.
@@ -55371,7 +55371,7 @@ extension QuickSightClientTypes.NumericSeparatorConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the numeric separator configuration.
-    public struct NumericSeparatorConfiguration: Swift.Equatable {
+    public struct NumericSeparatorConfiguration {
         /// Determines the decimal separator.
         public var decimalSeparator: QuickSightClientTypes.NumericSeparatorSymbol?
         /// The options that determine the thousands separator configuration.
@@ -55451,7 +55451,7 @@ extension QuickSightClientTypes.NumericalAggregationFunction: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Aggregation for numerical values.
-    public struct NumericalAggregationFunction: Swift.Equatable {
+    public struct NumericalAggregationFunction {
         /// An aggregation based on the percentile of values in a dimension or measure.
         public var percentileAggregation: QuickSightClientTypes.PercentileAggregation?
         /// Built-in aggregation functions for numerical values.
@@ -55530,7 +55530,7 @@ extension QuickSightClientTypes.NumericalDimensionField: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The dimension type field with numerical type columns.
-    public struct NumericalDimensionField: Swift.Equatable {
+    public struct NumericalDimensionField {
         /// The column that is used in the NumericalDimensionField.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
@@ -55597,7 +55597,7 @@ extension QuickSightClientTypes.NumericalMeasureField: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The measure type field with numerical type columns.
-    public struct NumericalMeasureField: Swift.Equatable {
+    public struct NumericalMeasureField {
         /// The aggregation function of the measure field.
         public var aggregationFunction: QuickSightClientTypes.NumericalAggregationFunction?
         /// The column that is used in the NumericalMeasureField.
@@ -55658,7 +55658,7 @@ extension QuickSightClientTypes.OracleParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for Oracle.
-    public struct OracleParameters: Swift.Equatable {
+    public struct OracleParameters {
         /// The database.
         /// This member is required.
         public var database: Swift.String?
@@ -55754,7 +55754,7 @@ extension QuickSightClientTypes.OutputColumn: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Output column.
-    public struct OutputColumn: Swift.Equatable {
+    public struct OutputColumn {
         /// A description for a column.
         public var description: Swift.String?
         /// The display name of the column..
@@ -55813,7 +55813,7 @@ extension QuickSightClientTypes.OverrideDatasetParameterOperation: Swift.Codable
 
 extension QuickSightClientTypes {
     /// A transform operation that overrides the dataset parameter values that are defined in another dataset.
-    public struct OverrideDatasetParameterOperation: Swift.Equatable {
+    public struct OverrideDatasetParameterOperation {
         /// The new default values for the parameter.
         public var newDefaultValues: QuickSightClientTypes.NewDefaultValues?
         /// The new name for the parameter.
@@ -55863,7 +55863,7 @@ extension QuickSightClientTypes.PaginationConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The pagination configuration for a table visual or boxplot.
-    public struct PaginationConfiguration: Swift.Equatable {
+    public struct PaginationConfiguration {
         /// Indicates the page number.
         /// This member is required.
         public var pageNumber: Swift.Int?
@@ -55987,7 +55987,7 @@ extension QuickSightClientTypes.PanelConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A collection of options that configure how each panel displays in a small multiples chart.
-    public struct PanelConfiguration: Swift.Equatable {
+    public struct PanelConfiguration {
         /// Sets the background color for each panel.
         public var backgroundColor: Swift.String?
         /// Determines whether or not a background for each small multiples panel is rendered.
@@ -56066,7 +56066,7 @@ extension QuickSightClientTypes.PanelTitleOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the title styles for each small multiples panel.
-    public struct PanelTitleOptions: Swift.Equatable {
+    public struct PanelTitleOptions {
         /// Configures the display properties of the given text.
         public var fontConfiguration: QuickSightClientTypes.FontConfiguration?
         /// Sets the horizontal text alignment of the title within each panel.
@@ -56230,7 +56230,7 @@ extension QuickSightClientTypes.ParameterControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The control of a parameter that users can interact with in a dashboard or an analysis. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct ParameterControl: Swift.Equatable {
+    public struct ParameterControl {
         /// A control from a date parameter that specifies date and time.
         public var dateTimePicker: QuickSightClientTypes.ParameterDateTimePickerControl?
         /// A control to display a dropdown list with buttons that are used to select a single value.
@@ -56303,7 +56303,7 @@ extension QuickSightClientTypes.ParameterDateTimePickerControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control from a date parameter that specifies date and time.
-    public struct ParameterDateTimePickerControl: Swift.Equatable {
+    public struct ParameterDateTimePickerControl {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions?
         /// The ID of the ParameterDateTimePickerControl.
@@ -56371,7 +56371,7 @@ extension QuickSightClientTypes.ParameterDeclaration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The declaration definition of a parameter. For more information, see [Parameters in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon QuickSight User Guide. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct ParameterDeclaration: Swift.Equatable {
+    public struct ParameterDeclaration {
         /// A parameter declaration for the DateTime data type.
         public var dateTimeParameterDeclaration: QuickSightClientTypes.DateTimeParameterDeclaration?
         /// A parameter declaration for the Decimal data type.
@@ -56454,7 +56454,7 @@ extension QuickSightClientTypes.ParameterDropDownControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control to display a dropdown list with buttons that are used to select a single value.
-    public struct ParameterDropDownControl: Swift.Equatable {
+    public struct ParameterDropDownControl {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
         /// The display options of a control.
@@ -56552,7 +56552,7 @@ extension QuickSightClientTypes.ParameterListControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control to display a list with buttons or boxes that are used to select either a single value or multiple values.
-    public struct ParameterListControl: Swift.Equatable {
+    public struct ParameterListControl {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
         /// The display options of a control.
@@ -56632,7 +56632,7 @@ extension QuickSightClientTypes.ParameterSelectableValues: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A list of selectable values that are used in a control.
-    public struct ParameterSelectableValues: Swift.Equatable {
+    public struct ParameterSelectableValues {
         /// The column identifier that fetches values from the data set.
         public var linkToDataSetColumn: QuickSightClientTypes.ColumnIdentifier?
         /// The values that are used in ParameterSelectableValues.
@@ -56707,7 +56707,7 @@ extension QuickSightClientTypes.ParameterSliderControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control to display a horizontal toggle bar. This is used to change a value by sliding the toggle.
-    public struct ParameterSliderControl: Swift.Equatable {
+    public struct ParameterSliderControl {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.SliderControlDisplayOptions?
         /// The larger value that is displayed at the right of the slider.
@@ -56796,7 +56796,7 @@ extension QuickSightClientTypes.ParameterTextAreaControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control to display a text box that is used to enter multiple entries.
-    public struct ParameterTextAreaControl: Swift.Equatable {
+    public struct ParameterTextAreaControl {
         /// The delimiter that is used to separate the lines in text.
         public var delimiter: Swift.String?
         /// The display options of a control.
@@ -56868,7 +56868,7 @@ extension QuickSightClientTypes.ParameterTextFieldControl: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A control to display a text box that is used to enter a single entry.
-    public struct ParameterTextFieldControl: Swift.Equatable {
+    public struct ParameterTextFieldControl {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions?
         /// The ID of the ParameterTextFieldControl.
@@ -57016,7 +57016,7 @@ extension QuickSightClientTypes.Parameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A list of Amazon QuickSight parameters and the list's override values.
-    public struct Parameters: Swift.Equatable {
+    public struct Parameters {
         /// The parameters that have a data type of date-time.
         public var dateTimeParameters: [QuickSightClientTypes.DateTimeParameter]?
         /// The parameters that have a data type of decimal.
@@ -57069,7 +57069,7 @@ extension QuickSightClientTypes.PercentVisibleRange: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The percent range in the visible range.
-    public struct PercentVisibleRange: Swift.Equatable {
+    public struct PercentVisibleRange {
         /// The lower bound of the range.
         public var from: Swift.Double?
         /// The top bound of the range.
@@ -57143,7 +57143,7 @@ extension QuickSightClientTypes.PercentageDisplayFormatConfiguration: Swift.Cust
 
 extension QuickSightClientTypes {
     /// The options that determine the percentage display format configuration.
-    public struct PercentageDisplayFormatConfiguration: Swift.Equatable {
+    public struct PercentageDisplayFormatConfiguration {
         /// The option that determines the decimal places configuration.
         public var decimalPlacesConfiguration: QuickSightClientTypes.DecimalPlacesConfiguration?
         /// The options that determine the negative value configuration.
@@ -57198,7 +57198,7 @@ extension QuickSightClientTypes.PercentileAggregation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An aggregation based on the percentile of values in a dimension or measure.
-    public struct PercentileAggregation: Swift.Equatable {
+    public struct PercentileAggregation {
         /// The percentile value. This value can be any numeric constant 0–100. A percentile value of 50 computes the median value of the measure.
         public var percentileValue: Swift.Double?
 
@@ -57251,7 +57251,7 @@ extension QuickSightClientTypes.PeriodOverPeriodComputation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The period over period computation configuration.
-    public struct PeriodOverPeriodComputation: Swift.Equatable {
+    public struct PeriodOverPeriodComputation {
         /// The ID for a computation.
         /// This member is required.
         public var computationId: Swift.String?
@@ -57323,7 +57323,7 @@ extension QuickSightClientTypes.PeriodToDateComputation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The period to date computation configuration.
-    public struct PeriodToDateComputation: Swift.Equatable {
+    public struct PeriodToDateComputation {
         /// The ID for a computation.
         /// This member is required.
         public var computationId: Swift.String?
@@ -57403,7 +57403,7 @@ extension QuickSightClientTypes.PhysicalTable: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A view of a data source that contains information about the shape of the data in the underlying source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
-    public enum PhysicalTable: Swift.Equatable {
+    public enum PhysicalTable {
         /// A physical table type for relational data sources.
         case relationaltable(QuickSightClientTypes.RelationalTable)
         /// A physical table type built from the results of the custom SQL query.
@@ -57484,7 +57484,7 @@ extension QuickSightClientTypes.PieChartAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a pie chart.
-    public struct PieChartAggregatedFieldWells: Swift.Equatable {
+    public struct PieChartAggregatedFieldWells {
         /// The category (group/color) field wells of a pie chart.
         public var category: [QuickSightClientTypes.DimensionField]?
         /// The small multiples field well of a pie chart.
@@ -57605,7 +57605,7 @@ extension QuickSightClientTypes.PieChartConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a pie chart.
-    public struct PieChartConfiguration: Swift.Equatable {
+    public struct PieChartConfiguration {
         /// The label options of the group/color that is displayed in a pie chart.
         public var categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
         /// The contribution analysis (anomaly configuration) setup of the visual.
@@ -57684,7 +57684,7 @@ extension QuickSightClientTypes.PieChartFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a pie chart. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct PieChartFieldWells: Swift.Equatable {
+    public struct PieChartFieldWells {
         /// The field well configuration of a pie chart.
         public var pieChartAggregatedFieldWells: QuickSightClientTypes.PieChartAggregatedFieldWells?
 
@@ -57761,7 +57761,7 @@ extension QuickSightClientTypes.PieChartSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a pie chart.
-    public struct PieChartSortConfiguration: Swift.Equatable {
+    public struct PieChartSortConfiguration {
         /// The limit on the number of categories that are displayed in a pie chart.
         public var categoryItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration?
         /// The sort configuration of the category fields.
@@ -57869,7 +57869,7 @@ extension QuickSightClientTypes {
     ///
     ///
     /// For more information, see [Using pie charts](https://docs.aws.amazon.com/quicksight/latest/user/pie-chart.html) in the Amazon QuickSight User Guide. For more information, see [Using donut charts](https://docs.aws.amazon.com/quicksight/latest/user/donut-chart.html) in the Amazon QuickSight User Guide.
-    public struct PieChartVisual: Swift.Equatable {
+    public struct PieChartVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration of a pie chart.
@@ -57931,7 +57931,7 @@ extension QuickSightClientTypes.PivotFieldSortOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field sort options for a pivot table sort configuration.
-    public struct PivotFieldSortOptions: Swift.Equatable {
+    public struct PivotFieldSortOptions {
         /// The field ID for the field sort options.
         /// This member is required.
         public var fieldId: Swift.String?
@@ -58020,7 +58020,7 @@ extension QuickSightClientTypes.PivotTableAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The aggregated field well for the pivot table.
-    public struct PivotTableAggregatedFieldWells: Swift.Equatable {
+    public struct PivotTableAggregatedFieldWells {
         /// The columns field well for a pivot table. Values are grouped by columns fields.
         public var columns: [QuickSightClientTypes.DimensionField]?
         /// The rows field well for a pivot table. Values are grouped by rows fields.
@@ -58093,7 +58093,7 @@ extension QuickSightClientTypes.PivotTableCellConditionalFormatting: Swift.Codab
 
 extension QuickSightClientTypes {
     /// The cell conditional formatting option for a pivot table.
-    public struct PivotTableCellConditionalFormatting: Swift.Equatable {
+    public struct PivotTableCellConditionalFormatting {
         /// The field ID of the cell for conditional formatting.
         /// This member is required.
         public var fieldId: Swift.String?
@@ -58153,7 +58153,7 @@ extension QuickSightClientTypes.PivotTableConditionalFormatting: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The conditional formatting for a PivotTableVisual.
-    public struct PivotTableConditionalFormatting: Swift.Equatable {
+    public struct PivotTableConditionalFormatting {
         /// Conditional formatting options for a PivotTableVisual.
         public var conditionalFormattingOptions: [QuickSightClientTypes.PivotTableConditionalFormattingOption]?
 
@@ -58188,7 +58188,7 @@ extension QuickSightClientTypes.PivotTableConditionalFormattingOption: Swift.Cod
 
 extension QuickSightClientTypes {
     /// Conditional formatting options for a PivotTableVisual.
-    public struct PivotTableConditionalFormattingOption: Swift.Equatable {
+    public struct PivotTableConditionalFormattingOption {
         /// The cell conditional formatting option for a pivot table.
         public var cell: QuickSightClientTypes.PivotTableCellConditionalFormatting?
 
@@ -58223,7 +58223,7 @@ extension QuickSightClientTypes.PivotTableConditionalFormattingScope: Swift.Coda
 
 extension QuickSightClientTypes {
     /// The scope of the cell for conditional formatting.
-    public struct PivotTableConditionalFormattingScope: Swift.Equatable {
+    public struct PivotTableConditionalFormattingScope {
         /// The role (field, field total, grand total) of the cell for conditional formatting.
         public var role: QuickSightClientTypes.PivotTableConditionalFormattingScopeRole?
 
@@ -58329,7 +58329,7 @@ extension QuickSightClientTypes.PivotTableConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration for a PivotTableVisual.
-    public struct PivotTableConfiguration: Swift.Equatable {
+    public struct PivotTableConfiguration {
         /// The field options for a pivot table visual.
         public var fieldOptions: QuickSightClientTypes.PivotTableFieldOptions?
         /// The field wells of the visual.
@@ -58406,7 +58406,7 @@ extension QuickSightClientTypes.PivotTableDataPathOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The data path options for the pivot table field options.
-    public struct PivotTableDataPathOption: Swift.Equatable {
+    public struct PivotTableDataPathOption {
         /// The list of data path values for the data path options.
         /// This member is required.
         public var dataPathList: [QuickSightClientTypes.DataPathValue]?
@@ -58522,7 +58522,7 @@ extension QuickSightClientTypes.PivotTableFieldCollapseStateOption: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// The collapse state options for the pivot table field options.
-    public struct PivotTableFieldCollapseStateOption: Swift.Equatable {
+    public struct PivotTableFieldCollapseStateOption {
         /// The state of the field target of a pivot table. Choose one of the following options:
         ///
         /// * COLLAPSED
@@ -58584,7 +58584,7 @@ extension QuickSightClientTypes.PivotTableFieldCollapseStateTarget: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// The target of a pivot table field collapse state.
-    public struct PivotTableFieldCollapseStateTarget: Swift.Equatable {
+    public struct PivotTableFieldCollapseStateTarget {
         /// The data path of the pivot table's header. Used to set the collapse state.
         public var fieldDataPathValues: [QuickSightClientTypes.DataPathValue]?
         /// The field ID of the pivot table that the collapse state needs to be set to.
@@ -58635,7 +58635,7 @@ extension QuickSightClientTypes.PivotTableFieldOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The selected field options for the pivot table field options.
-    public struct PivotTableFieldOption: Swift.Equatable {
+    public struct PivotTableFieldOption {
         /// The custom label of the pivot table field.
         public var customLabel: Swift.String?
         /// The field ID of the pivot table field.
@@ -58727,7 +58727,7 @@ extension QuickSightClientTypes.PivotTableFieldOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field options for a pivot table visual.
-    public struct PivotTableFieldOptions: Swift.Equatable {
+    public struct PivotTableFieldOptions {
         /// The collapse state options for the pivot table field options.
         public var collapseStateOptions: [QuickSightClientTypes.PivotTableFieldCollapseStateOption]?
         /// The data path options for the pivot table field options.
@@ -58770,7 +58770,7 @@ extension QuickSightClientTypes.PivotTableFieldSubtotalOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The optional configuration of subtotals cells.
-    public struct PivotTableFieldSubtotalOptions: Swift.Equatable {
+    public struct PivotTableFieldSubtotalOptions {
         /// The field ID of the subtotal options.
         public var fieldId: Swift.String?
 
@@ -58805,7 +58805,7 @@ extension QuickSightClientTypes.PivotTableFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field wells for a pivot table visual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct PivotTableFieldWells: Swift.Equatable {
+    public struct PivotTableFieldWells {
         /// The aggregated field well for the pivot table.
         public var pivotTableAggregatedFieldWells: QuickSightClientTypes.PivotTableAggregatedFieldWells?
 
@@ -58944,7 +58944,7 @@ extension QuickSightClientTypes.PivotTableOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The table options for a pivot table visual.
-    public struct PivotTableOptions: Swift.Equatable {
+    public struct PivotTableOptions {
         /// The table cell style of cells.
         public var cellStyle: QuickSightClientTypes.TableCellStyle?
         /// The visibility setting of a pivot table's collapsed row dimension fields. If the value of this structure is HIDDEN, all collapsed columns in a pivot table are automatically hidden. The default value is VISIBLE.
@@ -59037,7 +59037,7 @@ extension QuickSightClientTypes.PivotTablePaginatedReportOptions: Swift.Codable 
 
 extension QuickSightClientTypes {
     /// The paginated report options for a pivot table visual.
-    public struct PivotTablePaginatedReportOptions: Swift.Equatable {
+    public struct PivotTablePaginatedReportOptions {
         /// The visibility of the repeating header rows on each page.
         public var overflowColumnHeaderVisibility: QuickSightClientTypes.Visibility?
         /// The visibility of the printing table overflow across pages.
@@ -59082,7 +59082,7 @@ extension QuickSightClientTypes.PivotTableRowsLabelOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options for the label thta is located above the row headers. This option is only applicable when RowsLayout is set to HIERARCHY.
-    public struct PivotTableRowsLabelOptions: Swift.Equatable {
+    public struct PivotTableRowsLabelOptions {
         /// The custom label string for the rows label.
         public var customLabel: Swift.String?
         /// The visibility of the rows label.
@@ -59165,7 +59165,7 @@ extension QuickSightClientTypes.PivotTableSortBy: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort by field for the field sort options.
-    public struct PivotTableSortBy: Swift.Equatable {
+    public struct PivotTableSortBy {
         /// The column sort (field id, direction) for the pivot table sort by options.
         public var column: QuickSightClientTypes.ColumnSort?
         /// The data path sort (data path value, direction) for the pivot table sort by options.
@@ -59220,7 +59220,7 @@ extension QuickSightClientTypes.PivotTableSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration for a PivotTableVisual.
-    public struct PivotTableSortConfiguration: Swift.Equatable {
+    public struct PivotTableSortConfiguration {
         /// The field sort options for a pivot table sort configuration.
         public var fieldSortOptions: [QuickSightClientTypes.PivotFieldSortOptions]?
 
@@ -59308,7 +59308,7 @@ extension QuickSightClientTypes.PivotTableTotalOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The total options for a pivot table visual.
-    public struct PivotTableTotalOptions: Swift.Equatable {
+    public struct PivotTableTotalOptions {
         /// The column subtotal options.
         public var columnSubtotalOptions: QuickSightClientTypes.SubtotalOptions?
         /// The column total options.
@@ -59397,7 +59397,7 @@ extension QuickSightClientTypes.PivotTableVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A pivot table. For more information, see [Using pivot tables](https://docs.aws.amazon.com/quicksight/latest/user/pivot-table.html) in the Amazon QuickSight User Guide.
-    public struct PivotTableVisual: Swift.Equatable {
+    public struct PivotTableVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration settings of the visual.
@@ -59507,7 +59507,7 @@ extension QuickSightClientTypes.PivotTotalOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The optional configuration of totals cells in a PivotTableVisual.
-    public struct PivotTotalOptions: Swift.Equatable {
+    public struct PivotTotalOptions {
         /// The custom label string for the total cells.
         public var customLabel: Swift.String?
         /// The cell styling options for the total of header cells.
@@ -59582,7 +59582,7 @@ extension QuickSightClientTypes.PostgreSqlParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for PostgreSQL.
-    public struct PostgreSqlParameters: Swift.Equatable {
+    public struct PostgreSqlParameters {
         /// Database.
         /// This member is required.
         public var database: Swift.String?
@@ -59652,7 +59652,7 @@ public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct PreconditionNotMetExceptionBody: Swift.Equatable {
+struct PreconditionNotMetExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -59729,7 +59729,7 @@ extension QuickSightClientTypes.PredefinedHierarchy: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The option that determines the hierarchy of the fields that are defined during data preparation. These fields are available to use in any analysis that uses the data source.
-    public struct PredefinedHierarchy: Swift.Equatable {
+    public struct PredefinedHierarchy {
         /// The list of columns that define the predefined hierarchy.
         /// This member is required.
         public var columns: [QuickSightClientTypes.ColumnIdentifier]?
@@ -59786,7 +59786,7 @@ extension QuickSightClientTypes.PrestoParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for Presto.
-    public struct PrestoParameters: Swift.Equatable {
+    public struct PrestoParameters {
         /// Catalog.
         /// This member is required.
         public var catalog: Swift.String?
@@ -59867,7 +59867,7 @@ extension QuickSightClientTypes.ProgressBarOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the presentation of the progress bar of a KPI visual.
-    public struct ProgressBarOptions: Swift.Equatable {
+    public struct ProgressBarOptions {
         /// The visibility of the progress bar.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -59914,7 +59914,7 @@ extension QuickSightClientTypes.ProjectOperation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A transform operation that projects columns. Operations that come after a projection can only refer to projected columns.
-    public struct ProjectOperation: Swift.Equatable {
+    public struct ProjectOperation {
         /// Projected columns.
         /// This member is required.
         public var projectedColumns: [Swift.String]?
@@ -60022,7 +60022,7 @@ extension PutDataSetRefreshPropertiesInput {
     }
 }
 
-public struct PutDataSetRefreshPropertiesInput: Swift.Equatable {
+public struct PutDataSetRefreshPropertiesInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -60045,7 +60045,7 @@ public struct PutDataSetRefreshPropertiesInput: Swift.Equatable {
     }
 }
 
-struct PutDataSetRefreshPropertiesInputBody: Swift.Equatable {
+struct PutDataSetRefreshPropertiesInputBody {
     let dataSetRefreshProperties: QuickSightClientTypes.DataSetRefreshProperties?
 }
 
@@ -60074,7 +60074,7 @@ extension PutDataSetRefreshPropertiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutDataSetRefreshPropertiesOutput: Swift.Equatable {
+public struct PutDataSetRefreshPropertiesOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -60090,7 +60090,7 @@ public struct PutDataSetRefreshPropertiesOutput: Swift.Equatable {
     }
 }
 
-struct PutDataSetRefreshPropertiesOutputBody: Swift.Equatable {
+struct PutDataSetRefreshPropertiesOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -60155,7 +60155,7 @@ extension QuickSightClientTypes.QueueInfo: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Information about a queued dataset SPICE ingestion.
-    public struct QueueInfo: Swift.Equatable {
+    public struct QueueInfo {
         /// The ID of the ongoing ingestion. The queued ingestion is waiting for the ongoing ingestion to complete.
         /// This member is required.
         public var queuedIngestion: Swift.String?
@@ -60222,7 +60222,7 @@ public struct QuickSightUserNotFoundException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct QuickSightUserNotFoundExceptionBody: Swift.Equatable {
+struct QuickSightUserNotFoundExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -60311,7 +60311,7 @@ extension QuickSightClientTypes.RadarChartAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The aggregated field well configuration of a RadarChartVisual.
-    public struct RadarChartAggregatedFieldWells: Swift.Equatable {
+    public struct RadarChartAggregatedFieldWells {
         /// The aggregated field well categories of a radar chart.
         public var category: [QuickSightClientTypes.DimensionField]?
         /// The color that are assigned to the aggregated field wells of a radar chart.
@@ -60354,7 +60354,7 @@ extension QuickSightClientTypes.RadarChartAreaStyleSettings: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configured style settings of a radar chart.
-    public struct RadarChartAreaStyleSettings: Swift.Equatable {
+    public struct RadarChartAreaStyleSettings {
         /// The visibility settings of a radar chart.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -60514,7 +60514,7 @@ extension QuickSightClientTypes.RadarChartConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a RadarChartVisual.
-    public struct RadarChartConfiguration: Swift.Equatable {
+    public struct RadarChartConfiguration {
         /// Determines the visibility of the colors of alternatign bands in a radar chart.
         public var alternateBandColorsVisibility: QuickSightClientTypes.Visibility?
         /// The color of the even-numbered alternate bands of a radar chart.
@@ -60609,7 +60609,7 @@ extension QuickSightClientTypes.RadarChartFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field wells of a radar chart visual.
-    public struct RadarChartFieldWells: Swift.Equatable {
+    public struct RadarChartFieldWells {
         /// The aggregated field wells of a radar chart visual.
         public var radarChartAggregatedFieldWells: QuickSightClientTypes.RadarChartAggregatedFieldWells?
 
@@ -60644,7 +60644,7 @@ extension QuickSightClientTypes.RadarChartSeriesSettings: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The series settings of a radar chart.
-    public struct RadarChartSeriesSettings: Swift.Equatable {
+    public struct RadarChartSeriesSettings {
         /// The area style settings of a radar chart.
         public var areaStyleSettings: QuickSightClientTypes.RadarChartAreaStyleSettings?
 
@@ -60753,7 +60753,7 @@ extension QuickSightClientTypes.RadarChartSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a RadarChartVisual.
-    public struct RadarChartSortConfiguration: Swift.Equatable {
+    public struct RadarChartSortConfiguration {
         /// The category items limit for a radar chart.
         public var categoryItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration?
         /// The category sort options of a radar chart.
@@ -60854,7 +60854,7 @@ extension QuickSightClientTypes.RadarChartVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A radar chart visual.
-    public struct RadarChartVisual: Swift.Equatable {
+    public struct RadarChartVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration settings of the visual.
@@ -60916,7 +60916,7 @@ extension QuickSightClientTypes.RangeConstant: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a range constant.
-    public struct RangeConstant: Swift.Equatable {
+    public struct RangeConstant {
         /// The maximum value for a range constant.
         public var maximum: Swift.String?
         /// The minimum value for a range constant.
@@ -60955,7 +60955,7 @@ extension QuickSightClientTypes.RangeEndsLabelType: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The range ends label type of a data path label.
-    public struct RangeEndsLabelType: Swift.Equatable {
+    public struct RangeEndsLabelType {
         /// The visibility of the range ends label.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -60996,7 +60996,7 @@ extension QuickSightClientTypes.RdsParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for Amazon RDS.
-    public struct RdsParameters: Swift.Equatable {
+    public struct RdsParameters {
         /// Database.
         /// This member is required.
         public var database: Swift.String?
@@ -61067,7 +61067,7 @@ extension QuickSightClientTypes.RedshiftIAMParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that grants Amazon QuickSight access to your cluster and make a call to the redshift:GetClusterCredentials API. For more information on the redshift:GetClusterCredentials API, see [GetClusterCredentials](https://docs.aws.amazon.com/redshift/latest/APIReference/API_GetClusterCredentials.html).
-    public struct RedshiftIAMParameters: Swift.Equatable {
+    public struct RedshiftIAMParameters {
         /// Automatically creates a database user. If your database doesn't have a DatabaseUser, set this parameter to True. If there is no DatabaseUser, Amazon QuickSight can't connect to your cluster. The RoleArn that you use for this operation must grant access to redshift:CreateClusterUser to successfully create the user.
         public var autoCreateDatabaseUser: Swift.Bool
         /// A list of groups whose permissions will be granted to Amazon QuickSight to access the cluster. These permissions are combined with the permissions granted to Amazon QuickSight by the DatabaseUser. If you choose to include this parameter, the RoleArn must grant access to redshift:JoinGroup.
@@ -61146,7 +61146,7 @@ extension QuickSightClientTypes.RedshiftParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for Amazon Redshift. The ClusterId field can be blank if Host and Port are both set. The Host and Port fields can be blank if the ClusterId field is set.
-    public struct RedshiftParameters: Swift.Equatable {
+    public struct RedshiftParameters {
         /// Cluster ID. This field can be blank if the Host and Port are provided.
         public var clusterId: Swift.String?
         /// Database.
@@ -61220,7 +61220,7 @@ extension QuickSightClientTypes.ReferenceLine: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The reference line visual display options.
-    public struct ReferenceLine: Swift.Equatable {
+    public struct ReferenceLine {
         /// The data configuration of the reference line.
         /// This member is required.
         public var dataConfiguration: QuickSightClientTypes.ReferenceLineDataConfiguration?
@@ -61272,7 +61272,7 @@ extension QuickSightClientTypes.ReferenceLineCustomLabelConfiguration: Swift.Cod
 
 extension QuickSightClientTypes {
     /// The configuration for a custom label on a ReferenceLine.
-    public struct ReferenceLineCustomLabelConfiguration: Swift.Equatable {
+    public struct ReferenceLineCustomLabelConfiguration {
         /// The string text of the custom label.
         /// This member is required.
         public var customLabel: Swift.String?
@@ -61326,7 +61326,7 @@ extension QuickSightClientTypes.ReferenceLineDataConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The data configuration of the reference line.
-    public struct ReferenceLineDataConfiguration: Swift.Equatable {
+    public struct ReferenceLineDataConfiguration {
         /// The axis binding type of the reference line. Choose one of the following options:
         ///
         /// * PrimaryY
@@ -61393,7 +61393,7 @@ extension QuickSightClientTypes.ReferenceLineDynamicDataConfiguration: Swift.Cod
 
 extension QuickSightClientTypes {
     /// The dynamic configuration of the reference line data configuration.
-    public struct ReferenceLineDynamicDataConfiguration: Swift.Equatable {
+    public struct ReferenceLineDynamicDataConfiguration {
         /// The calculation that is used in the dynamic data.
         /// This member is required.
         public var calculation: QuickSightClientTypes.NumericalAggregationFunction?
@@ -61468,7 +61468,7 @@ extension QuickSightClientTypes.ReferenceLineLabelConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The label configuration of a reference line.
-    public struct ReferenceLineLabelConfiguration: Swift.Equatable {
+    public struct ReferenceLineLabelConfiguration {
         /// The custom label configuration of the label in a reference line.
         public var customLabelConfiguration: QuickSightClientTypes.ReferenceLineCustomLabelConfiguration?
         /// The font color configuration of the label in a reference line.
@@ -61672,7 +61672,7 @@ extension QuickSightClientTypes.ReferenceLineStaticDataConfiguration: Swift.Cust
 
 extension QuickSightClientTypes {
     /// The static data configuration of the reference line data configuration.
-    public struct ReferenceLineStaticDataConfiguration: Swift.Equatable {
+    public struct ReferenceLineStaticDataConfiguration {
         /// The double input of the static data.
         /// This member is required.
         public var value: Swift.Double
@@ -61714,7 +61714,7 @@ extension QuickSightClientTypes.ReferenceLineStyleConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The style configuration of the reference line.
-    public struct ReferenceLineStyleConfiguration: Swift.Equatable {
+    public struct ReferenceLineStyleConfiguration {
         /// The hex color of the reference line.
         public var color: Swift.String?
         /// The pattern type of the line style. Choose one of the following options:
@@ -61765,7 +61765,7 @@ extension QuickSightClientTypes.ReferenceLineValueLabelConfiguration: Swift.Coda
 
 extension QuickSightClientTypes {
     /// The value label configuration of the label in a reference line.
-    public struct ReferenceLineValueLabelConfiguration: Swift.Equatable {
+    public struct ReferenceLineValueLabelConfiguration {
         /// The format configuration of the value label.
         public var formatConfiguration: QuickSightClientTypes.NumericFormatConfiguration?
         /// The relative position of the value label. Choose one of the following options:
@@ -61840,7 +61840,7 @@ extension QuickSightClientTypes.RefreshConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The refresh configuration of a dataset.
-    public struct RefreshConfiguration: Swift.Equatable {
+    public struct RefreshConfiguration {
         /// The incremental refresh for the dataset.
         /// This member is required.
         public var incrementalRefresh: QuickSightClientTypes.IncrementalRefresh?
@@ -61894,7 +61894,7 @@ extension QuickSightClientTypes.RefreshFrequency: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Specifies the interval between each scheduled refresh of a dataset.
-    public struct RefreshFrequency: Swift.Equatable {
+    public struct RefreshFrequency {
         /// The interval between scheduled refreshes. Valid values are as follows:
         ///
         /// * MINUTE15: The dataset refreshes every 15 minutes. This value is only supported for incremental refreshes. This interval can only be used for one schedule per dataset.
@@ -62022,7 +62022,7 @@ extension QuickSightClientTypes.RefreshSchedule: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The refresh schedule of a dataset.
-    public struct RefreshSchedule: Swift.Equatable {
+    public struct RefreshSchedule {
         /// The Amazon Resource Name (ARN) for the refresh schedule.
         public var arn: Swift.String?
         /// The type of refresh that a datset undergoes. Valid values are as follows:
@@ -62131,7 +62131,7 @@ extension RegisterUserInput {
     }
 }
 
-public struct RegisterUserInput: Swift.Equatable {
+public struct RegisterUserInput {
     /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -62225,7 +62225,7 @@ public struct RegisterUserInput: Swift.Equatable {
     }
 }
 
-struct RegisterUserInputBody: Swift.Equatable {
+struct RegisterUserInputBody {
     let identityType: QuickSightClientTypes.IdentityType?
     let email: Swift.String?
     let userRole: QuickSightClientTypes.UserRole?
@@ -62307,7 +62307,7 @@ extension RegisterUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterUserOutput: Swift.Equatable {
+public struct RegisterUserOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -62331,7 +62331,7 @@ public struct RegisterUserOutput: Swift.Equatable {
     }
 }
 
-struct RegisterUserOutputBody: Swift.Equatable {
+struct RegisterUserOutputBody {
     let user: QuickSightClientTypes.User?
     let userInvitationUrl: Swift.String?
     let requestId: Swift.String?
@@ -62399,7 +62399,7 @@ extension QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations: Swif
 
 extension QuickSightClientTypes {
     /// The feature configurations of an embedded Amazon QuickSight console.
-    public struct RegisteredUserConsoleFeatureConfigurations: Swift.Equatable {
+    public struct RegisteredUserConsoleFeatureConfigurations {
         /// The state persistence configurations of an embedded Amazon QuickSight console.
         public var statePersistence: QuickSightClientTypes.StatePersistenceConfigurations?
 
@@ -62440,7 +62440,7 @@ extension QuickSightClientTypes.RegisteredUserDashboardEmbeddingConfiguration: S
 
 extension QuickSightClientTypes {
     /// Information about the dashboard you want to embed.
-    public struct RegisteredUserDashboardEmbeddingConfiguration: Swift.Equatable {
+    public struct RegisteredUserDashboardEmbeddingConfiguration {
         /// The feature configurations of an embbedded Amazon QuickSight dashboard.
         public var featureConfigurations: QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations?
         /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard if the user has permissions to view it. If the user does not have permission to view this dashboard, they see a permissions error message.
@@ -62486,7 +62486,7 @@ extension QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations: Sw
 
 extension QuickSightClientTypes {
     /// The feature configuration for an embedded dashboard.
-    public struct RegisteredUserDashboardFeatureConfigurations: Swift.Equatable {
+    public struct RegisteredUserDashboardFeatureConfigurations {
         /// The bookmarks configuration for an embedded dashboard in Amazon QuickSight.
         public var bookmarks: QuickSightClientTypes.BookmarksConfigurations?
         /// The state persistence settings of an embedded dashboard.
@@ -62525,7 +62525,7 @@ extension QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfigurat
 
 extension QuickSightClientTypes {
     /// The experience that you are embedding. You can use this object to generate a url that embeds a visual into your application.
-    public struct RegisteredUserDashboardVisualEmbeddingConfiguration: Swift.Equatable {
+    public struct RegisteredUserDashboardVisualEmbeddingConfiguration {
         /// The visual ID for the visual that you want the user to embed. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         /// This member is required.
         public var initialDashboardVisualId: QuickSightClientTypes.DashboardVisualId?
@@ -62579,7 +62579,7 @@ extension QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration: 
 
 extension QuickSightClientTypes {
     /// The type of experience you want to embed. For registered users, you can embed Amazon QuickSight dashboards or the Amazon QuickSight console. Exactly one of the experience configurations is required. You can choose Dashboard or QuickSightConsole. You cannot choose more than one experience configuration.
-    public struct RegisteredUserEmbeddingExperienceConfiguration: Swift.Equatable {
+    public struct RegisteredUserEmbeddingExperienceConfiguration {
         /// The configuration details for providing a dashboard embedding experience.
         public var dashboard: QuickSightClientTypes.RegisteredUserDashboardEmbeddingConfiguration?
         /// The type of embedding experience. In this case, Amazon QuickSight visuals.
@@ -62633,7 +62633,7 @@ extension QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration: 
 
 extension QuickSightClientTypes {
     /// Information about the Q search bar embedding experience.
-    public struct RegisteredUserQSearchBarEmbeddingConfiguration: Swift.Equatable {
+    public struct RegisteredUserQSearchBarEmbeddingConfiguration {
         /// The ID of the Q topic that you want to make the starting topic in the Q search bar. You can find a topic ID by navigating to the Topics pane in the Amazon QuickSight application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic, a list of all shared topics is shown in the Q bar for your readers. When you select an initial topic, you can specify whether or not readers are allowed to select other topics from the available ones in the list.
         public var initialTopicId: Swift.String?
 
@@ -62674,7 +62674,7 @@ extension QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfigur
 
 extension QuickSightClientTypes {
     /// Information about the Amazon QuickSight console that you want to embed.
-    public struct RegisteredUserQuickSightConsoleEmbeddingConfiguration: Swift.Equatable {
+    public struct RegisteredUserQuickSightConsoleEmbeddingConfiguration {
         /// The embedding configuration of an embedded Amazon QuickSight console.
         public var featureConfigurations: QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations?
         /// The initial URL path for the Amazon QuickSight console. InitialPath is required. The entry point URL is constrained to the following paths:
@@ -62761,7 +62761,7 @@ extension QuickSightClientTypes.RelationalTable: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A physical table type for relational data sources.
-    public struct RelationalTable: Swift.Equatable {
+    public struct RelationalTable {
         /// The catalog associated with a table.
         public var catalog: Swift.String?
         /// The Amazon Resource Name (ARN) for the data source.
@@ -62827,7 +62827,7 @@ extension QuickSightClientTypes.RelativeDateTimeControlDisplayOptions: Swift.Cod
 
 extension QuickSightClientTypes {
     /// The display options of a control.
-    public struct RelativeDateTimeControlDisplayOptions: Swift.Equatable {
+    public struct RelativeDateTimeControlDisplayOptions {
         /// Customize how dates are formatted in controls.
         public var dateTimeFormat: Swift.String?
         /// The configuration of info icon label options.
@@ -62971,7 +62971,7 @@ extension QuickSightClientTypes.RelativeDatesFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A RelativeDatesFilter filters relative dates values.
-    public struct RelativeDatesFilter: Swift.Equatable {
+    public struct RelativeDatesFilter {
         /// The date configuration of the filter.
         /// This member is required.
         public var anchorDateConfiguration: QuickSightClientTypes.AnchorDateConfiguration?
@@ -63115,7 +63115,7 @@ extension QuickSightClientTypes.RenameColumnOperation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A transform operation that renames a column.
-    public struct RenameColumnOperation: Swift.Equatable {
+    public struct RenameColumnOperation {
         /// The name of the column to be renamed.
         /// This member is required.
         public var columnName: Swift.String?
@@ -63218,7 +63218,7 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ResourceExistsExceptionBody: Swift.Equatable {
+struct ResourceExistsExceptionBody {
     let message: Swift.String?
     let resourceType: QuickSightClientTypes.ExceptionResourceType?
     let requestId: Swift.String?
@@ -63293,7 +63293,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceType: QuickSightClientTypes.ExceptionResourceType?
     let requestId: Swift.String?
@@ -63356,7 +63356,7 @@ extension QuickSightClientTypes.ResourcePermission: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Permission for the resource.
-    public struct ResourcePermission: Swift.Equatable {
+    public struct ResourcePermission {
         /// The IAM action to grant or revoke permissions on.
         /// This member is required.
         public var actions: [Swift.String]?
@@ -63480,7 +63480,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ResourceUnavailableExceptionBody: Swift.Equatable {
+struct ResourceUnavailableExceptionBody {
     let message: Swift.String?
     let resourceType: QuickSightClientTypes.ExceptionResourceType?
     let requestId: Swift.String?
@@ -63517,7 +63517,7 @@ extension RestoreAnalysisInput {
     }
 }
 
-public struct RestoreAnalysisInput: Swift.Equatable {
+public struct RestoreAnalysisInput {
     /// The ID of the analysis that you're restoring.
     /// This member is required.
     public var analysisId: Swift.String?
@@ -63535,7 +63535,7 @@ public struct RestoreAnalysisInput: Swift.Equatable {
     }
 }
 
-struct RestoreAnalysisInputBody: Swift.Equatable {
+struct RestoreAnalysisInputBody {
 }
 
 extension RestoreAnalysisInputBody: Swift.Decodable {
@@ -63561,7 +63561,7 @@ extension RestoreAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreAnalysisOutput: Swift.Equatable {
+public struct RestoreAnalysisOutput {
     /// The ID of the analysis that you're restoring.
     public var analysisId: Swift.String?
     /// The Amazon Resource Name (ARN) of the analysis that you're restoring.
@@ -63585,7 +63585,7 @@ public struct RestoreAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct RestoreAnalysisOutputBody: Swift.Equatable {
+struct RestoreAnalysisOutputBody {
     let status: Swift.Int
     let arn: Swift.String?
     let analysisId: Swift.String?
@@ -63696,7 +63696,7 @@ extension QuickSightClientTypes.RollingDateConfiguration: Swift.CustomDebugStrin
 
 extension QuickSightClientTypes {
     /// The rolling date configuration of a date time filter.
-    public struct RollingDateConfiguration: Swift.Equatable {
+    public struct RollingDateConfiguration {
         /// The data set that is used in the rolling date configuration.
         public var dataSetIdentifier: Swift.String?
         /// The expression of the rolling date configuration.
@@ -63760,7 +63760,7 @@ extension QuickSightClientTypes.RowAlternateColorOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Determines the row alternate color options.
-    public struct RowAlternateColorOptions: Swift.Equatable {
+    public struct RowAlternateColorOptions {
         /// Determines the list of row alternate colors.
         public var rowAlternateColors: [Swift.String]?
         /// Determines the widget status.
@@ -63815,7 +63815,7 @@ extension QuickSightClientTypes.RowInfo: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Information about rows for a data set SPICE ingestion.
-    public struct RowInfo: Swift.Equatable {
+    public struct RowInfo {
         /// The number of rows that were not ingested.
         public var rowsDropped: Swift.Int?
         /// The number of rows that were ingested.
@@ -63882,7 +63882,7 @@ extension QuickSightClientTypes.RowLevelPermissionDataSet: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Information about a dataset that contains permissions for row-level security (RLS). The permissions dataset maps fields to users or groups. For more information, see [Using Row-Level Security (RLS) to Restrict Access to a Dataset](https://docs.aws.amazon.com/quicksight/latest/user/restrict-access-to-a-data-set-using-row-level-security.html) in the Amazon QuickSight User Guide. The option to deny permissions by setting PermissionPolicy to DENY_ACCESS is not supported for new RLS datasets.
-    public struct RowLevelPermissionDataSet: Swift.Equatable {
+    public struct RowLevelPermissionDataSet {
         /// The Amazon Resource Name (ARN) of the dataset that contains permissions for RLS.
         /// This member is required.
         public var arn: Swift.String?
@@ -64047,7 +64047,7 @@ extension QuickSightClientTypes.RowLevelPermissionTagConfiguration: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// The configuration of tags on a dataset to set row-level security.
-    public struct RowLevelPermissionTagConfiguration: Swift.Equatable {
+    public struct RowLevelPermissionTagConfiguration {
         /// The status of row-level security tags. If enabled, the status is ENABLED. If disabled, the status is DISABLED.
         public var status: QuickSightClientTypes.Status?
         /// A list of tag configuration rules to apply to a dataset. All tag configurations have the OR condition. Tags within each tile will be joined (AND). At least one rule in this structure must have all tag values assigned to it to apply Row-level security (RLS) to the dataset.
@@ -64114,7 +64114,7 @@ extension QuickSightClientTypes.RowLevelPermissionTagRule: Swift.CustomDebugStri
 
 extension QuickSightClientTypes {
     /// A set of rules associated with a tag.
-    public struct RowLevelPermissionTagRule: Swift.Equatable {
+    public struct RowLevelPermissionTagRule {
         /// The column name that a tag key is assigned to.
         /// This member is required.
         public var columnName: Swift.String?
@@ -64175,7 +64175,7 @@ extension QuickSightClientTypes.S3BucketConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An optional structure that contains the Amazon S3 bucket configuration that the generated snapshots are stored in. If you don't provide this information, generated snapshots are stored in the default Amazon QuickSight bucket.
-    public struct S3BucketConfiguration: Swift.Equatable {
+    public struct S3BucketConfiguration {
         /// The name of an existing Amazon S3 bucket where the generated snapshot artifacts are sent.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -64227,7 +64227,7 @@ extension QuickSightClientTypes.S3Parameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for S3.
-    public struct S3Parameters: Swift.Equatable {
+    public struct S3Parameters {
         /// Location of the Amazon S3 manifest file. This is NULL if the manifest file was uploaded into Amazon QuickSight.
         /// This member is required.
         public var manifestFileLocation: QuickSightClientTypes.ManifestFileLocation?
@@ -64291,7 +64291,7 @@ extension QuickSightClientTypes.S3Source: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A physical table type for an S3 data source.
-    public struct S3Source: Swift.Equatable {
+    public struct S3Source {
         /// The Amazon Resource Name (ARN) for the data source.
         /// This member is required.
         public var dataSourceArn: Swift.String?
@@ -64354,7 +64354,7 @@ extension QuickSightClientTypes.SameSheetTargetVisualConfiguration: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// The configuration of the same-sheet target visuals that you want to be filtered. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct SameSheetTargetVisualConfiguration: Swift.Equatable {
+    public struct SameSheetTargetVisualConfiguration {
         /// The options that choose the target visual in the same sheet. Valid values are defined as follows:
         ///
         /// * ALL_VISUALS: Applies the filter operation to all visuals in the same sheet.
@@ -64443,7 +64443,7 @@ extension QuickSightClientTypes.SankeyDiagramAggregatedFieldWells: Swift.Codable
 
 extension QuickSightClientTypes {
     /// The field well configuration of a sankey diagram.
-    public struct SankeyDiagramAggregatedFieldWells: Swift.Equatable {
+    public struct SankeyDiagramAggregatedFieldWells {
         /// The destination field wells of a sankey diagram.
         public var destination: [QuickSightClientTypes.DimensionField]?
         /// The source field wells of a sankey diagram.
@@ -64504,7 +64504,7 @@ extension QuickSightClientTypes.SankeyDiagramChartConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a sankey diagram.
-    public struct SankeyDiagramChartConfiguration: Swift.Equatable {
+    public struct SankeyDiagramChartConfiguration {
         /// The data label configuration of a sankey diagram.
         public var dataLabels: QuickSightClientTypes.DataLabelOptions?
         /// The field well configuration of a sankey diagram.
@@ -64551,7 +64551,7 @@ extension QuickSightClientTypes.SankeyDiagramFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a sankey diagram.
-    public struct SankeyDiagramFieldWells: Swift.Equatable {
+    public struct SankeyDiagramFieldWells {
         /// The field well configuration of a sankey diagram.
         public var sankeyDiagramAggregatedFieldWells: QuickSightClientTypes.SankeyDiagramAggregatedFieldWells?
 
@@ -64610,7 +64610,7 @@ extension QuickSightClientTypes.SankeyDiagramSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a sankey diagram.
-    public struct SankeyDiagramSortConfiguration: Swift.Equatable {
+    public struct SankeyDiagramSortConfiguration {
         /// The limit on the number of destination nodes that are displayed in a sankey diagram.
         public var destinationItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration?
         /// The limit on the number of source nodes that are displayed in a sankey diagram.
@@ -64689,7 +64689,7 @@ extension QuickSightClientTypes.SankeyDiagramVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A sankey diagram. For more information, see [Using Sankey diagrams](https://docs.aws.amazon.com/quicksight/latest/user/sankey-diagram.html) in the Amazon QuickSight User Guide.
-    public struct SankeyDiagramVisual: Swift.Equatable {
+    public struct SankeyDiagramVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration of a sankey diagram.
@@ -64825,7 +64825,7 @@ extension QuickSightClientTypes.ScatterPlotCategoricallyAggregatedFieldWells: Sw
 
 extension QuickSightClientTypes {
     /// The aggregated field well of a scatter plot.
-    public struct ScatterPlotCategoricallyAggregatedFieldWells: Swift.Equatable {
+    public struct ScatterPlotCategoricallyAggregatedFieldWells {
         /// The category field well of a scatter plot.
         public var category: [QuickSightClientTypes.DimensionField]?
         /// The label field well of a scatter plot.
@@ -64936,7 +64936,7 @@ extension QuickSightClientTypes.ScatterPlotConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a scatter plot.
-    public struct ScatterPlotConfiguration: Swift.Equatable {
+    public struct ScatterPlotConfiguration {
         /// The options that determine if visual data labels are displayed.
         public var dataLabels: QuickSightClientTypes.DataLabelOptions?
         /// The field wells of the visual.
@@ -65017,7 +65017,7 @@ extension QuickSightClientTypes.ScatterPlotFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a scatter plot. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct ScatterPlotFieldWells: Swift.Equatable {
+    public struct ScatterPlotFieldWells {
         /// The aggregated field wells of a scatter plot. The x and y-axes of scatter plots with aggregated field wells are aggregated by category, label, or both.
         public var scatterPlotCategoricallyAggregatedFieldWells: QuickSightClientTypes.ScatterPlotCategoricallyAggregatedFieldWells?
         /// The unaggregated field wells of a scatter plot. The x and y-axes of these scatter plots are unaggregated.
@@ -65056,7 +65056,7 @@ extension QuickSightClientTypes.ScatterPlotSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a scatter plot.
-    public struct ScatterPlotSortConfiguration: Swift.Equatable {
+    public struct ScatterPlotSortConfiguration {
         /// The limit configuration of the visual display for an axis.
         public var scatterPlotLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration?
 
@@ -65175,7 +65175,7 @@ extension QuickSightClientTypes.ScatterPlotUnaggregatedFieldWells: Swift.Codable
 
 extension QuickSightClientTypes {
     /// The unaggregated field wells of a scatter plot.
-    public struct ScatterPlotUnaggregatedFieldWells: Swift.Equatable {
+    public struct ScatterPlotUnaggregatedFieldWells {
         /// The category field well of a scatter plot.
         public var category: [QuickSightClientTypes.DimensionField]?
         /// The label field well of a scatter plot.
@@ -65280,7 +65280,7 @@ extension QuickSightClientTypes.ScatterPlotVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A scatter plot. For more information, see [Using scatter plots](https://docs.aws.amazon.com/quicksight/latest/user/scatter-plot.html) in the Amazon QuickSight User Guide.
-    public struct ScatterPlotVisual: Swift.Equatable {
+    public struct ScatterPlotVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration settings of the visual.
@@ -65342,7 +65342,7 @@ extension QuickSightClientTypes.ScheduleRefreshOnEntity: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The refresh on entity for weekly or monthly schedules.
-    public struct ScheduleRefreshOnEntity: Swift.Equatable {
+    public struct ScheduleRefreshOnEntity {
         /// The day of the month that you want to schedule refresh on.
         public var dayOfMonth: Swift.String?
         /// The day of the week that you want to schedule a refresh on.
@@ -65387,7 +65387,7 @@ extension QuickSightClientTypes.ScrollBarOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The visual display options for a data zoom scroll bar.
-    public struct ScrollBarOptions: Swift.Equatable {
+    public struct ScrollBarOptions {
         /// The visibility of the data zoom scroll bar.
         public var visibility: QuickSightClientTypes.Visibility?
         /// The visibility range for the data zoom scroll bar.
@@ -65439,7 +65439,7 @@ extension SearchAnalysesInput {
     }
 }
 
-public struct SearchAnalysesInput: Swift.Equatable {
+public struct SearchAnalysesInput {
     /// The ID of the Amazon Web Services account that contains the analyses that you're searching for.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -65465,7 +65465,7 @@ public struct SearchAnalysesInput: Swift.Equatable {
     }
 }
 
-struct SearchAnalysesInputBody: Swift.Equatable {
+struct SearchAnalysesInputBody {
     let filters: [QuickSightClientTypes.AnalysisSearchFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -65515,7 +65515,7 @@ extension SearchAnalysesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchAnalysesOutput: Swift.Equatable {
+public struct SearchAnalysesOutput {
     /// Metadata describing the analyses that you searched for.
     public var analysisSummaryList: [QuickSightClientTypes.AnalysisSummary]?
     /// A pagination token that can be used in a subsequent request.
@@ -65539,7 +65539,7 @@ public struct SearchAnalysesOutput: Swift.Equatable {
     }
 }
 
-struct SearchAnalysesOutputBody: Swift.Equatable {
+struct SearchAnalysesOutputBody {
     let analysisSummaryList: [QuickSightClientTypes.AnalysisSummary]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -65626,7 +65626,7 @@ extension SearchDashboardsInput {
     }
 }
 
-public struct SearchDashboardsInput: Swift.Equatable {
+public struct SearchDashboardsInput {
     /// The ID of the Amazon Web Services account that contains the user whose dashboards you're searching for.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -65652,7 +65652,7 @@ public struct SearchDashboardsInput: Swift.Equatable {
     }
 }
 
-struct SearchDashboardsInputBody: Swift.Equatable {
+struct SearchDashboardsInputBody {
     let filters: [QuickSightClientTypes.DashboardSearchFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -65702,7 +65702,7 @@ extension SearchDashboardsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchDashboardsOutput: Swift.Equatable {
+public struct SearchDashboardsOutput {
     /// The list of dashboards owned by the user specified in Filters in your request.
     public var dashboardSummaryList: [QuickSightClientTypes.DashboardSummary]?
     /// The token for the next set of results, or null if there are no more results.
@@ -65726,7 +65726,7 @@ public struct SearchDashboardsOutput: Swift.Equatable {
     }
 }
 
-struct SearchDashboardsOutputBody: Swift.Equatable {
+struct SearchDashboardsOutputBody {
     let dashboardSummaryList: [QuickSightClientTypes.DashboardSummary]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -65813,7 +65813,7 @@ extension SearchDataSetsInput {
     }
 }
 
-public struct SearchDataSetsInput: Swift.Equatable {
+public struct SearchDataSetsInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -65839,7 +65839,7 @@ public struct SearchDataSetsInput: Swift.Equatable {
     }
 }
 
-struct SearchDataSetsInputBody: Swift.Equatable {
+struct SearchDataSetsInputBody {
     let filters: [QuickSightClientTypes.DataSetSearchFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -65889,7 +65889,7 @@ extension SearchDataSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchDataSetsOutput: Swift.Equatable {
+public struct SearchDataSetsOutput {
     /// A DataSetSummaries object that returns a summary of a dataset.
     public var dataSetSummaries: [QuickSightClientTypes.DataSetSummary]?
     /// A pagination token that can be used in a subsequent request.
@@ -65913,7 +65913,7 @@ public struct SearchDataSetsOutput: Swift.Equatable {
     }
 }
 
-struct SearchDataSetsOutputBody: Swift.Equatable {
+struct SearchDataSetsOutputBody {
     let dataSetSummaries: [QuickSightClientTypes.DataSetSummary]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -66000,7 +66000,7 @@ extension SearchDataSourcesInput {
     }
 }
 
-public struct SearchDataSourcesInput: Swift.Equatable {
+public struct SearchDataSourcesInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -66026,7 +66026,7 @@ public struct SearchDataSourcesInput: Swift.Equatable {
     }
 }
 
-struct SearchDataSourcesInputBody: Swift.Equatable {
+struct SearchDataSourcesInputBody {
     let filters: [QuickSightClientTypes.DataSourceSearchFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -66076,7 +66076,7 @@ extension SearchDataSourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchDataSourcesOutput: Swift.Equatable {
+public struct SearchDataSourcesOutput {
     /// A DataSourceSummaries object that returns a summary of a data source.
     public var dataSourceSummaries: [QuickSightClientTypes.DataSourceSummary]?
     /// A pagination token that can be used in a subsequent request.
@@ -66100,7 +66100,7 @@ public struct SearchDataSourcesOutput: Swift.Equatable {
     }
 }
 
-struct SearchDataSourcesOutputBody: Swift.Equatable {
+struct SearchDataSourcesOutputBody {
     let dataSourceSummaries: [QuickSightClientTypes.DataSourceSummary]?
     let nextToken: Swift.String?
     let status: Swift.Int
@@ -66187,7 +66187,7 @@ extension SearchFoldersInput {
     }
 }
 
-public struct SearchFoldersInput: Swift.Equatable {
+public struct SearchFoldersInput {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -66213,7 +66213,7 @@ public struct SearchFoldersInput: Swift.Equatable {
     }
 }
 
-struct SearchFoldersInputBody: Swift.Equatable {
+struct SearchFoldersInputBody {
     let filters: [QuickSightClientTypes.FolderSearchFilter]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -66263,7 +66263,7 @@ extension SearchFoldersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchFoldersOutput: Swift.Equatable {
+public struct SearchFoldersOutput {
     /// A structure that contains all of the folders in the Amazon Web Services account. This structure provides basic information about the folders.
     public var folderSummaryList: [QuickSightClientTypes.FolderSummary]?
     /// The token for the next set of results, or null if there are no more results.
@@ -66287,7 +66287,7 @@ public struct SearchFoldersOutput: Swift.Equatable {
     }
 }
 
-struct SearchFoldersOutputBody: Swift.Equatable {
+struct SearchFoldersOutputBody {
     let status: Swift.Int
     let folderSummaryList: [QuickSightClientTypes.FolderSummary]?
     let nextToken: Swift.String?
@@ -66387,7 +66387,7 @@ extension SearchGroupsInput {
     }
 }
 
-public struct SearchGroupsInput: Swift.Equatable {
+public struct SearchGroupsInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -66418,7 +66418,7 @@ public struct SearchGroupsInput: Swift.Equatable {
     }
 }
 
-struct SearchGroupsInputBody: Swift.Equatable {
+struct SearchGroupsInputBody {
     let filters: [QuickSightClientTypes.GroupSearchFilter]?
 }
 
@@ -66460,7 +66460,7 @@ extension SearchGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchGroupsOutput: Swift.Equatable {
+public struct SearchGroupsOutput {
     /// A list of groups in a specified namespace that match the filters you set in your SearchGroups request.
     public var groupList: [QuickSightClientTypes.Group]?
     /// A pagination token that can be used in a subsequent request.
@@ -66484,7 +66484,7 @@ public struct SearchGroupsOutput: Swift.Equatable {
     }
 }
 
-struct SearchGroupsOutputBody: Swift.Equatable {
+struct SearchGroupsOutputBody {
     let groupList: [QuickSightClientTypes.Group]?
     let nextToken: Swift.String?
     let requestId: Swift.String?
@@ -66560,7 +66560,7 @@ extension QuickSightClientTypes.SecondaryValueOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the presentation of the secondary value of a KPI visual.
-    public struct SecondaryValueOptions: Swift.Equatable {
+    public struct SecondaryValueOptions {
         /// Determines the visibility of the secondary value.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -66595,7 +66595,7 @@ extension QuickSightClientTypes.SectionAfterPageBreak: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a page break after a section.
-    public struct SectionAfterPageBreak: Swift.Equatable {
+    public struct SectionAfterPageBreak {
         /// The option that enables or disables a page break at the end of a section.
         public var status: QuickSightClientTypes.SectionPageBreakStatus?
 
@@ -66630,7 +66630,7 @@ extension QuickSightClientTypes.SectionBasedLayoutCanvasSizeOptions: Swift.Codab
 
 extension QuickSightClientTypes {
     /// The options for the canvas of a section-based layout.
-    public struct SectionBasedLayoutCanvasSizeOptions: Swift.Equatable {
+    public struct SectionBasedLayoutCanvasSizeOptions {
         /// The options for a paper canvas of a section-based layout.
         public var paperCanvasSizeOptions: QuickSightClientTypes.SectionBasedLayoutPaperCanvasSizeOptions?
 
@@ -66719,7 +66719,7 @@ extension QuickSightClientTypes.SectionBasedLayoutConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration for a section-based layout.
-    public struct SectionBasedLayoutConfiguration: Swift.Equatable {
+    public struct SectionBasedLayoutConfiguration {
         /// A list of body section configurations.
         /// This member is required.
         public var bodySections: [QuickSightClientTypes.BodySectionConfiguration]?
@@ -66782,7 +66782,7 @@ extension QuickSightClientTypes.SectionBasedLayoutPaperCanvasSizeOptions: Swift.
 
 extension QuickSightClientTypes {
     /// The options for a paper canvas of a section-based layout.
-    public struct SectionBasedLayoutPaperCanvasSizeOptions: Swift.Equatable {
+    public struct SectionBasedLayoutPaperCanvasSizeOptions {
         /// Defines the spacing between the canvas content and the top, bottom, left, and right edges.
         public var paperMargin: QuickSightClientTypes.Spacing?
         /// The paper orientation that is used to define canvas dimensions. Choose one of the following options:
@@ -66829,7 +66829,7 @@ extension QuickSightClientTypes.SectionLayoutConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The layout configuration of a section.
-    public struct SectionLayoutConfiguration: Swift.Equatable {
+    public struct SectionLayoutConfiguration {
         /// The free-form layout configuration of a section.
         /// This member is required.
         public var freeFormLayout: QuickSightClientTypes.FreeFormSectionLayoutConfiguration?
@@ -66865,7 +66865,7 @@ extension QuickSightClientTypes.SectionPageBreakConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a page break for a section.
-    public struct SectionPageBreakConfiguration: Swift.Equatable {
+    public struct SectionPageBreakConfiguration {
         /// The configuration of a page break after a section.
         public var after: QuickSightClientTypes.SectionAfterPageBreak?
 
@@ -66938,7 +66938,7 @@ extension QuickSightClientTypes.SectionStyle: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that style a section.
-    public struct SectionStyle: Swift.Equatable {
+    public struct SectionStyle {
         /// The height of a section. Heights can only be defined for header and footer sections. The default height margin is 0.5 inches.
         public var height: Swift.String?
         /// The spacing between section content and its top, bottom, left, and right edges. There is no padding by default.
@@ -67047,7 +67047,7 @@ extension QuickSightClientTypes.SelectedSheetsFilterScopeConfiguration: Swift.Co
 
 extension QuickSightClientTypes {
     /// The configuration for applying a filter to specific sheets or visuals. You can apply this filter to multiple visuals that are on one sheet or to all visuals on a sheet. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct SelectedSheetsFilterScopeConfiguration: Swift.Equatable {
+    public struct SelectedSheetsFilterScopeConfiguration {
         /// The sheet ID and visual IDs of the sheet and visuals that the filter is applied to.
         public var sheetVisualScopingConfigurations: [QuickSightClientTypes.SheetVisualScopingConfiguration]?
 
@@ -67138,7 +67138,7 @@ extension QuickSightClientTypes.SemanticEntityType: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a semantic entity type.
-    public struct SemanticEntityType: Swift.Equatable {
+    public struct SemanticEntityType {
         /// The semantic entity sub type name.
         public var subTypeName: Swift.String?
         /// The semantic entity type name.
@@ -67258,7 +67258,7 @@ extension QuickSightClientTypes.SemanticType: Swift.CustomDebugStringConvertible
 
 extension QuickSightClientTypes {
     /// A structure that represents a semantic type.
-    public struct SemanticType: Swift.Equatable {
+    public struct SemanticType {
         /// The semantic type falsey cell value.
         public var falseyCellValue: Swift.String?
         /// The other names or aliases for the false cell value.
@@ -67323,7 +67323,7 @@ extension QuickSightClientTypes.SeriesItem: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The series item configuration of a line chart. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct SeriesItem: Swift.Equatable {
+    public struct SeriesItem {
         /// The data field series item configuration of a line chart.
         public var dataFieldSeriesItem: QuickSightClientTypes.DataFieldSeriesItem?
         /// The field series item configuration of a line chart.
@@ -67362,7 +67362,7 @@ extension QuickSightClientTypes.ServiceNowParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for ServiceNow.
-    public struct ServiceNowParameters: Swift.Equatable {
+    public struct ServiceNowParameters {
         /// URL of the base site.
         /// This member is required.
         public var siteBaseUrl: Swift.String?
@@ -67451,7 +67451,7 @@ public struct SessionLifetimeInMinutesInvalidException: ClientRuntime.ModeledErr
     }
 }
 
-struct SessionLifetimeInMinutesInvalidExceptionBody: Swift.Equatable {
+struct SessionLifetimeInMinutesInvalidExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -67503,7 +67503,7 @@ extension QuickSightClientTypes.SessionTag: Swift.CustomDebugStringConvertible {
 
 extension QuickSightClientTypes {
     /// The key-value pair used for the row-level security tags feature.
-    public struct SessionTag: Swift.Equatable {
+    public struct SessionTag {
         /// The key for the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -67550,7 +67550,7 @@ extension QuickSightClientTypes.SetParameterValueConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of adding parameters in action.
-    public struct SetParameterValueConfiguration: Swift.Equatable {
+    public struct SetParameterValueConfiguration {
         /// The destination parameter name of the SetParameterValueConfiguration.
         /// This member is required.
         public var destinationParameterName: Swift.String?
@@ -67591,7 +67591,7 @@ extension QuickSightClientTypes.ShapeConditionalFormat: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The shape conditional formatting of a filled map visual.
-    public struct ShapeConditionalFormat: Swift.Equatable {
+    public struct ShapeConditionalFormat {
         /// The conditional formatting for the shape background color of a filled map visual.
         /// This member is required.
         public var backgroundColor: QuickSightClientTypes.ConditionalFormattingColor?
@@ -67665,7 +67665,7 @@ extension QuickSightClientTypes.Sheet: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A sheet, which is an object that contains a set of visuals that are viewed together on one page in Amazon QuickSight. Every analysis and dashboard contains at least one sheet. Each sheet contains at least one visualization widget, for example a chart, pivot table, or narrative insight. Sheets can be associated with other components, such as controls, filters, and so on.
-    public struct Sheet: Swift.Equatable {
+    public struct Sheet {
         /// The name of a sheet. This name is displayed on the sheet's tab in the Amazon QuickSight console.
         public var name: Swift.String?
         /// The unique identifier associated with a sheet.
@@ -67774,7 +67774,7 @@ extension QuickSightClientTypes.SheetControlInfoIconLabelOptions: Swift.Codable 
 
 extension QuickSightClientTypes {
     /// A control to display info icons for filters and parameters.
-    public struct SheetControlInfoIconLabelOptions: Swift.Equatable {
+    public struct SheetControlInfoIconLabelOptions {
         /// The text content of info icon.
         public var infoIconText: Swift.String?
         /// The visibility configuration of info icon label options.
@@ -67813,7 +67813,7 @@ extension QuickSightClientTypes.SheetControlLayout: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A grid layout to define the placement of sheet control.
-    public struct SheetControlLayout: Swift.Equatable {
+    public struct SheetControlLayout {
         /// The configuration that determines the elements and canvas size options of sheet control.
         /// This member is required.
         public var configuration: QuickSightClientTypes.SheetControlLayoutConfiguration?
@@ -67849,7 +67849,7 @@ extension QuickSightClientTypes.SheetControlLayoutConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration that determines the elements and canvas size options of sheet control.
-    public struct SheetControlLayoutConfiguration: Swift.Equatable {
+    public struct SheetControlLayoutConfiguration {
         /// The configuration that determines the elements and canvas size options of sheet control.
         public var gridLayout: QuickSightClientTypes.GridLayoutConfiguration?
 
@@ -67948,7 +67948,7 @@ extension QuickSightClientTypes.SheetControlsOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Sheet controls option.
-    public struct SheetControlsOption: Swift.Equatable {
+    public struct SheetControlsOption {
         /// Visibility state.
         public var visibilityState: QuickSightClientTypes.DashboardUIState?
 
@@ -68115,7 +68115,7 @@ extension QuickSightClientTypes.SheetDefinition: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A sheet is an object that contains a set of visuals that are viewed together on one page in a paginated report. Every analysis and dashboard must contain at least one sheet.
-    public struct SheetDefinition: Swift.Equatable {
+    public struct SheetDefinition {
         /// The layout content type of the sheet. Choose one of the following options:
         ///
         /// * PAGINATED: Creates a sheet for a paginated report.
@@ -68195,7 +68195,7 @@ extension QuickSightClientTypes.SheetElementConfigurationOverrides: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// The override configuration of the rendering rules of a sheet.
-    public struct SheetElementConfigurationOverrides: Swift.Equatable {
+    public struct SheetElementConfigurationOverrides {
         /// Determines whether or not the overrides are visible. Choose one of the following options:
         ///
         /// * VISIBLE
@@ -68245,7 +68245,7 @@ extension QuickSightClientTypes.SheetElementRenderingRule: Swift.CustomDebugStri
 
 extension QuickSightClientTypes {
     /// The rendering rules of a sheet that uses a free-form layout.
-    public struct SheetElementRenderingRule: Swift.Equatable {
+    public struct SheetElementRenderingRule {
         /// The override configuration of the rendering rules of a sheet.
         /// This member is required.
         public var configurationOverrides: QuickSightClientTypes.SheetElementConfigurationOverrides?
@@ -68286,7 +68286,7 @@ extension QuickSightClientTypes.SheetLayoutElementMaximizationOption: Swift.Coda
 
 extension QuickSightClientTypes {
     /// The sheet layout maximization options of a dashbaord.
-    public struct SheetLayoutElementMaximizationOption: Swift.Equatable {
+    public struct SheetLayoutElementMaximizationOption {
         /// The status of the sheet layout maximization options of a dashbaord.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
@@ -68327,7 +68327,7 @@ extension QuickSightClientTypes.SheetStyle: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The theme display options for sheets.
-    public struct SheetStyle: Swift.Equatable {
+    public struct SheetStyle {
         /// The display options for tiles.
         public var tile: QuickSightClientTypes.TileStyle?
         /// The layout options for tiles.
@@ -68372,7 +68372,7 @@ extension QuickSightClientTypes.SheetTextBox: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A text box.
-    public struct SheetTextBox: Swift.Equatable {
+    public struct SheetTextBox {
         /// The content that is displayed in the text box.
         public var content: Swift.String?
         /// The unique identifier for a text box. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have text boxes that share identifiers.
@@ -68436,7 +68436,7 @@ extension QuickSightClientTypes.SheetVisualScopingConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The filter that is applied to the options.
-    public struct SheetVisualScopingConfiguration: Swift.Equatable {
+    public struct SheetVisualScopingConfiguration {
         /// The scope of the applied entities. Choose one of the following options:
         ///
         /// * ALL_VISUALS
@@ -68491,7 +68491,7 @@ extension QuickSightClientTypes.ShortFormatText: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The text format for the title. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct ShortFormatText: Swift.Equatable {
+    public struct ShortFormatText {
         /// Plain text format.
         public var plainText: Swift.String?
         /// Rich text. Examples of rich text include bold, underline, and italics.
@@ -68548,7 +68548,7 @@ extension QuickSightClientTypes.SignupResponse: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A SignupResponse object that contains a summary of a newly created account.
-    public struct SignupResponse: Swift.Equatable {
+    public struct SignupResponse {
         /// The name of your Amazon QuickSight account.
         public var accountName: Swift.String?
         /// The type of Active Directory that is being used to authenticate the Amazon QuickSight account. Valid values are SIMPLE_AD, AD_CONNECTOR, and MICROSOFT_AD.
@@ -68624,7 +68624,7 @@ extension QuickSightClientTypes.SimpleClusterMarker: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The simple cluster marker of the cluster marker.
-    public struct SimpleClusterMarker: Swift.Equatable {
+    public struct SimpleClusterMarker {
         /// The color of the simple cluster marker.
         public var color: Swift.String?
 
@@ -68762,7 +68762,7 @@ extension QuickSightClientTypes.SingleAxisOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The settings of a chart's single axis configuration.
-    public struct SingleAxisOptions: Swift.Equatable {
+    public struct SingleAxisOptions {
         /// The Y axis options of a single axis configuration.
         public var yAxisOptions: QuickSightClientTypes.YAxisOptions?
 
@@ -68832,7 +68832,7 @@ extension QuickSightClientTypes.SliderControlDisplayOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The display options of a control.
-    public struct SliderControlDisplayOptions: Swift.Equatable {
+    public struct SliderControlDisplayOptions {
         /// The configuration of info icon label options.
         public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The options to configure the title visibility, name, and font size.
@@ -68909,7 +68909,7 @@ extension QuickSightClientTypes.SmallMultiplesAxisProperties: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Configures the properties of a chart's axes that are used by small multiples panels.
-    public struct SmallMultiplesAxisProperties: Swift.Equatable {
+    public struct SmallMultiplesAxisProperties {
         /// Defines the placement of the axis. By default, axes are rendered OUTSIDE of the panels. Axes with INDEPENDENT scale are rendered INSIDE the panels.
         public var placement: QuickSightClientTypes.SmallMultiplesAxisPlacement?
         /// Determines whether scale of the axes are shared or independent. The default value is SHARED.
@@ -69004,7 +69004,7 @@ extension QuickSightClientTypes.SmallMultiplesOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Options that determine the layout and display options of a chart's small multiples.
-    public struct SmallMultiplesOptions: Swift.Equatable {
+    public struct SmallMultiplesOptions {
         /// Sets the maximum number of visible columns to display in the grid of small multiples panels. The default is Auto, which automatically adjusts the columns in the grid to fit the overall layout and size of the given chart.
         public var maxVisibleColumns: Swift.Int?
         /// Sets the maximum number of visible rows to display in the grid of small multiples panels. The default value is Auto, which automatically adjusts the rows in the grid to fit the overall layout and size of the given chart.
@@ -69067,7 +69067,7 @@ extension QuickSightClientTypes.SnapshotAnonymousUser: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that contains information on the anonymous user configuration.
-    public struct SnapshotAnonymousUser: Swift.Equatable {
+    public struct SnapshotAnonymousUser {
         /// The tags to be used for row-level security (RLS). Make sure that the relevant datasets have RLS tags configured before you start a snapshot export job. You can configure the RLS tags of a dataset with a DataSet$RowLevelPermissionTagConfiguration API call. These are not the tags that are used for Amazon Web Services resource tagging. For more information on row level security in Amazon QuickSight, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html)in the Amazon QuickSight User Guide.
         public var rowLevelPermissionTags: [QuickSightClientTypes.SessionTag]?
 
@@ -69114,7 +69114,7 @@ extension QuickSightClientTypes.SnapshotAnonymousUserRedacted: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Use this structure to redact sensitive information that you provide about an anonymous user from the snapshot.
-    public struct SnapshotAnonymousUserRedacted: Swift.Equatable {
+    public struct SnapshotAnonymousUserRedacted {
         /// The tag keys for the RowLevelPermissionTags.
         public var rowLevelPermissionTagKeys: [Swift.String]?
 
@@ -69173,7 +69173,7 @@ extension QuickSightClientTypes.SnapshotConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Describes the configuration of the dashboard snapshot.
-    public struct SnapshotConfiguration: Swift.Equatable {
+    public struct SnapshotConfiguration {
         /// A structure that contains information on the Amazon S3 bucket that the generated snapshot is stored in.
         public var destinationConfiguration: QuickSightClientTypes.SnapshotDestinationConfiguration?
         /// A list of SnapshotJobResultFileGroup objects that contain information about the snapshot that is generated. This list can hold a maximum of 6 FileGroup configurations.
@@ -69229,7 +69229,7 @@ extension QuickSightClientTypes.SnapshotDestinationConfiguration: Swift.Codable 
 
 extension QuickSightClientTypes {
     /// A structure that contains information on the Amazon S3 destinations of the generated snapshot.
-    public struct SnapshotDestinationConfiguration: Swift.Equatable {
+    public struct SnapshotDestinationConfiguration {
         /// A list of SnapshotS3DestinationConfiguration objects that contain Amazon S3 destination configurations. This structure can hold a maximum of 1 S3DestinationConfiguration.
         public var s3Destinations: [QuickSightClientTypes.SnapshotS3DestinationConfiguration]?
 
@@ -69282,7 +69282,7 @@ extension QuickSightClientTypes.SnapshotFile: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that contains the information for the snapshot that you want to generate. This information is provided by you when you start a new snapshot job.
-    public struct SnapshotFile: Swift.Equatable {
+    public struct SnapshotFile {
         /// The format of the snapshot file to be generated. You can choose between CSV, Excel, or PDF.
         /// This member is required.
         public var formatType: QuickSightClientTypes.SnapshotFileFormatType?
@@ -69370,7 +69370,7 @@ extension QuickSightClientTypes.SnapshotFileGroup: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that contains the information on the snapshot files.
-    public struct SnapshotFileGroup: Swift.Equatable {
+    public struct SnapshotFileGroup {
         /// A list of SnapshotFile objects that contain the information on the snapshot files that need to be generated. This structure can hold 1 configuration at a time.
         public var files: [QuickSightClientTypes.SnapshotFile]?
 
@@ -69429,7 +69429,7 @@ extension QuickSightClientTypes.SnapshotFileSheetSelection: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that contains information that identifies the snapshot that needs to be generated.
-    public struct SnapshotFileSheetSelection: Swift.Equatable {
+    public struct SnapshotFileSheetSelection {
         /// The selection scope of the visuals on a sheet of a dashboard that you are generating a snapthot of. You can choose one of the following options.
         ///
         /// * ALL_VISUALS - Selects all visuals that are on the sheet. This value is required if the snapshot is a PDF.
@@ -69516,7 +69516,7 @@ extension QuickSightClientTypes.SnapshotJobErrorInfo: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An object that contains information on the error that caused the snapshot job to fail.
-    public struct SnapshotJobErrorInfo: Swift.Equatable {
+    public struct SnapshotJobErrorInfo {
         /// The error message.
         public var errorMessage: Swift.String?
         /// The error type.
@@ -69567,7 +69567,7 @@ extension QuickSightClientTypes.SnapshotJobResult: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An object that provides information on the result of a snapshot job. This object provides information about the job, the job status, and the location of the generated file.
-    public struct SnapshotJobResult: Swift.Equatable {
+    public struct SnapshotJobResult {
         /// A list of AnonymousUserSnapshotJobResult objects that contain information on anonymous users and their user configurations. This data provided by you when you make a StartDashboardSnapshotJob API call.
         public var anonymousUsers: [QuickSightClientTypes.AnonymousUserSnapshotJobResult]?
 
@@ -69608,7 +69608,7 @@ extension QuickSightClientTypes.SnapshotJobResultErrorInfo: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Information on the error that caused the snapshot job to fail.
-    public struct SnapshotJobResultErrorInfo: Swift.Equatable {
+    public struct SnapshotJobResultErrorInfo {
         /// The error message.
         public var errorMessage: Swift.String?
         /// The error type.
@@ -69677,7 +69677,7 @@ extension QuickSightClientTypes.SnapshotJobResultFileGroup: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that contains information on the generated snapshot file groups.
-    public struct SnapshotJobResultFileGroup: Swift.Equatable {
+    public struct SnapshotJobResultFileGroup {
         /// A list of SnapshotFile objects.
         public var files: [QuickSightClientTypes.SnapshotFile]?
         /// A list of SnapshotJobS3Result objects.
@@ -69745,7 +69745,7 @@ extension QuickSightClientTypes.SnapshotJobS3Result: Swift.CustomDebugStringConv
 
 extension QuickSightClientTypes {
     /// The Amazon S3 result from the snapshot job. The result includes the DestinationConfiguration and the Amazon S3 Uri. If an error occured during the job, the result returns information on the error.
-    public struct SnapshotJobS3Result: Swift.Equatable {
+    public struct SnapshotJobS3Result {
         /// An array of error records that describe any failures that occur while the dashboard snapshot job runs.
         public var errorInfo: [QuickSightClientTypes.SnapshotJobResultErrorInfo]?
         /// A list of Amazon S3 bucket configurations that are provided when you make a StartDashboardSnapshotJob API call.
@@ -69826,7 +69826,7 @@ extension QuickSightClientTypes.SnapshotS3DestinationConfiguration: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// A structure that describes the Amazon S3 settings to use to save the generated dashboard snapshot.
-    public struct SnapshotS3DestinationConfiguration: Swift.Equatable {
+    public struct SnapshotS3DestinationConfiguration {
         /// A structure that contains details about the Amazon S3 bucket that the generated dashboard snapshot is saved in.
         /// This member is required.
         public var bucketConfiguration: QuickSightClientTypes.S3BucketConfiguration?
@@ -69874,7 +69874,7 @@ extension QuickSightClientTypes.SnapshotUserConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that contains information about the users that the dashboard snapshot is generated for.
-    public struct SnapshotUserConfiguration: Swift.Equatable {
+    public struct SnapshotUserConfiguration {
         /// An array of records that describe the anonymous users that the dashboard snapshot is generated for.
         public var anonymousUsers: [QuickSightClientTypes.SnapshotAnonymousUser]?
 
@@ -69921,7 +69921,7 @@ extension QuickSightClientTypes.SnapshotUserConfigurationRedacted: Swift.Codable
 
 extension QuickSightClientTypes {
     /// A structure that contains information about the users that the dashboard snapshot is generated for. Sensitive user information is excluded.
-    public struct SnapshotUserConfigurationRedacted: Swift.Equatable {
+    public struct SnapshotUserConfigurationRedacted {
         /// An array of records that describe anonymous users that the dashboard snapshot is generated for. Sensitive user information is excluded.
         public var anonymousUsers: [QuickSightClientTypes.SnapshotAnonymousUserRedacted]?
 
@@ -69968,7 +69968,7 @@ extension QuickSightClientTypes.SnowflakeParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for Snowflake.
-    public struct SnowflakeParameters: Swift.Equatable {
+    public struct SnowflakeParameters {
         /// Database.
         /// This member is required.
         public var database: Swift.String?
@@ -70064,7 +70064,7 @@ extension QuickSightClientTypes.Spacing: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of spacing (often a margin or padding).
-    public struct Spacing: Swift.Equatable {
+    public struct Spacing {
         /// Define the bottom spacing.
         public var bottom: Swift.String?
         /// Define the left spacing.
@@ -70117,7 +70117,7 @@ extension QuickSightClientTypes.SparkParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for Spark.
-    public struct SparkParameters: Swift.Equatable {
+    public struct SparkParameters {
         /// Host.
         /// This member is required.
         public var host: Swift.String?
@@ -70205,7 +70205,7 @@ extension QuickSightClientTypes.SqlServerParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for SQL Server.
-    public struct SqlServerParameters: Swift.Equatable {
+    public struct SqlServerParameters {
         /// Database.
         /// This member is required.
         public var database: Swift.String?
@@ -70251,7 +70251,7 @@ extension QuickSightClientTypes.SslProperties: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying data source.
-    public struct SslProperties: Swift.Equatable {
+    public struct SslProperties {
         /// A Boolean option to control whether SSL should be disabled.
         public var disableSsl: Swift.Bool
 
@@ -70304,7 +70304,7 @@ extension QuickSightClientTypes.StarburstParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters that are required to connect to a Starburst data source.
-    public struct StarburstParameters: Swift.Equatable {
+    public struct StarburstParameters {
         /// The catalog name for the Starburst data source.
         /// This member is required.
         public var catalog: Swift.String?
@@ -70419,7 +70419,7 @@ extension StartAssetBundleExportJobInput {
     }
 }
 
-public struct StartAssetBundleExportJobInput: Swift.Equatable {
+public struct StartAssetBundleExportJobInput {
     /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
     /// This member is required.
     public var assetBundleExportJobId: Swift.String?
@@ -70484,7 +70484,7 @@ public struct StartAssetBundleExportJobInput: Swift.Equatable {
     }
 }
 
-struct StartAssetBundleExportJobInputBody: Swift.Equatable {
+struct StartAssetBundleExportJobInputBody {
     let assetBundleExportJobId: Swift.String?
     let resourceArns: [Swift.String]?
     let includeAllDependencies: Swift.Bool?
@@ -70554,7 +70554,7 @@ extension StartAssetBundleExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartAssetBundleExportJobOutput: Swift.Equatable {
+public struct StartAssetBundleExportJobOutput {
     /// The Amazon Resource Name (ARN) for the export job.
     public var arn: Swift.String?
     /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
@@ -70578,7 +70578,7 @@ public struct StartAssetBundleExportJobOutput: Swift.Equatable {
     }
 }
 
-struct StartAssetBundleExportJobOutputBody: Swift.Equatable {
+struct StartAssetBundleExportJobOutputBody {
     let arn: Swift.String?
     let assetBundleExportJobId: Swift.String?
     let requestId: Swift.String?
@@ -70670,7 +70670,7 @@ extension StartAssetBundleImportJobInput {
     }
 }
 
-public struct StartAssetBundleImportJobInput: Swift.Equatable {
+public struct StartAssetBundleImportJobInput {
     /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
     /// This member is required.
     public var assetBundleImportJobId: Swift.String?
@@ -70713,7 +70713,7 @@ public struct StartAssetBundleImportJobInput: Swift.Equatable {
     }
 }
 
-struct StartAssetBundleImportJobInputBody: Swift.Equatable {
+struct StartAssetBundleImportJobInputBody {
     let assetBundleImportJobId: Swift.String?
     let assetBundleImportSource: QuickSightClientTypes.AssetBundleImportSource?
     let overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters?
@@ -70770,7 +70770,7 @@ extension StartAssetBundleImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartAssetBundleImportJobOutput: Swift.Equatable {
+public struct StartAssetBundleImportJobOutput {
     /// The Amazon Resource Name (ARN) for the import job.
     public var arn: Swift.String?
     /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
@@ -70794,7 +70794,7 @@ public struct StartAssetBundleImportJobOutput: Swift.Equatable {
     }
 }
 
-struct StartAssetBundleImportJobOutputBody: Swift.Equatable {
+struct StartAssetBundleImportJobOutputBody {
     let arn: Swift.String?
     let assetBundleImportJobId: Swift.String?
     let requestId: Swift.String?
@@ -70873,7 +70873,7 @@ extension StartDashboardSnapshotJobInput {
     }
 }
 
-public struct StartDashboardSnapshotJobInput: Swift.Equatable {
+public struct StartDashboardSnapshotJobInput {
     /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -70906,7 +70906,7 @@ public struct StartDashboardSnapshotJobInput: Swift.Equatable {
     }
 }
 
-struct StartDashboardSnapshotJobInputBody: Swift.Equatable {
+struct StartDashboardSnapshotJobInputBody {
     let snapshotJobId: Swift.String?
     let userConfiguration: QuickSightClientTypes.SnapshotUserConfiguration?
     let snapshotConfiguration: QuickSightClientTypes.SnapshotConfiguration?
@@ -70947,7 +70947,7 @@ extension StartDashboardSnapshotJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDashboardSnapshotJobOutput: Swift.Equatable {
+public struct StartDashboardSnapshotJobOutput {
     /// The Amazon Resource Name (ARN) for the dashboard snapshot job.
     public var arn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -70971,7 +70971,7 @@ public struct StartDashboardSnapshotJobOutput: Swift.Equatable {
     }
 }
 
-struct StartDashboardSnapshotJobOutputBody: Swift.Equatable {
+struct StartDashboardSnapshotJobOutputBody {
     let arn: Swift.String?
     let snapshotJobId: Swift.String?
     let requestId: Swift.String?
@@ -71039,7 +71039,7 @@ extension QuickSightClientTypes.StatePersistenceConfigurations: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The state perssitence configuration of an embedded dashboard.
-    public struct StatePersistenceConfigurations: Swift.Equatable {
+    public struct StatePersistenceConfigurations {
         /// Determines if a Amazon QuickSight dashboard's state persistence settings are turned on or off.
         /// This member is required.
         public var enabled: Swift.Bool
@@ -71125,7 +71125,7 @@ extension QuickSightClientTypes.StringDatasetParameter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A string parameter for a dataset.
-    public struct StringDatasetParameter: Swift.Equatable {
+    public struct StringDatasetParameter {
         /// A list of default values for a given string dataset parameter type. This structure only accepts static values.
         public var defaultValues: QuickSightClientTypes.StringDatasetParameterDefaultValues?
         /// An identifier for the string parameter that is created in the dataset.
@@ -71187,7 +71187,7 @@ extension QuickSightClientTypes.StringDatasetParameterDefaultValues: Swift.Codab
 
 extension QuickSightClientTypes {
     /// The default values of a string parameter.
-    public struct StringDatasetParameterDefaultValues: Swift.Equatable {
+    public struct StringDatasetParameterDefaultValues {
         /// A list of static default values for a given string parameter.
         public var staticValues: [Swift.String]?
 
@@ -71240,7 +71240,7 @@ extension QuickSightClientTypes.StringDefaultValues: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The default values of the StringParameterDeclaration.
-    public struct StringDefaultValues: Swift.Equatable {
+    public struct StringDefaultValues {
         /// The dynamic value of the StringDefaultValues. Different defaults displayed according to users, groups, and values mapping.
         public var dynamicValue: QuickSightClientTypes.DynamicDefaultValue?
         /// The static values of the DecimalDefaultValues.
@@ -71285,7 +71285,7 @@ extension QuickSightClientTypes.StringFormatConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Formatting configuration for string fields.
-    public struct StringFormatConfiguration: Swift.Equatable {
+    public struct StringFormatConfiguration {
         /// The options that determine the null value format configuration.
         public var nullValueFormatConfiguration: QuickSightClientTypes.NullValueFormatConfiguration?
         /// The formatting configuration for numeric strings.
@@ -71342,7 +71342,7 @@ extension QuickSightClientTypes.StringParameter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A string parameter.
-    public struct StringParameter: Swift.Equatable {
+    public struct StringParameter {
         /// A display name for a string parameter.
         /// This member is required.
         public var name: Swift.String?
@@ -71419,7 +71419,7 @@ extension QuickSightClientTypes.StringParameterDeclaration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A parameter declaration for the String data type.
-    public struct StringParameterDeclaration: Swift.Equatable {
+    public struct StringParameterDeclaration {
         /// The default values of a parameter. If the parameter is a single-value parameter, a maximum of one default value can be provided.
         public var defaultValues: QuickSightClientTypes.StringDefaultValues?
         /// A list of dataset parameters that are mapped to an analysis parameter.
@@ -71483,7 +71483,7 @@ extension QuickSightClientTypes.StringValueWhenUnsetConfiguration: Swift.CustomD
 
 extension QuickSightClientTypes {
     /// The configuration that defines the default value of a String parameter when a value has not been set.
-    public struct StringValueWhenUnsetConfiguration: Swift.Equatable {
+    public struct StringValueWhenUnsetConfiguration {
         /// A custom value that's used when the value of a parameter isn't set.
         public var customValue: Swift.String?
         /// The built-in options for default values. The value can be one of the following:
@@ -71627,7 +71627,7 @@ extension QuickSightClientTypes.SubtotalOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The subtotal options.
-    public struct SubtotalOptions: Swift.Equatable {
+    public struct SubtotalOptions {
         /// The custom label string for the subtotal cells.
         public var customLabel: Swift.String?
         /// The field level (all, custom, last) for the subtotal cells.
@@ -71720,7 +71720,7 @@ extension QuickSightClientTypes.TableAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The aggregated field well for the table.
-    public struct TableAggregatedFieldWells: Swift.Equatable {
+    public struct TableAggregatedFieldWells {
         /// The group by field well for a pivot table. Values are grouped by group by fields.
         public var groupBy: [QuickSightClientTypes.DimensionField]?
         /// The values field well for a pivot table. Values are aggregated based on group by fields.
@@ -71771,7 +71771,7 @@ extension QuickSightClientTypes.TableBorderOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The border options for a table border.
-    public struct TableBorderOptions: Swift.Equatable {
+    public struct TableBorderOptions {
         /// The color of a table border.
         public var color: Swift.String?
         /// The style (none, solid) of a table border.
@@ -71852,7 +71852,7 @@ extension QuickSightClientTypes.TableCellConditionalFormatting: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The cell conditional formatting option for a table.
-    public struct TableCellConditionalFormatting: Swift.Equatable {
+    public struct TableCellConditionalFormatting {
         /// The field ID of the cell for conditional formatting.
         /// This member is required.
         public var fieldId: Swift.String?
@@ -71927,7 +71927,7 @@ extension QuickSightClientTypes.TableCellImageSizingConfiguration: Swift.Codable
 
 extension QuickSightClientTypes {
     /// The sizing options for the table image configuration.
-    public struct TableCellImageSizingConfiguration: Swift.Equatable {
+    public struct TableCellImageSizingConfiguration {
         /// The cell scaling configuration of the sizing options for the table image configuration.
         public var tableCellImageScalingConfiguration: QuickSightClientTypes.TableCellImageScalingConfiguration?
 
@@ -72004,7 +72004,7 @@ extension QuickSightClientTypes.TableCellStyle: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The table cell style for a cell in pivot table or table visual.
-    public struct TableCellStyle: Swift.Equatable {
+    public struct TableCellStyle {
         /// The background color for the table cells.
         public var backgroundColor: Swift.String?
         /// The borders for the table cells.
@@ -72079,7 +72079,7 @@ extension QuickSightClientTypes.TableConditionalFormatting: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The conditional formatting for a PivotTableVisual.
-    public struct TableConditionalFormatting: Swift.Equatable {
+    public struct TableConditionalFormatting {
         /// Conditional formatting options for a PivotTableVisual.
         public var conditionalFormattingOptions: [QuickSightClientTypes.TableConditionalFormattingOption]?
 
@@ -72120,7 +72120,7 @@ extension QuickSightClientTypes.TableConditionalFormattingOption: Swift.Codable 
 
 extension QuickSightClientTypes {
     /// Conditional formatting options for a PivotTableVisual.
-    public struct TableConditionalFormattingOption: Swift.Equatable {
+    public struct TableConditionalFormattingOption {
         /// The cell conditional formatting option for a table.
         public var cell: QuickSightClientTypes.TableCellConditionalFormatting?
         /// The row conditional formatting option for a table.
@@ -72213,7 +72213,7 @@ extension QuickSightClientTypes.TableConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration for a TableVisual.
-    public struct TableConfiguration: Swift.Equatable {
+    public struct TableConfiguration {
         /// The field options for a table visual.
         public var fieldOptions: QuickSightClientTypes.TableFieldOptions?
         /// The field wells of the visual.
@@ -72276,7 +72276,7 @@ extension QuickSightClientTypes.TableFieldCustomIconContent: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The custom icon content for the table link content configuration.
-    public struct TableFieldCustomIconContent: Swift.Equatable {
+    public struct TableFieldCustomIconContent {
         /// The icon set type (link) of the custom icon content for table URL link content.
         public var icon: QuickSightClientTypes.TableFieldIconSetType?
 
@@ -72317,7 +72317,7 @@ extension QuickSightClientTypes.TableFieldCustomTextContent: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The custom text content (value, font configuration) for the table link content configuration.
-    public struct TableFieldCustomTextContent: Swift.Equatable {
+    public struct TableFieldCustomTextContent {
         /// The font configuration of the custom text content for the table URL link content.
         /// This member is required.
         public var fontConfiguration: QuickSightClientTypes.FontConfiguration?
@@ -72386,7 +72386,7 @@ extension QuickSightClientTypes.TableFieldImageConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The image configuration of a table field URL.
-    public struct TableFieldImageConfiguration: Swift.Equatable {
+    public struct TableFieldImageConfiguration {
         /// The sizing options for the table image configuration.
         public var sizingOptions: QuickSightClientTypes.TableCellImageSizingConfiguration?
 
@@ -72427,7 +72427,7 @@ extension QuickSightClientTypes.TableFieldLinkConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The link configuration of a table field URL.
-    public struct TableFieldLinkConfiguration: Swift.Equatable {
+    public struct TableFieldLinkConfiguration {
         /// The URL content (text, icon) for the table link configuration.
         /// This member is required.
         public var content: QuickSightClientTypes.TableFieldLinkContentConfiguration?
@@ -72474,7 +72474,7 @@ extension QuickSightClientTypes.TableFieldLinkContentConfiguration: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// The URL content (text, icon) for the table link configuration.
-    public struct TableFieldLinkContentConfiguration: Swift.Equatable {
+    public struct TableFieldLinkContentConfiguration {
         /// The custom icon content for the table link content configuration.
         public var customIconContent: QuickSightClientTypes.TableFieldCustomIconContent?
         /// The custom text content (value, font configuration) for the table link content configuration.
@@ -72537,7 +72537,7 @@ extension QuickSightClientTypes.TableFieldOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options for a table field.
-    public struct TableFieldOption: Swift.Equatable {
+    public struct TableFieldOption {
         /// The custom label for a table field.
         public var customLabel: Swift.String?
         /// The field ID for a table field.
@@ -72625,7 +72625,7 @@ extension QuickSightClientTypes.TableFieldOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field options of a table visual.
-    public struct TableFieldOptions: Swift.Equatable {
+    public struct TableFieldOptions {
         /// The order of the field IDs that are configured as field options for a table visual.
         public var order: [Swift.String]?
         /// The settings for the pinned columns of a table visual.
@@ -72674,7 +72674,7 @@ extension QuickSightClientTypes.TableFieldURLConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The URL configuration for a table field.
-    public struct TableFieldURLConfiguration: Swift.Equatable {
+    public struct TableFieldURLConfiguration {
         /// The image configuration of a table field URL.
         public var imageConfiguration: QuickSightClientTypes.TableFieldImageConfiguration?
         /// The link configuration of a table field URL.
@@ -72719,7 +72719,7 @@ extension QuickSightClientTypes.TableFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field wells for a table visual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct TableFieldWells: Swift.Equatable {
+    public struct TableFieldWells {
         /// The aggregated field well for the table.
         public var tableAggregatedFieldWells: QuickSightClientTypes.TableAggregatedFieldWells?
         /// The unaggregated field well for the table.
@@ -72758,7 +72758,7 @@ extension QuickSightClientTypes.TableInlineVisualization: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The inline visualization of a specific type to display within a chart.
-    public struct TableInlineVisualization: Swift.Equatable {
+    public struct TableInlineVisualization {
         /// The configuration of the inline visualization of the data bars within a chart.
         public var dataBars: QuickSightClientTypes.DataBarsOptions?
 
@@ -72811,7 +72811,7 @@ extension QuickSightClientTypes.TableOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The table options for a table visual.
-    public struct TableOptions: Swift.Equatable {
+    public struct TableOptions {
         /// The table cell style of table cells.
         public var cellStyle: QuickSightClientTypes.TableCellStyle?
         /// The table cell style of a table header.
@@ -72896,7 +72896,7 @@ extension QuickSightClientTypes.TablePaginatedReportOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The paginated report options for a table visual.
-    public struct TablePaginatedReportOptions: Swift.Equatable {
+    public struct TablePaginatedReportOptions {
         /// The visibility of repeating header rows on each page.
         public var overflowColumnHeaderVisibility: QuickSightClientTypes.Visibility?
         /// The visibility of printing table overflow across pages.
@@ -72947,7 +72947,7 @@ extension QuickSightClientTypes.TablePinnedFieldOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The settings for the pinned columns of a table visual.
-    public struct TablePinnedFieldOptions: Swift.Equatable {
+    public struct TablePinnedFieldOptions {
         /// A list of columns to be pinned to the left of a table visual.
         public var pinnedLeftFields: [Swift.String]?
 
@@ -72988,7 +72988,7 @@ extension QuickSightClientTypes.TableRowConditionalFormatting: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The conditional formatting of a table row.
-    public struct TableRowConditionalFormatting: Swift.Equatable {
+    public struct TableRowConditionalFormatting {
         /// The conditional formatting color (solid, gradient) of the background for a table row.
         public var backgroundColor: QuickSightClientTypes.ConditionalFormattingColor?
         /// The conditional formatting color (solid, gradient) of the text for a table row.
@@ -73057,7 +73057,7 @@ extension QuickSightClientTypes.TableSideBorderOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The side border options for a table.
-    public struct TableSideBorderOptions: Swift.Equatable {
+    public struct TableSideBorderOptions {
         /// The table border options of the bottom border.
         public var bottom: QuickSightClientTypes.TableBorderOptions?
         /// The table border options of the inner horizontal border.
@@ -73130,7 +73130,7 @@ extension QuickSightClientTypes.TableSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration for a TableVisual.
-    public struct TableSortConfiguration: Swift.Equatable {
+    public struct TableSortConfiguration {
         /// The pagination configuration (page size, page number) for the table.
         public var paginationConfiguration: QuickSightClientTypes.PaginationConfiguration?
         /// The field sort options for rows in the table.
@@ -73169,7 +73169,7 @@ extension QuickSightClientTypes.TableStyleTarget: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The table style target.
-    public struct TableStyleTarget: Swift.Equatable {
+    public struct TableStyleTarget {
         /// The cell type of the table style target.
         /// This member is required.
         public var cellType: QuickSightClientTypes.StyledCellType?
@@ -73284,7 +73284,7 @@ extension QuickSightClientTypes.TableUnaggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The unaggregated field well for the table.
-    public struct TableUnaggregatedFieldWells: Swift.Equatable {
+    public struct TableUnaggregatedFieldWells {
         /// The values field well for a pivot table. Values are unaggregated for an unaggregated table.
         public var values: [QuickSightClientTypes.UnaggregatedField]?
 
@@ -73361,7 +73361,7 @@ extension QuickSightClientTypes.TableVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A table visual. For more information, see [Using tables as visuals](https://docs.aws.amazon.com/quicksight/latest/user/tabular.html) in the Amazon QuickSight User Guide.
-    public struct TableVisual: Swift.Equatable {
+    public struct TableVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration settings of the visual.
@@ -73423,7 +73423,7 @@ extension QuickSightClientTypes.Tag: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The key or keys of the key-value pairs for the resource tag or tags assigned to the resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Tag key.
         /// This member is required.
         public var key: Swift.String?
@@ -73482,7 +73482,7 @@ extension QuickSightClientTypes.TagColumnOperation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A transform operation that tags a column with additional information.
-    public struct TagColumnOperation: Swift.Equatable {
+    public struct TagColumnOperation {
         /// The column that this operation acts on.
         /// This member is required.
         public var columnName: Swift.String?
@@ -73528,7 +73528,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -73546,7 +73546,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [QuickSightClientTypes.Tag]?
 }
 
@@ -73584,7 +73584,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -73600,7 +73600,7 @@ public struct TagResourceOutput: Swift.Equatable {
     }
 }
 
-struct TagResourceOutputBody: Swift.Equatable {
+struct TagResourceOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -73716,7 +73716,7 @@ extension QuickSightClientTypes.Template: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A template object. A template is an entity in Amazon QuickSight that encapsulates the metadata required to create an analysis and that you can use to create a dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with an analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template. You can share templates across Amazon Web Services accounts by allowing users in other Amazon Web Services accounts to create a template or a dashboard from an existing template.
-    public struct Template: Swift.Equatable {
+    public struct Template {
         /// The Amazon Resource Name (ARN) of the template.
         public var arn: Swift.String?
         /// Time when this was created.
@@ -73783,7 +73783,7 @@ extension QuickSightClientTypes.TemplateAlias: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The template alias.
-    public struct TemplateAlias: Swift.Equatable {
+    public struct TemplateAlias {
         /// The display name of the template alias.
         public var aliasName: Swift.String?
         /// The Amazon Resource Name (ARN) of the template alias.
@@ -73850,7 +73850,7 @@ extension QuickSightClientTypes.TemplateError: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// List of errors that occurred when the template version creation failed.
-    public struct TemplateError: Swift.Equatable {
+    public struct TemplateError {
         /// Description of the error type.
         public var message: Swift.String?
         /// Type of error.
@@ -73949,7 +73949,7 @@ extension QuickSightClientTypes.TemplateSourceAnalysis: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The source analysis of the template.
-    public struct TemplateSourceAnalysis: Swift.Equatable {
+    public struct TemplateSourceAnalysis {
         /// The Amazon Resource Name (ARN) of the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -73996,7 +73996,7 @@ extension QuickSightClientTypes.TemplateSourceEntity: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The source entity of the template.
-    public struct TemplateSourceEntity: Swift.Equatable {
+    public struct TemplateSourceEntity {
         /// The source analysis, if it is based on an analysis.
         public var sourceAnalysis: QuickSightClientTypes.TemplateSourceAnalysis?
         /// The source template, if it is based on an template.
@@ -74035,7 +74035,7 @@ extension QuickSightClientTypes.TemplateSourceTemplate: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The source template of the template.
-    public struct TemplateSourceTemplate: Swift.Equatable {
+    public struct TemplateSourceTemplate {
         /// The Amazon Resource Name (ARN) of the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -74101,7 +74101,7 @@ extension QuickSightClientTypes.TemplateSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The template summary.
-    public struct TemplateSummary: Swift.Equatable {
+    public struct TemplateSummary {
         /// A summary of a template.
         public var arn: Swift.String?
         /// The last time that this template was created.
@@ -74240,7 +74240,7 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A version of a template.
-    public struct TemplateVersion: Swift.Equatable {
+    public struct TemplateVersion {
         /// The time that this template version was created.
         public var createdTime: ClientRuntime.Date?
         /// Schema of the dataset identified by the placeholder. Any dashboard created from this template should be bound to new datasets matching the same schema described through this API operation.
@@ -74435,7 +74435,7 @@ extension QuickSightClientTypes.TemplateVersionDefinition: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The detailed definition of a template.
-    public struct TemplateVersionDefinition: Swift.Equatable {
+    public struct TemplateVersionDefinition {
         /// The configuration for default analysis settings.
         public var analysisDefaults: QuickSightClientTypes.AnalysisDefaults?
         /// An array of calculated field definitions for the template.
@@ -74523,7 +74523,7 @@ extension QuickSightClientTypes.TemplateVersionSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The template version.
-    public struct TemplateVersionSummary: Swift.Equatable {
+    public struct TemplateVersionSummary {
         /// The Amazon Resource Name (ARN) of the template version.
         public var arn: Swift.String?
         /// The time that this template version was created.
@@ -74586,7 +74586,7 @@ extension QuickSightClientTypes.TeradataParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for Teradata.
-    public struct TeradataParameters: Swift.Equatable {
+    public struct TeradataParameters {
         /// Database.
         /// This member is required.
         public var database: Swift.String?
@@ -74644,7 +74644,7 @@ extension QuickSightClientTypes.TextAreaControlDisplayOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The display options of a control.
-    public struct TextAreaControlDisplayOptions: Swift.Equatable {
+    public struct TextAreaControlDisplayOptions {
         /// The configuration of info icon label options.
         public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The configuration of the placeholder options in a text area control.
@@ -74699,7 +74699,7 @@ extension QuickSightClientTypes.TextConditionalFormat: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The conditional formatting for the text.
-    public struct TextConditionalFormat: Swift.Equatable {
+    public struct TextConditionalFormat {
         /// The conditional formatting for the text background color.
         public var backgroundColor: QuickSightClientTypes.ConditionalFormattingColor?
         /// The conditional formatting for the icon.
@@ -74742,7 +74742,7 @@ extension QuickSightClientTypes.TextControlPlaceholderOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of the placeholder options in a text control.
-    public struct TextControlPlaceholderOptions: Swift.Equatable {
+    public struct TextControlPlaceholderOptions {
         /// The visibility configuration of the placeholder options in a text control.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -74789,7 +74789,7 @@ extension QuickSightClientTypes.TextFieldControlDisplayOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The display options of a control.
-    public struct TextFieldControlDisplayOptions: Swift.Equatable {
+    public struct TextFieldControlDisplayOptions {
         /// The configuration of info icon label options.
         public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The configuration of the placeholder options in a text field control.
@@ -74932,7 +74932,7 @@ extension QuickSightClientTypes.Theme: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Summary information about a theme.
-    public struct Theme: Swift.Equatable {
+    public struct Theme {
         /// The Amazon Resource Name (ARN) of the theme.
         public var arn: Swift.String?
         /// The date and time that the theme was created.
@@ -75003,7 +75003,7 @@ extension QuickSightClientTypes.ThemeAlias: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An alias for a theme.
-    public struct ThemeAlias: Swift.Equatable {
+    public struct ThemeAlias {
         /// The display name of the theme alias.
         public var aliasName: Swift.String?
         /// The Amazon Resource Name (ARN) of the theme alias.
@@ -75064,7 +75064,7 @@ extension QuickSightClientTypes.ThemeConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The theme configuration. This configuration contains all of the display properties for a theme.
-    public struct ThemeConfiguration: Swift.Equatable {
+    public struct ThemeConfiguration {
         /// Color properties that apply to chart data colors.
         public var dataColorPalette: QuickSightClientTypes.DataColorPalette?
         /// Display options related to sheets.
@@ -75117,7 +75117,7 @@ extension QuickSightClientTypes.ThemeError: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Theme error.
-    public struct ThemeError: Swift.Equatable {
+    public struct ThemeError {
         /// The error message.
         public var message: Swift.String?
         /// The type of error.
@@ -75215,7 +75215,7 @@ extension QuickSightClientTypes.ThemeSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The theme summary.
-    public struct ThemeSummary: Swift.Equatable {
+    public struct ThemeSummary {
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: Swift.String?
         /// The date and time that this theme was created.
@@ -75359,7 +75359,7 @@ extension QuickSightClientTypes.ThemeVersion: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A version of a theme.
-    public struct ThemeVersion: Swift.Equatable {
+    public struct ThemeVersion {
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: Swift.String?
         /// The Amazon QuickSight-defined ID of the theme that a custom theme inherits from. All themes initially inherit from a default Amazon QuickSight theme.
@@ -75446,7 +75446,7 @@ extension QuickSightClientTypes.ThemeVersionSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The theme version.
-    public struct ThemeVersionSummary: Swift.Equatable {
+    public struct ThemeVersionSummary {
         /// The Amazon Resource Name (ARN) of the theme version.
         public var arn: Swift.String?
         /// The date and time that this theme version was created.
@@ -75503,7 +75503,7 @@ extension QuickSightClientTypes.ThousandSeparatorOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the thousands separator configuration.
-    public struct ThousandSeparatorOptions: Swift.Equatable {
+    public struct ThousandSeparatorOptions {
         /// Determines the thousands separator symbol.
         public var symbol: QuickSightClientTypes.NumericSeparatorSymbol?
         /// Determines the visibility of the thousands separator.
@@ -75566,7 +75566,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -75613,7 +75613,7 @@ extension QuickSightClientTypes.TileLayoutStyle: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The display options for the layout of tiles on a sheet.
-    public struct TileLayoutStyle: Swift.Equatable {
+    public struct TileLayoutStyle {
         /// The gutter settings that apply between tiles.
         public var gutter: QuickSightClientTypes.GutterStyle?
         /// The margin settings that apply around the outside edge of sheets.
@@ -75652,7 +75652,7 @@ extension QuickSightClientTypes.TileStyle: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Display options related to tiles on a sheet.
-    public struct TileStyle: Swift.Equatable {
+    public struct TileStyle {
         /// The border around a tile.
         public var border: QuickSightClientTypes.BorderStyle?
 
@@ -75717,7 +75717,7 @@ extension QuickSightClientTypes.TimeBasedForecastProperties: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The forecast properties setup of a forecast in the line chart.
-    public struct TimeBasedForecastProperties: Swift.Equatable {
+    public struct TimeBasedForecastProperties {
         /// The lower boundary setup of a forecast computation.
         public var lowerBoundary: Swift.Double?
         /// The periods backward setup of a forecast computation.
@@ -75812,7 +75812,7 @@ extension QuickSightClientTypes.TimeEqualityFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A TimeEqualityFilter filters values that are equal to a given value.
-    public struct TimeEqualityFilter: Swift.Equatable {
+    public struct TimeEqualityFilter {
         /// The column that the filter is applied to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
@@ -75944,7 +75944,7 @@ extension QuickSightClientTypes.TimeRangeDrillDownFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The time range drill down filter.
-    public struct TimeRangeDrillDownFilter: Swift.Equatable {
+    public struct TimeRangeDrillDownFilter {
         /// The column that the filter is applied to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
@@ -76049,7 +76049,7 @@ extension QuickSightClientTypes.TimeRangeFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A TimeRangeFilter filters values that are between two specified values.
-    public struct TimeRangeFilter: Swift.Equatable {
+    public struct TimeRangeFilter {
         /// The column that the filter is applied to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
@@ -76141,7 +76141,7 @@ extension QuickSightClientTypes.TimeRangeFilterValue: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The value of a time range filter. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct TimeRangeFilterValue: Swift.Equatable {
+    public struct TimeRangeFilterValue {
         /// The parameter type input value.
         public var parameter: Swift.String?
         /// The rolling date input value.
@@ -76190,7 +76190,7 @@ extension QuickSightClientTypes.TooltipItem: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The tooltip. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct TooltipItem: Swift.Equatable {
+    public struct TooltipItem {
         /// The tooltip item for the columns that are not part of a field well.
         public var columnTooltipItem: QuickSightClientTypes.ColumnTooltipItem?
         /// The tooltip item for the fields.
@@ -76241,7 +76241,7 @@ extension QuickSightClientTypes.TooltipOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The display options for the visual tooltip.
-    public struct TooltipOptions: Swift.Equatable {
+    public struct TooltipOptions {
         /// The setup for the detailed tooltip. The tooltip setup is always saved. The display type is decided based on the tooltip type.
         public var fieldBasedTooltip: QuickSightClientTypes.FieldBasedTooltip?
         /// The selected type for the tooltip. Choose one of the following options:
@@ -76435,7 +76435,7 @@ extension QuickSightClientTypes.TopBottomFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A TopBottomFilter filters values that are at the top or the bottom.
-    public struct TopBottomFilter: Swift.Equatable {
+    public struct TopBottomFilter {
         /// The aggregation and sort configuration of the top bottom filter.
         /// This member is required.
         public var aggregationSortConfigurations: [QuickSightClientTypes.AggregationSortConfiguration]?
@@ -76539,7 +76539,7 @@ extension QuickSightClientTypes.TopBottomMoversComputation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The top movers and bottom movers computation setup.
-    public struct TopBottomMoversComputation: Swift.Equatable {
+    public struct TopBottomMoversComputation {
         /// The category field that is used in a computation.
         public var category: QuickSightClientTypes.DimensionField?
         /// The ID for a computation.
@@ -76638,7 +76638,7 @@ extension QuickSightClientTypes.TopBottomRankedComputation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The top ranked and bottom ranked computation configuration.
-    public struct TopBottomRankedComputation: Swift.Equatable {
+    public struct TopBottomRankedComputation {
         /// The category field that is used in a computation.
         public var category: QuickSightClientTypes.DimensionField?
         /// The ID for a computation.
@@ -76880,7 +76880,7 @@ extension QuickSightClientTypes.TopicCalculatedField: Swift.CustomDebugStringCon
 
 extension QuickSightClientTypes {
     /// A structure that represents a calculated field.
-    public struct TopicCalculatedField: Swift.Equatable {
+    public struct TopicCalculatedField {
         /// The default aggregation. Valid values for this structure are SUM, MAX, MIN, COUNT, DISTINCT_COUNT, and AVERAGE.
         public var aggregation: QuickSightClientTypes.DefaultAggregation?
         /// The list of aggregation types that are allowed for the calculated field. Valid values for this structure are COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, and PERCENTILE.
@@ -77004,7 +77004,7 @@ extension QuickSightClientTypes.TopicCategoryFilter: Swift.CustomDebugStringConv
 
 extension QuickSightClientTypes {
     /// A structure that represents a category filter.
-    public struct TopicCategoryFilter: Swift.Equatable {
+    public struct TopicCategoryFilter {
         /// The category filter function. Valid values for this structure are EXACT and CONTAINS.
         public var categoryFilterFunction: QuickSightClientTypes.CategoryFilterFunction?
         /// The category filter type. This element is used to specify whether a filter is a simple category filter or an inverse category filter.
@@ -77069,7 +77069,7 @@ extension QuickSightClientTypes.TopicCategoryFilterConstant: Swift.CustomDebugSt
 
 extension QuickSightClientTypes {
     /// A constant used in a category filter.
-    public struct TopicCategoryFilterConstant: Swift.Equatable {
+    public struct TopicCategoryFilterConstant {
         /// A collective constant used in a category filter. This element is used to specify a list of values for the constant.
         public var collectiveConstant: QuickSightClientTypes.CollectiveConstant?
         /// The type of category filter constant. This element is used to specify whether a constant is a singular or collective. Valid values are SINGULAR and COLLECTIVE.
@@ -77256,7 +77256,7 @@ extension QuickSightClientTypes.TopicColumn: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Represents a column in a dataset.
-    public struct TopicColumn: Swift.Equatable {
+    public struct TopicColumn {
         /// The type of aggregation that is performed on the column data when it's queried.
         public var aggregation: QuickSightClientTypes.DefaultAggregation?
         /// The list of aggregation types that are allowed for the column. Valid values for this structure are COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, and PERCENTILE.
@@ -77367,7 +77367,7 @@ extension QuickSightClientTypes.TopicDateRangeFilter: Swift.CustomDebugStringCon
 
 extension QuickSightClientTypes {
     /// A filter used to restrict data based on a range of dates or times.
-    public struct TopicDateRangeFilter: Swift.Equatable {
+    public struct TopicDateRangeFilter {
         /// The constant used in a date range filter.
         public var constant: QuickSightClientTypes.TopicRangeFilterConstant?
         /// A Boolean value that indicates whether the date range filter should include the boundary values. If set to true, the filter includes the start and end dates. If set to false, the filter excludes them.
@@ -77436,7 +77436,7 @@ extension QuickSightClientTypes.TopicDetails: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that describes the details of a topic, such as its name, description, and associated data sets.
-    public struct TopicDetails: Swift.Equatable {
+    public struct TopicDetails {
         /// The data sets that the topic is associated with.
         public var dataSets: [QuickSightClientTypes.DatasetMetadata]?
         /// The description of the topic.
@@ -77555,7 +77555,7 @@ extension QuickSightClientTypes.TopicFilter: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a filter used to select items for a topic.
-    public struct TopicFilter: Swift.Equatable {
+    public struct TopicFilter {
         /// The category filter that is associated with this filter.
         public var categoryFilter: QuickSightClientTypes.TopicCategoryFilter?
         /// The date range filter.
@@ -77680,7 +77680,7 @@ extension QuickSightClientTypes.TopicNamedEntity: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a named entity.
-    public struct TopicNamedEntity: Swift.Equatable {
+    public struct TopicNamedEntity {
         /// The definition of a named entity.
         public var definition: [QuickSightClientTypes.NamedEntityDefinition]?
         /// The description of the named entity.
@@ -77743,7 +77743,7 @@ extension QuickSightClientTypes.TopicNumericEqualityFilter: Swift.CustomDebugStr
 
 extension QuickSightClientTypes {
     /// A filter that filters topics based on the value of a numeric field. The filter includes only topics whose numeric field value matches the specified value.
-    public struct TopicNumericEqualityFilter: Swift.Equatable {
+    public struct TopicNumericEqualityFilter {
         /// An aggregation function that specifies how to calculate the value of a numeric field for a topic. Valid values for this structure are NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, and VARP.
         public var aggregation: QuickSightClientTypes.NamedFilterAggType?
         /// The constant used in a numeric equality filter.
@@ -77799,7 +77799,7 @@ extension QuickSightClientTypes.TopicNumericRangeFilter: Swift.CustomDebugString
 
 extension QuickSightClientTypes {
     /// A filter that filters topics based on the value of a numeric field. The filter includes only topics whose numeric field value falls within the specified range.
-    public struct TopicNumericRangeFilter: Swift.Equatable {
+    public struct TopicNumericRangeFilter {
         /// An aggregation function that specifies how to calculate the value of a numeric field for a topic, Valid values for this structure are NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, and VARP.
         public var aggregation: QuickSightClientTypes.NamedFilterAggType?
         /// The constant used in a numeric range filter.
@@ -77886,7 +77886,7 @@ extension QuickSightClientTypes.TopicRangeFilterConstant: Swift.CustomDebugStrin
 
 extension QuickSightClientTypes {
     /// A constant value that is used in a range filter to specify the endpoints of the range.
-    public struct TopicRangeFilterConstant: Swift.Equatable {
+    public struct TopicRangeFilterConstant {
         /// The data type of the constant value that is used in a range filter. Valid values for this structure are RANGE.
         public var constantType: QuickSightClientTypes.ConstantType?
         /// The value of the constant that is used to specify the endpoints of a range filter.
@@ -77937,7 +77937,7 @@ extension QuickSightClientTypes.TopicRefreshDetails: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The details about the refresh of a topic.
-    public struct TopicRefreshDetails: Swift.Equatable {
+    public struct TopicRefreshDetails {
         /// The Amazon Resource Name (ARN) of the topic refresh.
         public var refreshArn: Swift.String?
         /// The ID of the refresh, which occurs as a result of topic creation or topic update.
@@ -78010,7 +78010,7 @@ extension QuickSightClientTypes.TopicRefreshSchedule: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A structure that represents a topic refresh schedule.
-    public struct TopicRefreshSchedule: Swift.Equatable {
+    public struct TopicRefreshSchedule {
         /// A Boolean value that controls whether to schedule runs at the same schedule that is specified in SPICE dataset.
         /// This member is required.
         public var basedOnSpiceSchedule: Swift.Bool
@@ -78085,7 +78085,7 @@ extension QuickSightClientTypes.TopicRefreshScheduleSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A summary of the refresh schedule details for a dataset.
-    public struct TopicRefreshScheduleSummary: Swift.Equatable {
+    public struct TopicRefreshScheduleSummary {
         /// The Amazon Resource Name (ARN) of the dataset.
         public var datasetArn: Swift.String?
         /// The ID of the dataset.
@@ -78190,7 +78190,7 @@ extension QuickSightClientTypes.TopicRelativeDateFilter: Swift.CustomDebugString
 
 extension QuickSightClientTypes {
     /// A structure that represents a relative date filter.
-    public struct TopicRelativeDateFilter: Swift.Equatable {
+    public struct TopicRelativeDateFilter {
         /// The constant used in a relative date filter.
         public var constant: QuickSightClientTypes.TopicSingularFilterConstant?
         /// The function to be used in a relative date filter to determine the range of dates to include in the results. Valid values for this structure are BEFORE, AFTER, and BETWEEN.
@@ -78324,7 +78324,7 @@ extension QuickSightClientTypes.TopicSingularFilterConstant: Swift.CustomDebugSt
 
 extension QuickSightClientTypes {
     /// A structure that represents a singular filter constant, used in filters to specify a single value to match against.
-    public struct TopicSingularFilterConstant: Swift.Equatable {
+    public struct TopicSingularFilterConstant {
         /// The type of the singular filter constant. Valid values for this structure are SINGULAR.
         public var constantType: QuickSightClientTypes.ConstantType?
         /// The value of the singular filter constant.
@@ -78375,7 +78375,7 @@ extension QuickSightClientTypes.TopicSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A topic summary.
-    public struct TopicSummary: Swift.Equatable {
+    public struct TopicSummary {
         /// The Amazon Resource Name (ARN) of the topic.
         public var arn: Swift.String?
         /// The name of the topic.
@@ -78512,7 +78512,7 @@ extension QuickSightClientTypes.TotalAggregationComputation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The total aggregation computation configuration.
-    public struct TotalAggregationComputation: Swift.Equatable {
+    public struct TotalAggregationComputation {
         /// The ID for a computation.
         /// This member is required.
         public var computationId: Swift.String?
@@ -78556,7 +78556,7 @@ extension QuickSightClientTypes.TotalAggregationFunction: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// An aggregation function that aggregates the total values of a measure.
-    public struct TotalAggregationFunction: Swift.Equatable {
+    public struct TotalAggregationFunction {
         /// A built in aggregation function for total values.
         public var simpleTotalAggregationFunction: QuickSightClientTypes.SimpleTotalAggregationFunction?
 
@@ -78597,7 +78597,7 @@ extension QuickSightClientTypes.TotalAggregationOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The total aggregation settings map of a field id.
-    public struct TotalAggregationOption: Swift.Equatable {
+    public struct TotalAggregationOption {
         /// The field id that's associated with the total aggregation option.
         /// This member is required.
         public var fieldId: Swift.String?
@@ -78680,7 +78680,7 @@ extension QuickSightClientTypes.TotalOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The total options for a table visual.
-    public struct TotalOptions: Swift.Equatable {
+    public struct TotalOptions {
         /// The custom label string for the total cells.
         public var customLabel: Swift.String?
         /// The placement (start, end) for the total cells.
@@ -78799,7 +78799,7 @@ extension QuickSightClientTypes.TransformOperation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A data transformation on a logical table. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
-    public enum TransformOperation: Swift.Equatable {
+    public enum TransformOperation {
         /// An operation that projects columns. Operations that come after a projection can only refer to projected columns.
         case projectoperation(QuickSightClientTypes.ProjectOperation)
         /// An operation that filters rows based on some condition.
@@ -78890,7 +78890,7 @@ extension QuickSightClientTypes.TreeMapAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Aggregated field wells of a tree map.
-    public struct TreeMapAggregatedFieldWells: Swift.Equatable {
+    public struct TreeMapAggregatedFieldWells {
         /// The color field well of a tree map. Values are grouped by aggregations based on group by fields.
         public var colors: [QuickSightClientTypes.MeasureField]?
         /// The group by field well of a tree map. Values are grouped based on group by fields.
@@ -78987,7 +78987,7 @@ extension QuickSightClientTypes.TreeMapConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a tree map.
-    public struct TreeMapConfiguration: Swift.Equatable {
+    public struct TreeMapConfiguration {
         /// The label options (label text, label visibility) for the colors displayed in a tree map.
         public var colorLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
         /// The color options (gradient color, point of divergence) of a tree map.
@@ -79058,7 +79058,7 @@ extension QuickSightClientTypes.TreeMapFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field wells of a tree map. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct TreeMapFieldWells: Swift.Equatable {
+    public struct TreeMapFieldWells {
         /// The aggregated field wells of a tree map.
         public var treeMapAggregatedFieldWells: QuickSightClientTypes.TreeMapAggregatedFieldWells?
 
@@ -79111,7 +79111,7 @@ extension QuickSightClientTypes.TreeMapSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a tree map.
-    public struct TreeMapSortConfiguration: Swift.Equatable {
+    public struct TreeMapSortConfiguration {
         /// The limit on the number of groups that are displayed.
         public var treeMapGroupItemsLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration?
         /// The sort configuration of group by fields.
@@ -79204,7 +79204,7 @@ extension QuickSightClientTypes.TreeMapVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A tree map. For more information, see [Using tree maps](https://docs.aws.amazon.com/quicksight/latest/user/tree-map.html) in the Amazon QuickSight User Guide.
-    public struct TreeMapVisual: Swift.Equatable {
+    public struct TreeMapVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration settings of the visual.
@@ -79260,7 +79260,7 @@ extension QuickSightClientTypes.TrendArrowOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the presentation of trend arrows in a KPI visual.
-    public struct TrendArrowOptions: Swift.Equatable {
+    public struct TrendArrowOptions {
         /// The visibility of the trend arrows.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -79307,7 +79307,7 @@ extension QuickSightClientTypes.TrinoParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters that are required to connect to a Trino data source.
-    public struct TrinoParameters: Swift.Equatable {
+    public struct TrinoParameters {
         /// The catalog name for the Trino data source.
         /// This member is required.
         public var catalog: Swift.String?
@@ -79359,7 +79359,7 @@ extension QuickSightClientTypes.TwitterParameters: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The parameters for Twitter.
-    public struct TwitterParameters: Swift.Equatable {
+    public struct TwitterParameters {
         /// Maximum number of rows to query Twitter.
         /// This member is required.
         public var maxRows: Swift.Int?
@@ -79412,7 +79412,7 @@ extension QuickSightClientTypes.Typography: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Determines the typography options.
-    public struct Typography: Swift.Equatable {
+    public struct Typography {
         /// Determines the list of font families.
         public var fontFamilies: [QuickSightClientTypes.Font]?
 
@@ -79537,7 +79537,7 @@ extension QuickSightClientTypes.UIColorPalette: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The theme colors that apply to UI and to charts, excluding data colors. The colors description is a hexadecimal color code that consists of six alphanumerical characters, prefixed with #, for example #37BFF5. For more information, see [Using Themes in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html) in the Amazon QuickSight User Guide.
-    public struct UIColorPalette: Swift.Equatable {
+    public struct UIColorPalette {
         /// This color is that applies to selected states and buttons.
         public var accent: Swift.String?
         /// The foreground color that applies to any text or other elements that appear over the accent color.
@@ -79679,7 +79679,7 @@ extension QuickSightClientTypes.UnaggregatedField: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The unaggregated field for a table.
-    public struct UnaggregatedField: Swift.Equatable {
+    public struct UnaggregatedField {
         /// The column that is used in the UnaggregatedField.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
@@ -79768,7 +79768,7 @@ extension QuickSightClientTypes.UniqueValuesComputation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The unique values computation configuration.
-    public struct UniqueValuesComputation: Swift.Equatable {
+    public struct UniqueValuesComputation {
         /// The category field that is used in a computation.
         public var category: QuickSightClientTypes.DimensionField?
         /// The ID for a computation.
@@ -79836,7 +79836,7 @@ public struct UnsupportedPricingPlanException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct UnsupportedPricingPlanExceptionBody: Swift.Equatable {
+struct UnsupportedPricingPlanExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -79901,7 +79901,7 @@ public struct UnsupportedUserEditionException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct UnsupportedUserEditionExceptionBody: Swift.Equatable {
+struct UnsupportedUserEditionExceptionBody {
     let message: Swift.String?
     let requestId: Swift.String?
 }
@@ -79960,7 +79960,7 @@ extension QuickSightClientTypes.UntagColumnOperation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A transform operation that removes tags associated with a column.
-    public struct UntagColumnOperation: Swift.Equatable {
+    public struct UntagColumnOperation {
         /// The column that this operation acts on.
         /// This member is required.
         public var columnName: Swift.String?
@@ -80006,7 +80006,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to untag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -80024,7 +80024,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -80046,7 +80046,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -80062,7 +80062,7 @@ public struct UntagResourceOutput: Swift.Equatable {
     }
 }
 
-struct UntagResourceOutputBody: Swift.Equatable {
+struct UntagResourceOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -80132,7 +80132,7 @@ extension UpdateAccountCustomizationInput {
     }
 }
 
-public struct UpdateAccountCustomizationInput: Swift.Equatable {
+public struct UpdateAccountCustomizationInput {
     /// The Amazon QuickSight customizations you're updating in the current Amazon Web Services Region.
     /// This member is required.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
@@ -80154,7 +80154,7 @@ public struct UpdateAccountCustomizationInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountCustomizationInputBody: Swift.Equatable {
+struct UpdateAccountCustomizationInputBody {
     let accountCustomization: QuickSightClientTypes.AccountCustomization?
 }
 
@@ -80191,7 +80191,7 @@ extension UpdateAccountCustomizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAccountCustomizationOutput: Swift.Equatable {
+public struct UpdateAccountCustomizationOutput {
     /// The Amazon QuickSight customizations you're updating in the current Amazon Web Services Region.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
     /// The Amazon Resource Name (ARN) for the updated customization for this Amazon Web Services account.
@@ -80223,7 +80223,7 @@ public struct UpdateAccountCustomizationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountCustomizationOutputBody: Swift.Equatable {
+struct UpdateAccountCustomizationOutputBody {
     let arn: Swift.String?
     let awsAccountId: Swift.String?
     let namespace: Swift.String?
@@ -80307,7 +80307,7 @@ extension UpdateAccountSettingsInput {
     }
 }
 
-public struct UpdateAccountSettingsInput: Swift.Equatable {
+public struct UpdateAccountSettingsInput {
     /// The ID for the Amazon Web Services account that contains the Amazon QuickSight settings that you want to list.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -80333,7 +80333,7 @@ public struct UpdateAccountSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountSettingsInputBody: Swift.Equatable {
+struct UpdateAccountSettingsInputBody {
     let defaultNamespace: Swift.String?
     let notificationEmail: Swift.String?
     let terminationProtectionEnabled: Swift.Bool?
@@ -80370,7 +80370,7 @@ extension UpdateAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAccountSettingsOutput: Swift.Equatable {
+public struct UpdateAccountSettingsOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -80386,7 +80386,7 @@ public struct UpdateAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountSettingsOutputBody: Swift.Equatable {
+struct UpdateAccountSettingsOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -80468,7 +80468,7 @@ extension UpdateAnalysisInput {
     }
 }
 
-public struct UpdateAnalysisInput: Swift.Equatable {
+public struct UpdateAnalysisInput {
     /// The ID for the analysis that you're updating. This ID displays in the URL of the analysis.
     /// This member is required.
     public var analysisId: Swift.String?
@@ -80511,7 +80511,7 @@ public struct UpdateAnalysisInput: Swift.Equatable {
     }
 }
 
-struct UpdateAnalysisInputBody: Swift.Equatable {
+struct UpdateAnalysisInputBody {
     let name: Swift.String?
     let parameters: QuickSightClientTypes.Parameters?
     let sourceEntity: QuickSightClientTypes.AnalysisSourceEntity?
@@ -80566,7 +80566,7 @@ extension UpdateAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAnalysisOutput: Swift.Equatable {
+public struct UpdateAnalysisOutput {
     /// The ID of the analysis.
     public var analysisId: Swift.String?
     /// The ARN of the analysis that you're updating.
@@ -80594,7 +80594,7 @@ public struct UpdateAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAnalysisOutputBody: Swift.Equatable {
+struct UpdateAnalysisOutputBody {
     let arn: Swift.String?
     let analysisId: Swift.String?
     let updateStatus: QuickSightClientTypes.ResourceStatus?
@@ -80679,7 +80679,7 @@ extension UpdateAnalysisPermissionsInput {
     }
 }
 
-public struct UpdateAnalysisPermissionsInput: Swift.Equatable {
+public struct UpdateAnalysisPermissionsInput {
     /// The ID of the analysis whose permissions you're updating. The ID is part of the analysis URL.
     /// This member is required.
     public var analysisId: Swift.String?
@@ -80705,7 +80705,7 @@ public struct UpdateAnalysisPermissionsInput: Swift.Equatable {
     }
 }
 
-struct UpdateAnalysisPermissionsInputBody: Swift.Equatable {
+struct UpdateAnalysisPermissionsInputBody {
     let grantPermissions: [QuickSightClientTypes.ResourcePermission]?
     let revokePermissions: [QuickSightClientTypes.ResourcePermission]?
 }
@@ -80762,7 +80762,7 @@ extension UpdateAnalysisPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAnalysisPermissionsOutput: Swift.Equatable {
+public struct UpdateAnalysisPermissionsOutput {
     /// The Amazon Resource Name (ARN) of the analysis that you updated.
     public var analysisArn: Swift.String?
     /// The ID of the analysis that you updated permissions for.
@@ -80790,7 +80790,7 @@ public struct UpdateAnalysisPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAnalysisPermissionsOutputBody: Swift.Equatable {
+struct UpdateAnalysisPermissionsOutputBody {
     let analysisArn: Swift.String?
     let analysisId: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -80902,7 +80902,7 @@ extension UpdateDashboardInput {
     }
 }
 
-public struct UpdateDashboardInput: Swift.Equatable {
+public struct UpdateDashboardInput {
     /// The ID of the Amazon Web Services account that contains the dashboard that you're updating.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -80959,7 +80959,7 @@ public struct UpdateDashboardInput: Swift.Equatable {
     }
 }
 
-struct UpdateDashboardInputBody: Swift.Equatable {
+struct UpdateDashboardInputBody {
     let name: Swift.String?
     let sourceEntity: QuickSightClientTypes.DashboardSourceEntity?
     let parameters: QuickSightClientTypes.Parameters?
@@ -81032,7 +81032,7 @@ extension UpdateDashboardLinksInput {
     }
 }
 
-public struct UpdateDashboardLinksInput: Swift.Equatable {
+public struct UpdateDashboardLinksInput {
     /// The ID of the Amazon Web Services account that contains the dashboard whose links you want to update.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -81055,7 +81055,7 @@ public struct UpdateDashboardLinksInput: Swift.Equatable {
     }
 }
 
-struct UpdateDashboardLinksInputBody: Swift.Equatable {
+struct UpdateDashboardLinksInputBody {
     let linkEntities: [Swift.String]?
 }
 
@@ -81097,7 +81097,7 @@ extension UpdateDashboardLinksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDashboardLinksOutput: Swift.Equatable {
+public struct UpdateDashboardLinksOutput {
     /// The Amazon Resource Name (ARN) of the dashboard.
     public var dashboardArn: Swift.String?
     /// A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
@@ -81121,7 +81121,7 @@ public struct UpdateDashboardLinksOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDashboardLinksOutputBody: Swift.Equatable {
+struct UpdateDashboardLinksOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
     let dashboardArn: Swift.String?
@@ -81197,7 +81197,7 @@ extension UpdateDashboardOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDashboardOutput: Swift.Equatable {
+public struct UpdateDashboardOutput {
     /// The Amazon Resource Name (ARN) of the resource.
     public var arn: Swift.String?
     /// The creation status of the request.
@@ -81229,7 +81229,7 @@ public struct UpdateDashboardOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDashboardOutputBody: Swift.Equatable {
+struct UpdateDashboardOutputBody {
     let arn: Swift.String?
     let versionArn: Swift.String?
     let dashboardId: Swift.String?
@@ -81332,7 +81332,7 @@ extension UpdateDashboardPermissionsInput {
     }
 }
 
-public struct UpdateDashboardPermissionsInput: Swift.Equatable {
+public struct UpdateDashboardPermissionsInput {
     /// The ID of the Amazon Web Services account that contains the dashboard whose permissions you're updating.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -81366,7 +81366,7 @@ public struct UpdateDashboardPermissionsInput: Swift.Equatable {
     }
 }
 
-struct UpdateDashboardPermissionsInputBody: Swift.Equatable {
+struct UpdateDashboardPermissionsInputBody {
     let grantPermissions: [QuickSightClientTypes.ResourcePermission]?
     let revokePermissions: [QuickSightClientTypes.ResourcePermission]?
     let grantLinkPermissions: [QuickSightClientTypes.ResourcePermission]?
@@ -81451,7 +81451,7 @@ extension UpdateDashboardPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDashboardPermissionsOutput: Swift.Equatable {
+public struct UpdateDashboardPermissionsOutput {
     /// The Amazon Resource Name (ARN) of the dashboard.
     public var dashboardArn: Swift.String?
     /// The ID for the dashboard.
@@ -81483,7 +81483,7 @@ public struct UpdateDashboardPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDashboardPermissionsOutputBody: Swift.Equatable {
+struct UpdateDashboardPermissionsOutputBody {
     let dashboardArn: Swift.String?
     let dashboardId: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -81561,7 +81561,7 @@ extension UpdateDashboardPublishedVersionInput {
     }
 }
 
-public struct UpdateDashboardPublishedVersionInput: Swift.Equatable {
+public struct UpdateDashboardPublishedVersionInput {
     /// The ID of the Amazon Web Services account that contains the dashboard that you're updating.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -81584,7 +81584,7 @@ public struct UpdateDashboardPublishedVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateDashboardPublishedVersionInputBody: Swift.Equatable {
+struct UpdateDashboardPublishedVersionInputBody {
 }
 
 extension UpdateDashboardPublishedVersionInputBody: Swift.Decodable {
@@ -81610,7 +81610,7 @@ extension UpdateDashboardPublishedVersionOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateDashboardPublishedVersionOutput: Swift.Equatable {
+public struct UpdateDashboardPublishedVersionOutput {
     /// The Amazon Resource Name (ARN) of the dashboard.
     public var dashboardArn: Swift.String?
     /// The ID for the dashboard.
@@ -81634,7 +81634,7 @@ public struct UpdateDashboardPublishedVersionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDashboardPublishedVersionOutputBody: Swift.Equatable {
+struct UpdateDashboardPublishedVersionOutputBody {
     let dashboardId: Swift.String?
     let dashboardArn: Swift.String?
     let status: Swift.Int
@@ -81762,7 +81762,7 @@ extension UpdateDataSetInput {
     }
 }
 
-public struct UpdateDataSetInput: Swift.Equatable {
+public struct UpdateDataSetInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -81827,7 +81827,7 @@ public struct UpdateDataSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSetInputBody: Swift.Equatable {
+struct UpdateDataSetInputBody {
     let name: Swift.String?
     let physicalTableMap: [Swift.String:QuickSightClientTypes.PhysicalTable]?
     let logicalTableMap: [Swift.String:QuickSightClientTypes.LogicalTable]?
@@ -81958,7 +81958,7 @@ extension UpdateDataSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataSetOutput: Swift.Equatable {
+public struct UpdateDataSetOutput {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var arn: Swift.String?
     /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -81990,7 +81990,7 @@ public struct UpdateDataSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSetOutputBody: Swift.Equatable {
+struct UpdateDataSetOutputBody {
     let arn: Swift.String?
     let dataSetId: Swift.String?
     let ingestionArn: Swift.String?
@@ -82080,7 +82080,7 @@ extension UpdateDataSetPermissionsInput {
     }
 }
 
-public struct UpdateDataSetPermissionsInput: Swift.Equatable {
+public struct UpdateDataSetPermissionsInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -82106,7 +82106,7 @@ public struct UpdateDataSetPermissionsInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSetPermissionsInputBody: Swift.Equatable {
+struct UpdateDataSetPermissionsInputBody {
     let grantPermissions: [QuickSightClientTypes.ResourcePermission]?
     let revokePermissions: [QuickSightClientTypes.ResourcePermission]?
 }
@@ -82161,7 +82161,7 @@ extension UpdateDataSetPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataSetPermissionsOutput: Swift.Equatable {
+public struct UpdateDataSetPermissionsOutput {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var dataSetArn: Swift.String?
     /// The ID for the dataset whose permissions you want to update. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -82185,7 +82185,7 @@ public struct UpdateDataSetPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSetPermissionsOutputBody: Swift.Equatable {
+struct UpdateDataSetPermissionsOutputBody {
     let dataSetArn: Swift.String?
     let dataSetId: Swift.String?
     let requestId: Swift.String?
@@ -82276,7 +82276,7 @@ extension UpdateDataSourceInput {
     }
 }
 
-public struct UpdateDataSourceInput: Swift.Equatable {
+public struct UpdateDataSourceInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -82315,7 +82315,7 @@ public struct UpdateDataSourceInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSourceInputBody: Swift.Equatable {
+struct UpdateDataSourceInputBody {
     let name: Swift.String?
     let dataSourceParameters: QuickSightClientTypes.DataSourceParameters?
     let credentials: QuickSightClientTypes.DataSourceCredentials?
@@ -82366,7 +82366,7 @@ extension UpdateDataSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataSourceOutput: Swift.Equatable {
+public struct UpdateDataSourceOutput {
     /// The Amazon Resource Name (ARN) of the data source.
     public var arn: Swift.String?
     /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -82394,7 +82394,7 @@ public struct UpdateDataSourceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSourceOutputBody: Swift.Equatable {
+struct UpdateDataSourceOutputBody {
     let arn: Swift.String?
     let dataSourceId: Swift.String?
     let updateStatus: QuickSightClientTypes.ResourceStatus?
@@ -82478,7 +82478,7 @@ extension UpdateDataSourcePermissionsInput {
     }
 }
 
-public struct UpdateDataSourcePermissionsInput: Swift.Equatable {
+public struct UpdateDataSourcePermissionsInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -82504,7 +82504,7 @@ public struct UpdateDataSourcePermissionsInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSourcePermissionsInputBody: Swift.Equatable {
+struct UpdateDataSourcePermissionsInputBody {
     let grantPermissions: [QuickSightClientTypes.ResourcePermission]?
     let revokePermissions: [QuickSightClientTypes.ResourcePermission]?
 }
@@ -82559,7 +82559,7 @@ extension UpdateDataSourcePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataSourcePermissionsOutput: Swift.Equatable {
+public struct UpdateDataSourcePermissionsOutput {
     /// The Amazon Resource Name (ARN) of the data source.
     public var dataSourceArn: Swift.String?
     /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -82583,7 +82583,7 @@ public struct UpdateDataSourcePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDataSourcePermissionsOutputBody: Swift.Equatable {
+struct UpdateDataSourcePermissionsOutputBody {
     let dataSourceArn: Swift.String?
     let dataSourceId: Swift.String?
     let requestId: Swift.String?
@@ -82653,7 +82653,7 @@ extension UpdateFolderInput {
     }
 }
 
-public struct UpdateFolderInput: Swift.Equatable {
+public struct UpdateFolderInput {
     /// The ID for the Amazon Web Services account that contains the folder to update.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -82676,7 +82676,7 @@ public struct UpdateFolderInput: Swift.Equatable {
     }
 }
 
-struct UpdateFolderInputBody: Swift.Equatable {
+struct UpdateFolderInputBody {
     let name: Swift.String?
 }
 
@@ -82709,7 +82709,7 @@ extension UpdateFolderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFolderOutput: Swift.Equatable {
+public struct UpdateFolderOutput {
     /// The Amazon Resource Name (ARN) of the folder.
     public var arn: Swift.String?
     /// The ID of the folder.
@@ -82733,7 +82733,7 @@ public struct UpdateFolderOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFolderOutputBody: Swift.Equatable {
+struct UpdateFolderOutputBody {
     let status: Swift.Int
     let arn: Swift.String?
     let folderId: Swift.String?
@@ -82815,7 +82815,7 @@ extension UpdateFolderPermissionsInput {
     }
 }
 
-public struct UpdateFolderPermissionsInput: Swift.Equatable {
+public struct UpdateFolderPermissionsInput {
     /// The ID for the Amazon Web Services account that contains the folder to update.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -82841,7 +82841,7 @@ public struct UpdateFolderPermissionsInput: Swift.Equatable {
     }
 }
 
-struct UpdateFolderPermissionsInputBody: Swift.Equatable {
+struct UpdateFolderPermissionsInputBody {
     let grantPermissions: [QuickSightClientTypes.ResourcePermission]?
     let revokePermissions: [QuickSightClientTypes.ResourcePermission]?
 }
@@ -82899,7 +82899,7 @@ extension UpdateFolderPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFolderPermissionsOutput: Swift.Equatable {
+public struct UpdateFolderPermissionsOutput {
     /// The Amazon Resource Name (ARN) of the folder.
     public var arn: Swift.String?
     /// The ID of the folder.
@@ -82927,7 +82927,7 @@ public struct UpdateFolderPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFolderPermissionsOutputBody: Swift.Equatable {
+struct UpdateFolderPermissionsOutputBody {
     let status: Swift.Int
     let arn: Swift.String?
     let folderId: Swift.String?
@@ -83014,7 +83014,7 @@ extension UpdateGroupInput {
     }
 }
 
-public struct UpdateGroupInput: Swift.Equatable {
+public struct UpdateGroupInput {
     /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -83041,7 +83041,7 @@ public struct UpdateGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupInputBody: Swift.Equatable {
+struct UpdateGroupInputBody {
     let description: Swift.String?
 }
 
@@ -83072,7 +83072,7 @@ extension UpdateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGroupOutput: Swift.Equatable {
+public struct UpdateGroupOutput {
     /// The name of the group.
     public var group: QuickSightClientTypes.Group?
     /// The Amazon Web Services request ID for this operation.
@@ -83092,7 +83092,7 @@ public struct UpdateGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupOutputBody: Swift.Equatable {
+struct UpdateGroupOutputBody {
     let group: QuickSightClientTypes.Group?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -83176,7 +83176,7 @@ extension UpdateIAMPolicyAssignmentInput {
     }
 }
 
-public struct UpdateIAMPolicyAssignmentInput: Swift.Equatable {
+public struct UpdateIAMPolicyAssignmentInput {
     /// The name of the assignment, also called a rule. The name must be unique within the Amazon Web Services account.
     /// This member is required.
     public var assignmentName: Swift.String?
@@ -83217,7 +83217,7 @@ public struct UpdateIAMPolicyAssignmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateIAMPolicyAssignmentInputBody: Swift.Equatable {
+struct UpdateIAMPolicyAssignmentInputBody {
     let assignmentStatus: QuickSightClientTypes.AssignmentStatus?
     let policyArn: Swift.String?
     let identities: [Swift.String:[Swift.String]]?
@@ -83280,7 +83280,7 @@ extension UpdateIAMPolicyAssignmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIAMPolicyAssignmentOutput: Swift.Equatable {
+public struct UpdateIAMPolicyAssignmentOutput {
     /// The ID of the assignment.
     public var assignmentId: Swift.String?
     /// The name of the assignment or rule.
@@ -83322,7 +83322,7 @@ public struct UpdateIAMPolicyAssignmentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIAMPolicyAssignmentOutputBody: Swift.Equatable {
+struct UpdateIAMPolicyAssignmentOutputBody {
     let assignmentName: Swift.String?
     let assignmentId: Swift.String?
     let policyArn: Swift.String?
@@ -83424,7 +83424,7 @@ extension UpdateIdentityPropagationConfigInput {
     }
 }
 
-public struct UpdateIdentityPropagationConfigInput: Swift.Equatable {
+public struct UpdateIdentityPropagationConfigInput {
     /// Specifies a list of application ARNs that represent the authorized targets for a service.
     public var authorizedTargets: [Swift.String]?
     /// The ID of the Amazon Web Services account that contains the identity propagation configuration that you want to update.
@@ -83446,7 +83446,7 @@ public struct UpdateIdentityPropagationConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateIdentityPropagationConfigInputBody: Swift.Equatable {
+struct UpdateIdentityPropagationConfigInputBody {
     let authorizedTargets: [Swift.String]?
 }
 
@@ -83484,7 +83484,7 @@ extension UpdateIdentityPropagationConfigOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateIdentityPropagationConfigOutput: Swift.Equatable {
+public struct UpdateIdentityPropagationConfigOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -83500,7 +83500,7 @@ public struct UpdateIdentityPropagationConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIdentityPropagationConfigOutputBody: Swift.Equatable {
+struct UpdateIdentityPropagationConfigOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -83579,7 +83579,7 @@ extension UpdateIpRestrictionInput {
     }
 }
 
-public struct UpdateIpRestrictionInput: Swift.Equatable {
+public struct UpdateIpRestrictionInput {
     /// The ID of the Amazon Web Services account that contains the IP rules.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -83608,7 +83608,7 @@ public struct UpdateIpRestrictionInput: Swift.Equatable {
     }
 }
 
-struct UpdateIpRestrictionInputBody: Swift.Equatable {
+struct UpdateIpRestrictionInputBody {
     let ipRestrictionRuleMap: [Swift.String:Swift.String]?
     let vpcIdRestrictionRuleMap: [Swift.String:Swift.String]?
     let vpcEndpointIdRestrictionRuleMap: [Swift.String:Swift.String]?
@@ -83678,7 +83678,7 @@ extension UpdateIpRestrictionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIpRestrictionOutput: Swift.Equatable {
+public struct UpdateIpRestrictionOutput {
     /// The ID of the Amazon Web Services account that contains the IP rules.
     public var awsAccountId: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -83698,7 +83698,7 @@ public struct UpdateIpRestrictionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIpRestrictionOutputBody: Swift.Equatable {
+struct UpdateIpRestrictionOutputBody {
     let awsAccountId: Swift.String?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -83761,7 +83761,7 @@ extension UpdatePublicSharingSettingsInput {
     }
 }
 
-public struct UpdatePublicSharingSettingsInput: Swift.Equatable {
+public struct UpdatePublicSharingSettingsInput {
     /// The Amazon Web Services account ID associated with your Amazon QuickSight subscription.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -83778,7 +83778,7 @@ public struct UpdatePublicSharingSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdatePublicSharingSettingsInputBody: Swift.Equatable {
+struct UpdatePublicSharingSettingsInputBody {
     let publicSharingEnabled: Swift.Bool?
 }
 
@@ -83807,7 +83807,7 @@ extension UpdatePublicSharingSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePublicSharingSettingsOutput: Swift.Equatable {
+public struct UpdatePublicSharingSettingsOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -83823,7 +83823,7 @@ public struct UpdatePublicSharingSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePublicSharingSettingsOutputBody: Swift.Equatable {
+struct UpdatePublicSharingSettingsOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -83885,7 +83885,7 @@ extension UpdateRefreshScheduleInput {
     }
 }
 
-public struct UpdateRefreshScheduleInput: Swift.Equatable {
+public struct UpdateRefreshScheduleInput {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -83908,7 +83908,7 @@ public struct UpdateRefreshScheduleInput: Swift.Equatable {
     }
 }
 
-struct UpdateRefreshScheduleInputBody: Swift.Equatable {
+struct UpdateRefreshScheduleInputBody {
     let schedule: QuickSightClientTypes.RefreshSchedule?
 }
 
@@ -83941,7 +83941,7 @@ extension UpdateRefreshScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRefreshScheduleOutput: Swift.Equatable {
+public struct UpdateRefreshScheduleOutput {
     /// The Amazon Resource Name (ARN) for the refresh schedule.
     public var arn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -83965,7 +83965,7 @@ public struct UpdateRefreshScheduleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRefreshScheduleOutputBody: Swift.Equatable {
+struct UpdateRefreshScheduleOutputBody {
     let status: Swift.Int
     let requestId: Swift.String?
     let scheduleId: Swift.String?
@@ -84039,7 +84039,7 @@ extension UpdateRoleCustomPermissionInput {
     }
 }
 
-public struct UpdateRoleCustomPermissionInput: Swift.Equatable {
+public struct UpdateRoleCustomPermissionInput {
     /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -84067,7 +84067,7 @@ public struct UpdateRoleCustomPermissionInput: Swift.Equatable {
     }
 }
 
-struct UpdateRoleCustomPermissionInputBody: Swift.Equatable {
+struct UpdateRoleCustomPermissionInputBody {
     let customPermissionsName: Swift.String?
 }
 
@@ -84097,7 +84097,7 @@ extension UpdateRoleCustomPermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRoleCustomPermissionOutput: Swift.Equatable {
+public struct UpdateRoleCustomPermissionOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -84113,7 +84113,7 @@ public struct UpdateRoleCustomPermissionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRoleCustomPermissionOutputBody: Swift.Equatable {
+struct UpdateRoleCustomPermissionOutputBody {
     let requestId: Swift.String?
     let status: Swift.Int
 }
@@ -84179,7 +84179,7 @@ extension UpdateTemplateAliasInput {
     }
 }
 
-public struct UpdateTemplateAliasInput: Swift.Equatable {
+public struct UpdateTemplateAliasInput {
     /// The alias of the template that you want to update. If you name a specific alias, you update the version that the alias points to. You can specify the latest version of the template by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to templates.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -84207,7 +84207,7 @@ public struct UpdateTemplateAliasInput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplateAliasInputBody: Swift.Equatable {
+struct UpdateTemplateAliasInputBody {
     let templateVersionNumber: Swift.Int?
 }
 
@@ -84238,7 +84238,7 @@ extension UpdateTemplateAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTemplateAliasOutput: Swift.Equatable {
+public struct UpdateTemplateAliasOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -84258,7 +84258,7 @@ public struct UpdateTemplateAliasOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplateAliasOutputBody: Swift.Equatable {
+struct UpdateTemplateAliasOutputBody {
     let templateAlias: QuickSightClientTypes.TemplateAlias?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -84339,7 +84339,7 @@ extension UpdateTemplateInput {
     }
 }
 
-public struct UpdateTemplateInput: Swift.Equatable {
+public struct UpdateTemplateInput {
     /// The ID of the Amazon Web Services account that contains the template that you're updating.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -84377,7 +84377,7 @@ public struct UpdateTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplateInputBody: Swift.Equatable {
+struct UpdateTemplateInputBody {
     let sourceEntity: QuickSightClientTypes.TemplateSourceEntity?
     let versionDescription: Swift.String?
     let name: Swift.String?
@@ -84430,7 +84430,7 @@ extension UpdateTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTemplateOutput: Swift.Equatable {
+public struct UpdateTemplateOutput {
     /// The Amazon Resource Name (ARN) for the template.
     public var arn: Swift.String?
     /// The creation status of the template.
@@ -84462,7 +84462,7 @@ public struct UpdateTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplateOutputBody: Swift.Equatable {
+struct UpdateTemplateOutputBody {
     let templateId: Swift.String?
     let arn: Swift.String?
     let versionArn: Swift.String?
@@ -84552,7 +84552,7 @@ extension UpdateTemplatePermissionsInput {
     }
 }
 
-public struct UpdateTemplatePermissionsInput: Swift.Equatable {
+public struct UpdateTemplatePermissionsInput {
     /// The ID of the Amazon Web Services account that contains the template.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -84578,7 +84578,7 @@ public struct UpdateTemplatePermissionsInput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplatePermissionsInputBody: Swift.Equatable {
+struct UpdateTemplatePermissionsInputBody {
     let grantPermissions: [QuickSightClientTypes.ResourcePermission]?
     let revokePermissions: [QuickSightClientTypes.ResourcePermission]?
 }
@@ -84635,7 +84635,7 @@ extension UpdateTemplatePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTemplatePermissionsOutput: Swift.Equatable {
+public struct UpdateTemplatePermissionsOutput {
     /// A list of resource permissions to be set on the template.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
     /// The Amazon Web Services request ID for this operation.
@@ -84663,7 +84663,7 @@ public struct UpdateTemplatePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplatePermissionsOutputBody: Swift.Equatable {
+struct UpdateTemplatePermissionsOutputBody {
     let templateId: Swift.String?
     let templateArn: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -84750,7 +84750,7 @@ extension UpdateThemeAliasInput {
     }
 }
 
-public struct UpdateThemeAliasInput: Swift.Equatable {
+public struct UpdateThemeAliasInput {
     /// The name of the theme alias that you want to update.
     /// This member is required.
     public var aliasName: Swift.String?
@@ -84778,7 +84778,7 @@ public struct UpdateThemeAliasInput: Swift.Equatable {
     }
 }
 
-struct UpdateThemeAliasInputBody: Swift.Equatable {
+struct UpdateThemeAliasInputBody {
     let themeVersionNumber: Swift.Int?
 }
 
@@ -84809,7 +84809,7 @@ extension UpdateThemeAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateThemeAliasOutput: Swift.Equatable {
+public struct UpdateThemeAliasOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -84829,7 +84829,7 @@ public struct UpdateThemeAliasOutput: Swift.Equatable {
     }
 }
 
-struct UpdateThemeAliasOutputBody: Swift.Equatable {
+struct UpdateThemeAliasOutputBody {
     let themeAlias: QuickSightClientTypes.ThemeAlias?
     let status: Swift.Int
     let requestId: Swift.String?
@@ -84908,7 +84908,7 @@ extension UpdateThemeInput {
     }
 }
 
-public struct UpdateThemeInput: Swift.Equatable {
+public struct UpdateThemeInput {
     /// The ID of the Amazon Web Services account that contains the theme that you're updating.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -84943,7 +84943,7 @@ public struct UpdateThemeInput: Swift.Equatable {
     }
 }
 
-struct UpdateThemeInputBody: Swift.Equatable {
+struct UpdateThemeInputBody {
     let name: Swift.String?
     let baseThemeId: Swift.String?
     let versionDescription: Swift.String?
@@ -84992,7 +84992,7 @@ extension UpdateThemeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateThemeOutput: Swift.Equatable {
+public struct UpdateThemeOutput {
     /// The Amazon Resource Name (ARN) for the theme.
     public var arn: Swift.String?
     /// The creation status of the theme.
@@ -85024,7 +85024,7 @@ public struct UpdateThemeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateThemeOutputBody: Swift.Equatable {
+struct UpdateThemeOutputBody {
     let themeId: Swift.String?
     let arn: Swift.String?
     let versionArn: Swift.String?
@@ -85114,7 +85114,7 @@ extension UpdateThemePermissionsInput {
     }
 }
 
-public struct UpdateThemePermissionsInput: Swift.Equatable {
+public struct UpdateThemePermissionsInput {
     /// The ID of the Amazon Web Services account that contains the theme.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -85140,7 +85140,7 @@ public struct UpdateThemePermissionsInput: Swift.Equatable {
     }
 }
 
-struct UpdateThemePermissionsInputBody: Swift.Equatable {
+struct UpdateThemePermissionsInputBody {
     let grantPermissions: [QuickSightClientTypes.ResourcePermission]?
     let revokePermissions: [QuickSightClientTypes.ResourcePermission]?
 }
@@ -85197,7 +85197,7 @@ extension UpdateThemePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateThemePermissionsOutput: Swift.Equatable {
+public struct UpdateThemePermissionsOutput {
     /// The resulting list of resource permissions for the theme.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
     /// The Amazon Web Services request ID for this operation.
@@ -85225,7 +85225,7 @@ public struct UpdateThemePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateThemePermissionsOutputBody: Swift.Equatable {
+struct UpdateThemePermissionsOutputBody {
     let themeId: Swift.String?
     let themeArn: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -85309,7 +85309,7 @@ extension UpdateTopicInput {
     }
 }
 
-public struct UpdateTopicInput: Swift.Equatable {
+public struct UpdateTopicInput {
     /// The ID of the Amazon Web Services account that contains the topic that you want to update.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -85332,7 +85332,7 @@ public struct UpdateTopicInput: Swift.Equatable {
     }
 }
 
-struct UpdateTopicInputBody: Swift.Equatable {
+struct UpdateTopicInputBody {
     let topic: QuickSightClientTypes.TopicDetails?
 }
 
@@ -85367,7 +85367,7 @@ extension UpdateTopicOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTopicOutput: Swift.Equatable {
+public struct UpdateTopicOutput {
     /// The Amazon Resource Name (ARN) of the topic.
     public var arn: Swift.String?
     /// The Amazon Resource Name (ARN) of the topic refresh.
@@ -85395,7 +85395,7 @@ public struct UpdateTopicOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTopicOutputBody: Swift.Equatable {
+struct UpdateTopicOutputBody {
     let topicId: Swift.String?
     let arn: Swift.String?
     let refreshArn: Swift.String?
@@ -85481,7 +85481,7 @@ extension UpdateTopicPermissionsInput {
     }
 }
 
-public struct UpdateTopicPermissionsInput: Swift.Equatable {
+public struct UpdateTopicPermissionsInput {
     /// The ID of the Amazon Web Services account that contains the topic that you want to update the permissions for.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -85507,7 +85507,7 @@ public struct UpdateTopicPermissionsInput: Swift.Equatable {
     }
 }
 
-struct UpdateTopicPermissionsInputBody: Swift.Equatable {
+struct UpdateTopicPermissionsInputBody {
     let grantPermissions: [QuickSightClientTypes.ResourcePermission]?
     let revokePermissions: [QuickSightClientTypes.ResourcePermission]?
 }
@@ -85564,7 +85564,7 @@ extension UpdateTopicPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTopicPermissionsOutput: Swift.Equatable {
+public struct UpdateTopicPermissionsOutput {
     /// A list of resource permissions on the topic.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
     /// The Amazon Web Services request ID for this operation.
@@ -85592,7 +85592,7 @@ public struct UpdateTopicPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTopicPermissionsOutputBody: Swift.Equatable {
+struct UpdateTopicPermissionsOutputBody {
     let topicId: Swift.String?
     let topicArn: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -85680,7 +85680,7 @@ extension UpdateTopicRefreshScheduleInput {
     }
 }
 
-public struct UpdateTopicRefreshScheduleInput: Swift.Equatable {
+public struct UpdateTopicRefreshScheduleInput {
     /// The ID of the Amazon Web Services account that contains the topic whose refresh schedule you want to update.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -85708,7 +85708,7 @@ public struct UpdateTopicRefreshScheduleInput: Swift.Equatable {
     }
 }
 
-struct UpdateTopicRefreshScheduleInputBody: Swift.Equatable {
+struct UpdateTopicRefreshScheduleInputBody {
     let refreshSchedule: QuickSightClientTypes.TopicRefreshSchedule?
 }
 
@@ -85743,7 +85743,7 @@ extension UpdateTopicRefreshScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTopicRefreshScheduleOutput: Swift.Equatable {
+public struct UpdateTopicRefreshScheduleOutput {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var datasetArn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -85771,7 +85771,7 @@ public struct UpdateTopicRefreshScheduleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTopicRefreshScheduleOutputBody: Swift.Equatable {
+struct UpdateTopicRefreshScheduleOutputBody {
     let topicId: Swift.String?
     let topicArn: Swift.String?
     let datasetArn: Swift.String?
@@ -85874,7 +85874,7 @@ extension UpdateUserInput {
     }
 }
 
-public struct UpdateUserInput: Swift.Equatable {
+public struct UpdateUserInput {
     /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -85953,7 +85953,7 @@ public struct UpdateUserInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserInputBody: Swift.Equatable {
+struct UpdateUserInputBody {
     let email: Swift.String?
     let role: QuickSightClientTypes.UserRole?
     let customPermissionsName: Swift.String?
@@ -86008,7 +86008,7 @@ extension UpdateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserOutput: Swift.Equatable {
+public struct UpdateUserOutput {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -86028,7 +86028,7 @@ public struct UpdateUserOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUserOutputBody: Swift.Equatable {
+struct UpdateUserOutputBody {
     let user: QuickSightClientTypes.User?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -86120,7 +86120,7 @@ extension UpdateVPCConnectionInput {
     }
 }
 
-public struct UpdateVPCConnectionInput: Swift.Equatable {
+public struct UpdateVPCConnectionInput {
     /// The Amazon Web Services account ID of the account that contains the VPC connection that you want to update.
     /// This member is required.
     public var awsAccountId: Swift.String?
@@ -86162,7 +86162,7 @@ public struct UpdateVPCConnectionInput: Swift.Equatable {
     }
 }
 
-struct UpdateVPCConnectionInputBody: Swift.Equatable {
+struct UpdateVPCConnectionInputBody {
     let name: Swift.String?
     let subnetIds: [Swift.String]?
     let securityGroupIds: [Swift.String]?
@@ -86242,7 +86242,7 @@ extension UpdateVPCConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVPCConnectionOutput: Swift.Equatable {
+public struct UpdateVPCConnectionOutput {
     /// The Amazon Resource Name (ARN) of the VPC connection.
     public var arn: Swift.String?
     /// The availability status of the VPC connection.
@@ -86274,7 +86274,7 @@ public struct UpdateVPCConnectionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVPCConnectionOutputBody: Swift.Equatable {
+struct UpdateVPCConnectionOutputBody {
     let arn: Swift.String?
     let vpcConnectionId: Swift.String?
     let updateStatus: QuickSightClientTypes.VPCConnectionResourceStatus?
@@ -86373,7 +86373,7 @@ extension QuickSightClientTypes.UploadSettings: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Information about the format for a source file or files.
-    public struct UploadSettings: Swift.Equatable {
+    public struct UploadSettings {
         /// Whether the file has a header row, or the files each have a header row.
         public var containsHeader: Swift.Bool?
         /// The delimiter between values in the file.
@@ -86484,7 +86484,7 @@ extension QuickSightClientTypes.User: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A registered user of Amazon QuickSight.
-    public struct User: Swift.Equatable {
+    public struct User {
         /// The active status of user. When you create an Amazon QuickSight user that's not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
         public var active: Swift.Bool
         /// The Amazon Resource Name (ARN) for the user.
@@ -86716,7 +86716,7 @@ extension QuickSightClientTypes.VPCConnection: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The structure of a VPC connection.
-    public struct VPCConnection: Swift.Equatable {
+    public struct VPCConnection {
         /// The Amazon Resource Name (ARN) of the VPC connection.
         public var arn: Swift.String?
         /// The availability status of the VPC connection.
@@ -86985,7 +86985,7 @@ extension QuickSightClientTypes.VPCConnectionSummary: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The summary metadata that describes a VPC connection.
-    public struct VPCConnectionSummary: Swift.Equatable {
+    public struct VPCConnectionSummary {
         /// The Amazon Resource Name (ARN) of the VPC connection.
         public var arn: Swift.String?
         /// The availability status of the VPC connection.
@@ -87064,7 +87064,7 @@ extension QuickSightClientTypes.ValidationStrategy: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The option to relax the validation that is required to create and update analyses, dashboards, and templates with definition objects. When you set this value to LENIENT, validation is skipped for specific errors.
-    public struct ValidationStrategy: Swift.Equatable {
+    public struct ValidationStrategy {
         /// The mode of validation for the asset to be created or updated. When you set this value to STRICT, strict validation for every error is enforced. When you set this value to LENIENT, validation is skipped for specific UI errors.
         /// This member is required.
         public var mode: QuickSightClientTypes.ValidationStrategyMode?
@@ -87234,7 +87234,7 @@ extension QuickSightClientTypes.VisibleRangeOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The range options for the data zoom scroll bar.
-    public struct VisibleRangeOptions: Swift.Equatable {
+    public struct VisibleRangeOptions {
         /// The percent range in the visible range.
         public var percentRange: QuickSightClientTypes.PercentVisibleRange?
 
@@ -87401,7 +87401,7 @@ extension QuickSightClientTypes.Visual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A visual displayed on a sheet in an analysis, dashboard, or template. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct Visual: Swift.Equatable {
+    public struct Visual {
         /// A bar chart. For more information, see [Using bar charts](https://docs.aws.amazon.com/quicksight/latest/user/bar-charts.html) in the Amazon QuickSight User Guide.
         public var barChartVisual: QuickSightClientTypes.BarChartVisual?
         /// A box plot. For more information, see [Using box plots](https://docs.aws.amazon.com/quicksight/latest/user/box-plots.html) in the Amazon QuickSight User Guide.
@@ -87524,7 +87524,7 @@ extension QuickSightClientTypes.VisualAxisSortOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The axis sort options for a visual.
-    public struct VisualAxisSortOption: Swift.Equatable {
+    public struct VisualAxisSortOption {
         /// The availaiblity status of a visual's axis sort options.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
@@ -87595,7 +87595,7 @@ extension QuickSightClientTypes.VisualCustomAction: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A custom action defined on a visual.
-    public struct VisualCustomAction: Swift.Equatable {
+    public struct VisualCustomAction {
         /// A list of VisualCustomActionOperations. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
         /// This member is required.
         public var actionOperations: [QuickSightClientTypes.VisualCustomActionOperation]?
@@ -87672,7 +87672,7 @@ extension QuickSightClientTypes.VisualCustomActionOperation: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The operation that is defined by the custom action. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct VisualCustomActionOperation: Swift.Equatable {
+    public struct VisualCustomActionOperation {
         /// The filter operation that filters data included in a visual or in an entire sheet.
         public var filterOperation: QuickSightClientTypes.CustomActionFilterOperation?
         /// The navigation operation that navigates between different sheets in the same analysis.
@@ -87757,7 +87757,7 @@ extension QuickSightClientTypes.VisualInteractionOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The general visual interactions setup for visual publish options
-    public struct VisualInteractionOptions: Swift.Equatable {
+    public struct VisualInteractionOptions {
         /// The context menu options for a visual.
         public var contextMenuOption: QuickSightClientTypes.ContextMenuOption?
         /// The on-visual menu options for a visual.
@@ -87796,7 +87796,7 @@ extension QuickSightClientTypes.VisualMenuOption: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The menu options for a visual.
-    public struct VisualMenuOption: Swift.Equatable {
+    public struct VisualMenuOption {
         /// The availaiblity status of a visual's menu options.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
@@ -87849,7 +87849,7 @@ extension QuickSightClientTypes.VisualPalette: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The visual display options for the visual palette.
-    public struct VisualPalette: Swift.Equatable {
+    public struct VisualPalette {
         /// The chart color options for the visual palette.
         public var chartColor: Swift.String?
         /// The color map options for the visual palette.
@@ -87894,7 +87894,7 @@ extension QuickSightClientTypes.VisualSubtitleLabelOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The subtitle label options for a visual.
-    public struct VisualSubtitleLabelOptions: Swift.Equatable {
+    public struct VisualSubtitleLabelOptions {
         /// The long text format of the subtitle label, such as plain text or rich text.
         public var formatText: QuickSightClientTypes.LongFormatText?
         /// The visibility of the subtitle label.
@@ -87939,7 +87939,7 @@ extension QuickSightClientTypes.VisualTitleLabelOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The title label options for a visual.
-    public struct VisualTitleLabelOptions: Swift.Equatable {
+    public struct VisualTitleLabelOptions {
         /// The short text format of the title label, such as plain text or rich text.
         public var formatText: QuickSightClientTypes.ShortFormatText?
         /// The visibility of the title label.
@@ -87978,7 +87978,7 @@ extension QuickSightClientTypes.VpcConnectionProperties: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// VPC connection properties.
-    public struct VpcConnectionProperties: Swift.Equatable {
+    public struct VpcConnectionProperties {
         /// The Amazon Resource Name (ARN) for the VPC connection.
         /// This member is required.
         public var vpcConnectionArn: Swift.String?
@@ -88062,7 +88062,7 @@ extension QuickSightClientTypes.WaterfallChartAggregatedFieldWells: Swift.Codabl
 
 extension QuickSightClientTypes {
     /// The field well configuration of a waterfall visual.
-    public struct WaterfallChartAggregatedFieldWells: Swift.Equatable {
+    public struct WaterfallChartAggregatedFieldWells {
         /// The breakdown field wells of a waterfall visual.
         public var breakdowns: [QuickSightClientTypes.DimensionField]?
         /// The category field wells of a waterfall visual.
@@ -88105,7 +88105,7 @@ extension QuickSightClientTypes.WaterfallChartColorConfiguration: Swift.Codable 
 
 extension QuickSightClientTypes {
     /// The color configuration of a waterfall visual.
-    public struct WaterfallChartColorConfiguration: Swift.Equatable {
+    public struct WaterfallChartColorConfiguration {
         /// The color configuration for individual groups within a waterfall visual.
         public var groupColorConfiguration: QuickSightClientTypes.WaterfallChartGroupColorConfiguration?
 
@@ -88206,7 +88206,7 @@ extension QuickSightClientTypes.WaterfallChartConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration for a waterfall visual.
-    public struct WaterfallChartConfiguration: Swift.Equatable {
+    public struct WaterfallChartConfiguration {
         /// The options that determine the presentation of the category axis.
         public var categoryAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions?
         /// The options that determine the presentation of the category axis label.
@@ -88285,7 +88285,7 @@ extension QuickSightClientTypes.WaterfallChartFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field well configuration of a waterfall visual.
-    public struct WaterfallChartFieldWells: Swift.Equatable {
+    public struct WaterfallChartFieldWells {
         /// The field well configuration of a waterfall visual.
         public var waterfallChartAggregatedFieldWells: QuickSightClientTypes.WaterfallChartAggregatedFieldWells?
 
@@ -88332,7 +88332,7 @@ extension QuickSightClientTypes.WaterfallChartGroupColorConfiguration: Swift.Cod
 
 extension QuickSightClientTypes {
     /// The color configuration for individual groups within a waterfall visual.
-    public struct WaterfallChartGroupColorConfiguration: Swift.Equatable {
+    public struct WaterfallChartGroupColorConfiguration {
         /// Defines the color for the negative bars of a waterfall chart.
         public var negativeBarColor: Swift.String?
         /// Defines the color for the positive bars of a waterfall chart.
@@ -88375,7 +88375,7 @@ extension QuickSightClientTypes.WaterfallChartOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that determine the presentation of a waterfall visual.
-    public struct WaterfallChartOptions: Swift.Equatable {
+    public struct WaterfallChartOptions {
         /// This option determines the total bar label of a waterfall visual.
         public var totalBarLabel: Swift.String?
 
@@ -88428,7 +88428,7 @@ extension QuickSightClientTypes.WaterfallChartSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a waterfall visual.
-    public struct WaterfallChartSortConfiguration: Swift.Equatable {
+    public struct WaterfallChartSortConfiguration {
         /// The limit on the number of bar groups that are displayed.
         public var breakdownItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration?
         /// The sort configuration of the category fields.
@@ -88521,7 +88521,7 @@ extension QuickSightClientTypes.WaterfallVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A waterfall chart. For more information, see [Using waterfall charts](https://docs.aws.amazon.com/quicksight/latest/user/waterfall-chart.html) in the Amazon QuickSight User Guide.
-    public struct WaterfallVisual: Swift.Equatable {
+    public struct WaterfallVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration for a waterfall visual.
@@ -88583,7 +88583,7 @@ extension QuickSightClientTypes.WhatIfPointScenario: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Provides the forecast to meet the target for a particular date.
-    public struct WhatIfPointScenario: Swift.Equatable {
+    public struct WhatIfPointScenario {
         /// The date that you need the forecast results for.
         /// This member is required.
         public var date: ClientRuntime.Date?
@@ -88636,7 +88636,7 @@ extension QuickSightClientTypes.WhatIfRangeScenario: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// Provides the forecast to meet the target for a particular date range.
-    public struct WhatIfRangeScenario: Swift.Equatable {
+    public struct WhatIfRangeScenario {
         /// The end date in the date range that you need the forecast results for.
         /// This member is required.
         public var endDate: ClientRuntime.Date?
@@ -88744,7 +88744,7 @@ extension QuickSightClientTypes.WordCloudAggregatedFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The aggregated field wells of a word cloud.
-    public struct WordCloudAggregatedFieldWells: Swift.Equatable {
+    public struct WordCloudAggregatedFieldWells {
         /// The group by field well of a word cloud. Values are grouped by group by fields.
         public var groupBy: [QuickSightClientTypes.DimensionField]?
         /// The size field well of a word cloud. Values are aggregated based on group by fields.
@@ -88807,7 +88807,7 @@ extension QuickSightClientTypes.WordCloudChartConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The configuration of a word cloud visual.
-    public struct WordCloudChartConfiguration: Swift.Equatable {
+    public struct WordCloudChartConfiguration {
         /// The label options (label text, label visibility, and sort icon visibility) for the word cloud category.
         public var categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
         /// The field wells of the visual.
@@ -88890,7 +88890,7 @@ extension QuickSightClientTypes.WordCloudFieldWells: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The field wells of a word cloud visual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct WordCloudFieldWells: Swift.Equatable {
+    public struct WordCloudFieldWells {
         /// The aggregated field wells of a word cloud.
         public var wordCloudAggregatedFieldWells: QuickSightClientTypes.WordCloudAggregatedFieldWells?
 
@@ -88955,7 +88955,7 @@ extension QuickSightClientTypes.WordCloudOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The word cloud options for a word cloud visual.
-    public struct WordCloudOptions: Swift.Equatable {
+    public struct WordCloudOptions {
         /// The cloud layout options (fluid, normal) of a word cloud.
         public var cloudLayout: QuickSightClientTypes.WordCloudCloudLayout?
         /// The length limit of each word from 1-100.
@@ -89028,7 +89028,7 @@ extension QuickSightClientTypes.WordCloudSortConfiguration: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The sort configuration of a word cloud visual.
-    public struct WordCloudSortConfiguration: Swift.Equatable {
+    public struct WordCloudSortConfiguration {
         /// The limit on the number of groups that are displayed in a word cloud.
         public var categoryItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration?
         /// The sort configuration of group by fields.
@@ -89121,7 +89121,7 @@ extension QuickSightClientTypes.WordCloudVisual: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// A word cloud. For more information, see [Using word clouds](https://docs.aws.amazon.com/quicksight/latest/user/word-cloud.html) in the Amazon QuickSight User Guide.
-    public struct WordCloudVisual: Swift.Equatable {
+    public struct WordCloudVisual {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration settings of the visual.
@@ -89311,7 +89311,7 @@ extension QuickSightClientTypes.YAxisOptions: Swift.Codable {
 
 extension QuickSightClientTypes {
     /// The options that are available for a single Y axis in a chart.
-    public struct YAxisOptions: Swift.Equatable {
+    public struct YAxisOptions {
         /// The Y axis type to be used in the chart. If you choose PRIMARY_Y_AXIS, the primary Y Axis is located on the leftmost vertical axis of the chart.
         /// This member is required.
         public var yAxis: QuickSightClientTypes.SingleYAxisOption?

@@ -29,7 +29,7 @@ extension ECRClientTypes.Attribute: Swift.Codable {
 
 extension ECRClientTypes {
     /// This data type is used in the [ImageScanFinding] data type.
-    public struct Attribute: Swift.Equatable {
+    public struct Attribute {
         /// The attribute key.
         /// This member is required.
         public var key: Swift.String?
@@ -81,7 +81,7 @@ extension ECRClientTypes.AuthorizationData: Swift.Codable {
 
 extension ECRClientTypes {
     /// An object representing authorization data for an Amazon ECR registry.
-    public struct AuthorizationData: Swift.Equatable {
+    public struct AuthorizationData {
         /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
         public var authorizationToken: Swift.String?
         /// The Unix time in seconds and milliseconds when the authorization token expires. Authorization tokens are valid for 12 hours.
@@ -178,7 +178,7 @@ extension ECRClientTypes.AwsEcrContainerImageDetails: Swift.Codable {
 
 extension ECRClientTypes {
     /// The image details of the Amazon ECR container image.
-    public struct AwsEcrContainerImageDetails: Swift.Equatable {
+    public struct AwsEcrContainerImageDetails {
         /// The architecture of the Amazon ECR container image.
         public var architecture: Swift.String?
         /// The image author of the Amazon ECR container image.
@@ -251,7 +251,7 @@ extension BatchCheckLayerAvailabilityInput {
     }
 }
 
-public struct BatchCheckLayerAvailabilityInput: Swift.Equatable {
+public struct BatchCheckLayerAvailabilityInput {
     /// The digests of the image layers to check.
     /// This member is required.
     public var layerDigests: [Swift.String]?
@@ -273,7 +273,7 @@ public struct BatchCheckLayerAvailabilityInput: Swift.Equatable {
     }
 }
 
-struct BatchCheckLayerAvailabilityInputBody: Swift.Equatable {
+struct BatchCheckLayerAvailabilityInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let layerDigests: [Swift.String]?
@@ -320,7 +320,7 @@ extension BatchCheckLayerAvailabilityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchCheckLayerAvailabilityOutput: Swift.Equatable {
+public struct BatchCheckLayerAvailabilityOutput {
     /// Any failures associated with the call.
     public var failures: [ECRClientTypes.LayerFailure]?
     /// A list of image layer objects corresponding to the image layer references in the request.
@@ -336,7 +336,7 @@ public struct BatchCheckLayerAvailabilityOutput: Swift.Equatable {
     }
 }
 
-struct BatchCheckLayerAvailabilityOutputBody: Swift.Equatable {
+struct BatchCheckLayerAvailabilityOutputBody {
     let layers: [ECRClientTypes.Layer]?
     let failures: [ECRClientTypes.LayerFailure]?
 }
@@ -419,7 +419,7 @@ extension BatchDeleteImageInput {
 }
 
 /// Deletes specified images within a specified repository. Images are specified with either the imageTag or imageDigest.
-public struct BatchDeleteImageInput: Swift.Equatable {
+public struct BatchDeleteImageInput {
     /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
     /// This member is required.
     public var imageIds: [ECRClientTypes.ImageIdentifier]?
@@ -441,7 +441,7 @@ public struct BatchDeleteImageInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteImageInputBody: Swift.Equatable {
+struct BatchDeleteImageInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageIds: [ECRClientTypes.ImageIdentifier]?
@@ -488,7 +488,7 @@ extension BatchDeleteImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteImageOutput: Swift.Equatable {
+public struct BatchDeleteImageOutput {
     /// Any failures associated with the call.
     public var failures: [ECRClientTypes.ImageFailure]?
     /// The image IDs of the deleted images.
@@ -504,7 +504,7 @@ public struct BatchDeleteImageOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteImageOutputBody: Swift.Equatable {
+struct BatchDeleteImageOutputBody {
     let imageIds: [ECRClientTypes.ImageIdentifier]?
     let failures: [ECRClientTypes.ImageFailure]?
 }
@@ -593,7 +593,7 @@ extension BatchGetImageInput {
     }
 }
 
-public struct BatchGetImageInput: Swift.Equatable {
+public struct BatchGetImageInput {
     /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json
     public var acceptedMediaTypes: [Swift.String]?
     /// A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
@@ -619,7 +619,7 @@ public struct BatchGetImageInput: Swift.Equatable {
     }
 }
 
-struct BatchGetImageInputBody: Swift.Equatable {
+struct BatchGetImageInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageIds: [ECRClientTypes.ImageIdentifier]?
@@ -679,7 +679,7 @@ extension BatchGetImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetImageOutput: Swift.Equatable {
+public struct BatchGetImageOutput {
     /// Any failures associated with the call.
     public var failures: [ECRClientTypes.ImageFailure]?
     /// A list of image objects corresponding to the image references in the request.
@@ -695,7 +695,7 @@ public struct BatchGetImageOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetImageOutputBody: Swift.Equatable {
+struct BatchGetImageOutputBody {
     let images: [ECRClientTypes.Image]?
     let failures: [ECRClientTypes.ImageFailure]?
 }
@@ -771,7 +771,7 @@ extension BatchGetRepositoryScanningConfigurationInput {
     }
 }
 
-public struct BatchGetRepositoryScanningConfigurationInput: Swift.Equatable {
+public struct BatchGetRepositoryScanningConfigurationInput {
     /// One or more repository names to get the scanning configuration for.
     /// This member is required.
     public var repositoryNames: [Swift.String]?
@@ -784,7 +784,7 @@ public struct BatchGetRepositoryScanningConfigurationInput: Swift.Equatable {
     }
 }
 
-struct BatchGetRepositoryScanningConfigurationInputBody: Swift.Equatable {
+struct BatchGetRepositoryScanningConfigurationInputBody {
     let repositoryNames: [Swift.String]?
 }
 
@@ -823,7 +823,7 @@ extension BatchGetRepositoryScanningConfigurationOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct BatchGetRepositoryScanningConfigurationOutput: Swift.Equatable {
+public struct BatchGetRepositoryScanningConfigurationOutput {
     /// Any failures associated with the call.
     public var failures: [ECRClientTypes.RepositoryScanningConfigurationFailure]?
     /// The scanning configuration for the requested repositories.
@@ -839,7 +839,7 @@ public struct BatchGetRepositoryScanningConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetRepositoryScanningConfigurationOutputBody: Swift.Equatable {
+struct BatchGetRepositoryScanningConfigurationOutputBody {
     let scanningConfigurations: [ECRClientTypes.RepositoryScanningConfiguration]?
     let failures: [ECRClientTypes.RepositoryScanningConfigurationFailure]?
 }
@@ -926,7 +926,7 @@ extension CompleteLayerUploadInput {
     }
 }
 
-public struct CompleteLayerUploadInput: Swift.Equatable {
+public struct CompleteLayerUploadInput {
     /// The sha256 digest of the image layer.
     /// This member is required.
     public var layerDigests: [Swift.String]?
@@ -953,7 +953,7 @@ public struct CompleteLayerUploadInput: Swift.Equatable {
     }
 }
 
-struct CompleteLayerUploadInputBody: Swift.Equatable {
+struct CompleteLayerUploadInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let uploadId: Swift.String?
@@ -1008,7 +1008,7 @@ extension CompleteLayerUploadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CompleteLayerUploadOutput: Swift.Equatable {
+public struct CompleteLayerUploadOutput {
     /// The sha256 digest of the image layer.
     public var layerDigest: Swift.String?
     /// The registry ID associated with the request.
@@ -1032,7 +1032,7 @@ public struct CompleteLayerUploadOutput: Swift.Equatable {
     }
 }
 
-struct CompleteLayerUploadOutputBody: Swift.Equatable {
+struct CompleteLayerUploadOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let uploadId: Swift.String?
@@ -1115,7 +1115,7 @@ extension CreatePullThroughCacheRuleInput {
     }
 }
 
-public struct CreatePullThroughCacheRuleInput: Swift.Equatable {
+public struct CreatePullThroughCacheRuleInput {
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
     public var credentialArn: Swift.String?
     /// The repository name prefix to use when caching images from the source registry.
@@ -1157,7 +1157,7 @@ public struct CreatePullThroughCacheRuleInput: Swift.Equatable {
     }
 }
 
-struct CreatePullThroughCacheRuleInputBody: Swift.Equatable {
+struct CreatePullThroughCacheRuleInputBody {
     let ecrRepositoryPrefix: Swift.String?
     let upstreamRegistryUrl: Swift.String?
     let registryId: Swift.String?
@@ -1211,7 +1211,7 @@ extension CreatePullThroughCacheRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePullThroughCacheRuleOutput: Swift.Equatable {
+public struct CreatePullThroughCacheRuleOutput {
     /// The date and time, in JavaScript date format, when the pull through cache rule was created.
     public var createdAt: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
@@ -1243,7 +1243,7 @@ public struct CreatePullThroughCacheRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreatePullThroughCacheRuleOutputBody: Swift.Equatable {
+struct CreatePullThroughCacheRuleOutputBody {
     let ecrRepositoryPrefix: Swift.String?
     let upstreamRegistryUrl: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -1341,7 +1341,7 @@ extension CreateRepositoryInput {
     }
 }
 
-public struct CreateRepositoryInput: Swift.Equatable {
+public struct CreateRepositoryInput {
     /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest.
     public var encryptionConfiguration: ECRClientTypes.EncryptionConfiguration?
     /// The image scanning configuration for the repository. This determines whether images are scanned for known vulnerabilities after being pushed to the repository.
@@ -1374,7 +1374,7 @@ public struct CreateRepositoryInput: Swift.Equatable {
     }
 }
 
-struct CreateRepositoryInputBody: Swift.Equatable {
+struct CreateRepositoryInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let tags: [ECRClientTypes.Tag]?
@@ -1431,7 +1431,7 @@ extension CreateRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRepositoryOutput: Swift.Equatable {
+public struct CreateRepositoryOutput {
     /// The repository that was created.
     public var repository: ECRClientTypes.Repository?
 
@@ -1443,7 +1443,7 @@ public struct CreateRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct CreateRepositoryOutputBody: Swift.Equatable {
+struct CreateRepositoryOutputBody {
     let repository: ECRClientTypes.Repository?
 }
 
@@ -1515,7 +1515,7 @@ extension ECRClientTypes.CvssScore: Swift.Codable {
 
 extension ECRClientTypes {
     /// The CVSS score for a finding.
-    public struct CvssScore: Swift.Equatable {
+    public struct CvssScore {
         /// The base CVSS score used for the finding.
         public var baseScore: Swift.Double
         /// The vector string of the CVSS score.
@@ -1568,7 +1568,7 @@ extension ECRClientTypes.CvssScoreAdjustment: Swift.Codable {
 
 extension ECRClientTypes {
     /// Details on adjustments Amazon Inspector made to the CVSS score for a finding.
-    public struct CvssScoreAdjustment: Swift.Equatable {
+    public struct CvssScoreAdjustment {
         /// The metric used to adjust the CVSS score.
         public var metric: Swift.String?
         /// The reason the CVSS score has been adjustment.
@@ -1643,7 +1643,7 @@ extension ECRClientTypes.CvssScoreDetails: Swift.Codable {
 
 extension ECRClientTypes {
     /// Information about the CVSS score.
-    public struct CvssScoreDetails: Swift.Equatable {
+    public struct CvssScoreDetails {
         /// An object that contains details about adjustment Amazon Inspector made to the CVSS score.
         public var adjustments: [ECRClientTypes.CvssScoreAdjustment]?
         /// The CVSS score.
@@ -1697,7 +1697,7 @@ extension DeleteLifecyclePolicyInput {
     }
 }
 
-public struct DeleteLifecyclePolicyInput: Swift.Equatable {
+public struct DeleteLifecyclePolicyInput {
     /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository.
@@ -1714,7 +1714,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteLifecyclePolicyInputBody: Swift.Equatable {
+struct DeleteLifecyclePolicyInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
 }
@@ -1752,7 +1752,7 @@ extension DeleteLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLifecyclePolicyOutput: Swift.Equatable {
+public struct DeleteLifecyclePolicyOutput {
     /// The time stamp of the last time that the lifecycle policy was run.
     public var lastEvaluatedAt: ClientRuntime.Date?
     /// The JSON lifecycle policy text.
@@ -1776,7 +1776,7 @@ public struct DeleteLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteLifecyclePolicyOutputBody: Swift.Equatable {
+struct DeleteLifecyclePolicyOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let lifecyclePolicyText: Swift.String?
@@ -1843,7 +1843,7 @@ extension DeletePullThroughCacheRuleInput {
     }
 }
 
-public struct DeletePullThroughCacheRuleInput: Swift.Equatable {
+public struct DeletePullThroughCacheRuleInput {
     /// The Amazon ECR repository prefix associated with the pull through cache rule to delete.
     /// This member is required.
     public var ecrRepositoryPrefix: Swift.String?
@@ -1860,7 +1860,7 @@ public struct DeletePullThroughCacheRuleInput: Swift.Equatable {
     }
 }
 
-struct DeletePullThroughCacheRuleInputBody: Swift.Equatable {
+struct DeletePullThroughCacheRuleInputBody {
     let ecrRepositoryPrefix: Swift.String?
     let registryId: Swift.String?
 }
@@ -1900,7 +1900,7 @@ extension DeletePullThroughCacheRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePullThroughCacheRuleOutput: Swift.Equatable {
+public struct DeletePullThroughCacheRuleOutput {
     /// The timestamp associated with the pull through cache rule.
     public var createdAt: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
@@ -1928,7 +1928,7 @@ public struct DeletePullThroughCacheRuleOutput: Swift.Equatable {
     }
 }
 
-struct DeletePullThroughCacheRuleOutputBody: Swift.Equatable {
+struct DeletePullThroughCacheRuleOutputBody {
     let ecrRepositoryPrefix: Swift.String?
     let upstreamRegistryUrl: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -1989,12 +1989,12 @@ extension DeleteRegistryPolicyInput {
     }
 }
 
-public struct DeleteRegistryPolicyInput: Swift.Equatable {
+public struct DeleteRegistryPolicyInput {
 
     public init() { }
 }
 
-struct DeleteRegistryPolicyInputBody: Swift.Equatable {
+struct DeleteRegistryPolicyInputBody {
 }
 
 extension DeleteRegistryPolicyInputBody: Swift.Decodable {
@@ -2017,7 +2017,7 @@ extension DeleteRegistryPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRegistryPolicyOutput: Swift.Equatable {
+public struct DeleteRegistryPolicyOutput {
     /// The contents of the registry permissions policy that was deleted.
     public var policyText: Swift.String?
     /// The registry ID associated with the request.
@@ -2033,7 +2033,7 @@ public struct DeleteRegistryPolicyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRegistryPolicyOutputBody: Swift.Equatable {
+struct DeleteRegistryPolicyOutputBody {
     let registryId: Swift.String?
     let policyText: Swift.String?
 }
@@ -2095,7 +2095,7 @@ extension DeleteRepositoryInput {
     }
 }
 
-public struct DeleteRepositoryInput: Swift.Equatable {
+public struct DeleteRepositoryInput {
     /// If true, deleting the repository force deletes the contents of the repository. If false, the repository must be empty before attempting to delete it.
     public var force: Swift.Bool?
     /// The Amazon Web Services account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
@@ -2116,7 +2116,7 @@ public struct DeleteRepositoryInput: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryInputBody: Swift.Equatable {
+struct DeleteRepositoryInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let force: Swift.Bool?
@@ -2152,7 +2152,7 @@ extension DeleteRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRepositoryOutput: Swift.Equatable {
+public struct DeleteRepositoryOutput {
     /// The repository that was deleted.
     public var repository: ECRClientTypes.Repository?
 
@@ -2164,7 +2164,7 @@ public struct DeleteRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryOutputBody: Swift.Equatable {
+struct DeleteRepositoryOutputBody {
     let repository: ECRClientTypes.Repository?
 }
 
@@ -2219,7 +2219,7 @@ extension DeleteRepositoryPolicyInput {
     }
 }
 
-public struct DeleteRepositoryPolicyInput: Swift.Equatable {
+public struct DeleteRepositoryPolicyInput {
     /// The Amazon Web Services account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository that is associated with the repository policy to delete.
@@ -2236,7 +2236,7 @@ public struct DeleteRepositoryPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryPolicyInputBody: Swift.Equatable {
+struct DeleteRepositoryPolicyInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
 }
@@ -2272,7 +2272,7 @@ extension DeleteRepositoryPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRepositoryPolicyOutput: Swift.Equatable {
+public struct DeleteRepositoryPolicyOutput {
     /// The JSON repository policy that was deleted from the repository.
     public var policyText: Swift.String?
     /// The registry ID associated with the request.
@@ -2292,7 +2292,7 @@ public struct DeleteRepositoryPolicyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryPolicyOutputBody: Swift.Equatable {
+struct DeleteRepositoryPolicyOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let policyText: Swift.String?
@@ -2358,7 +2358,7 @@ extension DescribeImageReplicationStatusInput {
     }
 }
 
-public struct DescribeImageReplicationStatusInput: Swift.Equatable {
+public struct DescribeImageReplicationStatusInput {
     /// An object with identifying information for an image in an Amazon ECR repository.
     /// This member is required.
     public var imageId: ECRClientTypes.ImageIdentifier?
@@ -2380,7 +2380,7 @@ public struct DescribeImageReplicationStatusInput: Swift.Equatable {
     }
 }
 
-struct DescribeImageReplicationStatusInputBody: Swift.Equatable {
+struct DescribeImageReplicationStatusInputBody {
     let repositoryName: Swift.String?
     let imageId: ECRClientTypes.ImageIdentifier?
     let registryId: Swift.String?
@@ -2420,7 +2420,7 @@ extension DescribeImageReplicationStatusOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeImageReplicationStatusOutput: Swift.Equatable {
+public struct DescribeImageReplicationStatusOutput {
     /// An object with identifying information for an image in an Amazon ECR repository.
     public var imageId: ECRClientTypes.ImageIdentifier?
     /// The replication status details for the images in the specified repository.
@@ -2440,7 +2440,7 @@ public struct DescribeImageReplicationStatusOutput: Swift.Equatable {
     }
 }
 
-struct DescribeImageReplicationStatusOutputBody: Swift.Equatable {
+struct DescribeImageReplicationStatusOutputBody {
     let repositoryName: Swift.String?
     let imageId: ECRClientTypes.ImageIdentifier?
     let replicationStatuses: [ECRClientTypes.ImageReplicationStatus]?
@@ -2524,7 +2524,7 @@ extension DescribeImageScanFindingsInput {
     }
 }
 
-public struct DescribeImageScanFindingsInput: Swift.Equatable {
+public struct DescribeImageScanFindingsInput {
     /// An object with identifying information for an image in an Amazon ECR repository.
     /// This member is required.
     public var imageId: ECRClientTypes.ImageIdentifier?
@@ -2554,7 +2554,7 @@ public struct DescribeImageScanFindingsInput: Swift.Equatable {
     }
 }
 
-struct DescribeImageScanFindingsInputBody: Swift.Equatable {
+struct DescribeImageScanFindingsInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageId: ECRClientTypes.ImageIdentifier?
@@ -2608,7 +2608,7 @@ extension DescribeImageScanFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeImageScanFindingsOutput: Swift.Equatable {
+public struct DescribeImageScanFindingsOutput {
     /// An object with identifying information for an image in an Amazon ECR repository.
     public var imageId: ECRClientTypes.ImageIdentifier?
     /// The information contained in the image scan findings.
@@ -2640,7 +2640,7 @@ public struct DescribeImageScanFindingsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeImageScanFindingsOutputBody: Swift.Equatable {
+struct DescribeImageScanFindingsOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageId: ECRClientTypes.ImageIdentifier?
@@ -2713,7 +2713,7 @@ extension ECRClientTypes.DescribeImagesFilter: Swift.Codable {
 
 extension ECRClientTypes {
     /// An object representing a filter on a [DescribeImages] operation.
-    public struct DescribeImagesFilter: Swift.Equatable {
+    public struct DescribeImagesFilter {
         /// The tag status with which to filter your [DescribeImages] results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public var tagStatus: ECRClientTypes.TagStatus?
 
@@ -2770,7 +2770,7 @@ extension DescribeImagesInput {
     }
 }
 
-public struct DescribeImagesInput: Swift.Equatable {
+public struct DescribeImagesInput {
     /// The filter key and value with which to filter your DescribeImages results.
     public var filter: ECRClientTypes.DescribeImagesFilter?
     /// The list of image IDs for the requested repository.
@@ -2803,7 +2803,7 @@ public struct DescribeImagesInput: Swift.Equatable {
     }
 }
 
-struct DescribeImagesInputBody: Swift.Equatable {
+struct DescribeImagesInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageIds: [ECRClientTypes.ImageIdentifier]?
@@ -2862,7 +2862,7 @@ extension DescribeImagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeImagesOutput: Swift.Equatable {
+public struct DescribeImagesOutput {
     /// A list of [ImageDetail] objects that contain data about the image.
     public var imageDetails: [ECRClientTypes.ImageDetail]?
     /// The nextToken value to include in a future DescribeImages request. When the results of a DescribeImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2878,7 +2878,7 @@ public struct DescribeImagesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeImagesOutputBody: Swift.Equatable {
+struct DescribeImagesOutputBody {
     let imageDetails: [ECRClientTypes.ImageDetail]?
     let nextToken: Swift.String?
 }
@@ -2956,7 +2956,7 @@ extension DescribePullThroughCacheRulesInput {
     }
 }
 
-public struct DescribePullThroughCacheRulesInput: Swift.Equatable {
+public struct DescribePullThroughCacheRulesInput {
     /// The Amazon ECR repository prefixes associated with the pull through cache rules to return. If no repository prefix value is specified, all pull through cache rules are returned.
     public var ecrRepositoryPrefixes: [Swift.String]?
     /// The maximum number of pull through cache rules returned by DescribePullThroughCacheRulesRequest in paginated output. When this parameter is used, DescribePullThroughCacheRulesRequest only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribePullThroughCacheRulesRequest request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribePullThroughCacheRulesRequest returns up to 100 results and a nextToken value, if applicable.
@@ -2980,7 +2980,7 @@ public struct DescribePullThroughCacheRulesInput: Swift.Equatable {
     }
 }
 
-struct DescribePullThroughCacheRulesInputBody: Swift.Equatable {
+struct DescribePullThroughCacheRulesInputBody {
     let registryId: Swift.String?
     let ecrRepositoryPrefixes: [Swift.String]?
     let nextToken: Swift.String?
@@ -3031,7 +3031,7 @@ extension DescribePullThroughCacheRulesOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribePullThroughCacheRulesOutput: Swift.Equatable {
+public struct DescribePullThroughCacheRulesOutput {
     /// The nextToken value to include in a future DescribePullThroughCacheRulesRequest request. When the results of a DescribePullThroughCacheRulesRequest request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The details of the pull through cache rules.
@@ -3047,7 +3047,7 @@ public struct DescribePullThroughCacheRulesOutput: Swift.Equatable {
     }
 }
 
-struct DescribePullThroughCacheRulesOutputBody: Swift.Equatable {
+struct DescribePullThroughCacheRulesOutputBody {
     let pullThroughCacheRules: [ECRClientTypes.PullThroughCacheRule]?
     let nextToken: Swift.String?
 }
@@ -3105,12 +3105,12 @@ extension DescribeRegistryInput {
     }
 }
 
-public struct DescribeRegistryInput: Swift.Equatable {
+public struct DescribeRegistryInput {
 
     public init() { }
 }
 
-struct DescribeRegistryInputBody: Swift.Equatable {
+struct DescribeRegistryInputBody {
 }
 
 extension DescribeRegistryInputBody: Swift.Decodable {
@@ -3133,7 +3133,7 @@ extension DescribeRegistryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRegistryOutput: Swift.Equatable {
+public struct DescribeRegistryOutput {
     /// The ID of the registry.
     public var registryId: Swift.String?
     /// The replication configuration for the registry.
@@ -3149,7 +3149,7 @@ public struct DescribeRegistryOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRegistryOutputBody: Swift.Equatable {
+struct DescribeRegistryOutputBody {
     let registryId: Swift.String?
     let replicationConfiguration: ECRClientTypes.ReplicationConfiguration?
 }
@@ -3217,7 +3217,7 @@ extension DescribeRepositoriesInput {
     }
 }
 
-public struct DescribeRepositoriesInput: Swift.Equatable {
+public struct DescribeRepositoriesInput {
     /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify repositories with repositoryNames. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
@@ -3241,7 +3241,7 @@ public struct DescribeRepositoriesInput: Swift.Equatable {
     }
 }
 
-struct DescribeRepositoriesInputBody: Swift.Equatable {
+struct DescribeRepositoriesInputBody {
     let registryId: Swift.String?
     let repositoryNames: [Swift.String]?
     let nextToken: Swift.String?
@@ -3292,7 +3292,7 @@ extension DescribeRepositoriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRepositoriesOutput: Swift.Equatable {
+public struct DescribeRepositoriesOutput {
     /// The nextToken value to include in a future DescribeRepositories request. When the results of a DescribeRepositories request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// A list of repository objects corresponding to valid repositories.
@@ -3308,7 +3308,7 @@ public struct DescribeRepositoriesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRepositoriesOutputBody: Swift.Equatable {
+struct DescribeRepositoriesOutputBody {
     let repositories: [ECRClientTypes.Repository]?
     let nextToken: Swift.String?
 }
@@ -3392,7 +3392,7 @@ public struct EmptyUploadException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct EmptyUploadExceptionBody: Swift.Equatable {
+struct EmptyUploadExceptionBody {
     let message: Swift.String?
 }
 
@@ -3435,7 +3435,7 @@ extension ECRClientTypes.EncryptionConfiguration: Swift.Codable {
 
 extension ECRClientTypes {
     /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest. By default, when no encryption configuration is set or the AES256 encryption type is used, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts your data at rest using an AES-256 encryption algorithm. This does not require any action on your part. For more control over the encryption of the contents of your repository, you can use server-side encryption with Key Management Service key stored in Key Management Service (KMS) to encrypt your images. For more information, see [Amazon ECR encryption at rest](https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html) in the Amazon Elastic Container Registry User Guide.
-    public struct EncryptionConfiguration: Swift.Equatable {
+    public struct EncryptionConfiguration {
         /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see [Protecting data using server-side encryption with an KMS key stored in Key Management Service (SSE-KMS)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html) in the Amazon Simple Storage Service Console Developer Guide. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES-256 encryption algorithm. For more information, see [Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html) in the Amazon Simple Storage Service Console Developer Guide.
         /// This member is required.
         public var encryptionType: ECRClientTypes.EncryptionType?
@@ -3603,7 +3603,7 @@ extension ECRClientTypes.EnhancedImageScanFinding: Swift.Codable {
 
 extension ECRClientTypes {
     /// The details of an enhanced image scan. This is returned when enhanced scanning is enabled for your private registry.
-    public struct EnhancedImageScanFinding: Swift.Equatable {
+    public struct EnhancedImageScanFinding {
         /// The Amazon Web Services account ID associated with the image.
         public var awsAccountId: Swift.String?
         /// The description of the finding.
@@ -3740,7 +3740,7 @@ extension GetAuthorizationTokenInput {
     }
 }
 
-public struct GetAuthorizationTokenInput: Swift.Equatable {
+public struct GetAuthorizationTokenInput {
     /// A list of Amazon Web Services account IDs that are associated with the registries for which to get AuthorizationData objects. If you do not specify a registry, the default registry is assumed.
     @available(*, deprecated, message: "This field is deprecated. The returned authorization token can be used to access any Amazon ECR registry that the IAM principal has access to, specifying a registry ID doesn't change the permissions scope of the authorization token.")
     public var registryIds: [Swift.String]?
@@ -3753,7 +3753,7 @@ public struct GetAuthorizationTokenInput: Swift.Equatable {
     }
 }
 
-struct GetAuthorizationTokenInputBody: Swift.Equatable {
+struct GetAuthorizationTokenInputBody {
     let registryIds: [Swift.String]?
 }
 
@@ -3790,7 +3790,7 @@ extension GetAuthorizationTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAuthorizationTokenOutput: Swift.Equatable {
+public struct GetAuthorizationTokenOutput {
     /// A list of authorization token data objects that correspond to the registryIds values in the request.
     public var authorizationData: [ECRClientTypes.AuthorizationData]?
 
@@ -3802,7 +3802,7 @@ public struct GetAuthorizationTokenOutput: Swift.Equatable {
     }
 }
 
-struct GetAuthorizationTokenOutputBody: Swift.Equatable {
+struct GetAuthorizationTokenOutputBody {
     let authorizationData: [ECRClientTypes.AuthorizationData]?
 }
 
@@ -3867,7 +3867,7 @@ extension GetDownloadUrlForLayerInput {
     }
 }
 
-public struct GetDownloadUrlForLayerInput: Swift.Equatable {
+public struct GetDownloadUrlForLayerInput {
     /// The digest of the image layer to download.
     /// This member is required.
     public var layerDigest: Swift.String?
@@ -3889,7 +3889,7 @@ public struct GetDownloadUrlForLayerInput: Swift.Equatable {
     }
 }
 
-struct GetDownloadUrlForLayerInputBody: Swift.Equatable {
+struct GetDownloadUrlForLayerInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let layerDigest: Swift.String?
@@ -3927,7 +3927,7 @@ extension GetDownloadUrlForLayerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDownloadUrlForLayerOutput: Swift.Equatable {
+public struct GetDownloadUrlForLayerOutput {
     /// The pre-signed Amazon S3 download URL for the requested layer.
     public var downloadUrl: Swift.String?
     /// The digest of the image layer to download.
@@ -3943,7 +3943,7 @@ public struct GetDownloadUrlForLayerOutput: Swift.Equatable {
     }
 }
 
-struct GetDownloadUrlForLayerOutputBody: Swift.Equatable {
+struct GetDownloadUrlForLayerOutputBody {
     let downloadUrl: Swift.String?
     let layerDigest: Swift.String?
 }
@@ -4003,7 +4003,7 @@ extension GetLifecyclePolicyInput {
     }
 }
 
-public struct GetLifecyclePolicyInput: Swift.Equatable {
+public struct GetLifecyclePolicyInput {
     /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository.
@@ -4020,7 +4020,7 @@ public struct GetLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetLifecyclePolicyInputBody: Swift.Equatable {
+struct GetLifecyclePolicyInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
 }
@@ -4058,7 +4058,7 @@ extension GetLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLifecyclePolicyOutput: Swift.Equatable {
+public struct GetLifecyclePolicyOutput {
     /// The time stamp of the last time that the lifecycle policy was run.
     public var lastEvaluatedAt: ClientRuntime.Date?
     /// The JSON lifecycle policy text.
@@ -4082,7 +4082,7 @@ public struct GetLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetLifecyclePolicyOutputBody: Swift.Equatable {
+struct GetLifecyclePolicyOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let lifecyclePolicyText: Swift.String?
@@ -4168,7 +4168,7 @@ extension GetLifecyclePolicyPreviewInput {
     }
 }
 
-public struct GetLifecyclePolicyPreviewInput: Swift.Equatable {
+public struct GetLifecyclePolicyPreviewInput {
     /// An optional parameter that filters results based on image tag status and all tags, if tagged.
     public var filter: ECRClientTypes.LifecyclePolicyPreviewFilter?
     /// The list of imageIDs to be included.
@@ -4201,7 +4201,7 @@ public struct GetLifecyclePolicyPreviewInput: Swift.Equatable {
     }
 }
 
-struct GetLifecyclePolicyPreviewInputBody: Swift.Equatable {
+struct GetLifecyclePolicyPreviewInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageIds: [ECRClientTypes.ImageIdentifier]?
@@ -4270,7 +4270,7 @@ extension GetLifecyclePolicyPreviewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLifecyclePolicyPreviewOutput: Swift.Equatable {
+public struct GetLifecyclePolicyPreviewOutput {
     /// The JSON lifecycle policy text.
     public var lifecyclePolicyText: Swift.String?
     /// The nextToken value to include in a future GetLifecyclePolicyPreview request. When the results of a GetLifecyclePolicyPreview request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -4306,7 +4306,7 @@ public struct GetLifecyclePolicyPreviewOutput: Swift.Equatable {
     }
 }
 
-struct GetLifecyclePolicyPreviewOutputBody: Swift.Equatable {
+struct GetLifecyclePolicyPreviewOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let lifecyclePolicyText: Swift.String?
@@ -4385,12 +4385,12 @@ extension GetRegistryPolicyInput {
     }
 }
 
-public struct GetRegistryPolicyInput: Swift.Equatable {
+public struct GetRegistryPolicyInput {
 
     public init() { }
 }
 
-struct GetRegistryPolicyInputBody: Swift.Equatable {
+struct GetRegistryPolicyInputBody {
 }
 
 extension GetRegistryPolicyInputBody: Swift.Decodable {
@@ -4413,7 +4413,7 @@ extension GetRegistryPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRegistryPolicyOutput: Swift.Equatable {
+public struct GetRegistryPolicyOutput {
     /// The JSON text of the permissions policy for a registry.
     public var policyText: Swift.String?
     /// The ID of the registry.
@@ -4429,7 +4429,7 @@ public struct GetRegistryPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetRegistryPolicyOutputBody: Swift.Equatable {
+struct GetRegistryPolicyOutputBody {
     let registryId: Swift.String?
     let policyText: Swift.String?
 }
@@ -4478,12 +4478,12 @@ extension GetRegistryScanningConfigurationInput {
     }
 }
 
-public struct GetRegistryScanningConfigurationInput: Swift.Equatable {
+public struct GetRegistryScanningConfigurationInput {
 
     public init() { }
 }
 
-struct GetRegistryScanningConfigurationInputBody: Swift.Equatable {
+struct GetRegistryScanningConfigurationInputBody {
 }
 
 extension GetRegistryScanningConfigurationInputBody: Swift.Decodable {
@@ -4506,7 +4506,7 @@ extension GetRegistryScanningConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetRegistryScanningConfigurationOutput: Swift.Equatable {
+public struct GetRegistryScanningConfigurationOutput {
     /// The ID of the registry.
     public var registryId: Swift.String?
     /// The scanning configuration for the registry.
@@ -4522,7 +4522,7 @@ public struct GetRegistryScanningConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetRegistryScanningConfigurationOutputBody: Swift.Equatable {
+struct GetRegistryScanningConfigurationOutputBody {
     let registryId: Swift.String?
     let scanningConfiguration: ECRClientTypes.RegistryScanningConfiguration?
 }
@@ -4579,7 +4579,7 @@ extension GetRepositoryPolicyInput {
     }
 }
 
-public struct GetRepositoryPolicyInput: Swift.Equatable {
+public struct GetRepositoryPolicyInput {
     /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository with the policy to retrieve.
@@ -4596,7 +4596,7 @@ public struct GetRepositoryPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetRepositoryPolicyInputBody: Swift.Equatable {
+struct GetRepositoryPolicyInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
 }
@@ -4632,7 +4632,7 @@ extension GetRepositoryPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRepositoryPolicyOutput: Swift.Equatable {
+public struct GetRepositoryPolicyOutput {
     /// The JSON repository policy text associated with the repository.
     public var policyText: Swift.String?
     /// The registry ID associated with the request.
@@ -4652,7 +4652,7 @@ public struct GetRepositoryPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetRepositoryPolicyOutputBody: Swift.Equatable {
+struct GetRepositoryPolicyOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let policyText: Swift.String?
@@ -4735,7 +4735,7 @@ extension ECRClientTypes.Image: Swift.Codable {
 
 extension ECRClientTypes {
     /// An object representing an Amazon ECR image.
-    public struct Image: Swift.Equatable {
+    public struct Image {
         /// An object containing the image tag and image digest associated with an image.
         public var imageId: ECRClientTypes.ImageIdentifier?
         /// The image manifest associated with the image.
@@ -4834,7 +4834,7 @@ public struct ImageAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ImageAlreadyExistsExceptionBody: Swift.Equatable {
+struct ImageAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4943,7 +4943,7 @@ extension ECRClientTypes.ImageDetail: Swift.Codable {
 
 extension ECRClientTypes {
     /// An object that describes an image returned by a [DescribeImages] operation.
-    public struct ImageDetail: Swift.Equatable {
+    public struct ImageDetail {
         /// The artifact media type of the image.
         public var artifactMediaType: Swift.String?
         /// The sha256 digest of the image manifest.
@@ -5036,7 +5036,7 @@ public struct ImageDigestDoesNotMatchException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct ImageDigestDoesNotMatchExceptionBody: Swift.Equatable {
+struct ImageDigestDoesNotMatchExceptionBody {
     let message: Swift.String?
 }
 
@@ -5085,7 +5085,7 @@ extension ECRClientTypes.ImageFailure: Swift.Codable {
 
 extension ECRClientTypes {
     /// An object representing an Amazon ECR image failure.
-    public struct ImageFailure: Swift.Equatable {
+    public struct ImageFailure {
         /// The code associated with the failure.
         public var failureCode: ECRClientTypes.ImageFailureCode?
         /// The reason for the failure.
@@ -5190,7 +5190,7 @@ extension ECRClientTypes.ImageIdentifier: Swift.Codable {
 
 extension ECRClientTypes {
     /// An object with identifying information for an image in an Amazon ECR repository.
-    public struct ImageIdentifier: Swift.Equatable {
+    public struct ImageIdentifier {
         /// The sha256 digest of the image manifest.
         public var imageDigest: Swift.String?
         /// The tag used for the image.
@@ -5247,7 +5247,7 @@ public struct ImageNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ImageNotFoundExceptionBody: Swift.Equatable {
+struct ImageNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5302,7 +5302,7 @@ extension ECRClientTypes.ImageReplicationStatus: Swift.Codable {
 
 extension ECRClientTypes {
     /// The status of the replication process for an image.
-    public struct ImageReplicationStatus: Swift.Equatable {
+    public struct ImageReplicationStatus {
         /// The failure code for a replication that has failed.
         public var failureCode: Swift.String?
         /// The destination Region for the image replication.
@@ -5385,7 +5385,7 @@ extension ECRClientTypes.ImageScanFinding: Swift.Codable {
 
 extension ECRClientTypes {
     /// Contains information about an image scan finding.
-    public struct ImageScanFinding: Swift.Equatable {
+    public struct ImageScanFinding {
         /// A collection of attributes of the host from which the finding is generated.
         public var attributes: [ECRClientTypes.Attribute]?
         /// The description of the finding.
@@ -5496,7 +5496,7 @@ extension ECRClientTypes.ImageScanFindings: Swift.Codable {
 
 extension ECRClientTypes {
     /// The details of an image scan.
-    public struct ImageScanFindings: Swift.Equatable {
+    public struct ImageScanFindings {
         /// Details about the enhanced scan findings from Amazon Inspector.
         public var enhancedFindings: [ECRClientTypes.EnhancedImageScanFinding]?
         /// The image vulnerability counts, sorted by severity.
@@ -5571,7 +5571,7 @@ extension ECRClientTypes.ImageScanFindingsSummary: Swift.Codable {
 
 extension ECRClientTypes {
     /// A summary of the last completed image scan.
-    public struct ImageScanFindingsSummary: Swift.Equatable {
+    public struct ImageScanFindingsSummary {
         /// The image vulnerability counts, sorted by severity.
         public var findingSeverityCounts: [Swift.String:Swift.Int]?
         /// The time of the last completed image scan.
@@ -5620,7 +5620,7 @@ extension ECRClientTypes.ImageScanStatus: Swift.Codable {
 
 extension ECRClientTypes {
     /// The current status of an image scan.
-    public struct ImageScanStatus: Swift.Equatable {
+    public struct ImageScanStatus {
         /// The description of the image scan status.
         public var description: Swift.String?
         /// The current state of an image scan.
@@ -5659,7 +5659,7 @@ extension ECRClientTypes.ImageScanningConfiguration: Swift.Codable {
 
 extension ECRClientTypes {
     /// The image scanning configuration for a repository.
-    public struct ImageScanningConfiguration: Swift.Equatable {
+    public struct ImageScanningConfiguration {
         /// The setting that determines whether images are scanned after being pushed to a repository. If set to true, images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the [API_StartImageScan](https://docs.aws.amazon.com/AmazonECR/latest/APIReference/API_StartImageScan.html) API.
         public var scanOnPush: Swift.Bool
 
@@ -5712,7 +5712,7 @@ public struct ImageTagAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ImageTagAlreadyExistsExceptionBody: Swift.Equatable {
+struct ImageTagAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -5784,7 +5784,7 @@ extension InitiateLayerUploadInput {
     }
 }
 
-public struct InitiateLayerUploadInput: Swift.Equatable {
+public struct InitiateLayerUploadInput {
     /// The Amazon Web Services account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository to which you intend to upload layers.
@@ -5801,7 +5801,7 @@ public struct InitiateLayerUploadInput: Swift.Equatable {
     }
 }
 
-struct InitiateLayerUploadInputBody: Swift.Equatable {
+struct InitiateLayerUploadInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
 }
@@ -5835,7 +5835,7 @@ extension InitiateLayerUploadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InitiateLayerUploadOutput: Swift.Equatable {
+public struct InitiateLayerUploadOutput {
     /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
     public var partSize: Swift.Int?
     /// The upload ID for the layer upload. This parameter is passed to further [UploadLayerPart] and [CompleteLayerUpload] operations.
@@ -5851,7 +5851,7 @@ public struct InitiateLayerUploadOutput: Swift.Equatable {
     }
 }
 
-struct InitiateLayerUploadOutputBody: Swift.Equatable {
+struct InitiateLayerUploadOutputBody {
     let uploadId: Swift.String?
     let partSize: Swift.Int?
 }
@@ -5925,7 +5925,7 @@ public struct InvalidLayerException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidLayerExceptionBody: Swift.Equatable {
+struct InvalidLayerExceptionBody {
     let message: Swift.String?
 }
 
@@ -6005,7 +6005,7 @@ public struct InvalidLayerPartException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidLayerPartExceptionBody: Swift.Equatable {
+struct InvalidLayerPartExceptionBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let uploadId: Swift.String?
@@ -6077,7 +6077,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -6132,7 +6132,7 @@ public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InvalidTagParameterExceptionBody: Swift.Equatable {
+struct InvalidTagParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -6193,7 +6193,7 @@ public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     }
 }
 
-struct KmsExceptionBody: Swift.Equatable {
+struct KmsExceptionBody {
     let message: Swift.String?
     let kmsError: Swift.String?
 }
@@ -6252,7 +6252,7 @@ extension ECRClientTypes.Layer: Swift.Codable {
 
 extension ECRClientTypes {
     /// An object representing an Amazon ECR image layer.
-    public struct Layer: Swift.Equatable {
+    public struct Layer {
         /// The availability status of the image layer.
         public var layerAvailability: ECRClientTypes.LayerAvailability?
         /// The sha256 digest of the image layer.
@@ -6318,7 +6318,7 @@ public struct LayerAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct LayerAlreadyExistsExceptionBody: Swift.Equatable {
+struct LayerAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -6399,7 +6399,7 @@ extension ECRClientTypes.LayerFailure: Swift.Codable {
 
 extension ECRClientTypes {
     /// An object representing an Amazon ECR image layer failure.
-    public struct LayerFailure: Swift.Equatable {
+    public struct LayerFailure {
         /// The failure code associated with the failure.
         public var failureCode: ECRClientTypes.LayerFailureCode?
         /// The reason for the failure.
@@ -6493,7 +6493,7 @@ public struct LayerInaccessibleException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct LayerInaccessibleExceptionBody: Swift.Equatable {
+struct LayerInaccessibleExceptionBody {
     let message: Swift.String?
 }
 
@@ -6549,7 +6549,7 @@ public struct LayerPartTooSmallException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct LayerPartTooSmallExceptionBody: Swift.Equatable {
+struct LayerPartTooSmallExceptionBody {
     let message: Swift.String?
 }
 
@@ -6605,7 +6605,7 @@ public struct LayersNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct LayersNotFoundExceptionBody: Swift.Equatable {
+struct LayersNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -6660,7 +6660,7 @@ public struct LifecyclePolicyNotFoundException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct LifecyclePolicyNotFoundExceptionBody: Swift.Equatable {
+struct LifecyclePolicyNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -6697,7 +6697,7 @@ extension ECRClientTypes.LifecyclePolicyPreviewFilter: Swift.Codable {
 
 extension ECRClientTypes {
     /// The filter for the lifecycle policy preview.
-    public struct LifecyclePolicyPreviewFilter: Swift.Equatable {
+    public struct LifecyclePolicyPreviewFilter {
         /// The tag status of the image.
         public var tagStatus: ECRClientTypes.TagStatus?
 
@@ -6750,7 +6750,7 @@ public struct LifecyclePolicyPreviewInProgressException: ClientRuntime.ModeledEr
     }
 }
 
-struct LifecyclePolicyPreviewInProgressExceptionBody: Swift.Equatable {
+struct LifecyclePolicyPreviewInProgressExceptionBody {
     let message: Swift.String?
 }
 
@@ -6805,7 +6805,7 @@ public struct LifecyclePolicyPreviewNotFoundException: ClientRuntime.ModeledErro
     }
 }
 
-struct LifecyclePolicyPreviewNotFoundExceptionBody: Swift.Equatable {
+struct LifecyclePolicyPreviewNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -6878,7 +6878,7 @@ extension ECRClientTypes.LifecyclePolicyPreviewResult: Swift.Codable {
 
 extension ECRClientTypes {
     /// The result of the lifecycle policy preview.
-    public struct LifecyclePolicyPreviewResult: Swift.Equatable {
+    public struct LifecyclePolicyPreviewResult {
         /// The type of action to be taken.
         public var action: ECRClientTypes.LifecyclePolicyRuleAction?
         /// The priority of the applied rule.
@@ -6967,7 +6967,7 @@ extension ECRClientTypes.LifecyclePolicyPreviewSummary: Swift.Codable {
 
 extension ECRClientTypes {
     /// The summary of the lifecycle policy preview request.
-    public struct LifecyclePolicyPreviewSummary: Swift.Equatable {
+    public struct LifecyclePolicyPreviewSummary {
         /// The number of expiring images.
         public var expiringImageTotalCount: Swift.Int?
 
@@ -7002,7 +7002,7 @@ extension ECRClientTypes.LifecyclePolicyRuleAction: Swift.Codable {
 
 extension ECRClientTypes {
     /// The type of action to be taken.
-    public struct LifecyclePolicyRuleAction: Swift.Equatable {
+    public struct LifecyclePolicyRuleAction {
         /// The type of action to be taken.
         public var type: ECRClientTypes.ImageActionType?
 
@@ -7056,7 +7056,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -7093,7 +7093,7 @@ extension ECRClientTypes.ListImagesFilter: Swift.Codable {
 
 extension ECRClientTypes {
     /// An object representing a filter on a [ListImages] operation.
-    public struct ListImagesFilter: Swift.Equatable {
+    public struct ListImagesFilter {
         /// The tag status with which to filter your [ListImages] results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public var tagStatus: ECRClientTypes.TagStatus?
 
@@ -7143,7 +7143,7 @@ extension ListImagesInput {
     }
 }
 
-public struct ListImagesInput: Swift.Equatable {
+public struct ListImagesInput {
     /// The filter key and value with which to filter your ListImages results.
     public var filter: ECRClientTypes.ListImagesFilter?
     /// The maximum number of image results returned by ListImages in paginated output. When this parameter is used, ListImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImages request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListImages returns up to 100 results and a nextToken value, if applicable.
@@ -7172,7 +7172,7 @@ public struct ListImagesInput: Swift.Equatable {
     }
 }
 
-struct ListImagesInputBody: Swift.Equatable {
+struct ListImagesInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let nextToken: Swift.String?
@@ -7218,7 +7218,7 @@ extension ListImagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImagesOutput: Swift.Equatable {
+public struct ListImagesOutput {
     /// The list of image IDs for the requested repository.
     public var imageIds: [ECRClientTypes.ImageIdentifier]?
     /// The nextToken value to include in a future ListImages request. When the results of a ListImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -7234,7 +7234,7 @@ public struct ListImagesOutput: Swift.Equatable {
     }
 }
 
-struct ListImagesOutputBody: Swift.Equatable {
+struct ListImagesOutputBody {
     let imageIds: [ECRClientTypes.ImageIdentifier]?
     let nextToken: Swift.String?
 }
@@ -7296,7 +7296,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the only supported resource is an Amazon ECR repository.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7309,7 +7309,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -7337,7 +7337,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags for the resource.
     public var tags: [ECRClientTypes.Tag]?
 
@@ -7349,7 +7349,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [ECRClientTypes.Tag]?
 }
 
@@ -7510,7 +7510,7 @@ extension ECRClientTypes.PackageVulnerabilityDetails: Swift.Codable {
 
 extension ECRClientTypes {
     /// Information about a package vulnerability finding.
-    public struct PackageVulnerabilityDetails: Swift.Equatable {
+    public struct PackageVulnerabilityDetails {
         /// An object that contains details about the CVSS score of a finding.
         public var cvss: [ECRClientTypes.CvssScore]?
         /// One or more URLs that contain details about this vulnerability type.
@@ -7617,7 +7617,7 @@ extension ECRClientTypes.PullThroughCacheRule: Swift.Codable {
 
 extension ECRClientTypes {
     /// The details of a pull through cache rule.
-    public struct PullThroughCacheRule: Swift.Equatable {
+    public struct PullThroughCacheRule {
         /// The date and time the pull through cache was created.
         public var createdAt: ClientRuntime.Date?
         /// The ARN of the Secrets Manager secret associated with the pull through cache rule.
@@ -7694,7 +7694,7 @@ public struct PullThroughCacheRuleAlreadyExistsException: ClientRuntime.ModeledE
     }
 }
 
-struct PullThroughCacheRuleAlreadyExistsExceptionBody: Swift.Equatable {
+struct PullThroughCacheRuleAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -7749,7 +7749,7 @@ public struct PullThroughCacheRuleNotFoundException: ClientRuntime.ModeledError,
     }
 }
 
-struct PullThroughCacheRuleNotFoundExceptionBody: Swift.Equatable {
+struct PullThroughCacheRuleNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -7805,7 +7805,7 @@ extension PutImageInput {
     }
 }
 
-public struct PutImageInput: Swift.Equatable {
+public struct PutImageInput {
     /// The image digest of the image manifest corresponding to the image.
     public var imageDigest: Swift.String?
     /// The image manifest corresponding to the image to be uploaded.
@@ -7839,7 +7839,7 @@ public struct PutImageInput: Swift.Equatable {
     }
 }
 
-struct PutImageInputBody: Swift.Equatable {
+struct PutImageInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageManifest: Swift.String?
@@ -7887,7 +7887,7 @@ extension PutImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutImageOutput: Swift.Equatable {
+public struct PutImageOutput {
     /// Details of the image uploaded.
     public var image: ECRClientTypes.Image?
 
@@ -7899,7 +7899,7 @@ public struct PutImageOutput: Swift.Equatable {
     }
 }
 
-struct PutImageOutputBody: Swift.Equatable {
+struct PutImageOutputBody {
     let image: ECRClientTypes.Image?
 }
 
@@ -7963,7 +7963,7 @@ extension PutImageScanningConfigurationInput {
     }
 }
 
-public struct PutImageScanningConfigurationInput: Swift.Equatable {
+public struct PutImageScanningConfigurationInput {
     /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository.
     /// This member is required.
     public var imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration?
@@ -7985,7 +7985,7 @@ public struct PutImageScanningConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutImageScanningConfigurationInputBody: Swift.Equatable {
+struct PutImageScanningConfigurationInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration?
@@ -8025,7 +8025,7 @@ extension PutImageScanningConfigurationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct PutImageScanningConfigurationOutput: Swift.Equatable {
+public struct PutImageScanningConfigurationOutput {
     /// The image scanning configuration setting for the repository.
     public var imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration?
     /// The registry ID associated with the request.
@@ -8045,7 +8045,7 @@ public struct PutImageScanningConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct PutImageScanningConfigurationOutputBody: Swift.Equatable {
+struct PutImageScanningConfigurationOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration?
@@ -8111,7 +8111,7 @@ extension PutImageTagMutabilityInput {
     }
 }
 
-public struct PutImageTagMutabilityInput: Swift.Equatable {
+public struct PutImageTagMutabilityInput {
     /// The tag mutability setting for the repository. If MUTABLE is specified, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
     /// This member is required.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
@@ -8133,7 +8133,7 @@ public struct PutImageTagMutabilityInput: Swift.Equatable {
     }
 }
 
-struct PutImageTagMutabilityInputBody: Swift.Equatable {
+struct PutImageTagMutabilityInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageTagMutability: ECRClientTypes.ImageTagMutability?
@@ -8173,7 +8173,7 @@ extension PutImageTagMutabilityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutImageTagMutabilityOutput: Swift.Equatable {
+public struct PutImageTagMutabilityOutput {
     /// The image tag mutability setting for the repository.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
     /// The registry ID associated with the request.
@@ -8193,7 +8193,7 @@ public struct PutImageTagMutabilityOutput: Swift.Equatable {
     }
 }
 
-struct PutImageTagMutabilityOutputBody: Swift.Equatable {
+struct PutImageTagMutabilityOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageTagMutability: ECRClientTypes.ImageTagMutability?
@@ -8258,7 +8258,7 @@ extension PutLifecyclePolicyInput {
     }
 }
 
-public struct PutLifecyclePolicyInput: Swift.Equatable {
+public struct PutLifecyclePolicyInput {
     /// The JSON repository policy text to apply to the repository.
     /// This member is required.
     public var lifecyclePolicyText: Swift.String?
@@ -8280,7 +8280,7 @@ public struct PutLifecyclePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutLifecyclePolicyInputBody: Swift.Equatable {
+struct PutLifecyclePolicyInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let lifecyclePolicyText: Swift.String?
@@ -8320,7 +8320,7 @@ extension PutLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutLifecyclePolicyOutput: Swift.Equatable {
+public struct PutLifecyclePolicyOutput {
     /// The JSON repository policy text.
     public var lifecyclePolicyText: Swift.String?
     /// The registry ID associated with the request.
@@ -8340,7 +8340,7 @@ public struct PutLifecyclePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutLifecyclePolicyOutputBody: Swift.Equatable {
+struct PutLifecyclePolicyOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let lifecyclePolicyText: Swift.String?
@@ -8398,7 +8398,7 @@ extension PutRegistryPolicyInput {
     }
 }
 
-public struct PutRegistryPolicyInput: Swift.Equatable {
+public struct PutRegistryPolicyInput {
     /// The JSON policy text to apply to your registry. The policy text follows the same format as IAM policy text. For more information, see [Registry permissions](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry-permissions.html) in the Amazon Elastic Container Registry User Guide.
     /// This member is required.
     public var policyText: Swift.String?
@@ -8411,7 +8411,7 @@ public struct PutRegistryPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutRegistryPolicyInputBody: Swift.Equatable {
+struct PutRegistryPolicyInputBody {
     let policyText: Swift.String?
 }
 
@@ -8441,7 +8441,7 @@ extension PutRegistryPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutRegistryPolicyOutput: Swift.Equatable {
+public struct PutRegistryPolicyOutput {
     /// The JSON policy text for your registry.
     public var policyText: Swift.String?
     /// The registry ID.
@@ -8457,7 +8457,7 @@ public struct PutRegistryPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutRegistryPolicyOutputBody: Swift.Equatable {
+struct PutRegistryPolicyOutputBody {
     let registryId: Swift.String?
     let policyText: Swift.String?
 }
@@ -8517,7 +8517,7 @@ extension PutRegistryScanningConfigurationInput {
     }
 }
 
-public struct PutRegistryScanningConfigurationInput: Swift.Equatable {
+public struct PutRegistryScanningConfigurationInput {
     /// The scanning rules to use for the registry. A scanning rule is used to determine which repository filters are used and at what frequency scanning will occur.
     public var rules: [ECRClientTypes.RegistryScanningRule]?
     /// The scanning type to set for the registry. When a registry scanning configuration is not defined, by default the BASIC scan type is used. When basic scanning is used, you may specify filters to determine which individual repositories, or all repositories, are scanned when new images are pushed to those repositories. Alternatively, you can do manual scans of images with basic scanning. When the ENHANCED scan type is set, Amazon Inspector provides automated vulnerability scanning. You may choose between continuous scanning or scan on push and you may specify filters to determine which individual repositories, or all repositories, are scanned.
@@ -8533,7 +8533,7 @@ public struct PutRegistryScanningConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutRegistryScanningConfigurationInputBody: Swift.Equatable {
+struct PutRegistryScanningConfigurationInputBody {
     let scanType: ECRClientTypes.ScanType?
     let rules: [ECRClientTypes.RegistryScanningRule]?
 }
@@ -8574,7 +8574,7 @@ extension PutRegistryScanningConfigurationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct PutRegistryScanningConfigurationOutput: Swift.Equatable {
+public struct PutRegistryScanningConfigurationOutput {
     /// The scanning configuration for your registry.
     public var registryScanningConfiguration: ECRClientTypes.RegistryScanningConfiguration?
 
@@ -8586,7 +8586,7 @@ public struct PutRegistryScanningConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct PutRegistryScanningConfigurationOutputBody: Swift.Equatable {
+struct PutRegistryScanningConfigurationOutputBody {
     let registryScanningConfiguration: ECRClientTypes.RegistryScanningConfiguration?
 }
 
@@ -8635,7 +8635,7 @@ extension PutReplicationConfigurationInput {
     }
 }
 
-public struct PutReplicationConfigurationInput: Swift.Equatable {
+public struct PutReplicationConfigurationInput {
     /// An object representing the replication configuration for a registry.
     /// This member is required.
     public var replicationConfiguration: ECRClientTypes.ReplicationConfiguration?
@@ -8648,7 +8648,7 @@ public struct PutReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutReplicationConfigurationInputBody: Swift.Equatable {
+struct PutReplicationConfigurationInputBody {
     let replicationConfiguration: ECRClientTypes.ReplicationConfiguration?
 }
 
@@ -8676,7 +8676,7 @@ extension PutReplicationConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutReplicationConfigurationOutput: Swift.Equatable {
+public struct PutReplicationConfigurationOutput {
     /// The contents of the replication configuration for the registry.
     public var replicationConfiguration: ECRClientTypes.ReplicationConfiguration?
 
@@ -8688,7 +8688,7 @@ public struct PutReplicationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct PutReplicationConfigurationOutputBody: Swift.Equatable {
+struct PutReplicationConfigurationOutputBody {
     let replicationConfiguration: ECRClientTypes.ReplicationConfiguration?
 }
 
@@ -8744,7 +8744,7 @@ extension ECRClientTypes.Recommendation: Swift.Codable {
 
 extension ECRClientTypes {
     /// Details about the recommended course of action to remediate the finding.
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// The recommended course of action to remediate the finding.
         public var text: Swift.String?
         /// The URL address to the CVE remediation recommendations.
@@ -8801,7 +8801,7 @@ public struct ReferencedImagesNotFoundException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct ReferencedImagesNotFoundExceptionBody: Swift.Equatable {
+struct ReferencedImagesNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -8856,7 +8856,7 @@ public struct RegistryPolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct RegistryPolicyNotFoundExceptionBody: Swift.Equatable {
+struct RegistryPolicyNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -8911,7 +8911,7 @@ extension ECRClientTypes.RegistryScanningConfiguration: Swift.Codable {
 
 extension ECRClientTypes {
     /// The scanning configuration for a private registry.
-    public struct RegistryScanningConfiguration: Swift.Equatable {
+    public struct RegistryScanningConfiguration {
         /// The scanning rules associated with the registry.
         public var rules: [ECRClientTypes.RegistryScanningRule]?
         /// The type of scanning configured for the registry.
@@ -8968,7 +8968,7 @@ extension ECRClientTypes.RegistryScanningRule: Swift.Codable {
 
 extension ECRClientTypes {
     /// The details of a scanning rule for a private registry.
-    public struct RegistryScanningRule: Swift.Equatable {
+    public struct RegistryScanningRule {
         /// The repository filters associated with the scanning configuration for a private registry.
         /// This member is required.
         public var repositoryFilters: [ECRClientTypes.ScanningRepositoryFilter]?
@@ -9009,7 +9009,7 @@ extension ECRClientTypes.Remediation: Swift.Codable {
 
 extension ECRClientTypes {
     /// Information on how to remediate a finding.
-    public struct Remediation: Swift.Equatable {
+    public struct Remediation {
         /// An object that contains information about the recommended course of action to remediate the finding.
         public var recommendation: ECRClientTypes.Recommendation?
 
@@ -9056,7 +9056,7 @@ extension ECRClientTypes.ReplicationConfiguration: Swift.Codable {
 
 extension ECRClientTypes {
     /// The replication configuration for a registry.
-    public struct ReplicationConfiguration: Swift.Equatable {
+    public struct ReplicationConfiguration {
         /// An array of objects representing the replication destinations and repository filters for a replication configuration.
         /// This member is required.
         public var rules: [ECRClientTypes.ReplicationRule]?
@@ -9098,7 +9098,7 @@ extension ECRClientTypes.ReplicationDestination: Swift.Codable {
 
 extension ECRClientTypes {
     /// An array of objects representing the destination for a replication rule.
-    public struct ReplicationDestination: Swift.Equatable {
+    public struct ReplicationDestination {
         /// The Region to replicate to.
         /// This member is required.
         public var region: Swift.String?
@@ -9169,7 +9169,7 @@ extension ECRClientTypes.ReplicationRule: Swift.Codable {
 
 extension ECRClientTypes {
     /// An array of objects representing the replication destinations and repository filters for a replication configuration.
-    public struct ReplicationRule: Swift.Equatable {
+    public struct ReplicationRule {
         /// An array of objects representing the destination for a replication rule.
         /// This member is required.
         public var destinations: [ECRClientTypes.ReplicationDestination]?
@@ -9286,7 +9286,7 @@ extension ECRClientTypes.Repository: Swift.Codable {
 
 extension ECRClientTypes {
     /// An object representing a repository.
-    public struct Repository: Swift.Equatable {
+    public struct Repository {
         /// The date and time, in JavaScript date format, when the repository was created.
         public var createdAt: ClientRuntime.Date?
         /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest.
@@ -9368,7 +9368,7 @@ public struct RepositoryAlreadyExistsException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct RepositoryAlreadyExistsExceptionBody: Swift.Equatable {
+struct RepositoryAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -9411,7 +9411,7 @@ extension ECRClientTypes.RepositoryFilter: Swift.Codable {
 
 extension ECRClientTypes {
     /// The filter settings used with image replication. Specifying a repository filter to a replication rule provides a method for controlling which repositories in a private registry are replicated. If no filters are added, the contents of all repositories are replicated.
-    public struct RepositoryFilter: Swift.Equatable {
+    public struct RepositoryFilter {
         /// The repository filter details. When the PREFIX_MATCH filter type is specified, this value is required and should be the repository name prefix to configure replication for.
         /// This member is required.
         public var filter: Swift.String?
@@ -9500,7 +9500,7 @@ public struct RepositoryNotEmptyException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct RepositoryNotEmptyExceptionBody: Swift.Equatable {
+struct RepositoryNotEmptyExceptionBody {
     let message: Swift.String?
 }
 
@@ -9556,7 +9556,7 @@ public struct RepositoryNotFoundException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct RepositoryNotFoundExceptionBody: Swift.Equatable {
+struct RepositoryNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -9612,7 +9612,7 @@ public struct RepositoryPolicyNotFoundException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct RepositoryPolicyNotFoundExceptionBody: Swift.Equatable {
+struct RepositoryPolicyNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -9685,7 +9685,7 @@ extension ECRClientTypes.RepositoryScanningConfiguration: Swift.Codable {
 
 extension ECRClientTypes {
     /// The details of the scanning configuration for a repository.
-    public struct RepositoryScanningConfiguration: Swift.Equatable {
+    public struct RepositoryScanningConfiguration {
         /// The scan filters applied to the repository.
         public var appliedScanFilters: [ECRClientTypes.ScanningRepositoryFilter]?
         /// The ARN of the repository.
@@ -9748,7 +9748,7 @@ extension ECRClientTypes.RepositoryScanningConfigurationFailure: Swift.Codable {
 
 extension ECRClientTypes {
     /// The details about any failures associated with the scanning configuration of a repository.
-    public struct RepositoryScanningConfigurationFailure: Swift.Equatable {
+    public struct RepositoryScanningConfigurationFailure {
         /// The failure code.
         public var failureCode: ECRClientTypes.ScanningConfigurationFailureCode?
         /// The reason for the failure.
@@ -9821,7 +9821,7 @@ extension ECRClientTypes.Resource: Swift.Codable {
 
 extension ECRClientTypes {
     /// Details about the resource involved in a finding.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// An object that contains details about the resource involved in a finding.
         public var details: ECRClientTypes.ResourceDetails?
         /// The ID of the resource.
@@ -9868,7 +9868,7 @@ extension ECRClientTypes.ResourceDetails: Swift.Codable {
 
 extension ECRClientTypes {
     /// Contains details about the resource involved in the finding.
-    public struct ResourceDetails: Swift.Equatable {
+    public struct ResourceDetails {
         /// An object that contains details about the Amazon ECR container image involved in the finding.
         public var awsEcrContainerImage: ECRClientTypes.AwsEcrContainerImageDetails?
 
@@ -9956,7 +9956,7 @@ public struct ScanNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct ScanNotFoundExceptionBody: Swift.Equatable {
+struct ScanNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -10110,7 +10110,7 @@ extension ECRClientTypes.ScanningRepositoryFilter: Swift.Codable {
 
 extension ECRClientTypes {
     /// The details of a scanning repository filter. For more information on how to use filters, see [Using filters](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html#image-scanning-filters) in the Amazon Elastic Container Registry User Guide.
-    public struct ScanningRepositoryFilter: Swift.Equatable {
+    public struct ScanningRepositoryFilter {
         /// The filter to use when scanning.
         /// This member is required.
         public var filter: Swift.String?
@@ -10180,7 +10180,7 @@ extension ECRClientTypes.ScoreDetails: Swift.Codable {
 
 extension ECRClientTypes {
     /// Information about the Amazon Inspector score given to a finding.
-    public struct ScoreDetails: Swift.Equatable {
+    public struct ScoreDetails {
         /// An object that contains details about the CVSS score given to a finding.
         public var cvss: ECRClientTypes.CvssScoreDetails?
 
@@ -10233,7 +10233,7 @@ public struct SecretNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct SecretNotFoundExceptionBody: Swift.Equatable {
+struct SecretNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -10289,7 +10289,7 @@ public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct ServerExceptionBody: Swift.Equatable {
+struct ServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -10337,7 +10337,7 @@ extension SetRepositoryPolicyInput {
     }
 }
 
-public struct SetRepositoryPolicyInput: Swift.Equatable {
+public struct SetRepositoryPolicyInput {
     /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the [SetRepositoryPolicy] operation. This is intended to prevent accidental repository lock outs.
     public var force: Swift.Bool?
     /// The JSON repository policy text to apply to the repository. For more information, see [Amazon ECR repository policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policy-examples.html) in the Amazon Elastic Container Registry User Guide.
@@ -10363,7 +10363,7 @@ public struct SetRepositoryPolicyInput: Swift.Equatable {
     }
 }
 
-struct SetRepositoryPolicyInputBody: Swift.Equatable {
+struct SetRepositoryPolicyInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let policyText: Swift.String?
@@ -10407,7 +10407,7 @@ extension SetRepositoryPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetRepositoryPolicyOutput: Swift.Equatable {
+public struct SetRepositoryPolicyOutput {
     /// The JSON repository policy text applied to the repository.
     public var policyText: Swift.String?
     /// The registry ID associated with the request.
@@ -10427,7 +10427,7 @@ public struct SetRepositoryPolicyOutput: Swift.Equatable {
     }
 }
 
-struct SetRepositoryPolicyOutputBody: Swift.Equatable {
+struct SetRepositoryPolicyOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let policyText: Swift.String?
@@ -10492,7 +10492,7 @@ extension StartImageScanInput {
     }
 }
 
-public struct StartImageScanInput: Swift.Equatable {
+public struct StartImageScanInput {
     /// An object with identifying information for an image in an Amazon ECR repository.
     /// This member is required.
     public var imageId: ECRClientTypes.ImageIdentifier?
@@ -10514,7 +10514,7 @@ public struct StartImageScanInput: Swift.Equatable {
     }
 }
 
-struct StartImageScanInputBody: Swift.Equatable {
+struct StartImageScanInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageId: ECRClientTypes.ImageIdentifier?
@@ -10556,7 +10556,7 @@ extension StartImageScanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImageScanOutput: Swift.Equatable {
+public struct StartImageScanOutput {
     /// An object with identifying information for an image in an Amazon ECR repository.
     public var imageId: ECRClientTypes.ImageIdentifier?
     /// The current state of the scan.
@@ -10580,7 +10580,7 @@ public struct StartImageScanOutput: Swift.Equatable {
     }
 }
 
-struct StartImageScanOutputBody: Swift.Equatable {
+struct StartImageScanOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let imageId: ECRClientTypes.ImageIdentifier?
@@ -10653,7 +10653,7 @@ extension StartLifecyclePolicyPreviewInput {
     }
 }
 
-public struct StartLifecyclePolicyPreviewInput: Swift.Equatable {
+public struct StartLifecyclePolicyPreviewInput {
     /// The policy to be evaluated against. If you do not specify a policy, the current policy for the repository is used.
     public var lifecyclePolicyText: Swift.String?
     /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
@@ -10674,7 +10674,7 @@ public struct StartLifecyclePolicyPreviewInput: Swift.Equatable {
     }
 }
 
-struct StartLifecyclePolicyPreviewInputBody: Swift.Equatable {
+struct StartLifecyclePolicyPreviewInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let lifecyclePolicyText: Swift.String?
@@ -10716,7 +10716,7 @@ extension StartLifecyclePolicyPreviewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartLifecyclePolicyPreviewOutput: Swift.Equatable {
+public struct StartLifecyclePolicyPreviewOutput {
     /// The JSON repository policy text.
     public var lifecyclePolicyText: Swift.String?
     /// The registry ID associated with the request.
@@ -10740,7 +10740,7 @@ public struct StartLifecyclePolicyPreviewOutput: Swift.Equatable {
     }
 }
 
-struct StartLifecyclePolicyPreviewOutputBody: Swift.Equatable {
+struct StartLifecyclePolicyPreviewOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let lifecyclePolicyText: Swift.String?
@@ -10811,7 +10811,7 @@ extension ECRClientTypes.Tag: Swift.Codable {
 
 extension ECRClientTypes {
     /// The metadata to apply to a resource to help you categorize and organize them. Each tag consists of a key and a value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         /// This member is required.
         public var key: Swift.String?
@@ -10858,7 +10858,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the the resource to which to add tags. Currently, the only supported resource is an Amazon ECR repository.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10876,7 +10876,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [ECRClientTypes.Tag]?
 }
@@ -10910,7 +10910,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -11004,7 +11004,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -11059,7 +11059,7 @@ public struct UnableToAccessSecretException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnableToAccessSecretExceptionBody: Swift.Equatable {
+struct UnableToAccessSecretExceptionBody {
     let message: Swift.String?
 }
 
@@ -11114,7 +11114,7 @@ public struct UnableToDecryptSecretValueException: ClientRuntime.ModeledError, A
     }
 }
 
-struct UnableToDecryptSecretValueExceptionBody: Swift.Equatable {
+struct UnableToDecryptSecretValueExceptionBody {
     let message: Swift.String?
 }
 
@@ -11169,7 +11169,7 @@ public struct UnableToGetUpstreamImageException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct UnableToGetUpstreamImageExceptionBody: Swift.Equatable {
+struct UnableToGetUpstreamImageExceptionBody {
     let message: Swift.String?
 }
 
@@ -11224,7 +11224,7 @@ public struct UnableToGetUpstreamLayerException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct UnableToGetUpstreamLayerExceptionBody: Swift.Equatable {
+struct UnableToGetUpstreamLayerExceptionBody {
     let message: Swift.String?
 }
 
@@ -11279,7 +11279,7 @@ public struct UnsupportedImageTypeException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedImageTypeExceptionBody: Swift.Equatable {
+struct UnsupportedImageTypeExceptionBody {
     let message: Swift.String?
 }
 
@@ -11334,7 +11334,7 @@ public struct UnsupportedUpstreamRegistryException: ClientRuntime.ModeledError, 
     }
 }
 
-struct UnsupportedUpstreamRegistryExceptionBody: Swift.Equatable {
+struct UnsupportedUpstreamRegistryExceptionBody {
     let message: Swift.String?
 }
 
@@ -11377,7 +11377,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon ECR repository.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -11395,7 +11395,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -11429,7 +11429,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -11477,7 +11477,7 @@ extension UpdatePullThroughCacheRuleInput {
     }
 }
 
-public struct UpdatePullThroughCacheRuleInput: Swift.Equatable {
+public struct UpdatePullThroughCacheRuleInput {
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
     /// This member is required.
     public var credentialArn: Swift.String?
@@ -11499,7 +11499,7 @@ public struct UpdatePullThroughCacheRuleInput: Swift.Equatable {
     }
 }
 
-struct UpdatePullThroughCacheRuleInputBody: Swift.Equatable {
+struct UpdatePullThroughCacheRuleInputBody {
     let registryId: Swift.String?
     let ecrRepositoryPrefix: Swift.String?
     let credentialArn: Swift.String?
@@ -11541,7 +11541,7 @@ extension UpdatePullThroughCacheRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePullThroughCacheRuleOutput: Swift.Equatable {
+public struct UpdatePullThroughCacheRuleOutput {
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
     public var credentialArn: Swift.String?
     /// The Amazon ECR repository prefix associated with the pull through cache rule.
@@ -11565,7 +11565,7 @@ public struct UpdatePullThroughCacheRuleOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePullThroughCacheRuleOutputBody: Swift.Equatable {
+struct UpdatePullThroughCacheRuleOutputBody {
     let ecrRepositoryPrefix: Swift.String?
     let registryId: Swift.String?
     let updatedAt: ClientRuntime.Date?
@@ -11650,7 +11650,7 @@ extension UploadLayerPartInput {
     }
 }
 
-public struct UploadLayerPartInput: Swift.Equatable {
+public struct UploadLayerPartInput {
     /// The base64-encoded layer part payload.
     /// This member is required.
     public var layerPartBlob: ClientRuntime.Data?
@@ -11687,7 +11687,7 @@ public struct UploadLayerPartInput: Swift.Equatable {
     }
 }
 
-struct UploadLayerPartInputBody: Swift.Equatable {
+struct UploadLayerPartInputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let uploadId: Swift.String?
@@ -11741,7 +11741,7 @@ extension UploadLayerPartOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UploadLayerPartOutput: Swift.Equatable {
+public struct UploadLayerPartOutput {
     /// The integer value of the last byte received in the request.
     public var lastByteReceived: Swift.Int?
     /// The registry ID associated with the request.
@@ -11765,7 +11765,7 @@ public struct UploadLayerPartOutput: Swift.Equatable {
     }
 }
 
-struct UploadLayerPartOutputBody: Swift.Equatable {
+struct UploadLayerPartOutputBody {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let uploadId: Swift.String?
@@ -11850,7 +11850,7 @@ public struct UploadNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct UploadNotFoundExceptionBody: Swift.Equatable {
+struct UploadNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11934,7 +11934,7 @@ extension ValidatePullThroughCacheRuleInput {
     }
 }
 
-public struct ValidatePullThroughCacheRuleInput: Swift.Equatable {
+public struct ValidatePullThroughCacheRuleInput {
     /// The repository name prefix associated with the pull through cache rule.
     /// This member is required.
     public var ecrRepositoryPrefix: Swift.String?
@@ -11951,7 +11951,7 @@ public struct ValidatePullThroughCacheRuleInput: Swift.Equatable {
     }
 }
 
-struct ValidatePullThroughCacheRuleInputBody: Swift.Equatable {
+struct ValidatePullThroughCacheRuleInputBody {
     let ecrRepositoryPrefix: Swift.String?
     let registryId: Swift.String?
 }
@@ -11993,7 +11993,7 @@ extension ValidatePullThroughCacheRuleOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ValidatePullThroughCacheRuleOutput: Swift.Equatable {
+public struct ValidatePullThroughCacheRuleOutput {
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
     public var credentialArn: Swift.String?
     /// The Amazon ECR repository prefix associated with the pull through cache rule.
@@ -12025,7 +12025,7 @@ public struct ValidatePullThroughCacheRuleOutput: Swift.Equatable {
     }
 }
 
-struct ValidatePullThroughCacheRuleOutputBody: Swift.Equatable {
+struct ValidatePullThroughCacheRuleOutputBody {
     let ecrRepositoryPrefix: Swift.String?
     let registryId: Swift.String?
     let upstreamRegistryUrl: Swift.String?
@@ -12114,7 +12114,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -12193,7 +12193,7 @@ extension ECRClientTypes.VulnerablePackage: Swift.Codable {
 
 extension ECRClientTypes {
     /// Information on the vulnerable package identified by a finding.
-    public struct VulnerablePackage: Swift.Equatable {
+    public struct VulnerablePackage {
         /// The architecture of the vulnerable package.
         public var arch: Swift.String?
         /// The epoch of the vulnerable package.

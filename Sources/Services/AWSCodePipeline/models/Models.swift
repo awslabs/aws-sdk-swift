@@ -41,7 +41,7 @@ extension CodePipelineClientTypes.AWSSessionCredentials: Swift.CustomDebugString
 
 extension CodePipelineClientTypes {
     /// Represents an Amazon Web Services session credentials object. These credentials are temporary credentials that are issued by Amazon Web Services Secure Token Service (STS). They can be used to access input and output artifacts in the S3 bucket used to store artifact for the pipeline in CodePipeline.
-    public struct AWSSessionCredentials: Swift.Equatable {
+    public struct AWSSessionCredentials {
         /// The access key for the session.
         /// This member is required.
         public var accessKeyId: Swift.String?
@@ -91,7 +91,7 @@ extension AcknowledgeJobInput {
 }
 
 /// Represents the input of an AcknowledgeJob action.
-public struct AcknowledgeJobInput: Swift.Equatable {
+public struct AcknowledgeJobInput {
     /// The unique system-generated ID of the job for which you want to confirm receipt.
     /// This member is required.
     public var jobId: Swift.String?
@@ -109,7 +109,7 @@ public struct AcknowledgeJobInput: Swift.Equatable {
     }
 }
 
-struct AcknowledgeJobInputBody: Swift.Equatable {
+struct AcknowledgeJobInputBody {
     let jobId: Swift.String?
     let nonce: Swift.String?
 }
@@ -142,7 +142,7 @@ extension AcknowledgeJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of an AcknowledgeJob action.
-public struct AcknowledgeJobOutput: Swift.Equatable {
+public struct AcknowledgeJobOutput {
     /// Whether the job worker has received the specified job.
     public var status: CodePipelineClientTypes.JobStatus?
 
@@ -154,7 +154,7 @@ public struct AcknowledgeJobOutput: Swift.Equatable {
     }
 }
 
-struct AcknowledgeJobOutputBody: Swift.Equatable {
+struct AcknowledgeJobOutputBody {
     let status: CodePipelineClientTypes.JobStatus?
 }
 
@@ -212,7 +212,7 @@ extension AcknowledgeThirdPartyJobInput {
 }
 
 /// Represents the input of an AcknowledgeThirdPartyJob action.
-public struct AcknowledgeThirdPartyJobInput: Swift.Equatable {
+public struct AcknowledgeThirdPartyJobInput {
     /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -235,7 +235,7 @@ public struct AcknowledgeThirdPartyJobInput: Swift.Equatable {
     }
 }
 
-struct AcknowledgeThirdPartyJobInputBody: Swift.Equatable {
+struct AcknowledgeThirdPartyJobInputBody {
     let jobId: Swift.String?
     let nonce: Swift.String?
     let clientToken: Swift.String?
@@ -272,7 +272,7 @@ extension AcknowledgeThirdPartyJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of an AcknowledgeThirdPartyJob action.
-public struct AcknowledgeThirdPartyJobOutput: Swift.Equatable {
+public struct AcknowledgeThirdPartyJobOutput {
     /// The status information for the third party job, if any.
     public var status: CodePipelineClientTypes.JobStatus?
 
@@ -284,7 +284,7 @@ public struct AcknowledgeThirdPartyJobOutput: Swift.Equatable {
     }
 }
 
-struct AcknowledgeThirdPartyJobOutputBody: Swift.Equatable {
+struct AcknowledgeThirdPartyJobOutputBody {
     let status: CodePipelineClientTypes.JobStatus?
 }
 
@@ -391,7 +391,7 @@ extension CodePipelineClientTypes.ActionConfiguration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about an action configuration.
-    public struct ActionConfiguration: Swift.Equatable {
+    public struct ActionConfiguration {
         /// The configuration data for the action.
         public var configuration: [Swift.String:Swift.String]?
 
@@ -462,7 +462,7 @@ extension CodePipelineClientTypes.ActionConfigurationProperty: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about an action configuration property.
-    public struct ActionConfigurationProperty: Swift.Equatable {
+    public struct ActionConfigurationProperty {
         /// The description of the action configuration property that is displayed to users.
         public var description: Swift.String?
         /// Whether the configuration property is a key.
@@ -566,7 +566,7 @@ extension CodePipelineClientTypes.ActionContext: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents the context of an action in the stage of a pipeline to a job worker.
-    public struct ActionContext: Swift.Equatable {
+    public struct ActionContext {
         /// The system-generated unique ID that corresponds to an action's execution.
         public var actionExecutionId: Swift.String?
         /// The name of the action in the context of a job.
@@ -695,7 +695,7 @@ extension CodePipelineClientTypes.ActionDeclaration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about an action declaration.
-    public struct ActionDeclaration: Swift.Equatable {
+    public struct ActionDeclaration {
         /// Specifies the action type and the provider of the action.
         /// This member is required.
         public var actionTypeId: CodePipelineClientTypes.ActionTypeId?
@@ -822,7 +822,7 @@ extension CodePipelineClientTypes.ActionExecution: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the run of an action.
-    public struct ActionExecution: Swift.Equatable {
+    public struct ActionExecution {
         /// ID of the workflow action execution in the current stage. Use the [GetPipelineState] action to retrieve the current action execution details of the current stage. For older executions, this field might be empty. The action execution ID is available for executions run on or after March 2020.
         public var actionExecutionId: Swift.String?
         /// The details of an error returned by a URL external to Amazon Web Services.
@@ -953,7 +953,7 @@ extension CodePipelineClientTypes.ActionExecutionDetail: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Returns information about an execution of an action, including the action execution ID, and the name, version, and timing of the action.
-    public struct ActionExecutionDetail: Swift.Equatable {
+    public struct ActionExecutionDetail {
         /// The action execution ID.
         public var actionExecutionId: Swift.String?
         /// The name of the action.
@@ -1034,7 +1034,7 @@ extension CodePipelineClientTypes.ActionExecutionFilter: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Filter values for the action execution.
-    public struct ActionExecutionFilter: Swift.Equatable {
+    public struct ActionExecutionFilter {
         /// The latest execution in the pipeline. Filtering on the latest execution is available for executions run on or after February 08, 2024.
         public var latestInPipelineExecution: CodePipelineClientTypes.LatestInPipelineExecutionFilter?
         /// The pipeline execution ID used to filter action execution history.
@@ -1145,7 +1145,7 @@ extension CodePipelineClientTypes.ActionExecutionInput: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Input information used for an action execution.
-    public struct ActionExecutionInput: Swift.Equatable {
+    public struct ActionExecutionInput {
         /// Represents information about an action type.
         public var actionTypeId: CodePipelineClientTypes.ActionTypeId?
         /// Configuration data for an action execution.
@@ -1240,7 +1240,7 @@ extension CodePipelineClientTypes.ActionExecutionOutput: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Output details listed for an action execution, such as the action execution result.
-    public struct ActionExecutionOutput: Swift.Equatable {
+    public struct ActionExecutionOutput {
         /// Execution result information listed in the output details for an action execution.
         public var executionResult: CodePipelineClientTypes.ActionExecutionResult?
         /// Details of output artifacts of the action that correspond to the action execution.
@@ -1301,7 +1301,7 @@ extension CodePipelineClientTypes.ActionExecutionResult: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Execution result information, such as the external execution ID.
-    public struct ActionExecutionResult: Swift.Equatable {
+    public struct ActionExecutionResult {
         /// Represents information about an error in CodePipeline.
         public var errorDetails: CodePipelineClientTypes.ErrorDetails?
         /// The action provider's external ID for the action execution.
@@ -1405,7 +1405,7 @@ public struct ActionNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ActionNotFoundExceptionBody: Swift.Equatable {
+struct ActionNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1489,7 +1489,7 @@ extension CodePipelineClientTypes.ActionRevision: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the version (or revision) of an action.
-    public struct ActionRevision: Swift.Equatable {
+    public struct ActionRevision {
         /// The date and time when the most recent version of the action was created, in timestamp format.
         /// This member is required.
         public var created: ClientRuntime.Date?
@@ -1559,7 +1559,7 @@ extension CodePipelineClientTypes.ActionState: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the state of an action.
-    public struct ActionState: Swift.Equatable {
+    public struct ActionState {
         /// The name of the action.
         public var actionName: Swift.String?
         /// Represents information about the version (or revision) of an action.
@@ -1646,7 +1646,7 @@ extension CodePipelineClientTypes.ActionType: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Returns information about the details of an action type.
-    public struct ActionType: Swift.Equatable {
+    public struct ActionType {
         /// The configuration properties for the action type.
         public var actionConfigurationProperties: [CodePipelineClientTypes.ActionConfigurationProperty]?
         /// Represents information about an action type.
@@ -1706,7 +1706,7 @@ extension CodePipelineClientTypes.ActionTypeArtifactDetails: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Information about parameters for artifacts associated with the action type, such as the minimum and maximum artifacts allowed.
-    public struct ActionTypeArtifactDetails: Swift.Equatable {
+    public struct ActionTypeArtifactDetails {
         /// The maximum number of artifacts that can be used with the actiontype. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
         /// This member is required.
         public var maximumCount: Swift.Int
@@ -1801,7 +1801,7 @@ extension CodePipelineClientTypes.ActionTypeDeclaration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The parameters for the action type definition that are provided when the action type is created or updated.
-    public struct ActionTypeDeclaration: Swift.Equatable {
+    public struct ActionTypeDeclaration {
         /// The description for the action type to be updated.
         public var description: Swift.String?
         /// Information about the executor for an action type that was created with any supported integration model.
@@ -1886,7 +1886,7 @@ extension CodePipelineClientTypes.ActionTypeExecutor: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The action engine, or executor, for an action type created for a provider, where the action is to be used by customers of the provider. The action engine is associated with the model used to create and update the action, such as the Lambda integration model.
-    public struct ActionTypeExecutor: Swift.Equatable {
+    public struct ActionTypeExecutor {
         /// The action configuration properties for the action type. These properties are specified in the action definition when the action type is created.
         /// This member is required.
         public var configuration: CodePipelineClientTypes.ExecutorConfiguration?
@@ -1953,7 +1953,7 @@ extension CodePipelineClientTypes.ActionTypeId: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about an action type.
-    public struct ActionTypeId: Swift.Equatable {
+    public struct ActionTypeId {
         /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values.
         ///
         /// * Source
@@ -2034,7 +2034,7 @@ extension CodePipelineClientTypes.ActionTypeIdentifier: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Specifies the category, owner, provider, and version of the action type.
-    public struct ActionTypeIdentifier: Swift.Equatable {
+    public struct ActionTypeIdentifier {
         /// Defines what kind of action can be taken in the stage, one of the following:
         ///
         /// * Source
@@ -2116,7 +2116,7 @@ public struct ActionTypeNotFoundException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ActionTypeNotFoundExceptionBody: Swift.Equatable {
+struct ActionTypeNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2165,7 +2165,7 @@ extension CodePipelineClientTypes.ActionTypePermissions: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Details identifying the users with permissions to use the action type.
-    public struct ActionTypePermissions: Swift.Equatable {
+    public struct ActionTypePermissions {
         /// A list of Amazon Web Services account IDs with access to use the action type in their pipelines.
         /// This member is required.
         public var allowedAccounts: [Swift.String]?
@@ -2231,7 +2231,7 @@ extension CodePipelineClientTypes.ActionTypeProperty: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about each property specified in the action configuration, such as the description and key name that display for the customer using the action type.
-    public struct ActionTypeProperty: Swift.Equatable {
+    public struct ActionTypeProperty {
         /// The description of the property that is displayed to users.
         public var description: Swift.String?
         /// Whether the configuration property is a key.
@@ -2308,7 +2308,7 @@ extension CodePipelineClientTypes.ActionTypeSettings: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Returns information about the settings for an action type.
-    public struct ActionTypeSettings: Swift.Equatable {
+    public struct ActionTypeSettings {
         /// The URL returned to the CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for a CodeDeploy deployment group. This link is provided as part of the action display in the pipeline.
         public var entityUrlTemplate: Swift.String?
         /// The URL returned to the CodePipeline console that contains a link to the top-level landing page for the external system, such as the console page for CodeDeploy. This link is shown on the pipeline view page in the CodePipeline console and provides a link to the execution entity of the external action.
@@ -2373,7 +2373,7 @@ extension CodePipelineClientTypes.ActionTypeUrls: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Returns information about URLs for web pages that display to customers as links on the pipeline view, such as an external configuration page for the action type.
-    public struct ActionTypeUrls: Swift.Equatable {
+    public struct ActionTypeUrls {
         /// The URL returned to the CodePipeline console that contains a link to the page where customers can configure the external action.
         public var configurationUrl: Swift.String?
         /// The URL returned to the CodePipeline console that provides a deep link to the resources of the external system, such as a status page. This link is provided as part of the action display in the pipeline.
@@ -2439,7 +2439,7 @@ public struct ApprovalAlreadyCompletedException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct ApprovalAlreadyCompletedExceptionBody: Swift.Equatable {
+struct ApprovalAlreadyCompletedExceptionBody {
     let message: Swift.String?
 }
 
@@ -2482,7 +2482,7 @@ extension CodePipelineClientTypes.ApprovalResult: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the result of an approval request.
-    public struct ApprovalResult: Swift.Equatable {
+    public struct ApprovalResult {
         /// The response submitted by a reviewer assigned to an approval action request.
         /// This member is required.
         public var status: CodePipelineClientTypes.ApprovalStatus?
@@ -2567,7 +2567,7 @@ extension CodePipelineClientTypes.Artifact: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Artifacts are the files that are worked on by actions in the pipeline. See the action configuration for each action for details about artifact parameters. For example, the S3 source action artifact is a file name (or file path), and the files are generally provided as a ZIP file. Example artifact name: SampleApp_Windows.zip
-    public struct Artifact: Swift.Equatable {
+    public struct Artifact {
         /// The location of an artifact.
         public var location: CodePipelineClientTypes.ArtifactLocation?
         /// The artifact's name.
@@ -2616,7 +2616,7 @@ extension CodePipelineClientTypes.ArtifactDetail: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Artifact details for the action execution, such as the artifact location.
-    public struct ArtifactDetail: Swift.Equatable {
+    public struct ArtifactDetail {
         /// The artifact object name for the action execution.
         public var name: Swift.String?
         /// The Amazon S3 artifact location for the action execution.
@@ -2661,7 +2661,7 @@ extension CodePipelineClientTypes.ArtifactDetails: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Returns information about the details of an artifact.
-    public struct ArtifactDetails: Swift.Equatable {
+    public struct ArtifactDetails {
         /// The maximum number of artifacts allowed for the action type.
         /// This member is required.
         public var maximumCount: Swift.Int
@@ -2708,7 +2708,7 @@ extension CodePipelineClientTypes.ArtifactLocation: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the location of an artifact.
-    public struct ArtifactLocation: Swift.Equatable {
+    public struct ArtifactLocation {
         /// The S3 bucket that contains the artifact.
         public var s3Location: CodePipelineClientTypes.S3ArtifactLocation?
         /// The type of artifact in the location.
@@ -2806,7 +2806,7 @@ extension CodePipelineClientTypes.ArtifactRevision: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents revision details of an artifact.
-    public struct ArtifactRevision: Swift.Equatable {
+    public struct ArtifactRevision {
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
         public var created: ClientRuntime.Date?
         /// The name of an artifact. This name might be system-generated, such as "MyApp", or defined by the user when an action is created.
@@ -2873,7 +2873,7 @@ extension CodePipelineClientTypes.ArtifactStore: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The S3 bucket where artifacts for the pipeline are stored. You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
-    public struct ArtifactStore: Swift.Equatable {
+    public struct ArtifactStore {
         /// The encryption key used to encrypt the data in the artifact store, such as an Amazon Web Services Key Management Service key. If this is undefined, the default key for Amazon S3 is used.
         public var encryptionKey: CodePipelineClientTypes.EncryptionKey?
         /// The S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder in the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any S3 bucket in the same Amazon Web Services Region as the pipeline to store your pipeline artifacts.
@@ -2953,7 +2953,7 @@ extension CodePipelineClientTypes.BlockerDeclaration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Reserved for future use.
-    public struct BlockerDeclaration: Swift.Equatable {
+    public struct BlockerDeclaration {
         /// Reserved for future use.
         /// This member is required.
         public var name: Swift.String?
@@ -3043,7 +3043,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -3098,7 +3098,7 @@ public struct ConcurrentPipelineExecutionsLimitExceededException: ClientRuntime.
     }
 }
 
-struct ConcurrentPipelineExecutionsLimitExceededExceptionBody: Swift.Equatable {
+struct ConcurrentPipelineExecutionsLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3153,7 +3153,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -3224,7 +3224,7 @@ extension CreateCustomActionTypeInput {
 }
 
 /// Represents the input of a CreateCustomActionType operation.
-public struct CreateCustomActionTypeInput: Swift.Equatable {
+public struct CreateCustomActionTypeInput {
     /// The category of the custom action, such as a build action or a test action.
     /// This member is required.
     public var category: CodePipelineClientTypes.ActionCategory?
@@ -3269,7 +3269,7 @@ public struct CreateCustomActionTypeInput: Swift.Equatable {
     }
 }
 
-struct CreateCustomActionTypeInputBody: Swift.Equatable {
+struct CreateCustomActionTypeInputBody {
     let category: CodePipelineClientTypes.ActionCategory?
     let provider: Swift.String?
     let version: Swift.String?
@@ -3346,7 +3346,7 @@ extension CreateCustomActionTypeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a CreateCustomActionType operation.
-public struct CreateCustomActionTypeOutput: Swift.Equatable {
+public struct CreateCustomActionTypeOutput {
     /// Returns information about the details of an action type.
     /// This member is required.
     public var actionType: CodePipelineClientTypes.ActionType?
@@ -3363,7 +3363,7 @@ public struct CreateCustomActionTypeOutput: Swift.Equatable {
     }
 }
 
-struct CreateCustomActionTypeOutputBody: Swift.Equatable {
+struct CreateCustomActionTypeOutputBody {
     let actionType: CodePipelineClientTypes.ActionType?
     let tags: [CodePipelineClientTypes.Tag]?
 }
@@ -3435,7 +3435,7 @@ extension CreatePipelineInput {
 }
 
 /// Represents the input of a CreatePipeline action.
-public struct CreatePipelineInput: Swift.Equatable {
+public struct CreatePipelineInput {
     /// Represents the structure of actions and stages to be performed in the pipeline.
     /// This member is required.
     public var pipeline: CodePipelineClientTypes.PipelineDeclaration?
@@ -3452,7 +3452,7 @@ public struct CreatePipelineInput: Swift.Equatable {
     }
 }
 
-struct CreatePipelineInputBody: Swift.Equatable {
+struct CreatePipelineInputBody {
     let pipeline: CodePipelineClientTypes.PipelineDeclaration?
     let tags: [CodePipelineClientTypes.Tag]?
 }
@@ -3496,7 +3496,7 @@ extension CreatePipelineOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a CreatePipeline action.
-public struct CreatePipelineOutput: Swift.Equatable {
+public struct CreatePipelineOutput {
     /// Represents the structure of actions and stages to be performed in the pipeline.
     public var pipeline: CodePipelineClientTypes.PipelineDeclaration?
     /// Specifies the tags applied to the pipeline.
@@ -3512,7 +3512,7 @@ public struct CreatePipelineOutput: Swift.Equatable {
     }
 }
 
-struct CreatePipelineOutputBody: Swift.Equatable {
+struct CreatePipelineOutputBody {
     let pipeline: CodePipelineClientTypes.PipelineDeclaration?
     let tags: [CodePipelineClientTypes.Tag]?
 }
@@ -3600,7 +3600,7 @@ extension CodePipelineClientTypes.CurrentRevision: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about a current revision.
-    public struct CurrentRevision: Swift.Equatable {
+    public struct CurrentRevision {
         /// The change identifier for the current revision.
         /// This member is required.
         public var changeIdentifier: Swift.String?
@@ -3657,7 +3657,7 @@ extension DeleteCustomActionTypeInput {
 }
 
 /// Represents the input of a DeleteCustomActionType operation. The custom action will be marked as deleted.
-public struct DeleteCustomActionTypeInput: Swift.Equatable {
+public struct DeleteCustomActionTypeInput {
     /// The category of the custom action that you want to delete, such as source or deploy.
     /// This member is required.
     public var category: CodePipelineClientTypes.ActionCategory?
@@ -3680,7 +3680,7 @@ public struct DeleteCustomActionTypeInput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomActionTypeInputBody: Swift.Equatable {
+struct DeleteCustomActionTypeInputBody {
     let category: CodePipelineClientTypes.ActionCategory?
     let provider: Swift.String?
     let version: Swift.String?
@@ -3709,7 +3709,7 @@ extension DeleteCustomActionTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCustomActionTypeOutput: Swift.Equatable {
+public struct DeleteCustomActionTypeOutput {
 
     public init() { }
 }
@@ -3747,7 +3747,7 @@ extension DeletePipelineInput {
 }
 
 /// Represents the input of a DeletePipeline action.
-public struct DeletePipelineInput: Swift.Equatable {
+public struct DeletePipelineInput {
     /// The name of the pipeline to be deleted.
     /// This member is required.
     public var name: Swift.String?
@@ -3760,7 +3760,7 @@ public struct DeletePipelineInput: Swift.Equatable {
     }
 }
 
-struct DeletePipelineInputBody: Swift.Equatable {
+struct DeletePipelineInputBody {
     let name: Swift.String?
 }
 
@@ -3781,7 +3781,7 @@ extension DeletePipelineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePipelineOutput: Swift.Equatable {
+public struct DeletePipelineOutput {
 
     public init() { }
 }
@@ -3818,7 +3818,7 @@ extension DeleteWebhookInput {
     }
 }
 
-public struct DeleteWebhookInput: Swift.Equatable {
+public struct DeleteWebhookInput {
     /// The name of the webhook you want to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3831,7 +3831,7 @@ public struct DeleteWebhookInput: Swift.Equatable {
     }
 }
 
-struct DeleteWebhookInputBody: Swift.Equatable {
+struct DeleteWebhookInputBody {
     let name: Swift.String?
 }
 
@@ -3852,7 +3852,7 @@ extension DeleteWebhookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWebhookOutput: Swift.Equatable {
+public struct DeleteWebhookOutput {
 
     public init() { }
 }
@@ -3889,7 +3889,7 @@ extension DeregisterWebhookWithThirdPartyInput {
     }
 }
 
-public struct DeregisterWebhookWithThirdPartyInput: Swift.Equatable {
+public struct DeregisterWebhookWithThirdPartyInput {
     /// The name of the webhook you want to deregister.
     public var webhookName: Swift.String?
 
@@ -3901,7 +3901,7 @@ public struct DeregisterWebhookWithThirdPartyInput: Swift.Equatable {
     }
 }
 
-struct DeregisterWebhookWithThirdPartyInputBody: Swift.Equatable {
+struct DeregisterWebhookWithThirdPartyInputBody {
     let webhookName: Swift.String?
 }
 
@@ -3922,7 +3922,7 @@ extension DeregisterWebhookWithThirdPartyOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeregisterWebhookWithThirdPartyOutput: Swift.Equatable {
+public struct DeregisterWebhookWithThirdPartyOutput {
 
     public init() { }
 }
@@ -3972,7 +3972,7 @@ extension DisableStageTransitionInput {
 }
 
 /// Represents the input of a DisableStageTransition action.
-public struct DisableStageTransitionInput: Swift.Equatable {
+public struct DisableStageTransitionInput {
     /// The name of the pipeline in which you want to disable the flow of artifacts from one stage to another.
     /// This member is required.
     public var pipelineName: Swift.String?
@@ -4000,7 +4000,7 @@ public struct DisableStageTransitionInput: Swift.Equatable {
     }
 }
 
-struct DisableStageTransitionInputBody: Swift.Equatable {
+struct DisableStageTransitionInputBody {
     let pipelineName: Swift.String?
     let stageName: Swift.String?
     let transitionType: CodePipelineClientTypes.StageTransitionType?
@@ -4033,7 +4033,7 @@ extension DisableStageTransitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableStageTransitionOutput: Swift.Equatable {
+public struct DisableStageTransitionOutput {
 
     public init() { }
 }
@@ -4090,7 +4090,7 @@ public struct DuplicatedStopRequestException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct DuplicatedStopRequestExceptionBody: Swift.Equatable {
+struct DuplicatedStopRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -4135,7 +4135,7 @@ extension EnableStageTransitionInput {
 }
 
 /// Represents the input of an EnableStageTransition action.
-public struct EnableStageTransitionInput: Swift.Equatable {
+public struct EnableStageTransitionInput {
     /// The name of the pipeline in which you want to enable the flow of artifacts from one stage to another.
     /// This member is required.
     public var pipelineName: Swift.String?
@@ -4158,7 +4158,7 @@ public struct EnableStageTransitionInput: Swift.Equatable {
     }
 }
 
-struct EnableStageTransitionInputBody: Swift.Equatable {
+struct EnableStageTransitionInputBody {
     let pipelineName: Swift.String?
     let stageName: Swift.String?
     let transitionType: CodePipelineClientTypes.StageTransitionType?
@@ -4187,7 +4187,7 @@ extension EnableStageTransitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableStageTransitionOutput: Swift.Equatable {
+public struct EnableStageTransitionOutput {
 
     public init() { }
 }
@@ -4232,7 +4232,7 @@ extension CodePipelineClientTypes.EncryptionKey: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the key used to encrypt data in the artifact store, such as an Amazon Web Services Key Management Service (Key Management Service) key.
-    public struct EncryptionKey: Swift.Equatable {
+    public struct EncryptionKey {
         /// The ID used to identify the key. For an Amazon Web Services KMS key, you can use the key ID, the key ARN, or the alias ARN. Aliases are recognized only in the account that created the KMS key. For cross-account actions, you can only use the key ID or key ARN to identify the key. Cross-account actions involve using the role from the other account (AccountB), so specifying the key ID will use the key from the other account (AccountB).
         /// This member is required.
         public var id: Swift.String?
@@ -4308,7 +4308,7 @@ extension CodePipelineClientTypes.ErrorDetails: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about an error in CodePipeline.
-    public struct ErrorDetails: Swift.Equatable {
+    public struct ErrorDetails {
         /// The system ID or number code of the error.
         public var code: Swift.String?
         /// The text of the error message.
@@ -4359,7 +4359,7 @@ extension CodePipelineClientTypes.ExecutionDetails: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The details of the actions taken and results produced on an artifact as it passes through stages in the pipeline.
-    public struct ExecutionDetails: Swift.Equatable {
+    public struct ExecutionDetails {
         /// The system-generated unique ID of this action used to identify this job worker in any external systems, such as CodeDeploy.
         public var externalExecutionId: Swift.String?
         /// The percentage of work completed on the action, represented on a scale of 0 to 100 percent.
@@ -4443,7 +4443,7 @@ extension CodePipelineClientTypes.ExecutionTrigger: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The interaction or event that started a pipeline execution.
-    public struct ExecutionTrigger: Swift.Equatable {
+    public struct ExecutionTrigger {
         /// Detail related to the event that started a pipeline execution, such as the webhook ARN of the webhook that triggered the pipeline execution or the user ARN for a user-initiated start-pipeline-execution CLI command.
         public var triggerDetail: Swift.String?
         /// The type of change-detection method, command, or user interaction that started a pipeline execution.
@@ -4488,7 +4488,7 @@ extension CodePipelineClientTypes.ExecutorConfiguration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The action engine, or executor, related to the supported integration model used to create and update the action type. The available executor types are Lambda and JobWorker.
-    public struct ExecutorConfiguration: Swift.Equatable {
+    public struct ExecutorConfiguration {
         /// Details about the JobWorker executor of the action type.
         public var jobWorkerExecutorConfiguration: CodePipelineClientTypes.JobWorkerExecutorConfiguration?
         /// Details about the Lambda executor of the action type.
@@ -4571,7 +4571,7 @@ extension CodePipelineClientTypes.FailureDetails: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about failure details.
-    public struct FailureDetails: Swift.Equatable {
+    public struct FailureDetails {
         /// The external ID of the run of the action that failed.
         public var externalExecutionId: Swift.String?
         /// The message about the failure.
@@ -4671,7 +4671,7 @@ extension GetActionTypeInput {
     }
 }
 
-public struct GetActionTypeInput: Swift.Equatable {
+public struct GetActionTypeInput {
     /// Defines what kind of action can be taken in the stage. The following are the valid values:
     ///
     /// * Source
@@ -4711,7 +4711,7 @@ public struct GetActionTypeInput: Swift.Equatable {
     }
 }
 
-struct GetActionTypeInputBody: Swift.Equatable {
+struct GetActionTypeInputBody {
     let category: CodePipelineClientTypes.ActionCategory?
     let owner: Swift.String?
     let provider: Swift.String?
@@ -4751,7 +4751,7 @@ extension GetActionTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetActionTypeOutput: Swift.Equatable {
+public struct GetActionTypeOutput {
     /// The action type information for the requested action type, such as the action type ID.
     public var actionType: CodePipelineClientTypes.ActionTypeDeclaration?
 
@@ -4763,7 +4763,7 @@ public struct GetActionTypeOutput: Swift.Equatable {
     }
 }
 
-struct GetActionTypeOutputBody: Swift.Equatable {
+struct GetActionTypeOutputBody {
     let actionType: CodePipelineClientTypes.ActionTypeDeclaration?
 }
 
@@ -4812,7 +4812,7 @@ extension GetJobDetailsInput {
 }
 
 /// Represents the input of a GetJobDetails action.
-public struct GetJobDetailsInput: Swift.Equatable {
+public struct GetJobDetailsInput {
     /// The unique system-generated ID for the job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -4825,7 +4825,7 @@ public struct GetJobDetailsInput: Swift.Equatable {
     }
 }
 
-struct GetJobDetailsInputBody: Swift.Equatable {
+struct GetJobDetailsInputBody {
     let jobId: Swift.String?
 }
 
@@ -4854,7 +4854,7 @@ extension GetJobDetailsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetJobDetails action.
-public struct GetJobDetailsOutput: Swift.Equatable {
+public struct GetJobDetailsOutput {
     /// The details of the job. If AWSSessionCredentials is used, a long-running job can call GetJobDetails again to obtain new credentials.
     public var jobDetails: CodePipelineClientTypes.JobDetails?
 
@@ -4866,7 +4866,7 @@ public struct GetJobDetailsOutput: Swift.Equatable {
     }
 }
 
-struct GetJobDetailsOutputBody: Swift.Equatable {
+struct GetJobDetailsOutputBody {
     let jobDetails: CodePipelineClientTypes.JobDetails?
 }
 
@@ -4919,7 +4919,7 @@ extension GetPipelineExecutionInput {
 }
 
 /// Represents the input of a GetPipelineExecution action.
-public struct GetPipelineExecutionInput: Swift.Equatable {
+public struct GetPipelineExecutionInput {
     /// The ID of the pipeline execution about which you want to get execution details.
     /// This member is required.
     public var pipelineExecutionId: Swift.String?
@@ -4937,7 +4937,7 @@ public struct GetPipelineExecutionInput: Swift.Equatable {
     }
 }
 
-struct GetPipelineExecutionInputBody: Swift.Equatable {
+struct GetPipelineExecutionInputBody {
     let pipelineName: Swift.String?
     let pipelineExecutionId: Swift.String?
 }
@@ -4970,7 +4970,7 @@ extension GetPipelineExecutionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetPipelineExecution action.
-public struct GetPipelineExecutionOutput: Swift.Equatable {
+public struct GetPipelineExecutionOutput {
     /// Represents information about the execution of a pipeline.
     public var pipelineExecution: CodePipelineClientTypes.PipelineExecution?
 
@@ -4982,7 +4982,7 @@ public struct GetPipelineExecutionOutput: Swift.Equatable {
     }
 }
 
-struct GetPipelineExecutionOutputBody: Swift.Equatable {
+struct GetPipelineExecutionOutputBody {
     let pipelineExecution: CodePipelineClientTypes.PipelineExecution?
 }
 
@@ -5036,7 +5036,7 @@ extension GetPipelineInput {
 }
 
 /// Represents the input of a GetPipeline action.
-public struct GetPipelineInput: Swift.Equatable {
+public struct GetPipelineInput {
     /// The name of the pipeline for which you want to get information. Pipeline names must be unique in an Amazon Web Services account.
     /// This member is required.
     public var name: Swift.String?
@@ -5053,7 +5053,7 @@ public struct GetPipelineInput: Swift.Equatable {
     }
 }
 
-struct GetPipelineInputBody: Swift.Equatable {
+struct GetPipelineInputBody {
     let name: Swift.String?
     let version: Swift.Int?
 }
@@ -5088,7 +5088,7 @@ extension GetPipelineOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetPipeline action.
-public struct GetPipelineOutput: Swift.Equatable {
+public struct GetPipelineOutput {
     /// Represents the pipeline metadata information returned as part of the output of a GetPipeline action.
     public var metadata: CodePipelineClientTypes.PipelineMetadata?
     /// Represents the structure of actions and stages to be performed in the pipeline.
@@ -5104,7 +5104,7 @@ public struct GetPipelineOutput: Swift.Equatable {
     }
 }
 
-struct GetPipelineOutputBody: Swift.Equatable {
+struct GetPipelineOutputBody {
     let pipeline: CodePipelineClientTypes.PipelineDeclaration?
     let metadata: CodePipelineClientTypes.PipelineMetadata?
 }
@@ -5158,7 +5158,7 @@ extension GetPipelineStateInput {
 }
 
 /// Represents the input of a GetPipelineState action.
-public struct GetPipelineStateInput: Swift.Equatable {
+public struct GetPipelineStateInput {
     /// The name of the pipeline about which you want to get information.
     /// This member is required.
     public var name: Swift.String?
@@ -5171,7 +5171,7 @@ public struct GetPipelineStateInput: Swift.Equatable {
     }
 }
 
-struct GetPipelineStateInputBody: Swift.Equatable {
+struct GetPipelineStateInputBody {
     let name: Swift.String?
 }
 
@@ -5208,7 +5208,7 @@ extension GetPipelineStateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetPipelineState action.
-public struct GetPipelineStateOutput: Swift.Equatable {
+public struct GetPipelineStateOutput {
     /// The date and time the pipeline was created, in timestamp format.
     public var created: ClientRuntime.Date?
     /// The name of the pipeline for which you want to get the state.
@@ -5236,7 +5236,7 @@ public struct GetPipelineStateOutput: Swift.Equatable {
     }
 }
 
-struct GetPipelineStateOutputBody: Swift.Equatable {
+struct GetPipelineStateOutputBody {
     let pipelineName: Swift.String?
     let pipelineVersion: Swift.Int?
     let stageStates: [CodePipelineClientTypes.StageState]?
@@ -5314,7 +5314,7 @@ extension GetThirdPartyJobDetailsInput {
 }
 
 /// Represents the input of a GetThirdPartyJobDetails action.
-public struct GetThirdPartyJobDetailsInput: Swift.Equatable {
+public struct GetThirdPartyJobDetailsInput {
     /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -5332,7 +5332,7 @@ public struct GetThirdPartyJobDetailsInput: Swift.Equatable {
     }
 }
 
-struct GetThirdPartyJobDetailsInputBody: Swift.Equatable {
+struct GetThirdPartyJobDetailsInputBody {
     let jobId: Swift.String?
     let clientToken: Swift.String?
 }
@@ -5365,7 +5365,7 @@ extension GetThirdPartyJobDetailsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a GetThirdPartyJobDetails action.
-public struct GetThirdPartyJobDetailsOutput: Swift.Equatable {
+public struct GetThirdPartyJobDetailsOutput {
     /// The details of the job, including any protected values defined for the job.
     public var jobDetails: CodePipelineClientTypes.ThirdPartyJobDetails?
 
@@ -5377,7 +5377,7 @@ public struct GetThirdPartyJobDetailsOutput: Swift.Equatable {
     }
 }
 
-struct GetThirdPartyJobDetailsOutputBody: Swift.Equatable {
+struct GetThirdPartyJobDetailsOutputBody {
     let jobDetails: CodePipelineClientTypes.ThirdPartyJobDetails?
 }
 
@@ -5458,7 +5458,7 @@ extension CodePipelineClientTypes.GitBranchFilterCriteria: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The Git repository branches specified as filter criteria to start the pipeline.
-    public struct GitBranchFilterCriteria: Swift.Equatable {
+    public struct GitBranchFilterCriteria {
         /// The list of patterns of Git branches that, when a commit is pushed, are to be excluded from starting the pipeline.
         public var excludes: [Swift.String]?
         /// The list of patterns of Git branches that, when a commit is pushed, are to be included as criteria that starts the pipeline.
@@ -5533,7 +5533,7 @@ extension CodePipelineClientTypes.GitConfiguration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// A type of trigger configuration for Git-based source actions. You can specify the Git configuration trigger type for all third-party Git-based source actions that are supported by the CodeStarSourceConnection action type.
-    public struct GitConfiguration: Swift.Equatable {
+    public struct GitConfiguration {
         /// The field where the repository event that will start the pipeline is specified as pull requests.
         public var pullRequest: [CodePipelineClientTypes.GitPullRequestFilter]?
         /// The field where the repository event that will start the pipeline, such as pushing Git tags, is specified with details.
@@ -5607,7 +5607,7 @@ extension CodePipelineClientTypes.GitFilePathFilterCriteria: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The Git repository file paths specified as filter criteria to start the pipeline.
-    public struct GitFilePathFilterCriteria: Swift.Equatable {
+    public struct GitFilePathFilterCriteria {
         /// The list of patterns of Git repository file paths that, when a commit is pushed, are to be excluded from starting the pipeline.
         public var excludes: [Swift.String]?
         /// The list of patterns of Git repository file paths that, when a commit is pushed, are to be included as criteria that starts the pipeline.
@@ -5705,7 +5705,7 @@ extension CodePipelineClientTypes.GitPullRequestFilter: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The event criteria for the pull request trigger configuration, such as the lists of branches or file paths to include and exclude.
-    public struct GitPullRequestFilter: Swift.Equatable {
+    public struct GitPullRequestFilter {
         /// The field that specifies to filter on branches for the pull request trigger configuration.
         public var branches: CodePipelineClientTypes.GitBranchFilterCriteria?
         /// The field that specifies which pull request events to filter on (opened, updated, closed) for the trigger configuration.
@@ -5760,7 +5760,7 @@ extension CodePipelineClientTypes.GitPushFilter: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The event criteria that specify when a specified repository event will start the pipeline for the specified trigger configuration, such as the lists of Git tags to include and exclude.
-    public struct GitPushFilter: Swift.Equatable {
+    public struct GitPushFilter {
         /// The field that specifies to filter on branches for the push trigger configuration.
         public var branches: CodePipelineClientTypes.GitBranchFilterCriteria?
         /// The field that specifies to filter on file paths for the push trigger configuration.
@@ -5833,7 +5833,7 @@ extension CodePipelineClientTypes.GitTagFilterCriteria: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The Git tags specified as filter criteria for whether a Git tag repository event will start the pipeline.
-    public struct GitTagFilterCriteria: Swift.Equatable {
+    public struct GitTagFilterCriteria {
         /// The list of patterns of Git tags that, when pushed, are to be excluded from starting the pipeline.
         public var excludes: [Swift.String]?
         /// The list of patterns of Git tags that, when pushed, are to be included as criteria that starts the pipeline.
@@ -5872,7 +5872,7 @@ extension CodePipelineClientTypes.InputArtifact: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about an artifact to be worked on, such as a test or build artifact.
-    public struct InputArtifact: Swift.Equatable {
+    public struct InputArtifact {
         /// The name of the artifact to be worked on (for example, "My App"). Artifacts are the files that are worked on by actions in the pipeline. See the action configuration for each action for details about artifact parameters. For example, the S3 source action input artifact is a file name (or file path), and the files are generally provided as a ZIP file. Example artifact name: SampleApp_Windows.zip The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
         /// This member is required.
         public var name: Swift.String?
@@ -5927,7 +5927,7 @@ public struct InvalidActionDeclarationException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct InvalidActionDeclarationExceptionBody: Swift.Equatable {
+struct InvalidActionDeclarationExceptionBody {
     let message: Swift.String?
 }
 
@@ -5983,7 +5983,7 @@ public struct InvalidApprovalTokenException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidApprovalTokenExceptionBody: Swift.Equatable {
+struct InvalidApprovalTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -6038,7 +6038,7 @@ public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidArnExceptionBody: Swift.Equatable {
+struct InvalidArnExceptionBody {
     let message: Swift.String?
 }
 
@@ -6094,7 +6094,7 @@ public struct InvalidBlockerDeclarationException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct InvalidBlockerDeclarationExceptionBody: Swift.Equatable {
+struct InvalidBlockerDeclarationExceptionBody {
     let message: Swift.String?
 }
 
@@ -6150,7 +6150,7 @@ public struct InvalidClientTokenException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidClientTokenExceptionBody: Swift.Equatable {
+struct InvalidClientTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -6206,7 +6206,7 @@ public struct InvalidJobException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidJobExceptionBody: Swift.Equatable {
+struct InvalidJobExceptionBody {
     let message: Swift.String?
 }
 
@@ -6262,7 +6262,7 @@ public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidJobStateExceptionBody: Swift.Equatable {
+struct InvalidJobStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -6318,7 +6318,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -6374,7 +6374,7 @@ public struct InvalidNonceException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidNonceExceptionBody: Swift.Equatable {
+struct InvalidNonceExceptionBody {
     let message: Swift.String?
 }
 
@@ -6430,7 +6430,7 @@ public struct InvalidStageDeclarationException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InvalidStageDeclarationExceptionBody: Swift.Equatable {
+struct InvalidStageDeclarationExceptionBody {
     let message: Swift.String?
 }
 
@@ -6486,7 +6486,7 @@ public struct InvalidStructureException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidStructureExceptionBody: Swift.Equatable {
+struct InvalidStructureExceptionBody {
     let message: Swift.String?
 }
 
@@ -6541,7 +6541,7 @@ public struct InvalidTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InvalidTagsExceptionBody: Swift.Equatable {
+struct InvalidTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -6597,7 +6597,7 @@ public struct InvalidWebhookAuthenticationParametersException: ClientRuntime.Mod
     }
 }
 
-struct InvalidWebhookAuthenticationParametersExceptionBody: Swift.Equatable {
+struct InvalidWebhookAuthenticationParametersExceptionBody {
     let message: Swift.String?
 }
 
@@ -6653,7 +6653,7 @@ public struct InvalidWebhookFilterPatternException: ClientRuntime.ModeledError, 
     }
 }
 
-struct InvalidWebhookFilterPatternExceptionBody: Swift.Equatable {
+struct InvalidWebhookFilterPatternExceptionBody {
     let message: Swift.String?
 }
 
@@ -6708,7 +6708,7 @@ extension CodePipelineClientTypes.Job: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about a job.
-    public struct Job: Swift.Equatable {
+    public struct Job {
         /// The ID of the Amazon Web Services account to use when performing the job.
         public var accountId: Swift.String?
         /// Other data about a job.
@@ -6826,7 +6826,7 @@ extension CodePipelineClientTypes.JobData: Swift.CustomDebugStringConvertible {
 
 extension CodePipelineClientTypes {
     /// Represents other information about a job required for a job worker to complete the job.
-    public struct JobData: Swift.Equatable {
+    public struct JobData {
         /// Represents information about an action configuration.
         public var actionConfiguration: CodePipelineClientTypes.ActionConfiguration?
         /// Represents information about an action type.
@@ -6901,7 +6901,7 @@ extension CodePipelineClientTypes.JobDetails: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the details of a job.
-    public struct JobDetails: Swift.Equatable {
+    public struct JobDetails {
         /// The Amazon Web Services account ID associated with the job.
         public var accountId: Swift.String?
         /// Represents other information about a job required for a job worker to complete the job.
@@ -6963,7 +6963,7 @@ public struct JobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct JobNotFoundExceptionBody: Swift.Equatable {
+struct JobNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -7077,7 +7077,7 @@ extension CodePipelineClientTypes.JobWorkerExecutorConfiguration: Swift.Codable 
 
 extension CodePipelineClientTypes {
     /// Details about the polling configuration for the JobWorker action engine, or executor.
-    public struct JobWorkerExecutorConfiguration: Swift.Equatable {
+    public struct JobWorkerExecutorConfiguration {
         /// The accounts in which the job worker is configured and might poll for jobs as part of the action execution.
         public var pollingAccounts: [Swift.String]?
         /// The service Principals in which the job worker is configured and might poll for jobs as part of the action execution.
@@ -7116,7 +7116,7 @@ extension CodePipelineClientTypes.LambdaExecutorConfiguration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Details about the configuration for the Lambda action engine, or executor.
-    public struct LambdaExecutorConfiguration: Swift.Equatable {
+    public struct LambdaExecutorConfiguration {
         /// The ARN of the Lambda function used by the action engine.
         /// This member is required.
         public var lambdaFunctionArn: Swift.String?
@@ -7158,7 +7158,7 @@ extension CodePipelineClientTypes.LatestInPipelineExecutionFilter: Swift.Codable
 
 extension CodePipelineClientTypes {
     /// The field that specifies to filter on the latest execution in the pipeline. Filtering on the latest execution is available for executions run on or after February 08, 2024.
-    public struct LatestInPipelineExecutionFilter: Swift.Equatable {
+    public struct LatestInPipelineExecutionFilter {
         /// The execution ID for the latest execution in the pipeline.
         /// This member is required.
         public var pipelineExecutionId: Swift.String?
@@ -7222,7 +7222,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -7270,7 +7270,7 @@ extension ListActionExecutionsInput {
     }
 }
 
-public struct ListActionExecutionsInput: Swift.Equatable {
+public struct ListActionExecutionsInput {
     /// Input information used to filter action execution history.
     public var filter: CodePipelineClientTypes.ActionExecutionFilter?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Action execution history is retained for up to 12 months, based on action execution start times. Default value is 100. Detailed execution history is available for executions run on or after February 21, 2019.
@@ -7295,7 +7295,7 @@ public struct ListActionExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListActionExecutionsInputBody: Swift.Equatable {
+struct ListActionExecutionsInputBody {
     let pipelineName: Swift.String?
     let filter: CodePipelineClientTypes.ActionExecutionFilter?
     let maxResults: Swift.Int?
@@ -7337,7 +7337,7 @@ extension ListActionExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListActionExecutionsOutput: Swift.Equatable {
+public struct ListActionExecutionsOutput {
     /// The details for a list of recent executions, such as action execution ID.
     public var actionExecutionDetails: [CodePipelineClientTypes.ActionExecutionDetail]?
     /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent ListActionExecutions call to return the next set of action executions in the list.
@@ -7353,7 +7353,7 @@ public struct ListActionExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListActionExecutionsOutputBody: Swift.Equatable {
+struct ListActionExecutionsOutputBody {
     let actionExecutionDetails: [CodePipelineClientTypes.ActionExecutionDetail]?
     let nextToken: Swift.String?
 }
@@ -7425,7 +7425,7 @@ extension ListActionTypesInput {
 }
 
 /// Represents the input of a ListActionTypes action.
-public struct ListActionTypesInput: Swift.Equatable {
+public struct ListActionTypesInput {
     /// Filters the list of action types to those created by a specified entity.
     public var actionOwnerFilter: CodePipelineClientTypes.ActionOwner?
     /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
@@ -7445,7 +7445,7 @@ public struct ListActionTypesInput: Swift.Equatable {
     }
 }
 
-struct ListActionTypesInputBody: Swift.Equatable {
+struct ListActionTypesInputBody {
     let actionOwnerFilter: CodePipelineClientTypes.ActionOwner?
     let nextToken: Swift.String?
     let regionFilter: Swift.String?
@@ -7484,7 +7484,7 @@ extension ListActionTypesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a ListActionTypes action.
-public struct ListActionTypesOutput: Swift.Equatable {
+public struct ListActionTypesOutput {
     /// Provides details of the action types.
     /// This member is required.
     public var actionTypes: [CodePipelineClientTypes.ActionType]?
@@ -7501,7 +7501,7 @@ public struct ListActionTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListActionTypesOutputBody: Swift.Equatable {
+struct ListActionTypesOutputBody {
     let actionTypes: [CodePipelineClientTypes.ActionType]?
     let nextToken: Swift.String?
 }
@@ -7571,7 +7571,7 @@ extension ListPipelineExecutionsInput {
 }
 
 /// Represents the input of a ListPipelineExecutions action.
-public struct ListPipelineExecutionsInput: Swift.Equatable {
+public struct ListPipelineExecutionsInput {
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Pipeline history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
     public var maxResults: Swift.Int?
     /// The token that was returned from the previous ListPipelineExecutions call, which can be used to return the next set of pipeline executions in the list.
@@ -7592,7 +7592,7 @@ public struct ListPipelineExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListPipelineExecutionsInputBody: Swift.Equatable {
+struct ListPipelineExecutionsInputBody {
     let pipelineName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -7631,7 +7631,7 @@ extension ListPipelineExecutionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a ListPipelineExecutions action.
-public struct ListPipelineExecutionsOutput: Swift.Equatable {
+public struct ListPipelineExecutionsOutput {
     /// A token that can be used in the next ListPipelineExecutions call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
     public var nextToken: Swift.String?
     /// A list of executions in the history of a pipeline.
@@ -7647,7 +7647,7 @@ public struct ListPipelineExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListPipelineExecutionsOutputBody: Swift.Equatable {
+struct ListPipelineExecutionsOutputBody {
     let pipelineExecutionSummaries: [CodePipelineClientTypes.PipelineExecutionSummary]?
     let nextToken: Swift.String?
 }
@@ -7714,7 +7714,7 @@ extension ListPipelinesInput {
 }
 
 /// Represents the input of a ListPipelines action.
-public struct ListPipelinesInput: Swift.Equatable {
+public struct ListPipelinesInput {
     /// The maximum number of pipelines to return in a single call. To retrieve the remaining pipelines, make another call with the returned nextToken value. The minimum value you can specify is 1. The maximum accepted value is 1000.
     public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous list pipelines call. It can be used to return the next set of pipelines in the list.
@@ -7730,7 +7730,7 @@ public struct ListPipelinesInput: Swift.Equatable {
     }
 }
 
-struct ListPipelinesInputBody: Swift.Equatable {
+struct ListPipelinesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -7765,7 +7765,7 @@ extension ListPipelinesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a ListPipelines action.
-public struct ListPipelinesOutput: Swift.Equatable {
+public struct ListPipelinesOutput {
     /// If the amount of returned information is significantly large, an identifier is also returned. It can be used in a subsequent list pipelines call to return the next set of pipelines in the list.
     public var nextToken: Swift.String?
     /// The list of pipelines.
@@ -7781,7 +7781,7 @@ public struct ListPipelinesOutput: Swift.Equatable {
     }
 }
 
-struct ListPipelinesOutputBody: Swift.Equatable {
+struct ListPipelinesOutputBody {
     let pipelines: [CodePipelineClientTypes.PipelineSummary]?
     let nextToken: Swift.String?
 }
@@ -7850,7 +7850,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// The token that was returned from the previous API call, which would be used to return the next page of the list. The ListTagsforResource call lists all available tags in one call and does not use pagination.
@@ -7871,7 +7871,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7909,7 +7909,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent API call to return the next page of the list. The ListTagsforResource call lists all available tags in one call and does not use pagination.
     public var nextToken: Swift.String?
     /// The tags for the resource.
@@ -7925,7 +7925,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [CodePipelineClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -8037,7 +8037,7 @@ extension CodePipelineClientTypes.ListWebhookItem: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The detail returned for each webhook after listing webhooks, such as the webhook URL, the webhook name, and the webhook ARN.
-    public struct ListWebhookItem: Swift.Equatable {
+    public struct ListWebhookItem {
         /// The Amazon Resource Name (ARN) of the webhook.
         public var arn: Swift.String?
         /// The detail returned for each webhook, such as the webhook authentication type and filter rules.
@@ -8101,7 +8101,7 @@ extension ListWebhooksInput {
     }
 }
 
-public struct ListWebhooksInput: Swift.Equatable {
+public struct ListWebhooksInput {
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The token that was returned from the previous ListWebhooks call, which can be used to return the next set of webhooks in the list.
@@ -8117,7 +8117,7 @@ public struct ListWebhooksInput: Swift.Equatable {
     }
 }
 
-struct ListWebhooksInputBody: Swift.Equatable {
+struct ListWebhooksInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -8151,7 +8151,7 @@ extension ListWebhooksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWebhooksOutput: Swift.Equatable {
+public struct ListWebhooksOutput {
     /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent ListWebhooks call to return the next set of webhooks in the list.
     public var nextToken: Swift.String?
     /// The JSON detail returned for each webhook in the list output for the ListWebhooks call.
@@ -8167,7 +8167,7 @@ public struct ListWebhooksOutput: Swift.Equatable {
     }
 }
 
-struct ListWebhooksOutputBody: Swift.Equatable {
+struct ListWebhooksOutputBody {
     let webhooks: [CodePipelineClientTypes.ListWebhookItem]?
     let nextToken: Swift.String?
 }
@@ -8248,7 +8248,7 @@ public struct NotLatestPipelineExecutionException: ClientRuntime.ModeledError, A
     }
 }
 
-struct NotLatestPipelineExecutionExceptionBody: Swift.Equatable {
+struct NotLatestPipelineExecutionExceptionBody {
     let message: Swift.String?
 }
 
@@ -8285,7 +8285,7 @@ extension CodePipelineClientTypes.OutputArtifact: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the output of an action.
-    public struct OutputArtifact: Swift.Equatable {
+    public struct OutputArtifact {
         /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
         /// This member is required.
         public var name: Swift.String?
@@ -8339,7 +8339,7 @@ public struct OutputVariablesSizeExceededException: ClientRuntime.ModeledError, 
     }
 }
 
-struct OutputVariablesSizeExceededExceptionBody: Swift.Equatable {
+struct OutputVariablesSizeExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -8400,7 +8400,7 @@ extension CodePipelineClientTypes.PipelineContext: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about a pipeline to a job worker. PipelineContext contains pipelineArn and pipelineExecutionId for custom action jobs. The pipelineArn and pipelineExecutionId fields are not populated for ThirdParty action jobs.
-    public struct PipelineContext: Swift.Equatable {
+    public struct PipelineContext {
         /// The context of an action to a job worker in the stage of a pipeline.
         public var action: CodePipelineClientTypes.ActionContext?
         /// The Amazon Resource Name (ARN) of the pipeline.
@@ -8553,7 +8553,7 @@ extension CodePipelineClientTypes.PipelineDeclaration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents the structure of actions and stages to be performed in the pipeline.
-    public struct PipelineDeclaration: Swift.Equatable {
+    public struct PipelineDeclaration {
         /// Represents information about the S3 bucket where artifacts are stored for the pipeline. You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
         public var artifactStore: CodePipelineClientTypes.ArtifactStore?
         /// A mapping of artifactStore objects and their corresponding Amazon Web Services Regions. There must be an artifact store for the pipeline Region and for each cross-region action in the pipeline. You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
@@ -8706,7 +8706,7 @@ extension CodePipelineClientTypes.PipelineExecution: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about an execution of a pipeline.
-    public struct PipelineExecution: Swift.Equatable {
+    public struct PipelineExecution {
         /// A list of ArtifactRevision objects included in a pipeline execution.
         public var artifactRevisions: [CodePipelineClientTypes.ArtifactRevision]?
         /// The method that the pipeline will use to handle multiple executions. The default mode is SUPERSEDED.
@@ -8806,7 +8806,7 @@ public struct PipelineExecutionNotFoundException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct PipelineExecutionNotFoundExceptionBody: Swift.Equatable {
+struct PipelineExecutionNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -8861,7 +8861,7 @@ public struct PipelineExecutionNotStoppableException: ClientRuntime.ModeledError
     }
 }
 
-struct PipelineExecutionNotStoppableExceptionBody: Swift.Equatable {
+struct PipelineExecutionNotStoppableExceptionBody {
     let message: Swift.String?
 }
 
@@ -8999,7 +8999,7 @@ extension CodePipelineClientTypes.PipelineExecutionSummary: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Summary information about a pipeline execution.
-    public struct PipelineExecutionSummary: Swift.Equatable {
+    public struct PipelineExecutionSummary {
         /// The method that the pipeline will use to handle multiple executions. The default mode is SUPERSEDED.
         public var executionMode: CodePipelineClientTypes.ExecutionMode?
         /// The date and time of the last change to the pipeline execution, in timestamp format.
@@ -9092,7 +9092,7 @@ extension CodePipelineClientTypes.PipelineMetadata: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Information about a pipeline.
-    public struct PipelineMetadata: Swift.Equatable {
+    public struct PipelineMetadata {
         /// The date and time the pipeline was created, in timestamp format.
         public var created: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the pipeline.
@@ -9158,7 +9158,7 @@ public struct PipelineNameInUseException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct PipelineNameInUseExceptionBody: Swift.Equatable {
+struct PipelineNameInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -9214,7 +9214,7 @@ public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct PipelineNotFoundExceptionBody: Swift.Equatable {
+struct PipelineNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -9281,7 +9281,7 @@ extension CodePipelineClientTypes.PipelineSummary: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Returns a summary of a pipeline.
-    public struct PipelineSummary: Swift.Equatable {
+    public struct PipelineSummary {
         /// The date and time the pipeline was created, in timestamp format.
         public var created: ClientRuntime.Date?
         /// The method that the pipeline will use to handle multiple executions. The default mode is SUPERSEDED.
@@ -9349,7 +9349,7 @@ extension CodePipelineClientTypes.PipelineTriggerDeclaration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the specified trigger configuration, such as the filter criteria and the source stage for the action that contains the trigger. This is only supported for the CodeStarSourceConnection action type. When a trigger configuration is specified, default change detection for repository and branch commits is disabled.
-    public struct PipelineTriggerDeclaration: Swift.Equatable {
+    public struct PipelineTriggerDeclaration {
         /// Provides the filter criteria and the source stage for the repository event that starts the pipeline, such as Git tags.
         /// This member is required.
         public var gitConfiguration: CodePipelineClientTypes.GitConfiguration?
@@ -9457,7 +9457,7 @@ extension CodePipelineClientTypes.PipelineVariable: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// A pipeline-level variable used for a pipeline execution.
-    public struct PipelineVariable: Swift.Equatable {
+    public struct PipelineVariable {
         /// The name of a pipeline-level variable.
         /// This member is required.
         public var name: Swift.String?
@@ -9510,7 +9510,7 @@ extension CodePipelineClientTypes.PipelineVariableDeclaration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// A variable declared at the pipeline level.
-    public struct PipelineVariableDeclaration: Swift.Equatable {
+    public struct PipelineVariableDeclaration {
         /// The value of a pipeline-level variable.
         public var defaultValue: Swift.String?
         /// The description of a pipeline-level variable. It's used to add additional context about the variable, and not being used at time when pipeline executes.
@@ -9573,7 +9573,7 @@ public struct PipelineVersionNotFoundException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct PipelineVersionNotFoundExceptionBody: Swift.Equatable {
+struct PipelineVersionNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -9621,7 +9621,7 @@ extension PollForJobsInput {
 }
 
 /// Represents the input of a PollForJobs action.
-public struct PollForJobsInput: Swift.Equatable {
+public struct PollForJobsInput {
     /// Represents information about an action type.
     /// This member is required.
     public var actionTypeId: CodePipelineClientTypes.ActionTypeId?
@@ -9642,7 +9642,7 @@ public struct PollForJobsInput: Swift.Equatable {
     }
 }
 
-struct PollForJobsInputBody: Swift.Equatable {
+struct PollForJobsInputBody {
     let actionTypeId: CodePipelineClientTypes.ActionTypeId?
     let maxBatchSize: Swift.Int?
     let queryParam: [Swift.String:Swift.String]?
@@ -9688,7 +9688,7 @@ extension PollForJobsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a PollForJobs action.
-public struct PollForJobsOutput: Swift.Equatable {
+public struct PollForJobsOutput {
     /// Information about the jobs to take action on.
     public var jobs: [CodePipelineClientTypes.Job]?
 
@@ -9700,7 +9700,7 @@ public struct PollForJobsOutput: Swift.Equatable {
     }
 }
 
-struct PollForJobsOutputBody: Swift.Equatable {
+struct PollForJobsOutputBody {
     let jobs: [CodePipelineClientTypes.Job]?
 }
 
@@ -9762,7 +9762,7 @@ extension PollForThirdPartyJobsInput {
 }
 
 /// Represents the input of a PollForThirdPartyJobs action.
-public struct PollForThirdPartyJobsInput: Swift.Equatable {
+public struct PollForThirdPartyJobsInput {
     /// Represents information about an action type.
     /// This member is required.
     public var actionTypeId: CodePipelineClientTypes.ActionTypeId?
@@ -9779,7 +9779,7 @@ public struct PollForThirdPartyJobsInput: Swift.Equatable {
     }
 }
 
-struct PollForThirdPartyJobsInputBody: Swift.Equatable {
+struct PollForThirdPartyJobsInputBody {
     let actionTypeId: CodePipelineClientTypes.ActionTypeId?
     let maxBatchSize: Swift.Int?
 }
@@ -9812,7 +9812,7 @@ extension PollForThirdPartyJobsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a PollForThirdPartyJobs action.
-public struct PollForThirdPartyJobsOutput: Swift.Equatable {
+public struct PollForThirdPartyJobsOutput {
     /// Information about the jobs to take action on.
     public var jobs: [CodePipelineClientTypes.ThirdPartyJob]?
 
@@ -9824,7 +9824,7 @@ public struct PollForThirdPartyJobsOutput: Swift.Equatable {
     }
 }
 
-struct PollForThirdPartyJobsOutputBody: Swift.Equatable {
+struct PollForThirdPartyJobsOutputBody {
     let jobs: [CodePipelineClientTypes.ThirdPartyJob]?
 }
 
@@ -9894,7 +9894,7 @@ extension PutActionRevisionInput {
 }
 
 /// Represents the input of a PutActionRevision action.
-public struct PutActionRevisionInput: Swift.Equatable {
+public struct PutActionRevisionInput {
     /// The name of the action that processes the revision.
     /// This member is required.
     public var actionName: Swift.String?
@@ -9922,7 +9922,7 @@ public struct PutActionRevisionInput: Swift.Equatable {
     }
 }
 
-struct PutActionRevisionInputBody: Swift.Equatable {
+struct PutActionRevisionInputBody {
     let pipelineName: Swift.String?
     let stageName: Swift.String?
     let actionName: Swift.String?
@@ -9965,7 +9965,7 @@ extension PutActionRevisionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a PutActionRevision action.
-public struct PutActionRevisionOutput: Swift.Equatable {
+public struct PutActionRevisionOutput {
     /// Indicates whether the artifact revision was previously used in an execution of the specified pipeline.
     public var newRevision: Swift.Bool
     /// The ID of the current workflow state of the pipeline.
@@ -9981,7 +9981,7 @@ public struct PutActionRevisionOutput: Swift.Equatable {
     }
 }
 
-struct PutActionRevisionOutputBody: Swift.Equatable {
+struct PutActionRevisionOutputBody {
     let newRevision: Swift.Bool
     let pipelineExecutionId: Swift.String?
 }
@@ -10052,7 +10052,7 @@ extension PutApprovalResultInput {
 }
 
 /// Represents the input of a PutApprovalResult action.
-public struct PutApprovalResultInput: Swift.Equatable {
+public struct PutApprovalResultInput {
     /// The name of the action for which approval is requested.
     /// This member is required.
     public var actionName: Swift.String?
@@ -10085,7 +10085,7 @@ public struct PutApprovalResultInput: Swift.Equatable {
     }
 }
 
-struct PutApprovalResultInputBody: Swift.Equatable {
+struct PutApprovalResultInputBody {
     let pipelineName: Swift.String?
     let stageName: Swift.String?
     let actionName: Swift.String?
@@ -10130,7 +10130,7 @@ extension PutApprovalResultOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a PutApprovalResult action.
-public struct PutApprovalResultOutput: Swift.Equatable {
+public struct PutApprovalResultOutput {
     /// The timestamp showing when the approval or rejection was submitted.
     public var approvedAt: ClientRuntime.Date?
 
@@ -10142,7 +10142,7 @@ public struct PutApprovalResultOutput: Swift.Equatable {
     }
 }
 
-struct PutApprovalResultOutputBody: Swift.Equatable {
+struct PutApprovalResultOutputBody {
     let approvedAt: ClientRuntime.Date?
 }
 
@@ -10199,7 +10199,7 @@ extension PutJobFailureResultInput {
 }
 
 /// Represents the input of a PutJobFailureResult action.
-public struct PutJobFailureResultInput: Swift.Equatable {
+public struct PutJobFailureResultInput {
     /// The details about the failure of a job.
     /// This member is required.
     public var failureDetails: CodePipelineClientTypes.FailureDetails?
@@ -10217,7 +10217,7 @@ public struct PutJobFailureResultInput: Swift.Equatable {
     }
 }
 
-struct PutJobFailureResultInputBody: Swift.Equatable {
+struct PutJobFailureResultInputBody {
     let jobId: Swift.String?
     let failureDetails: CodePipelineClientTypes.FailureDetails?
 }
@@ -10242,7 +10242,7 @@ extension PutJobFailureResultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutJobFailureResultOutput: Swift.Equatable {
+public struct PutJobFailureResultOutput {
 
     public init() { }
 }
@@ -10300,7 +10300,7 @@ extension PutJobSuccessResultInput {
 }
 
 /// Represents the input of a PutJobSuccessResult action.
-public struct PutJobSuccessResultInput: Swift.Equatable {
+public struct PutJobSuccessResultInput {
     /// A token generated by a job worker, such as a CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs use this token to identify the running instance of the action. It can be reused to return more information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
     public var continuationToken: Swift.String?
     /// The ID of the current revision of the artifact successfully worked on by the job.
@@ -10329,7 +10329,7 @@ public struct PutJobSuccessResultInput: Swift.Equatable {
     }
 }
 
-struct PutJobSuccessResultInputBody: Swift.Equatable {
+struct PutJobSuccessResultInputBody {
     let jobId: Swift.String?
     let currentRevision: CodePipelineClientTypes.CurrentRevision?
     let continuationToken: Swift.String?
@@ -10375,7 +10375,7 @@ extension PutJobSuccessResultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutJobSuccessResultOutput: Swift.Equatable {
+public struct PutJobSuccessResultOutput {
 
     public init() { }
 }
@@ -10423,7 +10423,7 @@ extension PutThirdPartyJobFailureResultInput {
 }
 
 /// Represents the input of a PutThirdPartyJobFailureResult action.
-public struct PutThirdPartyJobFailureResultInput: Swift.Equatable {
+public struct PutThirdPartyJobFailureResultInput {
     /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -10446,7 +10446,7 @@ public struct PutThirdPartyJobFailureResultInput: Swift.Equatable {
     }
 }
 
-struct PutThirdPartyJobFailureResultInputBody: Swift.Equatable {
+struct PutThirdPartyJobFailureResultInputBody {
     let jobId: Swift.String?
     let clientToken: Swift.String?
     let failureDetails: CodePipelineClientTypes.FailureDetails?
@@ -10475,7 +10475,7 @@ extension PutThirdPartyJobFailureResultOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct PutThirdPartyJobFailureResultOutput: Swift.Equatable {
+public struct PutThirdPartyJobFailureResultOutput {
 
     public init() { }
 }
@@ -10531,7 +10531,7 @@ extension PutThirdPartyJobSuccessResultInput {
 }
 
 /// Represents the input of a PutThirdPartyJobSuccessResult action.
-public struct PutThirdPartyJobSuccessResultInput: Swift.Equatable {
+public struct PutThirdPartyJobSuccessResultInput {
     /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -10561,7 +10561,7 @@ public struct PutThirdPartyJobSuccessResultInput: Swift.Equatable {
     }
 }
 
-struct PutThirdPartyJobSuccessResultInputBody: Swift.Equatable {
+struct PutThirdPartyJobSuccessResultInputBody {
     let jobId: Swift.String?
     let clientToken: Swift.String?
     let currentRevision: CodePipelineClientTypes.CurrentRevision?
@@ -10598,7 +10598,7 @@ extension PutThirdPartyJobSuccessResultOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct PutThirdPartyJobSuccessResultOutput: Swift.Equatable {
+public struct PutThirdPartyJobSuccessResultOutput {
 
     public init() { }
 }
@@ -10644,7 +10644,7 @@ extension PutWebhookInput {
     }
 }
 
-public struct PutWebhookInput: Swift.Equatable {
+public struct PutWebhookInput {
     /// The tags for the webhook.
     public var tags: [CodePipelineClientTypes.Tag]?
     /// The detail provided in an input file to create the webhook, such as the webhook name, the pipeline name, and the action name. Give the webhook a unique name that helps you identify it. You might name the webhook after the pipeline and action it targets so that you can easily recognize what it's used for later.
@@ -10661,7 +10661,7 @@ public struct PutWebhookInput: Swift.Equatable {
     }
 }
 
-struct PutWebhookInputBody: Swift.Equatable {
+struct PutWebhookInputBody {
     let webhook: CodePipelineClientTypes.WebhookDefinition?
     let tags: [CodePipelineClientTypes.Tag]?
 }
@@ -10702,7 +10702,7 @@ extension PutWebhookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutWebhookOutput: Swift.Equatable {
+public struct PutWebhookOutput {
     /// The detail returned from creating the webhook, such as the webhook name, webhook URL, and webhook ARN.
     public var webhook: CodePipelineClientTypes.ListWebhookItem?
 
@@ -10714,7 +10714,7 @@ public struct PutWebhookOutput: Swift.Equatable {
     }
 }
 
-struct PutWebhookOutputBody: Swift.Equatable {
+struct PutWebhookOutputBody {
     let webhook: CodePipelineClientTypes.ListWebhookItem?
 }
 
@@ -10768,7 +10768,7 @@ extension RegisterWebhookWithThirdPartyInput {
     }
 }
 
-public struct RegisterWebhookWithThirdPartyInput: Swift.Equatable {
+public struct RegisterWebhookWithThirdPartyInput {
     /// The name of an existing webhook created with PutWebhook to register with a supported third party.
     public var webhookName: Swift.String?
 
@@ -10780,7 +10780,7 @@ public struct RegisterWebhookWithThirdPartyInput: Swift.Equatable {
     }
 }
 
-struct RegisterWebhookWithThirdPartyInputBody: Swift.Equatable {
+struct RegisterWebhookWithThirdPartyInputBody {
     let webhookName: Swift.String?
 }
 
@@ -10801,7 +10801,7 @@ extension RegisterWebhookWithThirdPartyOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct RegisterWebhookWithThirdPartyOutput: Swift.Equatable {
+public struct RegisterWebhookWithThirdPartyOutput {
 
     public init() { }
 }
@@ -10857,7 +10857,7 @@ public struct RequestFailedException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct RequestFailedExceptionBody: Swift.Equatable {
+struct RequestFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -10900,7 +10900,7 @@ extension CodePipelineClientTypes.ResolvedPipelineVariable: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// A pipeline-level variable used for a pipeline execution.
-    public struct ResolvedPipelineVariable: Swift.Equatable {
+    public struct ResolvedPipelineVariable {
         /// The name of a pipeline-level variable.
         public var name: Swift.String?
         /// The resolved value of a pipeline-level variable.
@@ -10958,7 +10958,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11007,7 +11007,7 @@ extension RetryStageExecutionInput {
 }
 
 /// Represents the input of a RetryStageExecution action.
-public struct RetryStageExecutionInput: Swift.Equatable {
+public struct RetryStageExecutionInput {
     /// The ID of the pipeline execution in the failed stage to be retried. Use the [GetPipelineState] action to retrieve the current pipelineExecutionId of the failed stage
     /// This member is required.
     public var pipelineExecutionId: Swift.String?
@@ -11035,7 +11035,7 @@ public struct RetryStageExecutionInput: Swift.Equatable {
     }
 }
 
-struct RetryStageExecutionInputBody: Swift.Equatable {
+struct RetryStageExecutionInputBody {
     let pipelineName: Swift.String?
     let stageName: Swift.String?
     let pipelineExecutionId: Swift.String?
@@ -11076,7 +11076,7 @@ extension RetryStageExecutionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a RetryStageExecution action.
-public struct RetryStageExecutionOutput: Swift.Equatable {
+public struct RetryStageExecutionOutput {
     /// The ID of the current workflow execution in the failed stage.
     public var pipelineExecutionId: Swift.String?
 
@@ -11088,7 +11088,7 @@ public struct RetryStageExecutionOutput: Swift.Equatable {
     }
 }
 
-struct RetryStageExecutionOutputBody: Swift.Equatable {
+struct RetryStageExecutionOutputBody {
     let pipelineExecutionId: Swift.String?
 }
 
@@ -11147,7 +11147,7 @@ extension CodePipelineClientTypes.S3ArtifactLocation: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The location of the S3 bucket that contains a revision.
-    public struct S3ArtifactLocation: Swift.Equatable {
+    public struct S3ArtifactLocation {
         /// The name of the S3 bucket.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -11194,7 +11194,7 @@ extension CodePipelineClientTypes.S3Location: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The Amazon S3 artifact location for an action's artifacts.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// The Amazon S3 artifact bucket for an action's artifacts.
         public var bucket: Swift.String?
         /// The artifact name.
@@ -11251,7 +11251,7 @@ extension CodePipelineClientTypes.SourceRevision: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Information about the version (or revision) of a source artifact that initiated a pipeline execution.
-    public struct SourceRevision: Swift.Equatable {
+    public struct SourceRevision {
         /// The name of the action that processed the revision to the source artifact.
         /// This member is required.
         public var actionName: Swift.String?
@@ -11311,7 +11311,7 @@ extension CodePipelineClientTypes.SourceRevisionOverride: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// A list that allows you to specify, or override, the source revision for a pipeline execution that's being started. A source revision is the version with all the changes to your application code, or source artifact, for the pipeline execution.
-    public struct SourceRevisionOverride: Swift.Equatable {
+    public struct SourceRevisionOverride {
         /// The name of the action where the override will be applied.
         /// This member is required.
         public var actionName: Swift.String?
@@ -11392,7 +11392,7 @@ extension CodePipelineClientTypes.StageContext: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about a stage to a job worker.
-    public struct StageContext: Swift.Equatable {
+    public struct StageContext {
         /// The name of the stage.
         public var name: Swift.String?
 
@@ -11463,7 +11463,7 @@ extension CodePipelineClientTypes.StageDeclaration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about a stage and its definition.
-    public struct StageDeclaration: Swift.Equatable {
+    public struct StageDeclaration {
         /// The actions included in a stage.
         /// This member is required.
         public var actions: [CodePipelineClientTypes.ActionDeclaration]?
@@ -11514,7 +11514,7 @@ extension CodePipelineClientTypes.StageExecution: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the run of a stage.
-    public struct StageExecution: Swift.Equatable {
+    public struct StageExecution {
         /// The ID of the pipeline execution associated with the stage.
         /// This member is required.
         public var pipelineExecutionId: Swift.String?
@@ -11618,7 +11618,7 @@ public struct StageNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct StageNotFoundExceptionBody: Swift.Equatable {
+struct StageNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11674,7 +11674,7 @@ public struct StageNotRetryableException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct StageNotRetryableExceptionBody: Swift.Equatable {
+struct StageNotRetryableExceptionBody {
     let message: Swift.String?
 }
 
@@ -11797,7 +11797,7 @@ extension CodePipelineClientTypes.StageState: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the state of the stage.
-    public struct StageState: Swift.Equatable {
+    public struct StageState {
         /// The state of the stage.
         public var actionStates: [CodePipelineClientTypes.ActionState]?
         /// Represents information about the run of a stage.
@@ -11902,7 +11902,7 @@ extension StartPipelineExecutionInput {
 }
 
 /// Represents the input of a StartPipelineExecution action.
-public struct StartPipelineExecutionInput: Swift.Equatable {
+public struct StartPipelineExecutionInput {
     /// The system-generated unique ID used to identify a unique execution request.
     public var clientRequestToken: Swift.String?
     /// The name of the pipeline to start.
@@ -11927,7 +11927,7 @@ public struct StartPipelineExecutionInput: Swift.Equatable {
     }
 }
 
-struct StartPipelineExecutionInputBody: Swift.Equatable {
+struct StartPipelineExecutionInputBody {
     let name: Swift.String?
     let variables: [CodePipelineClientTypes.PipelineVariable]?
     let clientRequestToken: Swift.String?
@@ -11986,7 +11986,7 @@ extension StartPipelineExecutionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of a StartPipelineExecution action.
-public struct StartPipelineExecutionOutput: Swift.Equatable {
+public struct StartPipelineExecutionOutput {
     /// The unique system-generated ID of the pipeline execution that was started.
     public var pipelineExecutionId: Swift.String?
 
@@ -11998,7 +11998,7 @@ public struct StartPipelineExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StartPipelineExecutionOutputBody: Swift.Equatable {
+struct StartPipelineExecutionOutputBody {
     let pipelineExecutionId: Swift.String?
 }
 
@@ -12081,7 +12081,7 @@ extension CodePipelineClientTypes.StopExecutionTrigger: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The interaction that stopped a pipeline execution.
-    public struct StopExecutionTrigger: Swift.Equatable {
+    public struct StopExecutionTrigger {
         /// The user-specified reason the pipeline was stopped.
         public var reason: Swift.String?
 
@@ -12127,7 +12127,7 @@ extension StopPipelineExecutionInput {
     }
 }
 
-public struct StopPipelineExecutionInput: Swift.Equatable {
+public struct StopPipelineExecutionInput {
     /// Use this option to stop the pipeline execution by abandoning, rather than finishing, in-progress actions. This option can lead to failed or out-of-sequence tasks.
     public var abandon: Swift.Bool?
     /// The ID of the pipeline execution to be stopped in the current stage. Use the GetPipelineState action to retrieve the current pipelineExecutionId.
@@ -12153,7 +12153,7 @@ public struct StopPipelineExecutionInput: Swift.Equatable {
     }
 }
 
-struct StopPipelineExecutionInputBody: Swift.Equatable {
+struct StopPipelineExecutionInputBody {
     let pipelineName: Swift.String?
     let pipelineExecutionId: Swift.String?
     let abandon: Swift.Bool?
@@ -12193,7 +12193,7 @@ extension StopPipelineExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopPipelineExecutionOutput: Swift.Equatable {
+public struct StopPipelineExecutionOutput {
     /// The unique system-generated ID of the pipeline execution that was stopped.
     public var pipelineExecutionId: Swift.String?
 
@@ -12205,7 +12205,7 @@ public struct StopPipelineExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StopPipelineExecutionOutputBody: Swift.Equatable {
+struct StopPipelineExecutionOutputBody {
     let pipelineExecutionId: Swift.String?
 }
 
@@ -12263,7 +12263,7 @@ extension CodePipelineClientTypes.Tag: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// A tag is a key-value pair that is used to manage the resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag's key.
         /// This member is required.
         public var key: Swift.String?
@@ -12310,7 +12310,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12328,7 +12328,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [CodePipelineClientTypes.Tag]?
 }
@@ -12362,7 +12362,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -12410,7 +12410,7 @@ extension CodePipelineClientTypes.ThirdPartyJob: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// A response to a PollForThirdPartyJobs request returned by CodePipeline when there is a job to be worked on by a partner action.
-    public struct ThirdPartyJob: Swift.Equatable {
+    public struct ThirdPartyJob {
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public var clientId: Swift.String?
         /// The identifier used to identify the job in CodePipeline.
@@ -12520,7 +12520,7 @@ extension CodePipelineClientTypes.ThirdPartyJobData: Swift.CustomDebugStringConv
 
 extension CodePipelineClientTypes {
     /// Represents information about the job data for a partner action.
-    public struct ThirdPartyJobData: Swift.Equatable {
+    public struct ThirdPartyJobData {
         /// Represents information about an action configuration.
         public var actionConfiguration: CodePipelineClientTypes.ActionConfiguration?
         /// Represents information about an action type.
@@ -12595,7 +12595,7 @@ extension CodePipelineClientTypes.ThirdPartyJobDetails: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The details of a job sent in response to a GetThirdPartyJobDetails request.
-    public struct ThirdPartyJobDetails: Swift.Equatable {
+    public struct ThirdPartyJobDetails {
         /// The data to be returned by the third party job worker.
         public var data: CodePipelineClientTypes.ThirdPartyJobData?
         /// The identifier used to identify the job details in CodePipeline.
@@ -12656,7 +12656,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -12711,7 +12711,7 @@ extension CodePipelineClientTypes.TransitionState: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about the state of transitions between one stage and another stage.
-    public struct TransitionState: Swift.Equatable {
+    public struct TransitionState {
         /// The user-specified reason why the transition between two stages of a pipeline was disabled.
         public var disabledReason: Swift.String?
         /// Whether the transition between stages is enabled (true) or disabled (false).
@@ -12811,7 +12811,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to remove tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12829,7 +12829,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -12863,7 +12863,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -12903,7 +12903,7 @@ extension UpdateActionTypeInput {
     }
 }
 
-public struct UpdateActionTypeInput: Swift.Equatable {
+public struct UpdateActionTypeInput {
     /// The action type definition for the action type to be updated.
     /// This member is required.
     public var actionType: CodePipelineClientTypes.ActionTypeDeclaration?
@@ -12916,7 +12916,7 @@ public struct UpdateActionTypeInput: Swift.Equatable {
     }
 }
 
-struct UpdateActionTypeInputBody: Swift.Equatable {
+struct UpdateActionTypeInputBody {
     let actionType: CodePipelineClientTypes.ActionTypeDeclaration?
 }
 
@@ -12937,7 +12937,7 @@ extension UpdateActionTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateActionTypeOutput: Swift.Equatable {
+public struct UpdateActionTypeOutput {
 
     public init() { }
 }
@@ -12976,7 +12976,7 @@ extension UpdatePipelineInput {
 }
 
 /// Represents the input of an UpdatePipeline action.
-public struct UpdatePipelineInput: Swift.Equatable {
+public struct UpdatePipelineInput {
     /// The name of the pipeline to be updated.
     /// This member is required.
     public var pipeline: CodePipelineClientTypes.PipelineDeclaration?
@@ -12989,7 +12989,7 @@ public struct UpdatePipelineInput: Swift.Equatable {
     }
 }
 
-struct UpdatePipelineInputBody: Swift.Equatable {
+struct UpdatePipelineInputBody {
     let pipeline: CodePipelineClientTypes.PipelineDeclaration?
 }
 
@@ -13018,7 +13018,7 @@ extension UpdatePipelineOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output of an UpdatePipeline action.
-public struct UpdatePipelineOutput: Swift.Equatable {
+public struct UpdatePipelineOutput {
     /// The structure of the updated pipeline.
     public var pipeline: CodePipelineClientTypes.PipelineDeclaration?
 
@@ -13030,7 +13030,7 @@ public struct UpdatePipelineOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePipelineOutputBody: Swift.Equatable {
+struct UpdatePipelineOutputBody {
     let pipeline: CodePipelineClientTypes.PipelineDeclaration?
 }
 
@@ -13102,7 +13102,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -13145,7 +13145,7 @@ extension CodePipelineClientTypes.WebhookAuthConfiguration: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The authentication applied to incoming webhook trigger requests.
-    public struct WebhookAuthConfiguration: Swift.Equatable {
+    public struct WebhookAuthConfiguration {
         /// The property used to configure acceptance of webhooks in an IP address range. For IP, only the AllowedIPRange property must be set. This property must be set to a valid CIDR range.
         public var allowedIPRange: Swift.String?
         /// The property used to configure GitHub authentication. For GITHUB_HMAC, only the SecretToken property must be set.
@@ -13261,7 +13261,7 @@ extension CodePipelineClientTypes.WebhookDefinition: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// Represents information about a webhook and its definition.
-    public struct WebhookDefinition: Swift.Equatable {
+    public struct WebhookDefinition {
         /// Supported options are GITHUB_HMAC, IP, and UNAUTHENTICATED.
         ///
         /// * For information about the authentication scheme implemented by GITHUB_HMAC, see [Securing your webhooks](https://developer.github.com/webhooks/securing/) on the GitHub Developer website.
@@ -13334,7 +13334,7 @@ extension CodePipelineClientTypes.WebhookFilterRule: Swift.Codable {
 
 extension CodePipelineClientTypes {
     /// The event criteria that specify when a webhook notification is sent to your URL.
-    public struct WebhookFilterRule: Swift.Equatable {
+    public struct WebhookFilterRule {
         /// A JsonPath expression that is applied to the body/payload of the webhook. The value selected by the JsonPath expression must match the value specified in the MatchEquals field. Otherwise, the request is ignored. For more information, see [Java JsonPath implementation](https://github.com/json-path/JsonPath) in GitHub.
         /// This member is required.
         public var jsonPath: Swift.String?

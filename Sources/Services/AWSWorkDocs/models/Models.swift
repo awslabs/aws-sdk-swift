@@ -31,7 +31,7 @@ extension AbortDocumentVersionUploadInput {
     }
 }
 
-public struct AbortDocumentVersionUploadInput: Swift.Equatable {
+public struct AbortDocumentVersionUploadInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
@@ -53,7 +53,7 @@ public struct AbortDocumentVersionUploadInput: Swift.Equatable {
     }
 }
 
-struct AbortDocumentVersionUploadInputBody: Swift.Equatable {
+struct AbortDocumentVersionUploadInputBody {
 }
 
 extension AbortDocumentVersionUploadInputBody: Swift.Decodable {
@@ -67,7 +67,7 @@ extension AbortDocumentVersionUploadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AbortDocumentVersionUploadOutput: Swift.Equatable {
+public struct AbortDocumentVersionUploadOutput {
 
     public init() { }
 }
@@ -115,7 +115,7 @@ extension ActivateUserInput {
     }
 }
 
-public struct ActivateUserInput: Swift.Equatable {
+public struct ActivateUserInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the user.
@@ -132,7 +132,7 @@ public struct ActivateUserInput: Swift.Equatable {
     }
 }
 
-struct ActivateUserInputBody: Swift.Equatable {
+struct ActivateUserInputBody {
 }
 
 extension ActivateUserInputBody: Swift.Decodable {
@@ -153,7 +153,7 @@ extension ActivateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ActivateUserOutput: Swift.Equatable {
+public struct ActivateUserOutput {
     /// The user information.
     public var user: WorkDocsClientTypes.User?
 
@@ -165,7 +165,7 @@ public struct ActivateUserOutput: Swift.Equatable {
     }
 }
 
-struct ActivateUserOutputBody: Swift.Equatable {
+struct ActivateUserOutputBody {
     let user: WorkDocsClientTypes.User?
 }
 
@@ -265,7 +265,7 @@ extension WorkDocsClientTypes.Activity: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes the activity information.
-    public struct Activity: Swift.Equatable {
+    public struct Activity {
         /// Metadata of the commenting activity. This is an optional field and is filled for commenting activities.
         public var commentMetadata: WorkDocsClientTypes.CommentMetadata?
         /// The user who performed the action.
@@ -482,7 +482,7 @@ extension AddResourcePermissionsInput {
     }
 }
 
-public struct AddResourcePermissionsInput: Swift.Equatable {
+public struct AddResourcePermissionsInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The notification options.
@@ -508,7 +508,7 @@ public struct AddResourcePermissionsInput: Swift.Equatable {
     }
 }
 
-struct AddResourcePermissionsInputBody: Swift.Equatable {
+struct AddResourcePermissionsInputBody {
     let principals: [WorkDocsClientTypes.SharePrincipal]?
     let notificationOptions: WorkDocsClientTypes.NotificationOptions?
 }
@@ -549,7 +549,7 @@ extension AddResourcePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddResourcePermissionsOutput: Swift.Equatable {
+public struct AddResourcePermissionsOutput {
     /// The share results.
     public var shareResults: [WorkDocsClientTypes.ShareResult]?
 
@@ -561,7 +561,7 @@ public struct AddResourcePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct AddResourcePermissionsOutputBody: Swift.Equatable {
+struct AddResourcePermissionsOutputBody {
     let shareResults: [WorkDocsClientTypes.ShareResult]?
 }
 
@@ -736,7 +736,7 @@ extension WorkDocsClientTypes.Comment: Swift.CustomDebugStringConvertible {
 
 extension WorkDocsClientTypes {
     /// Describes a comment.
-    public struct Comment: Swift.Equatable {
+    public struct Comment {
         /// The ID of the comment.
         /// This member is required.
         public var commentId: Swift.String?
@@ -834,7 +834,7 @@ extension WorkDocsClientTypes.CommentMetadata: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes the metadata of a comment.
-    public struct CommentMetadata: Swift.Equatable {
+    public struct CommentMetadata {
         /// The ID of the comment.
         public var commentId: Swift.String?
         /// The status of the comment.
@@ -974,7 +974,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1029,7 +1029,7 @@ public struct ConflictingOperationException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ConflictingOperationExceptionBody: Swift.Equatable {
+struct ConflictingOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1156,7 +1156,7 @@ extension CreateCommentInput {
     }
 }
 
-public struct CreateCommentInput: Swift.Equatable {
+public struct CreateCommentInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
@@ -1199,7 +1199,7 @@ public struct CreateCommentInput: Swift.Equatable {
     }
 }
 
-struct CreateCommentInputBody: Swift.Equatable {
+struct CreateCommentInputBody {
     let parentId: Swift.String?
     let threadId: Swift.String?
     let text: Swift.String?
@@ -1243,7 +1243,7 @@ extension CreateCommentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCommentOutput: Swift.Equatable {
+public struct CreateCommentOutput {
     /// The comment that has been created.
     public var comment: WorkDocsClientTypes.Comment?
 
@@ -1255,7 +1255,7 @@ public struct CreateCommentOutput: Swift.Equatable {
     }
 }
 
-struct CreateCommentOutputBody: Swift.Equatable {
+struct CreateCommentOutputBody {
     let comment: WorkDocsClientTypes.Comment?
 }
 
@@ -1343,7 +1343,7 @@ extension CreateCustomMetadataInput {
     }
 }
 
-public struct CreateCustomMetadataInput: Swift.Equatable {
+public struct CreateCustomMetadataInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// Custom metadata in the form of name-value pairs.
@@ -1369,7 +1369,7 @@ public struct CreateCustomMetadataInput: Swift.Equatable {
     }
 }
 
-struct CreateCustomMetadataInputBody: Swift.Equatable {
+struct CreateCustomMetadataInputBody {
     let customMetadata: [Swift.String:Swift.String]?
 }
 
@@ -1399,7 +1399,7 @@ extension CreateCustomMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCustomMetadataOutput: Swift.Equatable {
+public struct CreateCustomMetadataOutput {
 
     public init() { }
 }
@@ -1461,7 +1461,7 @@ extension CreateFolderInput {
     }
 }
 
-public struct CreateFolderInput: Swift.Equatable {
+public struct CreateFolderInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The name of the new folder.
@@ -1482,7 +1482,7 @@ public struct CreateFolderInput: Swift.Equatable {
     }
 }
 
-struct CreateFolderInputBody: Swift.Equatable {
+struct CreateFolderInputBody {
     let name: Swift.String?
     let parentFolderId: Swift.String?
 }
@@ -1514,7 +1514,7 @@ extension CreateFolderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFolderOutput: Swift.Equatable {
+public struct CreateFolderOutput {
     /// The metadata of the folder.
     public var metadata: WorkDocsClientTypes.FolderMetadata?
 
@@ -1526,7 +1526,7 @@ public struct CreateFolderOutput: Swift.Equatable {
     }
 }
 
-struct CreateFolderOutputBody: Swift.Equatable {
+struct CreateFolderOutputBody {
     let metadata: WorkDocsClientTypes.FolderMetadata?
 }
 
@@ -1604,7 +1604,7 @@ extension CreateLabelsInput {
     }
 }
 
-public struct CreateLabelsInput: Swift.Equatable {
+public struct CreateLabelsInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// List of labels to add to the resource.
@@ -1626,7 +1626,7 @@ public struct CreateLabelsInput: Swift.Equatable {
     }
 }
 
-struct CreateLabelsInputBody: Swift.Equatable {
+struct CreateLabelsInputBody {
     let labels: [Swift.String]?
 }
 
@@ -1656,7 +1656,7 @@ extension CreateLabelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLabelsOutput: Swift.Equatable {
+public struct CreateLabelsOutput {
 
     public init() { }
 }
@@ -1708,7 +1708,7 @@ extension CreateNotificationSubscriptionInput {
     }
 }
 
-public struct CreateNotificationSubscriptionInput: Swift.Equatable {
+public struct CreateNotificationSubscriptionInput {
     /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with https.
     /// This member is required.
     public var endpoint: Swift.String?
@@ -1736,7 +1736,7 @@ public struct CreateNotificationSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct CreateNotificationSubscriptionInputBody: Swift.Equatable {
+struct CreateNotificationSubscriptionInputBody {
     let endpoint: Swift.String?
     let `protocol`: WorkDocsClientTypes.SubscriptionProtocolType?
     let subscriptionType: WorkDocsClientTypes.SubscriptionType?
@@ -1772,7 +1772,7 @@ extension CreateNotificationSubscriptionOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateNotificationSubscriptionOutput: Swift.Equatable {
+public struct CreateNotificationSubscriptionOutput {
     /// The subscription.
     public var subscription: WorkDocsClientTypes.Subscription?
 
@@ -1784,7 +1784,7 @@ public struct CreateNotificationSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct CreateNotificationSubscriptionOutputBody: Swift.Equatable {
+struct CreateNotificationSubscriptionOutputBody {
     let subscription: WorkDocsClientTypes.Subscription?
 }
 
@@ -1878,7 +1878,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The email address of the user.
@@ -1926,7 +1926,7 @@ public struct CreateUserInput: Swift.Equatable {
     }
 }
 
-struct CreateUserInputBody: Swift.Equatable {
+struct CreateUserInputBody {
     let organizationId: Swift.String?
     let username: Swift.String?
     let emailAddress: Swift.String?
@@ -1982,7 +1982,7 @@ extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
     /// The user information.
     public var user: WorkDocsClientTypes.User?
 
@@ -1994,7 +1994,7 @@ public struct CreateUserOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserOutputBody: Swift.Equatable {
+struct CreateUserOutputBody {
     let user: WorkDocsClientTypes.User?
 }
 
@@ -2064,7 +2064,7 @@ public struct CustomMetadataLimitExceededException: ClientRuntime.ModeledError, 
     }
 }
 
-struct CustomMetadataLimitExceededExceptionBody: Swift.Equatable {
+struct CustomMetadataLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2107,7 +2107,7 @@ extension WorkDocsClientTypes.DateRangeType: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Filters results based on timestamp range (in epochs).
-    public struct DateRangeType: Swift.Equatable {
+    public struct DateRangeType {
         /// Timestamp range end value (in epochs).
         public var endValue: ClientRuntime.Date?
         /// Timestamp range start value (in epochs)
@@ -2151,7 +2151,7 @@ extension DeactivateUserInput {
     }
 }
 
-public struct DeactivateUserInput: Swift.Equatable {
+public struct DeactivateUserInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the user.
@@ -2168,7 +2168,7 @@ public struct DeactivateUserInput: Swift.Equatable {
     }
 }
 
-struct DeactivateUserInputBody: Swift.Equatable {
+struct DeactivateUserInputBody {
 }
 
 extension DeactivateUserInputBody: Swift.Decodable {
@@ -2182,7 +2182,7 @@ extension DeactivateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeactivateUserOutput: Swift.Equatable {
+public struct DeactivateUserOutput {
 
     public init() { }
 }
@@ -2246,7 +2246,7 @@ public struct DeactivatingLastSystemUserException: ClientRuntime.ModeledError, A
     }
 }
 
-struct DeactivatingLastSystemUserExceptionBody: Swift.Equatable {
+struct DeactivatingLastSystemUserExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -2298,7 +2298,7 @@ extension DeleteCommentInput {
     }
 }
 
-public struct DeleteCommentInput: Swift.Equatable {
+public struct DeleteCommentInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the comment.
@@ -2325,7 +2325,7 @@ public struct DeleteCommentInput: Swift.Equatable {
     }
 }
 
-struct DeleteCommentInputBody: Swift.Equatable {
+struct DeleteCommentInputBody {
 }
 
 extension DeleteCommentInputBody: Swift.Decodable {
@@ -2339,7 +2339,7 @@ extension DeleteCommentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCommentOutput: Swift.Equatable {
+public struct DeleteCommentOutput {
 
     public init() { }
 }
@@ -2409,7 +2409,7 @@ extension DeleteCustomMetadataInput {
     }
 }
 
-public struct DeleteCustomMetadataInput: Swift.Equatable {
+public struct DeleteCustomMetadataInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// Flag to indicate removal of all custom metadata properties from the specified resource.
@@ -2438,7 +2438,7 @@ public struct DeleteCustomMetadataInput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomMetadataInputBody: Swift.Equatable {
+struct DeleteCustomMetadataInputBody {
 }
 
 extension DeleteCustomMetadataInputBody: Swift.Decodable {
@@ -2452,7 +2452,7 @@ extension DeleteCustomMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCustomMetadataOutput: Swift.Equatable {
+public struct DeleteCustomMetadataOutput {
 
     public init() { }
 }
@@ -2499,7 +2499,7 @@ extension DeleteDocumentInput {
     }
 }
 
-public struct DeleteDocumentInput: Swift.Equatable {
+public struct DeleteDocumentInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
@@ -2516,7 +2516,7 @@ public struct DeleteDocumentInput: Swift.Equatable {
     }
 }
 
-struct DeleteDocumentInputBody: Swift.Equatable {
+struct DeleteDocumentInputBody {
 }
 
 extension DeleteDocumentInputBody: Swift.Decodable {
@@ -2530,7 +2530,7 @@ extension DeleteDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDocumentOutput: Swift.Equatable {
+public struct DeleteDocumentOutput {
 
     public init() { }
 }
@@ -2597,7 +2597,7 @@ extension DeleteDocumentVersionInput {
     }
 }
 
-public struct DeleteDocumentVersionInput: Swift.Equatable {
+public struct DeleteDocumentVersionInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// Deletes all versions of a document prior to the current version.
@@ -2624,7 +2624,7 @@ public struct DeleteDocumentVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteDocumentVersionInputBody: Swift.Equatable {
+struct DeleteDocumentVersionInputBody {
 }
 
 extension DeleteDocumentVersionInputBody: Swift.Decodable {
@@ -2638,7 +2638,7 @@ extension DeleteDocumentVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDocumentVersionOutput: Swift.Equatable {
+public struct DeleteDocumentVersionOutput {
 
     public init() { }
 }
@@ -2687,7 +2687,7 @@ extension DeleteFolderContentsInput {
     }
 }
 
-public struct DeleteFolderContentsInput: Swift.Equatable {
+public struct DeleteFolderContentsInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the folder.
@@ -2704,7 +2704,7 @@ public struct DeleteFolderContentsInput: Swift.Equatable {
     }
 }
 
-struct DeleteFolderContentsInputBody: Swift.Equatable {
+struct DeleteFolderContentsInputBody {
 }
 
 extension DeleteFolderContentsInputBody: Swift.Decodable {
@@ -2718,7 +2718,7 @@ extension DeleteFolderContentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFolderContentsOutput: Swift.Equatable {
+public struct DeleteFolderContentsOutput {
 
     public init() { }
 }
@@ -2766,7 +2766,7 @@ extension DeleteFolderInput {
     }
 }
 
-public struct DeleteFolderInput: Swift.Equatable {
+public struct DeleteFolderInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the folder.
@@ -2783,7 +2783,7 @@ public struct DeleteFolderInput: Swift.Equatable {
     }
 }
 
-struct DeleteFolderInputBody: Swift.Equatable {
+struct DeleteFolderInputBody {
 }
 
 extension DeleteFolderInputBody: Swift.Decodable {
@@ -2797,7 +2797,7 @@ extension DeleteFolderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFolderOutput: Swift.Equatable {
+public struct DeleteFolderOutput {
 
     public init() { }
 }
@@ -2865,7 +2865,7 @@ extension DeleteLabelsInput {
     }
 }
 
-public struct DeleteLabelsInput: Swift.Equatable {
+public struct DeleteLabelsInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// Flag to request removal of all labels from the specified resource.
@@ -2890,7 +2890,7 @@ public struct DeleteLabelsInput: Swift.Equatable {
     }
 }
 
-struct DeleteLabelsInputBody: Swift.Equatable {
+struct DeleteLabelsInputBody {
 }
 
 extension DeleteLabelsInputBody: Swift.Decodable {
@@ -2904,7 +2904,7 @@ extension DeleteLabelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLabelsOutput: Swift.Equatable {
+public struct DeleteLabelsOutput {
 
     public init() { }
 }
@@ -2938,7 +2938,7 @@ extension DeleteNotificationSubscriptionInput {
     }
 }
 
-public struct DeleteNotificationSubscriptionInput: Swift.Equatable {
+public struct DeleteNotificationSubscriptionInput {
     /// The ID of the organization.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -2956,7 +2956,7 @@ public struct DeleteNotificationSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct DeleteNotificationSubscriptionInputBody: Swift.Equatable {
+struct DeleteNotificationSubscriptionInputBody {
 }
 
 extension DeleteNotificationSubscriptionInputBody: Swift.Decodable {
@@ -2970,7 +2970,7 @@ extension DeleteNotificationSubscriptionOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteNotificationSubscriptionOutput: Swift.Equatable {
+public struct DeleteNotificationSubscriptionOutput {
 
     public init() { }
 }
@@ -3015,7 +3015,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using Amazon Web Services credentials.
     public var authenticationToken: Swift.String?
     /// The ID of the user.
@@ -3032,7 +3032,7 @@ public struct DeleteUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserInputBody: Swift.Equatable {
+struct DeleteUserInputBody {
 }
 
 extension DeleteUserInputBody: Swift.Decodable {
@@ -3046,7 +3046,7 @@ extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
 
     public init() { }
 }
@@ -3133,7 +3133,7 @@ extension DescribeActivitiesInput {
     }
 }
 
-public struct DescribeActivitiesInput: Swift.Equatable {
+public struct DescribeActivitiesInput {
     /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned.
     public var activityTypes: Swift.String?
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
@@ -3181,7 +3181,7 @@ public struct DescribeActivitiesInput: Swift.Equatable {
     }
 }
 
-struct DescribeActivitiesInputBody: Swift.Equatable {
+struct DescribeActivitiesInputBody {
 }
 
 extension DescribeActivitiesInputBody: Swift.Decodable {
@@ -3204,7 +3204,7 @@ extension DescribeActivitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeActivitiesOutput: Swift.Equatable {
+public struct DescribeActivitiesOutput {
     /// The marker for the next set of results.
     public var marker: Swift.String?
     /// The list of activities for the specified user and time period.
@@ -3220,7 +3220,7 @@ public struct DescribeActivitiesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeActivitiesOutputBody: Swift.Equatable {
+struct DescribeActivitiesOutputBody {
     let userActivities: [WorkDocsClientTypes.Activity]?
     let marker: Swift.String?
 }
@@ -3309,7 +3309,7 @@ extension DescribeCommentsInput {
     }
 }
 
-public struct DescribeCommentsInput: Swift.Equatable {
+public struct DescribeCommentsInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
@@ -3339,7 +3339,7 @@ public struct DescribeCommentsInput: Swift.Equatable {
     }
 }
 
-struct DescribeCommentsInputBody: Swift.Equatable {
+struct DescribeCommentsInputBody {
 }
 
 extension DescribeCommentsInputBody: Swift.Decodable {
@@ -3362,7 +3362,7 @@ extension DescribeCommentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCommentsOutput: Swift.Equatable {
+public struct DescribeCommentsOutput {
     /// The list of comments for the specified document version.
     public var comments: [WorkDocsClientTypes.Comment]?
     /// The marker for the next set of results. This marker was received from a previous call.
@@ -3378,7 +3378,7 @@ public struct DescribeCommentsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCommentsOutputBody: Swift.Equatable {
+struct DescribeCommentsOutputBody {
     let comments: [WorkDocsClientTypes.Comment]?
     let marker: Swift.String?
 }
@@ -3473,7 +3473,7 @@ extension DescribeDocumentVersionsInput {
     }
 }
 
-public struct DescribeDocumentVersionsInput: Swift.Equatable {
+public struct DescribeDocumentVersionsInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
@@ -3506,7 +3506,7 @@ public struct DescribeDocumentVersionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeDocumentVersionsInputBody: Swift.Equatable {
+struct DescribeDocumentVersionsInputBody {
 }
 
 extension DescribeDocumentVersionsInputBody: Swift.Decodable {
@@ -3529,7 +3529,7 @@ extension DescribeDocumentVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDocumentVersionsOutput: Swift.Equatable {
+public struct DescribeDocumentVersionsOutput {
     /// The document versions.
     public var documentVersions: [WorkDocsClientTypes.DocumentVersionMetadata]?
     /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -3545,7 +3545,7 @@ public struct DescribeDocumentVersionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDocumentVersionsOutputBody: Swift.Equatable {
+struct DescribeDocumentVersionsOutputBody {
     let documentVersions: [WorkDocsClientTypes.DocumentVersionMetadata]?
     let marker: Swift.String?
 }
@@ -3650,7 +3650,7 @@ extension DescribeFolderContentsInput {
     }
 }
 
-public struct DescribeFolderContentsInput: Swift.Equatable {
+public struct DescribeFolderContentsInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the folder.
@@ -3691,7 +3691,7 @@ public struct DescribeFolderContentsInput: Swift.Equatable {
     }
 }
 
-struct DescribeFolderContentsInputBody: Swift.Equatable {
+struct DescribeFolderContentsInputBody {
 }
 
 extension DescribeFolderContentsInputBody: Swift.Decodable {
@@ -3716,7 +3716,7 @@ extension DescribeFolderContentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFolderContentsOutput: Swift.Equatable {
+public struct DescribeFolderContentsOutput {
     /// The documents in the specified folder.
     public var documents: [WorkDocsClientTypes.DocumentMetadata]?
     /// The subfolders in the specified folder.
@@ -3736,7 +3736,7 @@ public struct DescribeFolderContentsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFolderContentsOutputBody: Swift.Equatable {
+struct DescribeFolderContentsOutputBody {
     let folders: [WorkDocsClientTypes.FolderMetadata]?
     let documents: [WorkDocsClientTypes.DocumentMetadata]?
     let marker: Swift.String?
@@ -3843,7 +3843,7 @@ extension DescribeGroupsInput {
     }
 }
 
-public struct DescribeGroupsInput: Swift.Equatable {
+public struct DescribeGroupsInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The maximum number of items to return with this call.
@@ -3872,7 +3872,7 @@ public struct DescribeGroupsInput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupsInputBody: Swift.Equatable {
+struct DescribeGroupsInputBody {
 }
 
 extension DescribeGroupsInputBody: Swift.Decodable {
@@ -3895,7 +3895,7 @@ extension DescribeGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeGroupsOutput: Swift.Equatable {
+public struct DescribeGroupsOutput {
     /// The list of groups.
     public var groups: [WorkDocsClientTypes.GroupMetadata]?
     /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -3911,7 +3911,7 @@ public struct DescribeGroupsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeGroupsOutputBody: Swift.Equatable {
+struct DescribeGroupsOutputBody {
     let groups: [WorkDocsClientTypes.GroupMetadata]?
     let marker: Swift.String?
 }
@@ -3980,7 +3980,7 @@ extension DescribeNotificationSubscriptionsInput {
     }
 }
 
-public struct DescribeNotificationSubscriptionsInput: Swift.Equatable {
+public struct DescribeNotificationSubscriptionsInput {
     /// The maximum number of items to return with this call.
     public var limit: Swift.Int?
     /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -4001,7 +4001,7 @@ public struct DescribeNotificationSubscriptionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeNotificationSubscriptionsInputBody: Swift.Equatable {
+struct DescribeNotificationSubscriptionsInputBody {
 }
 
 extension DescribeNotificationSubscriptionsInputBody: Swift.Decodable {
@@ -4024,7 +4024,7 @@ extension DescribeNotificationSubscriptionsOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeNotificationSubscriptionsOutput: Swift.Equatable {
+public struct DescribeNotificationSubscriptionsOutput {
     /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
     public var marker: Swift.String?
     /// The subscriptions.
@@ -4040,7 +4040,7 @@ public struct DescribeNotificationSubscriptionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeNotificationSubscriptionsOutputBody: Swift.Equatable {
+struct DescribeNotificationSubscriptionsOutputBody {
     let subscriptions: [WorkDocsClientTypes.Subscription]?
     let marker: Swift.String?
 }
@@ -4128,7 +4128,7 @@ extension DescribeResourcePermissionsInput {
     }
 }
 
-public struct DescribeResourcePermissionsInput: Swift.Equatable {
+public struct DescribeResourcePermissionsInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The maximum number of items to return with this call.
@@ -4157,7 +4157,7 @@ public struct DescribeResourcePermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeResourcePermissionsInputBody: Swift.Equatable {
+struct DescribeResourcePermissionsInputBody {
 }
 
 extension DescribeResourcePermissionsInputBody: Swift.Decodable {
@@ -4180,7 +4180,7 @@ extension DescribeResourcePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeResourcePermissionsOutput: Swift.Equatable {
+public struct DescribeResourcePermissionsOutput {
     /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
     public var marker: Swift.String?
     /// The principals.
@@ -4196,7 +4196,7 @@ public struct DescribeResourcePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeResourcePermissionsOutputBody: Swift.Equatable {
+struct DescribeResourcePermissionsOutputBody {
     let principals: [WorkDocsClientTypes.Principal]?
     let marker: Swift.String?
 }
@@ -4279,7 +4279,7 @@ extension DescribeRootFoldersInput {
     }
 }
 
-public struct DescribeRootFoldersInput: Swift.Equatable {
+public struct DescribeRootFoldersInput {
     /// Amazon WorkDocs authentication token.
     /// This member is required.
     public var authenticationToken: Swift.String?
@@ -4300,7 +4300,7 @@ public struct DescribeRootFoldersInput: Swift.Equatable {
     }
 }
 
-struct DescribeRootFoldersInputBody: Swift.Equatable {
+struct DescribeRootFoldersInputBody {
 }
 
 extension DescribeRootFoldersInputBody: Swift.Decodable {
@@ -4323,7 +4323,7 @@ extension DescribeRootFoldersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRootFoldersOutput: Swift.Equatable {
+public struct DescribeRootFoldersOutput {
     /// The user's special folders.
     public var folders: [WorkDocsClientTypes.FolderMetadata]?
     /// The marker for the next set of results.
@@ -4339,7 +4339,7 @@ public struct DescribeRootFoldersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRootFoldersOutputBody: Swift.Equatable {
+struct DescribeRootFoldersOutputBody {
     let folders: [WorkDocsClientTypes.FolderMetadata]?
     let marker: Swift.String?
 }
@@ -4450,7 +4450,7 @@ extension DescribeUsersInput {
     }
 }
 
-public struct DescribeUsersInput: Swift.Equatable {
+public struct DescribeUsersInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
@@ -4506,7 +4506,7 @@ public struct DescribeUsersInput: Swift.Equatable {
     }
 }
 
-struct DescribeUsersInputBody: Swift.Equatable {
+struct DescribeUsersInputBody {
 }
 
 extension DescribeUsersInputBody: Swift.Decodable {
@@ -4531,7 +4531,7 @@ extension DescribeUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUsersOutput: Swift.Equatable {
+public struct DescribeUsersOutput {
     /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
     public var marker: Swift.String?
     /// The total number of users included in the results.
@@ -4552,7 +4552,7 @@ public struct DescribeUsersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUsersOutputBody: Swift.Equatable {
+struct DescribeUsersOutputBody {
     let users: [WorkDocsClientTypes.User]?
     let totalNumberOfUsers: Swift.Int?
     let marker: Swift.String?
@@ -4641,7 +4641,7 @@ public struct DocumentLockedForCommentsException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct DocumentLockedForCommentsExceptionBody: Swift.Equatable {
+struct DocumentLockedForCommentsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4732,7 +4732,7 @@ extension WorkDocsClientTypes.DocumentMetadata: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes the document.
-    public struct DocumentMetadata: Swift.Equatable {
+    public struct DocumentMetadata {
         /// The time when the document was created.
         public var createdTimestamp: ClientRuntime.Date?
         /// The ID of the creator.
@@ -4995,7 +4995,7 @@ extension WorkDocsClientTypes.DocumentVersionMetadata: Swift.CustomDebugStringCo
 
 extension WorkDocsClientTypes {
     /// Describes a version of a document.
-    public struct DocumentVersionMetadata: Swift.Equatable {
+    public struct DocumentVersionMetadata {
         /// The timestamp when the content of the document was originally created.
         public var contentCreatedTimestamp: ClientRuntime.Date?
         /// The timestamp when the content of the document was modified.
@@ -5125,7 +5125,7 @@ public struct DraftUploadOutOfSyncException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct DraftUploadOutOfSyncExceptionBody: Swift.Equatable {
+struct DraftUploadOutOfSyncExceptionBody {
     let message: Swift.String?
 }
 
@@ -5180,7 +5180,7 @@ public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct EntityAlreadyExistsExceptionBody: Swift.Equatable {
+struct EntityAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -5241,7 +5241,7 @@ public struct EntityNotExistsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct EntityNotExistsExceptionBody: Swift.Equatable {
+struct EntityNotExistsExceptionBody {
     let message: Swift.String?
     let entityIds: [Swift.String]?
 }
@@ -5309,7 +5309,7 @@ public struct FailedDependencyException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct FailedDependencyExceptionBody: Swift.Equatable {
+struct FailedDependencyExceptionBody {
     let message: Swift.String?
 }
 
@@ -5484,7 +5484,7 @@ extension WorkDocsClientTypes.Filters: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Filters results based on entity metadata.
-    public struct Filters: Swift.Equatable {
+    public struct Filters {
         /// Filter based on resource’s path.
         public var ancestorIds: [Swift.String]?
         /// Filters by content category.
@@ -5667,7 +5667,7 @@ extension WorkDocsClientTypes.FolderMetadata: Swift.CustomDebugStringConvertible
 
 extension WorkDocsClientTypes {
     /// Describes a folder.
-    public struct FolderMetadata: Swift.Equatable {
+    public struct FolderMetadata {
         /// The time when the folder was created.
         public var createdTimestamp: ClientRuntime.Date?
         /// The ID of the creator.
@@ -5744,7 +5744,7 @@ extension GetCurrentUserInput {
     }
 }
 
-public struct GetCurrentUserInput: Swift.Equatable {
+public struct GetCurrentUserInput {
     /// Amazon WorkDocs authentication token.
     /// This member is required.
     public var authenticationToken: Swift.String?
@@ -5757,7 +5757,7 @@ public struct GetCurrentUserInput: Swift.Equatable {
     }
 }
 
-struct GetCurrentUserInputBody: Swift.Equatable {
+struct GetCurrentUserInputBody {
 }
 
 extension GetCurrentUserInputBody: Swift.Decodable {
@@ -5778,7 +5778,7 @@ extension GetCurrentUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCurrentUserOutput: Swift.Equatable {
+public struct GetCurrentUserOutput {
     /// Metadata of the user.
     public var user: WorkDocsClientTypes.User?
 
@@ -5790,7 +5790,7 @@ public struct GetCurrentUserOutput: Swift.Equatable {
     }
 }
 
-struct GetCurrentUserOutputBody: Swift.Equatable {
+struct GetCurrentUserOutputBody {
     let user: WorkDocsClientTypes.User?
 }
 
@@ -5859,7 +5859,7 @@ extension GetDocumentInput {
     }
 }
 
-public struct GetDocumentInput: Swift.Equatable {
+public struct GetDocumentInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
@@ -5880,7 +5880,7 @@ public struct GetDocumentInput: Swift.Equatable {
     }
 }
 
-struct GetDocumentInputBody: Swift.Equatable {
+struct GetDocumentInputBody {
 }
 
 extension GetDocumentInputBody: Swift.Decodable {
@@ -5903,7 +5903,7 @@ extension GetDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDocumentOutput: Swift.Equatable {
+public struct GetDocumentOutput {
     /// The custom metadata on the document.
     public var customMetadata: [Swift.String:Swift.String]?
     /// The metadata details of the document.
@@ -5919,7 +5919,7 @@ public struct GetDocumentOutput: Swift.Equatable {
     }
 }
 
-struct GetDocumentOutputBody: Swift.Equatable {
+struct GetDocumentOutputBody {
     let metadata: WorkDocsClientTypes.DocumentMetadata?
     let customMetadata: [Swift.String:Swift.String]?
 }
@@ -6011,7 +6011,7 @@ extension GetDocumentPathInput {
     }
 }
 
-public struct GetDocumentPathInput: Swift.Equatable {
+public struct GetDocumentPathInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
@@ -6040,7 +6040,7 @@ public struct GetDocumentPathInput: Swift.Equatable {
     }
 }
 
-struct GetDocumentPathInputBody: Swift.Equatable {
+struct GetDocumentPathInputBody {
 }
 
 extension GetDocumentPathInputBody: Swift.Decodable {
@@ -6061,7 +6061,7 @@ extension GetDocumentPathOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDocumentPathOutput: Swift.Equatable {
+public struct GetDocumentPathOutput {
     /// The path information.
     public var path: WorkDocsClientTypes.ResourcePath?
 
@@ -6073,7 +6073,7 @@ public struct GetDocumentPathOutput: Swift.Equatable {
     }
 }
 
-struct GetDocumentPathOutputBody: Swift.Equatable {
+struct GetDocumentPathOutputBody {
     let path: WorkDocsClientTypes.ResourcePath?
 }
 
@@ -6149,7 +6149,7 @@ extension GetDocumentVersionInput {
     }
 }
 
-public struct GetDocumentVersionInput: Swift.Equatable {
+public struct GetDocumentVersionInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
@@ -6179,7 +6179,7 @@ public struct GetDocumentVersionInput: Swift.Equatable {
     }
 }
 
-struct GetDocumentVersionInputBody: Swift.Equatable {
+struct GetDocumentVersionInputBody {
 }
 
 extension GetDocumentVersionInputBody: Swift.Decodable {
@@ -6202,7 +6202,7 @@ extension GetDocumentVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDocumentVersionOutput: Swift.Equatable {
+public struct GetDocumentVersionOutput {
     /// The custom metadata on the document version.
     public var customMetadata: [Swift.String:Swift.String]?
     /// The version metadata.
@@ -6218,7 +6218,7 @@ public struct GetDocumentVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetDocumentVersionOutputBody: Swift.Equatable {
+struct GetDocumentVersionOutputBody {
     let metadata: WorkDocsClientTypes.DocumentVersionMetadata?
     let customMetadata: [Swift.String:Swift.String]?
 }
@@ -6302,7 +6302,7 @@ extension GetFolderInput {
     }
 }
 
-public struct GetFolderInput: Swift.Equatable {
+public struct GetFolderInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the folder.
@@ -6323,7 +6323,7 @@ public struct GetFolderInput: Swift.Equatable {
     }
 }
 
-struct GetFolderInputBody: Swift.Equatable {
+struct GetFolderInputBody {
 }
 
 extension GetFolderInputBody: Swift.Decodable {
@@ -6346,7 +6346,7 @@ extension GetFolderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFolderOutput: Swift.Equatable {
+public struct GetFolderOutput {
     /// The custom metadata on the folder.
     public var customMetadata: [Swift.String:Swift.String]?
     /// The metadata of the folder.
@@ -6362,7 +6362,7 @@ public struct GetFolderOutput: Swift.Equatable {
     }
 }
 
-struct GetFolderOutputBody: Swift.Equatable {
+struct GetFolderOutputBody {
     let metadata: WorkDocsClientTypes.FolderMetadata?
     let customMetadata: [Swift.String:Swift.String]?
 }
@@ -6454,7 +6454,7 @@ extension GetFolderPathInput {
     }
 }
 
-public struct GetFolderPathInput: Swift.Equatable {
+public struct GetFolderPathInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
@@ -6483,7 +6483,7 @@ public struct GetFolderPathInput: Swift.Equatable {
     }
 }
 
-struct GetFolderPathInputBody: Swift.Equatable {
+struct GetFolderPathInputBody {
 }
 
 extension GetFolderPathInputBody: Swift.Decodable {
@@ -6504,7 +6504,7 @@ extension GetFolderPathOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFolderPathOutput: Swift.Equatable {
+public struct GetFolderPathOutput {
     /// The path information.
     public var path: WorkDocsClientTypes.ResourcePath?
 
@@ -6516,7 +6516,7 @@ public struct GetFolderPathOutput: Swift.Equatable {
     }
 }
 
-struct GetFolderPathOutputBody: Swift.Equatable {
+struct GetFolderPathOutputBody {
     let path: WorkDocsClientTypes.ResourcePath?
 }
 
@@ -6594,7 +6594,7 @@ extension GetResourcesInput {
     }
 }
 
-public struct GetResourcesInput: Swift.Equatable {
+public struct GetResourcesInput {
     /// The Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The collection type.
@@ -6622,7 +6622,7 @@ public struct GetResourcesInput: Swift.Equatable {
     }
 }
 
-struct GetResourcesInputBody: Swift.Equatable {
+struct GetResourcesInputBody {
 }
 
 extension GetResourcesInputBody: Swift.Decodable {
@@ -6647,7 +6647,7 @@ extension GetResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcesOutput: Swift.Equatable {
+public struct GetResourcesOutput {
     /// The documents in the specified collection.
     public var documents: [WorkDocsClientTypes.DocumentMetadata]?
     /// The folders in the specified folder.
@@ -6667,7 +6667,7 @@ public struct GetResourcesOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcesOutputBody: Swift.Equatable {
+struct GetResourcesOutputBody {
     let folders: [WorkDocsClientTypes.FolderMetadata]?
     let documents: [WorkDocsClientTypes.DocumentMetadata]?
     let marker: Swift.String?
@@ -6751,7 +6751,7 @@ extension WorkDocsClientTypes.GroupMetadata: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes the metadata of a user group.
-    public struct GroupMetadata: Swift.Equatable {
+    public struct GroupMetadata {
         /// The ID of the user group.
         public var id: Swift.String?
         /// The name of the group.
@@ -6808,7 +6808,7 @@ public struct IllegalUserStateException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct IllegalUserStateExceptionBody: Swift.Equatable {
+struct IllegalUserStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -6884,7 +6884,7 @@ extension InitiateDocumentVersionUploadInput {
     }
 }
 
-public struct InitiateDocumentVersionUploadInput: Swift.Equatable {
+public struct InitiateDocumentVersionUploadInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The timestamp when the content of the document was originally created.
@@ -6924,7 +6924,7 @@ public struct InitiateDocumentVersionUploadInput: Swift.Equatable {
     }
 }
 
-struct InitiateDocumentVersionUploadInputBody: Swift.Equatable {
+struct InitiateDocumentVersionUploadInputBody {
     let id: Swift.String?
     let name: Swift.String?
     let contentCreatedTimestamp: ClientRuntime.Date?
@@ -6978,7 +6978,7 @@ extension InitiateDocumentVersionUploadOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct InitiateDocumentVersionUploadOutput: Swift.Equatable {
+public struct InitiateDocumentVersionUploadOutput {
     /// The document metadata.
     public var metadata: WorkDocsClientTypes.DocumentMetadata?
     /// The upload metadata.
@@ -6994,7 +6994,7 @@ public struct InitiateDocumentVersionUploadOutput: Swift.Equatable {
     }
 }
 
-struct InitiateDocumentVersionUploadOutputBody: Swift.Equatable {
+struct InitiateDocumentVersionUploadOutputBody {
     let metadata: WorkDocsClientTypes.DocumentMetadata?
     let uploadMetadata: WorkDocsClientTypes.UploadMetadata?
 }
@@ -7077,7 +7077,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidArgumentExceptionBody: Swift.Equatable {
+struct InvalidArgumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -7132,7 +7132,7 @@ public struct InvalidCommentOperationException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InvalidCommentOperationExceptionBody: Swift.Equatable {
+struct InvalidCommentOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -7187,7 +7187,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidOperationExceptionBody: Swift.Equatable {
+struct InvalidOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -7242,7 +7242,7 @@ public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidPasswordExceptionBody: Swift.Equatable {
+struct InvalidPasswordExceptionBody {
     let message: Swift.String?
 }
 
@@ -7416,7 +7416,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -7518,7 +7518,7 @@ extension WorkDocsClientTypes.LongRangeType: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Filter based on size (in bytes).
-    public struct LongRangeType: Swift.Equatable {
+    public struct LongRangeType {
         /// The size end range (in bytes).
         public var endValue: Swift.Int?
         /// The size start range (in bytes).
@@ -7568,7 +7568,7 @@ extension WorkDocsClientTypes.NotificationOptions: Swift.CustomDebugStringConver
 
 extension WorkDocsClientTypes {
     /// Set of options which defines notification preferences of given action.
-    public struct NotificationOptions: Swift.Equatable {
+    public struct NotificationOptions {
         /// Text value to be included in the email body.
         public var emailMessage: Swift.String?
         /// Boolean value to indicate an email notification should be sent to the recipients.
@@ -7710,7 +7710,7 @@ extension WorkDocsClientTypes.Participants: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes the users or user groups.
-    public struct Participants: Swift.Equatable {
+    public struct Participants {
         /// The list of user groups.
         public var groups: [WorkDocsClientTypes.GroupMetadata]?
         /// The list of users.
@@ -7755,7 +7755,7 @@ extension WorkDocsClientTypes.PermissionInfo: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes the permissions.
-    public struct PermissionInfo: Swift.Equatable {
+    public struct PermissionInfo {
         /// The role of the user.
         public var role: WorkDocsClientTypes.RoleType?
         /// The type of permissions.
@@ -7818,7 +7818,7 @@ extension WorkDocsClientTypes.Principal: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes a resource.
-    public struct Principal: Swift.Equatable {
+    public struct Principal {
         /// The ID of the resource.
         public var id: Swift.String?
         /// The permission information for the resource.
@@ -7958,7 +7958,7 @@ public struct ProhibitedStateException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ProhibitedStateExceptionBody: Swift.Equatable {
+struct ProhibitedStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -8000,7 +8000,7 @@ extension RemoveAllResourcePermissionsInput {
     }
 }
 
-public struct RemoveAllResourcePermissionsInput: Swift.Equatable {
+public struct RemoveAllResourcePermissionsInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the resource.
@@ -8017,7 +8017,7 @@ public struct RemoveAllResourcePermissionsInput: Swift.Equatable {
     }
 }
 
-struct RemoveAllResourcePermissionsInputBody: Swift.Equatable {
+struct RemoveAllResourcePermissionsInputBody {
 }
 
 extension RemoveAllResourcePermissionsInputBody: Swift.Decodable {
@@ -8031,7 +8031,7 @@ extension RemoveAllResourcePermissionsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct RemoveAllResourcePermissionsOutput: Swift.Equatable {
+public struct RemoveAllResourcePermissionsOutput {
 
     public init() { }
 }
@@ -8091,7 +8091,7 @@ extension RemoveResourcePermissionInput {
     }
 }
 
-public struct RemoveResourcePermissionInput: Swift.Equatable {
+public struct RemoveResourcePermissionInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The principal ID of the resource.
@@ -8117,7 +8117,7 @@ public struct RemoveResourcePermissionInput: Swift.Equatable {
     }
 }
 
-struct RemoveResourcePermissionInputBody: Swift.Equatable {
+struct RemoveResourcePermissionInputBody {
 }
 
 extension RemoveResourcePermissionInputBody: Swift.Decodable {
@@ -8131,7 +8131,7 @@ extension RemoveResourcePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveResourcePermissionOutput: Swift.Equatable {
+public struct RemoveResourcePermissionOutput {
 
     public init() { }
 }
@@ -8189,7 +8189,7 @@ public struct RequestedEntityTooLargeException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct RequestedEntityTooLargeExceptionBody: Swift.Equatable {
+struct RequestedEntityTooLargeExceptionBody {
     let message: Swift.String?
 }
 
@@ -8244,7 +8244,7 @@ public struct ResourceAlreadyCheckedOutException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct ResourceAlreadyCheckedOutExceptionBody: Swift.Equatable {
+struct ResourceAlreadyCheckedOutExceptionBody {
     let message: Swift.String?
 }
 
@@ -8351,7 +8351,7 @@ extension WorkDocsClientTypes.ResourceMetadata: Swift.CustomDebugStringConvertib
 
 extension WorkDocsClientTypes {
     /// Describes the metadata of a resource.
-    public struct ResourceMetadata: Swift.Equatable {
+    public struct ResourceMetadata {
         /// The ID of the resource.
         public var id: Swift.String?
         /// The name of the resource.
@@ -8422,7 +8422,7 @@ extension WorkDocsClientTypes.ResourcePath: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes the path information of a resource.
-    public struct ResourcePath: Swift.Equatable {
+    public struct ResourcePath {
         /// The components of the resource path.
         public var components: [WorkDocsClientTypes.ResourcePathComponent]?
 
@@ -8468,7 +8468,7 @@ extension WorkDocsClientTypes.ResourcePathComponent: Swift.CustomDebugStringConv
 
 extension WorkDocsClientTypes {
     /// Describes the resource path.
-    public struct ResourcePathComponent: Swift.Equatable {
+    public struct ResourcePathComponent {
         /// The ID of the resource path.
         public var id: Swift.String?
         /// The name of the resource path.
@@ -8644,7 +8644,7 @@ extension WorkDocsClientTypes.ResponseItem: Swift.CustomDebugStringConvertible {
 
 extension WorkDocsClientTypes {
     /// List of Documents, Folders, Comments, and Document Versions matching the query.
-    public struct ResponseItem: Swift.Equatable {
+    public struct ResponseItem {
         /// The comment that matches the query.
         public var commentMetadata: WorkDocsClientTypes.CommentMetadata?
         /// The document that matches the query.
@@ -8742,7 +8742,7 @@ extension RestoreDocumentVersionsInput {
     }
 }
 
-public struct RestoreDocumentVersionsInput: Swift.Equatable {
+public struct RestoreDocumentVersionsInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
@@ -8759,7 +8759,7 @@ public struct RestoreDocumentVersionsInput: Swift.Equatable {
     }
 }
 
-struct RestoreDocumentVersionsInputBody: Swift.Equatable {
+struct RestoreDocumentVersionsInputBody {
 }
 
 extension RestoreDocumentVersionsInputBody: Swift.Decodable {
@@ -8773,7 +8773,7 @@ extension RestoreDocumentVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreDocumentVersionsOutput: Swift.Equatable {
+public struct RestoreDocumentVersionsOutput {
 
     public init() { }
 }
@@ -8937,7 +8937,7 @@ extension WorkDocsClientTypes.SearchPrincipalType: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Filter based on UserIds or GroupIds.
-    public struct SearchPrincipalType: Swift.Equatable {
+    public struct SearchPrincipalType {
         /// UserIds or GroupIds.
         /// This member is required.
         public var id: Swift.String?
@@ -9099,7 +9099,7 @@ extension SearchResourcesInput {
     }
 }
 
-public struct SearchResourcesInput: Swift.Equatable {
+public struct SearchResourcesInput {
     /// A list of attributes to include in the response. Used to request fields that are not normally returned in a standard response.
     public var additionalResponseFields: [WorkDocsClientTypes.AdditionalResponseFieldType]?
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
@@ -9143,7 +9143,7 @@ public struct SearchResourcesInput: Swift.Equatable {
     }
 }
 
-struct SearchResourcesInputBody: Swift.Equatable {
+struct SearchResourcesInputBody {
     let queryText: Swift.String?
     let queryScopes: [WorkDocsClientTypes.SearchQueryScopeType]?
     let organizationId: Swift.String?
@@ -9228,7 +9228,7 @@ extension SearchResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchResourcesOutput: Swift.Equatable {
+public struct SearchResourcesOutput {
     /// List of Documents, Folders, Comments, and Document Versions matching the query.
     public var items: [WorkDocsClientTypes.ResponseItem]?
     /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -9244,7 +9244,7 @@ public struct SearchResourcesOutput: Swift.Equatable {
     }
 }
 
-struct SearchResourcesOutputBody: Swift.Equatable {
+struct SearchResourcesOutputBody {
     let items: [WorkDocsClientTypes.ResponseItem]?
     let marker: Swift.String?
 }
@@ -9314,7 +9314,7 @@ extension WorkDocsClientTypes.SearchSortResult: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// The result of the sort operation.
-    public struct SearchSortResult: Swift.Equatable {
+    public struct SearchSortResult {
         /// Sort search results based on this field name.
         public var field: WorkDocsClientTypes.OrderByFieldType?
         /// Sort direction.
@@ -9371,7 +9371,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -9420,7 +9420,7 @@ extension WorkDocsClientTypes.SharePrincipal: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes the recipient type and ID, if available.
-    public struct SharePrincipal: Swift.Equatable {
+    public struct SharePrincipal {
         /// The ID of the recipient.
         /// This member is required.
         public var id: Swift.String?
@@ -9501,7 +9501,7 @@ extension WorkDocsClientTypes.ShareResult: Swift.CustomDebugStringConvertible {
 
 extension WorkDocsClientTypes {
     /// Describes the share results of a resource.
-    public struct ShareResult: Swift.Equatable {
+    public struct ShareResult {
         /// The ID of the invited user.
         public var inviteePrincipalId: Swift.String?
         /// The ID of the principal.
@@ -9638,7 +9638,7 @@ public struct StorageLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct StorageLimitExceededExceptionBody: Swift.Equatable {
+struct StorageLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -9693,7 +9693,7 @@ public struct StorageLimitWillExceedException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct StorageLimitWillExceedExceptionBody: Swift.Equatable {
+struct StorageLimitWillExceedExceptionBody {
     let message: Swift.String?
 }
 
@@ -9736,7 +9736,7 @@ extension WorkDocsClientTypes.StorageRuleType: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes the storage for a user.
-    public struct StorageRuleType: Swift.Equatable {
+    public struct StorageRuleType {
         /// The amount of storage allocated, in bytes.
         public var storageAllocatedInBytes: Swift.Int?
         /// The type of storage.
@@ -9819,7 +9819,7 @@ extension WorkDocsClientTypes.Subscription: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes a subscription.
-    public struct Subscription: Swift.Equatable {
+    public struct Subscription {
         /// The endpoint of the subscription.
         public var endPoint: Swift.String?
         /// The protocol of the subscription.
@@ -9941,7 +9941,7 @@ public struct TooManyLabelsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct TooManyLabelsExceptionBody: Swift.Equatable {
+struct TooManyLabelsExceptionBody {
     let message: Swift.String?
 }
 
@@ -9996,7 +9996,7 @@ public struct TooManySubscriptionsException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct TooManySubscriptionsExceptionBody: Swift.Equatable {
+struct TooManySubscriptionsExceptionBody {
     let message: Swift.String?
 }
 
@@ -10056,7 +10056,7 @@ public struct UnauthorizedOperationException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct UnauthorizedOperationExceptionBody: Swift.Equatable {
+struct UnauthorizedOperationExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -10115,7 +10115,7 @@ public struct UnauthorizedResourceAccessException: ClientRuntime.ModeledError, A
     }
 }
 
-struct UnauthorizedResourceAccessExceptionBody: Swift.Equatable {
+struct UnauthorizedResourceAccessExceptionBody {
     let message: Swift.String?
 }
 
@@ -10178,7 +10178,7 @@ extension UpdateDocumentInput {
     }
 }
 
-public struct UpdateDocumentInput: Swift.Equatable {
+public struct UpdateDocumentInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
@@ -10207,7 +10207,7 @@ public struct UpdateDocumentInput: Swift.Equatable {
     }
 }
 
-struct UpdateDocumentInputBody: Swift.Equatable {
+struct UpdateDocumentInputBody {
     let name: Swift.String?
     let parentFolderId: Swift.String?
     let resourceState: WorkDocsClientTypes.ResourceStateType?
@@ -10236,7 +10236,7 @@ extension UpdateDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDocumentOutput: Swift.Equatable {
+public struct UpdateDocumentOutput {
 
     public init() { }
 }
@@ -10303,7 +10303,7 @@ extension UpdateDocumentVersionInput {
     }
 }
 
-public struct UpdateDocumentVersionInput: Swift.Equatable {
+public struct UpdateDocumentVersionInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
@@ -10329,7 +10329,7 @@ public struct UpdateDocumentVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateDocumentVersionInputBody: Swift.Equatable {
+struct UpdateDocumentVersionInputBody {
     let versionStatus: WorkDocsClientTypes.DocumentVersionStatus?
 }
 
@@ -10350,7 +10350,7 @@ extension UpdateDocumentVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDocumentVersionOutput: Swift.Equatable {
+public struct UpdateDocumentVersionOutput {
 
     public init() { }
 }
@@ -10420,7 +10420,7 @@ extension UpdateFolderInput {
     }
 }
 
-public struct UpdateFolderInput: Swift.Equatable {
+public struct UpdateFolderInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the folder.
@@ -10449,7 +10449,7 @@ public struct UpdateFolderInput: Swift.Equatable {
     }
 }
 
-struct UpdateFolderInputBody: Swift.Equatable {
+struct UpdateFolderInputBody {
     let name: Swift.String?
     let parentFolderId: Swift.String?
     let resourceState: WorkDocsClientTypes.ResourceStateType?
@@ -10478,7 +10478,7 @@ extension UpdateFolderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFolderOutput: Swift.Equatable {
+public struct UpdateFolderOutput {
 
     public init() { }
 }
@@ -10566,7 +10566,7 @@ extension UpdateUserInput {
     }
 }
 
-public struct UpdateUserInput: Swift.Equatable {
+public struct UpdateUserInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The given name of the user.
@@ -10611,7 +10611,7 @@ public struct UpdateUserInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserInputBody: Swift.Equatable {
+struct UpdateUserInputBody {
     let givenName: Swift.String?
     let surname: Swift.String?
     let type: WorkDocsClientTypes.UserType?
@@ -10663,7 +10663,7 @@ extension UpdateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserOutput: Swift.Equatable {
+public struct UpdateUserOutput {
     /// The user information.
     public var user: WorkDocsClientTypes.User?
 
@@ -10675,7 +10675,7 @@ public struct UpdateUserOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUserOutputBody: Swift.Equatable {
+struct UpdateUserOutputBody {
     let user: WorkDocsClientTypes.User?
 }
 
@@ -10754,7 +10754,7 @@ extension WorkDocsClientTypes.UploadMetadata: Swift.CustomDebugStringConvertible
 
 extension WorkDocsClientTypes {
     /// Describes the upload.
-    public struct UploadMetadata: Swift.Equatable {
+    public struct UploadMetadata {
         /// The signed headers.
         public var signedHeaders: [Swift.String:Swift.String]?
         /// The URL of the upload.
@@ -10882,7 +10882,7 @@ extension WorkDocsClientTypes.User: Swift.CustomDebugStringConvertible {
 
 extension WorkDocsClientTypes {
     /// Describes a user.
-    public struct User: Swift.Equatable {
+    public struct User {
         /// The time when the user was created.
         public var createdTimestamp: ClientRuntime.Date?
         /// The email address of the user.
@@ -11034,7 +11034,7 @@ extension WorkDocsClientTypes.UserMetadata: Swift.CustomDebugStringConvertible {
 
 extension WorkDocsClientTypes {
     /// Describes the metadata of the user.
-    public struct UserMetadata: Swift.Equatable {
+    public struct UserMetadata {
         /// The email address of the user.
         public var emailAddress: Swift.String?
         /// The given name of the user before a rename operation.
@@ -11167,7 +11167,7 @@ extension WorkDocsClientTypes.UserStorageMetadata: Swift.Codable {
 
 extension WorkDocsClientTypes {
     /// Describes the storage for a user.
-    public struct UserStorageMetadata: Swift.Equatable {
+    public struct UserStorageMetadata {
         /// The storage for a user.
         public var storageRule: WorkDocsClientTypes.StorageRuleType?
         /// The amount of storage used, in bytes.

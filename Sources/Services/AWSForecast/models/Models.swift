@@ -35,7 +35,7 @@ extension ForecastClientTypes.Action: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Defines the modifications that you are making to an attribute for a what-if forecast. For example, you can use this operation to create a what-if forecast that investigates a 10% off sale on all shoes. To do this, you specify "AttributeName": "shoes", "Operation": "MULTIPLY", and "Value": "0.90". Pair this operation with the [TimeSeriesCondition] operation within the [CreateWhatIfForecastRequest$TimeSeriesTransformations] operation to define a subset of attribute items that are modified.
-    public struct Action: Swift.Equatable {
+    public struct Action {
         /// The related time series that you are modifying. This value is case insensitive.
         /// This member is required.
         public var attributeName: Swift.String?
@@ -117,7 +117,7 @@ extension ForecastClientTypes.AdditionalDataset: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Describes an additional dataset. This object is part of the [DataConfig] object. Forecast supports the Weather Index and Holidays additional datasets. Weather Index The Amazon Forecast Weather Index is a built-in dataset that incorporates historical and projected weather information into your model. The Weather Index supplements your datasets with over two years of historical weather data and up to 14 days of projected weather data. For more information, see [Amazon Forecast Weather Index](https://docs.aws.amazon.com/forecast/latest/dg/weather.html). Holidays Holidays is a built-in dataset that incorporates national holiday information into your model. It provides native support for the holiday calendars of 66 countries. To view the holiday calendars, refer to the [Jollyday](http://jollyday.sourceforge.net/data.html) library. For more information, see [Holidays Featurization](https://docs.aws.amazon.com/forecast/latest/dg/holidays.html).
-    public struct AdditionalDataset: Swift.Equatable {
+    public struct AdditionalDataset {
         /// Weather Index To enable the Weather Index, do not specify a value for Configuration. Holidays Holidays To enable Holidays, set CountryCode to one of the following two-letter country codes:
         ///
         /// * "AL" - ALBANIA
@@ -314,7 +314,7 @@ extension ForecastClientTypes {
     ///
     ///
     ///     }
-    public struct AttributeConfig: Swift.Equatable {
+    public struct AttributeConfig {
         /// The name of the attribute as specified in the schema. Amazon Forecast supports the target field of the target time series and the related time series datasets. For example, for the RETAIL domain, the target is demand.
         /// This member is required.
         public var attributeName: Swift.String?
@@ -448,7 +448,7 @@ extension ForecastClientTypes.Baseline: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Metrics you can use as a baseline for comparison purposes. Use these metrics when you interpret monitoring results for an auto predictor.
-    public struct Baseline: Swift.Equatable {
+    public struct Baseline {
         /// The initial [accuracy metrics](https://docs.aws.amazon.com/forecast/latest/dg/metrics.html) for the predictor you are monitoring. Use these metrics as a baseline for comparison purposes as you use your predictor and the metrics change.
         public var predictorBaseline: ForecastClientTypes.PredictorBaseline?
 
@@ -489,7 +489,7 @@ extension ForecastClientTypes.BaselineMetric: Swift.Codable {
 
 extension ForecastClientTypes {
     /// An individual metric that you can use for comparison as you evaluate your monitoring results.
-    public struct BaselineMetric: Swift.Equatable {
+    public struct BaselineMetric {
         /// The name of the metric.
         public var name: Swift.String?
         /// The value for the metric.
@@ -546,7 +546,7 @@ extension ForecastClientTypes.CategoricalParameterRange: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Specifies a categorical hyperparameter and it's range of tunable values. This object is part of the [ParameterRanges] object.
-    public struct CategoricalParameterRange: Swift.Equatable {
+    public struct CategoricalParameterRange {
         /// The name of the categorical hyperparameter to tune.
         /// This member is required.
         public var name: Swift.String?
@@ -643,7 +643,7 @@ extension ForecastClientTypes.ContinuousParameterRange: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Specifies a continuous hyperparameter and it's range of tunable values. This object is part of the [ParameterRanges] object.
-    public struct ContinuousParameterRange: Swift.Equatable {
+    public struct ContinuousParameterRange {
         /// The maximum tunable value of the hyperparameter.
         /// This member is required.
         public var maxValue: Swift.Double?
@@ -749,7 +749,7 @@ extension CreateAutoPredictorInput {
     }
 }
 
-public struct CreateAutoPredictorInput: Swift.Equatable {
+public struct CreateAutoPredictorInput {
     /// The data configuration for your dataset group and any additional datasets.
     public var dataConfig: ForecastClientTypes.DataConfig?
     /// An Key Management Service (KMS) key and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key. You can specify this optional object in the [CreateDataset] and [CreatePredictor] requests.
@@ -837,7 +837,7 @@ public struct CreateAutoPredictorInput: Swift.Equatable {
     }
 }
 
-struct CreateAutoPredictorInputBody: Swift.Equatable {
+struct CreateAutoPredictorInputBody {
     let predictorName: Swift.String?
     let forecastHorizon: Swift.Int?
     let forecastTypes: [Swift.String]?
@@ -940,7 +940,7 @@ extension CreateAutoPredictorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAutoPredictorOutput: Swift.Equatable {
+public struct CreateAutoPredictorOutput {
     /// The Amazon Resource Name (ARN) of the predictor.
     public var predictorArn: Swift.String?
 
@@ -952,7 +952,7 @@ public struct CreateAutoPredictorOutput: Swift.Equatable {
     }
 }
 
-struct CreateAutoPredictorOutputBody: Swift.Equatable {
+struct CreateAutoPredictorOutputBody {
     let predictorArn: Swift.String?
 }
 
@@ -1021,7 +1021,7 @@ extension CreateDatasetGroupInput {
     }
 }
 
-public struct CreateDatasetGroupInput: Swift.Equatable {
+public struct CreateDatasetGroupInput {
     /// An array of Amazon Resource Names (ARNs) of the datasets that you want to include in the dataset group.
     public var datasetArns: [Swift.String]?
     /// A name for the dataset group.
@@ -1061,7 +1061,7 @@ public struct CreateDatasetGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetGroupInputBody: Swift.Equatable {
+struct CreateDatasetGroupInputBody {
     let datasetGroupName: Swift.String?
     let domain: ForecastClientTypes.Domain?
     let datasetArns: [Swift.String]?
@@ -1119,7 +1119,7 @@ extension CreateDatasetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetGroupOutput: Swift.Equatable {
+public struct CreateDatasetGroupOutput {
     /// The Amazon Resource Name (ARN) of the dataset group.
     public var datasetGroupArn: Swift.String?
 
@@ -1131,7 +1131,7 @@ public struct CreateDatasetGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetGroupOutputBody: Swift.Equatable {
+struct CreateDatasetGroupOutputBody {
     let datasetGroupArn: Swift.String?
 }
 
@@ -1221,7 +1221,7 @@ extension CreateDatasetImportJobInput {
     }
 }
 
-public struct CreateDatasetImportJobInput: Swift.Equatable {
+public struct CreateDatasetImportJobInput {
     /// The location of the training data to import and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource must include an Key Management Service (KMS) key and the IAM role must allow Amazon Forecast permission to access the key. The KMS key and IAM role must match those specified in the EncryptionConfig parameter of the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation.
     /// This member is required.
     public var dataSource: ForecastClientTypes.DataSource?
@@ -1297,7 +1297,7 @@ public struct CreateDatasetImportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetImportJobInputBody: Swift.Equatable {
+struct CreateDatasetImportJobInputBody {
     let datasetImportJobName: Swift.String?
     let datasetArn: Swift.String?
     let dataSource: ForecastClientTypes.DataSource?
@@ -1370,7 +1370,7 @@ extension CreateDatasetImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetImportJobOutput: Swift.Equatable {
+public struct CreateDatasetImportJobOutput {
     /// The Amazon Resource Name (ARN) of the dataset import job.
     public var datasetImportJobArn: Swift.String?
 
@@ -1382,7 +1382,7 @@ public struct CreateDatasetImportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetImportJobOutputBody: Swift.Equatable {
+struct CreateDatasetImportJobOutputBody {
     let datasetImportJobArn: Swift.String?
 }
 
@@ -1460,7 +1460,7 @@ extension CreateDatasetInput {
     }
 }
 
-public struct CreateDatasetInput: Swift.Equatable {
+public struct CreateDatasetInput {
     /// The frequency of data collection. This parameter is required for RELATED_TIME_SERIES datasets. Valid intervals are an integer followed by Y (Year), M (Month), W (Week), D (Day), H (Hour), and min (Minute). For example, "1D" indicates every day and "15min" indicates every 15 minutes. You cannot specify a value that would overlap with the next larger frequency. That means, for example, you cannot specify a frequency of 60 minutes, because that is equivalent to 1 hour. The valid values for each frequency are the following:
     ///
     /// * Minute - 1-59
@@ -1529,7 +1529,7 @@ public struct CreateDatasetInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetInputBody: Swift.Equatable {
+struct CreateDatasetInputBody {
     let datasetName: Swift.String?
     let domain: ForecastClientTypes.Domain?
     let datasetType: ForecastClientTypes.DatasetType?
@@ -1590,7 +1590,7 @@ extension CreateDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetOutput: Swift.Equatable {
+public struct CreateDatasetOutput {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var datasetArn: Swift.String?
 
@@ -1602,7 +1602,7 @@ public struct CreateDatasetOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetOutputBody: Swift.Equatable {
+struct CreateDatasetOutputBody {
     let datasetArn: Swift.String?
 }
 
@@ -1670,7 +1670,7 @@ extension CreateExplainabilityExportInput {
     }
 }
 
-public struct CreateExplainabilityExportInput: Swift.Equatable {
+public struct CreateExplainabilityExportInput {
     /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
     /// This member is required.
     public var destination: ForecastClientTypes.DataDestination?
@@ -1713,7 +1713,7 @@ public struct CreateExplainabilityExportInput: Swift.Equatable {
     }
 }
 
-struct CreateExplainabilityExportInputBody: Swift.Equatable {
+struct CreateExplainabilityExportInputBody {
     let explainabilityExportName: Swift.String?
     let explainabilityArn: Swift.String?
     let destination: ForecastClientTypes.DataDestination?
@@ -1766,7 +1766,7 @@ extension CreateExplainabilityExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateExplainabilityExportOutput: Swift.Equatable {
+public struct CreateExplainabilityExportOutput {
     /// The Amazon Resource Name (ARN) of the export.
     public var explainabilityExportArn: Swift.String?
 
@@ -1778,7 +1778,7 @@ public struct CreateExplainabilityExportOutput: Swift.Equatable {
     }
 }
 
-struct CreateExplainabilityExportOutputBody: Swift.Equatable {
+struct CreateExplainabilityExportOutputBody {
     let explainabilityExportArn: Swift.String?
 }
 
@@ -1864,7 +1864,7 @@ extension CreateExplainabilityInput {
     }
 }
 
-public struct CreateExplainabilityInput: Swift.Equatable {
+public struct CreateExplainabilityInput {
     /// The source of your data, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an Key Management Service (KMS) key.
     public var dataSource: ForecastClientTypes.DataSource?
     /// Create an Explainability visualization that is viewable within the Amazon Web Services console.
@@ -1923,7 +1923,7 @@ public struct CreateExplainabilityInput: Swift.Equatable {
     }
 }
 
-struct CreateExplainabilityInputBody: Swift.Equatable {
+struct CreateExplainabilityInputBody {
     let explainabilityName: Swift.String?
     let resourceArn: Swift.String?
     let explainabilityConfig: ForecastClientTypes.ExplainabilityConfig?
@@ -1992,7 +1992,7 @@ extension CreateExplainabilityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateExplainabilityOutput: Swift.Equatable {
+public struct CreateExplainabilityOutput {
     /// The Amazon Resource Name (ARN) of the Explainability.
     public var explainabilityArn: Swift.String?
 
@@ -2004,7 +2004,7 @@ public struct CreateExplainabilityOutput: Swift.Equatable {
     }
 }
 
-struct CreateExplainabilityOutputBody: Swift.Equatable {
+struct CreateExplainabilityOutputBody {
     let explainabilityArn: Swift.String?
 }
 
@@ -2074,7 +2074,7 @@ extension CreateForecastExportJobInput {
     }
 }
 
-public struct CreateForecastExportJobInput: Swift.Equatable {
+public struct CreateForecastExportJobInput {
     /// The location where you want to save the forecast and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
     /// This member is required.
     public var destination: ForecastClientTypes.DataDestination?
@@ -2119,7 +2119,7 @@ public struct CreateForecastExportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateForecastExportJobInputBody: Swift.Equatable {
+struct CreateForecastExportJobInputBody {
     let forecastExportJobName: Swift.String?
     let forecastArn: Swift.String?
     let destination: ForecastClientTypes.DataDestination?
@@ -2172,7 +2172,7 @@ extension CreateForecastExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateForecastExportJobOutput: Swift.Equatable {
+public struct CreateForecastExportJobOutput {
     /// The Amazon Resource Name (ARN) of the export job.
     public var forecastExportJobArn: Swift.String?
 
@@ -2184,7 +2184,7 @@ public struct CreateForecastExportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateForecastExportJobOutputBody: Swift.Equatable {
+struct CreateForecastExportJobOutputBody {
     let forecastExportJobArn: Swift.String?
 }
 
@@ -2257,7 +2257,7 @@ extension CreateForecastInput {
     }
 }
 
-public struct CreateForecastInput: Swift.Equatable {
+public struct CreateForecastInput {
     /// A name for the forecast.
     /// This member is required.
     public var forecastName: Swift.String?
@@ -2307,7 +2307,7 @@ public struct CreateForecastInput: Swift.Equatable {
     }
 }
 
-struct CreateForecastInputBody: Swift.Equatable {
+struct CreateForecastInputBody {
     let forecastName: Swift.String?
     let predictorArn: Swift.String?
     let forecastTypes: [Swift.String]?
@@ -2369,7 +2369,7 @@ extension CreateForecastOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateForecastOutput: Swift.Equatable {
+public struct CreateForecastOutput {
     /// The Amazon Resource Name (ARN) of the forecast.
     public var forecastArn: Swift.String?
 
@@ -2381,7 +2381,7 @@ public struct CreateForecastOutput: Swift.Equatable {
     }
 }
 
-struct CreateForecastOutputBody: Swift.Equatable {
+struct CreateForecastOutputBody {
     let forecastArn: Swift.String?
 }
 
@@ -2443,7 +2443,7 @@ extension CreateMonitorInput {
     }
 }
 
-public struct CreateMonitorInput: Swift.Equatable {
+public struct CreateMonitorInput {
     /// The name of the monitor resource.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -2465,7 +2465,7 @@ public struct CreateMonitorInput: Swift.Equatable {
     }
 }
 
-struct CreateMonitorInputBody: Swift.Equatable {
+struct CreateMonitorInputBody {
     let monitorName: Swift.String?
     let resourceArn: Swift.String?
     let tags: [ForecastClientTypes.Tag]?
@@ -2510,7 +2510,7 @@ extension CreateMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMonitorOutput: Swift.Equatable {
+public struct CreateMonitorOutput {
     /// The Amazon Resource Name (ARN) of the monitor resource.
     public var monitorArn: Swift.String?
 
@@ -2522,7 +2522,7 @@ public struct CreateMonitorOutput: Swift.Equatable {
     }
 }
 
-struct CreateMonitorOutputBody: Swift.Equatable {
+struct CreateMonitorOutputBody {
     let monitorArn: Swift.String?
 }
 
@@ -2592,7 +2592,7 @@ extension CreatePredictorBacktestExportJobInput {
     }
 }
 
-public struct CreatePredictorBacktestExportJobInput: Swift.Equatable {
+public struct CreatePredictorBacktestExportJobInput {
     /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
     /// This member is required.
     public var destination: ForecastClientTypes.DataDestination?
@@ -2635,7 +2635,7 @@ public struct CreatePredictorBacktestExportJobInput: Swift.Equatable {
     }
 }
 
-struct CreatePredictorBacktestExportJobInputBody: Swift.Equatable {
+struct CreatePredictorBacktestExportJobInputBody {
     let predictorBacktestExportJobName: Swift.String?
     let predictorArn: Swift.String?
     let destination: ForecastClientTypes.DataDestination?
@@ -2688,7 +2688,7 @@ extension CreatePredictorBacktestExportJobOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CreatePredictorBacktestExportJobOutput: Swift.Equatable {
+public struct CreatePredictorBacktestExportJobOutput {
     /// The Amazon Resource Name (ARN) of the predictor backtest export job that you want to export.
     public var predictorBacktestExportJobArn: Swift.String?
 
@@ -2700,7 +2700,7 @@ public struct CreatePredictorBacktestExportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreatePredictorBacktestExportJobOutputBody: Swift.Equatable {
+struct CreatePredictorBacktestExportJobOutputBody {
     let predictorBacktestExportJobArn: Swift.String?
 }
 
@@ -2816,7 +2816,7 @@ extension CreatePredictorInput {
     }
 }
 
-public struct CreatePredictorInput: Swift.Equatable {
+public struct CreatePredictorInput {
     /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true. Supported algorithms:
     ///
     /// * arn:aws:forecast:::algorithm/ARIMA
@@ -2918,7 +2918,7 @@ public struct CreatePredictorInput: Swift.Equatable {
     }
 }
 
-struct CreatePredictorInputBody: Swift.Equatable {
+struct CreatePredictorInputBody {
     let predictorName: Swift.String?
     let algorithmArn: Swift.String?
     let forecastHorizon: Swift.Int?
@@ -3029,7 +3029,7 @@ extension CreatePredictorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePredictorOutput: Swift.Equatable {
+public struct CreatePredictorOutput {
     /// The Amazon Resource Name (ARN) of the predictor.
     public var predictorArn: Swift.String?
 
@@ -3041,7 +3041,7 @@ public struct CreatePredictorOutput: Swift.Equatable {
     }
 }
 
-struct CreatePredictorOutputBody: Swift.Equatable {
+struct CreatePredictorOutputBody {
     let predictorArn: Swift.String?
 }
 
@@ -3107,7 +3107,7 @@ extension CreateWhatIfAnalysisInput {
     }
 }
 
-public struct CreateWhatIfAnalysisInput: Swift.Equatable {
+public struct CreateWhatIfAnalysisInput {
     /// The Amazon Resource Name (ARN) of the baseline forecast.
     /// This member is required.
     public var forecastArn: Swift.String?
@@ -3139,7 +3139,7 @@ public struct CreateWhatIfAnalysisInput: Swift.Equatable {
     }
 }
 
-struct CreateWhatIfAnalysisInputBody: Swift.Equatable {
+struct CreateWhatIfAnalysisInputBody {
     let whatIfAnalysisName: Swift.String?
     let forecastArn: Swift.String?
     let timeSeriesSelector: ForecastClientTypes.TimeSeriesSelector?
@@ -3188,7 +3188,7 @@ extension CreateWhatIfAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWhatIfAnalysisOutput: Swift.Equatable {
+public struct CreateWhatIfAnalysisOutput {
     /// The Amazon Resource Name (ARN) of the what-if analysis.
     public var whatIfAnalysisArn: Swift.String?
 
@@ -3200,7 +3200,7 @@ public struct CreateWhatIfAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct CreateWhatIfAnalysisOutputBody: Swift.Equatable {
+struct CreateWhatIfAnalysisOutputBody {
     let whatIfAnalysisArn: Swift.String?
 }
 
@@ -3273,7 +3273,7 @@ extension CreateWhatIfForecastExportInput {
     }
 }
 
-public struct CreateWhatIfForecastExportInput: Swift.Equatable {
+public struct CreateWhatIfForecastExportInput {
     /// The location where you want to save the forecast and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
     /// This member is required.
     public var destination: ForecastClientTypes.DataDestination?
@@ -3304,7 +3304,7 @@ public struct CreateWhatIfForecastExportInput: Swift.Equatable {
     }
 }
 
-struct CreateWhatIfForecastExportInputBody: Swift.Equatable {
+struct CreateWhatIfForecastExportInputBody {
     let whatIfForecastExportName: Swift.String?
     let whatIfForecastArns: [Swift.String]?
     let destination: ForecastClientTypes.DataDestination?
@@ -3366,7 +3366,7 @@ extension CreateWhatIfForecastExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWhatIfForecastExportOutput: Swift.Equatable {
+public struct CreateWhatIfForecastExportOutput {
     /// The Amazon Resource Name (ARN) of the what-if forecast.
     public var whatIfForecastExportArn: Swift.String?
 
@@ -3378,7 +3378,7 @@ public struct CreateWhatIfForecastExportOutput: Swift.Equatable {
     }
 }
 
-struct CreateWhatIfForecastExportOutputBody: Swift.Equatable {
+struct CreateWhatIfForecastExportOutputBody {
     let whatIfForecastExportArn: Swift.String?
 }
 
@@ -3451,7 +3451,7 @@ extension CreateWhatIfForecastInput {
     }
 }
 
-public struct CreateWhatIfForecastInput: Swift.Equatable {
+public struct CreateWhatIfForecastInput {
     /// A list of [tags](https://docs.aws.amazon.com/forecast/latest/dg/tagging-forecast-resources.html) to apply to the what if forecast.
     public var tags: [ForecastClientTypes.Tag]?
     /// The replacement time series dataset, which contains the rows that you want to change in the related time series dataset. A replacement time series does not need to contain all rows that are in the baseline related time series. Include only the rows (measure-dimension combinations) that you want to include in the what-if forecast. This dataset is merged with the original time series to create a transformed dataset that is used for the what-if analysis. This dataset should contain the items to modify (such as item_id or workforce_type), any relevant dimensions, the timestamp column, and at least one of the related time series columns. This file should not contain duplicate timestamps for the same time series. Timestamps and item_ids not included in this dataset are not included in the what-if analysis.
@@ -3481,7 +3481,7 @@ public struct CreateWhatIfForecastInput: Swift.Equatable {
     }
 }
 
-struct CreateWhatIfForecastInputBody: Swift.Equatable {
+struct CreateWhatIfForecastInputBody {
     let whatIfForecastName: Swift.String?
     let whatIfAnalysisArn: Swift.String?
     let timeSeriesTransformations: [ForecastClientTypes.TimeSeriesTransformation]?
@@ -3543,7 +3543,7 @@ extension CreateWhatIfForecastOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWhatIfForecastOutput: Swift.Equatable {
+public struct CreateWhatIfForecastOutput {
     /// The Amazon Resource Name (ARN) of the what-if forecast.
     public var whatIfForecastArn: Swift.String?
 
@@ -3555,7 +3555,7 @@ public struct CreateWhatIfForecastOutput: Swift.Equatable {
     }
 }
 
-struct CreateWhatIfForecastOutputBody: Swift.Equatable {
+struct CreateWhatIfForecastOutputBody {
     let whatIfForecastArn: Swift.String?
 }
 
@@ -3643,7 +3643,7 @@ extension ForecastClientTypes.DataConfig: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The data configuration for your dataset group and any additional datasets.
-    public struct DataConfig: Swift.Equatable {
+    public struct DataConfig {
         /// Additional built-in datasets like Holidays and the Weather Index.
         public var additionalDatasets: [ForecastClientTypes.AdditionalDataset]?
         /// Aggregation and filling options for attributes in your dataset group.
@@ -3687,7 +3687,7 @@ extension ForecastClientTypes.DataDestination: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
-    public struct DataDestination: Swift.Equatable {
+    public struct DataDestination {
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket.
         /// This member is required.
         public var s3Config: ForecastClientTypes.S3Config?
@@ -3723,7 +3723,7 @@ extension ForecastClientTypes.DataSource: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The source of your data, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an Key Management Service (KMS) key.
-    public struct DataSource: Swift.Equatable {
+    public struct DataSource {
         /// The path to the data stored in an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the data.
         /// This member is required.
         public var s3Config: ForecastClientTypes.S3Config?
@@ -3777,7 +3777,7 @@ extension ForecastClientTypes.DatasetGroupSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the dataset group properties used in the [ListDatasetGroups](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetGroups.html) operation. To get the complete set of properties, call the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation, and provide the DatasetGroupArn.
-    public struct DatasetGroupSummary: Swift.Equatable {
+    public struct DatasetGroupSummary {
         /// When the dataset group was created.
         public var creationTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset group.
@@ -3866,7 +3866,7 @@ extension ForecastClientTypes.DatasetImportJobSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the dataset import job properties used in the [ListDatasetImportJobs](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetImportJobs.html) operation. To get the complete set of properties, call the [DescribeDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html) operation, and provide the DatasetImportJobArn.
-    public struct DatasetImportJobSummary: Swift.Equatable {
+    public struct DatasetImportJobSummary {
         /// When the dataset import job was created.
         public var creationTime: ClientRuntime.Date?
         /// The location of the training data to import and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource includes an Key Management Service (KMS) key.
@@ -3977,7 +3977,7 @@ extension ForecastClientTypes.DatasetSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the dataset properties used in the [ListDatasets](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasets.html) operation. To get the complete set of properties, call the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation, and provide the DatasetArn.
-    public struct DatasetSummary: Swift.Equatable {
+    public struct DatasetSummary {
         /// When the dataset was created.
         public var creationTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset.
@@ -4113,7 +4113,7 @@ extension DeleteDatasetGroupInput {
     }
 }
 
-public struct DeleteDatasetGroupInput: Swift.Equatable {
+public struct DeleteDatasetGroupInput {
     /// The Amazon Resource Name (ARN) of the dataset group to delete.
     /// This member is required.
     public var datasetGroupArn: Swift.String?
@@ -4126,7 +4126,7 @@ public struct DeleteDatasetGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetGroupInputBody: Swift.Equatable {
+struct DeleteDatasetGroupInputBody {
     let datasetGroupArn: Swift.String?
 }
 
@@ -4147,7 +4147,7 @@ extension DeleteDatasetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatasetGroupOutput: Swift.Equatable {
+public struct DeleteDatasetGroupOutput {
 
     public init() { }
 }
@@ -4185,7 +4185,7 @@ extension DeleteDatasetImportJobInput {
     }
 }
 
-public struct DeleteDatasetImportJobInput: Swift.Equatable {
+public struct DeleteDatasetImportJobInput {
     /// The Amazon Resource Name (ARN) of the dataset import job to delete.
     /// This member is required.
     public var datasetImportJobArn: Swift.String?
@@ -4198,7 +4198,7 @@ public struct DeleteDatasetImportJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetImportJobInputBody: Swift.Equatable {
+struct DeleteDatasetImportJobInputBody {
     let datasetImportJobArn: Swift.String?
 }
 
@@ -4219,7 +4219,7 @@ extension DeleteDatasetImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatasetImportJobOutput: Swift.Equatable {
+public struct DeleteDatasetImportJobOutput {
 
     public init() { }
 }
@@ -4257,7 +4257,7 @@ extension DeleteDatasetInput {
     }
 }
 
-public struct DeleteDatasetInput: Swift.Equatable {
+public struct DeleteDatasetInput {
     /// The Amazon Resource Name (ARN) of the dataset to delete.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -4270,7 +4270,7 @@ public struct DeleteDatasetInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetInputBody: Swift.Equatable {
+struct DeleteDatasetInputBody {
     let datasetArn: Swift.String?
 }
 
@@ -4291,7 +4291,7 @@ extension DeleteDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatasetOutput: Swift.Equatable {
+public struct DeleteDatasetOutput {
 
     public init() { }
 }
@@ -4329,7 +4329,7 @@ extension DeleteExplainabilityExportInput {
     }
 }
 
-public struct DeleteExplainabilityExportInput: Swift.Equatable {
+public struct DeleteExplainabilityExportInput {
     /// The Amazon Resource Name (ARN) of the Explainability export to delete.
     /// This member is required.
     public var explainabilityExportArn: Swift.String?
@@ -4342,7 +4342,7 @@ public struct DeleteExplainabilityExportInput: Swift.Equatable {
     }
 }
 
-struct DeleteExplainabilityExportInputBody: Swift.Equatable {
+struct DeleteExplainabilityExportInputBody {
     let explainabilityExportArn: Swift.String?
 }
 
@@ -4363,7 +4363,7 @@ extension DeleteExplainabilityExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteExplainabilityExportOutput: Swift.Equatable {
+public struct DeleteExplainabilityExportOutput {
 
     public init() { }
 }
@@ -4401,7 +4401,7 @@ extension DeleteExplainabilityInput {
     }
 }
 
-public struct DeleteExplainabilityInput: Swift.Equatable {
+public struct DeleteExplainabilityInput {
     /// The Amazon Resource Name (ARN) of the Explainability resource to delete.
     /// This member is required.
     public var explainabilityArn: Swift.String?
@@ -4414,7 +4414,7 @@ public struct DeleteExplainabilityInput: Swift.Equatable {
     }
 }
 
-struct DeleteExplainabilityInputBody: Swift.Equatable {
+struct DeleteExplainabilityInputBody {
     let explainabilityArn: Swift.String?
 }
 
@@ -4435,7 +4435,7 @@ extension DeleteExplainabilityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteExplainabilityOutput: Swift.Equatable {
+public struct DeleteExplainabilityOutput {
 
     public init() { }
 }
@@ -4473,7 +4473,7 @@ extension DeleteForecastExportJobInput {
     }
 }
 
-public struct DeleteForecastExportJobInput: Swift.Equatable {
+public struct DeleteForecastExportJobInput {
     /// The Amazon Resource Name (ARN) of the forecast export job to delete.
     /// This member is required.
     public var forecastExportJobArn: Swift.String?
@@ -4486,7 +4486,7 @@ public struct DeleteForecastExportJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteForecastExportJobInputBody: Swift.Equatable {
+struct DeleteForecastExportJobInputBody {
     let forecastExportJobArn: Swift.String?
 }
 
@@ -4507,7 +4507,7 @@ extension DeleteForecastExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteForecastExportJobOutput: Swift.Equatable {
+public struct DeleteForecastExportJobOutput {
 
     public init() { }
 }
@@ -4545,7 +4545,7 @@ extension DeleteForecastInput {
     }
 }
 
-public struct DeleteForecastInput: Swift.Equatable {
+public struct DeleteForecastInput {
     /// The Amazon Resource Name (ARN) of the forecast to delete.
     /// This member is required.
     public var forecastArn: Swift.String?
@@ -4558,7 +4558,7 @@ public struct DeleteForecastInput: Swift.Equatable {
     }
 }
 
-struct DeleteForecastInputBody: Swift.Equatable {
+struct DeleteForecastInputBody {
     let forecastArn: Swift.String?
 }
 
@@ -4579,7 +4579,7 @@ extension DeleteForecastOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteForecastOutput: Swift.Equatable {
+public struct DeleteForecastOutput {
 
     public init() { }
 }
@@ -4617,7 +4617,7 @@ extension DeleteMonitorInput {
     }
 }
 
-public struct DeleteMonitorInput: Swift.Equatable {
+public struct DeleteMonitorInput {
     /// The Amazon Resource Name (ARN) of the monitor resource to delete.
     /// This member is required.
     public var monitorArn: Swift.String?
@@ -4630,7 +4630,7 @@ public struct DeleteMonitorInput: Swift.Equatable {
     }
 }
 
-struct DeleteMonitorInputBody: Swift.Equatable {
+struct DeleteMonitorInputBody {
     let monitorArn: Swift.String?
 }
 
@@ -4651,7 +4651,7 @@ extension DeleteMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMonitorOutput: Swift.Equatable {
+public struct DeleteMonitorOutput {
 
     public init() { }
 }
@@ -4689,7 +4689,7 @@ extension DeletePredictorBacktestExportJobInput {
     }
 }
 
-public struct DeletePredictorBacktestExportJobInput: Swift.Equatable {
+public struct DeletePredictorBacktestExportJobInput {
     /// The Amazon Resource Name (ARN) of the predictor backtest export job to delete.
     /// This member is required.
     public var predictorBacktestExportJobArn: Swift.String?
@@ -4702,7 +4702,7 @@ public struct DeletePredictorBacktestExportJobInput: Swift.Equatable {
     }
 }
 
-struct DeletePredictorBacktestExportJobInputBody: Swift.Equatable {
+struct DeletePredictorBacktestExportJobInputBody {
     let predictorBacktestExportJobArn: Swift.String?
 }
 
@@ -4723,7 +4723,7 @@ extension DeletePredictorBacktestExportJobOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeletePredictorBacktestExportJobOutput: Swift.Equatable {
+public struct DeletePredictorBacktestExportJobOutput {
 
     public init() { }
 }
@@ -4761,7 +4761,7 @@ extension DeletePredictorInput {
     }
 }
 
-public struct DeletePredictorInput: Swift.Equatable {
+public struct DeletePredictorInput {
     /// The Amazon Resource Name (ARN) of the predictor to delete.
     /// This member is required.
     public var predictorArn: Swift.String?
@@ -4774,7 +4774,7 @@ public struct DeletePredictorInput: Swift.Equatable {
     }
 }
 
-struct DeletePredictorInputBody: Swift.Equatable {
+struct DeletePredictorInputBody {
     let predictorArn: Swift.String?
 }
 
@@ -4795,7 +4795,7 @@ extension DeletePredictorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePredictorOutput: Swift.Equatable {
+public struct DeletePredictorOutput {
 
     public init() { }
 }
@@ -4833,7 +4833,7 @@ extension DeleteResourceTreeInput {
     }
 }
 
-public struct DeleteResourceTreeInput: Swift.Equatable {
+public struct DeleteResourceTreeInput {
     /// The Amazon Resource Name (ARN) of the parent resource to delete. All child resources of the parent resource will also be deleted.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4846,7 +4846,7 @@ public struct DeleteResourceTreeInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourceTreeInputBody: Swift.Equatable {
+struct DeleteResourceTreeInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -4867,7 +4867,7 @@ extension DeleteResourceTreeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourceTreeOutput: Swift.Equatable {
+public struct DeleteResourceTreeOutput {
 
     public init() { }
 }
@@ -4905,7 +4905,7 @@ extension DeleteWhatIfAnalysisInput {
     }
 }
 
-public struct DeleteWhatIfAnalysisInput: Swift.Equatable {
+public struct DeleteWhatIfAnalysisInput {
     /// The Amazon Resource Name (ARN) of the what-if analysis that you want to delete.
     /// This member is required.
     public var whatIfAnalysisArn: Swift.String?
@@ -4918,7 +4918,7 @@ public struct DeleteWhatIfAnalysisInput: Swift.Equatable {
     }
 }
 
-struct DeleteWhatIfAnalysisInputBody: Swift.Equatable {
+struct DeleteWhatIfAnalysisInputBody {
     let whatIfAnalysisArn: Swift.String?
 }
 
@@ -4939,7 +4939,7 @@ extension DeleteWhatIfAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWhatIfAnalysisOutput: Swift.Equatable {
+public struct DeleteWhatIfAnalysisOutput {
 
     public init() { }
 }
@@ -4977,7 +4977,7 @@ extension DeleteWhatIfForecastExportInput {
     }
 }
 
-public struct DeleteWhatIfForecastExportInput: Swift.Equatable {
+public struct DeleteWhatIfForecastExportInput {
     /// The Amazon Resource Name (ARN) of the what-if forecast export that you want to delete.
     /// This member is required.
     public var whatIfForecastExportArn: Swift.String?
@@ -4990,7 +4990,7 @@ public struct DeleteWhatIfForecastExportInput: Swift.Equatable {
     }
 }
 
-struct DeleteWhatIfForecastExportInputBody: Swift.Equatable {
+struct DeleteWhatIfForecastExportInputBody {
     let whatIfForecastExportArn: Swift.String?
 }
 
@@ -5011,7 +5011,7 @@ extension DeleteWhatIfForecastExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWhatIfForecastExportOutput: Swift.Equatable {
+public struct DeleteWhatIfForecastExportOutput {
 
     public init() { }
 }
@@ -5049,7 +5049,7 @@ extension DeleteWhatIfForecastInput {
     }
 }
 
-public struct DeleteWhatIfForecastInput: Swift.Equatable {
+public struct DeleteWhatIfForecastInput {
     /// The Amazon Resource Name (ARN) of the what-if forecast that you want to delete.
     /// This member is required.
     public var whatIfForecastArn: Swift.String?
@@ -5062,7 +5062,7 @@ public struct DeleteWhatIfForecastInput: Swift.Equatable {
     }
 }
 
-struct DeleteWhatIfForecastInputBody: Swift.Equatable {
+struct DeleteWhatIfForecastInputBody {
     let whatIfForecastArn: Swift.String?
 }
 
@@ -5083,7 +5083,7 @@ extension DeleteWhatIfForecastOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWhatIfForecastOutput: Swift.Equatable {
+public struct DeleteWhatIfForecastOutput {
 
     public init() { }
 }
@@ -5121,7 +5121,7 @@ extension DescribeAutoPredictorInput {
     }
 }
 
-public struct DescribeAutoPredictorInput: Swift.Equatable {
+public struct DescribeAutoPredictorInput {
     /// The Amazon Resource Name (ARN) of the predictor.
     /// This member is required.
     public var predictorArn: Swift.String?
@@ -5134,7 +5134,7 @@ public struct DescribeAutoPredictorInput: Swift.Equatable {
     }
 }
 
-struct DescribeAutoPredictorInputBody: Swift.Equatable {
+struct DescribeAutoPredictorInputBody {
     let predictorArn: Swift.String?
 }
 
@@ -5198,7 +5198,7 @@ extension DescribeAutoPredictorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAutoPredictorOutput: Swift.Equatable {
+public struct DescribeAutoPredictorOutput {
     /// The timestamp of the CreateAutoPredictor request.
     public var creationTime: ClientRuntime.Date?
     /// The data configuration for your dataset group and any additional datasets.
@@ -5300,7 +5300,7 @@ public struct DescribeAutoPredictorOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAutoPredictorOutputBody: Swift.Equatable {
+struct DescribeAutoPredictorOutputBody {
     let predictorArn: Swift.String?
     let predictorName: Swift.String?
     let forecastHorizon: Swift.Int?
@@ -5447,7 +5447,7 @@ extension DescribeDatasetGroupInput {
     }
 }
 
-public struct DescribeDatasetGroupInput: Swift.Equatable {
+public struct DescribeDatasetGroupInput {
     /// The Amazon Resource Name (ARN) of the dataset group.
     /// This member is required.
     public var datasetGroupArn: Swift.String?
@@ -5460,7 +5460,7 @@ public struct DescribeDatasetGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetGroupInputBody: Swift.Equatable {
+struct DescribeDatasetGroupInputBody {
     let datasetGroupArn: Swift.String?
 }
 
@@ -5500,7 +5500,7 @@ extension DescribeDatasetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatasetGroupOutput: Swift.Equatable {
+public struct DescribeDatasetGroupOutput {
     /// When the dataset group was created.
     public var creationTime: ClientRuntime.Date?
     /// An array of Amazon Resource Names (ARNs) of the datasets contained in the dataset group.
@@ -5547,7 +5547,7 @@ public struct DescribeDatasetGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetGroupOutputBody: Swift.Equatable {
+struct DescribeDatasetGroupOutputBody {
     let datasetGroupName: Swift.String?
     let datasetGroupArn: Swift.String?
     let datasetArns: [Swift.String]?
@@ -5628,7 +5628,7 @@ extension DescribeDatasetImportJobInput {
     }
 }
 
-public struct DescribeDatasetImportJobInput: Swift.Equatable {
+public struct DescribeDatasetImportJobInput {
     /// The Amazon Resource Name (ARN) of the dataset import job.
     /// This member is required.
     public var datasetImportJobArn: Swift.String?
@@ -5641,7 +5641,7 @@ public struct DescribeDatasetImportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetImportJobInputBody: Swift.Equatable {
+struct DescribeDatasetImportJobInputBody {
     let datasetImportJobArn: Swift.String?
 }
 
@@ -5701,7 +5701,7 @@ extension DescribeDatasetImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatasetImportJobOutput: Swift.Equatable {
+public struct DescribeDatasetImportJobOutput {
     /// When the dataset import job was created.
     public var creationTime: ClientRuntime.Date?
     /// The size of the dataset in gigabytes (GB) after the import job has finished.
@@ -5799,7 +5799,7 @@ public struct DescribeDatasetImportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetImportJobOutputBody: Swift.Equatable {
+struct DescribeDatasetImportJobOutputBody {
     let datasetImportJobName: Swift.String?
     let datasetImportJobArn: Swift.String?
     let datasetArn: Swift.String?
@@ -5920,7 +5920,7 @@ extension DescribeDatasetInput {
     }
 }
 
-public struct DescribeDatasetInput: Swift.Equatable {
+public struct DescribeDatasetInput {
     /// The Amazon Resource Name (ARN) of the dataset.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -5933,7 +5933,7 @@ public struct DescribeDatasetInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetInputBody: Swift.Equatable {
+struct DescribeDatasetInputBody {
     let datasetArn: Swift.String?
 }
 
@@ -5979,7 +5979,7 @@ extension DescribeDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatasetOutput: Swift.Equatable {
+public struct DescribeDatasetOutput {
     /// When the dataset was created.
     public var creationTime: ClientRuntime.Date?
     /// The frequency of data collection. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "M" indicates every month and "30min" indicates every 30 minutes.
@@ -6038,7 +6038,7 @@ public struct DescribeDatasetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetOutputBody: Swift.Equatable {
+struct DescribeDatasetOutputBody {
     let datasetArn: Swift.String?
     let datasetName: Swift.String?
     let domain: ForecastClientTypes.Domain?
@@ -6122,7 +6122,7 @@ extension DescribeExplainabilityExportInput {
     }
 }
 
-public struct DescribeExplainabilityExportInput: Swift.Equatable {
+public struct DescribeExplainabilityExportInput {
     /// The Amazon Resource Name (ARN) of the Explainability export.
     /// This member is required.
     public var explainabilityExportArn: Swift.String?
@@ -6135,7 +6135,7 @@ public struct DescribeExplainabilityExportInput: Swift.Equatable {
     }
 }
 
-struct DescribeExplainabilityExportInputBody: Swift.Equatable {
+struct DescribeExplainabilityExportInputBody {
     let explainabilityExportArn: Swift.String?
 }
 
@@ -6179,7 +6179,7 @@ extension DescribeExplainabilityExportOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeExplainabilityExportOutput: Swift.Equatable {
+public struct DescribeExplainabilityExportOutput {
     /// When the Explainability export was created.
     public var creationTime: ClientRuntime.Date?
     /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
@@ -6241,7 +6241,7 @@ public struct DescribeExplainabilityExportOutput: Swift.Equatable {
     }
 }
 
-struct DescribeExplainabilityExportOutputBody: Swift.Equatable {
+struct DescribeExplainabilityExportOutputBody {
     let explainabilityExportArn: Swift.String?
     let explainabilityExportName: Swift.String?
     let explainabilityArn: Swift.String?
@@ -6321,7 +6321,7 @@ extension DescribeExplainabilityInput {
     }
 }
 
-public struct DescribeExplainabilityInput: Swift.Equatable {
+public struct DescribeExplainabilityInput {
     /// The Amazon Resource Name (ARN) of the Explaianability to describe.
     /// This member is required.
     public var explainabilityArn: Swift.String?
@@ -6334,7 +6334,7 @@ public struct DescribeExplainabilityInput: Swift.Equatable {
     }
 }
 
-struct DescribeExplainabilityInputBody: Swift.Equatable {
+struct DescribeExplainabilityInputBody {
     let explainabilityArn: Swift.String?
 }
 
@@ -6388,7 +6388,7 @@ extension DescribeExplainabilityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeExplainabilityOutput: Swift.Equatable {
+public struct DescribeExplainabilityOutput {
     /// When the Explainability resource was created.
     public var creationTime: ClientRuntime.Date?
     /// The source of your data, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an Key Management Service (KMS) key.
@@ -6470,7 +6470,7 @@ public struct DescribeExplainabilityOutput: Swift.Equatable {
     }
 }
 
-struct DescribeExplainabilityOutputBody: Swift.Equatable {
+struct DescribeExplainabilityOutputBody {
     let explainabilityArn: Swift.String?
     let explainabilityName: Swift.String?
     let resourceArn: Swift.String?
@@ -6570,7 +6570,7 @@ extension DescribeForecastExportJobInput {
     }
 }
 
-public struct DescribeForecastExportJobInput: Swift.Equatable {
+public struct DescribeForecastExportJobInput {
     /// The Amazon Resource Name (ARN) of the forecast export job.
     /// This member is required.
     public var forecastExportJobArn: Swift.String?
@@ -6583,7 +6583,7 @@ public struct DescribeForecastExportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeForecastExportJobInputBody: Swift.Equatable {
+struct DescribeForecastExportJobInputBody {
     let forecastExportJobArn: Swift.String?
 }
 
@@ -6627,7 +6627,7 @@ extension DescribeForecastExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeForecastExportJobOutput: Swift.Equatable {
+public struct DescribeForecastExportJobOutput {
     /// When the forecast export job was created.
     public var creationTime: ClientRuntime.Date?
     /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
@@ -6692,7 +6692,7 @@ public struct DescribeForecastExportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeForecastExportJobOutputBody: Swift.Equatable {
+struct DescribeForecastExportJobOutputBody {
     let forecastExportJobArn: Swift.String?
     let forecastExportJobName: Swift.String?
     let forecastArn: Swift.String?
@@ -6772,7 +6772,7 @@ extension DescribeForecastInput {
     }
 }
 
-public struct DescribeForecastInput: Swift.Equatable {
+public struct DescribeForecastInput {
     /// The Amazon Resource Name (ARN) of the forecast.
     /// This member is required.
     public var forecastArn: Swift.String?
@@ -6785,7 +6785,7 @@ public struct DescribeForecastInput: Swift.Equatable {
     }
 }
 
-struct DescribeForecastInputBody: Swift.Equatable {
+struct DescribeForecastInputBody {
     let forecastArn: Swift.String?
 }
 
@@ -6833,7 +6833,7 @@ extension DescribeForecastOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeForecastOutput: Swift.Equatable {
+public struct DescribeForecastOutput {
     /// When the forecast creation task was created.
     public var creationTime: ClientRuntime.Date?
     /// The ARN of the dataset group that provided the data used to train the predictor.
@@ -6906,7 +6906,7 @@ public struct DescribeForecastOutput: Swift.Equatable {
     }
 }
 
-struct DescribeForecastOutputBody: Swift.Equatable {
+struct DescribeForecastOutputBody {
     let forecastArn: Swift.String?
     let forecastName: Swift.String?
     let forecastTypes: [Swift.String]?
@@ -7003,7 +7003,7 @@ extension DescribeMonitorInput {
     }
 }
 
-public struct DescribeMonitorInput: Swift.Equatable {
+public struct DescribeMonitorInput {
     /// The Amazon Resource Name (ARN) of the monitor resource to describe.
     /// This member is required.
     public var monitorArn: Swift.String?
@@ -7016,7 +7016,7 @@ public struct DescribeMonitorInput: Swift.Equatable {
     }
 }
 
-struct DescribeMonitorInputBody: Swift.Equatable {
+struct DescribeMonitorInputBody {
     let monitorArn: Swift.String?
 }
 
@@ -7064,7 +7064,7 @@ extension DescribeMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeMonitorOutput: Swift.Equatable {
+public struct DescribeMonitorOutput {
     /// Metrics you can use as a baseline for comparison purposes. Use these values you interpret monitoring results for an auto predictor.
     public var baseline: ForecastClientTypes.Baseline?
     /// The timestamp for when the monitor resource was created.
@@ -7116,7 +7116,7 @@ public struct DescribeMonitorOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMonitorOutputBody: Swift.Equatable {
+struct DescribeMonitorOutputBody {
     let monitorName: Swift.String?
     let monitorArn: Swift.String?
     let resourceArn: Swift.String?
@@ -7204,7 +7204,7 @@ extension DescribePredictorBacktestExportJobInput {
     }
 }
 
-public struct DescribePredictorBacktestExportJobInput: Swift.Equatable {
+public struct DescribePredictorBacktestExportJobInput {
     /// The Amazon Resource Name (ARN) of the predictor backtest export job.
     /// This member is required.
     public var predictorBacktestExportJobArn: Swift.String?
@@ -7217,7 +7217,7 @@ public struct DescribePredictorBacktestExportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribePredictorBacktestExportJobInputBody: Swift.Equatable {
+struct DescribePredictorBacktestExportJobInputBody {
     let predictorBacktestExportJobArn: Swift.String?
 }
 
@@ -7261,7 +7261,7 @@ extension DescribePredictorBacktestExportJobOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribePredictorBacktestExportJobOutput: Swift.Equatable {
+public struct DescribePredictorBacktestExportJobOutput {
     /// When the predictor backtest export job was created.
     public var creationTime: ClientRuntime.Date?
     /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
@@ -7323,7 +7323,7 @@ public struct DescribePredictorBacktestExportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribePredictorBacktestExportJobOutputBody: Swift.Equatable {
+struct DescribePredictorBacktestExportJobOutputBody {
     let predictorBacktestExportJobArn: Swift.String?
     let predictorBacktestExportJobName: Swift.String?
     let predictorArn: Swift.String?
@@ -7403,7 +7403,7 @@ extension DescribePredictorInput {
     }
 }
 
-public struct DescribePredictorInput: Swift.Equatable {
+public struct DescribePredictorInput {
     /// The Amazon Resource Name (ARN) of the predictor that you want information about.
     /// This member is required.
     public var predictorArn: Swift.String?
@@ -7416,7 +7416,7 @@ public struct DescribePredictorInput: Swift.Equatable {
     }
 }
 
-struct DescribePredictorInputBody: Swift.Equatable {
+struct DescribePredictorInputBody {
     let predictorArn: Swift.String?
 }
 
@@ -7490,7 +7490,7 @@ extension DescribePredictorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePredictorOutput: Swift.Equatable {
+public struct DescribePredictorOutput {
     /// The Amazon Resource Name (ARN) of the algorithm used for model training.
     public var algorithmArn: Swift.String?
     /// When PerformAutoML is specified, the ARN of the chosen algorithm.
@@ -7615,7 +7615,7 @@ public struct DescribePredictorOutput: Swift.Equatable {
     }
 }
 
-struct DescribePredictorOutputBody: Swift.Equatable {
+struct DescribePredictorOutputBody {
     let predictorArn: Swift.String?
     let predictorName: Swift.String?
     let algorithmArn: Swift.String?
@@ -7791,7 +7791,7 @@ extension DescribeWhatIfAnalysisInput {
     }
 }
 
-public struct DescribeWhatIfAnalysisInput: Swift.Equatable {
+public struct DescribeWhatIfAnalysisInput {
     /// The Amazon Resource Name (ARN) of the what-if analysis that you are interested in.
     /// This member is required.
     public var whatIfAnalysisArn: Swift.String?
@@ -7804,7 +7804,7 @@ public struct DescribeWhatIfAnalysisInput: Swift.Equatable {
     }
 }
 
-struct DescribeWhatIfAnalysisInputBody: Swift.Equatable {
+struct DescribeWhatIfAnalysisInputBody {
     let whatIfAnalysisArn: Swift.String?
 }
 
@@ -7848,7 +7848,7 @@ extension DescribeWhatIfAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWhatIfAnalysisOutput: Swift.Equatable {
+public struct DescribeWhatIfAnalysisOutput {
     /// When the what-if analysis was created.
     public var creationTime: ClientRuntime.Date?
     /// The approximate time remaining to complete the what-if analysis, in minutes.
@@ -7919,7 +7919,7 @@ public struct DescribeWhatIfAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWhatIfAnalysisOutputBody: Swift.Equatable {
+struct DescribeWhatIfAnalysisOutputBody {
     let whatIfAnalysisName: Swift.String?
     let whatIfAnalysisArn: Swift.String?
     let forecastArn: Swift.String?
@@ -7999,7 +7999,7 @@ extension DescribeWhatIfForecastExportInput {
     }
 }
 
-public struct DescribeWhatIfForecastExportInput: Swift.Equatable {
+public struct DescribeWhatIfForecastExportInput {
     /// The Amazon Resource Name (ARN) of the what-if forecast export that you are interested in.
     /// This member is required.
     public var whatIfForecastExportArn: Swift.String?
@@ -8012,7 +8012,7 @@ public struct DescribeWhatIfForecastExportInput: Swift.Equatable {
     }
 }
 
-struct DescribeWhatIfForecastExportInputBody: Swift.Equatable {
+struct DescribeWhatIfForecastExportInputBody {
     let whatIfForecastExportArn: Swift.String?
 }
 
@@ -8058,7 +8058,7 @@ extension DescribeWhatIfForecastExportOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeWhatIfForecastExportOutput: Swift.Equatable {
+public struct DescribeWhatIfForecastExportOutput {
     /// When the what-if forecast export was created.
     public var creationTime: ClientRuntime.Date?
     /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
@@ -8127,7 +8127,7 @@ public struct DescribeWhatIfForecastExportOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWhatIfForecastExportOutputBody: Swift.Equatable {
+struct DescribeWhatIfForecastExportOutputBody {
     let whatIfForecastExportArn: Swift.String?
     let whatIfForecastExportName: Swift.String?
     let whatIfForecastArns: [Swift.String]?
@@ -8220,7 +8220,7 @@ extension DescribeWhatIfForecastInput {
     }
 }
 
-public struct DescribeWhatIfForecastInput: Swift.Equatable {
+public struct DescribeWhatIfForecastInput {
     /// The Amazon Resource Name (ARN) of the what-if forecast that you are interested in.
     /// This member is required.
     public var whatIfForecastArn: Swift.String?
@@ -8233,7 +8233,7 @@ public struct DescribeWhatIfForecastInput: Swift.Equatable {
     }
 }
 
-struct DescribeWhatIfForecastInputBody: Swift.Equatable {
+struct DescribeWhatIfForecastInputBody {
     let whatIfForecastArn: Swift.String?
 }
 
@@ -8281,7 +8281,7 @@ extension DescribeWhatIfForecastOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWhatIfForecastOutput: Swift.Equatable {
+public struct DescribeWhatIfForecastOutput {
     /// When the what-if forecast was created.
     public var creationTime: ClientRuntime.Date?
     /// The approximate time remaining to complete the what-if forecast, in minutes.
@@ -8354,7 +8354,7 @@ public struct DescribeWhatIfForecastOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWhatIfForecastOutputBody: Swift.Equatable {
+struct DescribeWhatIfForecastOutputBody {
     let whatIfForecastName: Swift.String?
     let whatIfForecastArn: Swift.String?
     let whatIfAnalysisArn: Swift.String?
@@ -8514,7 +8514,7 @@ extension ForecastClientTypes.EncryptionConfig: Swift.Codable {
 
 extension ForecastClientTypes {
     /// An Key Management Service (KMS) key and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key. You can specify this optional object in the [CreateDataset] and [CreatePredictor] requests.
-    public struct EncryptionConfig: Swift.Equatable {
+    public struct EncryptionConfig {
         /// The Amazon Resource Name (ARN) of the KMS key.
         /// This member is required.
         public var kmsKeyArn: Swift.String?
@@ -8579,7 +8579,7 @@ extension ForecastClientTypes.ErrorMetric: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides detailed error metrics to evaluate the performance of a predictor. This object is part of the [Metrics] object.
-    public struct ErrorMetric: Swift.Equatable {
+    public struct ErrorMetric {
         /// The Forecast type used to compute WAPE, MAPE, MASE, and RMSE.
         public var forecastType: Swift.String?
         /// The Mean Absolute Percentage Error (MAPE)
@@ -8636,7 +8636,7 @@ extension ForecastClientTypes.EvaluationParameters: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Parameters that define how to split a dataset into training data and testing data, and the number of iterations to perform. These parameters are specified in the predefined algorithms but you can override them in the [CreatePredictor] request.
-    public struct EvaluationParameters: Swift.Equatable {
+    public struct EvaluationParameters {
         /// The point from the end of the dataset where you want to split the data for model training and testing (evaluation). Specify the value as the number of data points. The default is the value of the forecast horizon. BackTestWindowOffset can be used to mimic a past virtual forecast start date. This value must be greater than or equal to the forecast horizon and less than half of the TARGET_TIME_SERIES dataset length. ForecastHorizon <= BackTestWindowOffset < 1/2 * TARGET_TIME_SERIES dataset length
         public var backTestWindowOffset: Swift.Int?
         /// The number of times to split the input data. The default is 1. Valid values are 1 through 5.
@@ -8693,7 +8693,7 @@ extension ForecastClientTypes.EvaluationResult: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The results of evaluating an algorithm. Returned as part of the [GetAccuracyMetrics] response.
-    public struct EvaluationResult: Swift.Equatable {
+    public struct EvaluationResult {
         /// The Amazon Resource Name (ARN) of the algorithm that was evaluated.
         public var algorithmArn: Swift.String?
         /// The array of test windows used for evaluating the algorithm. The NumberOfBacktestWindows from the [EvaluationParameters] object determines the number of windows in the array.
@@ -8770,7 +8770,7 @@ extension ForecastClientTypes.ExplainabilityConfig: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The ExplainabilityConfig data type defines the number of time series and time points included in [CreateExplainability]. If you provide a predictor ARN for ResourceArn, you must set both TimePointGranularity and TimeSeriesGranularity to “ALL”. When creating Predictor Explainability, Amazon Forecast considers all time series and time points. If you provide a forecast ARN for ResourceArn, you can set TimePointGranularity and TimeSeriesGranularity to either “ALL” or “Specific”.
-    public struct ExplainabilityConfig: Swift.Equatable {
+    public struct ExplainabilityConfig {
         /// To create an Explainability for all time points in your forecast horizon, use ALL. To create an Explainability for specific time points in your forecast horizon, use SPECIFIC. Specify time points with the StartDateTime and EndDateTime parameters within the [CreateExplainability] operation.
         /// This member is required.
         public var timePointGranularity: ForecastClientTypes.TimePointGranularity?
@@ -8847,7 +8847,7 @@ extension ForecastClientTypes.ExplainabilityExportSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the Explainability export properties used in the [ListExplainabilityExports] operation. To get a complete set of properties, call the [DescribeExplainabilityExport] operation, and provide the ExplainabilityExportArn.
-    public struct ExplainabilityExportSummary: Swift.Equatable {
+    public struct ExplainabilityExportSummary {
         /// When the Explainability was created.
         public var creationTime: ClientRuntime.Date?
         /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
@@ -8930,7 +8930,7 @@ extension ForecastClientTypes.ExplainabilityInfo: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides information about the Explainability resource.
-    public struct ExplainabilityInfo: Swift.Equatable {
+    public struct ExplainabilityInfo {
         /// The Amazon Resource Name (ARN) of the Explainability.
         public var explainabilityArn: Swift.String?
         /// The status of the Explainability. States include:
@@ -9019,7 +9019,7 @@ extension ForecastClientTypes.ExplainabilitySummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the Explainability properties used in the [ListExplainabilities] operation. To get a complete set of properties, call the [DescribeExplainability] operation, and provide the listed ExplainabilityArn.
-    public struct ExplainabilitySummary: Swift.Equatable {
+    public struct ExplainabilitySummary {
         /// When the Explainability was created.
         public var creationTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the Explainability.
@@ -9134,7 +9134,7 @@ extension ForecastClientTypes {
     ///
     ///
     ///     }
-    public struct Featurization: Swift.Equatable {
+    public struct Featurization {
         /// The name of the schema attribute that specifies the data field to be featurized. Amazon Forecast supports the target field of the TARGET_TIME_SERIES and the RELATED_TIME_SERIES datasets. For example, for the RETAIL domain, the target is demand, and for the CUSTOM domain, the target is target_value. For more information, see [howitworks-missing-values].
         /// This member is required.
         public var attributeName: Swift.String?
@@ -9210,7 +9210,7 @@ extension ForecastClientTypes.FeaturizationConfig: Swift.Codable {
 
 extension ForecastClientTypes {
     /// This object belongs to the [CreatePredictor] operation. If you created your predictor with [CreateAutoPredictor], see [AttributeConfig]. In a [CreatePredictor] operation, the specified algorithm trains a model using the specified dataset group. You can optionally tell the operation to modify data fields prior to training a model. These modifications are referred to as featurization. You define featurization using the FeaturizationConfig object. You specify an array of transformations, one for each field that you want to featurize. You then include the FeaturizationConfig object in your CreatePredictor request. Amazon Forecast applies the featurization to the TARGET_TIME_SERIES and RELATED_TIME_SERIES datasets before model training. You can create multiple featurization configurations. For example, you might call the CreatePredictor operation twice by specifying different featurization configurations.
-    public struct FeaturizationConfig: Swift.Equatable {
+    public struct FeaturizationConfig {
         /// An array of featurization (transformation) information for the fields of a dataset.
         public var featurizations: [ForecastClientTypes.Featurization]?
         /// An array of dimension (field) names that specify how to group the generated forecast. For example, suppose that you are generating a forecast for item sales across all of your stores, and your dataset contains a store_id field. If you want the sales forecast for each item by store, you would specify store_id as the dimension. All forecast dimensions specified in the TARGET_TIME_SERIES dataset don't need to be specified in the CreatePredictor request. All forecast dimensions specified in the RELATED_TIME_SERIES dataset must be specified in the CreatePredictor request.
@@ -9294,7 +9294,7 @@ extension ForecastClientTypes {
     ///
     ///
     ///     }
-    public struct FeaturizationMethod: Swift.Equatable {
+    public struct FeaturizationMethod {
         /// The name of the method. The "filling" method is the only supported method.
         /// This member is required.
         public var featurizationMethodName: ForecastClientTypes.FeaturizationMethodName?
@@ -9395,7 +9395,7 @@ extension ForecastClientTypes.Filter: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Describes a filter for choosing a subset of objects. Each filter consists of a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the objects that match the statement, respectively. The match statement consists of a key and a value.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The condition to apply. To include the objects that match the statement, specify IS. To exclude matching objects, specify IS_NOT.
         /// This member is required.
         public var condition: ForecastClientTypes.FilterConditionString?
@@ -9511,7 +9511,7 @@ extension ForecastClientTypes.ForecastExportJobSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the forecast export job properties used in the [ListForecastExportJobs] operation. To get the complete set of properties, call the [DescribeForecastExportJob] operation, and provide the listed ForecastExportJobArn.
-    public struct ForecastExportJobSummary: Swift.Equatable {
+    public struct ForecastExportJobSummary {
         /// When the forecast export job was created.
         public var creationTime: ClientRuntime.Date?
         /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
@@ -9639,7 +9639,7 @@ extension ForecastClientTypes.ForecastSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the forecast properties used in the [ListForecasts] operation. To get the complete set of properties, call the [DescribeForecast] operation, and provide the ForecastArn that is listed in the summary.
-    public struct ForecastSummary: Swift.Equatable {
+    public struct ForecastSummary {
         /// Whether the Forecast was created from an AutoPredictor.
         public var createdUsingAutoPredictor: Swift.Bool?
         /// When the forecast creation task was created.
@@ -9726,7 +9726,7 @@ extension GetAccuracyMetricsInput {
     }
 }
 
-public struct GetAccuracyMetricsInput: Swift.Equatable {
+public struct GetAccuracyMetricsInput {
     /// The Amazon Resource Name (ARN) of the predictor to get metrics for.
     /// This member is required.
     public var predictorArn: Swift.String?
@@ -9739,7 +9739,7 @@ public struct GetAccuracyMetricsInput: Swift.Equatable {
     }
 }
 
-struct GetAccuracyMetricsInputBody: Swift.Equatable {
+struct GetAccuracyMetricsInputBody {
     let predictorArn: Swift.String?
 }
 
@@ -9773,7 +9773,7 @@ extension GetAccuracyMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccuracyMetricsOutput: Swift.Equatable {
+public struct GetAccuracyMetricsOutput {
     /// The LatencyOptimized AutoML override strategy is only available in private beta. Contact Amazon Web Services Support or your account manager to learn more about access privileges. The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
     public var autoMLOverrideStrategy: ForecastClientTypes.AutoMLOverrideStrategy?
     /// Whether the predictor was created with [CreateAutoPredictor].
@@ -9797,7 +9797,7 @@ public struct GetAccuracyMetricsOutput: Swift.Equatable {
     }
 }
 
-struct GetAccuracyMetricsOutputBody: Swift.Equatable {
+struct GetAccuracyMetricsOutputBody {
     let predictorEvaluationResults: [ForecastClientTypes.EvaluationResult]?
     let isAutoPredictor: Swift.Bool?
     let autoMLOverrideStrategy: ForecastClientTypes.AutoMLOverrideStrategy?
@@ -9868,7 +9868,7 @@ extension ForecastClientTypes.HyperParameterTuningJobConfig: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Configuration information for a hyperparameter tuning job. You specify this object in the [CreatePredictor] request. A hyperparameter is a parameter that governs the model training process. You set hyperparameters before training starts, unlike model parameters, which are determined during training. The values of the hyperparameters effect which values are chosen for the model parameters. In a hyperparameter tuning job, Amazon Forecast chooses the set of hyperparameter values that optimize a specified metric. Forecast accomplishes this by running many training jobs over a range of hyperparameter values. The optimum set of values depends on the algorithm, the training data, and the specified metric objective.
-    public struct HyperParameterTuningJobConfig: Swift.Equatable {
+    public struct HyperParameterTuningJobConfig {
         /// Specifies the ranges of valid values for the hyperparameters.
         public var parameterRanges: ForecastClientTypes.ParameterRanges?
 
@@ -9953,7 +9953,7 @@ extension ForecastClientTypes.InputDataConfig: Swift.Codable {
 
 extension ForecastClientTypes {
     /// This object belongs to the [CreatePredictor] operation. If you created your predictor with [CreateAutoPredictor], see [DataConfig]. The data used to train a predictor. The data includes a dataset group and any supplementary features. You specify this object in the [CreatePredictor] request.
-    public struct InputDataConfig: Swift.Equatable {
+    public struct InputDataConfig {
         /// The Amazon Resource Name (ARN) of the dataset group.
         /// This member is required.
         public var datasetGroupArn: Swift.String?
@@ -10011,7 +10011,7 @@ extension ForecastClientTypes.IntegerParameterRange: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Specifies an integer hyperparameter and it's range of tunable values. This object is part of the [ParameterRanges] object.
-    public struct IntegerParameterRange: Swift.Equatable {
+    public struct IntegerParameterRange {
         /// The maximum tunable value of the hyperparameter.
         /// This member is required.
         public var maxValue: Swift.Int?
@@ -10079,7 +10079,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
 }
 
@@ -10134,7 +10134,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -10189,7 +10189,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -10229,7 +10229,7 @@ extension ListDatasetGroupsInput {
     }
 }
 
-public struct ListDatasetGroupsInput: Swift.Equatable {
+public struct ListDatasetGroupsInput {
     /// The number of items to return in the response.
     public var maxResults: Swift.Int?
     /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
@@ -10245,7 +10245,7 @@ public struct ListDatasetGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetGroupsInputBody: Swift.Equatable {
+struct ListDatasetGroupsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -10279,7 +10279,7 @@ extension ListDatasetGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetGroupsOutput: Swift.Equatable {
+public struct ListDatasetGroupsOutput {
     /// An array of objects that summarize each dataset group's properties.
     public var datasetGroups: [ForecastClientTypes.DatasetGroupSummary]?
     /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -10295,7 +10295,7 @@ public struct ListDatasetGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetGroupsOutputBody: Swift.Equatable {
+struct ListDatasetGroupsOutputBody {
     let datasetGroups: [ForecastClientTypes.DatasetGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -10366,7 +10366,7 @@ extension ListDatasetImportJobsInput {
     }
 }
 
-public struct ListDatasetImportJobsInput: Swift.Equatable {
+public struct ListDatasetImportJobsInput {
     /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the datasets that match the statement from the list, respectively. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT. To include the datasets that match the statement, specify IS. To exclude matching datasets, specify IS_NOT.
@@ -10395,7 +10395,7 @@ public struct ListDatasetImportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetImportJobsInputBody: Swift.Equatable {
+struct ListDatasetImportJobsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ForecastClientTypes.Filter]?
@@ -10442,7 +10442,7 @@ extension ListDatasetImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetImportJobsOutput: Swift.Equatable {
+public struct ListDatasetImportJobsOutput {
     /// An array of objects that summarize each dataset import job's properties.
     public var datasetImportJobs: [ForecastClientTypes.DatasetImportJobSummary]?
     /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -10458,7 +10458,7 @@ public struct ListDatasetImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetImportJobsOutputBody: Swift.Equatable {
+struct ListDatasetImportJobsOutputBody {
     let datasetImportJobs: [ForecastClientTypes.DatasetImportJobSummary]?
     let nextToken: Swift.String?
 }
@@ -10523,7 +10523,7 @@ extension ListDatasetsInput {
     }
 }
 
-public struct ListDatasetsInput: Swift.Equatable {
+public struct ListDatasetsInput {
     /// The number of items to return in the response.
     public var maxResults: Swift.Int?
     /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
@@ -10539,7 +10539,7 @@ public struct ListDatasetsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsInputBody: Swift.Equatable {
+struct ListDatasetsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -10573,7 +10573,7 @@ extension ListDatasetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetsOutput: Swift.Equatable {
+public struct ListDatasetsOutput {
     /// An array of objects that summarize each dataset's properties.
     public var datasets: [ForecastClientTypes.DatasetSummary]?
     /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -10589,7 +10589,7 @@ public struct ListDatasetsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsOutputBody: Swift.Equatable {
+struct ListDatasetsOutputBody {
     let datasets: [ForecastClientTypes.DatasetSummary]?
     let nextToken: Swift.String?
 }
@@ -10660,7 +10660,7 @@ extension ListExplainabilitiesInput {
     }
 }
 
-public struct ListExplainabilitiesInput: Swift.Equatable {
+public struct ListExplainabilitiesInput {
     /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT.
@@ -10686,7 +10686,7 @@ public struct ListExplainabilitiesInput: Swift.Equatable {
     }
 }
 
-struct ListExplainabilitiesInputBody: Swift.Equatable {
+struct ListExplainabilitiesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ForecastClientTypes.Filter]?
@@ -10733,7 +10733,7 @@ extension ListExplainabilitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExplainabilitiesOutput: Swift.Equatable {
+public struct ListExplainabilitiesOutput {
     /// An array of objects that summarize the properties of each Explainability resource.
     public var explainabilities: [ForecastClientTypes.ExplainabilitySummary]?
     /// Returns this token if the response is truncated. To retrieve the next set of results, use the token in the next request.
@@ -10749,7 +10749,7 @@ public struct ListExplainabilitiesOutput: Swift.Equatable {
     }
 }
 
-struct ListExplainabilitiesOutputBody: Swift.Equatable {
+struct ListExplainabilitiesOutputBody {
     let explainabilities: [ForecastClientTypes.ExplainabilitySummary]?
     let nextToken: Swift.String?
 }
@@ -10821,7 +10821,7 @@ extension ListExplainabilityExportsInput {
     }
 }
 
-public struct ListExplainabilityExportsInput: Swift.Equatable {
+public struct ListExplainabilityExportsInput {
     /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude resources that match the statement from the list. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT.
@@ -10847,7 +10847,7 @@ public struct ListExplainabilityExportsInput: Swift.Equatable {
     }
 }
 
-struct ListExplainabilityExportsInputBody: Swift.Equatable {
+struct ListExplainabilityExportsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ForecastClientTypes.Filter]?
@@ -10894,7 +10894,7 @@ extension ListExplainabilityExportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExplainabilityExportsOutput: Swift.Equatable {
+public struct ListExplainabilityExportsOutput {
     /// An array of objects that summarize the properties of each Explainability export.
     public var explainabilityExports: [ForecastClientTypes.ExplainabilityExportSummary]?
     /// Returns this token if the response is truncated. To retrieve the next set of results, use the token in the next request.
@@ -10910,7 +10910,7 @@ public struct ListExplainabilityExportsOutput: Swift.Equatable {
     }
 }
 
-struct ListExplainabilityExportsOutputBody: Swift.Equatable {
+struct ListExplainabilityExportsOutputBody {
     let explainabilityExports: [ForecastClientTypes.ExplainabilityExportSummary]?
     let nextToken: Swift.String?
 }
@@ -10982,7 +10982,7 @@ extension ListForecastExportJobsInput {
     }
 }
 
-public struct ListForecastExportJobsInput: Swift.Equatable {
+public struct ListForecastExportJobsInput {
     /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecast export jobs that match the statement from the list, respectively. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecast export jobs that match the statement, specify IS. To exclude matching forecast export jobs, specify IS_NOT.
@@ -11011,7 +11011,7 @@ public struct ListForecastExportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListForecastExportJobsInputBody: Swift.Equatable {
+struct ListForecastExportJobsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ForecastClientTypes.Filter]?
@@ -11058,7 +11058,7 @@ extension ListForecastExportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListForecastExportJobsOutput: Swift.Equatable {
+public struct ListForecastExportJobsOutput {
     /// An array of objects that summarize each export job's properties.
     public var forecastExportJobs: [ForecastClientTypes.ForecastExportJobSummary]?
     /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -11074,7 +11074,7 @@ public struct ListForecastExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListForecastExportJobsOutputBody: Swift.Equatable {
+struct ListForecastExportJobsOutputBody {
     let forecastExportJobs: [ForecastClientTypes.ForecastExportJobSummary]?
     let nextToken: Swift.String?
 }
@@ -11146,7 +11146,7 @@ extension ListForecastsInput {
     }
 }
 
-public struct ListForecastsInput: Swift.Equatable {
+public struct ListForecastsInput {
     /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecasts that match the statement from the list, respectively. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecasts that match the statement, specify IS. To exclude matching forecasts, specify IS_NOT.
@@ -11175,7 +11175,7 @@ public struct ListForecastsInput: Swift.Equatable {
     }
 }
 
-struct ListForecastsInputBody: Swift.Equatable {
+struct ListForecastsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ForecastClientTypes.Filter]?
@@ -11222,7 +11222,7 @@ extension ListForecastsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListForecastsOutput: Swift.Equatable {
+public struct ListForecastsOutput {
     /// An array of objects that summarize each forecast's properties.
     public var forecasts: [ForecastClientTypes.ForecastSummary]?
     /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -11238,7 +11238,7 @@ public struct ListForecastsOutput: Swift.Equatable {
     }
 }
 
-struct ListForecastsOutputBody: Swift.Equatable {
+struct ListForecastsOutputBody {
     let forecasts: [ForecastClientTypes.ForecastSummary]?
     let nextToken: Swift.String?
 }
@@ -11314,7 +11314,7 @@ extension ListMonitorEvaluationsInput {
     }
 }
 
-public struct ListMonitorEvaluationsInput: Swift.Equatable {
+public struct ListMonitorEvaluationsInput {
     /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT.
@@ -11348,7 +11348,7 @@ public struct ListMonitorEvaluationsInput: Swift.Equatable {
     }
 }
 
-struct ListMonitorEvaluationsInputBody: Swift.Equatable {
+struct ListMonitorEvaluationsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let monitorArn: Swift.String?
@@ -11399,7 +11399,7 @@ extension ListMonitorEvaluationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMonitorEvaluationsOutput: Swift.Equatable {
+public struct ListMonitorEvaluationsOutput {
     /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
     public var nextToken: Swift.String?
     /// The monitoring results and predictor events collected by the monitor resource during different windows of time. For information about monitoring see [Viewing Monitoring Results](https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring-results.html). For more information about retrieving monitoring results see [Viewing Monitoring Results](https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring-results.html).
@@ -11415,7 +11415,7 @@ public struct ListMonitorEvaluationsOutput: Swift.Equatable {
     }
 }
 
-struct ListMonitorEvaluationsOutputBody: Swift.Equatable {
+struct ListMonitorEvaluationsOutputBody {
     let nextToken: Swift.String?
     let predictorMonitorEvaluations: [ForecastClientTypes.PredictorMonitorEvaluation]?
 }
@@ -11488,7 +11488,7 @@ extension ListMonitorsInput {
     }
 }
 
-public struct ListMonitorsInput: Swift.Equatable {
+public struct ListMonitorsInput {
     /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT.
@@ -11517,7 +11517,7 @@ public struct ListMonitorsInput: Swift.Equatable {
     }
 }
 
-struct ListMonitorsInputBody: Swift.Equatable {
+struct ListMonitorsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ForecastClientTypes.Filter]?
@@ -11564,7 +11564,7 @@ extension ListMonitorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMonitorsOutput: Swift.Equatable {
+public struct ListMonitorsOutput {
     /// An array of objects that summarize each monitor's properties.
     public var monitors: [ForecastClientTypes.MonitorSummary]?
     /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -11580,7 +11580,7 @@ public struct ListMonitorsOutput: Swift.Equatable {
     }
 }
 
-struct ListMonitorsOutputBody: Swift.Equatable {
+struct ListMonitorsOutputBody {
     let monitors: [ForecastClientTypes.MonitorSummary]?
     let nextToken: Swift.String?
 }
@@ -11652,7 +11652,7 @@ extension ListPredictorBacktestExportJobsInput {
     }
 }
 
-public struct ListPredictorBacktestExportJobsInput: Swift.Equatable {
+public struct ListPredictorBacktestExportJobsInput {
     /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictor backtest export jobs that match the statement from the list. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictor backtest export jobs that match the statement, specify IS. To exclude matching predictor backtest export jobs, specify IS_NOT.
@@ -11678,7 +11678,7 @@ public struct ListPredictorBacktestExportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListPredictorBacktestExportJobsInputBody: Swift.Equatable {
+struct ListPredictorBacktestExportJobsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ForecastClientTypes.Filter]?
@@ -11725,7 +11725,7 @@ extension ListPredictorBacktestExportJobsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListPredictorBacktestExportJobsOutput: Swift.Equatable {
+public struct ListPredictorBacktestExportJobsOutput {
     /// Returns this token if the response is truncated. To retrieve the next set of results, use the token in the next request.
     public var nextToken: Swift.String?
     /// An array of objects that summarize the properties of each predictor backtest export job.
@@ -11741,7 +11741,7 @@ public struct ListPredictorBacktestExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListPredictorBacktestExportJobsOutputBody: Swift.Equatable {
+struct ListPredictorBacktestExportJobsOutputBody {
     let predictorBacktestExportJobs: [ForecastClientTypes.PredictorBacktestExportJobSummary]?
     let nextToken: Swift.String?
 }
@@ -11813,7 +11813,7 @@ extension ListPredictorsInput {
     }
 }
 
-public struct ListPredictorsInput: Swift.Equatable {
+public struct ListPredictorsInput {
     /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictors that match the statement from the list, respectively. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictors that match the statement, specify IS. To exclude matching predictors, specify IS_NOT.
@@ -11842,7 +11842,7 @@ public struct ListPredictorsInput: Swift.Equatable {
     }
 }
 
-struct ListPredictorsInputBody: Swift.Equatable {
+struct ListPredictorsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ForecastClientTypes.Filter]?
@@ -11889,7 +11889,7 @@ extension ListPredictorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPredictorsOutput: Swift.Equatable {
+public struct ListPredictorsOutput {
     /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
     public var nextToken: Swift.String?
     /// An array of objects that summarize each predictor's properties.
@@ -11905,7 +11905,7 @@ public struct ListPredictorsOutput: Swift.Equatable {
     }
 }
 
-struct ListPredictorsOutputBody: Swift.Equatable {
+struct ListPredictorsOutputBody {
     let predictors: [ForecastClientTypes.PredictorSummary]?
     let nextToken: Swift.String?
 }
@@ -11966,7 +11966,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -11979,7 +11979,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -12007,7 +12007,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags for the resource.
     public var tags: [ForecastClientTypes.Tag]?
 
@@ -12019,7 +12019,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [ForecastClientTypes.Tag]?
 }
 
@@ -12087,7 +12087,7 @@ extension ListWhatIfAnalysesInput {
     }
 }
 
-public struct ListWhatIfAnalysesInput: Swift.Equatable {
+public struct ListWhatIfAnalysesInput {
     /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the what-if analysis jobs that match the statement from the list, respectively. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT. To include the what-if analysis jobs that match the statement, specify IS. To exclude matching what-if analysis jobs, specify IS_NOT.
@@ -12116,7 +12116,7 @@ public struct ListWhatIfAnalysesInput: Swift.Equatable {
     }
 }
 
-struct ListWhatIfAnalysesInputBody: Swift.Equatable {
+struct ListWhatIfAnalysesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ForecastClientTypes.Filter]?
@@ -12163,7 +12163,7 @@ extension ListWhatIfAnalysesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWhatIfAnalysesOutput: Swift.Equatable {
+public struct ListWhatIfAnalysesOutput {
     /// If the response is truncated, Forecast returns this token. To retrieve the next set of results, use the token in the next request.
     public var nextToken: Swift.String?
     /// An array of WhatIfAnalysisSummary objects that describe the matched analyses.
@@ -12179,7 +12179,7 @@ public struct ListWhatIfAnalysesOutput: Swift.Equatable {
     }
 }
 
-struct ListWhatIfAnalysesOutputBody: Swift.Equatable {
+struct ListWhatIfAnalysesOutputBody {
     let whatIfAnalyses: [ForecastClientTypes.WhatIfAnalysisSummary]?
     let nextToken: Swift.String?
 }
@@ -12251,7 +12251,7 @@ extension ListWhatIfForecastExportsInput {
     }
 }
 
-public struct ListWhatIfForecastExportsInput: Swift.Equatable {
+public struct ListWhatIfForecastExportsInput {
     /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the what-if forecast export jobs that match the statement from the list, respectively. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecast export jobs that match the statement, specify IS. To exclude matching forecast export jobs, specify IS_NOT.
@@ -12280,7 +12280,7 @@ public struct ListWhatIfForecastExportsInput: Swift.Equatable {
     }
 }
 
-struct ListWhatIfForecastExportsInputBody: Swift.Equatable {
+struct ListWhatIfForecastExportsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ForecastClientTypes.Filter]?
@@ -12327,7 +12327,7 @@ extension ListWhatIfForecastExportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWhatIfForecastExportsOutput: Swift.Equatable {
+public struct ListWhatIfForecastExportsOutput {
     /// If the response is truncated, Forecast returns this token. To retrieve the next set of results, use the token in the next request.
     public var nextToken: Swift.String?
     /// An array of WhatIfForecastExports objects that describe the matched forecast exports.
@@ -12343,7 +12343,7 @@ public struct ListWhatIfForecastExportsOutput: Swift.Equatable {
     }
 }
 
-struct ListWhatIfForecastExportsOutputBody: Swift.Equatable {
+struct ListWhatIfForecastExportsOutputBody {
     let whatIfForecastExports: [ForecastClientTypes.WhatIfForecastExportSummary]?
     let nextToken: Swift.String?
 }
@@ -12415,7 +12415,7 @@ extension ListWhatIfForecastsInput {
     }
 }
 
-public struct ListWhatIfForecastsInput: Swift.Equatable {
+public struct ListWhatIfForecastsInput {
     /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the what-if forecast export jobs that match the statement from the list, respectively. The match statement consists of a key and a value. Filter properties
     ///
     /// * Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecast export jobs that match the statement, specify IS. To exclude matching forecast export jobs, specify IS_NOT.
@@ -12444,7 +12444,7 @@ public struct ListWhatIfForecastsInput: Swift.Equatable {
     }
 }
 
-struct ListWhatIfForecastsInputBody: Swift.Equatable {
+struct ListWhatIfForecastsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [ForecastClientTypes.Filter]?
@@ -12491,7 +12491,7 @@ extension ListWhatIfForecastsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWhatIfForecastsOutput: Swift.Equatable {
+public struct ListWhatIfForecastsOutput {
     /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next  request. Tokens expire after 24 hours.
     public var nextToken: Swift.String?
     /// An array of WhatIfForecasts objects that describe the matched forecasts.
@@ -12507,7 +12507,7 @@ public struct ListWhatIfForecastsOutput: Swift.Equatable {
     }
 }
 
-struct ListWhatIfForecastsOutputBody: Swift.Equatable {
+struct ListWhatIfForecastsOutputBody {
     let whatIfForecasts: [ForecastClientTypes.WhatIfForecastSummary]?
     let nextToken: Swift.String?
 }
@@ -12575,7 +12575,7 @@ extension ForecastClientTypes.MetricResult: Swift.Codable {
 
 extension ForecastClientTypes {
     /// An individual metric Forecast calculated when monitoring predictor usage. You can compare the value for this metric to the metric's value in the [Baseline] to see how your predictor's performance is changing. For more information about metrics generated by Forecast see [Evaluating Predictor Accuracy](https://docs.aws.amazon.com/forecast/latest/dg/metrics.html)
-    public struct MetricResult: Swift.Equatable {
+    public struct MetricResult {
         /// The name of the metric.
         public var metricName: Swift.String?
         /// The value for the metric.
@@ -12656,7 +12656,7 @@ extension ForecastClientTypes.Metrics: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides metrics that are used to evaluate the performance of a predictor. This object is part of the [WindowSummary] object.
-    public struct Metrics: Swift.Equatable {
+    public struct Metrics {
         /// The average value of all weighted quantile losses.
         public var averageWeightedQuantileLoss: Swift.Double?
         /// Provides detailed error metrics for each forecast type. Metrics include root-mean square-error (RMSE), mean absolute percentage error (MAPE), mean absolute scaled error (MASE), and weighted average percentage error (WAPE).
@@ -12704,7 +12704,7 @@ extension ForecastClientTypes.MonitorConfig: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The configuration details for the predictor monitor.
-    public struct MonitorConfig: Swift.Equatable {
+    public struct MonitorConfig {
         /// The name of the monitor resource.
         /// This member is required.
         public var monitorName: Swift.String?
@@ -12752,7 +12752,7 @@ extension ForecastClientTypes.MonitorDataSource: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The source of the data the monitor used during the evaluation.
-    public struct MonitorDataSource: Swift.Equatable {
+    public struct MonitorDataSource {
         /// The Amazon Resource Name (ARN) of the dataset import job used to import the data that initiated the monitor evaluation.
         public var datasetImportJobArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the forecast the monitor used during the evaluation.
@@ -12801,7 +12801,7 @@ extension ForecastClientTypes.MonitorInfo: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides information about the monitor resource.
-    public struct MonitorInfo: Swift.Equatable {
+    public struct MonitorInfo {
         /// The Amazon Resource Name (ARN) of the monitor resource.
         public var monitorArn: Swift.String?
         /// The status of the monitor. States include:
@@ -12880,7 +12880,7 @@ extension ForecastClientTypes.MonitorSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the monitor properties used in the [ListMonitors] operation. To get a complete set of properties, call the [DescribeMonitor] operation, and provide the listed MonitorArn.
-    public struct MonitorSummary: Swift.Equatable {
+    public struct MonitorSummary {
         /// When the monitor resource was created.
         public var creationTime: ClientRuntime.Date?
         /// The last time the monitor resource was modified. The timestamp depends on the status of the job:
@@ -13142,7 +13142,7 @@ extension ForecastClientTypes.ParameterRanges: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Specifies the categorical, continuous, and integer hyperparameters, and their ranges of tunable values. The range of tunable values determines which values that a hyperparameter tuning job can choose for the specified hyperparameter. This object is part of the [HyperParameterTuningJobConfig] object.
-    public struct ParameterRanges: Swift.Equatable {
+    public struct ParameterRanges {
         /// Specifies the tunable range for each categorical hyperparameter.
         public var categoricalParameterRanges: [ForecastClientTypes.CategoricalParameterRange]?
         /// Specifies the tunable range for each continuous hyperparameter.
@@ -13221,7 +13221,7 @@ extension ForecastClientTypes.PredictorBacktestExportJobSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the predictor backtest export job properties used in the [ListPredictorBacktestExportJobs] operation. To get a complete set of properties, call the [DescribePredictorBacktestExportJob] operation, and provide the listed PredictorBacktestExportJobArn.
-    public struct PredictorBacktestExportJobSummary: Swift.Equatable {
+    public struct PredictorBacktestExportJobSummary {
         /// When the predictor backtest export job was created.
         public var creationTime: ClientRuntime.Date?
         /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
@@ -13310,7 +13310,7 @@ extension ForecastClientTypes.PredictorBaseline: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Metrics you can use as a baseline for comparison purposes. Use these metrics when you interpret monitoring results for an auto predictor.
-    public struct PredictorBaseline: Swift.Equatable {
+    public struct PredictorBaseline {
         /// The initial [accuracy metrics](https://docs.aws.amazon.com/forecast/latest/dg/metrics.html) for the predictor. Use these metrics as a baseline for comparison purposes as you use your predictor and the metrics change.
         public var baselineMetrics: [ForecastClientTypes.BaselineMetric]?
 
@@ -13351,7 +13351,7 @@ extension ForecastClientTypes.PredictorEvent: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides details about a predictor event, such as a retraining.
-    public struct PredictorEvent: Swift.Equatable {
+    public struct PredictorEvent {
         /// The timestamp for when the event occurred.
         public var datetime: ClientRuntime.Date?
         /// The type of event. For example, Retrain. A retraining event denotes the timepoint when a predictor was retrained. Any monitor results from before the Datetime are from the previous predictor. Any new metrics are for the newly retrained predictor.
@@ -13408,7 +13408,7 @@ extension ForecastClientTypes.PredictorExecution: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The algorithm used to perform a backtest and the status of those tests.
-    public struct PredictorExecution: Swift.Equatable {
+    public struct PredictorExecution {
         /// The ARN of the algorithm used to test the predictor.
         public var algorithmArn: Swift.String?
         /// An array of test windows used to evaluate the algorithm. The NumberOfBacktestWindows from the object determines the number of windows in the array.
@@ -13459,7 +13459,7 @@ extension ForecastClientTypes.PredictorExecutionDetails: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Contains details on the backtests performed to evaluate the accuracy of the predictor. The tests are returned in descending order of accuracy, with the most accurate backtest appearing first. You specify the number of backtests to perform when you call the operation.
-    public struct PredictorExecutionDetails: Swift.Equatable {
+    public struct PredictorExecutionDetails {
         /// An array of the backtests performed to evaluate the accuracy of the predictor against a particular algorithm. The NumberOfBacktestWindows from the object determines the number of windows in the array.
         public var predictorExecutions: [ForecastClientTypes.PredictorExecution]?
 
@@ -13566,7 +13566,7 @@ extension ForecastClientTypes.PredictorMonitorEvaluation: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Describes the results of a monitor evaluation.
-    public struct PredictorMonitorEvaluation: Swift.Equatable {
+    public struct PredictorMonitorEvaluation {
         /// The status of the monitor evaluation. The state can be SUCCESS or FAILURE.
         public var evaluationState: Swift.String?
         /// The timestamp that indicates when the monitor evaluation was started.
@@ -13689,7 +13689,7 @@ extension ForecastClientTypes.PredictorSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the predictor properties that are used in the [ListPredictors] operation. To get the complete set of properties, call the [DescribePredictor] operation, and provide the listed PredictorArn.
-    public struct PredictorSummary: Swift.Equatable {
+    public struct PredictorSummary {
         /// When the model training task was created.
         public var creationTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset group that contains the data used to train the predictor.
@@ -13783,7 +13783,7 @@ extension ForecastClientTypes.ReferencePredictorSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the reference predictor used when retraining or upgrading a predictor.
-    public struct ReferencePredictorSummary: Swift.Equatable {
+    public struct ReferencePredictorSummary {
         /// The ARN of the reference predictor.
         public var arn: Swift.String?
         /// Whether the reference predictor is Active or Deleted.
@@ -13840,7 +13840,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -13895,7 +13895,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -13950,7 +13950,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -13986,7 +13986,7 @@ extension ResumeResourceInput {
     }
 }
 
-public struct ResumeResourceInput: Swift.Equatable {
+public struct ResumeResourceInput {
     /// The Amazon Resource Name (ARN) of the monitor resource to resume.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13999,7 +13999,7 @@ public struct ResumeResourceInput: Swift.Equatable {
     }
 }
 
-struct ResumeResourceInputBody: Swift.Equatable {
+struct ResumeResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -14020,7 +14020,7 @@ extension ResumeResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResumeResourceOutput: Swift.Equatable {
+public struct ResumeResourceOutput {
 
     public init() { }
 }
@@ -14072,7 +14072,7 @@ extension ForecastClientTypes.S3Config: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The path to the file(s) in an Amazon Simple Storage Service (Amazon S3) bucket, and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the file(s). Optionally, includes an Key Management Service (KMS) key. This object is part of the [DataSource] object that is submitted in the [CreateDatasetImportJob] request, and part of the [DataDestination] object.
-    public struct S3Config: Swift.Equatable {
+    public struct S3Config {
         /// The Amazon Resource Name (ARN) of an Key Management Service (KMS) key.
         public var kmsKeyArn: Swift.String?
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket.
@@ -14167,7 +14167,7 @@ extension ForecastClientTypes.Schema: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Defines the fields of a dataset.
-    public struct Schema: Swift.Equatable {
+    public struct Schema {
         /// An array of attributes specifying the name and type of each field in a dataset.
         public var attributes: [ForecastClientTypes.SchemaAttribute]?
 
@@ -14208,7 +14208,7 @@ extension ForecastClientTypes.SchemaAttribute: Swift.Codable {
 
 extension ForecastClientTypes {
     /// An attribute of a schema, which defines a dataset field. A schema attribute is required for every field in a dataset. The [Schema](https://docs.aws.amazon.com/forecast/latest/dg/API_Schema.html) object contains an array of SchemaAttribute objects.
-    public struct SchemaAttribute: Swift.Equatable {
+    public struct SchemaAttribute {
         /// The name of the dataset field.
         public var attributeName: Swift.String?
         /// The data type of the field. For a related time series dataset, other than date, item_id, and forecast dimensions attributes, all attributes should be of numerical type (integer/float).
@@ -14345,7 +14345,7 @@ extension ForecastClientTypes.Statistics: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides statistics for each data field imported into to an Amazon Forecast dataset with the [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation.
-    public struct Statistics: Swift.Equatable {
+    public struct Statistics {
         /// For a numeric field, the average value in the field.
         public var avg: Swift.Double?
         /// The number of values in the field. If the response value is -1, refer to CountLong.
@@ -14423,7 +14423,7 @@ extension StopResourceInput {
     }
 }
 
-public struct StopResourceInput: Swift.Equatable {
+public struct StopResourceInput {
     /// The Amazon Resource Name (ARN) that identifies the resource to stop. The supported ARNs are DatasetImportJobArn, PredictorArn, PredictorBacktestExportJobArn, ForecastArn, ForecastExportJobArn, ExplainabilityArn, and ExplainabilityExportArn.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -14436,7 +14436,7 @@ public struct StopResourceInput: Swift.Equatable {
     }
 }
 
-struct StopResourceInputBody: Swift.Equatable {
+struct StopResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -14457,7 +14457,7 @@ extension StopResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopResourceOutput: Swift.Equatable {
+public struct StopResourceOutput {
 
     public init() { }
 }
@@ -14502,7 +14502,7 @@ extension ForecastClientTypes.SupplementaryFeature: Swift.Codable {
 
 extension ForecastClientTypes {
     /// This object belongs to the [CreatePredictor] operation. If you created your predictor with [CreateAutoPredictor], see [AdditionalDataset]. Describes a supplementary feature of a dataset group. This object is part of the [InputDataConfig] object. Forecast supports the Weather Index and Holidays built-in featurizations. Weather Index The Amazon Forecast Weather Index is a built-in featurization that incorporates historical and projected weather information into your model. The Weather Index supplements your datasets with over two years of historical weather data and up to 14 days of projected weather data. For more information, see [Amazon Forecast Weather Index](https://docs.aws.amazon.com/forecast/latest/dg/weather.html). Holidays Holidays is a built-in featurization that incorporates a feature-engineered dataset of national holiday information into your model. It provides native support for the holiday calendars of 66 countries. To view the holiday calendars, refer to the [Jollyday](http://jollyday.sourceforge.net/data.html) library. For more information, see [Holidays Featurization](https://docs.aws.amazon.com/forecast/latest/dg/holidays.html).
-    public struct SupplementaryFeature: Swift.Equatable {
+    public struct SupplementaryFeature {
         /// The name of the feature. Valid values: "holiday" and "weather".
         /// This member is required.
         public var name: Swift.String?
@@ -14700,7 +14700,7 @@ extension ForecastClientTypes {
     /// * Tag keys and values are case sensitive.
     ///
     /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         /// This member is required.
         public var key: Swift.String?
@@ -14747,7 +14747,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -14779,7 +14779,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [ForecastClientTypes.Tag]?
 }
@@ -14813,7 +14813,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -14870,7 +14870,7 @@ extension ForecastClientTypes.TestWindowSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The status, start time, and end time of a backtest, as well as a failure reason if applicable.
-    public struct TestWindowSummary: Swift.Equatable {
+    public struct TestWindowSummary {
         /// If the test failed, the reason why it failed.
         public var message: Swift.String?
         /// The status of the test. Possible status values are:
@@ -14941,7 +14941,7 @@ extension ForecastClientTypes.TimeAlignmentBoundary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The time boundary Forecast uses to align and aggregate your data to match your forecast frequency. Provide the unit of time and the time boundary as a key value pair. If you don't provide a time boundary, Forecast uses a set of [Default Time Boundaries](https://docs.aws.amazon.com/forecast/latest/dg/data-aggregation.html#default-time-boundaries). For more information about aggregation, see [Data Aggregation for Different Forecast Frequencies](https://docs.aws.amazon.com/forecast/latest/dg/data-aggregation.html). For more information setting a custom time boundary, see [Specifying a Time Boundary](https://docs.aws.amazon.com/forecast/latest/dg/data-aggregation.html#specifying-time-boundary).
-    public struct TimeAlignmentBoundary: Swift.Equatable {
+    public struct TimeAlignmentBoundary {
         /// The day of the month to use for time alignment during aggregation.
         public var dayOfMonth: Swift.Int?
         /// The day of week to use for time alignment during aggregation. The day must be in uppercase.
@@ -15032,7 +15032,7 @@ extension ForecastClientTypes.TimeSeriesCondition: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Creates a subset of items within an attribute that are modified. For example, you can use this operation to create a subset of items that cost $5 or less. To do this, you specify "AttributeName": "price", "AttributeValue": "5", and "Condition": "LESS_THAN". Pair this operation with the [Action] operation within the [CreateWhatIfForecastRequest$TimeSeriesTransformations] operation to define how the attribute is modified.
-    public struct TimeSeriesCondition: Swift.Equatable {
+    public struct TimeSeriesCondition {
         /// The item_id, dimension name, IM name, or timestamp that you are modifying.
         /// This member is required.
         public var attributeName: Swift.String?
@@ -15122,7 +15122,7 @@ extension ForecastClientTypes.TimeSeriesIdentifiers: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Details about the import file that contains the time series for which you want to create forecasts.
-    public struct TimeSeriesIdentifiers: Swift.Equatable {
+    public struct TimeSeriesIdentifiers {
         /// The source of your data, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an Key Management Service (KMS) key.
         public var dataSource: ForecastClientTypes.DataSource?
         /// The format of the data, either CSV or PARQUET.
@@ -15183,7 +15183,7 @@ extension ForecastClientTypes.TimeSeriesReplacementsDataSource: Swift.Codable {
 
 extension ForecastClientTypes {
     /// A replacement dataset is a modified version of the baseline related time series that contains only the values that you want to include in a what-if forecast. The replacement dataset must contain the forecast dimensions and item identifiers in the baseline related time series as well as at least 1 changed time series. This dataset is merged with the baseline related time series to create a transformed dataset that is used for the what-if forecast.
-    public struct TimeSeriesReplacementsDataSource: Swift.Equatable {
+    public struct TimeSeriesReplacementsDataSource {
         /// The format of the replacement data, CSV or PARQUET.
         public var format: Swift.String?
         /// The path to the file(s) in an Amazon Simple Storage Service (Amazon S3) bucket, and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the file(s). Optionally, includes an Key Management Service (KMS) key. This object is part of the [DataSource] object that is submitted in the [CreateDatasetImportJob] request, and part of the [DataDestination] object.
@@ -15238,7 +15238,7 @@ extension ForecastClientTypes {
     /// * Format
     ///
     /// * Schema
-    public struct TimeSeriesSelector: Swift.Equatable {
+    public struct TimeSeriesSelector {
         /// Details about the import file that contains the time series for which you want to create forecasts.
         public var timeSeriesIdentifiers: ForecastClientTypes.TimeSeriesIdentifiers?
 
@@ -15291,7 +15291,7 @@ extension ForecastClientTypes.TimeSeriesTransformation: Swift.Codable {
 
 extension ForecastClientTypes {
     /// A transformation function is a pair of operations that select and modify the rows in a related time series. You select the rows that you want with a condition operation and you modify the rows with a transformation operation. All conditions are joined with an AND operation, meaning that all conditions must be true for the transformation to be applied. Transformations are applied in the order that they are listed.
-    public struct TimeSeriesTransformation: Swift.Equatable {
+    public struct TimeSeriesTransformation {
         /// An array of actions that define a time series and how it is transformed. These transformations create a new time series that is used for the what-if analysis.
         public var action: ForecastClientTypes.Action?
         /// An array of conditions that define which members of the related time series are transformed.
@@ -15336,7 +15336,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -15354,7 +15354,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -15388,7 +15388,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -15432,7 +15432,7 @@ extension UpdateDatasetGroupInput {
     }
 }
 
-public struct UpdateDatasetGroupInput: Swift.Equatable {
+public struct UpdateDatasetGroupInput {
     /// An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group.
     /// This member is required.
     public var datasetArns: [Swift.String]?
@@ -15450,7 +15450,7 @@ public struct UpdateDatasetGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateDatasetGroupInputBody: Swift.Equatable {
+struct UpdateDatasetGroupInputBody {
     let datasetGroupArn: Swift.String?
     let datasetArns: [Swift.String]?
 }
@@ -15484,7 +15484,7 @@ extension UpdateDatasetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDatasetGroupOutput: Swift.Equatable {
+public struct UpdateDatasetGroupOutput {
 
     public init() { }
 }
@@ -15529,7 +15529,7 @@ extension ForecastClientTypes.WeightedQuantileLoss: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The weighted loss value for a quantile. This object is part of the [Metrics] object.
-    public struct WeightedQuantileLoss: Swift.Equatable {
+    public struct WeightedQuantileLoss {
         /// The difference between the predicted value and the actual value over the quantile, weighted (normalized) by dividing by the sum over all quantiles.
         public var lossValue: Swift.Double?
         /// The quantile. Quantiles divide a probability distribution into regions of equal probability. For example, if the distribution was divided into 5 regions of equal probability, the quantiles would be 0.2, 0.4, 0.6, and 0.8.
@@ -15604,7 +15604,7 @@ extension ForecastClientTypes.WhatIfAnalysisSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the what-if analysis properties used in the [ListWhatIfAnalyses] operation. To get the complete set of properties, call the [DescribeWhatIfAnalysis] operation, and provide the WhatIfAnalysisArn that is listed in the summary.
-    public struct WhatIfAnalysisSummary: Swift.Equatable {
+    public struct WhatIfAnalysisSummary {
         /// When the what-if analysis was created.
         public var creationTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the baseline forecast that is being used in this what-if analysis.
@@ -15738,7 +15738,7 @@ extension ForecastClientTypes.WhatIfForecastExportSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the what-if forecast export properties used in the [ListWhatIfForecastExports] operation. To get the complete set of properties, call the [DescribeWhatIfForecastExport] operation, and provide the WhatIfForecastExportArn that is listed in the summary.
-    public struct WhatIfForecastExportSummary: Swift.Equatable {
+    public struct WhatIfForecastExportSummary {
         /// When the what-if forecast export was created.
         public var creationTime: ClientRuntime.Date?
         /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
@@ -15858,7 +15858,7 @@ extension ForecastClientTypes.WhatIfForecastSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// Provides a summary of the what-if forecast properties used in the [ListWhatIfForecasts] operation. To get the complete set of properties, call the [DescribeWhatIfForecast] operation, and provide the WhatIfForecastArn that is listed in the summary.
-    public struct WhatIfForecastSummary: Swift.Equatable {
+    public struct WhatIfForecastSummary {
         /// When the what-if forecast was created.
         public var creationTime: ClientRuntime.Date?
         /// The last time the resource was modified. The timestamp depends on the status of the job:
@@ -15962,7 +15962,7 @@ extension ForecastClientTypes.WindowSummary: Swift.Codable {
 
 extension ForecastClientTypes {
     /// The metrics for a time range within the evaluation portion of a dataset. This object is part of the [EvaluationResult] object. The TestWindowStart and TestWindowEnd parameters are determined by the BackTestWindowOffset parameter of the [EvaluationParameters] object.
-    public struct WindowSummary: Swift.Equatable {
+    public struct WindowSummary {
         /// The type of evaluation.
         ///
         /// * SUMMARY - The average metrics across all windows.

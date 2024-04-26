@@ -35,7 +35,7 @@ extension ResourceGroupsClientTypes.AccountSettings: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// The Resource Groups settings for this Amazon Web Services account.
-    public struct AccountSettings: Swift.Equatable {
+    public struct AccountSettings {
         /// The desired target status of the group lifecycle events feature. If
         public var groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus?
         /// The current status of the group lifecycle events feature.
@@ -96,7 +96,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -154,7 +154,7 @@ extension CreateGroupInput {
     }
 }
 
-public struct CreateGroupInput: Swift.Equatable {
+public struct CreateGroupInput {
     /// A configuration associates the resource group with an Amazon Web Services service and specifies how the service can interact with the resources in the group. A configuration is an array of [GroupConfigurationItem] elements. For details about the syntax of service configurations, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). A resource group can contain either a Configuration or a ResourceQuery, but not both.
     public var configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]?
     /// The description of the resource group. Descriptions can consist of letters, numbers, hyphens, underscores, periods, and spaces.
@@ -183,7 +183,7 @@ public struct CreateGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateGroupInputBody: Swift.Equatable {
+struct CreateGroupInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
@@ -251,7 +251,7 @@ extension CreateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGroupOutput: Swift.Equatable {
+public struct CreateGroupOutput {
     /// The description of the resource group.
     public var group: ResourceGroupsClientTypes.Group?
     /// The service configuration associated with the resource group. For details about the syntax of a service configuration, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
@@ -275,7 +275,7 @@ public struct CreateGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateGroupOutputBody: Swift.Equatable {
+struct CreateGroupOutputBody {
     let group: ResourceGroupsClientTypes.Group?
     let resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
     let tags: [Swift.String:Swift.String]?
@@ -351,7 +351,7 @@ extension DeleteGroupInput {
     }
 }
 
-public struct DeleteGroupInput: Swift.Equatable {
+public struct DeleteGroupInput {
     /// The name or the ARN of the resource group to delete.
     public var group: Swift.String?
     /// Deprecated - don't use this parameter. Use Group instead.
@@ -368,7 +368,7 @@ public struct DeleteGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupInputBody: Swift.Equatable {
+struct DeleteGroupInputBody {
     let groupName: Swift.String?
     let group: Swift.String?
 }
@@ -400,7 +400,7 @@ extension DeleteGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGroupOutput: Swift.Equatable {
+public struct DeleteGroupOutput {
     /// A full description of the deleted resource group.
     public var group: ResourceGroupsClientTypes.Group?
 
@@ -412,7 +412,7 @@ public struct DeleteGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupOutputBody: Swift.Equatable {
+struct DeleteGroupOutputBody {
     let group: ResourceGroupsClientTypes.Group?
 }
 
@@ -477,7 +477,7 @@ extension ResourceGroupsClientTypes.FailedResource: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// A resource that failed to be added to or removed from a group.
-    public struct FailedResource: Swift.Equatable {
+    public struct FailedResource {
         /// The error code associated with the failure.
         public var errorCode: Swift.String?
         /// The error message text associated with the failure.
@@ -538,7 +538,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let message: Swift.String?
 }
 
@@ -561,12 +561,12 @@ extension GetAccountSettingsInput {
     }
 }
 
-public struct GetAccountSettingsInput: Swift.Equatable {
+public struct GetAccountSettingsInput {
 
     public init() { }
 }
 
-struct GetAccountSettingsInputBody: Swift.Equatable {
+struct GetAccountSettingsInputBody {
 }
 
 extension GetAccountSettingsInputBody: Swift.Decodable {
@@ -587,7 +587,7 @@ extension GetAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccountSettingsOutput: Swift.Equatable {
+public struct GetAccountSettingsOutput {
     /// The current settings for the optional features in Resource Groups.
     public var accountSettings: ResourceGroupsClientTypes.AccountSettings?
 
@@ -599,7 +599,7 @@ public struct GetAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountSettingsOutputBody: Swift.Equatable {
+struct GetAccountSettingsOutputBody {
     let accountSettings: ResourceGroupsClientTypes.AccountSettings?
 }
 
@@ -650,7 +650,7 @@ extension GetGroupConfigurationInput {
     }
 }
 
-public struct GetGroupConfigurationInput: Swift.Equatable {
+public struct GetGroupConfigurationInput {
     /// The name or the ARN of the resource group for which you want to retrive the service configuration.
     public var group: Swift.String?
 
@@ -662,7 +662,7 @@ public struct GetGroupConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetGroupConfigurationInputBody: Swift.Equatable {
+struct GetGroupConfigurationInputBody {
     let group: Swift.String?
 }
 
@@ -690,7 +690,7 @@ extension GetGroupConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGroupConfigurationOutput: Swift.Equatable {
+public struct GetGroupConfigurationOutput {
     /// A structure that describes the service configuration attached with the specified group. For details about the service configuration syntax, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
     public var groupConfiguration: ResourceGroupsClientTypes.GroupConfiguration?
 
@@ -702,7 +702,7 @@ public struct GetGroupConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupConfigurationOutputBody: Swift.Equatable {
+struct GetGroupConfigurationOutputBody {
     let groupConfiguration: ResourceGroupsClientTypes.GroupConfiguration?
 }
 
@@ -758,7 +758,7 @@ extension GetGroupInput {
     }
 }
 
-public struct GetGroupInput: Swift.Equatable {
+public struct GetGroupInput {
     /// The name or the ARN of the resource group to retrieve.
     public var group: Swift.String?
     /// Deprecated - don't use this parameter. Use Group instead.
@@ -775,7 +775,7 @@ public struct GetGroupInput: Swift.Equatable {
     }
 }
 
-struct GetGroupInputBody: Swift.Equatable {
+struct GetGroupInputBody {
     let groupName: Swift.String?
     let group: Swift.String?
 }
@@ -807,7 +807,7 @@ extension GetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGroupOutput: Swift.Equatable {
+public struct GetGroupOutput {
     /// A structure that contains the metadata details for the specified resource group. Use [GetGroupQuery] and [GetGroupConfiguration] to get those additional details of the resource group.
     public var group: ResourceGroupsClientTypes.Group?
 
@@ -819,7 +819,7 @@ public struct GetGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupOutputBody: Swift.Equatable {
+struct GetGroupOutputBody {
     let group: ResourceGroupsClientTypes.Group?
 }
 
@@ -875,7 +875,7 @@ extension GetGroupQueryInput {
     }
 }
 
-public struct GetGroupQueryInput: Swift.Equatable {
+public struct GetGroupQueryInput {
     /// The name or the ARN of the resource group to query.
     public var group: Swift.String?
     /// Don't use this parameter. Use Group instead.
@@ -892,7 +892,7 @@ public struct GetGroupQueryInput: Swift.Equatable {
     }
 }
 
-struct GetGroupQueryInputBody: Swift.Equatable {
+struct GetGroupQueryInputBody {
     let groupName: Swift.String?
     let group: Swift.String?
 }
@@ -924,7 +924,7 @@ extension GetGroupQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGroupQueryOutput: Swift.Equatable {
+public struct GetGroupQueryOutput {
     /// The resource query associated with the specified group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag).
     public var groupQuery: ResourceGroupsClientTypes.GroupQuery?
 
@@ -936,7 +936,7 @@ public struct GetGroupQueryOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupQueryOutputBody: Swift.Equatable {
+struct GetGroupQueryOutputBody {
     let groupQuery: ResourceGroupsClientTypes.GroupQuery?
 }
 
@@ -978,7 +978,7 @@ extension GetTagsInput {
     }
 }
 
-public struct GetTagsInput: Swift.Equatable {
+public struct GetTagsInput {
     /// The ARN of the resource group whose tags you want to retrieve.
     /// This member is required.
     public var arn: Swift.String?
@@ -991,7 +991,7 @@ public struct GetTagsInput: Swift.Equatable {
     }
 }
 
-struct GetTagsInputBody: Swift.Equatable {
+struct GetTagsInputBody {
 }
 
 extension GetTagsInputBody: Swift.Decodable {
@@ -1014,7 +1014,7 @@ extension GetTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTagsOutput: Swift.Equatable {
+public struct GetTagsOutput {
     /// The ARN of the tagged resource group.
     public var arn: Swift.String?
     /// The tags associated with the specified resource group.
@@ -1030,7 +1030,7 @@ public struct GetTagsOutput: Swift.Equatable {
     }
 }
 
-struct GetTagsOutputBody: Swift.Equatable {
+struct GetTagsOutputBody {
     let arn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1112,7 +1112,7 @@ extension ResourceGroupsClientTypes {
     /// * [ResourceQuery] - Use a resource query to specify a set of tag keys and values. All resources in the same Amazon Web Services Region and Amazon Web Services account that have those keys with the same values are included in the group. You can add a resource query when you create the group, or later by using the [PutGroupConfiguration] operation.
     ///
     /// * [GroupConfiguration] - Use a service configuration to associate the group with an Amazon Web Services service. The configuration specifies which resource types can be included in the group.
-    public struct Group: Swift.Equatable {
+    public struct Group {
         /// The description of the resource group.
         public var description: Swift.String?
         /// The ARN of the resource group.
@@ -1199,7 +1199,7 @@ extension ResourceGroupsClientTypes.GroupConfiguration: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// A service configuration associated with a resource group. The configuration options are determined by the Amazon Web Services service that defines the Type, and specifies which resources can be included in the group. You can add a service configuration when you create the group by using [CreateGroup], or later by using the [PutGroupConfiguration] operation. For details about group service configuration syntax, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
-    public struct GroupConfiguration: Swift.Equatable {
+    public struct GroupConfiguration {
         /// The configuration currently associated with the group and in effect.
         public var configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]?
         /// If present, the reason why a request to update the group configuration failed.
@@ -1264,7 +1264,7 @@ extension ResourceGroupsClientTypes.GroupConfigurationItem: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// An item in a group configuration. A group service configuration can have one or more items. For details about group service configuration syntax, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
-    public struct GroupConfigurationItem: Swift.Equatable {
+    public struct GroupConfigurationItem {
         /// A collection of parameters for this group configuration item. For the list of parameters that you can use with each configuration item type, see [Supported resource types and parameters](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types).
         public var parameters: [ResourceGroupsClientTypes.GroupConfigurationParameter]?
         /// Specifies the type of group configuration item. Each item must have a unique value for type. For the list of types that you can specify for a configuration item, see [Supported resource types and parameters](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types).
@@ -1322,7 +1322,7 @@ extension ResourceGroupsClientTypes.GroupConfigurationParameter: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// A parameter for a group configuration item. For details about group service configuration syntax, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
-    public struct GroupConfigurationParameter: Swift.Equatable {
+    public struct GroupConfigurationParameter {
         /// The name of the group configuration parameter. For the list of parameters that you can use with each configuration item type, see [Supported resource types and parameters](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html#about-slg-types).
         /// This member is required.
         public var name: Swift.String?
@@ -1415,7 +1415,7 @@ extension ResourceGroupsClientTypes.GroupFilter: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// A filter collection that you can use to restrict the results from a List operation to only those you want to include.
-    public struct GroupFilter: Swift.Equatable {
+    public struct GroupFilter {
         /// The name of the filter. Filter names are case-sensitive.
         /// This member is required.
         public var name: ResourceGroupsClientTypes.GroupFilterName?
@@ -1494,7 +1494,7 @@ extension ResourceGroupsClientTypes.GroupIdentifier: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// The unique identifiers for a resource group.
-    public struct GroupIdentifier: Swift.Equatable {
+    public struct GroupIdentifier {
         /// The ARN of the resource group.
         public var groupArn: Swift.String?
         /// The name of the resource group.
@@ -1609,7 +1609,7 @@ extension ResourceGroupsClientTypes.GroupQuery: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// A mapping of a query attached to a resource group that determines the Amazon Web Services resources that are members of the group.
-    public struct GroupQuery: Swift.Equatable {
+    public struct GroupQuery {
         /// The name of the resource group that is associated with the specified resource query.
         /// This member is required.
         public var groupName: Swift.String?
@@ -1656,7 +1656,7 @@ extension GroupResourcesInput {
     }
 }
 
-public struct GroupResourcesInput: Swift.Equatable {
+public struct GroupResourcesInput {
     /// The name or the ARN of the resource group to add resources to.
     /// This member is required.
     public var group: Swift.String?
@@ -1674,7 +1674,7 @@ public struct GroupResourcesInput: Swift.Equatable {
     }
 }
 
-struct GroupResourcesInputBody: Swift.Equatable {
+struct GroupResourcesInputBody {
     let group: Swift.String?
     let resourceArns: [Swift.String]?
 }
@@ -1719,7 +1719,7 @@ extension GroupResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GroupResourcesOutput: Swift.Equatable {
+public struct GroupResourcesOutput {
     /// A list of ARNs of any resources that this operation failed to add to the group.
     public var failed: [ResourceGroupsClientTypes.FailedResource]?
     /// A list of ARNs of any resources that this operation is still in the process adding to the group. These pending additions continue asynchronously. You can check the status of pending additions by using the [ListGroupResources] operation, and checking the Resources array in the response and the Status field of each object in that array.
@@ -1739,7 +1739,7 @@ public struct GroupResourcesOutput: Swift.Equatable {
     }
 }
 
-struct GroupResourcesOutputBody: Swift.Equatable {
+struct GroupResourcesOutputBody {
     let succeeded: [Swift.String]?
     let failed: [ResourceGroupsClientTypes.FailedResource]?
     let pending: [ResourceGroupsClientTypes.PendingResource]?
@@ -1845,7 +1845,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -1900,7 +1900,7 @@ extension ListGroupResourcesInput {
     }
 }
 
-public struct ListGroupResourcesInput: Swift.Equatable {
+public struct ListGroupResourcesInput {
     /// Filters, formatted as [ResourceFilter] objects, that you want to apply to a ListGroupResources operation. Filters the results to include only those of the specified resource types.
     ///
     /// * resource-type - Filter resources by their type. Specify up to five resource types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance, or AWS::S3::Bucket.
@@ -1934,7 +1934,7 @@ public struct ListGroupResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListGroupResourcesInputBody: Swift.Equatable {
+struct ListGroupResourcesInputBody {
     let groupName: Swift.String?
     let group: Swift.String?
     let filters: [ResourceGroupsClientTypes.ResourceFilter]?
@@ -2002,7 +2002,7 @@ extension ResourceGroupsClientTypes.ListGroupResourcesItem: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// A structure returned by the [ListGroupResources] operation that contains identity and group membership status information for one of the resources in the group.
-    public struct ListGroupResourcesItem: Swift.Equatable {
+    public struct ListGroupResourcesItem {
         /// A structure that contains the ARN of a resource and its resource type.
         public var identifier: ResourceGroupsClientTypes.ResourceIdentifier?
         /// A structure that contains the status of this resource's membership in the group. This field is present in the response only if the group is of type AWS::EC2::HostManagement.
@@ -2038,7 +2038,7 @@ extension ListGroupResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupResourcesOutput: Swift.Equatable {
+public struct ListGroupResourcesOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of QueryError objects. Each error contains an ErrorCode and Message. Possible values for ErrorCode are CLOUDFORMATION_STACK_INACTIVE, CLOUDFORMATION_STACK_NOT_EXISTING, CLOUDFORMATION_STACK_UNASSUMABLE_ROLE and RESOURCE_TYPE_NOT_SUPPORTED.
@@ -2063,7 +2063,7 @@ public struct ListGroupResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupResourcesOutputBody: Swift.Equatable {
+struct ListGroupResourcesOutputBody {
     let resources: [ResourceGroupsClientTypes.ListGroupResourcesItem]?
     let resourceIdentifiers: [ResourceGroupsClientTypes.ResourceIdentifier]?
     let nextToken: Swift.String?
@@ -2174,7 +2174,7 @@ extension ListGroupsInput {
     }
 }
 
-public struct ListGroupsInput: Swift.Equatable {
+public struct ListGroupsInput {
     /// Filters, formatted as [GroupFilter] objects, that you want to apply to a ListGroups operation.
     ///
     /// * resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter. For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance.
@@ -2210,7 +2210,7 @@ public struct ListGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListGroupsInputBody: Swift.Equatable {
+struct ListGroupsInputBody {
     let filters: [ResourceGroupsClientTypes.GroupFilter]?
 }
 
@@ -2251,7 +2251,7 @@ extension ListGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupsOutput: Swift.Equatable {
+public struct ListGroupsOutput {
     /// A list of [GroupIdentifier] objects. Each identifier is an object that contains both the Name and the GroupArn.
     public var groupIdentifiers: [ResourceGroupsClientTypes.GroupIdentifier]?
     /// Deprecated - don't use this field. Use the GroupIdentifiers response field instead.
@@ -2272,7 +2272,7 @@ public struct ListGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupsOutputBody: Swift.Equatable {
+struct ListGroupsOutputBody {
     let groupIdentifiers: [ResourceGroupsClientTypes.GroupIdentifier]?
     let groups: [ResourceGroupsClientTypes.Group]?
     let nextToken: Swift.String?
@@ -2368,7 +2368,7 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct MethodNotAllowedExceptionBody: Swift.Equatable {
+struct MethodNotAllowedExceptionBody {
     let message: Swift.String?
 }
 
@@ -2423,7 +2423,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2460,7 +2460,7 @@ extension ResourceGroupsClientTypes.PendingResource: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// A structure that identifies a resource that is currently pending addition to the group as a member. Adding a resource to a resource group happens asynchronously as a background task and this one isn't completed yet.
-    public struct PendingResource: Swift.Equatable {
+    public struct PendingResource {
         /// The Amazon resource name (ARN) of the resource that's in a pending state.
         public var resourceArn: Swift.String?
 
@@ -2501,7 +2501,7 @@ extension PutGroupConfigurationInput {
     }
 }
 
-public struct PutGroupConfigurationInput: Swift.Equatable {
+public struct PutGroupConfigurationInput {
     /// The new configuration to associate with the specified group. A configuration associates the resource group with an Amazon Web Services service and specifies how the service can interact with the resources in the group. A configuration is an array of [GroupConfigurationItem] elements. For information about the syntax of a service configuration, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). A resource group can contain either a Configuration or a ResourceQuery, but not both.
     public var configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]?
     /// The name or ARN of the resource group with the configuration that you want to update.
@@ -2517,7 +2517,7 @@ public struct PutGroupConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutGroupConfigurationInputBody: Swift.Equatable {
+struct PutGroupConfigurationInputBody {
     let group: Swift.String?
     let configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]?
 }
@@ -2551,7 +2551,7 @@ extension PutGroupConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutGroupConfigurationOutput: Swift.Equatable {
+public struct PutGroupConfigurationOutput {
 
     public init() { }
 }
@@ -2599,7 +2599,7 @@ extension ResourceGroupsClientTypes.QueryError: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// A two-part error structure that can occur in ListGroupResources or SearchResources.
-    public struct QueryError: Swift.Equatable {
+    public struct QueryError {
         /// Specifies the error code that was raised.
         public var errorCode: ResourceGroupsClientTypes.QueryErrorCode?
         /// A message that explains the ErrorCode.
@@ -2726,7 +2726,7 @@ extension ResourceGroupsClientTypes.ResourceFilter: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// A filter name and value pair that is used to obtain more specific results from a list of resources.
-    public struct ResourceFilter: Swift.Equatable {
+    public struct ResourceFilter {
         /// The name of the filter. Filter names are case-sensitive.
         /// This member is required.
         public var name: ResourceGroupsClientTypes.ResourceFilterName?
@@ -2804,7 +2804,7 @@ extension ResourceGroupsClientTypes.ResourceIdentifier: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// A structure that contains the ARN of a resource and its resource type.
-    public struct ResourceIdentifier: Swift.Equatable {
+    public struct ResourceIdentifier {
         /// The ARN of a resource.
         public var resourceArn: Swift.String?
         /// The resource type of a resource, such as AWS::EC2::Instance.
@@ -2849,7 +2849,7 @@ extension ResourceGroupsClientTypes.ResourceQuery: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// The query you can use to define a resource group or a search for resources. A ResourceQuery specifies both a query Type and a Query string as JSON string objects. See the examples section for example JSON strings. For more information about creating a resource group with a resource query, see [Build queries and groups in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html) in the Resource Groups User Guide When you combine all of the elements together into a single string, any double quotes that are embedded inside another double quote pair must be escaped by preceding the embedded double quote with a backslash character (\). For example, a complete ResourceQuery parameter must be formatted like the following CLI parameter example: --resource-query '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}' In the preceding example, all of the double quote characters in the value part of the Query element must be escaped because the value itself is surrounded by double quotes. For more information, see [Quoting strings](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the Command Line Interface User Guide. For the complete list of resource types that you can use in the array value for ResourceTypeFilters, see [Resources you can use with Resource Groups and Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html) in the Resource Groups User Guide. For example: "ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]
-    public struct ResourceQuery: Swift.Equatable {
+    public struct ResourceQuery {
         /// The query that defines a group or a search. The contents depends on the value of the Type element.
         ///
         /// * ResourceTypeFilters – Applies to all ResourceQuery objects of either Type. This element contains one of the following two items:
@@ -2921,7 +2921,7 @@ extension ResourceGroupsClientTypes.ResourceStatus: Swift.Codable {
 
 extension ResourceGroupsClientTypes {
     /// A structure that identifies the current group membership status for a resource. Adding a resource to a resource group is performed asynchronously as a background task. A PENDING status indicates, for this resource, that the process isn't completed yet.
-    public struct ResourceStatus: Swift.Equatable {
+    public struct ResourceStatus {
         /// The current status.
         public var name: ResourceGroupsClientTypes.ResourceStatusValue?
 
@@ -2992,7 +2992,7 @@ extension SearchResourcesInput {
     }
 }
 
-public struct SearchResourcesInput: Swift.Equatable {
+public struct SearchResourcesInput {
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value provided by a previous call's NextToken response to indicate where the output should continue from.
@@ -3013,7 +3013,7 @@ public struct SearchResourcesInput: Swift.Equatable {
     }
 }
 
-struct SearchResourcesInputBody: Swift.Equatable {
+struct SearchResourcesInputBody {
     let resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3053,7 +3053,7 @@ extension SearchResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchResourcesOutput: Swift.Equatable {
+public struct SearchResourcesOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// A list of QueryError objects. Each error contains an ErrorCode and Message. Possible values for ErrorCode:
@@ -3079,7 +3079,7 @@ public struct SearchResourcesOutput: Swift.Equatable {
     }
 }
 
-struct SearchResourcesOutputBody: Swift.Equatable {
+struct SearchResourcesOutputBody {
     let resourceIdentifiers: [ResourceGroupsClientTypes.ResourceIdentifier]?
     let nextToken: Swift.String?
     let queryErrors: [ResourceGroupsClientTypes.QueryError]?
@@ -3163,7 +3163,7 @@ extension TagInput {
     }
 }
 
-public struct TagInput: Swift.Equatable {
+public struct TagInput {
     /// The ARN of the resource group to which to add tags.
     /// This member is required.
     public var arn: Swift.String?
@@ -3181,7 +3181,7 @@ public struct TagInput: Swift.Equatable {
     }
 }
 
-struct TagInputBody: Swift.Equatable {
+struct TagInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3220,7 +3220,7 @@ extension TagOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagOutput: Swift.Equatable {
+public struct TagOutput {
     /// The ARN of the tagged resource.
     public var arn: Swift.String?
     /// The tags that have been added to the specified resource group.
@@ -3236,7 +3236,7 @@ public struct TagOutput: Swift.Equatable {
     }
 }
 
-struct TagOutputBody: Swift.Equatable {
+struct TagOutputBody {
     let arn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -3320,7 +3320,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3375,7 +3375,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -3418,7 +3418,7 @@ extension UngroupResourcesInput {
     }
 }
 
-public struct UngroupResourcesInput: Swift.Equatable {
+public struct UngroupResourcesInput {
     /// The name or the ARN of the resource group from which to remove the resources.
     /// This member is required.
     public var group: Swift.String?
@@ -3436,7 +3436,7 @@ public struct UngroupResourcesInput: Swift.Equatable {
     }
 }
 
-struct UngroupResourcesInputBody: Swift.Equatable {
+struct UngroupResourcesInputBody {
     let group: Swift.String?
     let resourceArns: [Swift.String]?
 }
@@ -3481,7 +3481,7 @@ extension UngroupResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UngroupResourcesOutput: Swift.Equatable {
+public struct UngroupResourcesOutput {
     /// A list of any resources that failed to be removed from the group by this operation.
     public var failed: [ResourceGroupsClientTypes.FailedResource]?
     /// A list of any resources that are still in the process of being removed from the group by this operation. These pending removals continue asynchronously. You can check the status of pending removals by using the [ListGroupResources] operation. After the resource is successfully removed, it no longer appears in the response.
@@ -3501,7 +3501,7 @@ public struct UngroupResourcesOutput: Swift.Equatable {
     }
 }
 
-struct UngroupResourcesOutputBody: Swift.Equatable {
+struct UngroupResourcesOutputBody {
     let succeeded: [Swift.String]?
     let failed: [ResourceGroupsClientTypes.FailedResource]?
     let pending: [ResourceGroupsClientTypes.PendingResource]?
@@ -3594,7 +3594,7 @@ extension UntagInput {
     }
 }
 
-public struct UntagInput: Swift.Equatable {
+public struct UntagInput {
     /// The ARN of the resource group from which to remove tags. The command removed both the specified keys and any values associated with those keys.
     /// This member is required.
     public var arn: Swift.String?
@@ -3612,7 +3612,7 @@ public struct UntagInput: Swift.Equatable {
     }
 }
 
-struct UntagInputBody: Swift.Equatable {
+struct UntagInputBody {
     let keys: [Swift.String]?
 }
 
@@ -3651,7 +3651,7 @@ extension UntagOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagOutput: Swift.Equatable {
+public struct UntagOutput {
     /// The ARN of the resource group from which tags have been removed.
     public var arn: Swift.String?
     /// The keys of the tags that were removed.
@@ -3667,7 +3667,7 @@ public struct UntagOutput: Swift.Equatable {
     }
 }
 
-struct UntagOutputBody: Swift.Equatable {
+struct UntagOutputBody {
     let arn: Swift.String?
     let keys: [Swift.String]?
 }
@@ -3732,7 +3732,7 @@ extension UpdateAccountSettingsInput {
     }
 }
 
-public struct UpdateAccountSettingsInput: Swift.Equatable {
+public struct UpdateAccountSettingsInput {
     /// Specifies whether you want to turn [group lifecycle events](https://docs.aws.amazon.com/ARG/latest/userguide/monitor-groups.html) on or off.
     public var groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus?
 
@@ -3744,7 +3744,7 @@ public struct UpdateAccountSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountSettingsInputBody: Swift.Equatable {
+struct UpdateAccountSettingsInputBody {
     let groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus?
 }
 
@@ -3772,7 +3772,7 @@ extension UpdateAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAccountSettingsOutput: Swift.Equatable {
+public struct UpdateAccountSettingsOutput {
     /// A structure that displays the status of the optional features in the account.
     public var accountSettings: ResourceGroupsClientTypes.AccountSettings?
 
@@ -3784,7 +3784,7 @@ public struct UpdateAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountSettingsOutputBody: Swift.Equatable {
+struct UpdateAccountSettingsOutputBody {
     let accountSettings: ResourceGroupsClientTypes.AccountSettings?
 }
 
@@ -3843,7 +3843,7 @@ extension UpdateGroupInput {
     }
 }
 
-public struct UpdateGroupInput: Swift.Equatable {
+public struct UpdateGroupInput {
     /// The new description that you want to update the resource group with. Descriptions can contain letters, numbers, hyphens, underscores, periods, and spaces.
     public var description: Swift.String?
     /// The name or the ARN of the resource group to modify.
@@ -3864,7 +3864,7 @@ public struct UpdateGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupInputBody: Swift.Equatable {
+struct UpdateGroupInputBody {
     let groupName: Swift.String?
     let group: Swift.String?
     let description: Swift.String?
@@ -3900,7 +3900,7 @@ extension UpdateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGroupOutput: Swift.Equatable {
+public struct UpdateGroupOutput {
     /// The update description of the resource group.
     public var group: ResourceGroupsClientTypes.Group?
 
@@ -3912,7 +3912,7 @@ public struct UpdateGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupOutputBody: Swift.Equatable {
+struct UpdateGroupOutputBody {
     let group: ResourceGroupsClientTypes.Group?
 }
 
@@ -3972,7 +3972,7 @@ extension UpdateGroupQueryInput {
     }
 }
 
-public struct UpdateGroupQueryInput: Swift.Equatable {
+public struct UpdateGroupQueryInput {
     /// The name or the ARN of the resource group to query.
     public var group: Swift.String?
     /// Don't use this parameter. Use Group instead.
@@ -3994,7 +3994,7 @@ public struct UpdateGroupQueryInput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupQueryInputBody: Swift.Equatable {
+struct UpdateGroupQueryInputBody {
     let groupName: Swift.String?
     let group: Swift.String?
     let resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
@@ -4030,7 +4030,7 @@ extension UpdateGroupQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGroupQueryOutput: Swift.Equatable {
+public struct UpdateGroupQueryOutput {
     /// The updated resource query associated with the resource group after the update.
     public var groupQuery: ResourceGroupsClientTypes.GroupQuery?
 
@@ -4042,7 +4042,7 @@ public struct UpdateGroupQueryOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGroupQueryOutputBody: Swift.Equatable {
+struct UpdateGroupQueryOutputBody {
     let groupQuery: ResourceGroupsClientTypes.GroupQuery?
 }
 

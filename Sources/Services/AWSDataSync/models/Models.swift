@@ -56,7 +56,7 @@ extension AddStorageSystemInput {
     }
 }
 
-public struct AddStorageSystemInput: Swift.Equatable {
+public struct AddStorageSystemInput {
     /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads from your on-premises storage system's management interface. You can only specify one ARN.
     /// This member is required.
     public var agentArns: [Swift.String]?
@@ -101,7 +101,7 @@ public struct AddStorageSystemInput: Swift.Equatable {
     }
 }
 
-struct AddStorageSystemInputBody: Swift.Equatable {
+struct AddStorageSystemInputBody {
     let serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
     let systemType: DataSyncClientTypes.DiscoverySystemType?
     let agentArns: [Swift.String]?
@@ -175,7 +175,7 @@ extension AddStorageSystemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddStorageSystemOutput: Swift.Equatable {
+public struct AddStorageSystemOutput {
     /// The ARN of the on-premises storage system that you can use with DataSync Discovery.
     /// This member is required.
     public var storageSystemArn: Swift.String?
@@ -188,7 +188,7 @@ public struct AddStorageSystemOutput: Swift.Equatable {
     }
 }
 
-struct AddStorageSystemOutputBody: Swift.Equatable {
+struct AddStorageSystemOutputBody {
     let storageSystemArn: Swift.String?
 }
 
@@ -255,7 +255,7 @@ extension DataSyncClientTypes.AgentListEntry: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Represents a single entry in a list (or array) of DataSync agents when you call the [ListAgents](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListAgents.html) operation.
-    public struct AgentListEntry: Swift.Equatable {
+    public struct AgentListEntry {
         /// The Amazon Resource Name (ARN) of a DataSync agent.
         public var agentArn: Swift.String?
         /// The name of an agent.
@@ -439,7 +439,7 @@ extension DataSyncClientTypes.AzureBlobSasConfiguration: Swift.CustomDebugString
 
 extension DataSyncClientTypes {
     /// The shared access signature (SAS) configuration that allows DataSync to access your Microsoft Azure Blob Storage. For more information, see [SAS tokens](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-sas-tokens) for accessing your Azure Blob Storage.
-    public struct AzureBlobSasConfiguration: Swift.Equatable {
+    public struct AzureBlobSasConfiguration {
         /// Specifies a SAS token that provides permissions to access your Azure Blob Storage. The token is part of the SAS URI string that comes after the storage resource URI and a question mark. A token looks something like this: sp=r&st=2023-12-20T14:54:52Z&se=2023-12-20T22:54:52Z&spr=https&sv=2021-06-08&sr=c&sig=aBBKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D
         /// This member is required.
         public var token: Swift.String?
@@ -504,7 +504,7 @@ extension CancelTaskExecutionInput {
 }
 
 /// CancelTaskExecutionRequest
-public struct CancelTaskExecutionInput: Swift.Equatable {
+public struct CancelTaskExecutionInput {
     /// The Amazon Resource Name (ARN) of the task execution to stop.
     /// This member is required.
     public var taskExecutionArn: Swift.String?
@@ -517,7 +517,7 @@ public struct CancelTaskExecutionInput: Swift.Equatable {
     }
 }
 
-struct CancelTaskExecutionInputBody: Swift.Equatable {
+struct CancelTaskExecutionInputBody {
     let taskExecutionArn: Swift.String?
 }
 
@@ -538,7 +538,7 @@ extension CancelTaskExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelTaskExecutionOutput: Swift.Equatable {
+public struct CancelTaskExecutionOutput {
 
     public init() { }
 }
@@ -594,7 +594,7 @@ extension DataSyncClientTypes.Capacity: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The storage capacity of an on-premises storage system resource (for example, a volume).
-    public struct Capacity: Swift.Equatable {
+    public struct Capacity {
         /// The amount of space in the cluster that's in cloud storage (for example, if you're using data tiering).
         public var clusterCloudStorageUsed: Swift.Int?
         /// The amount of space that's being used in a storage system resource without accounting for compression or deduplication.
@@ -670,7 +670,7 @@ extension CreateAgentInput {
 }
 
 /// CreateAgentRequest
-public struct CreateAgentInput: Swift.Equatable {
+public struct CreateAgentInput {
     /// Specifies your DataSync agent's activation key. If you don't have an activation key, see [Activate your agent](https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html).
     /// This member is required.
     public var activationKey: Swift.String?
@@ -703,7 +703,7 @@ public struct CreateAgentInput: Swift.Equatable {
     }
 }
 
-struct CreateAgentInputBody: Swift.Equatable {
+struct CreateAgentInputBody {
     let activationKey: Swift.String?
     let agentName: Swift.String?
     let tags: [DataSyncClientTypes.TagListEntry]?
@@ -779,7 +779,7 @@ extension CreateAgentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// CreateAgentResponse
-public struct CreateAgentOutput: Swift.Equatable {
+public struct CreateAgentOutput {
     /// The ARN of the agent that you just activated. Use the [ListAgents](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListAgents.html) operation to return a list of agents in your Amazon Web Services account and Amazon Web Services Region.
     public var agentArn: Swift.String?
 
@@ -791,7 +791,7 @@ public struct CreateAgentOutput: Swift.Equatable {
     }
 }
 
-struct CreateAgentOutputBody: Swift.Equatable {
+struct CreateAgentOutputBody {
     let agentArn: Swift.String?
 }
 
@@ -873,7 +873,7 @@ extension CreateLocationAzureBlobInput {
     }
 }
 
-public struct CreateLocationAzureBlobInput: Swift.Equatable {
+public struct CreateLocationAzureBlobInput {
     /// Specifies the access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see [Access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers).
     public var accessTier: DataSyncClientTypes.AzureAccessTier?
     /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. You can specify more than one agent. For more information, see [Using multiple agents for your transfer](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html).
@@ -916,7 +916,7 @@ public struct CreateLocationAzureBlobInput: Swift.Equatable {
     }
 }
 
-struct CreateLocationAzureBlobInputBody: Swift.Equatable {
+struct CreateLocationAzureBlobInputBody {
     let containerUrl: Swift.String?
     let authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
     let sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration?
@@ -990,7 +990,7 @@ extension CreateLocationAzureBlobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLocationAzureBlobOutput: Swift.Equatable {
+public struct CreateLocationAzureBlobOutput {
     /// The ARN of the Azure Blob Storage transfer location that you created.
     public var locationArn: Swift.String?
 
@@ -1002,7 +1002,7 @@ public struct CreateLocationAzureBlobOutput: Swift.Equatable {
     }
 }
 
-struct CreateLocationAzureBlobOutputBody: Swift.Equatable {
+struct CreateLocationAzureBlobOutputBody {
     let locationArn: Swift.String?
 }
 
@@ -1078,7 +1078,7 @@ extension CreateLocationEfsInput {
 }
 
 /// CreateLocationEfsRequest
-public struct CreateLocationEfsInput: Swift.Equatable {
+public struct CreateLocationEfsInput {
     /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to access the Amazon EFS file system.
     public var accessPointArn: Swift.String?
     /// Specifies the subnet and security groups DataSync uses to access your Amazon EFS file system.
@@ -1116,7 +1116,7 @@ public struct CreateLocationEfsInput: Swift.Equatable {
     }
 }
 
-struct CreateLocationEfsInputBody: Swift.Equatable {
+struct CreateLocationEfsInputBody {
     let subdirectory: Swift.String?
     let efsFilesystemArn: Swift.String?
     let ec2Config: DataSyncClientTypes.Ec2Config?
@@ -1178,7 +1178,7 @@ extension CreateLocationEfsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// CreateLocationEfs
-public struct CreateLocationEfsOutput: Swift.Equatable {
+public struct CreateLocationEfsOutput {
     /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that you create.
     public var locationArn: Swift.String?
 
@@ -1190,7 +1190,7 @@ public struct CreateLocationEfsOutput: Swift.Equatable {
     }
 }
 
-struct CreateLocationEfsOutputBody: Swift.Equatable {
+struct CreateLocationEfsOutputBody {
     let locationArn: Swift.String?
 }
 
@@ -1256,7 +1256,7 @@ extension CreateLocationFsxLustreInput {
     }
 }
 
-public struct CreateLocationFsxLustreInput: Swift.Equatable {
+public struct CreateLocationFsxLustreInput {
     /// The Amazon Resource Name (ARN) for the FSx for Lustre file system.
     /// This member is required.
     public var fsxFilesystemArn: Swift.String?
@@ -1282,7 +1282,7 @@ public struct CreateLocationFsxLustreInput: Swift.Equatable {
     }
 }
 
-struct CreateLocationFsxLustreInputBody: Swift.Equatable {
+struct CreateLocationFsxLustreInputBody {
     let fsxFilesystemArn: Swift.String?
     let securityGroupArns: [Swift.String]?
     let subdirectory: Swift.String?
@@ -1340,7 +1340,7 @@ extension CreateLocationFsxLustreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLocationFsxLustreOutput: Swift.Equatable {
+public struct CreateLocationFsxLustreOutput {
     /// The Amazon Resource Name (ARN) of the FSx for Lustre file system location that's created.
     public var locationArn: Swift.String?
 
@@ -1352,7 +1352,7 @@ public struct CreateLocationFsxLustreOutput: Swift.Equatable {
     }
 }
 
-struct CreateLocationFsxLustreOutputBody: Swift.Equatable {
+struct CreateLocationFsxLustreOutputBody {
     let locationArn: Swift.String?
 }
 
@@ -1422,7 +1422,7 @@ extension CreateLocationFsxOntapInput {
     }
 }
 
-public struct CreateLocationFsxOntapInput: Swift.Equatable {
+public struct CreateLocationFsxOntapInput {
     /// Specifies the data transfer protocol that DataSync uses to access your Amazon FSx file system.
     /// This member is required.
     public var `protocol`: DataSyncClientTypes.FsxProtocol?
@@ -1460,7 +1460,7 @@ public struct CreateLocationFsxOntapInput: Swift.Equatable {
     }
 }
 
-struct CreateLocationFsxOntapInputBody: Swift.Equatable {
+struct CreateLocationFsxOntapInputBody {
     let `protocol`: DataSyncClientTypes.FsxProtocol?
     let securityGroupArns: [Swift.String]?
     let storageVirtualMachineArn: Swift.String?
@@ -1522,7 +1522,7 @@ extension CreateLocationFsxOntapOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLocationFsxOntapOutput: Swift.Equatable {
+public struct CreateLocationFsxOntapOutput {
     /// Specifies the ARN of the FSx for ONTAP file system location that you create.
     public var locationArn: Swift.String?
 
@@ -1534,7 +1534,7 @@ public struct CreateLocationFsxOntapOutput: Swift.Equatable {
     }
 }
 
-struct CreateLocationFsxOntapOutputBody: Swift.Equatable {
+struct CreateLocationFsxOntapOutputBody {
     let locationArn: Swift.String?
 }
 
@@ -1604,7 +1604,7 @@ extension CreateLocationFsxOpenZfsInput {
     }
 }
 
-public struct CreateLocationFsxOpenZfsInput: Swift.Equatable {
+public struct CreateLocationFsxOpenZfsInput {
     /// The Amazon Resource Name (ARN) of the FSx for OpenZFS file system.
     /// This member is required.
     public var fsxFilesystemArn: Swift.String?
@@ -1635,7 +1635,7 @@ public struct CreateLocationFsxOpenZfsInput: Swift.Equatable {
     }
 }
 
-struct CreateLocationFsxOpenZfsInputBody: Swift.Equatable {
+struct CreateLocationFsxOpenZfsInputBody {
     let fsxFilesystemArn: Swift.String?
     let `protocol`: DataSyncClientTypes.FsxProtocol?
     let securityGroupArns: [Swift.String]?
@@ -1697,7 +1697,7 @@ extension CreateLocationFsxOpenZfsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLocationFsxOpenZfsOutput: Swift.Equatable {
+public struct CreateLocationFsxOpenZfsOutput {
     /// The ARN of the FSx for OpenZFS file system location that you created.
     public var locationArn: Swift.String?
 
@@ -1709,7 +1709,7 @@ public struct CreateLocationFsxOpenZfsOutput: Swift.Equatable {
     }
 }
 
-struct CreateLocationFsxOpenZfsOutputBody: Swift.Equatable {
+struct CreateLocationFsxOpenZfsOutputBody {
     let locationArn: Swift.String?
 }
 
@@ -1792,7 +1792,7 @@ extension CreateLocationFsxWindowsInput {
     }
 }
 
-public struct CreateLocationFsxWindowsInput: Swift.Equatable {
+public struct CreateLocationFsxWindowsInput {
     /// Specifies the name of the Microsoft Active Directory domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
     public var domain: Swift.String?
     /// Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
@@ -1836,7 +1836,7 @@ public struct CreateLocationFsxWindowsInput: Swift.Equatable {
     }
 }
 
-struct CreateLocationFsxWindowsInputBody: Swift.Equatable {
+struct CreateLocationFsxWindowsInputBody {
     let subdirectory: Swift.String?
     let fsxFilesystemArn: Swift.String?
     let securityGroupArns: [Swift.String]?
@@ -1906,7 +1906,7 @@ extension CreateLocationFsxWindowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLocationFsxWindowsOutput: Swift.Equatable {
+public struct CreateLocationFsxWindowsOutput {
     /// The ARN of the FSx for Windows File Server file system location you created.
     public var locationArn: Swift.String?
 
@@ -1918,7 +1918,7 @@ public struct CreateLocationFsxWindowsOutput: Swift.Equatable {
     }
 }
 
-struct CreateLocationFsxWindowsOutputBody: Swift.Equatable {
+struct CreateLocationFsxWindowsOutputBody {
     let locationArn: Swift.String?
 }
 
@@ -2023,7 +2023,7 @@ extension CreateLocationHdfsInput {
     }
 }
 
-public struct CreateLocationHdfsInput: Swift.Equatable {
+public struct CreateLocationHdfsInput {
     /// The Amazon Resource Names (ARNs) of the agents that are used to connect to the HDFS cluster.
     /// This member is required.
     public var agentArns: [Swift.String]?
@@ -2086,7 +2086,7 @@ public struct CreateLocationHdfsInput: Swift.Equatable {
     }
 }
 
-struct CreateLocationHdfsInputBody: Swift.Equatable {
+struct CreateLocationHdfsInputBody {
     let subdirectory: Swift.String?
     let nameNodes: [DataSyncClientTypes.HdfsNameNode]?
     let blockSize: Swift.Int?
@@ -2189,7 +2189,7 @@ extension CreateLocationHdfsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLocationHdfsOutput: Swift.Equatable {
+public struct CreateLocationHdfsOutput {
     /// The ARN of the source HDFS cluster location that's created.
     public var locationArn: Swift.String?
 
@@ -2201,7 +2201,7 @@ public struct CreateLocationHdfsOutput: Swift.Equatable {
     }
 }
 
-struct CreateLocationHdfsOutputBody: Swift.Equatable {
+struct CreateLocationHdfsOutputBody {
     let locationArn: Swift.String?
 }
 
@@ -2269,7 +2269,7 @@ extension CreateLocationNfsInput {
 }
 
 /// CreateLocationNfsRequest
-public struct CreateLocationNfsInput: Swift.Equatable {
+public struct CreateLocationNfsInput {
     /// Specifies the options that DataSync can use to mount your NFS file server.
     public var mountOptions: DataSyncClientTypes.NfsMountOptions?
     /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that want to connect to your NFS file server. You can specify more than one agent. For more information, see [Using multiple agents for transfers](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html).
@@ -2300,7 +2300,7 @@ public struct CreateLocationNfsInput: Swift.Equatable {
     }
 }
 
-struct CreateLocationNfsInputBody: Swift.Equatable {
+struct CreateLocationNfsInputBody {
     let subdirectory: Swift.String?
     let serverHostname: Swift.String?
     let onPremConfig: DataSyncClientTypes.OnPremConfig?
@@ -2354,7 +2354,7 @@ extension CreateLocationNfsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// CreateLocationNfsResponse
-public struct CreateLocationNfsOutput: Swift.Equatable {
+public struct CreateLocationNfsOutput {
     /// The ARN of the transfer location that you created for your NFS file server.
     public var locationArn: Swift.String?
 
@@ -2366,7 +2366,7 @@ public struct CreateLocationNfsOutput: Swift.Equatable {
     }
 }
 
-struct CreateLocationNfsOutputBody: Swift.Equatable {
+struct CreateLocationNfsOutputBody {
     let locationArn: Swift.String?
 }
 
@@ -2462,7 +2462,7 @@ extension CreateLocationObjectStorageInput {
 }
 
 /// CreateLocationObjectStorageRequest
-public struct CreateLocationObjectStorageInput: Swift.Equatable {
+public struct CreateLocationObjectStorageInput {
     /// Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
     public var accessKey: Swift.String?
     /// Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can securely connect with your location.
@@ -2524,7 +2524,7 @@ public struct CreateLocationObjectStorageInput: Swift.Equatable {
     }
 }
 
-struct CreateLocationObjectStorageInputBody: Swift.Equatable {
+struct CreateLocationObjectStorageInputBody {
     let serverHostname: Swift.String?
     let serverPort: Swift.Int?
     let serverProtocol: DataSyncClientTypes.ObjectStorageServerProtocol?
@@ -2607,7 +2607,7 @@ extension CreateLocationObjectStorageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// CreateLocationObjectStorageResponse
-public struct CreateLocationObjectStorageOutput: Swift.Equatable {
+public struct CreateLocationObjectStorageOutput {
     /// Specifies the ARN of the object storage system location that you create.
     public var locationArn: Swift.String?
 
@@ -2619,7 +2619,7 @@ public struct CreateLocationObjectStorageOutput: Swift.Equatable {
     }
 }
 
-struct CreateLocationObjectStorageOutputBody: Swift.Equatable {
+struct CreateLocationObjectStorageOutputBody {
     let locationArn: Swift.String?
 }
 
@@ -2694,7 +2694,7 @@ extension CreateLocationS3Input {
 }
 
 /// CreateLocationS3Request
-public struct CreateLocationS3Input: Swift.Equatable {
+public struct CreateLocationS3Input {
     /// (Amazon S3 on Outposts only) Specifies the Amazon Resource Name (ARN) of the DataSync agent on your Outpost. For more information, see [Deploy your DataSync agent on Outposts](https://docs.aws.amazon.com/datasync/latest/userguide/deploy-agents.html#outposts-agent).
     public var agentArns: [Swift.String]?
     /// Specifies the ARN of the S3 bucket that you want to use as a location. (When creating your DataSync task later, you specify whether this location is a transfer source or destination.) If your S3 bucket is located on an Outposts resource, you must specify an Amazon S3 access point. For more information, see [Managing data access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide.
@@ -2736,7 +2736,7 @@ public struct CreateLocationS3Input: Swift.Equatable {
     }
 }
 
-struct CreateLocationS3InputBody: Swift.Equatable {
+struct CreateLocationS3InputBody {
     let subdirectory: Swift.String?
     let s3BucketArn: Swift.String?
     let s3StorageClass: DataSyncClientTypes.S3StorageClass?
@@ -2803,7 +2803,7 @@ extension CreateLocationS3Output: ClientRuntime.HttpResponseBinding {
 }
 
 /// CreateLocationS3Response
-public struct CreateLocationS3Output: Swift.Equatable {
+public struct CreateLocationS3Output {
     /// The ARN of the S3 location that you created.
     public var locationArn: Swift.String?
 
@@ -2815,7 +2815,7 @@ public struct CreateLocationS3Output: Swift.Equatable {
     }
 }
 
-struct CreateLocationS3OutputBody: Swift.Equatable {
+struct CreateLocationS3OutputBody {
     let locationArn: Swift.String?
 }
 
@@ -2903,7 +2903,7 @@ extension CreateLocationSmbInput {
 }
 
 /// CreateLocationSmbRequest
-public struct CreateLocationSmbInput: Swift.Equatable {
+public struct CreateLocationSmbInput {
     /// Specifies the DataSync agent (or agents) which you want to connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     /// This member is required.
     public var agentArns: [Swift.String]?
@@ -2948,7 +2948,7 @@ public struct CreateLocationSmbInput: Swift.Equatable {
     }
 }
 
-struct CreateLocationSmbInputBody: Swift.Equatable {
+struct CreateLocationSmbInputBody {
     let subdirectory: Swift.String?
     let serverHostname: Swift.String?
     let user: Swift.String?
@@ -3023,7 +3023,7 @@ extension CreateLocationSmbOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// CreateLocationSmbResponse
-public struct CreateLocationSmbOutput: Swift.Equatable {
+public struct CreateLocationSmbOutput {
     /// The ARN of the SMB location that you created.
     public var locationArn: Swift.String?
 
@@ -3035,7 +3035,7 @@ public struct CreateLocationSmbOutput: Swift.Equatable {
     }
 }
 
-struct CreateLocationSmbOutputBody: Swift.Equatable {
+struct CreateLocationSmbOutputBody {
     let locationArn: Swift.String?
 }
 
@@ -3133,7 +3133,7 @@ extension CreateTaskInput {
 }
 
 /// CreateTaskRequest
-public struct CreateTaskInput: Swift.Equatable {
+public struct CreateTaskInput {
     /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task.
     public var cloudWatchLogGroupArn: Swift.String?
     /// The Amazon Resource Name (ARN) of an Amazon Web Services storage resource's location.
@@ -3187,7 +3187,7 @@ public struct CreateTaskInput: Swift.Equatable {
     }
 }
 
-struct CreateTaskInputBody: Swift.Equatable {
+struct CreateTaskInputBody {
     let sourceLocationArn: Swift.String?
     let destinationLocationArn: Swift.String?
     let cloudWatchLogGroupArn: Swift.String?
@@ -3283,7 +3283,7 @@ extension CreateTaskOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// CreateTaskResponse
-public struct CreateTaskOutput: Swift.Equatable {
+public struct CreateTaskOutput {
     /// The Amazon Resource Name (ARN) of the task.
     public var taskArn: Swift.String?
 
@@ -3295,7 +3295,7 @@ public struct CreateTaskOutput: Swift.Equatable {
     }
 }
 
-struct CreateTaskOutputBody: Swift.Equatable {
+struct CreateTaskOutputBody {
     let taskArn: Swift.String?
 }
 
@@ -3355,7 +3355,7 @@ extension DataSyncClientTypes.Credentials: Swift.CustomDebugStringConvertible {
 
 extension DataSyncClientTypes {
     /// The credentials that provide DataSync Discovery read access to your on-premises storage system's management interface. DataSync Discovery stores these credentials in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html). For more information, see [Accessing your on-premises storage system](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-configure-storage.html).
-    public struct Credentials: Swift.Equatable {
+    public struct Credentials {
         /// Specifies the password for your storage system's management interface.
         /// This member is required.
         public var password: Swift.String?
@@ -3398,7 +3398,7 @@ extension DeleteAgentInput {
 }
 
 /// DeleteAgentRequest
-public struct DeleteAgentInput: Swift.Equatable {
+public struct DeleteAgentInput {
     /// The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents operation to return a list of agents for your account and Amazon Web Services Region.
     /// This member is required.
     public var agentArn: Swift.String?
@@ -3411,7 +3411,7 @@ public struct DeleteAgentInput: Swift.Equatable {
     }
 }
 
-struct DeleteAgentInputBody: Swift.Equatable {
+struct DeleteAgentInputBody {
     let agentArn: Swift.String?
 }
 
@@ -3432,7 +3432,7 @@ extension DeleteAgentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAgentOutput: Swift.Equatable {
+public struct DeleteAgentOutput {
 
     public init() { }
 }
@@ -3470,7 +3470,7 @@ extension DeleteLocationInput {
 }
 
 /// DeleteLocation
-public struct DeleteLocationInput: Swift.Equatable {
+public struct DeleteLocationInput {
     /// The Amazon Resource Name (ARN) of the location to delete.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -3483,7 +3483,7 @@ public struct DeleteLocationInput: Swift.Equatable {
     }
 }
 
-struct DeleteLocationInputBody: Swift.Equatable {
+struct DeleteLocationInputBody {
     let locationArn: Swift.String?
 }
 
@@ -3504,7 +3504,7 @@ extension DeleteLocationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLocationOutput: Swift.Equatable {
+public struct DeleteLocationOutput {
 
     public init() { }
 }
@@ -3542,7 +3542,7 @@ extension DeleteTaskInput {
 }
 
 /// DeleteTask
-public struct DeleteTaskInput: Swift.Equatable {
+public struct DeleteTaskInput {
     /// Specifies the Amazon Resource Name (ARN) of the task that you want to delete.
     /// This member is required.
     public var taskArn: Swift.String?
@@ -3555,7 +3555,7 @@ public struct DeleteTaskInput: Swift.Equatable {
     }
 }
 
-struct DeleteTaskInputBody: Swift.Equatable {
+struct DeleteTaskInputBody {
     let taskArn: Swift.String?
 }
 
@@ -3576,7 +3576,7 @@ extension DeleteTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTaskOutput: Swift.Equatable {
+public struct DeleteTaskOutput {
 
     public init() { }
 }
@@ -3614,7 +3614,7 @@ extension DescribeAgentInput {
 }
 
 /// DescribeAgent
-public struct DescribeAgentInput: Swift.Equatable {
+public struct DescribeAgentInput {
     /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that you want information about.
     /// This member is required.
     public var agentArn: Swift.String?
@@ -3627,7 +3627,7 @@ public struct DescribeAgentInput: Swift.Equatable {
     }
 }
 
-struct DescribeAgentInputBody: Swift.Equatable {
+struct DescribeAgentInputBody {
     let agentArn: Swift.String?
 }
 
@@ -3670,7 +3670,7 @@ extension DescribeAgentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// DescribeAgentResponse
-public struct DescribeAgentOutput: Swift.Equatable {
+public struct DescribeAgentOutput {
     /// The ARN of the agent.
     public var agentArn: Swift.String?
     /// The time that the agent was [activated](https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html).
@@ -3714,7 +3714,7 @@ public struct DescribeAgentOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAgentOutputBody: Swift.Equatable {
+struct DescribeAgentOutputBody {
     let agentArn: Swift.String?
     let name: Swift.String?
     let status: DataSyncClientTypes.AgentStatus?
@@ -3790,7 +3790,7 @@ extension DescribeDiscoveryJobInput {
     }
 }
 
-public struct DescribeDiscoveryJobInput: Swift.Equatable {
+public struct DescribeDiscoveryJobInput {
     /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want information about.
     /// This member is required.
     public var discoveryJobArn: Swift.String?
@@ -3803,7 +3803,7 @@ public struct DescribeDiscoveryJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeDiscoveryJobInputBody: Swift.Equatable {
+struct DescribeDiscoveryJobInputBody {
     let discoveryJobArn: Swift.String?
 }
 
@@ -3841,7 +3841,7 @@ extension DescribeDiscoveryJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDiscoveryJobOutput: Swift.Equatable {
+public struct DescribeDiscoveryJobOutput {
     /// The number of minutes that the discovery job runs.
     public var collectionDurationMinutes: Swift.Int?
     /// The ARN of the discovery job.
@@ -3873,7 +3873,7 @@ public struct DescribeDiscoveryJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDiscoveryJobOutputBody: Swift.Equatable {
+struct DescribeDiscoveryJobOutputBody {
     let storageSystemArn: Swift.String?
     let discoveryJobArn: Swift.String?
     let collectionDurationMinutes: Swift.Int?
@@ -3941,7 +3941,7 @@ extension DescribeLocationAzureBlobInput {
     }
 }
 
-public struct DescribeLocationAzureBlobInput: Swift.Equatable {
+public struct DescribeLocationAzureBlobInput {
     /// Specifies the Amazon Resource Name (ARN) of your Azure Blob Storage transfer location.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -3954,7 +3954,7 @@ public struct DescribeLocationAzureBlobInput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationAzureBlobInputBody: Swift.Equatable {
+struct DescribeLocationAzureBlobInputBody {
     let locationArn: Swift.String?
 }
 
@@ -3994,7 +3994,7 @@ extension DescribeLocationAzureBlobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLocationAzureBlobOutput: Swift.Equatable {
+public struct DescribeLocationAzureBlobOutput {
     /// The access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see [Access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers).
     public var accessTier: DataSyncClientTypes.AzureAccessTier?
     /// The ARNs of the DataSync agents that can connect with your Azure Blob Storage container.
@@ -4030,7 +4030,7 @@ public struct DescribeLocationAzureBlobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationAzureBlobOutputBody: Swift.Equatable {
+struct DescribeLocationAzureBlobOutputBody {
     let locationArn: Swift.String?
     let locationUri: Swift.String?
     let authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
@@ -4112,7 +4112,7 @@ extension DescribeLocationEfsInput {
 }
 
 /// DescribeLocationEfsRequest
-public struct DescribeLocationEfsInput: Swift.Equatable {
+public struct DescribeLocationEfsInput {
     /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that you want information about.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -4125,7 +4125,7 @@ public struct DescribeLocationEfsInput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationEfsInputBody: Swift.Equatable {
+struct DescribeLocationEfsInputBody {
     let locationArn: Swift.String?
 }
 
@@ -4166,7 +4166,7 @@ extension DescribeLocationEfsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// DescribeLocationEfsResponse
-public struct DescribeLocationEfsOutput: Swift.Equatable {
+public struct DescribeLocationEfsOutput {
     /// The ARN of the access point that DataSync uses to access the Amazon EFS file system.
     public var accessPointArn: Swift.String?
     /// The time that the location was created.
@@ -4202,7 +4202,7 @@ public struct DescribeLocationEfsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationEfsOutputBody: Swift.Equatable {
+struct DescribeLocationEfsOutputBody {
     let locationArn: Swift.String?
     let locationUri: Swift.String?
     let ec2Config: DataSyncClientTypes.Ec2Config?
@@ -4274,7 +4274,7 @@ extension DescribeLocationFsxLustreInput {
     }
 }
 
-public struct DescribeLocationFsxLustreInput: Swift.Equatable {
+public struct DescribeLocationFsxLustreInput {
     /// The Amazon Resource Name (ARN) of the FSx for Lustre location to describe.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -4287,7 +4287,7 @@ public struct DescribeLocationFsxLustreInput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationFsxLustreInputBody: Swift.Equatable {
+struct DescribeLocationFsxLustreInputBody {
     let locationArn: Swift.String?
 }
 
@@ -4321,7 +4321,7 @@ extension DescribeLocationFsxLustreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLocationFsxLustreOutput: Swift.Equatable {
+public struct DescribeLocationFsxLustreOutput {
     /// The time that the FSx for Lustre location was created.
     public var creationTime: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) of the FSx for Lustre location that was described.
@@ -4345,7 +4345,7 @@ public struct DescribeLocationFsxLustreOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationFsxLustreOutputBody: Swift.Equatable {
+struct DescribeLocationFsxLustreOutputBody {
     let locationArn: Swift.String?
     let locationUri: Swift.String?
     let securityGroupArns: [Swift.String]?
@@ -4414,7 +4414,7 @@ extension DescribeLocationFsxOntapInput {
     }
 }
 
-public struct DescribeLocationFsxOntapInput: Swift.Equatable {
+public struct DescribeLocationFsxOntapInput {
     /// Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP file system location that you want information about.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -4427,7 +4427,7 @@ public struct DescribeLocationFsxOntapInput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationFsxOntapInputBody: Swift.Equatable {
+struct DescribeLocationFsxOntapInputBody {
     let locationArn: Swift.String?
 }
 
@@ -4467,7 +4467,7 @@ extension DescribeLocationFsxOntapOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLocationFsxOntapOutput: Swift.Equatable {
+public struct DescribeLocationFsxOntapOutput {
     /// The time that the location was created.
     public var creationTime: ClientRuntime.Date?
     /// The ARN of the FSx for ONTAP file system.
@@ -4503,7 +4503,7 @@ public struct DescribeLocationFsxOntapOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationFsxOntapOutputBody: Swift.Equatable {
+struct DescribeLocationFsxOntapOutputBody {
     let creationTime: ClientRuntime.Date?
     let locationArn: Swift.String?
     let locationUri: Swift.String?
@@ -4584,7 +4584,7 @@ extension DescribeLocationFsxOpenZfsInput {
     }
 }
 
-public struct DescribeLocationFsxOpenZfsInput: Swift.Equatable {
+public struct DescribeLocationFsxOpenZfsInput {
     /// The Amazon Resource Name (ARN) of the FSx for OpenZFS location to describe.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -4597,7 +4597,7 @@ public struct DescribeLocationFsxOpenZfsInput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationFsxOpenZfsInputBody: Swift.Equatable {
+struct DescribeLocationFsxOpenZfsInputBody {
     let locationArn: Swift.String?
 }
 
@@ -4633,7 +4633,7 @@ extension DescribeLocationFsxOpenZfsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLocationFsxOpenZfsOutput: Swift.Equatable {
+public struct DescribeLocationFsxOpenZfsOutput {
     /// The time that the FSx for OpenZFS location was created.
     public var creationTime: ClientRuntime.Date?
     /// The ARN of the FSx for OpenZFS location that was described.
@@ -4661,7 +4661,7 @@ public struct DescribeLocationFsxOpenZfsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationFsxOpenZfsOutputBody: Swift.Equatable {
+struct DescribeLocationFsxOpenZfsOutputBody {
     let locationArn: Swift.String?
     let locationUri: Swift.String?
     let securityGroupArns: [Swift.String]?
@@ -4734,7 +4734,7 @@ extension DescribeLocationFsxWindowsInput {
     }
 }
 
-public struct DescribeLocationFsxWindowsInput: Swift.Equatable {
+public struct DescribeLocationFsxWindowsInput {
     /// Specifies the Amazon Resource Name (ARN) of the FSx for Windows File Server location.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -4747,7 +4747,7 @@ public struct DescribeLocationFsxWindowsInput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationFsxWindowsInputBody: Swift.Equatable {
+struct DescribeLocationFsxWindowsInputBody {
     let locationArn: Swift.String?
 }
 
@@ -4785,7 +4785,7 @@ extension DescribeLocationFsxWindowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLocationFsxWindowsOutput: Swift.Equatable {
+public struct DescribeLocationFsxWindowsOutput {
     /// The time that the FSx for Windows File Server location was created.
     public var creationTime: ClientRuntime.Date?
     /// The name of the Microsoft Active Directory domain that the FSx for Windows File Server file system belongs to.
@@ -4817,7 +4817,7 @@ public struct DescribeLocationFsxWindowsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationFsxWindowsOutputBody: Swift.Equatable {
+struct DescribeLocationFsxWindowsOutputBody {
     let locationArn: Swift.String?
     let locationUri: Swift.String?
     let securityGroupArns: [Swift.String]?
@@ -4894,7 +4894,7 @@ extension DescribeLocationHdfsInput {
     }
 }
 
-public struct DescribeLocationHdfsInput: Swift.Equatable {
+public struct DescribeLocationHdfsInput {
     /// Specifies the Amazon Resource Name (ARN) of the HDFS location.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -4907,7 +4907,7 @@ public struct DescribeLocationHdfsInput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationHdfsInputBody: Swift.Equatable {
+struct DescribeLocationHdfsInputBody {
     let locationArn: Swift.String?
 }
 
@@ -4957,7 +4957,7 @@ extension DescribeLocationHdfsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLocationHdfsOutput: Swift.Equatable {
+public struct DescribeLocationHdfsOutput {
     /// The ARNs of the DataSync agents that can connect with your HDFS cluster.
     public var agentArns: [Swift.String]?
     /// The type of authentication used to determine the identity of the user.
@@ -5013,7 +5013,7 @@ public struct DescribeLocationHdfsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationHdfsOutputBody: Swift.Equatable {
+struct DescribeLocationHdfsOutputBody {
     let locationArn: Swift.String?
     let locationUri: Swift.String?
     let nameNodes: [DataSyncClientTypes.HdfsNameNode]?
@@ -5124,7 +5124,7 @@ extension DescribeLocationNfsInput {
 }
 
 /// DescribeLocationNfsRequest
-public struct DescribeLocationNfsInput: Swift.Equatable {
+public struct DescribeLocationNfsInput {
     /// Specifies the Amazon Resource Name (ARN) of the NFS location that you want information about.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -5137,7 +5137,7 @@ public struct DescribeLocationNfsInput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationNfsInputBody: Swift.Equatable {
+struct DescribeLocationNfsInputBody {
     let locationArn: Swift.String?
 }
 
@@ -5174,7 +5174,7 @@ extension DescribeLocationNfsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// DescribeLocationNfsResponse
-public struct DescribeLocationNfsOutput: Swift.Equatable {
+public struct DescribeLocationNfsOutput {
     /// The time when the NFS location was created.
     public var creationTime: ClientRuntime.Date?
     /// The ARN of the NFS location.
@@ -5202,7 +5202,7 @@ public struct DescribeLocationNfsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationNfsOutputBody: Swift.Equatable {
+struct DescribeLocationNfsOutputBody {
     let locationArn: Swift.String?
     let locationUri: Swift.String?
     let onPremConfig: DataSyncClientTypes.OnPremConfig?
@@ -5267,7 +5267,7 @@ extension DescribeLocationObjectStorageInput {
 }
 
 /// DescribeLocationObjectStorageRequest
-public struct DescribeLocationObjectStorageInput: Swift.Equatable {
+public struct DescribeLocationObjectStorageInput {
     /// Specifies the Amazon Resource Name (ARN) of the object storage system location.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -5280,7 +5280,7 @@ public struct DescribeLocationObjectStorageInput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationObjectStorageInputBody: Swift.Equatable {
+struct DescribeLocationObjectStorageInputBody {
     let locationArn: Swift.String?
 }
 
@@ -5323,7 +5323,7 @@ extension DescribeLocationObjectStorageOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// DescribeLocationObjectStorageResponse
-public struct DescribeLocationObjectStorageOutput: Swift.Equatable {
+public struct DescribeLocationObjectStorageOutput {
     /// The access key (for example, a user name) required to authenticate with the object storage system.
     public var accessKey: Swift.String?
     /// The ARNs of the DataSync agents that can connect with your object storage system.
@@ -5363,7 +5363,7 @@ public struct DescribeLocationObjectStorageOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationObjectStorageOutputBody: Swift.Equatable {
+struct DescribeLocationObjectStorageOutputBody {
     let locationArn: Swift.String?
     let locationUri: Swift.String?
     let accessKey: Swift.String?
@@ -5449,7 +5449,7 @@ extension DescribeLocationS3Input {
 }
 
 /// DescribeLocationS3Request
-public struct DescribeLocationS3Input: Swift.Equatable {
+public struct DescribeLocationS3Input {
     /// Specifies the Amazon Resource Name (ARN) of the Amazon S3 location.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -5462,7 +5462,7 @@ public struct DescribeLocationS3Input: Swift.Equatable {
     }
 }
 
-struct DescribeLocationS3InputBody: Swift.Equatable {
+struct DescribeLocationS3InputBody {
     let locationArn: Swift.String?
 }
 
@@ -5501,7 +5501,7 @@ extension DescribeLocationS3Output: ClientRuntime.HttpResponseBinding {
 }
 
 /// DescribeLocationS3Response
-public struct DescribeLocationS3Output: Swift.Equatable {
+public struct DescribeLocationS3Output {
     /// The ARNs of the DataSync agents deployed on your Outpost when using working with Amazon S3 on Outposts. For more information, see [Deploy your DataSync agent on Outposts](https://docs.aws.amazon.com/datasync/latest/userguide/deploy-agents.html#outposts-agent).
     public var agentArns: [Swift.String]?
     /// The time that the Amazon S3 location was created.
@@ -5533,7 +5533,7 @@ public struct DescribeLocationS3Output: Swift.Equatable {
     }
 }
 
-struct DescribeLocationS3OutputBody: Swift.Equatable {
+struct DescribeLocationS3OutputBody {
     let locationArn: Swift.String?
     let locationUri: Swift.String?
     let s3StorageClass: DataSyncClientTypes.S3StorageClass?
@@ -5611,7 +5611,7 @@ extension DescribeLocationSmbInput {
 }
 
 /// DescribeLocationSmbRequest
-public struct DescribeLocationSmbInput: Swift.Equatable {
+public struct DescribeLocationSmbInput {
     /// Specifies the Amazon Resource Name (ARN) of the SMB location that you want information about.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -5624,7 +5624,7 @@ public struct DescribeLocationSmbInput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationSmbInputBody: Swift.Equatable {
+struct DescribeLocationSmbInputBody {
     let locationArn: Swift.String?
 }
 
@@ -5665,7 +5665,7 @@ extension DescribeLocationSmbOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// DescribeLocationSmbResponse
-public struct DescribeLocationSmbOutput: Swift.Equatable {
+public struct DescribeLocationSmbOutput {
     /// The ARNs of the DataSync agents that can connect with your SMB file server.
     public var agentArns: [Swift.String]?
     /// The time that the SMB location was created.
@@ -5701,7 +5701,7 @@ public struct DescribeLocationSmbOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLocationSmbOutputBody: Swift.Equatable {
+struct DescribeLocationSmbOutputBody {
     let locationArn: Swift.String?
     let locationUri: Swift.String?
     let agentArns: [Swift.String]?
@@ -5782,7 +5782,7 @@ extension DescribeStorageSystemInput {
     }
 }
 
-public struct DescribeStorageSystemInput: Swift.Equatable {
+public struct DescribeStorageSystemInput {
     /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system that you're using with DataSync Discovery.
     /// This member is required.
     public var storageSystemArn: Swift.String?
@@ -5795,7 +5795,7 @@ public struct DescribeStorageSystemInput: Swift.Equatable {
     }
 }
 
-struct DescribeStorageSystemInputBody: Swift.Equatable {
+struct DescribeStorageSystemInputBody {
     let storageSystemArn: Swift.String?
 }
 
@@ -5841,7 +5841,7 @@ extension DescribeStorageSystemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeStorageSystemOutput: Swift.Equatable {
+public struct DescribeStorageSystemOutput {
     /// The ARN of the DataSync agent that connects to and reads from your on-premises storage system.
     public var agentArns: [Swift.String]?
     /// The ARN of the Amazon CloudWatch log group that's used to monitor and log discovery job events.
@@ -5889,7 +5889,7 @@ public struct DescribeStorageSystemOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStorageSystemOutputBody: Swift.Equatable {
+struct DescribeStorageSystemOutputBody {
     let storageSystemArn: Swift.String?
     let serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
     let systemType: DataSyncClientTypes.DiscoverySystemType?
@@ -6006,7 +6006,7 @@ extension DescribeStorageSystemResourceMetricsInput {
     }
 }
 
-public struct DescribeStorageSystemResourceMetricsInput: Swift.Equatable {
+public struct DescribeStorageSystemResourceMetricsInput {
     /// Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
     /// This member is required.
     public var discoveryJobArn: Swift.String?
@@ -6045,7 +6045,7 @@ public struct DescribeStorageSystemResourceMetricsInput: Swift.Equatable {
     }
 }
 
-struct DescribeStorageSystemResourceMetricsInputBody: Swift.Equatable {
+struct DescribeStorageSystemResourceMetricsInputBody {
     let discoveryJobArn: Swift.String?
     let resourceType: DataSyncClientTypes.DiscoveryResourceType?
     let resourceId: Swift.String?
@@ -6099,7 +6099,7 @@ extension DescribeStorageSystemResourceMetricsOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DescribeStorageSystemResourceMetricsOutput: Swift.Equatable {
+public struct DescribeStorageSystemResourceMetricsOutput {
     /// The details that your discovery job collected about your storage system resource.
     public var metrics: [DataSyncClientTypes.ResourceMetrics]?
     /// The opaque string that indicates the position to begin the next list of results in the response.
@@ -6115,7 +6115,7 @@ public struct DescribeStorageSystemResourceMetricsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStorageSystemResourceMetricsOutputBody: Swift.Equatable {
+struct DescribeStorageSystemResourceMetricsOutputBody {
     let metrics: [DataSyncClientTypes.ResourceMetrics]?
     let nextToken: Swift.String?
 }
@@ -6205,7 +6205,7 @@ extension DescribeStorageSystemResourcesInput {
     }
 }
 
-public struct DescribeStorageSystemResourcesInput: Swift.Equatable {
+public struct DescribeStorageSystemResourcesInput {
     /// Specifies the Amazon Resource Name (ARN) of the discovery job that's collecting data from your on-premises storage system.
     /// This member is required.
     public var discoveryJobArn: Swift.String?
@@ -6239,7 +6239,7 @@ public struct DescribeStorageSystemResourcesInput: Swift.Equatable {
     }
 }
 
-struct DescribeStorageSystemResourcesInputBody: Swift.Equatable {
+struct DescribeStorageSystemResourcesInputBody {
     let discoveryJobArn: Swift.String?
     let resourceType: DataSyncClientTypes.DiscoveryResourceType?
     let resourceIds: [Swift.String]?
@@ -6314,7 +6314,7 @@ extension DescribeStorageSystemResourcesOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeStorageSystemResourcesOutput: Swift.Equatable {
+public struct DescribeStorageSystemResourcesOutput {
     /// The opaque string that indicates the position to begin the next list of results in the response.
     public var nextToken: Swift.String?
     /// The information collected about your storage system's resources. A response can also include Amazon Web Services storage service recommendations. For more information, see [storage resource information](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-findings.html) collected by and [recommendations](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html) provided by DataSync Discovery.
@@ -6330,7 +6330,7 @@ public struct DescribeStorageSystemResourcesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStorageSystemResourcesOutputBody: Swift.Equatable {
+struct DescribeStorageSystemResourcesOutputBody {
     let resourceDetails: DataSyncClientTypes.ResourceDetails?
     let nextToken: Swift.String?
 }
@@ -6383,7 +6383,7 @@ extension DescribeTaskExecutionInput {
 }
 
 /// DescribeTaskExecutionRequest
-public struct DescribeTaskExecutionInput: Swift.Equatable {
+public struct DescribeTaskExecutionInput {
     /// Specifies the Amazon Resource Name (ARN) of the task execution that you want information about.
     /// This member is required.
     public var taskExecutionArn: Swift.String?
@@ -6396,7 +6396,7 @@ public struct DescribeTaskExecutionInput: Swift.Equatable {
     }
 }
 
-struct DescribeTaskExecutionInputBody: Swift.Equatable {
+struct DescribeTaskExecutionInputBody {
     let taskExecutionArn: Swift.String?
 }
 
@@ -6463,7 +6463,7 @@ extension DescribeTaskExecutionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// DescribeTaskExecutionResponse
-public struct DescribeTaskExecutionOutput: Swift.Equatable {
+public struct DescribeTaskExecutionOutput {
     /// The physical number of bytes transferred over the network after compression was applied. In most cases, this number is less than BytesTransferred unless the data isn't compressible.
     public var bytesCompressed: Swift.Int
     /// The total number of bytes that are involved in the transfer. For the number of bytes sent over the network, see BytesCompressed.
@@ -6551,7 +6551,7 @@ public struct DescribeTaskExecutionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTaskExecutionOutputBody: Swift.Equatable {
+struct DescribeTaskExecutionOutputBody {
     let taskExecutionArn: Swift.String?
     let status: DataSyncClientTypes.TaskExecutionStatus?
     let options: DataSyncClientTypes.Options?
@@ -6694,7 +6694,7 @@ extension DescribeTaskInput {
 }
 
 /// DescribeTaskRequest
-public struct DescribeTaskInput: Swift.Equatable {
+public struct DescribeTaskInput {
     /// Specifies the Amazon Resource Name (ARN) of the transfer task.
     /// This member is required.
     public var taskArn: Swift.String?
@@ -6707,7 +6707,7 @@ public struct DescribeTaskInput: Swift.Equatable {
     }
 }
 
-struct DescribeTaskInputBody: Swift.Equatable {
+struct DescribeTaskInputBody {
     let taskArn: Swift.String?
 }
 
@@ -6770,7 +6770,7 @@ extension DescribeTaskOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// DescribeTaskResponse
-public struct DescribeTaskOutput: Swift.Equatable {
+public struct DescribeTaskOutput {
     /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that was used to monitor and log events in the task. For more information on these groups, see Working with Log Groups and Log Streams in the Amazon CloudWatch User Guide.
     public var cloudWatchLogGroupArn: Swift.String?
     /// The time that the task was created.
@@ -6850,7 +6850,7 @@ public struct DescribeTaskOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTaskOutputBody: Swift.Equatable {
+struct DescribeTaskOutputBody {
     let taskArn: Swift.String?
     let status: DataSyncClientTypes.TaskStatus?
     let name: Swift.String?
@@ -7009,7 +7009,7 @@ extension DataSyncClientTypes.DiscoveryJobListEntry: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The details about a specific DataSync discovery job.
-    public struct DiscoveryJobListEntry: Swift.Equatable {
+    public struct DiscoveryJobListEntry {
         /// The Amazon Resource Name (ARN) of a discovery job.
         public var discoveryJobArn: Swift.String?
         /// The status of a discovery job. For more information, see [Discovery job statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table).
@@ -7165,7 +7165,7 @@ extension DataSyncClientTypes.DiscoveryServerConfiguration: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The network settings that DataSync Discovery uses to connect with your on-premises storage system's management interface.
-    public struct DiscoveryServerConfiguration: Swift.Equatable {
+    public struct DiscoveryServerConfiguration {
         /// The domain name or IP address of your storage system's management interface.
         /// This member is required.
         public var serverHostname: Swift.String?
@@ -7252,7 +7252,7 @@ extension DataSyncClientTypes.Ec2Config: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The subnet and security groups that DataSync uses to access your Amazon EFS file system.
-    public struct Ec2Config: Swift.Equatable {
+    public struct Ec2Config {
         /// Specifies the Amazon Resource Names (ARNs) of the security groups associated with an Amazon EFS file system's mount target.
         /// This member is required.
         public var securityGroupArns: [Swift.String]?
@@ -7373,7 +7373,7 @@ extension DataSyncClientTypes.FilterRule: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies which files, folders, and objects to include or exclude when transferring files from source to destination.
-    public struct FilterRule: Swift.Equatable {
+    public struct FilterRule {
         /// The type of filter rule to apply. DataSync only supports the SIMPLE_PATTERN rule type.
         public var filterType: DataSyncClientTypes.FilterType?
         /// A single filter string that consists of the patterns to include or exclude. The patterns are delimited by "|" (that is, a pipe), for example: /folder1|/folder2
@@ -7447,7 +7447,7 @@ extension DataSyncClientTypes.FsxProtocol: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies the data transfer protocol that DataSync uses to access your Amazon FSx file system.
-    public struct FsxProtocol: Swift.Equatable {
+    public struct FsxProtocol {
         /// Specifies the Network File System (NFS) protocol configuration that DataSync uses to access your FSx for OpenZFS file system or FSx for ONTAP file system's storage virtual machine (SVM).
         public var nfs: DataSyncClientTypes.FsxProtocolNfs?
         /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your FSx for ONTAP file system's SVM.
@@ -7486,7 +7486,7 @@ extension DataSyncClientTypes.FsxProtocolNfs: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies the Network File System (NFS) protocol configuration that DataSync uses to access your Amazon FSx for OpenZFS or Amazon FSx for NetApp ONTAP file system.
-    public struct FsxProtocolNfs: Swift.Equatable {
+    public struct FsxProtocolNfs {
         /// Specifies how DataSync can access a location using the NFS protocol.
         public var mountOptions: DataSyncClientTypes.NfsMountOptions?
 
@@ -7544,7 +7544,7 @@ extension DataSyncClientTypes.FsxProtocolSmb: Swift.CustomDebugStringConvertible
 
 extension DataSyncClientTypes {
     /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your Amazon FSx for NetApp ONTAP file system. For more information, see [Accessing FSx for ONTAP file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
-    public struct FsxProtocolSmb: Swift.Equatable {
+    public struct FsxProtocolSmb {
         /// Specifies the fully qualified domain name (FQDN) of the Microsoft Active Directory that your storage virtual machine (SVM) belongs to. If you have multiple domains in your environment, configuring this setting makes sure that DataSync connects to the right SVM.
         public var domain: Swift.String?
         /// Specifies the version of the Server Message Block (SMB) protocol that DataSync uses to access an SMB file server.
@@ -7603,7 +7603,7 @@ extension GenerateRecommendationsInput {
     }
 }
 
-public struct GenerateRecommendationsInput: Swift.Equatable {
+public struct GenerateRecommendationsInput {
     /// Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
     /// This member is required.
     public var discoveryJobArn: Swift.String?
@@ -7626,7 +7626,7 @@ public struct GenerateRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GenerateRecommendationsInputBody: Swift.Equatable {
+struct GenerateRecommendationsInputBody {
     let discoveryJobArn: Swift.String?
     let resourceIds: [Swift.String]?
     let resourceType: DataSyncClientTypes.DiscoveryResourceType?
@@ -7664,7 +7664,7 @@ extension GenerateRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateRecommendationsOutput: Swift.Equatable {
+public struct GenerateRecommendationsOutput {
 
     public init() { }
 }
@@ -7816,7 +7816,7 @@ extension DataSyncClientTypes.HdfsNameNode: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The NameNode of the Hadoop Distributed File System (HDFS). The NameNode manages the file system's namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes.
-    public struct HdfsNameNode: Swift.Equatable {
+    public struct HdfsNameNode {
         /// The hostname of the NameNode in the HDFS cluster. This value is the IP address or Domain Name Service (DNS) name of the NameNode. An agent that's installed on-premises uses this hostname to communicate with the NameNode in the network.
         /// This member is required.
         public var hostname: Swift.String?
@@ -7913,7 +7913,7 @@ extension DataSyncClientTypes.IOPS: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The IOPS peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
-    public struct IOPS: Swift.Equatable {
+    public struct IOPS {
         /// Peak IOPS unrelated to read and write operations.
         public var other: Swift.Double?
         /// Peak IOPS related to read operations.
@@ -7983,7 +7983,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InternalExceptionBody: Swift.Equatable {
+struct InternalExceptionBody {
     let message: Swift.String?
     let errorCode: Swift.String?
 }
@@ -8052,7 +8052,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
     let errorCode: Swift.String?
     let datasyncErrorCode: Swift.String?
@@ -8109,7 +8109,7 @@ extension DataSyncClientTypes.Latency: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The latency peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
-    public struct Latency: Swift.Equatable {
+    public struct Latency {
         /// Peak latency for operations unrelated to read and write operations.
         public var other: Swift.Double?
         /// Peak latency for read operations.
@@ -8156,7 +8156,7 @@ extension ListAgentsInput {
 }
 
 /// ListAgentsRequest
-public struct ListAgentsInput: Swift.Equatable {
+public struct ListAgentsInput {
     /// Specifies the maximum number of DataSync agents to list in a response. By default, a response shows a maximum of 100 agents.
     public var maxResults: Swift.Int?
     /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
@@ -8172,7 +8172,7 @@ public struct ListAgentsInput: Swift.Equatable {
     }
 }
 
-struct ListAgentsInputBody: Swift.Equatable {
+struct ListAgentsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8207,7 +8207,7 @@ extension ListAgentsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// ListAgentsResponse
-public struct ListAgentsOutput: Swift.Equatable {
+public struct ListAgentsOutput {
     /// A list of DataSync agents in your Amazon Web Services account in the Amazon Web Services Region specified in the request. The list is ordered by the agents' Amazon Resource Names (ARNs).
     public var agents: [DataSyncClientTypes.AgentListEntry]?
     /// The opaque string that indicates the position to begin the next list of results in the response.
@@ -8223,7 +8223,7 @@ public struct ListAgentsOutput: Swift.Equatable {
     }
 }
 
-struct ListAgentsOutputBody: Swift.Equatable {
+struct ListAgentsOutputBody {
     let agents: [DataSyncClientTypes.AgentListEntry]?
     let nextToken: Swift.String?
 }
@@ -8292,7 +8292,7 @@ extension ListDiscoveryJobsInput {
     }
 }
 
-public struct ListDiscoveryJobsInput: Swift.Equatable {
+public struct ListDiscoveryJobsInput {
     /// Specifies how many results you want in the response.
     public var maxResults: Swift.Int?
     /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
@@ -8312,7 +8312,7 @@ public struct ListDiscoveryJobsInput: Swift.Equatable {
     }
 }
 
-struct ListDiscoveryJobsInputBody: Swift.Equatable {
+struct ListDiscoveryJobsInputBody {
     let storageSystemArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -8350,7 +8350,7 @@ extension ListDiscoveryJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDiscoveryJobsOutput: Swift.Equatable {
+public struct ListDiscoveryJobsOutput {
     /// The discovery jobs that you've run.
     public var discoveryJobs: [DataSyncClientTypes.DiscoveryJobListEntry]?
     /// The opaque string that indicates the position to begin the next list of results in the response.
@@ -8366,7 +8366,7 @@ public struct ListDiscoveryJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListDiscoveryJobsOutputBody: Swift.Equatable {
+struct ListDiscoveryJobsOutputBody {
     let discoveryJobs: [DataSyncClientTypes.DiscoveryJobListEntry]?
     let nextToken: Swift.String?
 }
@@ -8439,7 +8439,7 @@ extension ListLocationsInput {
 }
 
 /// ListLocationsRequest
-public struct ListLocationsInput: Swift.Equatable {
+public struct ListLocationsInput {
     /// You can use API filters to narrow down the list of resources returned by ListLocations. For example, to retrieve all tasks on a specific source location, you can use ListLocations with filter name LocationType S3 and Operator Equals.
     public var filters: [DataSyncClientTypes.LocationFilter]?
     /// The maximum number of locations to return.
@@ -8459,7 +8459,7 @@ public struct ListLocationsInput: Swift.Equatable {
     }
 }
 
-struct ListLocationsInputBody: Swift.Equatable {
+struct ListLocationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [DataSyncClientTypes.LocationFilter]?
@@ -8507,7 +8507,7 @@ extension ListLocationsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// ListLocationsResponse
-public struct ListLocationsOutput: Swift.Equatable {
+public struct ListLocationsOutput {
     /// An array that contains a list of locations.
     public var locations: [DataSyncClientTypes.LocationListEntry]?
     /// An opaque string that indicates the position at which to begin returning the next list of locations.
@@ -8523,7 +8523,7 @@ public struct ListLocationsOutput: Swift.Equatable {
     }
 }
 
-struct ListLocationsOutputBody: Swift.Equatable {
+struct ListLocationsOutputBody {
     let locations: [DataSyncClientTypes.LocationListEntry]?
     let nextToken: Swift.String?
 }
@@ -8588,7 +8588,7 @@ extension ListStorageSystemsInput {
     }
 }
 
-public struct ListStorageSystemsInput: Swift.Equatable {
+public struct ListStorageSystemsInput {
     /// Specifies how many results you want in the response.
     public var maxResults: Swift.Int?
     /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
@@ -8604,7 +8604,7 @@ public struct ListStorageSystemsInput: Swift.Equatable {
     }
 }
 
-struct ListStorageSystemsInputBody: Swift.Equatable {
+struct ListStorageSystemsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8638,7 +8638,7 @@ extension ListStorageSystemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStorageSystemsOutput: Swift.Equatable {
+public struct ListStorageSystemsOutput {
     /// The opaque string that indicates the position to begin the next list of results in the response.
     public var nextToken: Swift.String?
     /// The Amazon Resource Names ARNs) of the on-premises storage systems that you're using with DataSync Discovery.
@@ -8654,7 +8654,7 @@ public struct ListStorageSystemsOutput: Swift.Equatable {
     }
 }
 
-struct ListStorageSystemsOutputBody: Swift.Equatable {
+struct ListStorageSystemsOutputBody {
     let storageSystems: [DataSyncClientTypes.StorageSystemListEntry]?
     let nextToken: Swift.String?
 }
@@ -8724,7 +8724,7 @@ extension ListTagsForResourceInput {
 }
 
 /// ListTagsForResourceRequest
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// Specifies how many results that you want in the response.
     public var maxResults: Swift.Int?
     /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
@@ -8745,7 +8745,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -8784,7 +8784,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// ListTagsForResourceResponse
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The opaque string that indicates the position to begin the next list of results in the response.
     public var nextToken: Swift.String?
     /// An array of tags applied to the specified resource.
@@ -8800,7 +8800,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [DataSyncClientTypes.TagListEntry]?
     let nextToken: Swift.String?
 }
@@ -8870,7 +8870,7 @@ extension ListTaskExecutionsInput {
 }
 
 /// ListTaskExecutions
-public struct ListTaskExecutionsInput: Swift.Equatable {
+public struct ListTaskExecutionsInput {
     /// Specifies how many results you want in the response.
     public var maxResults: Swift.Int?
     /// Specifies an opaque string that indicates the position at which to begin the next list of results in the response.
@@ -8890,7 +8890,7 @@ public struct ListTaskExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListTaskExecutionsInputBody: Swift.Equatable {
+struct ListTaskExecutionsInputBody {
     let taskArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -8929,7 +8929,7 @@ extension ListTaskExecutionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// ListTaskExecutionsResponse
-public struct ListTaskExecutionsOutput: Swift.Equatable {
+public struct ListTaskExecutionsOutput {
     /// The opaque string that indicates the position to begin the next list of results in the response.
     public var nextToken: Swift.String?
     /// A list of the task's executions.
@@ -8945,7 +8945,7 @@ public struct ListTaskExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListTaskExecutionsOutputBody: Swift.Equatable {
+struct ListTaskExecutionsOutputBody {
     let taskExecutions: [DataSyncClientTypes.TaskExecutionListEntry]?
     let nextToken: Swift.String?
 }
@@ -9018,7 +9018,7 @@ extension ListTasksInput {
 }
 
 /// ListTasksRequest
-public struct ListTasksInput: Swift.Equatable {
+public struct ListTasksInput {
     /// You can use API filters to narrow down the list of resources returned by ListTasks. For example, to retrieve all tasks on a specific source location, you can use ListTasks with filter name LocationId and Operator Equals with the ARN for the location.
     public var filters: [DataSyncClientTypes.TaskFilter]?
     /// The maximum number of tasks to return.
@@ -9038,7 +9038,7 @@ public struct ListTasksInput: Swift.Equatable {
     }
 }
 
-struct ListTasksInputBody: Swift.Equatable {
+struct ListTasksInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [DataSyncClientTypes.TaskFilter]?
@@ -9086,7 +9086,7 @@ extension ListTasksOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// ListTasksResponse
-public struct ListTasksOutput: Swift.Equatable {
+public struct ListTasksOutput {
     /// An opaque string that indicates the position at which to begin returning the next list of tasks.
     public var nextToken: Swift.String?
     /// A list of all the tasks that are returned.
@@ -9102,7 +9102,7 @@ public struct ListTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListTasksOutputBody: Swift.Equatable {
+struct ListTasksOutputBody {
     let tasks: [DataSyncClientTypes.TaskListEntry]?
     let nextToken: Swift.String?
 }
@@ -9188,7 +9188,7 @@ extension DataSyncClientTypes.LocationFilter: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Narrow down the list of resources returned by ListLocations. For example, to see all your Amazon S3 locations, create a filter using "Name": "LocationType", "Operator": "Equals", and "Values": "S3". For more information, see [filtering resources](https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html).
-    public struct LocationFilter: Swift.Equatable {
+    public struct LocationFilter {
         /// The name of the filter being used. Each API call supports a list of filters that are available for it (for example, LocationType for ListLocations).
         /// This member is required.
         public var name: DataSyncClientTypes.LocationFilterName?
@@ -9275,7 +9275,7 @@ extension DataSyncClientTypes.LocationListEntry: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Represents a single entry in a list of locations. LocationListEntry returns an array that contains a list of locations when the [ListLocations](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html) operation is called.
-    public struct LocationListEntry: Swift.Equatable {
+    public struct LocationListEntry {
         /// The Amazon Resource Name (ARN) of the location. For Network File System (NFS) or Amazon EFS, the location is the export path. For Amazon S3, the location is the prefix path that you want to mount and use as the root of the location.
         public var locationArn: Swift.String?
         /// Represents a list of URIs of a location. LocationUri returns an array that contains a list of locations when the [ListLocations](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html) operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location (for example, nfs or s3). GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 address or a hostname that is compliant with Domain Name Service (DNS). SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location.
@@ -9390,7 +9390,7 @@ extension DataSyncClientTypes.ManifestConfig: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Configures a manifest, which is a list of files or objects that you want DataSync to transfer. For more information and configuration examples, see [Specifying what DataSync transfers by using a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html).
-    public struct ManifestConfig: Swift.Equatable {
+    public struct ManifestConfig {
         /// Specifies what DataSync uses the manifest for.
         public var action: DataSyncClientTypes.ManifestAction?
         /// Specifies the file format of your manifest. For more information, see [Creating a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html#transferring-with-manifest-create).
@@ -9522,7 +9522,7 @@ extension DataSyncClientTypes.MaxP95Performance: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The performance data that DataSync Discovery collects about an on-premises storage system resource.
-    public struct MaxP95Performance: Swift.Equatable {
+    public struct MaxP95Performance {
         /// Peak IOPS unrelated to read and write operations.
         public var iopsOther: Swift.Double?
         /// Peak IOPS related to read operations.
@@ -9707,7 +9707,7 @@ extension DataSyncClientTypes.NetAppONTAPCluster: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The information that DataSync Discovery collects about an on-premises storage system cluster.
-    public struct NetAppONTAPCluster: Swift.Equatable {
+    public struct NetAppONTAPCluster {
         /// The number of CIFS shares in the cluster.
         public var cifsShareCount: Swift.Int?
         /// The storage space that's being used in the cluster without accounting for compression or deduplication.
@@ -9888,7 +9888,7 @@ extension DataSyncClientTypes.NetAppONTAPSVM: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The information that DataSync Discovery collects about a storage virtual machine (SVM) in your on-premises storage system.
-    public struct NetAppONTAPSVM: Swift.Equatable {
+    public struct NetAppONTAPSVM {
         /// The number of CIFS shares in the SVM.
         public var cifsShareCount: Swift.Int?
         /// The universally unique identifier (UUID) of the cluster associated with the SVM.
@@ -10071,7 +10071,7 @@ extension DataSyncClientTypes.NetAppONTAPVolume: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The information that DataSync Discovery collects about a volume in your on-premises storage system.
-    public struct NetAppONTAPVolume: Swift.Equatable {
+    public struct NetAppONTAPVolume {
         /// The total storage space that's available in the volume.
         public var capacityProvisioned: Swift.Int?
         /// The storage space that's being used in the volume.
@@ -10162,7 +10162,7 @@ extension DataSyncClientTypes.NfsMountOptions: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies how DataSync can access a location using the NFS protocol.
-    public struct NfsMountOptions: Swift.Equatable {
+    public struct NfsMountOptions {
         /// Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the version specified, the task fails. You can specify the following options:
         ///
         /// * AUTOMATIC (default): DataSync chooses NFS version 4.1.
@@ -10354,7 +10354,7 @@ extension DataSyncClientTypes.OnPremConfig: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The DataSync agents that are connecting to a Network File System (NFS) location.
-    public struct OnPremConfig: Swift.Equatable {
+    public struct OnPremConfig {
         /// The Amazon Resource Names (ARNs) of the agents connecting to a transfer location.
         /// This member is required.
         public var agentArns: [Swift.String]?
@@ -10530,7 +10530,7 @@ extension DataSyncClientTypes.Options: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
-    public struct Options: Swift.Equatable {
+    public struct Options {
         /// Specifies whether to preserve metadata indicating the last time a file was read or written to. The behavior of Atime isn't fully standard across platforms, so DataSync can only do this on a best-effort basis.
         ///
         /// * BEST_EFFORT (default) - DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING phase of the task execution). This option is recommended.
@@ -10753,7 +10753,7 @@ extension DataSyncClientTypes.P95Metrics: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The types of performance data that DataSync Discovery collects about an on-premises storage system resource.
-    public struct P95Metrics: Swift.Equatable {
+    public struct P95Metrics {
         /// The IOPS peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
         public var iops: DataSyncClientTypes.IOPS?
         /// The latency peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
@@ -10831,7 +10831,7 @@ extension DataSyncClientTypes.Platform: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The platform-related details about the DataSync agent, such as the version number.
-    public struct Platform: Swift.Equatable {
+    public struct Platform {
         /// The version of the DataSync agent. On December 7, 2023, we discontinued version 1 DataSync agents. Check the DataSync console to see if you have affected agents. If you do, [replace](https://docs.aws.amazon.com/datasync/latest/userguide/replacing-agent.html) those agents or [delete](https://docs.aws.amazon.com/datasync/latest/userguide/deleting-agent.html) them if they aren't in use. If you need more help, contact [Amazon Web Services Support](https://aws.amazon.com/contact-us/).
         public var version: Swift.String?
 
@@ -11004,7 +11004,7 @@ extension DataSyncClientTypes.PrivateLinkConfig: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies how your DataSync agent connects to Amazon Web Services using a [virtual private cloud (VPC) service endpoint](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#choose-service-endpoint-vpc). An agent that uses a VPC endpoint isn't accessible over the public internet.
-    public struct PrivateLinkConfig: Swift.Equatable {
+    public struct PrivateLinkConfig {
         /// Specifies the VPC endpoint provided by [Amazon Web Services PrivateLink](https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html) that your agent connects to.
         public var privateLinkEndpoint: Swift.String?
         /// Specifies the Amazon Resource Names (ARN) of the security group that provides DataSync access to your VPC endpoint. You can only specify one ARN.
@@ -11057,7 +11057,7 @@ extension DataSyncClientTypes.QopConfiguration: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer privacy settings configured on the Hadoop Distributed File System (HDFS) cluster.
-    public struct QopConfiguration: Swift.Equatable {
+    public struct QopConfiguration {
         /// The data transfer protection setting configured on the HDFS cluster. This setting corresponds to your dfs.data.transfer.protection setting in the hdfs-site.xml file on your Hadoop cluster.
         public var dataTransferProtection: DataSyncClientTypes.HdfsDataTransferProtection?
         /// The RPC protection setting configured on the HDFS cluster. This setting corresponds to your hadoop.rpc.protection setting in your core-site.xml file on your Hadoop cluster.
@@ -11120,7 +11120,7 @@ extension DataSyncClientTypes.Recommendation: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The details about an Amazon Web Services storage service that DataSync Discovery recommends for a resource in your on-premises storage system. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// The estimated monthly cost of the recommended Amazon Web Services storage service.
         public var estimatedMonthlyStorageCost: Swift.String?
         /// Information about how you can set up a recommended Amazon Web Services storage service.
@@ -11200,7 +11200,7 @@ extension RemoveStorageSystemInput {
     }
 }
 
-public struct RemoveStorageSystemInput: Swift.Equatable {
+public struct RemoveStorageSystemInput {
     /// Specifies the Amazon Resource Name (ARN) of the storage system that you want to permanently remove from DataSync Discovery.
     /// This member is required.
     public var storageSystemArn: Swift.String?
@@ -11213,7 +11213,7 @@ public struct RemoveStorageSystemInput: Swift.Equatable {
     }
 }
 
-struct RemoveStorageSystemInputBody: Swift.Equatable {
+struct RemoveStorageSystemInputBody {
     let storageSystemArn: Swift.String?
 }
 
@@ -11234,7 +11234,7 @@ extension RemoveStorageSystemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveStorageSystemOutput: Swift.Equatable {
+public struct RemoveStorageSystemOutput {
 
     public init() { }
 }
@@ -11272,7 +11272,7 @@ extension DataSyncClientTypes.ReportDestination: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies where DataSync uploads your [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
-    public struct ReportDestination: Swift.Equatable {
+    public struct ReportDestination {
         /// Specifies the Amazon S3 bucket where DataSync uploads your task report.
         public var s3: DataSyncClientTypes.ReportDestinationS3?
 
@@ -11319,7 +11319,7 @@ extension DataSyncClientTypes.ReportDestinationS3: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies the Amazon S3 bucket where DataSync uploads your [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
-    public struct ReportDestinationS3: Swift.Equatable {
+    public struct ReportDestinationS3 {
         /// Specifies the Amazon Resource Name (ARN) of the IAM policy that allows DataSync to upload a task report to your S3 bucket. For more information, see [Allowing DataSync to upload a task report to an Amazon S3 bucket](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
         /// This member is required.
         public var bucketAccessRoleArn: Swift.String?
@@ -11428,7 +11428,7 @@ extension DataSyncClientTypes.ReportOverride: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies the level of detail for a particular aspect of your DataSync [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
-    public struct ReportOverride: Swift.Equatable {
+    public struct ReportOverride {
         /// Specifies whether your task report includes errors only or successes and errors. For example, your report might mostly include only what didn't go well in your transfer (ERRORS_ONLY). At the same time, you want to verify that your [task filter](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html) is working correctly. In this situation, you can get a list of what files DataSync successfully skipped and if something transferred that you didn't to transfer (SUCCESSES_AND_ERRORS).
         public var reportLevel: DataSyncClientTypes.ReportLevel?
 
@@ -11481,7 +11481,7 @@ extension DataSyncClientTypes.ReportOverrides: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The level of detail included in each aspect of your DataSync [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
-    public struct ReportOverrides: Swift.Equatable {
+    public struct ReportOverrides {
         /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to delete in your destination location. This only applies if you [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html) to delete data in the destination that isn't in the source.
         public var deleted: DataSyncClientTypes.ReportOverride?
         /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to skip during your transfer.
@@ -11540,7 +11540,7 @@ extension DataSyncClientTypes.ReportResult: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Indicates whether DataSync created a complete [task report](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html) for your transfer.
-    public struct ReportResult: Swift.Equatable {
+    public struct ReportResult {
         /// Indicates the code associated with the error if DataSync can't create a complete report.
         public var errorCode: Swift.String?
         /// Provides details about issues creating a report.
@@ -11631,7 +11631,7 @@ extension DataSyncClientTypes.ResourceDetails: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Information provided by DataSync Discovery about the resources in your on-premises storage system.
-    public struct ResourceDetails: Swift.Equatable {
+    public struct ResourceDetails {
         /// The information that DataSync Discovery collects about the cluster in your on-premises storage system.
         public var netAppONTAPClusters: [DataSyncClientTypes.NetAppONTAPCluster]?
         /// The information that DataSync Discovery collects about storage virtual machines (SVMs) in your on-premises storage system.
@@ -11698,7 +11698,7 @@ extension DataSyncClientTypes.ResourceMetrics: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Information, including performance data and capacity usage, provided by DataSync Discovery about a resource in your on-premises storage system.
-    public struct ResourceMetrics: Swift.Equatable {
+    public struct ResourceMetrics {
         /// The storage capacity of the on-premises storage system resource.
         public var capacity: DataSyncClientTypes.Capacity?
         /// The types of performance data that DataSync Discovery collects about the on-premises storage system resource.
@@ -11749,7 +11749,7 @@ extension DataSyncClientTypes.S3Config: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see [Accessing S3 buckets](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access).
-    public struct S3Config: Swift.Equatable {
+    public struct S3Config {
         /// Specifies the ARN of the IAM role that DataSync uses to access your S3 bucket.
         /// This member is required.
         public var bucketAccessRoleArn: Swift.String?
@@ -11803,7 +11803,7 @@ extension DataSyncClientTypes.S3ManifestConfig: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies the S3 bucket where you're hosting the manifest that you want DataSync to use. For more information and configuration examples, see [Specifying what DataSync transfers by using a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html).
-    public struct S3ManifestConfig: Swift.Equatable {
+    public struct S3ManifestConfig {
         /// Specifies the Identity and Access Management (IAM) role that allows DataSync to access your manifest. For more information, see [Providing DataSync access to your manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html#transferring-with-manifest-access).
         /// This member is required.
         public var bucketAccessRoleArn: Swift.String?
@@ -11903,7 +11903,7 @@ extension DataSyncClientTypes.SmbMountOptions: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies the version of the Server Message Block (SMB) protocol that DataSync uses to access an SMB file server.
-    public struct SmbMountOptions: Swift.Equatable {
+    public struct SmbMountOptions {
         /// By default, DataSync automatically chooses an SMB protocol version based on negotiation with your SMB file server. You also can configure DataSync to use a specific SMB version, but we recommend doing this only if DataSync has trouble negotiating with the SMB file server automatically. These are the following options for configuring the SMB version:
         ///
         /// * AUTOMATIC (default): DataSync and the SMB file server negotiate the highest version of SMB that they mutually support between 2.1 and 3.1.1. This is the recommended option. If you instead choose a specific version that your file server doesn't support, you may get an Operation Not Supported error.
@@ -12024,7 +12024,7 @@ extension DataSyncClientTypes.SourceManifestConfig: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies the manifest that you want DataSync to use and where it's hosted. For more information and configuration examples, see [Specifying what DataSync transfers by using a manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html).
-    public struct SourceManifestConfig: Swift.Equatable {
+    public struct SourceManifestConfig {
         /// Specifies the S3 bucket where you're hosting your manifest.
         /// This member is required.
         public var s3: DataSyncClientTypes.S3ManifestConfig?
@@ -12074,7 +12074,7 @@ extension StartDiscoveryJobInput {
     }
 }
 
-public struct StartDiscoveryJobInput: Swift.Equatable {
+public struct StartDiscoveryJobInput {
     /// Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -12101,7 +12101,7 @@ public struct StartDiscoveryJobInput: Swift.Equatable {
     }
 }
 
-struct StartDiscoveryJobInputBody: Swift.Equatable {
+struct StartDiscoveryJobInputBody {
     let storageSystemArn: Swift.String?
     let collectionDurationMinutes: Swift.Int?
     let clientToken: Swift.String?
@@ -12150,7 +12150,7 @@ extension StartDiscoveryJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDiscoveryJobOutput: Swift.Equatable {
+public struct StartDiscoveryJobOutput {
     /// The ARN of the discovery job that you started.
     public var discoveryJobArn: Swift.String?
 
@@ -12162,7 +12162,7 @@ public struct StartDiscoveryJobOutput: Swift.Equatable {
     }
 }
 
-struct StartDiscoveryJobOutputBody: Swift.Equatable {
+struct StartDiscoveryJobOutputBody {
     let discoveryJobArn: Swift.String?
 }
 
@@ -12244,7 +12244,7 @@ extension StartTaskExecutionInput {
 }
 
 /// StartTaskExecutionRequest
-public struct StartTaskExecutionInput: Swift.Equatable {
+public struct StartTaskExecutionInput {
     /// Specifies a list of filter rules that determines which files to exclude from a task. The list contains a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
     public var excludes: [DataSyncClientTypes.FilterRule]?
     /// Specifies a list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
@@ -12281,7 +12281,7 @@ public struct StartTaskExecutionInput: Swift.Equatable {
     }
 }
 
-struct StartTaskExecutionInputBody: Swift.Equatable {
+struct StartTaskExecutionInputBody {
     let taskArn: Swift.String?
     let overrideOptions: DataSyncClientTypes.Options?
     let includes: [DataSyncClientTypes.FilterRule]?
@@ -12361,7 +12361,7 @@ extension StartTaskExecutionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// StartTaskExecutionResponse
-public struct StartTaskExecutionOutput: Swift.Equatable {
+public struct StartTaskExecutionOutput {
     /// The ARN of the running task execution.
     public var taskExecutionArn: Swift.String?
 
@@ -12373,7 +12373,7 @@ public struct StartTaskExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StartTaskExecutionOutputBody: Swift.Equatable {
+struct StartTaskExecutionOutputBody {
     let taskExecutionArn: Swift.String?
 }
 
@@ -12421,7 +12421,7 @@ extension StopDiscoveryJobInput {
     }
 }
 
-public struct StopDiscoveryJobInput: Swift.Equatable {
+public struct StopDiscoveryJobInput {
     /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want to stop.
     /// This member is required.
     public var discoveryJobArn: Swift.String?
@@ -12434,7 +12434,7 @@ public struct StopDiscoveryJobInput: Swift.Equatable {
     }
 }
 
-struct StopDiscoveryJobInputBody: Swift.Equatable {
+struct StopDiscoveryJobInputBody {
     let discoveryJobArn: Swift.String?
 }
 
@@ -12455,7 +12455,7 @@ extension StopDiscoveryJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopDiscoveryJobOutput: Swift.Equatable {
+public struct StopDiscoveryJobOutput {
 
     public init() { }
 }
@@ -12534,7 +12534,7 @@ extension DataSyncClientTypes.StorageSystemListEntry: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Information that identifies an on-premises storage system that you're using with DataSync Discovery.
-    public struct StorageSystemListEntry: Swift.Equatable {
+    public struct StorageSystemListEntry {
         /// The name of an on-premises storage system that you added to DataSync Discovery.
         public var name: Swift.String?
         /// The Amazon Resource Names (ARN) of an on-premises storage system that you added to DataSync Discovery.
@@ -12579,7 +12579,7 @@ extension DataSyncClientTypes.TagListEntry: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// A key-value pair representing a single tag that's been applied to an Amazon Web Services resource.
-    public struct TagListEntry: Swift.Equatable {
+    public struct TagListEntry {
         /// The key for an Amazon Web Services resource tag.
         /// This member is required.
         public var key: Swift.String?
@@ -12626,7 +12626,7 @@ extension TagResourceInput {
 }
 
 /// TagResourceRequest
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// Specifies the Amazon Resource Name (ARN) of the resource to apply the tag to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12644,7 +12644,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [DataSyncClientTypes.TagListEntry]?
 }
@@ -12678,7 +12678,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -12722,7 +12722,7 @@ extension DataSyncClientTypes.TaskExecutionListEntry: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Represents a single entry in a list of DataSync task executions that's returned with the [ListTaskExecutions](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTaskExecutions.html) operation.
-    public struct TaskExecutionListEntry: Swift.Equatable {
+    public struct TaskExecutionListEntry {
         /// The status of a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/understand-task-statuses.html#understand-task-execution-statuses).
         public var status: DataSyncClientTypes.TaskExecutionStatus?
         /// The Amazon Resource Name (ARN) of a task execution.
@@ -12809,7 +12809,7 @@ extension DataSyncClientTypes.TaskExecutionResultDetail: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Describes the detailed result of a TaskExecution operation. This result includes the time in milliseconds spent in each phase, the status of the task execution, and the errors encountered.
-    public struct TaskExecutionResultDetail: Swift.Equatable {
+    public struct TaskExecutionResultDetail {
         /// Errors that DataSync encountered during execution of the task. You can use this error code to help troubleshoot issues.
         public var errorCode: Swift.String?
         /// Detailed description of an error that was encountered during the task execution. You can use this information to help troubleshoot issues.
@@ -12947,7 +12947,7 @@ extension DataSyncClientTypes.TaskFilter: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// You can use API filters to narrow down the list of resources returned by ListTasks. For example, to retrieve all tasks on a source location, you can use ListTasks with filter name LocationId and Operator Equals with the ARN for the location. For more information, see [filtering DataSync resources](https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html).
-    public struct TaskFilter: Swift.Equatable {
+    public struct TaskFilter {
         /// The name of the filter being used. Each API call supports a list of filters that are available for it. For example, LocationId for ListTasks.
         /// This member is required.
         public var name: DataSyncClientTypes.TaskFilterName?
@@ -13037,7 +13037,7 @@ extension DataSyncClientTypes.TaskListEntry: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Represents a single entry in a list of tasks. TaskListEntry returns an array that contains a list of tasks when the [ListTasks](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTasks.html) operation is called. A task includes the source and destination file systems to sync and the options to use for the tasks.
-    public struct TaskListEntry: Swift.Equatable {
+    public struct TaskListEntry {
         /// The name of the task.
         public var name: Swift.String?
         /// The status of the task.
@@ -13136,7 +13136,7 @@ extension DataSyncClientTypes.TaskReportConfig: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies how you want to configure a task report, which provides detailed information about for your DataSync transfer. For more information, see [Task reports](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html).
-    public struct TaskReportConfig: Swift.Equatable {
+    public struct TaskReportConfig {
         /// Specifies the Amazon S3 bucket where DataSync uploads your task report. For more information, see [Task reports](https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html#task-report-access).
         public var destination: DataSyncClientTypes.ReportDestination?
         /// Specifies whether your task report includes the new version of each object transferred into an S3 bucket. This only applies if you [enable versioning on your bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html). Keep in mind that setting this to INCLUDE can increase the duration of your task execution.
@@ -13195,7 +13195,7 @@ extension DataSyncClientTypes.TaskSchedule: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// Specifies the schedule you want your task to use for repeated executions. For more information, see [Schedule Expressions for Rules](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html).
-    public struct TaskSchedule: Swift.Equatable {
+    public struct TaskSchedule {
         /// A cron expression that specifies when DataSync initiates a scheduled transfer from a source to a destination location.
         /// This member is required.
         public var scheduleExpression: Swift.String?
@@ -13290,7 +13290,7 @@ extension DataSyncClientTypes.Throughput: Swift.Codable {
 
 extension DataSyncClientTypes {
     /// The throughput peaks for an on-premises storage system volume. Each data point represents the 95th percentile peak value during a 1-hour interval.
-    public struct Throughput: Swift.Equatable {
+    public struct Throughput {
         /// Peak throughput unrelated to read and write operations.
         public var other: Swift.Double?
         /// Peak throughput related to read operations.
@@ -13414,7 +13414,7 @@ extension UntagResourceInput {
 }
 
 /// UntagResourceRequest
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// Specifies the keys in the tags that you want to remove.
     /// This member is required.
     public var keys: [Swift.String]?
@@ -13432,7 +13432,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let keys: [Swift.String]?
 }
@@ -13466,7 +13466,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -13508,7 +13508,7 @@ extension UpdateAgentInput {
 }
 
 /// UpdateAgentRequest
-public struct UpdateAgentInput: Swift.Equatable {
+public struct UpdateAgentInput {
     /// The Amazon Resource Name (ARN) of the agent to update.
     /// This member is required.
     public var agentArn: Swift.String?
@@ -13525,7 +13525,7 @@ public struct UpdateAgentInput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentInputBody: Swift.Equatable {
+struct UpdateAgentInputBody {
     let agentArn: Swift.String?
     let name: Swift.String?
 }
@@ -13550,7 +13550,7 @@ extension UpdateAgentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAgentOutput: Swift.Equatable {
+public struct UpdateAgentOutput {
 
     public init() { }
 }
@@ -13591,7 +13591,7 @@ extension UpdateDiscoveryJobInput {
     }
 }
 
-public struct UpdateDiscoveryJobInput: Swift.Equatable {
+public struct UpdateDiscoveryJobInput {
     /// Specifies in minutes how long that you want the discovery job to run. (You can't set this parameter to less than the number of minutes that the job has already run for.)
     /// This member is required.
     public var collectionDurationMinutes: Swift.Int?
@@ -13609,7 +13609,7 @@ public struct UpdateDiscoveryJobInput: Swift.Equatable {
     }
 }
 
-struct UpdateDiscoveryJobInputBody: Swift.Equatable {
+struct UpdateDiscoveryJobInputBody {
     let discoveryJobArn: Swift.String?
     let collectionDurationMinutes: Swift.Int?
 }
@@ -13634,7 +13634,7 @@ extension UpdateDiscoveryJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDiscoveryJobOutput: Swift.Equatable {
+public struct UpdateDiscoveryJobOutput {
 
     public init() { }
 }
@@ -13698,7 +13698,7 @@ extension UpdateLocationAzureBlobInput {
     }
 }
 
-public struct UpdateLocationAzureBlobInput: Swift.Equatable {
+public struct UpdateLocationAzureBlobInput {
     /// Specifies the access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see [Access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers).
     public var accessTier: DataSyncClientTypes.AzureAccessTier?
     /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. You can specify more than one agent. For more information, see [Using multiple agents for your transfer](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html).
@@ -13735,7 +13735,7 @@ public struct UpdateLocationAzureBlobInput: Swift.Equatable {
     }
 }
 
-struct UpdateLocationAzureBlobInputBody: Swift.Equatable {
+struct UpdateLocationAzureBlobInputBody {
     let locationArn: Swift.String?
     let subdirectory: Swift.String?
     let authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
@@ -13789,7 +13789,7 @@ extension UpdateLocationAzureBlobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLocationAzureBlobOutput: Swift.Equatable {
+public struct UpdateLocationAzureBlobOutput {
 
     public init() { }
 }
@@ -13880,7 +13880,7 @@ extension UpdateLocationHdfsInput {
     }
 }
 
-public struct UpdateLocationHdfsInput: Swift.Equatable {
+public struct UpdateLocationHdfsInput {
     /// The ARNs of the agents that are used to connect to the HDFS cluster.
     public var agentArns: [Swift.String]?
     /// The type of authentication used to determine the identity of the user.
@@ -13941,7 +13941,7 @@ public struct UpdateLocationHdfsInput: Swift.Equatable {
     }
 }
 
-struct UpdateLocationHdfsInputBody: Swift.Equatable {
+struct UpdateLocationHdfsInputBody {
     let locationArn: Swift.String?
     let subdirectory: Swift.String?
     let nameNodes: [DataSyncClientTypes.HdfsNameNode]?
@@ -14028,7 +14028,7 @@ extension UpdateLocationHdfsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLocationHdfsOutput: Swift.Equatable {
+public struct UpdateLocationHdfsOutput {
 
     public init() { }
 }
@@ -14077,7 +14077,7 @@ extension UpdateLocationNfsInput {
     }
 }
 
-public struct UpdateLocationNfsInput: Swift.Equatable {
+public struct UpdateLocationNfsInput {
     /// Specifies the Amazon Resource Name (ARN) of the NFS transfer location that you want to update.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -14102,7 +14102,7 @@ public struct UpdateLocationNfsInput: Swift.Equatable {
     }
 }
 
-struct UpdateLocationNfsInputBody: Swift.Equatable {
+struct UpdateLocationNfsInputBody {
     let locationArn: Swift.String?
     let subdirectory: Swift.String?
     let onPremConfig: DataSyncClientTypes.OnPremConfig?
@@ -14135,7 +14135,7 @@ extension UpdateLocationNfsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLocationNfsOutput: Swift.Equatable {
+public struct UpdateLocationNfsOutput {
 
     public init() { }
 }
@@ -14208,7 +14208,7 @@ extension UpdateLocationObjectStorageInput {
     }
 }
 
-public struct UpdateLocationObjectStorageInput: Swift.Equatable {
+public struct UpdateLocationObjectStorageInput {
     /// Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
     public var accessKey: Swift.String?
     /// Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can securely connect with your location.
@@ -14249,7 +14249,7 @@ public struct UpdateLocationObjectStorageInput: Swift.Equatable {
     }
 }
 
-struct UpdateLocationObjectStorageInputBody: Swift.Equatable {
+struct UpdateLocationObjectStorageInputBody {
     let locationArn: Swift.String?
     let serverPort: Swift.Int?
     let serverProtocol: DataSyncClientTypes.ObjectStorageServerProtocol?
@@ -14307,7 +14307,7 @@ extension UpdateLocationObjectStorageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLocationObjectStorageOutput: Swift.Equatable {
+public struct UpdateLocationObjectStorageOutput {
 
     public init() { }
 }
@@ -14376,7 +14376,7 @@ extension UpdateLocationSmbInput {
     }
 }
 
-public struct UpdateLocationSmbInput: Swift.Equatable {
+public struct UpdateLocationSmbInput {
     /// Specifies the DataSync agent (or agents) which you want to connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     public var agentArns: [Swift.String]?
     /// Specifies the Windows domain name that your SMB file server belongs to. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
@@ -14413,7 +14413,7 @@ public struct UpdateLocationSmbInput: Swift.Equatable {
     }
 }
 
-struct UpdateLocationSmbInputBody: Swift.Equatable {
+struct UpdateLocationSmbInputBody {
     let locationArn: Swift.String?
     let subdirectory: Swift.String?
     let user: Swift.String?
@@ -14467,7 +14467,7 @@ extension UpdateLocationSmbOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLocationSmbOutput: Swift.Equatable {
+public struct UpdateLocationSmbOutput {
 
     public init() { }
 }
@@ -14527,7 +14527,7 @@ extension UpdateStorageSystemInput {
     }
 }
 
-public struct UpdateStorageSystemInput: Swift.Equatable {
+public struct UpdateStorageSystemInput {
     /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads your on-premises storage system. You can only specify one ARN.
     public var agentArns: [Swift.String]?
     /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
@@ -14560,7 +14560,7 @@ public struct UpdateStorageSystemInput: Swift.Equatable {
     }
 }
 
-struct UpdateStorageSystemInputBody: Swift.Equatable {
+struct UpdateStorageSystemInputBody {
     let storageSystemArn: Swift.String?
     let serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
     let agentArns: [Swift.String]?
@@ -14610,7 +14610,7 @@ extension UpdateStorageSystemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateStorageSystemOutput: Swift.Equatable {
+public struct UpdateStorageSystemOutput {
 
     public init() { }
 }
@@ -14651,7 +14651,7 @@ extension UpdateTaskExecutionInput {
     }
 }
 
-public struct UpdateTaskExecutionInput: Swift.Equatable {
+public struct UpdateTaskExecutionInput {
     /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
     /// This member is required.
     public var options: DataSyncClientTypes.Options?
@@ -14669,7 +14669,7 @@ public struct UpdateTaskExecutionInput: Swift.Equatable {
     }
 }
 
-struct UpdateTaskExecutionInputBody: Swift.Equatable {
+struct UpdateTaskExecutionInputBody {
     let taskExecutionArn: Swift.String?
     let options: DataSyncClientTypes.Options?
 }
@@ -14694,7 +14694,7 @@ extension UpdateTaskExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTaskExecutionOutput: Swift.Equatable {
+public struct UpdateTaskExecutionOutput {
 
     public init() { }
 }
@@ -14770,7 +14770,7 @@ extension UpdateTaskInput {
 }
 
 /// UpdateTaskResponse
-public struct UpdateTaskInput: Swift.Equatable {
+public struct UpdateTaskInput {
     /// The Amazon Resource Name (ARN) of the resource name of the Amazon CloudWatch log group.
     public var cloudWatchLogGroupArn: Swift.String?
     /// Specifies a list of filter rules that exclude specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
@@ -14815,7 +14815,7 @@ public struct UpdateTaskInput: Swift.Equatable {
     }
 }
 
-struct UpdateTaskInputBody: Swift.Equatable {
+struct UpdateTaskInputBody {
     let taskArn: Swift.String?
     let options: DataSyncClientTypes.Options?
     let excludes: [DataSyncClientTypes.FilterRule]?
@@ -14886,7 +14886,7 @@ extension UpdateTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTaskOutput: Swift.Equatable {
+public struct UpdateTaskOutput {
 
     public init() { }
 }

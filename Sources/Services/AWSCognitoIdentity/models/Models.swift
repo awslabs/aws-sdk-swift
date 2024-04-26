@@ -69,7 +69,7 @@ extension CognitoIdentityClientTypes.CognitoIdentityProvider: Swift.Codable {
 
 extension CognitoIdentityClientTypes {
     /// A provider representing an Amazon Cognito user pool and its client ID.
-    public struct CognitoIdentityProvider: Swift.Equatable {
+    public struct CognitoIdentityProvider {
         /// The client ID for the Amazon Cognito user pool.
         public var clientId: Swift.String?
         /// The provider name for an Amazon Cognito user pool. For example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789.
@@ -131,7 +131,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -215,7 +215,7 @@ extension CreateIdentityPoolInput {
 }
 
 /// Input to the CreateIdentityPool action.
-public struct CreateIdentityPoolInput: Swift.Equatable {
+public struct CreateIdentityPoolInput {
     /// Enables or disables the Basic (Classic) authentication flow. For more information, see [Identity Pools (Federated Identities) Authentication Flow](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html) in the Amazon Cognito Developer Guide.
     public var allowClassicFlow: Swift.Bool?
     /// TRUE if the identity pool supports unauthenticated logins.
@@ -261,7 +261,7 @@ public struct CreateIdentityPoolInput: Swift.Equatable {
     }
 }
 
-struct CreateIdentityPoolInputBody: Swift.Equatable {
+struct CreateIdentityPoolInputBody {
     let identityPoolName: Swift.String?
     let allowUnauthenticatedIdentities: Swift.Bool?
     let allowClassicFlow: Swift.Bool?
@@ -385,7 +385,7 @@ extension CreateIdentityPoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An object representing an Amazon Cognito identity pool.
-public struct CreateIdentityPoolOutput: Swift.Equatable {
+public struct CreateIdentityPoolOutput {
     /// Enables or disables the Basic (Classic) authentication flow. For more information, see [Identity Pools (Federated Identities) Authentication Flow](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html) in the Amazon Cognito Developer Guide.
     public var allowClassicFlow: Swift.Bool?
     /// TRUE if the identity pool supports unauthenticated logins.
@@ -436,7 +436,7 @@ public struct CreateIdentityPoolOutput: Swift.Equatable {
     }
 }
 
-struct CreateIdentityPoolOutputBody: Swift.Equatable {
+struct CreateIdentityPoolOutputBody {
     let identityPoolId: Swift.String?
     let identityPoolName: Swift.String?
     let allowUnauthenticatedIdentities: Swift.Bool
@@ -588,7 +588,7 @@ extension CognitoIdentityClientTypes.Credentials: Swift.Codable {
 
 extension CognitoIdentityClientTypes {
     /// Credentials for the provided identity ID.
-    public struct Credentials: Swift.Equatable {
+    public struct Credentials {
         /// The Access Key portion of the credentials.
         public var accessKeyId: Swift.String?
         /// The date at which these credentials will expire.
@@ -638,7 +638,7 @@ extension DeleteIdentitiesInput {
 }
 
 /// Input to the DeleteIdentities action.
-public struct DeleteIdentitiesInput: Swift.Equatable {
+public struct DeleteIdentitiesInput {
     /// A list of 1-60 identities that you want to delete.
     /// This member is required.
     public var identityIdsToDelete: [Swift.String]?
@@ -651,7 +651,7 @@ public struct DeleteIdentitiesInput: Swift.Equatable {
     }
 }
 
-struct DeleteIdentitiesInputBody: Swift.Equatable {
+struct DeleteIdentitiesInputBody {
     let identityIdsToDelete: [Swift.String]?
 }
 
@@ -689,7 +689,7 @@ extension DeleteIdentitiesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returned in response to a successful DeleteIdentities operation.
-public struct DeleteIdentitiesOutput: Swift.Equatable {
+public struct DeleteIdentitiesOutput {
     /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
     public var unprocessedIdentityIds: [CognitoIdentityClientTypes.UnprocessedIdentityId]?
 
@@ -701,7 +701,7 @@ public struct DeleteIdentitiesOutput: Swift.Equatable {
     }
 }
 
-struct DeleteIdentitiesOutputBody: Swift.Equatable {
+struct DeleteIdentitiesOutputBody {
     let unprocessedIdentityIds: [CognitoIdentityClientTypes.UnprocessedIdentityId]?
 }
 
@@ -760,7 +760,7 @@ extension DeleteIdentityPoolInput {
 }
 
 /// Input to the DeleteIdentityPool action.
-public struct DeleteIdentityPoolInput: Swift.Equatable {
+public struct DeleteIdentityPoolInput {
     /// An identity pool ID in the format REGION:GUID.
     /// This member is required.
     public var identityPoolId: Swift.String?
@@ -773,7 +773,7 @@ public struct DeleteIdentityPoolInput: Swift.Equatable {
     }
 }
 
-struct DeleteIdentityPoolInputBody: Swift.Equatable {
+struct DeleteIdentityPoolInputBody {
     let identityPoolId: Swift.String?
 }
 
@@ -794,7 +794,7 @@ extension DeleteIdentityPoolOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIdentityPoolOutput: Swift.Equatable {
+public struct DeleteIdentityPoolOutput {
 
     public init() { }
 }
@@ -835,7 +835,7 @@ extension DescribeIdentityInput {
 }
 
 /// Input to the DescribeIdentity action.
-public struct DescribeIdentityInput: Swift.Equatable {
+public struct DescribeIdentityInput {
     /// A unique identifier in the format REGION:GUID.
     /// This member is required.
     public var identityId: Swift.String?
@@ -848,7 +848,7 @@ public struct DescribeIdentityInput: Swift.Equatable {
     }
 }
 
-struct DescribeIdentityInputBody: Swift.Equatable {
+struct DescribeIdentityInputBody {
     let identityId: Swift.String?
 }
 
@@ -883,7 +883,7 @@ extension DescribeIdentityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A description of the identity.
-public struct DescribeIdentityOutput: Swift.Equatable {
+public struct DescribeIdentityOutput {
     /// Date on which the identity was created.
     public var creationDate: ClientRuntime.Date?
     /// A unique identifier in the format REGION:GUID.
@@ -907,7 +907,7 @@ public struct DescribeIdentityOutput: Swift.Equatable {
     }
 }
 
-struct DescribeIdentityOutputBody: Swift.Equatable {
+struct DescribeIdentityOutputBody {
     let identityId: Swift.String?
     let logins: [Swift.String]?
     let creationDate: ClientRuntime.Date?
@@ -980,7 +980,7 @@ extension DescribeIdentityPoolInput {
 }
 
 /// Input to the DescribeIdentityPool action.
-public struct DescribeIdentityPoolInput: Swift.Equatable {
+public struct DescribeIdentityPoolInput {
     /// An identity pool ID in the format REGION:GUID.
     /// This member is required.
     public var identityPoolId: Swift.String?
@@ -993,7 +993,7 @@ public struct DescribeIdentityPoolInput: Swift.Equatable {
     }
 }
 
-struct DescribeIdentityPoolInputBody: Swift.Equatable {
+struct DescribeIdentityPoolInputBody {
     let identityPoolId: Swift.String?
 }
 
@@ -1040,7 +1040,7 @@ extension DescribeIdentityPoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An object representing an Amazon Cognito identity pool.
-public struct DescribeIdentityPoolOutput: Swift.Equatable {
+public struct DescribeIdentityPoolOutput {
     /// Enables or disables the Basic (Classic) authentication flow. For more information, see [Identity Pools (Federated Identities) Authentication Flow](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html) in the Amazon Cognito Developer Guide.
     public var allowClassicFlow: Swift.Bool?
     /// TRUE if the identity pool supports unauthenticated logins.
@@ -1091,7 +1091,7 @@ public struct DescribeIdentityPoolOutput: Swift.Equatable {
     }
 }
 
-struct DescribeIdentityPoolOutputBody: Swift.Equatable {
+struct DescribeIdentityPoolOutputBody {
     let identityPoolId: Swift.String?
     let identityPoolName: Swift.String?
     let allowUnauthenticatedIdentities: Swift.Bool
@@ -1243,7 +1243,7 @@ public struct DeveloperUserAlreadyRegisteredException: ClientRuntime.ModeledErro
     }
 }
 
-struct DeveloperUserAlreadyRegisteredExceptionBody: Swift.Equatable {
+struct DeveloperUserAlreadyRegisteredExceptionBody {
     let message: Swift.String?
 }
 
@@ -1331,7 +1331,7 @@ public struct ExternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ExternalServiceExceptionBody: Swift.Equatable {
+struct ExternalServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -1379,7 +1379,7 @@ extension GetCredentialsForIdentityInput {
 }
 
 /// Input to the GetCredentialsForIdentity action.
-public struct GetCredentialsForIdentityInput: Swift.Equatable {
+public struct GetCredentialsForIdentityInput {
     /// The Amazon Resource Name (ARN) of the role to be assumed when multiple roles were received in the token from the identity provider. For example, a SAML-based identity provider. This parameter is optional for identity providers that do not support role customization.
     public var customRoleArn: Swift.String?
     /// A unique identifier in the format REGION:GUID.
@@ -1400,7 +1400,7 @@ public struct GetCredentialsForIdentityInput: Swift.Equatable {
     }
 }
 
-struct GetCredentialsForIdentityInputBody: Swift.Equatable {
+struct GetCredentialsForIdentityInputBody {
     let identityId: Swift.String?
     let logins: [Swift.String:Swift.String]?
     let customRoleArn: Swift.String?
@@ -1448,7 +1448,7 @@ extension GetCredentialsForIdentityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returned in response to a successful GetCredentialsForIdentity operation.
-public struct GetCredentialsForIdentityOutput: Swift.Equatable {
+public struct GetCredentialsForIdentityOutput {
     /// Credentials for the provided identity ID.
     public var credentials: CognitoIdentityClientTypes.Credentials?
     /// A unique identifier in the format REGION:GUID.
@@ -1464,7 +1464,7 @@ public struct GetCredentialsForIdentityOutput: Swift.Equatable {
     }
 }
 
-struct GetCredentialsForIdentityOutputBody: Swift.Equatable {
+struct GetCredentialsForIdentityOutputBody {
     let identityId: Swift.String?
     let credentials: CognitoIdentityClientTypes.Credentials?
 }
@@ -1534,7 +1534,7 @@ extension GetIdInput {
 }
 
 /// Input to the GetId action.
-public struct GetIdInput: Swift.Equatable {
+public struct GetIdInput {
     /// A standard AWS account ID (9+ digits).
     public var accountId: Swift.String?
     /// An identity pool ID in the format REGION:GUID.
@@ -1567,7 +1567,7 @@ public struct GetIdInput: Swift.Equatable {
     }
 }
 
-struct GetIdInputBody: Swift.Equatable {
+struct GetIdInputBody {
     let accountId: Swift.String?
     let identityPoolId: Swift.String?
     let logins: [Swift.String:Swift.String]?
@@ -1613,7 +1613,7 @@ extension GetIdOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returned in response to a GetId request.
-public struct GetIdOutput: Swift.Equatable {
+public struct GetIdOutput {
     /// A unique identifier in the format REGION:GUID.
     public var identityId: Swift.String?
 
@@ -1625,7 +1625,7 @@ public struct GetIdOutput: Swift.Equatable {
     }
 }
 
-struct GetIdOutputBody: Swift.Equatable {
+struct GetIdOutputBody {
     let identityId: Swift.String?
 }
 
@@ -1680,7 +1680,7 @@ extension GetIdentityPoolRolesInput {
 }
 
 /// Input to the GetIdentityPoolRoles action.
-public struct GetIdentityPoolRolesInput: Swift.Equatable {
+public struct GetIdentityPoolRolesInput {
     /// An identity pool ID in the format REGION:GUID.
     /// This member is required.
     public var identityPoolId: Swift.String?
@@ -1693,7 +1693,7 @@ public struct GetIdentityPoolRolesInput: Swift.Equatable {
     }
 }
 
-struct GetIdentityPoolRolesInputBody: Swift.Equatable {
+struct GetIdentityPoolRolesInputBody {
     let identityPoolId: Swift.String?
 }
 
@@ -1726,7 +1726,7 @@ extension GetIdentityPoolRolesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returned in response to a successful GetIdentityPoolRoles operation.
-public struct GetIdentityPoolRolesOutput: Swift.Equatable {
+public struct GetIdentityPoolRolesOutput {
     /// An identity pool ID in the format REGION:GUID.
     public var identityPoolId: Swift.String?
     /// How users for a specific identity provider are to mapped to roles. This is a String-to-[RoleMapping] object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
@@ -1746,7 +1746,7 @@ public struct GetIdentityPoolRolesOutput: Swift.Equatable {
     }
 }
 
-struct GetIdentityPoolRolesOutputBody: Swift.Equatable {
+struct GetIdentityPoolRolesOutputBody {
     let identityPoolId: Swift.String?
     let roles: [Swift.String:Swift.String]?
     let roleMappings: [Swift.String:CognitoIdentityClientTypes.RoleMapping]?
@@ -1847,7 +1847,7 @@ extension GetOpenIdTokenForDeveloperIdentityInput {
 }
 
 /// Input to the GetOpenIdTokenForDeveloperIdentity action.
-public struct GetOpenIdTokenForDeveloperIdentityInput: Swift.Equatable {
+public struct GetOpenIdTokenForDeveloperIdentityInput {
     /// A unique identifier in the format REGION:GUID.
     public var identityId: Swift.String?
     /// An identity pool ID in the format REGION:GUID.
@@ -1877,7 +1877,7 @@ public struct GetOpenIdTokenForDeveloperIdentityInput: Swift.Equatable {
     }
 }
 
-struct GetOpenIdTokenForDeveloperIdentityInputBody: Swift.Equatable {
+struct GetOpenIdTokenForDeveloperIdentityInputBody {
     let identityPoolId: Swift.String?
     let identityId: Swift.String?
     let logins: [Swift.String:Swift.String]?
@@ -1942,7 +1942,7 @@ extension GetOpenIdTokenForDeveloperIdentityOutput: ClientRuntime.HttpResponseBi
 }
 
 /// Returned in response to a successful GetOpenIdTokenForDeveloperIdentity request.
-public struct GetOpenIdTokenForDeveloperIdentityOutput: Swift.Equatable {
+public struct GetOpenIdTokenForDeveloperIdentityOutput {
     /// A unique identifier in the format REGION:GUID.
     public var identityId: Swift.String?
     /// An OpenID token.
@@ -1958,7 +1958,7 @@ public struct GetOpenIdTokenForDeveloperIdentityOutput: Swift.Equatable {
     }
 }
 
-struct GetOpenIdTokenForDeveloperIdentityOutputBody: Swift.Equatable {
+struct GetOpenIdTokenForDeveloperIdentityOutputBody {
     let identityId: Swift.String?
     let token: Swift.String?
 }
@@ -2023,7 +2023,7 @@ extension GetOpenIdTokenInput {
 }
 
 /// Input to the GetOpenIdToken action.
-public struct GetOpenIdTokenInput: Swift.Equatable {
+public struct GetOpenIdTokenInput {
     /// A unique identifier in the format REGION:GUID.
     /// This member is required.
     public var identityId: Swift.String?
@@ -2040,7 +2040,7 @@ public struct GetOpenIdTokenInput: Swift.Equatable {
     }
 }
 
-struct GetOpenIdTokenInputBody: Swift.Equatable {
+struct GetOpenIdTokenInputBody {
     let identityId: Swift.String?
     let logins: [Swift.String:Swift.String]?
 }
@@ -2084,7 +2084,7 @@ extension GetOpenIdTokenOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returned in response to a successful GetOpenIdToken request.
-public struct GetOpenIdTokenOutput: Swift.Equatable {
+public struct GetOpenIdTokenOutput {
     /// A unique identifier in the format REGION:GUID. Note that the IdentityId returned may not match the one passed on input.
     public var identityId: Swift.String?
     /// An OpenID token, valid for 10 minutes.
@@ -2100,7 +2100,7 @@ public struct GetOpenIdTokenOutput: Swift.Equatable {
     }
 }
 
-struct GetOpenIdTokenOutputBody: Swift.Equatable {
+struct GetOpenIdTokenOutputBody {
     let identityId: Swift.String?
     let token: Swift.String?
 }
@@ -2161,7 +2161,7 @@ extension GetPrincipalTagAttributeMapInput {
     }
 }
 
-public struct GetPrincipalTagAttributeMapInput: Swift.Equatable {
+public struct GetPrincipalTagAttributeMapInput {
     /// You can use this operation to get the ID of the Identity Pool you setup attribute mappings for.
     /// This member is required.
     public var identityPoolId: Swift.String?
@@ -2179,7 +2179,7 @@ public struct GetPrincipalTagAttributeMapInput: Swift.Equatable {
     }
 }
 
-struct GetPrincipalTagAttributeMapInputBody: Swift.Equatable {
+struct GetPrincipalTagAttributeMapInputBody {
     let identityPoolId: Swift.String?
     let identityProviderName: Swift.String?
 }
@@ -2217,7 +2217,7 @@ extension GetPrincipalTagAttributeMapOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPrincipalTagAttributeMapOutput: Swift.Equatable {
+public struct GetPrincipalTagAttributeMapOutput {
     /// You can use this operation to get the ID of the Identity Pool you setup attribute mappings for.
     public var identityPoolId: Swift.String?
     /// You can use this operation to get the provider name.
@@ -2241,7 +2241,7 @@ public struct GetPrincipalTagAttributeMapOutput: Swift.Equatable {
     }
 }
 
-struct GetPrincipalTagAttributeMapOutputBody: Swift.Equatable {
+struct GetPrincipalTagAttributeMapOutputBody {
     let identityPoolId: Swift.String?
     let identityProviderName: Swift.String?
     let useDefaults: Swift.Bool?
@@ -2344,7 +2344,7 @@ extension CognitoIdentityClientTypes.IdentityDescription: Swift.Codable {
 
 extension CognitoIdentityClientTypes {
     /// A description of the identity.
-    public struct IdentityDescription: Swift.Equatable {
+    public struct IdentityDescription {
         /// Date on which the identity was created.
         public var creationDate: ClientRuntime.Date?
         /// A unique identifier in the format REGION:GUID.
@@ -2397,7 +2397,7 @@ extension CognitoIdentityClientTypes.IdentityPoolShortDescription: Swift.Codable
 
 extension CognitoIdentityClientTypes {
     /// A description of the identity pool.
-    public struct IdentityPoolShortDescription: Swift.Equatable {
+    public struct IdentityPoolShortDescription {
         /// An identity pool ID in the format REGION:GUID.
         public var identityPoolId: Swift.String?
         /// A string that you provide.
@@ -2455,7 +2455,7 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InternalErrorExceptionBody: Swift.Equatable {
+struct InternalErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -2511,7 +2511,7 @@ public struct InvalidIdentityPoolConfigurationException: ClientRuntime.ModeledEr
     }
 }
 
-struct InvalidIdentityPoolConfigurationExceptionBody: Swift.Equatable {
+struct InvalidIdentityPoolConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -2567,7 +2567,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -2623,7 +2623,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2672,7 +2672,7 @@ extension ListIdentitiesInput {
 }
 
 /// Input to the ListIdentities action.
-public struct ListIdentitiesInput: Swift.Equatable {
+public struct ListIdentitiesInput {
     /// An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
     public var hideDisabled: Swift.Bool?
     /// An identity pool ID in the format REGION:GUID.
@@ -2698,7 +2698,7 @@ public struct ListIdentitiesInput: Swift.Equatable {
     }
 }
 
-struct ListIdentitiesInputBody: Swift.Equatable {
+struct ListIdentitiesInputBody {
     let identityPoolId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -2743,7 +2743,7 @@ extension ListIdentitiesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a ListIdentities request.
-public struct ListIdentitiesOutput: Swift.Equatable {
+public struct ListIdentitiesOutput {
     /// An object containing a set of identities and associated mappings.
     public var identities: [CognitoIdentityClientTypes.IdentityDescription]?
     /// An identity pool ID in the format REGION:GUID.
@@ -2763,7 +2763,7 @@ public struct ListIdentitiesOutput: Swift.Equatable {
     }
 }
 
-struct ListIdentitiesOutputBody: Swift.Equatable {
+struct ListIdentitiesOutputBody {
     let identityPoolId: Swift.String?
     let identities: [CognitoIdentityClientTypes.IdentityDescription]?
     let nextToken: Swift.String?
@@ -2836,7 +2836,7 @@ extension ListIdentityPoolsInput {
 }
 
 /// Input to the ListIdentityPools action.
-public struct ListIdentityPoolsInput: Swift.Equatable {
+public struct ListIdentityPoolsInput {
     /// The maximum number of identities to return.
     /// This member is required.
     public var maxResults: Swift.Int?
@@ -2853,7 +2853,7 @@ public struct ListIdentityPoolsInput: Swift.Equatable {
     }
 }
 
-struct ListIdentityPoolsInputBody: Swift.Equatable {
+struct ListIdentityPoolsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -2888,7 +2888,7 @@ extension ListIdentityPoolsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of a successful ListIdentityPools action.
-public struct ListIdentityPoolsOutput: Swift.Equatable {
+public struct ListIdentityPoolsOutput {
     /// The identity pools returned by the ListIdentityPools action.
     public var identityPools: [CognitoIdentityClientTypes.IdentityPoolShortDescription]?
     /// A pagination token.
@@ -2904,7 +2904,7 @@ public struct ListIdentityPoolsOutput: Swift.Equatable {
     }
 }
 
-struct ListIdentityPoolsOutputBody: Swift.Equatable {
+struct ListIdentityPoolsOutputBody {
     let identityPools: [CognitoIdentityClientTypes.IdentityPoolShortDescription]?
     let nextToken: Swift.String?
 }
@@ -2968,7 +2968,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2981,7 +2981,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -3009,7 +3009,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags that are assigned to the identity pool.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3021,7 +3021,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3098,7 +3098,7 @@ extension LookupDeveloperIdentityInput {
 }
 
 /// Input to the LookupDeveloperIdentityInput action.
-public struct LookupDeveloperIdentityInput: Swift.Equatable {
+public struct LookupDeveloperIdentityInput {
     /// A unique ID used by your backend authentication process to identify a user. Typically, a developer identity provider would issue many developer user identifiers, in keeping with the number of users.
     public var developerUserIdentifier: Swift.String?
     /// A unique identifier in the format REGION:GUID.
@@ -3127,7 +3127,7 @@ public struct LookupDeveloperIdentityInput: Swift.Equatable {
     }
 }
 
-struct LookupDeveloperIdentityInputBody: Swift.Equatable {
+struct LookupDeveloperIdentityInputBody {
     let identityPoolId: Swift.String?
     let identityId: Swift.String?
     let developerUserIdentifier: Swift.String?
@@ -3176,7 +3176,7 @@ extension LookupDeveloperIdentityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returned in response to a successful LookupDeveloperIdentity action.
-public struct LookupDeveloperIdentityOutput: Swift.Equatable {
+public struct LookupDeveloperIdentityOutput {
     /// This is the list of developer user identifiers associated with an identity ID. Cognito supports the association of multiple developer user identifiers with an identity ID.
     public var developerUserIdentifierList: [Swift.String]?
     /// A unique identifier in the format REGION:GUID.
@@ -3196,7 +3196,7 @@ public struct LookupDeveloperIdentityOutput: Swift.Equatable {
     }
 }
 
-struct LookupDeveloperIdentityOutputBody: Swift.Equatable {
+struct LookupDeveloperIdentityOutputBody {
     let identityId: Swift.String?
     let developerUserIdentifierList: [Swift.String]?
     let nextToken: Swift.String?
@@ -3284,7 +3284,7 @@ extension CognitoIdentityClientTypes.MappingRule: Swift.Codable {
 
 extension CognitoIdentityClientTypes {
     /// A rule that maps a claim name, a claim value, and a match type to a role ARN.
-    public struct MappingRule: Swift.Equatable {
+    public struct MappingRule {
         /// The claim name that must be present in the token, for example, "isAdmin" or "paid".
         /// This member is required.
         public var claim: Swift.String?
@@ -3385,7 +3385,7 @@ extension MergeDeveloperIdentitiesInput {
 }
 
 /// Input to the MergeDeveloperIdentities action.
-public struct MergeDeveloperIdentitiesInput: Swift.Equatable {
+public struct MergeDeveloperIdentitiesInput {
     /// User identifier for the destination user. The value should be a DeveloperUserIdentifier.
     /// This member is required.
     public var destinationUserIdentifier: Swift.String?
@@ -3413,7 +3413,7 @@ public struct MergeDeveloperIdentitiesInput: Swift.Equatable {
     }
 }
 
-struct MergeDeveloperIdentitiesInputBody: Swift.Equatable {
+struct MergeDeveloperIdentitiesInputBody {
     let sourceUserIdentifier: Swift.String?
     let destinationUserIdentifier: Swift.String?
     let developerProviderName: Swift.String?
@@ -3454,7 +3454,7 @@ extension MergeDeveloperIdentitiesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returned in response to a successful MergeDeveloperIdentities action.
-public struct MergeDeveloperIdentitiesOutput: Swift.Equatable {
+public struct MergeDeveloperIdentitiesOutput {
     /// A unique identifier in the format REGION:GUID.
     public var identityId: Swift.String?
 
@@ -3466,7 +3466,7 @@ public struct MergeDeveloperIdentitiesOutput: Swift.Equatable {
     }
 }
 
-struct MergeDeveloperIdentitiesOutputBody: Swift.Equatable {
+struct MergeDeveloperIdentitiesOutputBody {
     let identityId: Swift.String?
 }
 
@@ -3538,7 +3538,7 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct NotAuthorizedExceptionBody: Swift.Equatable {
+struct NotAuthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -3594,7 +3594,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceConflictExceptionBody: Swift.Equatable {
+struct ResourceConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -3650,7 +3650,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3699,7 +3699,7 @@ extension CognitoIdentityClientTypes.RoleMapping: Swift.Codable {
 
 extension CognitoIdentityClientTypes {
     /// A role mapping.
-    public struct RoleMapping: Swift.Equatable {
+    public struct RoleMapping {
         /// If you specify Token or Rules as the Type, AmbiguousRoleResolution is required. Specifies the action to be taken if either no rules match the claim value for the Rules type, or there is no cognito:preferred_role claim and there are multiple cognito:roles matches for the Token type.
         public var ambiguousRoleResolution: CognitoIdentityClientTypes.AmbiguousRoleResolutionType?
         /// The rules to be used for mapping users to roles. If you specify Rules as the role mapping type, RulesConfiguration is required.
@@ -3787,7 +3787,7 @@ extension CognitoIdentityClientTypes.RulesConfigurationType: Swift.Codable {
 
 extension CognitoIdentityClientTypes {
     /// A container for rules.
-    public struct RulesConfigurationType: Swift.Equatable {
+    public struct RulesConfigurationType {
         /// An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role.
         /// This member is required.
         public var rules: [CognitoIdentityClientTypes.MappingRule]?
@@ -3837,7 +3837,7 @@ extension SetIdentityPoolRolesInput {
 }
 
 /// Input to the SetIdentityPoolRoles action.
-public struct SetIdentityPoolRolesInput: Swift.Equatable {
+public struct SetIdentityPoolRolesInput {
     /// An identity pool ID in the format REGION:GUID.
     /// This member is required.
     public var identityPoolId: Swift.String?
@@ -3859,7 +3859,7 @@ public struct SetIdentityPoolRolesInput: Swift.Equatable {
     }
 }
 
-struct SetIdentityPoolRolesInputBody: Swift.Equatable {
+struct SetIdentityPoolRolesInputBody {
     let identityPoolId: Swift.String?
     let roles: [Swift.String:Swift.String]?
     let roleMappings: [Swift.String:CognitoIdentityClientTypes.RoleMapping]?
@@ -3906,7 +3906,7 @@ extension SetIdentityPoolRolesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetIdentityPoolRolesOutput: Swift.Equatable {
+public struct SetIdentityPoolRolesOutput {
 
     public init() { }
 }
@@ -3963,7 +3963,7 @@ extension SetPrincipalTagAttributeMapInput {
     }
 }
 
-public struct SetPrincipalTagAttributeMapInput: Swift.Equatable {
+public struct SetPrincipalTagAttributeMapInput {
     /// The ID of the Identity Pool you want to set attribute mappings for.
     /// This member is required.
     public var identityPoolId: Swift.String?
@@ -3989,7 +3989,7 @@ public struct SetPrincipalTagAttributeMapInput: Swift.Equatable {
     }
 }
 
-struct SetPrincipalTagAttributeMapInputBody: Swift.Equatable {
+struct SetPrincipalTagAttributeMapInputBody {
     let identityPoolId: Swift.String?
     let identityProviderName: Swift.String?
     let useDefaults: Swift.Bool?
@@ -4044,7 +4044,7 @@ extension SetPrincipalTagAttributeMapOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetPrincipalTagAttributeMapOutput: Swift.Equatable {
+public struct SetPrincipalTagAttributeMapOutput {
     /// The ID of the Identity Pool you want to set attribute mappings for.
     public var identityPoolId: Swift.String?
     /// The provider name you want to use for attribute mappings.
@@ -4068,7 +4068,7 @@ public struct SetPrincipalTagAttributeMapOutput: Swift.Equatable {
     }
 }
 
-struct SetPrincipalTagAttributeMapOutputBody: Swift.Equatable {
+struct SetPrincipalTagAttributeMapOutputBody {
     let identityPoolId: Swift.String?
     let identityProviderName: Swift.String?
     let useDefaults: Swift.Bool?
@@ -4147,7 +4147,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the identity pool.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4165,7 +4165,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -4199,7 +4199,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4259,7 +4259,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4308,7 +4308,7 @@ extension UnlinkDeveloperIdentityInput {
 }
 
 /// Input to the UnlinkDeveloperIdentity action.
-public struct UnlinkDeveloperIdentityInput: Swift.Equatable {
+public struct UnlinkDeveloperIdentityInput {
     /// The "domain" by which Cognito will refer to your users.
     /// This member is required.
     public var developerProviderName: Swift.String?
@@ -4336,7 +4336,7 @@ public struct UnlinkDeveloperIdentityInput: Swift.Equatable {
     }
 }
 
-struct UnlinkDeveloperIdentityInputBody: Swift.Equatable {
+struct UnlinkDeveloperIdentityInputBody {
     let identityId: Swift.String?
     let identityPoolId: Swift.String?
     let developerProviderName: Swift.String?
@@ -4369,7 +4369,7 @@ extension UnlinkDeveloperIdentityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnlinkDeveloperIdentityOutput: Swift.Equatable {
+public struct UnlinkDeveloperIdentityOutput {
 
     public init() { }
 }
@@ -4425,7 +4425,7 @@ extension UnlinkIdentityInput {
 }
 
 /// Input to the UnlinkIdentity action.
-public struct UnlinkIdentityInput: Swift.Equatable {
+public struct UnlinkIdentityInput {
     /// A unique identifier in the format REGION:GUID.
     /// This member is required.
     public var identityId: Swift.String?
@@ -4448,7 +4448,7 @@ public struct UnlinkIdentityInput: Swift.Equatable {
     }
 }
 
-struct UnlinkIdentityInputBody: Swift.Equatable {
+struct UnlinkIdentityInputBody {
     let identityId: Swift.String?
     let logins: [Swift.String:Swift.String]?
     let loginsToRemove: [Swift.String]?
@@ -4495,7 +4495,7 @@ extension UnlinkIdentityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnlinkIdentityOutput: Swift.Equatable {
+public struct UnlinkIdentityOutput {
 
     public init() { }
 }
@@ -4544,7 +4544,7 @@ extension CognitoIdentityClientTypes.UnprocessedIdentityId: Swift.Codable {
 
 extension CognitoIdentityClientTypes {
     /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
-    public struct UnprocessedIdentityId: Swift.Equatable {
+    public struct UnprocessedIdentityId {
         /// The error code indicating the type of error that occurred.
         public var errorCode: CognitoIdentityClientTypes.ErrorCode?
         /// A unique identifier in the format REGION:GUID.
@@ -4589,7 +4589,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the identity pool.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4607,7 +4607,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -4641,7 +4641,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4733,7 +4733,7 @@ extension UpdateIdentityPoolInput {
 }
 
 /// An object representing an Amazon Cognito identity pool.
-public struct UpdateIdentityPoolInput: Swift.Equatable {
+public struct UpdateIdentityPoolInput {
     /// Enables or disables the Basic (Classic) authentication flow. For more information, see [Identity Pools (Federated Identities) Authentication Flow](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html) in the Amazon Cognito Developer Guide.
     public var allowClassicFlow: Swift.Bool?
     /// TRUE if the identity pool supports unauthenticated logins.
@@ -4784,7 +4784,7 @@ public struct UpdateIdentityPoolInput: Swift.Equatable {
     }
 }
 
-struct UpdateIdentityPoolInputBody: Swift.Equatable {
+struct UpdateIdentityPoolInputBody {
     let identityPoolId: Swift.String?
     let identityPoolName: Swift.String?
     let allowUnauthenticatedIdentities: Swift.Bool
@@ -4912,7 +4912,7 @@ extension UpdateIdentityPoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An object representing an Amazon Cognito identity pool.
-public struct UpdateIdentityPoolOutput: Swift.Equatable {
+public struct UpdateIdentityPoolOutput {
     /// Enables or disables the Basic (Classic) authentication flow. For more information, see [Identity Pools (Federated Identities) Authentication Flow](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html) in the Amazon Cognito Developer Guide.
     public var allowClassicFlow: Swift.Bool?
     /// TRUE if the identity pool supports unauthenticated logins.
@@ -4963,7 +4963,7 @@ public struct UpdateIdentityPoolOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIdentityPoolOutputBody: Swift.Equatable {
+struct UpdateIdentityPoolOutputBody {
     let identityPoolId: Swift.String?
     let identityPoolName: Swift.String?
     let allowUnauthenticatedIdentities: Swift.Bool

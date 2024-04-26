@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -109,7 +109,7 @@ extension ConnectContactLensClientTypes.Categories: Swift.Codable {
 
 extension ConnectContactLensClientTypes {
     /// Provides the category rules that are used to automatically categorize contacts based on uttered keywords and phrases.
-    public struct Categories: Swift.Equatable {
+    public struct Categories {
         /// The category rules that have been matched in the analyzed segment.
         /// This member is required.
         public var matchedCategories: [Swift.String]?
@@ -162,7 +162,7 @@ extension ConnectContactLensClientTypes.CategoryDetails: Swift.Codable {
 
 extension ConnectContactLensClientTypes {
     /// Provides information about the category rule that was matched.
-    public struct CategoryDetails: Swift.Equatable {
+    public struct CategoryDetails {
         /// The section of audio where the category rule was detected.
         /// This member is required.
         public var pointsOfInterest: [ConnectContactLensClientTypes.PointOfInterest]?
@@ -204,7 +204,7 @@ extension ConnectContactLensClientTypes.CharacterOffsets: Swift.Codable {
 
 extension ConnectContactLensClientTypes {
     /// For characters that were detected as issues, where they occur in the transcript.
-    public struct CharacterOffsets: Swift.Equatable {
+    public struct CharacterOffsets {
         /// The beginning of the issue.
         /// This member is required.
         public var beginOffsetChar: Swift.Int?
@@ -265,7 +265,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalServiceExceptionBody: Swift.Equatable {
+struct InternalServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -320,7 +320,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -357,7 +357,7 @@ extension ConnectContactLensClientTypes.IssueDetected: Swift.Codable {
 
 extension ConnectContactLensClientTypes {
     /// Potential issues that are detected based on an artificial intelligence analysis of each turn in the conversation.
-    public struct IssueDetected: Swift.Equatable {
+    public struct IssueDetected {
         /// The offset for when the issue was detected in the segment.
         /// This member is required.
         public var characterOffsets: ConnectContactLensClientTypes.CharacterOffsets?
@@ -404,7 +404,7 @@ extension ListRealtimeContactAnalysisSegmentsInput {
     }
 }
 
-public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Equatable {
+public struct ListRealtimeContactAnalysisSegmentsInput {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -430,7 +430,7 @@ public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Equatable {
     }
 }
 
-struct ListRealtimeContactAnalysisSegmentsInputBody: Swift.Equatable {
+struct ListRealtimeContactAnalysisSegmentsInputBody {
     let instanceId: Swift.String?
     let contactId: Swift.String?
     let maxResults: Swift.Int?
@@ -472,7 +472,7 @@ extension ListRealtimeContactAnalysisSegmentsOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListRealtimeContactAnalysisSegmentsOutput: Swift.Equatable {
+public struct ListRealtimeContactAnalysisSegmentsOutput {
     /// If there are additional results, this is the token for the next set of results. If response includes nextToken there are two possible scenarios:
     ///
     /// * There are more segments so another call is required to get them.
@@ -496,7 +496,7 @@ public struct ListRealtimeContactAnalysisSegmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListRealtimeContactAnalysisSegmentsOutputBody: Swift.Equatable {
+struct ListRealtimeContactAnalysisSegmentsOutputBody {
     let segments: [ConnectContactLensClientTypes.RealtimeContactAnalysisSegment]?
     let nextToken: Swift.String?
 }
@@ -567,7 +567,7 @@ extension ConnectContactLensClientTypes.PointOfInterest: Swift.Codable {
 
 extension ConnectContactLensClientTypes {
     /// The section of the contact audio where that category rule was detected.
-    public struct PointOfInterest: Swift.Equatable {
+    public struct PointOfInterest {
         /// The beginning offset in milliseconds where the category rule was detected.
         /// This member is required.
         public var beginOffsetMillis: Swift.Int?
@@ -614,7 +614,7 @@ extension ConnectContactLensClientTypes.RealtimeContactAnalysisSegment: Swift.Co
 
 extension ConnectContactLensClientTypes {
     /// An analyzed segment for a real-time analysis session.
-    public struct RealtimeContactAnalysisSegment: Swift.Equatable {
+    public struct RealtimeContactAnalysisSegment {
         /// The matched category rules.
         public var categories: ConnectContactLensClientTypes.Categories?
         /// The analyzed transcript.
@@ -671,7 +671,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -762,7 +762,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -853,7 +853,7 @@ extension ConnectContactLensClientTypes.Transcript: Swift.Codable {
 
 extension ConnectContactLensClientTypes {
     /// A list of messages in the session.
-    public struct Transcript: Swift.Equatable {
+    public struct Transcript {
         /// The beginning offset in the contact for this transcript.
         /// This member is required.
         public var beginOffsetMillis: Swift.Int?

@@ -64,7 +64,7 @@ extension ApplicationAutoScalingClientTypes.Alarm: Swift.Codable {
 
 extension ApplicationAutoScalingClientTypes {
     /// Represents a CloudWatch alarm associated with a scaling policy.
-    public struct Alarm: Swift.Equatable {
+    public struct Alarm {
         /// The Amazon Resource Name (ARN) of the alarm.
         /// This member is required.
         public var alarmARN: Swift.String?
@@ -125,7 +125,7 @@ public struct ConcurrentUpdateException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ConcurrentUpdateExceptionBody: Swift.Equatable {
+struct ConcurrentUpdateExceptionBody {
     let message: Swift.String?
 }
 
@@ -223,7 +223,7 @@ extension ApplicationAutoScalingClientTypes {
     ///
     ///
     /// For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
-    public struct CustomizedMetricSpecification: Swift.Equatable {
+    public struct CustomizedMetricSpecification {
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         public var dimensions: [ApplicationAutoScalingClientTypes.MetricDimension]?
         /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that's returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
@@ -289,7 +289,7 @@ extension DeleteScalingPolicyInput {
     }
 }
 
-public struct DeleteScalingPolicyInput: Swift.Equatable {
+public struct DeleteScalingPolicyInput {
     /// The name of the scaling policy.
     /// This member is required.
     public var policyName: Swift.String?
@@ -397,7 +397,7 @@ public struct DeleteScalingPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteScalingPolicyInputBody: Swift.Equatable {
+struct DeleteScalingPolicyInputBody {
     let policyName: Swift.String?
     let serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
     let resourceId: Swift.String?
@@ -430,7 +430,7 @@ extension DeleteScalingPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteScalingPolicyOutput: Swift.Equatable {
+public struct DeleteScalingPolicyOutput {
 
     public init() { }
 }
@@ -481,7 +481,7 @@ extension DeleteScheduledActionInput {
     }
 }
 
-public struct DeleteScheduledActionInput: Swift.Equatable {
+public struct DeleteScheduledActionInput {
     /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier.
     ///
     /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
@@ -589,7 +589,7 @@ public struct DeleteScheduledActionInput: Swift.Equatable {
     }
 }
 
-struct DeleteScheduledActionInputBody: Swift.Equatable {
+struct DeleteScheduledActionInputBody {
     let serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
     let scheduledActionName: Swift.String?
     let resourceId: Swift.String?
@@ -622,7 +622,7 @@ extension DeleteScheduledActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteScheduledActionOutput: Swift.Equatable {
+public struct DeleteScheduledActionOutput {
 
     public init() { }
 }
@@ -669,7 +669,7 @@ extension DeregisterScalableTargetInput {
     }
 }
 
-public struct DeregisterScalableTargetInput: Swift.Equatable {
+public struct DeregisterScalableTargetInput {
     /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.
     ///
     /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
@@ -772,7 +772,7 @@ public struct DeregisterScalableTargetInput: Swift.Equatable {
     }
 }
 
-struct DeregisterScalableTargetInputBody: Swift.Equatable {
+struct DeregisterScalableTargetInputBody {
     let serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
     let resourceId: Swift.String?
     let scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
@@ -801,7 +801,7 @@ extension DeregisterScalableTargetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterScalableTargetOutput: Swift.Equatable {
+public struct DeregisterScalableTargetOutput {
 
     public init() { }
 }
@@ -859,7 +859,7 @@ extension DescribeScalableTargetsInput {
     }
 }
 
-public struct DescribeScalableTargetsInput: Swift.Equatable {
+public struct DescribeScalableTargetsInput {
     /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -968,7 +968,7 @@ public struct DescribeScalableTargetsInput: Swift.Equatable {
     }
 }
 
-struct DescribeScalableTargetsInputBody: Swift.Equatable {
+struct DescribeScalableTargetsInputBody {
     let serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
     let resourceIds: [Swift.String]?
     let scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
@@ -1023,7 +1023,7 @@ extension DescribeScalableTargetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeScalableTargetsOutput: Swift.Equatable {
+public struct DescribeScalableTargetsOutput {
     /// The token required to get the next set of results. This value is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// The scalable targets that match the request parameters.
@@ -1039,7 +1039,7 @@ public struct DescribeScalableTargetsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeScalableTargetsOutputBody: Swift.Equatable {
+struct DescribeScalableTargetsOutputBody {
     let scalableTargets: [ApplicationAutoScalingClientTypes.ScalableTarget]?
     let nextToken: Swift.String?
 }
@@ -1122,7 +1122,7 @@ extension DescribeScalingActivitiesInput {
     }
 }
 
-public struct DescribeScalingActivitiesInput: Swift.Equatable {
+public struct DescribeScalingActivitiesInput {
     /// Specifies whether to include activities that aren't scaled (not scaled activities) in the response. Not scaled activities are activities that aren't completed or started for various reasons, such as preventing infinite scaling loops. For help interpreting the not scaled reason details in the response, see [Scaling activities for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html).
     public var includeNotScaledActivities: Swift.Bool?
     /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
@@ -1235,7 +1235,7 @@ public struct DescribeScalingActivitiesInput: Swift.Equatable {
     }
 }
 
-struct DescribeScalingActivitiesInputBody: Swift.Equatable {
+struct DescribeScalingActivitiesInputBody {
     let serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
     let resourceId: Swift.String?
     let scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
@@ -1285,7 +1285,7 @@ extension DescribeScalingActivitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeScalingActivitiesOutput: Swift.Equatable {
+public struct DescribeScalingActivitiesOutput {
     /// The token required to get the next set of results. This value is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// A list of scaling activity objects.
@@ -1301,7 +1301,7 @@ public struct DescribeScalingActivitiesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeScalingActivitiesOutputBody: Swift.Equatable {
+struct DescribeScalingActivitiesOutputBody {
     let scalingActivities: [ApplicationAutoScalingClientTypes.ScalingActivity]?
     let nextToken: Swift.String?
 }
@@ -1387,7 +1387,7 @@ extension DescribeScalingPoliciesInput {
     }
 }
 
-public struct DescribeScalingPoliciesInput: Swift.Equatable {
+public struct DescribeScalingPoliciesInput {
     /// The maximum number of scalable targets. This value can be between 1 and 10. The default value is 10. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 10 results and a NextToken value, if applicable.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -1500,7 +1500,7 @@ public struct DescribeScalingPoliciesInput: Swift.Equatable {
     }
 }
 
-struct DescribeScalingPoliciesInputBody: Swift.Equatable {
+struct DescribeScalingPoliciesInputBody {
     let policyNames: [Swift.String]?
     let serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
     let resourceId: Swift.String?
@@ -1559,7 +1559,7 @@ extension DescribeScalingPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeScalingPoliciesOutput: Swift.Equatable {
+public struct DescribeScalingPoliciesOutput {
     /// The token required to get the next set of results. This value is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the scaling policies.
@@ -1575,7 +1575,7 @@ public struct DescribeScalingPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeScalingPoliciesOutputBody: Swift.Equatable {
+struct DescribeScalingPoliciesOutputBody {
     let scalingPolicies: [ApplicationAutoScalingClientTypes.ScalingPolicy]?
     let nextToken: Swift.String?
 }
@@ -1662,7 +1662,7 @@ extension DescribeScheduledActionsInput {
     }
 }
 
-public struct DescribeScheduledActionsInput: Swift.Equatable {
+public struct DescribeScheduledActionsInput {
     /// The maximum number of scheduled action results. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -1775,7 +1775,7 @@ public struct DescribeScheduledActionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeScheduledActionsInputBody: Swift.Equatable {
+struct DescribeScheduledActionsInputBody {
     let scheduledActionNames: [Swift.String]?
     let serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
     let resourceId: Swift.String?
@@ -1834,7 +1834,7 @@ extension DescribeScheduledActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeScheduledActionsOutput: Swift.Equatable {
+public struct DescribeScheduledActionsOutput {
     /// The token required to get the next set of results. This value is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the scheduled actions.
@@ -1850,7 +1850,7 @@ public struct DescribeScheduledActionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeScheduledActionsOutputBody: Swift.Equatable {
+struct DescribeScheduledActionsOutputBody {
     let scheduledActions: [ApplicationAutoScalingClientTypes.ScheduledAction]?
     let nextToken: Swift.String?
 }
@@ -1932,7 +1932,7 @@ public struct FailedResourceAccessException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct FailedResourceAccessExceptionBody: Swift.Equatable {
+struct FailedResourceAccessExceptionBody {
     let message: Swift.String?
 }
 
@@ -1987,7 +1987,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalServiceExceptionBody: Swift.Equatable {
+struct InternalServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -2042,7 +2042,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -2097,7 +2097,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2133,7 +2133,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// Specify the ARN of the scalable target. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use [DescribeScalableTargets].
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -2146,7 +2146,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -2174,7 +2174,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags. Each tag consists of a tag key and a tag value.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2186,7 +2186,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2284,7 +2284,7 @@ extension ApplicationAutoScalingClientTypes.MetricDimension: Swift.Codable {
 
 extension ApplicationAutoScalingClientTypes {
     /// Describes the dimension names and values associated with a metric.
-    public struct MetricDimension: Swift.Equatable {
+    public struct MetricDimension {
         /// The name of the dimension.
         /// This member is required.
         public var name: Swift.String?
@@ -2482,7 +2482,7 @@ extension ApplicationAutoScalingClientTypes.NotScaledReason: Swift.Codable {
 
 extension ApplicationAutoScalingClientTypes {
     /// Describes the reason for an activity that isn't scaled (not scaled activity), in machine-readable format. For help interpreting the not scaled reason details, see [Scaling activities for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html).
-    public struct NotScaledReason: Swift.Equatable {
+    public struct NotScaledReason {
         /// A code that represents the reason for not scaling. Valid values:
         ///
         /// * AutoScalingAnticipatedFlapping
@@ -2558,7 +2558,7 @@ public struct ObjectNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ObjectNotFoundExceptionBody: Swift.Equatable {
+struct ObjectNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2633,7 +2633,7 @@ extension ApplicationAutoScalingClientTypes.PredefinedMetricSpecification: Swift
 
 extension ApplicationAutoScalingClientTypes {
     /// Represents a predefined metric for a target tracking scaling policy to use with Application Auto Scaling. Only the Amazon Web Services that you're using send metrics to Amazon CloudWatch. To determine whether a desired metric already exists by looking up its namespace and dimension using the CloudWatch metrics dashboard in the console, follow the procedure in [Monitor your resources using CloudWatch](https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html) in the Application Auto Scaling User Guide.
-    public struct PredefinedMetricSpecification: Swift.Equatable {
+    public struct PredefinedMetricSpecification {
         /// The metric type. The ALBRequestCountPerTarget metric type applies only to Spot Fleets and ECS services.
         /// This member is required.
         public var predefinedMetricType: ApplicationAutoScalingClientTypes.MetricType?
@@ -2703,7 +2703,7 @@ extension PutScalingPolicyInput {
     }
 }
 
-public struct PutScalingPolicyInput: Swift.Equatable {
+public struct PutScalingPolicyInput {
     /// The name of the scaling policy. You cannot change the name of a scaling policy, but you can delete the original scaling policy and create a new scaling policy with the same settings and a different name.
     /// This member is required.
     public var policyName: Swift.String?
@@ -2823,7 +2823,7 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutScalingPolicyInputBody: Swift.Equatable {
+struct PutScalingPolicyInputBody {
     let policyName: Swift.String?
     let serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
     let resourceId: Swift.String?
@@ -2877,7 +2877,7 @@ extension PutScalingPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutScalingPolicyOutput: Swift.Equatable {
+public struct PutScalingPolicyOutput {
     /// The CloudWatch alarms created for the target tracking scaling policy.
     public var alarms: [ApplicationAutoScalingClientTypes.Alarm]?
     /// The Amazon Resource Name (ARN) of the resulting scaling policy.
@@ -2894,7 +2894,7 @@ public struct PutScalingPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutScalingPolicyOutputBody: Swift.Equatable {
+struct PutScalingPolicyOutputBody {
     let policyARN: Swift.String?
     let alarms: [ApplicationAutoScalingClientTypes.Alarm]?
 }
@@ -2991,7 +2991,7 @@ extension PutScheduledActionInput {
     }
 }
 
-public struct PutScheduledActionInput: Swift.Equatable {
+public struct PutScheduledActionInput {
     /// The date and time for the recurring schedule to end, in UTC.
     public var endTime: ClientRuntime.Date?
     /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier.
@@ -3128,7 +3128,7 @@ public struct PutScheduledActionInput: Swift.Equatable {
     }
 }
 
-struct PutScheduledActionInputBody: Swift.Equatable {
+struct PutScheduledActionInputBody {
     let serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
     let schedule: Swift.String?
     let timezone: Swift.String?
@@ -3181,7 +3181,7 @@ extension PutScheduledActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutScheduledActionOutput: Swift.Equatable {
+public struct PutScheduledActionOutput {
 
     public init() { }
 }
@@ -3252,7 +3252,7 @@ extension RegisterScalableTargetInput {
     }
 }
 
-public struct RegisterScalableTargetInput: Swift.Equatable {
+public struct RegisterScalableTargetInput {
     /// The maximum value that you plan to scale out to. When a scaling policy is in effect, Application Auto Scaling can scale out (expand) as needed to the maximum capacity limit in response to changing demand. This property is required when registering a new scalable target. Although you can specify a large maximum capacity, note that service quotas might impose lower limits. Each service has its own default quotas for the maximum capacity of the resource. If you want to specify a higher limit, you can request an increase. For more information, consult the documentation for that service. For information about the default quotas for each service, see [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) in the Amazon Web Services General Reference.
     public var maxCapacity: Swift.Int?
     /// The minimum value that you plan to scale in to. When a scaling policy is in effect, Application Auto Scaling can scale in (contract) as needed to the minimum capacity limit in response to changing demand. This property is required when registering a new scalable target. For the following resources, the minimum value allowed is 0.
@@ -3405,7 +3405,7 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
     }
 }
 
-struct RegisterScalableTargetInputBody: Swift.Equatable {
+struct RegisterScalableTargetInputBody {
     let serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
     let resourceId: Swift.String?
     let scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
@@ -3470,7 +3470,7 @@ extension RegisterScalableTargetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterScalableTargetOutput: Swift.Equatable {
+public struct RegisterScalableTargetOutput {
     /// The ARN of the scalable target.
     public var scalableTargetARN: Swift.String?
 
@@ -3482,7 +3482,7 @@ public struct RegisterScalableTargetOutput: Swift.Equatable {
     }
 }
 
-struct RegisterScalableTargetOutputBody: Swift.Equatable {
+struct RegisterScalableTargetOutputBody {
     let scalableTargetARN: Swift.String?
 }
 
@@ -3557,7 +3557,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -3738,7 +3738,7 @@ extension ApplicationAutoScalingClientTypes.ScalableTarget: Swift.Codable {
 
 extension ApplicationAutoScalingClientTypes {
     /// Represents a scalable target.
-    public struct ScalableTarget: Swift.Equatable {
+    public struct ScalableTarget {
         /// The Unix timestamp for when the scalable target was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
@@ -3898,7 +3898,7 @@ extension ApplicationAutoScalingClientTypes.ScalableTargetAction: Swift.Codable 
 
 extension ApplicationAutoScalingClientTypes {
     /// Represents the minimum and maximum capacity for a scheduled action.
-    public struct ScalableTargetAction: Swift.Equatable {
+    public struct ScalableTargetAction {
         /// The maximum capacity. Although you can specify a large maximum capacity, note that service quotas may impose lower limits. Each service has its own default quotas for the maximum capacity of the resource. If you want to specify a higher limit, you can request an increase. For more information, consult the documentation for that service. For information about the default quotas for each service, see [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) in the Amazon Web Services General Reference.
         public var maxCapacity: Swift.Int?
         /// The minimum capacity. When the scheduled action runs, the resource will have at least this much capacity, but it might have more depending on other settings, such as the target utilization level of a target tracking scaling policy.
@@ -4015,7 +4015,7 @@ extension ApplicationAutoScalingClientTypes.ScalingActivity: Swift.Codable {
 
 extension ApplicationAutoScalingClientTypes {
     /// Represents a scaling activity.
-    public struct ScalingActivity: Swift.Equatable {
+    public struct ScalingActivity {
         /// The unique identifier of the scaling activity.
         /// This member is required.
         public var activityId: Swift.String?
@@ -4292,7 +4292,7 @@ extension ApplicationAutoScalingClientTypes.ScalingPolicy: Swift.Codable {
 
 extension ApplicationAutoScalingClientTypes {
     /// Represents a scaling policy to use with Application Auto Scaling. For more information about configuring scaling policies for a specific service, see [Amazon Web Services services that you can use with Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/integrated-services-list.html) in the Application Auto Scaling User Guide.
-    public struct ScalingPolicy: Swift.Equatable {
+    public struct ScalingPolicy {
         /// The CloudWatch alarms associated with the scaling policy.
         public var alarms: [ApplicationAutoScalingClientTypes.Alarm]?
         /// The Unix timestamp for when the scaling policy was created.
@@ -4510,7 +4510,7 @@ extension ApplicationAutoScalingClientTypes.ScheduledAction: Swift.Codable {
 
 extension ApplicationAutoScalingClientTypes {
     /// Represents a scheduled action.
-    public struct ScheduledAction: Swift.Equatable {
+    public struct ScheduledAction {
         /// The date and time that the scheduled action was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
@@ -4775,7 +4775,7 @@ extension ApplicationAutoScalingClientTypes {
     /// * At most one step adjustment can have a null upper bound. If one step adjustment has a positive upper bound, then there must be a step adjustment with a null upper bound.
     ///
     /// * The upper and lower bound can't be null in the same step adjustment.
-    public struct StepAdjustment: Swift.Equatable {
+    public struct StepAdjustment {
         /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it's exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
         public var metricIntervalLowerBound: Swift.Double?
         /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it's inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
@@ -4855,7 +4855,7 @@ extension ApplicationAutoScalingClientTypes.StepScalingPolicyConfiguration: Swif
 
 extension ApplicationAutoScalingClientTypes {
     /// Represents a step scaling policy configuration to use with Application Auto Scaling. For more information, see [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide.
-    public struct StepScalingPolicyConfiguration: Swift.Equatable {
+    public struct StepScalingPolicyConfiguration {
         /// Specifies how the ScalingAdjustment value in a [StepAdjustment](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_StepAdjustment.html) is interpreted (for example, an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. AdjustmentType is required if you are adding a new step scaling policy configuration.
         public var adjustmentType: ApplicationAutoScalingClientTypes.AdjustmentType?
         /// The amount of time, in seconds, to wait for a previous scaling activity to take effect. If not specified, the default value is 300. For more information, see [Cooldown period](https://docs.aws.amazon.com/autoscaling/application/userguide/step-scaling-policy-overview.html#step-scaling-cooldown) in the Application Auto Scaling User Guide.
@@ -4918,7 +4918,7 @@ extension ApplicationAutoScalingClientTypes.SuspendedState: Swift.Codable {
 
 extension ApplicationAutoScalingClientTypes {
     /// Specifies whether the scaling activities for a scalable target are in a suspended state.
-    public struct SuspendedState: Swift.Equatable {
+    public struct SuspendedState {
         /// Whether scale in by a target tracking scaling policy or a step scaling policy is suspended. Set the value to true if you don't want Application Auto Scaling to remove capacity when a scaling policy is triggered. The default is false.
         public var dynamicScalingInSuspended: Swift.Bool?
         /// Whether scale out by a target tracking scaling policy or a step scaling policy is suspended. Set the value to true if you don't want Application Auto Scaling to add capacity when a scaling policy is triggered. The default is false.
@@ -4967,7 +4967,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// Identifies the Application Auto Scaling scalable target that you want to apply tags to. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use [DescribeScalableTargets].
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -4985,7 +4985,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -5019,7 +5019,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -5082,7 +5082,7 @@ extension ApplicationAutoScalingClientTypes.TargetTrackingMetric: Swift.Codable 
 
 extension ApplicationAutoScalingClientTypes {
     /// Represents a specific metric. Metric is a property of the [TargetTrackingMetricStat] object.
-    public struct TargetTrackingMetric: Swift.Equatable {
+    public struct TargetTrackingMetric {
         /// The dimensions for the metric. For the list of available dimensions, see the Amazon Web Services documentation available from the table in [Amazon Web Services services that publish CloudWatch metrics ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html) in the Amazon CloudWatch User Guide. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         public var dimensions: [ApplicationAutoScalingClientTypes.TargetTrackingMetricDimension]?
         /// The name of the metric.
@@ -5149,7 +5149,7 @@ extension ApplicationAutoScalingClientTypes.TargetTrackingMetricDataQuery: Swift
 
 extension ApplicationAutoScalingClientTypes {
     /// The metric data to return. Also defines whether this call is returning data for one metric only, or whether it is performing a math expression on the values of returned metric statistics to create a new time series. A time series is a series of data points, each of which is associated with a timestamp. For more information and examples, see [Create a target tracking scaling policy for Application Auto Scaling using metric math](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking-metric-math.html) in the Application Auto Scaling User Guide.
-    public struct TargetTrackingMetricDataQuery: Swift.Equatable {
+    public struct TargetTrackingMetricDataQuery {
         /// The math expression to perform on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. Conditional: Within each TargetTrackingMetricDataQuery object, you must specify either Expression or MetricStat, but not both.
         public var expression: Swift.String?
         /// A short name that identifies the object's results in the response. This name must be unique among all MetricDataQuery objects specified for a single scaling policy. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscores. The first character must be a lowercase letter.
@@ -5207,7 +5207,7 @@ extension ApplicationAutoScalingClientTypes.TargetTrackingMetricDimension: Swift
 
 extension ApplicationAutoScalingClientTypes {
     /// Describes the dimension of a metric.
-    public struct TargetTrackingMetricDimension: Swift.Equatable {
+    public struct TargetTrackingMetricDimension {
         /// The name of the dimension.
         /// This member is required.
         public var name: Swift.String?
@@ -5260,7 +5260,7 @@ extension ApplicationAutoScalingClientTypes.TargetTrackingMetricStat: Swift.Coda
 
 extension ApplicationAutoScalingClientTypes {
     /// This structure defines the CloudWatch metric to return, along with the statistic, period, and unit. For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
-    public struct TargetTrackingMetricStat: Swift.Equatable {
+    public struct TargetTrackingMetricStat {
         /// The CloudWatch metric to return, including the metric name, namespace, and dimensions. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that is returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
         /// This member is required.
         public var metric: ApplicationAutoScalingClientTypes.TargetTrackingMetric?
@@ -5335,7 +5335,7 @@ extension ApplicationAutoScalingClientTypes.TargetTrackingScalingPolicyConfigura
 
 extension ApplicationAutoScalingClientTypes {
     /// Represents a target tracking scaling policy configuration to use with Application Auto Scaling. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) in the Application Auto Scaling User Guide.
-    public struct TargetTrackingScalingPolicyConfiguration: Swift.Equatable {
+    public struct TargetTrackingScalingPolicyConfiguration {
         /// A customized metric. You can specify either a predefined metric or a customized metric.
         public var customizedMetricSpecification: ApplicationAutoScalingClientTypes.CustomizedMetricSpecification?
         /// Indicates whether scale in by the target tracking scaling policy is disabled. If the value is true, scale in is disabled and the target tracking scaling policy won't remove capacity from the scalable target. Otherwise, scale in is enabled and the target tracking scaling policy can remove capacity from the scalable target. The default value is false.
@@ -5415,7 +5415,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -5462,7 +5462,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// Identifies the Application Auto Scaling scalable target from which to remove tags. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use [DescribeScalableTargets].
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -5480,7 +5480,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -5514,7 +5514,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -5570,7 +5570,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

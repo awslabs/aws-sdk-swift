@@ -69,7 +69,7 @@ extension SESClientTypes.AddHeaderAction: Swift.Encodable {
 
 extension SESClientTypes {
     /// When included in a receipt rule, this action adds a header to the received email. For information about adding a header using a receipt rule, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-add-header.html).
-    public struct AddHeaderAction: Swift.Equatable {
+    public struct AddHeaderAction {
         /// The name of the header to add to the incoming message. The name must contain at least one character, and can contain up to 50 characters. It consists of alphanumeric (a–z, A–Z, 0–9) characters and dashes.
         /// This member is required.
         public var headerName: Swift.String?
@@ -191,7 +191,7 @@ extension SESClientTypes.Body: Swift.Encodable {
 
 extension SESClientTypes {
     /// Represents the body of the message. You can specify text, HTML, or both. If you use both, then the message should display correctly in the widest variety of email clients.
-    public struct Body: Swift.Equatable {
+    public struct Body {
         /// The content of the message, in HTML format. Use this for email clients that can process HTML. You can include clickable links, formatted text, and much more in an HTML message.
         public var html: SESClientTypes.Content?
         /// The content of the message, in text format. Use this for text-based email clients, or clients on high-latency networks (such as mobile devices).
@@ -253,7 +253,7 @@ extension SESClientTypes.BounceAction: Swift.Encodable {
 
 extension SESClientTypes {
     /// When included in a receipt rule, this action rejects the received email by returning a bounce response to the sender and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). For information about sending a bounce message in response to a received email, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-bounce.html).
-    public struct BounceAction: Swift.Equatable {
+    public struct BounceAction {
         /// Human-readable text to include in the bounce message.
         /// This member is required.
         public var message: Swift.String?
@@ -369,7 +369,7 @@ extension SESClientTypes.BouncedRecipientInfo: Swift.Encodable {
 
 extension SESClientTypes {
     /// Recipient-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html).
-    public struct BouncedRecipientInfo: Swift.Equatable {
+    public struct BouncedRecipientInfo {
         /// The reason for the bounce. You must provide either this parameter or RecipientDsnFields.
         public var bounceType: SESClientTypes.BounceType?
         /// The email address of the recipient of the bounced email.
@@ -439,7 +439,7 @@ extension SESClientTypes.BulkEmailDestination: Swift.Encodable {
 
 extension SESClientTypes {
     /// An array that contains one or more Destinations, as well as the tags and replacement data associated with each of those Destinations.
-    public struct BulkEmailDestination: Swift.Equatable {
+    public struct BulkEmailDestination {
         /// Represents the destination of the message, consisting of To:, CC:, and BCC: fields. Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in [Sending raw email using the Amazon SES API](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html). For more information about Punycode, see [RFC 3492](http://tools.ietf.org/html/rfc3492).
         /// This member is required.
         public var destination: SESClientTypes.Destination?
@@ -496,7 +496,7 @@ extension SESClientTypes.BulkEmailDestinationStatus: Swift.Encodable {
 
 extension SESClientTypes {
     /// An object that contains the response from the SendBulkTemplatedEmail operation.
-    public struct BulkEmailDestinationStatus: Swift.Equatable {
+    public struct BulkEmailDestinationStatus {
         /// A description of an error that prevented a message being sent using the SendBulkTemplatedEmail operation.
         public var error: Swift.String?
         /// The unique message identifier returned from the SendBulkTemplatedEmail operation.
@@ -682,7 +682,7 @@ extension CloneReceiptRuleSetInput {
 }
 
 /// Represents a request to create a receipt rule set by cloning an existing one. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct CloneReceiptRuleSetInput: Swift.Equatable {
+public struct CloneReceiptRuleSetInput {
     /// The name of the rule set to clone.
     /// This member is required.
     public var originalRuleSetName: Swift.String?
@@ -716,7 +716,7 @@ extension CloneReceiptRuleSetOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct CloneReceiptRuleSetOutput: Swift.Equatable {
+public struct CloneReceiptRuleSetOutput {
 
     public init() { }
 }
@@ -773,7 +773,7 @@ extension SESClientTypes.CloudWatchDestination: Swift.Encodable {
 
 extension SESClientTypes {
     /// Contains information associated with an Amazon CloudWatch event destination to which email sending events are published. Event destinations, such as Amazon CloudWatch, are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-    public struct CloudWatchDestination: Swift.Equatable {
+    public struct CloudWatchDestination {
         /// A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch.
         /// This member is required.
         public var dimensionConfigurations: [SESClientTypes.CloudWatchDimensionConfiguration]?
@@ -822,7 +822,7 @@ extension SESClientTypes.CloudWatchDimensionConfiguration: Swift.Encodable {
 
 extension SESClientTypes {
     /// Contains the dimension configuration to use when you publish email sending events to Amazon CloudWatch. For information about publishing email sending events to Amazon CloudWatch, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-    public struct CloudWatchDimensionConfiguration: Swift.Equatable {
+    public struct CloudWatchDimensionConfiguration {
         /// The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must meet the following requirements:
         ///
         /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), dashes (-), at signs (@), or periods (.).
@@ -879,7 +879,7 @@ extension SESClientTypes.ConfigurationSet: Swift.Encodable {
 
 extension SESClientTypes {
     /// The name of the configuration set. Configuration sets let you create groups of rules that you can apply to the emails you send using Amazon SES. For more information about using configuration sets, see [Using Amazon SES Configuration Sets](https://docs.aws.amazon.com/ses/latest/dg/using-configuration-sets.html) in the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/).
-    public struct ConfigurationSet: Swift.Equatable {
+    public struct ConfigurationSet {
         /// The name of the configuration set. The name must meet the following requirements:
         ///
         /// * Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
@@ -1088,7 +1088,7 @@ extension SESClientTypes.Content: Swift.Encodable {
 
 extension SESClientTypes {
     /// Represents textual data, plus an optional character set specification. By default, the text must be 7-bit ASCII, due to the constraints of the SMTP protocol. If the text must contain any other characters, then you must also specify a character set. Examples include UTF-8, ISO-8859-1, and Shift_JIS.
-    public struct Content: Swift.Equatable {
+    public struct Content {
         /// The character set of the content.
         public var charset: Swift.String?
         /// The textual data of the content.
@@ -1134,7 +1134,7 @@ extension CreateConfigurationSetEventDestinationInput {
 }
 
 /// Represents a request to create a configuration set event destination. A configuration set event destination, which can be either Amazon CloudWatch or Amazon Kinesis Firehose, describes an Amazon Web Services service in which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-public struct CreateConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct CreateConfigurationSetEventDestinationInput {
     /// The name of the configuration set that the event destination should be associated with.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -1162,7 +1162,7 @@ extension CreateConfigurationSetEventDestinationOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct CreateConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct CreateConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -1212,7 +1212,7 @@ extension CreateConfigurationSetInput {
 }
 
 /// Represents a request to create a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-public struct CreateConfigurationSetInput: Swift.Equatable {
+public struct CreateConfigurationSetInput {
     /// A data structure that contains the name of the configuration set.
     /// This member is required.
     public var configurationSet: SESClientTypes.ConfigurationSet?
@@ -1235,7 +1235,7 @@ extension CreateConfigurationSetOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct CreateConfigurationSetOutput: Swift.Equatable {
+public struct CreateConfigurationSetOutput {
 
     public init() { }
 }
@@ -1286,7 +1286,7 @@ extension CreateConfigurationSetTrackingOptionsInput {
 }
 
 /// Represents a request to create an open and click tracking option object in a configuration set.
-public struct CreateConfigurationSetTrackingOptionsInput: Swift.Equatable {
+public struct CreateConfigurationSetTrackingOptionsInput {
     /// The name of the configuration set that the tracking options should be associated with.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -1314,7 +1314,7 @@ extension CreateConfigurationSetTrackingOptionsOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct CreateConfigurationSetTrackingOptionsOutput: Swift.Equatable {
+public struct CreateConfigurationSetTrackingOptionsOutput {
 
     public init() { }
 }
@@ -1381,7 +1381,7 @@ extension CreateCustomVerificationEmailTemplateInput {
 }
 
 /// Represents a request to create a custom verification email template.
-public struct CreateCustomVerificationEmailTemplateInput: Swift.Equatable {
+public struct CreateCustomVerificationEmailTemplateInput {
     /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
     /// This member is required.
     public var failureRedirectionURL: Swift.String?
@@ -1428,7 +1428,7 @@ extension CreateCustomVerificationEmailTemplateOutput {
     }
 }
 
-public struct CreateCustomVerificationEmailTemplateOutput: Swift.Equatable {
+public struct CreateCustomVerificationEmailTemplateOutput {
 
     public init() { }
 }
@@ -1476,7 +1476,7 @@ extension CreateReceiptFilterInput {
 }
 
 /// Represents a request to create a new IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct CreateReceiptFilterInput: Swift.Equatable {
+public struct CreateReceiptFilterInput {
     /// A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it.
     /// This member is required.
     public var filter: SESClientTypes.ReceiptFilter?
@@ -1499,7 +1499,7 @@ extension CreateReceiptFilterOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct CreateReceiptFilterOutput: Swift.Equatable {
+public struct CreateReceiptFilterOutput {
 
     public init() { }
 }
@@ -1553,7 +1553,7 @@ extension CreateReceiptRuleInput {
 }
 
 /// Represents a request to create a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct CreateReceiptRuleInput: Swift.Equatable {
+public struct CreateReceiptRuleInput {
     /// The name of an existing rule after which the new rule is placed. If this parameter is null, the new rule is inserted at the beginning of the rule list.
     public var after: Swift.String?
     /// A data structure that contains the specified rule's name, actions, recipients, domains, enabled status, scan status, and TLS policy.
@@ -1585,7 +1585,7 @@ extension CreateReceiptRuleOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct CreateReceiptRuleOutput: Swift.Equatable {
+public struct CreateReceiptRuleOutput {
 
     public init() { }
 }
@@ -1636,7 +1636,7 @@ extension CreateReceiptRuleSetInput {
 }
 
 /// Represents a request to create an empty receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct CreateReceiptRuleSetInput: Swift.Equatable {
+public struct CreateReceiptRuleSetInput {
     /// The name of the rule set to create. The name must meet the following requirements:
     ///
     /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
@@ -1665,7 +1665,7 @@ extension CreateReceiptRuleSetOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct CreateReceiptRuleSetOutput: Swift.Equatable {
+public struct CreateReceiptRuleSetOutput {
 
     public init() { }
 }
@@ -1711,7 +1711,7 @@ extension CreateTemplateInput {
 }
 
 /// Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
-public struct CreateTemplateInput: Swift.Equatable {
+public struct CreateTemplateInput {
     /// The content of the email, composed of a subject line and either an HTML part or a text-only part.
     /// This member is required.
     public var template: SESClientTypes.Template?
@@ -1733,7 +1733,7 @@ extension CreateTemplateOutput {
     }
 }
 
-public struct CreateTemplateOutput: Swift.Equatable {
+public struct CreateTemplateOutput {
 
     public init() { }
 }
@@ -1875,7 +1875,7 @@ extension SESClientTypes.CustomVerificationEmailTemplate: Swift.Encodable {
 
 extension SESClientTypes {
     /// Contains information about a custom verification email template.
-    public struct CustomVerificationEmailTemplate: Swift.Equatable {
+    public struct CustomVerificationEmailTemplate {
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public var failureRedirectionURL: Swift.String?
         /// The email address that the custom verification email is sent from.
@@ -2014,7 +2014,7 @@ extension DeleteConfigurationSetEventDestinationInput {
 }
 
 /// Represents a request to delete a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-public struct DeleteConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct DeleteConfigurationSetEventDestinationInput {
     /// The name of the configuration set from which to delete the event destination.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -2042,7 +2042,7 @@ extension DeleteConfigurationSetEventDestinationOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct DeleteConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct DeleteConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -2088,7 +2088,7 @@ extension DeleteConfigurationSetInput {
 }
 
 /// Represents a request to delete a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-public struct DeleteConfigurationSetInput: Swift.Equatable {
+public struct DeleteConfigurationSetInput {
     /// The name of the configuration set to delete.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -2111,7 +2111,7 @@ extension DeleteConfigurationSetOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct DeleteConfigurationSetOutput: Swift.Equatable {
+public struct DeleteConfigurationSetOutput {
 
     public init() { }
 }
@@ -2156,7 +2156,7 @@ extension DeleteConfigurationSetTrackingOptionsInput {
 }
 
 /// Represents a request to delete open and click tracking options in a configuration set.
-public struct DeleteConfigurationSetTrackingOptionsInput: Swift.Equatable {
+public struct DeleteConfigurationSetTrackingOptionsInput {
     /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -2179,7 +2179,7 @@ extension DeleteConfigurationSetTrackingOptionsOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct DeleteConfigurationSetTrackingOptionsOutput: Swift.Equatable {
+public struct DeleteConfigurationSetTrackingOptionsOutput {
 
     public init() { }
 }
@@ -2225,7 +2225,7 @@ extension DeleteCustomVerificationEmailTemplateInput {
 }
 
 /// Represents a request to delete an existing custom verification email template.
-public struct DeleteCustomVerificationEmailTemplateInput: Swift.Equatable {
+public struct DeleteCustomVerificationEmailTemplateInput {
     /// The name of the custom verification email template to delete.
     /// This member is required.
     public var templateName: Swift.String?
@@ -2247,7 +2247,7 @@ extension DeleteCustomVerificationEmailTemplateOutput {
     }
 }
 
-public struct DeleteCustomVerificationEmailTemplateOutput: Swift.Equatable {
+public struct DeleteCustomVerificationEmailTemplateOutput {
 
     public init() { }
 }
@@ -2291,7 +2291,7 @@ extension DeleteIdentityInput {
 }
 
 /// Represents a request to delete one of your Amazon SES identities (an email address or domain).
-public struct DeleteIdentityInput: Swift.Equatable {
+public struct DeleteIdentityInput {
     /// The identity to be removed from the list of identities for the Amazon Web Services account.
     /// This member is required.
     public var identity: Swift.String?
@@ -2314,7 +2314,7 @@ extension DeleteIdentityOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct DeleteIdentityOutput: Swift.Equatable {
+public struct DeleteIdentityOutput {
 
     public init() { }
 }
@@ -2362,7 +2362,7 @@ extension DeleteIdentityPolicyInput {
 }
 
 /// Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
-public struct DeleteIdentityPolicyInput: Swift.Equatable {
+public struct DeleteIdentityPolicyInput {
     /// The identity that is associated with the policy to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
     /// This member is required.
     public var identity: Swift.String?
@@ -2390,7 +2390,7 @@ extension DeleteIdentityPolicyOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct DeleteIdentityPolicyOutput: Swift.Equatable {
+public struct DeleteIdentityPolicyOutput {
 
     public init() { }
 }
@@ -2434,7 +2434,7 @@ extension DeleteReceiptFilterInput {
 }
 
 /// Represents a request to delete an IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct DeleteReceiptFilterInput: Swift.Equatable {
+public struct DeleteReceiptFilterInput {
     /// The name of the IP address filter to delete.
     /// This member is required.
     public var filterName: Swift.String?
@@ -2457,7 +2457,7 @@ extension DeleteReceiptFilterOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct DeleteReceiptFilterOutput: Swift.Equatable {
+public struct DeleteReceiptFilterOutput {
 
     public init() { }
 }
@@ -2505,7 +2505,7 @@ extension DeleteReceiptRuleInput {
 }
 
 /// Represents a request to delete a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct DeleteReceiptRuleInput: Swift.Equatable {
+public struct DeleteReceiptRuleInput {
     /// The name of the receipt rule to delete.
     /// This member is required.
     public var ruleName: Swift.String?
@@ -2533,7 +2533,7 @@ extension DeleteReceiptRuleOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct DeleteReceiptRuleOutput: Swift.Equatable {
+public struct DeleteReceiptRuleOutput {
 
     public init() { }
 }
@@ -2578,7 +2578,7 @@ extension DeleteReceiptRuleSetInput {
 }
 
 /// Represents a request to delete a receipt rule set and all of the receipt rules it contains. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct DeleteReceiptRuleSetInput: Swift.Equatable {
+public struct DeleteReceiptRuleSetInput {
     /// The name of the receipt rule set to delete.
     /// This member is required.
     public var ruleSetName: Swift.String?
@@ -2601,7 +2601,7 @@ extension DeleteReceiptRuleSetOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct DeleteReceiptRuleSetOutput: Swift.Equatable {
+public struct DeleteReceiptRuleSetOutput {
 
     public init() { }
 }
@@ -2646,7 +2646,7 @@ extension DeleteTemplateInput {
 }
 
 /// Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
-public struct DeleteTemplateInput: Swift.Equatable {
+public struct DeleteTemplateInput {
     /// The name of the template to be deleted.
     /// This member is required.
     public var templateName: Swift.String?
@@ -2668,7 +2668,7 @@ extension DeleteTemplateOutput {
     }
 }
 
-public struct DeleteTemplateOutput: Swift.Equatable {
+public struct DeleteTemplateOutput {
 
     public init() { }
 }
@@ -2712,7 +2712,7 @@ extension DeleteVerifiedEmailAddressInput {
 }
 
 /// Represents a request to delete an email address from the list of email addresses you have attempted to verify under your Amazon Web Services account.
-public struct DeleteVerifiedEmailAddressInput: Swift.Equatable {
+public struct DeleteVerifiedEmailAddressInput {
     /// An email address to be removed from the list of verified addresses.
     /// This member is required.
     public var emailAddress: Swift.String?
@@ -2734,7 +2734,7 @@ extension DeleteVerifiedEmailAddressOutput {
     }
 }
 
-public struct DeleteVerifiedEmailAddressOutput: Swift.Equatable {
+public struct DeleteVerifiedEmailAddressOutput {
 
     public init() { }
 }
@@ -2779,7 +2779,7 @@ extension SESClientTypes.DeliveryOptions: Swift.Encodable {
 
 extension SESClientTypes {
     /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS).
-    public struct DeliveryOptions: Swift.Equatable {
+    public struct DeliveryOptions {
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public var tlsPolicy: SESClientTypes.TlsPolicy?
 
@@ -2810,7 +2810,7 @@ extension DescribeActiveReceiptRuleSetInput {
 }
 
 /// Represents a request to return the metadata and receipt rules for the receipt rule set that is currently active. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct DescribeActiveReceiptRuleSetInput: Swift.Equatable {
+public struct DescribeActiveReceiptRuleSetInput {
 
     public init() { }
 }
@@ -2830,7 +2830,7 @@ extension DescribeActiveReceiptRuleSetOutput {
 }
 
 /// Represents the metadata and receipt rules for the receipt rule set that is currently active.
-public struct DescribeActiveReceiptRuleSetOutput: Swift.Equatable {
+public struct DescribeActiveReceiptRuleSetOutput {
     /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and a timestamp of when the rule set was created.
     public var metadata: SESClientTypes.ReceiptRuleSetMetadata?
     /// The receipt rules that belong to the active rule set.
@@ -2898,7 +2898,7 @@ extension DescribeConfigurationSetInput {
 }
 
 /// Represents a request to return the details of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-public struct DescribeConfigurationSetInput: Swift.Equatable {
+public struct DescribeConfigurationSetInput {
     /// A list of configuration set attributes to return.
     public var configurationSetAttributeNames: [SESClientTypes.ConfigurationSetAttribute]?
     /// The name of the configuration set to describe.
@@ -2933,7 +2933,7 @@ extension DescribeConfigurationSetOutput {
 }
 
 /// Represents the details of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-public struct DescribeConfigurationSetOutput: Swift.Equatable {
+public struct DescribeConfigurationSetOutput {
     /// The configuration set object associated with the specified configuration set.
     public var configurationSet: SESClientTypes.ConfigurationSet?
     /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS).
@@ -3005,7 +3005,7 @@ extension DescribeReceiptRuleInput {
 }
 
 /// Represents a request to return the details of a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct DescribeReceiptRuleInput: Swift.Equatable {
+public struct DescribeReceiptRuleInput {
     /// The name of the receipt rule.
     /// This member is required.
     public var ruleName: Swift.String?
@@ -3037,7 +3037,7 @@ extension DescribeReceiptRuleOutput {
 }
 
 /// Represents the details of a receipt rule.
-public struct DescribeReceiptRuleOutput: Swift.Equatable {
+public struct DescribeReceiptRuleOutput {
     /// A data structure that contains the specified receipt rule's name, actions, recipients, domains, enabled status, scan status, and Transport Layer Security (TLS) policy.
     public var rule: SESClientTypes.ReceiptRule?
 
@@ -3090,7 +3090,7 @@ extension DescribeReceiptRuleSetInput {
 }
 
 /// Represents a request to return the details of a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct DescribeReceiptRuleSetInput: Swift.Equatable {
+public struct DescribeReceiptRuleSetInput {
     /// The name of the receipt rule set to describe.
     /// This member is required.
     public var ruleSetName: Swift.String?
@@ -3118,7 +3118,7 @@ extension DescribeReceiptRuleSetOutput {
 }
 
 /// Represents the details of the specified receipt rule set.
-public struct DescribeReceiptRuleSetOutput: Swift.Equatable {
+public struct DescribeReceiptRuleSetOutput {
     /// The metadata for the receipt rule set, which consists of the rule set name and the timestamp of when the rule set was created.
     public var metadata: SESClientTypes.ReceiptRuleSetMetadata?
     /// A list of the receipt rules that belong to the specified receipt rule set.
@@ -3212,7 +3212,7 @@ extension SESClientTypes.Destination: Swift.Encodable {
 
 extension SESClientTypes {
     /// Represents the destination of the message, consisting of To:, CC:, and BCC: fields. Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the email address string must be 7-bit ASCII. If you want to send to or from email addresses that contain Unicode characters in the domain part of an address, you must encode the domain using Punycode. Punycode is not permitted in the local part of the email address (the part before the @ sign) nor in the "friendly from" name. If you want to use Unicode characters in the "friendly from" name, you must encode the "friendly from" name using MIME encoded-word syntax, as described in [Sending raw email using the Amazon SES API](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html). For more information about Punycode, see [RFC 3492](http://tools.ietf.org/html/rfc3492).
-    public struct Destination: Swift.Equatable {
+    public struct Destination {
         /// The recipients to place on the BCC: line of the message.
         public var bccAddresses: [Swift.String]?
         /// The recipients to place on the CC: line of the message.
@@ -3368,7 +3368,7 @@ extension SESClientTypes.EventDestination: Swift.Encodable {
 
 extension SESClientTypes {
     /// Contains information about an event destination. When you create or update an event destination, you must provide one, and only one, destination. The destination can be Amazon CloudWatch, Amazon Kinesis Firehose or Amazon Simple Notification Service (Amazon SNS). Event destinations are associated with configuration sets, which enable you to publish email sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-    public struct EventDestination: Swift.Equatable {
+    public struct EventDestination {
         /// An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination.
         public var cloudWatchDestination: SESClientTypes.CloudWatchDestination?
         /// Sets whether Amazon SES publishes events to this destination when you send an email with the associated configuration set. Set to true to enable publishing to this destination; set to false to prevent publishing to this destination. The default value is false.
@@ -3595,7 +3595,7 @@ extension SESClientTypes.ExtensionField: Swift.Encodable {
 
 extension SESClientTypes {
     /// Additional X-headers to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html).
-    public struct ExtensionField: Swift.Equatable {
+    public struct ExtensionField {
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
         /// This member is required.
         public var name: Swift.String?
@@ -3672,7 +3672,7 @@ extension GetAccountSendingEnabledInput {
     }
 }
 
-public struct GetAccountSendingEnabledInput: Swift.Equatable {
+public struct GetAccountSendingEnabledInput {
 
     public init() { }
 }
@@ -3691,7 +3691,7 @@ extension GetAccountSendingEnabledOutput {
 }
 
 /// Represents a request to return the email sending status for your Amazon SES account in the current Amazon Web Services Region.
-public struct GetAccountSendingEnabledOutput: Swift.Equatable {
+public struct GetAccountSendingEnabledOutput {
     /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current Amazon Web Services Region.
     public var enabled: Swift.Bool
 
@@ -3742,7 +3742,7 @@ extension GetCustomVerificationEmailTemplateInput {
 }
 
 /// Represents a request to retrieve an existing custom verification email template.
-public struct GetCustomVerificationEmailTemplateInput: Swift.Equatable {
+public struct GetCustomVerificationEmailTemplateInput {
     /// The name of the custom verification email template to retrieve.
     /// This member is required.
     public var templateName: Swift.String?
@@ -3774,7 +3774,7 @@ extension GetCustomVerificationEmailTemplateOutput {
 }
 
 /// The content of the custom verification email template.
-public struct GetCustomVerificationEmailTemplateOutput: Swift.Equatable {
+public struct GetCustomVerificationEmailTemplateOutput {
     /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
     public var failureRedirectionURL: Swift.String?
     /// The email address that the custom verification email is sent from.
@@ -3855,7 +3855,7 @@ extension GetIdentityDkimAttributesInput {
 }
 
 /// Represents a request for the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this request also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published. For more information about Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
-public struct GetIdentityDkimAttributesInput: Swift.Equatable {
+public struct GetIdentityDkimAttributesInput {
     /// A list of one or more verified identities - email addresses, domains, or both.
     /// This member is required.
     public var identities: [Swift.String]?
@@ -3882,7 +3882,7 @@ extension GetIdentityDkimAttributesOutput {
 }
 
 /// Represents the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this response also contains the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published.
-public struct GetIdentityDkimAttributesOutput: Swift.Equatable {
+public struct GetIdentityDkimAttributesOutput {
     /// The DKIM attributes for an email address or a domain.
     /// This member is required.
     public var dkimAttributes: [Swift.String:SESClientTypes.IdentityDkimAttributes]?
@@ -3943,7 +3943,7 @@ extension GetIdentityMailFromDomainAttributesInput {
 }
 
 /// Represents a request to return the Amazon SES custom MAIL FROM attributes for a list of identities. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html).
-public struct GetIdentityMailFromDomainAttributesInput: Swift.Equatable {
+public struct GetIdentityMailFromDomainAttributesInput {
     /// A list of one or more identities.
     /// This member is required.
     public var identities: [Swift.String]?
@@ -3970,7 +3970,7 @@ extension GetIdentityMailFromDomainAttributesOutput {
 }
 
 /// Represents the custom MAIL FROM attributes for a list of identities.
-public struct GetIdentityMailFromDomainAttributesOutput: Swift.Equatable {
+public struct GetIdentityMailFromDomainAttributesOutput {
     /// A map of identities to custom MAIL FROM attributes.
     /// This member is required.
     public var mailFromDomainAttributes: [Swift.String:SESClientTypes.IdentityMailFromDomainAttributes]?
@@ -4031,7 +4031,7 @@ extension GetIdentityNotificationAttributesInput {
 }
 
 /// Represents a request to return the notification attributes for a list of identities you verified with Amazon SES. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
-public struct GetIdentityNotificationAttributesInput: Swift.Equatable {
+public struct GetIdentityNotificationAttributesInput {
     /// A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
     /// This member is required.
     public var identities: [Swift.String]?
@@ -4058,7 +4058,7 @@ extension GetIdentityNotificationAttributesOutput {
 }
 
 /// Represents the notification attributes for a list of identities.
-public struct GetIdentityNotificationAttributesOutput: Swift.Equatable {
+public struct GetIdentityNotificationAttributesOutput {
     /// A map of Identity to IdentityNotificationAttributes.
     /// This member is required.
     public var notificationAttributes: [Swift.String:SESClientTypes.IdentityNotificationAttributes]?
@@ -4123,7 +4123,7 @@ extension GetIdentityPoliciesInput {
 }
 
 /// Represents a request to return the requested sending authorization policies for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
-public struct GetIdentityPoliciesInput: Swift.Equatable {
+public struct GetIdentityPoliciesInput {
     /// The identity for which the policies are retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
     /// This member is required.
     public var identity: Swift.String?
@@ -4155,7 +4155,7 @@ extension GetIdentityPoliciesOutput {
 }
 
 /// Represents the requested sending authorization policies.
-public struct GetIdentityPoliciesOutput: Swift.Equatable {
+public struct GetIdentityPoliciesOutput {
     /// A map of policy names to policies.
     /// This member is required.
     public var policies: [Swift.String:Swift.String]?
@@ -4216,7 +4216,7 @@ extension GetIdentityVerificationAttributesInput {
 }
 
 /// Represents a request to return the Amazon SES verification status of a list of identities. For domain identities, this request also returns the verification token. For information about verifying identities with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html).
-public struct GetIdentityVerificationAttributesInput: Swift.Equatable {
+public struct GetIdentityVerificationAttributesInput {
     /// A list of identities.
     /// This member is required.
     public var identities: [Swift.String]?
@@ -4243,7 +4243,7 @@ extension GetIdentityVerificationAttributesOutput {
 }
 
 /// The Amazon SES verification status of a list of identities. For domain identities, this response also contains the verification token.
-public struct GetIdentityVerificationAttributesOutput: Swift.Equatable {
+public struct GetIdentityVerificationAttributesOutput {
     /// A map of Identities to IdentityVerificationAttributes objects.
     /// This member is required.
     public var verificationAttributes: [Swift.String:SESClientTypes.IdentityVerificationAttributes]?
@@ -4288,7 +4288,7 @@ extension GetSendQuotaInput {
     }
 }
 
-public struct GetSendQuotaInput: Swift.Equatable {
+public struct GetSendQuotaInput {
 
     public init() { }
 }
@@ -4309,7 +4309,7 @@ extension GetSendQuotaOutput {
 }
 
 /// Represents your Amazon SES daily sending quota, maximum send rate, and the number of emails you have sent in the last 24 hours.
-public struct GetSendQuotaOutput: Swift.Equatable {
+public struct GetSendQuotaOutput {
     /// The maximum number of emails the user is allowed to send in a 24-hour interval. A value of -1 signifies an unlimited quota.
     public var max24HourSend: Swift.Double
     /// The maximum number of emails that Amazon SES can accept from the user's account per second. The rate at which Amazon SES accepts the user's messages might be less than the maximum send rate.
@@ -4361,7 +4361,7 @@ extension GetSendStatisticsInput {
     }
 }
 
-public struct GetSendStatisticsInput: Swift.Equatable {
+public struct GetSendStatisticsInput {
 
     public init() { }
 }
@@ -4380,7 +4380,7 @@ extension GetSendStatisticsOutput {
 }
 
 /// Represents a list of data points. This list contains aggregated data from the previous two weeks of your sending activity with Amazon SES.
-public struct GetSendStatisticsOutput: Swift.Equatable {
+public struct GetSendStatisticsOutput {
     /// A list of data points, each of which represents 15 minutes of activity.
     public var sendDataPoints: [SESClientTypes.SendDataPoint]?
 
@@ -4430,7 +4430,7 @@ extension GetTemplateInput {
     }
 }
 
-public struct GetTemplateInput: Swift.Equatable {
+public struct GetTemplateInput {
     /// The name of the template to retrieve.
     /// This member is required.
     public var templateName: Swift.String?
@@ -4456,7 +4456,7 @@ extension GetTemplateOutput {
     }
 }
 
-public struct GetTemplateOutput: Swift.Equatable {
+public struct GetTemplateOutput {
     /// The content of the email, composed of a subject line and either an HTML part or a text-only part.
     public var template: SESClientTypes.Template?
 
@@ -4528,7 +4528,7 @@ extension SESClientTypes.IdentityDkimAttributes: Swift.Encodable {
 
 extension SESClientTypes {
     /// Represents the DKIM attributes of a verified email address or a domain.
-    public struct IdentityDkimAttributes: Swift.Equatable {
+    public struct IdentityDkimAttributes {
         /// Is true if DKIM signing is enabled for email sent from the identity. It's false otherwise. The default value is true.
         /// This member is required.
         public var dkimEnabled: Swift.Bool
@@ -4586,7 +4586,7 @@ extension SESClientTypes.IdentityMailFromDomainAttributes: Swift.Encodable {
 
 extension SESClientTypes {
     /// Represents the custom MAIL FROM domain attributes of a verified identity (email address or domain).
-    public struct IdentityMailFromDomainAttributes: Swift.Equatable {
+    public struct IdentityMailFromDomainAttributes {
         /// The action that Amazon SES takes if it cannot successfully read the required MX record when you send an email. A value of UseDefaultValue indicates that if Amazon SES cannot read the required MX record, it uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. A value of RejectMessage indicates that if Amazon SES cannot read the required MX record, Amazon SES returns a MailFromDomainNotVerified error and does not send the email. The custom MAIL FROM setup states that result in this behavior are Pending, Failed, and TemporaryFailure.
         /// This member is required.
         public var behaviorOnMXFailure: SESClientTypes.BehaviorOnMXFailure?
@@ -4665,7 +4665,7 @@ extension SESClientTypes.IdentityNotificationAttributes: Swift.Encodable {
 
 extension SESClientTypes {
     /// Represents the notification attributes of an identity, including whether an identity has Amazon Simple Notification Service (Amazon SNS) topics set for bounce, complaint, and/or delivery notifications, and whether feedback forwarding is enabled for bounce and complaint notifications.
-    public struct IdentityNotificationAttributes: Swift.Equatable {
+    public struct IdentityNotificationAttributes {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES publishes bounce notifications.
         /// This member is required.
         public var bounceTopic: Swift.String?
@@ -4768,7 +4768,7 @@ extension SESClientTypes.IdentityVerificationAttributes: Swift.Encodable {
 
 extension SESClientTypes {
     /// Represents the verification attributes of a single identity.
-    public struct IdentityVerificationAttributes: Swift.Equatable {
+    public struct IdentityVerificationAttributes {
         /// The verification status of the identity: "Pending", "Success", "Failed", or "TemporaryFailure".
         /// This member is required.
         public var verificationStatus: SESClientTypes.VerificationStatus?
@@ -5337,7 +5337,7 @@ extension SESClientTypes.KinesisFirehoseDestination: Swift.Encodable {
 
 extension SESClientTypes {
     /// Contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destination. Event destinations, such as Amazon Kinesis Firehose, are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-    public struct KinesisFirehoseDestination: Swift.Equatable {
+    public struct KinesisFirehoseDestination {
         /// The ARN of the Amazon Kinesis Firehose stream that email sending events should be published to.
         /// This member is required.
         public var deliveryStreamARN: Swift.String?
@@ -5391,7 +5391,7 @@ extension SESClientTypes.LambdaAction: Swift.Encodable {
 
 extension SESClientTypes {
     /// When included in a receipt rule, this action calls an Amazon Web Services Lambda function and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). To enable Amazon SES to call your Amazon Web Services Lambda function or to publish to an Amazon SNS topic of another account, Amazon SES must have permission to access those resources. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html). For information about using Amazon Web Services Lambda actions in receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-lambda.html).
-    public struct LambdaAction: Swift.Equatable {
+    public struct LambdaAction {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function. An example of an Amazon Web Services Lambda function ARN is arn:aws:lambda:us-west-2:account-id:function:MyFunction. For more information about Amazon Web Services Lambda, see the [Amazon Web Services Lambda Developer Guide](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html).
         /// This member is required.
         public var functionArn: Swift.String?
@@ -5477,7 +5477,7 @@ extension ListConfigurationSetsInput {
 }
 
 /// Represents a request to list the configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-public struct ListConfigurationSetsInput: Swift.Equatable {
+public struct ListConfigurationSetsInput {
     /// The number of configuration sets to return.
     public var maxItems: Swift.Int?
     /// A token returned from a previous call to ListConfigurationSets to indicate the position of the configuration set in the configuration set list.
@@ -5508,7 +5508,7 @@ extension ListConfigurationSetsOutput {
 }
 
 /// A list of configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-public struct ListConfigurationSetsOutput: Swift.Equatable {
+public struct ListConfigurationSetsOutput {
     /// A list of configuration sets.
     public var configurationSets: [SESClientTypes.ConfigurationSet]?
     /// A token indicating that there are additional configuration sets available to be listed. Pass this token to successive calls of ListConfigurationSets.
@@ -5567,7 +5567,7 @@ extension ListCustomVerificationEmailTemplatesInput {
 }
 
 /// Represents a request to list the existing custom verification email templates for your account. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide.
-public struct ListCustomVerificationEmailTemplatesInput: Swift.Equatable {
+public struct ListCustomVerificationEmailTemplatesInput {
     /// The maximum number of custom verification email templates to return. This value must be at least 1 and less than or equal to 50. If you do not specify a value, or if you specify a value less than 1 or greater than 50, the operation returns up to 50 results.
     public var maxResults: Swift.Int?
     /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
@@ -5598,7 +5598,7 @@ extension ListCustomVerificationEmailTemplatesOutput {
 }
 
 /// A paginated list of custom verification email templates.
-public struct ListCustomVerificationEmailTemplatesOutput: Swift.Equatable {
+public struct ListCustomVerificationEmailTemplatesOutput {
     /// A list of the custom verification email templates that exist in your account.
     public var customVerificationEmailTemplates: [SESClientTypes.CustomVerificationEmailTemplate]?
     /// A token indicating that there are additional custom verification email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 custom verification email templates.
@@ -5661,7 +5661,7 @@ extension ListIdentitiesInput {
 }
 
 /// Represents a request to return a list of all identities (email addresses and domains) that you have attempted to verify under your Amazon Web Services account, regardless of verification status.
-public struct ListIdentitiesInput: Swift.Equatable {
+public struct ListIdentitiesInput {
     /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities are listed.
     public var identityType: SESClientTypes.IdentityType?
     /// The maximum number of identities per page. Possible values are 1-1000 inclusive.
@@ -5696,7 +5696,7 @@ extension ListIdentitiesOutput {
 }
 
 /// A list of all identities that you have attempted to verify under your Amazon Web Services account, regardless of verification status.
-public struct ListIdentitiesOutput: Swift.Equatable {
+public struct ListIdentitiesOutput {
     /// A list of identities.
     /// This member is required.
     public var identities: [Swift.String]?
@@ -5752,7 +5752,7 @@ extension ListIdentityPoliciesInput {
 }
 
 /// Represents a request to return a list of sending authorization policies that are attached to an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
-public struct ListIdentityPoliciesInput: Swift.Equatable {
+public struct ListIdentityPoliciesInput {
     /// The identity that is associated with the policy for which the policies are listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
     /// This member is required.
     public var identity: Swift.String?
@@ -5779,7 +5779,7 @@ extension ListIdentityPoliciesOutput {
 }
 
 /// A list of names of sending authorization policies that apply to an identity.
-public struct ListIdentityPoliciesOutput: Swift.Equatable {
+public struct ListIdentityPoliciesOutput {
     /// A list of names of policies that apply to the specified identity.
     /// This member is required.
     public var policyNames: [Swift.String]?
@@ -5825,7 +5825,7 @@ extension ListReceiptFiltersInput {
 }
 
 /// Represents a request to list the IP address filters that exist under your Amazon Web Services account. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct ListReceiptFiltersInput: Swift.Equatable {
+public struct ListReceiptFiltersInput {
 
     public init() { }
 }
@@ -5844,7 +5844,7 @@ extension ListReceiptFiltersOutput {
 }
 
 /// A list of IP address filters that exist under your Amazon Web Services account.
-public struct ListReceiptFiltersOutput: Swift.Equatable {
+public struct ListReceiptFiltersOutput {
     /// A list of IP address filter data structures, which each consist of a name, an IP address range, and whether to allow or block mail from it.
     public var filters: [SESClientTypes.ReceiptFilter]?
 
@@ -5895,7 +5895,7 @@ extension ListReceiptRuleSetsInput {
 }
 
 /// Represents a request to list the receipt rule sets that exist under your Amazon Web Services account. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct ListReceiptRuleSetsInput: Swift.Equatable {
+public struct ListReceiptRuleSetsInput {
     /// A token returned from a previous call to ListReceiptRuleSets to indicate the position in the receipt rule set list.
     public var nextToken: Swift.String?
 
@@ -5922,7 +5922,7 @@ extension ListReceiptRuleSetsOutput {
 }
 
 /// A list of receipt rule sets that exist under your Amazon Web Services account.
-public struct ListReceiptRuleSetsOutput: Swift.Equatable {
+public struct ListReceiptRuleSetsOutput {
     /// A token indicating that there are additional receipt rule sets available to be listed. Pass this token to successive calls of ListReceiptRuleSets to retrieve up to 100 receipt rule sets at a time.
     public var nextToken: Swift.String?
     /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and the timestamp of when the rule set was created.
@@ -5980,7 +5980,7 @@ extension ListTemplatesInput {
     }
 }
 
-public struct ListTemplatesInput: Swift.Equatable {
+public struct ListTemplatesInput {
     /// The maximum number of templates to return. This value must be at least 1 and less than or equal to 100. If more than 100 items are requested, the page size will automatically set to 100. If you do not specify a value, 10 is the default page size.
     public var maxItems: Swift.Int?
     /// A token returned from a previous call to ListTemplates to indicate the position in the list of email templates.
@@ -6010,7 +6010,7 @@ extension ListTemplatesOutput {
     }
 }
 
-public struct ListTemplatesOutput: Swift.Equatable {
+public struct ListTemplatesOutput {
     /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next set of email templates within your page size.
     public var nextToken: Swift.String?
     /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
@@ -6058,7 +6058,7 @@ extension ListVerifiedEmailAddressesInput {
     }
 }
 
-public struct ListVerifiedEmailAddressesInput: Swift.Equatable {
+public struct ListVerifiedEmailAddressesInput {
 
     public init() { }
 }
@@ -6077,7 +6077,7 @@ extension ListVerifiedEmailAddressesOutput {
 }
 
 /// A list of email addresses that you have verified with Amazon SES under your Amazon Web Services account.
-public struct ListVerifiedEmailAddressesOutput: Swift.Equatable {
+public struct ListVerifiedEmailAddressesOutput {
     /// A list of email addresses that have been verified.
     public var verifiedEmailAddresses: [Swift.String]?
 
@@ -6170,7 +6170,7 @@ extension SESClientTypes.Message: Swift.Encodable {
 
 extension SESClientTypes {
     /// Represents the message to be sent, composed of a subject and a body.
-    public struct Message: Swift.Equatable {
+    public struct Message {
         /// The message body.
         /// This member is required.
         public var body: SESClientTypes.Body?
@@ -6233,7 +6233,7 @@ extension SESClientTypes.MessageDsn: Swift.Encodable {
 
 extension SESClientTypes {
     /// Message-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html).
-    public struct MessageDsn: Swift.Equatable {
+    public struct MessageDsn {
         /// When the message was received by the reporting mail transfer agent (MTA), in [RFC 822](https://www.ietf.org/rfc/rfc0822.txt) date-time format.
         public var arrivalDate: ClientRuntime.Date?
         /// Additional X-headers to include in the DSN.
@@ -6321,7 +6321,7 @@ extension SESClientTypes.MessageTag: Swift.Encodable {
 
 extension SESClientTypes {
     /// Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email. Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-    public struct MessageTag: Swift.Equatable {
+    public struct MessageTag {
         /// The name of the tag. The name must meet the following requirements:
         ///
         /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
@@ -6487,7 +6487,7 @@ extension PutConfigurationSetDeliveryOptionsInput {
 }
 
 /// A request to modify the delivery options for a configuration set.
-public struct PutConfigurationSetDeliveryOptionsInput: Swift.Equatable {
+public struct PutConfigurationSetDeliveryOptionsInput {
     /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -6514,7 +6514,7 @@ extension PutConfigurationSetDeliveryOptionsOutput {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetDeliveryOptionsOutput: Swift.Equatable {
+public struct PutConfigurationSetDeliveryOptionsOutput {
 
     public init() { }
 }
@@ -6568,7 +6568,7 @@ extension PutIdentityPolicyInput {
 }
 
 /// Represents a request to add or update a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
-public struct PutIdentityPolicyInput: Swift.Equatable {
+public struct PutIdentityPolicyInput {
     /// The identity to which that the policy applies. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this operation, you must own the identity.
     /// This member is required.
     public var identity: Swift.String?
@@ -6601,7 +6601,7 @@ extension PutIdentityPolicyOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct PutIdentityPolicyOutput: Swift.Equatable {
+public struct PutIdentityPolicyOutput {
 
     public init() { }
 }
@@ -6647,7 +6647,7 @@ extension SESClientTypes.RawMessage: Swift.Encodable {
 
 extension SESClientTypes {
     /// Represents the raw data of the message.
-    public struct RawMessage: Swift.Equatable {
+    public struct RawMessage {
         /// The raw data of the message. This data needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you. In all cases, the client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, and MIME encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail. Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email. For more information, go to the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html).
         /// This member is required.
         public var data: ClientRuntime.Data?
@@ -6716,7 +6716,7 @@ extension SESClientTypes.ReceiptAction: Swift.Encodable {
 
 extension SESClientTypes {
     /// An action that Amazon SES can take when it receives an email on behalf of one or more email addresses or domains that you own. An instance of this data type can represent only one action. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html).
-    public struct ReceiptAction: Swift.Equatable {
+    public struct ReceiptAction {
         /// Adds a header to the received email.
         public var addHeaderAction: SESClientTypes.AddHeaderAction?
         /// Rejects the received email by returning a bounce response to the sender and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS).
@@ -6783,7 +6783,7 @@ extension SESClientTypes.ReceiptFilter: Swift.Encodable {
 
 extension SESClientTypes {
     /// A receipt IP address filter enables you to specify whether to accept or reject mail originating from an IP address or range of IP addresses. For information about setting up IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html).
-    public struct ReceiptFilter: Swift.Equatable {
+    public struct ReceiptFilter {
         /// A structure that provides the IP addresses to block or allow, and whether to block or allow incoming mail from them.
         /// This member is required.
         public var ipFilter: SESClientTypes.ReceiptIpFilter?
@@ -6870,7 +6870,7 @@ extension SESClientTypes.ReceiptIpFilter: Swift.Encodable {
 
 extension SESClientTypes {
     /// A receipt IP address filter enables you to specify whether to accept or reject mail originating from an IP address or range of IP addresses. For information about setting up IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html).
-    public struct ReceiptIpFilter: Swift.Equatable {
+    public struct ReceiptIpFilter {
         /// A single IP address or a range of IP addresses to block or allow, specified in Classless Inter-Domain Routing (CIDR) notation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see [RFC 2317](https://tools.ietf.org/html/rfc2317).
         /// This member is required.
         public var cidr: Swift.String?
@@ -6957,7 +6957,7 @@ extension SESClientTypes.ReceiptRule: Swift.Encodable {
 
 extension SESClientTypes {
     /// Receipt rules enable you to specify which actions Amazon SES should take when it receives mail on behalf of one or more email addresses or domains that you own. Each receipt rule defines a set of email addresses or domains that it applies to. If the email addresses or domains match at least one recipient address of the message, Amazon SES executes all of the receipt rule's actions on the message. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html).
-    public struct ReceiptRule: Swift.Equatable {
+    public struct ReceiptRule {
         /// An ordered list of actions to perform on messages that match at least one of the recipient email addresses or domains specified in the receipt rule.
         public var actions: [SESClientTypes.ReceiptAction]?
         /// If true, the receipt rule is active. The default value is false.
@@ -7027,7 +7027,7 @@ extension SESClientTypes.ReceiptRuleSetMetadata: Swift.Encodable {
 
 extension SESClientTypes {
     /// Information about a receipt rule set. A receipt rule set is a collection of rules that specify what Amazon SES should do with mail it receives on behalf of your account's verified domains. For information about setting up receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules).
-    public struct ReceiptRuleSetMetadata: Swift.Equatable {
+    public struct ReceiptRuleSetMetadata {
         /// The date and time the receipt rule set was created.
         public var createdTimestamp: ClientRuntime.Date?
         /// The name of the receipt rule set. The name must meet the following requirements:
@@ -7114,7 +7114,7 @@ extension SESClientTypes.RecipientDsnFields: Swift.Encodable {
 
 extension SESClientTypes {
     /// Recipient-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html).
-    public struct RecipientDsnFields: Swift.Equatable {
+    public struct RecipientDsnFields {
         /// The action performed by the reporting mail transfer agent (MTA) as a result of its attempt to deliver the message to the recipient address. This is required by [RFC 3464](https://tools.ietf.org/html/rfc3464).
         /// This member is required.
         public var action: SESClientTypes.DsnAction?
@@ -7190,7 +7190,7 @@ extension ReorderReceiptRuleSetInput {
 }
 
 /// Represents a request to reorder the receipt rules within a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct ReorderReceiptRuleSetInput: Swift.Equatable {
+public struct ReorderReceiptRuleSetInput {
     /// The specified receipt rule set's receipt rules, in order.
     /// This member is required.
     public var ruleNames: [Swift.String]?
@@ -7218,7 +7218,7 @@ extension ReorderReceiptRuleSetOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct ReorderReceiptRuleSetOutput: Swift.Equatable {
+public struct ReorderReceiptRuleSetOutput {
 
     public init() { }
 }
@@ -7275,7 +7275,7 @@ extension SESClientTypes.ReputationOptions: Swift.Encodable {
 
 extension SESClientTypes {
     /// Contains information about the reputation settings for a configuration set.
-    public struct ReputationOptions: Swift.Equatable {
+    public struct ReputationOptions {
         /// The date and time at which the reputation metrics for the configuration set were last reset. Resetting these metrics is known as a fresh start. When you disable email sending for a configuration set using [UpdateConfigurationSetSendingEnabled] and later re-enable it, the reputation metrics for the configuration set (but not for the entire Amazon SES account) are reset. If email sending for the configuration set has never been disabled and later re-enabled, the value of this attribute is null.
         public var lastFreshStart: ClientRuntime.Date?
         /// Describes whether or not Amazon SES publishes reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch. If the value is true, reputation metrics are published. If the value is false, reputation metrics are not published. The default value is false.
@@ -7418,7 +7418,7 @@ extension SESClientTypes.S3Action: Swift.Encodable {
 
 extension SESClientTypes {
     /// When included in a receipt rule, this action saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). To enable Amazon SES to write emails to your Amazon S3 bucket, use an Amazon Web Services KMS key to encrypt your emails, or publish to an Amazon SNS topic of another account, Amazon SES must have permission to access those resources. For information about granting permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html). When you save your emails to an Amazon S3 bucket, the maximum email size (including headers) is 40 MB. Emails larger than that bounces. For information about specifying Amazon S3 actions in receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-s3.html).
-    public struct S3Action: Swift.Equatable {
+    public struct S3Action {
         /// The name of the Amazon S3 bucket for incoming email.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -7483,7 +7483,7 @@ extension SESClientTypes.SNSAction: Swift.Encodable {
 
 extension SESClientTypes {
     /// When included in a receipt rule, this action publishes a notification to Amazon Simple Notification Service (Amazon SNS). This action includes a complete copy of the email content in the Amazon SNS notifications. Amazon SNS notifications for all other actions simply provide information about the email. They do not include the email content itself. If you own the Amazon SNS topic, you don't need to do anything to give Amazon SES permission to publish emails to it. However, if you don't own the Amazon SNS topic, you need to attach a policy to the topic to give Amazon SES permissions to access it. For information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html). You can only publish emails that are 150 KB or less (including the header) to Amazon SNS. Larger emails bounce. If you anticipate emails larger than 150 KB, use the S3 action instead. For information about using a receipt rule to publish an Amazon SNS notification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-sns.html).
-    public struct SNSAction: Swift.Equatable {
+    public struct SNSAction {
         /// The encoding to use for the email within the Amazon SNS notification. UTF-8 is easier to use, but may not preserve all special characters when a message was encoded with a different encoding format. Base64 preserves all special characters. The default value is UTF-8.
         public var encoding: SESClientTypes.SNSActionEncoding?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. You can find the ARN of a topic by using the [ListTopics](https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html) operation in Amazon SNS. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
@@ -7558,7 +7558,7 @@ extension SESClientTypes.SNSDestination: Swift.Encodable {
 
 extension SESClientTypes {
     /// Contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination. Event destinations, such as Amazon SNS, are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-    public struct SNSDestination: Swift.Equatable {
+    public struct SNSDestination {
         /// The ARN of the Amazon SNS topic for email sending events. You can find the ARN of a topic by using the [ListTopics](https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html) Amazon SNS operation. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
         /// This member is required.
         public var topicARN: Swift.String?
@@ -7625,7 +7625,7 @@ extension SendBounceInput {
 }
 
 /// Represents a request to send a bounce message to the sender of an email you received through Amazon SES.
-public struct SendBounceInput: Swift.Equatable {
+public struct SendBounceInput {
     /// The address to use in the "From" header of the bounce message. This must be an identity that you have verified with Amazon SES.
     /// This member is required.
     public var bounceSender: Swift.String?
@@ -7674,7 +7674,7 @@ extension SendBounceOutput {
 }
 
 /// Represents a unique message ID.
-public struct SendBounceOutput: Swift.Equatable {
+public struct SendBounceOutput {
     /// The message ID of the bounce message.
     public var messageId: Swift.String?
 
@@ -7793,7 +7793,7 @@ extension SendBulkTemplatedEmailInput {
 }
 
 /// Represents a request to send a templated email to multiple destinations using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
-public struct SendBulkTemplatedEmailInput: Swift.Equatable {
+public struct SendBulkTemplatedEmailInput {
     /// The name of the configuration set to use when you send an email using SendBulkTemplatedEmail.
     public var configurationSetName: Swift.String?
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send to a destination using SendBulkTemplatedEmail.
@@ -7861,7 +7861,7 @@ extension SendBulkTemplatedEmailOutput {
     }
 }
 
-public struct SendBulkTemplatedEmailOutput: Swift.Equatable {
+public struct SendBulkTemplatedEmailOutput {
     /// One object per intended recipient. Check each response object and retry any messages with a failure status. (Note that order of responses will be respective to order of destinations in the request.)Receipt rules enable you to specify which actions
     /// This member is required.
     public var status: [SESClientTypes.BulkEmailDestinationStatus]?
@@ -7927,7 +7927,7 @@ extension SendCustomVerificationEmailInput {
 }
 
 /// Represents a request to send a custom verification email to a specified recipient.
-public struct SendCustomVerificationEmailInput: Swift.Equatable {
+public struct SendCustomVerificationEmailInput {
     /// Name of a configuration set to use when sending the verification email.
     public var configurationSetName: Swift.String?
     /// The email address to verify.
@@ -7963,7 +7963,7 @@ extension SendCustomVerificationEmailOutput {
 }
 
 /// The response received when attempting to send the custom verification email.
-public struct SendCustomVerificationEmailOutput: Swift.Equatable {
+public struct SendCustomVerificationEmailOutput {
     /// The unique message identifier returned from the SendCustomVerificationEmail operation.
     public var messageId: Swift.String?
 
@@ -8040,7 +8040,7 @@ extension SESClientTypes.SendDataPoint: Swift.Encodable {
 
 extension SESClientTypes {
     /// Represents sending statistics data. Each SendDataPoint contains statistics for a 15-minute period of sending activity.
-    public struct SendDataPoint: Swift.Equatable {
+    public struct SendDataPoint {
         /// Number of emails that have bounced.
         public var bounces: Swift.Int
         /// Number of unwanted emails that were rejected by recipients.
@@ -8143,7 +8143,7 @@ extension SendEmailInput {
 }
 
 /// Represents a request to send a single formatted email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-formatted.html).
-public struct SendEmailInput: Swift.Equatable {
+public struct SendEmailInput {
     /// The name of the configuration set to use when you send an email using SendEmail.
     public var configurationSetName: Swift.String?
     /// The destination for this email, composed of To:, CC:, and BCC: fields.
@@ -8204,7 +8204,7 @@ extension SendEmailOutput {
 }
 
 /// Represents a unique message ID.
-public struct SendEmailOutput: Swift.Equatable {
+public struct SendEmailOutput {
     /// The unique message identifier returned from the SendEmail action.
     /// This member is required.
     public var messageId: Swift.String?
@@ -8307,7 +8307,7 @@ extension SendRawEmailInput {
 }
 
 /// Represents a request to send a single raw email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html).
-public struct SendRawEmailInput: Swift.Equatable {
+public struct SendRawEmailInput {
     /// The name of the configuration set to use when you send an email using SendRawEmail.
     public var configurationSetName: Swift.String?
     /// A list of destinations for the message, consisting of To:, CC:, and BCC: addresses.
@@ -8376,7 +8376,7 @@ extension SendRawEmailOutput {
 }
 
 /// Represents a unique message ID.
-public struct SendRawEmailOutput: Swift.Equatable {
+public struct SendRawEmailOutput {
     /// The unique message identifier returned from the SendRawEmail action.
     /// This member is required.
     public var messageId: Swift.String?
@@ -8491,7 +8491,7 @@ extension SendTemplatedEmailInput {
 }
 
 /// Represents a request to send a templated email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
-public struct SendTemplatedEmailInput: Swift.Equatable {
+public struct SendTemplatedEmailInput {
     /// The name of the configuration set to use when you send an email using SendTemplatedEmail.
     public var configurationSetName: Swift.String?
     /// The destination for this email, composed of To:, CC:, and BCC: fields. A Destination can include up to 50 recipients across these three fields.
@@ -8560,7 +8560,7 @@ extension SendTemplatedEmailOutput {
     }
 }
 
-public struct SendTemplatedEmailOutput: Swift.Equatable {
+public struct SendTemplatedEmailOutput {
     /// The unique message identifier returned from the SendTemplatedEmail action.
     /// This member is required.
     public var messageId: Swift.String?
@@ -8618,7 +8618,7 @@ extension SetActiveReceiptRuleSetInput {
 }
 
 /// Represents a request to set a receipt rule set as the active receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct SetActiveReceiptRuleSetInput: Swift.Equatable {
+public struct SetActiveReceiptRuleSetInput {
     /// The name of the receipt rule set to make active. Setting this value to null disables all email receiving.
     public var ruleSetName: Swift.String?
 
@@ -8640,7 +8640,7 @@ extension SetActiveReceiptRuleSetOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct SetActiveReceiptRuleSetOutput: Swift.Equatable {
+public struct SetActiveReceiptRuleSetOutput {
 
     public init() { }
 }
@@ -8689,7 +8689,7 @@ extension SetIdentityDkimEnabledInput {
 }
 
 /// Represents a request to enable or disable Amazon SES Easy DKIM signing for an identity. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
-public struct SetIdentityDkimEnabledInput: Swift.Equatable {
+public struct SetIdentityDkimEnabledInput {
     /// Sets whether DKIM signing is enabled for an identity. Set to true to enable DKIM signing for this identity; false to disable it.
     /// This member is required.
     public var dkimEnabled: Swift.Bool?
@@ -8717,7 +8717,7 @@ extension SetIdentityDkimEnabledOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct SetIdentityDkimEnabledOutput: Swift.Equatable {
+public struct SetIdentityDkimEnabledOutput {
 
     public init() { }
 }
@@ -8765,7 +8765,7 @@ extension SetIdentityFeedbackForwardingEnabledInput {
 }
 
 /// Represents a request to enable or disable whether Amazon SES forwards you bounce and complaint notifications through email. For information about email feedback forwarding, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-email.html).
-public struct SetIdentityFeedbackForwardingEnabledInput: Swift.Equatable {
+public struct SetIdentityFeedbackForwardingEnabledInput {
     /// Sets whether Amazon SES forwards bounce and complaint notifications as email. true specifies that Amazon SES forwards bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES publishes bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
     /// This member is required.
     public var forwardingEnabled: Swift.Bool?
@@ -8793,7 +8793,7 @@ extension SetIdentityFeedbackForwardingEnabledOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct SetIdentityFeedbackForwardingEnabledOutput: Swift.Equatable {
+public struct SetIdentityFeedbackForwardingEnabledOutput {
 
     public init() { }
 }
@@ -8845,7 +8845,7 @@ extension SetIdentityHeadersInNotificationsEnabledInput {
 }
 
 /// Represents a request to set whether Amazon SES includes the original email headers in the Amazon SNS notifications of a specified type. For information about notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html).
-public struct SetIdentityHeadersInNotificationsEnabledInput: Swift.Equatable {
+public struct SetIdentityHeadersInNotificationsEnabledInput {
     /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES includes headers in notifications, and a value of false specifies that Amazon SES does not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
     /// This member is required.
     public var enabled: Swift.Bool?
@@ -8878,7 +8878,7 @@ extension SetIdentityHeadersInNotificationsEnabledOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct SetIdentityHeadersInNotificationsEnabledOutput: Swift.Equatable {
+public struct SetIdentityHeadersInNotificationsEnabledOutput {
 
     public init() { }
 }
@@ -8930,7 +8930,7 @@ extension SetIdentityMailFromDomainInput {
 }
 
 /// Represents a request to enable or disable the Amazon SES custom MAIL FROM domain setup for a verified identity. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html).
-public struct SetIdentityMailFromDomainInput: Swift.Equatable {
+public struct SetIdentityMailFromDomainInput {
     /// The action for Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage, Amazon SES returns a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending, Failed, and TemporaryFailure states.
     public var behaviorOnMXFailure: SESClientTypes.BehaviorOnMXFailure?
     /// The verified identity.
@@ -8961,7 +8961,7 @@ extension SetIdentityMailFromDomainOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct SetIdentityMailFromDomainOutput: Swift.Equatable {
+public struct SetIdentityMailFromDomainOutput {
 
     public init() { }
 }
@@ -9013,7 +9013,7 @@ extension SetIdentityNotificationTopicInput {
 }
 
 /// Represents a request to specify the Amazon SNS topic to which Amazon SES publishes bounce, complaint, or delivery notifications for emails sent with that identity as the source. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html).
-public struct SetIdentityNotificationTopicInput: Swift.Equatable {
+public struct SetIdentityNotificationTopicInput {
     /// The identity (email address or domain) for the Amazon SNS topic. You can only specify a verified identity for this parameter. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). The following examples are all valid identities: sender@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
     /// This member is required.
     public var identity: Swift.String?
@@ -9045,7 +9045,7 @@ extension SetIdentityNotificationTopicOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct SetIdentityNotificationTopicOutput: Swift.Equatable {
+public struct SetIdentityNotificationTopicOutput {
 
     public init() { }
 }
@@ -9097,7 +9097,7 @@ extension SetReceiptRulePositionInput {
 }
 
 /// Represents a request to set the position of a receipt rule in a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct SetReceiptRulePositionInput: Swift.Equatable {
+public struct SetReceiptRulePositionInput {
     /// The name of the receipt rule after which to place the specified receipt rule.
     public var after: Swift.String?
     /// The name of the receipt rule to reposition.
@@ -9129,7 +9129,7 @@ extension SetReceiptRulePositionOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct SetReceiptRulePositionOutput: Swift.Equatable {
+public struct SetReceiptRulePositionOutput {
 
     public init() { }
 }
@@ -9181,7 +9181,7 @@ extension SESClientTypes.StopAction: Swift.Encodable {
 
 extension SESClientTypes {
     /// When included in a receipt rule, this action terminates the evaluation of the receipt rule set and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). For information about setting a stop action in a receipt rule, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-stop.html).
-    public struct StopAction: Swift.Equatable {
+    public struct StopAction {
         /// The scope of the StopAction. The only acceptable value is RuleSet.
         /// This member is required.
         public var scope: SESClientTypes.StopScope?
@@ -9268,7 +9268,7 @@ extension SESClientTypes.Template: Swift.Encodable {
 
 extension SESClientTypes {
     /// The content of the email, composed of a subject line and either an HTML part or a text-only part.
-    public struct Template: Swift.Equatable {
+    public struct Template {
         /// The HTML body of the email.
         public var htmlPart: Swift.String?
         /// The subject line of the email.
@@ -9364,7 +9364,7 @@ extension SESClientTypes.TemplateMetadata: Swift.Encodable {
 
 extension SESClientTypes {
     /// Contains information about an email template.
-    public struct TemplateMetadata: Swift.Equatable {
+    public struct TemplateMetadata {
         /// The time and date the template was created.
         public var createdTimestamp: ClientRuntime.Date?
         /// The name of the template.
@@ -9408,7 +9408,7 @@ extension TestRenderTemplateInput {
     }
 }
 
-public struct TestRenderTemplateInput: Swift.Equatable {
+public struct TestRenderTemplateInput {
     /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
     /// This member is required.
     public var templateData: Swift.String?
@@ -9439,7 +9439,7 @@ extension TestRenderTemplateOutput {
     }
 }
 
-public struct TestRenderTemplateOutput: Swift.Equatable {
+public struct TestRenderTemplateOutput {
     /// The complete MIME message rendered by applying the data in the TemplateData parameter to the template specified in the TemplateName parameter.
     public var renderedTemplate: Swift.String?
 
@@ -9526,7 +9526,7 @@ extension SESClientTypes.TrackingOptions: Swift.Encodable {
 
 extension SESClientTypes {
     /// A domain that is used to redirect email recipients to an Amazon SES-operated domain. This domain captures open and click events generated by Amazon SES emails. For more information, see [Configuring Custom Domains to Handle Open and Click Tracking](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html) in the Amazon SES Developer Guide.
-    public struct TrackingOptions: Swift.Equatable {
+    public struct TrackingOptions {
         /// The custom subdomain that is used to redirect email recipients to the Amazon SES event tracking domain.
         public var customRedirectDomain: Swift.String?
 
@@ -9645,7 +9645,7 @@ extension UpdateAccountSendingEnabledInput {
 }
 
 /// Represents a request to enable or disable the email sending capabilities for your entire Amazon SES account.
-public struct UpdateAccountSendingEnabledInput: Swift.Equatable {
+public struct UpdateAccountSendingEnabledInput {
     /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current Amazon Web Services Region.
     public var enabled: Swift.Bool?
 
@@ -9666,7 +9666,7 @@ extension UpdateAccountSendingEnabledOutput {
     }
 }
 
-public struct UpdateAccountSendingEnabledOutput: Swift.Equatable {
+public struct UpdateAccountSendingEnabledOutput {
 
     public init() { }
 }
@@ -9714,7 +9714,7 @@ extension UpdateConfigurationSetEventDestinationInput {
 }
 
 /// Represents a request to update the event destination of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
-public struct UpdateConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct UpdateConfigurationSetEventDestinationInput {
     /// The name of the configuration set that contains the event destination.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -9742,7 +9742,7 @@ extension UpdateConfigurationSetEventDestinationOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct UpdateConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct UpdateConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -9795,7 +9795,7 @@ extension UpdateConfigurationSetReputationMetricsEnabledInput {
 }
 
 /// Represents a request to modify the reputation metric publishing settings for a configuration set.
-public struct UpdateConfigurationSetReputationMetricsEnabledInput: Swift.Equatable {
+public struct UpdateConfigurationSetReputationMetricsEnabledInput {
     /// The name of the configuration set to update.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -9822,7 +9822,7 @@ extension UpdateConfigurationSetReputationMetricsEnabledOutput {
     }
 }
 
-public struct UpdateConfigurationSetReputationMetricsEnabledOutput: Swift.Equatable {
+public struct UpdateConfigurationSetReputationMetricsEnabledOutput {
 
     public init() { }
 }
@@ -9871,7 +9871,7 @@ extension UpdateConfigurationSetSendingEnabledInput {
 }
 
 /// Represents a request to enable or disable the email sending capabilities for a specific configuration set.
-public struct UpdateConfigurationSetSendingEnabledInput: Swift.Equatable {
+public struct UpdateConfigurationSetSendingEnabledInput {
     /// The name of the configuration set to update.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -9898,7 +9898,7 @@ extension UpdateConfigurationSetSendingEnabledOutput {
     }
 }
 
-public struct UpdateConfigurationSetSendingEnabledOutput: Swift.Equatable {
+public struct UpdateConfigurationSetSendingEnabledOutput {
 
     public init() { }
 }
@@ -9947,7 +9947,7 @@ extension UpdateConfigurationSetTrackingOptionsInput {
 }
 
 /// Represents a request to update the tracking options for a configuration set.
-public struct UpdateConfigurationSetTrackingOptionsInput: Swift.Equatable {
+public struct UpdateConfigurationSetTrackingOptionsInput {
     /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -9975,7 +9975,7 @@ extension UpdateConfigurationSetTrackingOptionsOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct UpdateConfigurationSetTrackingOptionsOutput: Swift.Equatable {
+public struct UpdateConfigurationSetTrackingOptionsOutput {
 
     public init() { }
 }
@@ -10042,7 +10042,7 @@ extension UpdateCustomVerificationEmailTemplateInput {
 }
 
 /// Represents a request to update an existing custom verification email template.
-public struct UpdateCustomVerificationEmailTemplateInput: Swift.Equatable {
+public struct UpdateCustomVerificationEmailTemplateInput {
     /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
     public var failureRedirectionURL: Swift.String?
     /// The email address that the custom verification email is sent from.
@@ -10084,7 +10084,7 @@ extension UpdateCustomVerificationEmailTemplateOutput {
     }
 }
 
-public struct UpdateCustomVerificationEmailTemplateOutput: Swift.Equatable {
+public struct UpdateCustomVerificationEmailTemplateOutput {
 
     public init() { }
 }
@@ -10135,7 +10135,7 @@ extension UpdateReceiptRuleInput {
 }
 
 /// Represents a request to update a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
-public struct UpdateReceiptRuleInput: Swift.Equatable {
+public struct UpdateReceiptRuleInput {
     /// A data structure that contains the updated receipt rule information.
     /// This member is required.
     public var rule: SESClientTypes.ReceiptRule?
@@ -10163,7 +10163,7 @@ extension UpdateReceiptRuleOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct UpdateReceiptRuleOutput: Swift.Equatable {
+public struct UpdateReceiptRuleOutput {
 
     public init() { }
 }
@@ -10212,7 +10212,7 @@ extension UpdateTemplateInput {
     }
 }
 
-public struct UpdateTemplateInput: Swift.Equatable {
+public struct UpdateTemplateInput {
     /// The content of the email, composed of a subject line and either an HTML part or a text-only part.
     /// This member is required.
     public var template: SESClientTypes.Template?
@@ -10234,7 +10234,7 @@ extension UpdateTemplateOutput {
     }
 }
 
-public struct UpdateTemplateOutput: Swift.Equatable {
+public struct UpdateTemplateOutput {
 
     public init() { }
 }
@@ -10321,7 +10321,7 @@ extension VerifyDomainDkimInput {
 }
 
 /// Represents a request to generate the CNAME records needed to set up Easy DKIM with Amazon SES. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
-public struct VerifyDomainDkimInput: Swift.Equatable {
+public struct VerifyDomainDkimInput {
     /// The name of the domain to be verified for Easy DKIM signing.
     /// This member is required.
     public var domain: Swift.String?
@@ -10348,7 +10348,7 @@ extension VerifyDomainDkimOutput {
 }
 
 /// Returns CNAME records that you must publish to the DNS server of your domain to set up Easy DKIM with Amazon SES.
-public struct VerifyDomainDkimOutput: Swift.Equatable {
+public struct VerifyDomainDkimOutput {
     /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
     /// This member is required.
     public var dkimTokens: [Swift.String]?
@@ -10400,7 +10400,7 @@ extension VerifyDomainIdentityInput {
 }
 
 /// Represents a request to begin Amazon SES domain verification and to generate the TXT records that you must publish to the DNS server of your domain to complete the verification. For information about domain verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-domain-procedure).
-public struct VerifyDomainIdentityInput: Swift.Equatable {
+public struct VerifyDomainIdentityInput {
     /// The domain to be verified.
     /// This member is required.
     public var domain: Swift.String?
@@ -10427,7 +10427,7 @@ extension VerifyDomainIdentityOutput {
 }
 
 /// Returns a TXT record that you must publish to the DNS server of your domain to complete domain verification with Amazon SES.
-public struct VerifyDomainIdentityOutput: Swift.Equatable {
+public struct VerifyDomainIdentityOutput {
     /// A TXT record that you must place in the DNS settings of the domain to complete domain verification with Amazon SES. As Amazon SES searches for the TXT record, the domain's verification status is "Pending". When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, to verify the domain, you must restart the verification process from the beginning. The domain's verification status also changes to "Success" when it is DKIM verified.
     /// This member is required.
     public var verificationToken: Swift.String?
@@ -10479,7 +10479,7 @@ extension VerifyEmailAddressInput {
 }
 
 /// Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure).
-public struct VerifyEmailAddressInput: Swift.Equatable {
+public struct VerifyEmailAddressInput {
     /// The email address to be verified.
     /// This member is required.
     public var emailAddress: Swift.String?
@@ -10501,7 +10501,7 @@ extension VerifyEmailAddressOutput {
     }
 }
 
-public struct VerifyEmailAddressOutput: Swift.Equatable {
+public struct VerifyEmailAddressOutput {
 
     public init() { }
 }
@@ -10545,7 +10545,7 @@ extension VerifyEmailIdentityInput {
 }
 
 /// Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure).
-public struct VerifyEmailIdentityInput: Swift.Equatable {
+public struct VerifyEmailIdentityInput {
     /// The email address to be verified.
     /// This member is required.
     public var emailAddress: Swift.String?
@@ -10568,7 +10568,7 @@ extension VerifyEmailIdentityOutput {
 }
 
 /// An empty element returned on a successful request.
-public struct VerifyEmailIdentityOutput: Swift.Equatable {
+public struct VerifyEmailIdentityOutput {
 
     public init() { }
 }
@@ -10618,7 +10618,7 @@ extension SESClientTypes.WorkmailAction: Swift.Encodable {
 
 extension SESClientTypes {
     /// When included in a receipt rule, this action calls Amazon WorkMail and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS). It usually isn't necessary to set this up manually, because Amazon WorkMail adds the rule automatically during its setup procedure. For information using a receipt rule to call Amazon WorkMail, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-workmail.html).
-    public struct WorkmailAction: Swift.Equatable {
+    public struct WorkmailAction {
         /// The Amazon Resource Name (ARN) of the Amazon WorkMail organization. Amazon WorkMail ARNs use the following format: arn:aws:workmail:::organization/ You can find the ID of your organization by using the [ListOrganizations](https://docs.aws.amazon.com/workmail/latest/APIReference/API_ListOrganizations.html) operation in Amazon WorkMail. Amazon WorkMail organization IDs begin with "m-", followed by a string of alphanumeric characters. For information about Amazon WorkMail organizations, see the [Amazon WorkMail Administrator Guide](https://docs.aws.amazon.com/workmail/latest/adminguide/organizations_overview.html).
         /// This member is required.
         public var organizationArn: Swift.String?

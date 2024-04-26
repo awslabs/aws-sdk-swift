@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -84,7 +84,7 @@ extension AppflowClientTypes.AggregationConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The aggregation settings that you can use to customize the output format of your flow data.
-    public struct AggregationConfig: Swift.Equatable {
+    public struct AggregationConfig {
         /// Specifies whether Amazon AppFlow aggregates the flow records into a single file, or leave them unaggregated.
         public var aggregationType: AppflowClientTypes.AggregationType?
         /// The desired file size, in MB, for each output file that Amazon AppFlow writes to the flow destination. For each file, Amazon AppFlow attempts to achieve the size that you specify. The actual file sizes might differ from this target based on the number and size of the records that each file contains.
@@ -195,7 +195,7 @@ extension AppflowClientTypes.AmplitudeConnectorProfileCredentials: Swift.CustomD
 
 extension AppflowClientTypes {
     /// The connector-specific credentials required when using Amplitude.
-    public struct AmplitudeConnectorProfileCredentials: Swift.Equatable {
+    public struct AmplitudeConnectorProfileCredentials {
         /// A unique alphanumeric identifier used to authenticate a user, developer, or calling program to your API.
         /// This member is required.
         public var apiKey: Swift.String?
@@ -228,7 +228,7 @@ extension AppflowClientTypes.AmplitudeConnectorProfileProperties: Swift.Codable 
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Amplitude.
-    public struct AmplitudeConnectorProfileProperties: Swift.Equatable {
+    public struct AmplitudeConnectorProfileProperties {
 
         public init() { }
     }
@@ -248,7 +248,7 @@ extension AppflowClientTypes.AmplitudeMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Amplitude.
-    public struct AmplitudeMetadata: Swift.Equatable {
+    public struct AmplitudeMetadata {
 
         public init() { }
     }
@@ -276,7 +276,7 @@ extension AppflowClientTypes.AmplitudeSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Amplitude is being used as a source.
-    public struct AmplitudeSourceProperties: Swift.Equatable {
+    public struct AmplitudeSourceProperties {
         /// The object specified in the Amplitude flow source.
         /// This member is required.
         public var object: Swift.String?
@@ -323,7 +323,7 @@ extension AppflowClientTypes.ApiKeyCredentials: Swift.CustomDebugStringConvertib
 
 extension AppflowClientTypes {
     /// The API key credentials required for API key authentication.
-    public struct ApiKeyCredentials: Swift.Equatable {
+    public struct ApiKeyCredentials {
         /// The API key required for API key authentication.
         /// This member is required.
         public var apiKey: Swift.String?
@@ -407,7 +407,7 @@ extension AppflowClientTypes.AuthParameter: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Information about required authentication parameters.
-    public struct AuthParameter: Swift.Equatable {
+    public struct AuthParameter {
         /// Contains default values for this authentication parameter that are supplied by the connector.
         public var connectorSuppliedValues: [Swift.String]?
         /// A description about the authentication parameter.
@@ -504,7 +504,7 @@ extension AppflowClientTypes.AuthenticationConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Contains information about the authentication config that the connector supports.
-    public struct AuthenticationConfig: Swift.Equatable {
+    public struct AuthenticationConfig {
         /// Contains information required for custom authentication.
         public var customAuthConfigs: [AppflowClientTypes.CustomAuthConfig]?
         /// Indicates whether API key authentication is supported by the connector
@@ -608,7 +608,7 @@ extension AppflowClientTypes.BasicAuthCredentials: Swift.CustomDebugStringConver
 
 extension AppflowClientTypes {
     /// The basic auth credentials required for basic authentication.
-    public struct BasicAuthCredentials: Swift.Equatable {
+    public struct BasicAuthCredentials {
         /// The password to use to connect to a resource.
         /// This member is required.
         public var password: Swift.String?
@@ -655,7 +655,7 @@ extension CancelFlowExecutionsInput {
     }
 }
 
-public struct CancelFlowExecutionsInput: Swift.Equatable {
+public struct CancelFlowExecutionsInput {
     /// The ID of each active run to cancel. These runs must belong to the flow you specify in your request. If you omit this parameter, your request ends all active runs that belong to the flow.
     public var executionIds: [Swift.String]?
     /// The name of a flow with active runs that you want to cancel.
@@ -672,7 +672,7 @@ public struct CancelFlowExecutionsInput: Swift.Equatable {
     }
 }
 
-struct CancelFlowExecutionsInputBody: Swift.Equatable {
+struct CancelFlowExecutionsInputBody {
     let flowName: Swift.String?
     let executionIds: [Swift.String]?
 }
@@ -713,7 +713,7 @@ extension CancelFlowExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelFlowExecutionsOutput: Swift.Equatable {
+public struct CancelFlowExecutionsOutput {
     /// The IDs of runs that Amazon AppFlow couldn't cancel. These runs might be ineligible for canceling because they haven't started yet or have already completed.
     public var invalidExecutions: [Swift.String]?
 
@@ -725,7 +725,7 @@ public struct CancelFlowExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct CancelFlowExecutionsOutputBody: Swift.Equatable {
+struct CancelFlowExecutionsOutputBody {
     let invalidExecutions: [Swift.String]?
 }
 
@@ -833,7 +833,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -920,7 +920,7 @@ public struct ConnectorAuthenticationException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct ConnectorAuthenticationExceptionBody: Swift.Equatable {
+struct ConnectorAuthenticationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1239,7 +1239,7 @@ extension AppflowClientTypes.ConnectorConfiguration: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The configuration settings related to a given connector.
-    public struct ConnectorConfiguration: Swift.Equatable {
+    public struct ConnectorConfiguration {
         /// The authentication config required for the connector.
         public var authenticationConfig: AppflowClientTypes.AuthenticationConfig?
         /// Specifies whether the connector can be used as a destination.
@@ -1472,7 +1472,7 @@ extension AppflowClientTypes.ConnectorDetail: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Information about the registered connector.
-    public struct ConnectorDetail: Swift.Equatable {
+    public struct ConnectorDetail {
         /// The application type of the connector.
         public var applicationType: Swift.String?
         /// A description about the registered connector.
@@ -1563,7 +1563,7 @@ extension AppflowClientTypes.ConnectorEntity: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The high-level entity that can be queried in Amazon AppFlow. For example, a Salesforce entity might be an Account or Opportunity, whereas a ServiceNow entity might be an Incident.
-    public struct ConnectorEntity: Swift.Equatable {
+    public struct ConnectorEntity {
         /// Specifies whether the connector entity is a parent or a category and has more entities nested underneath it. If another call is made with entitiesPath = "the_current_entity_name_with_hasNestedEntities_true", then it returns the nested entities underneath it. This provides a way to retrieve all supported entities in a recursive fashion.
         public var hasNestedEntities: Swift.Bool
         /// The label applied to the connector entity.
@@ -1679,7 +1679,7 @@ extension AppflowClientTypes.ConnectorEntityField: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Describes the data model of a connector field. For example, for an account entity, the fields would be account name, account ID, and so on.
-    public struct ConnectorEntityField: Swift.Equatable {
+    public struct ConnectorEntityField {
         /// A map that has specific properties related to the ConnectorEntityField.
         public var customProperties: [Swift.String:Swift.String]?
         /// Default value that can be assigned to this field.
@@ -1881,7 +1881,7 @@ extension AppflowClientTypes.ConnectorMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// A structure to specify connector-specific metadata such as oAuthScopes, supportedRegions, privateLinkServiceUrl, and so on.
-    public struct ConnectorMetadata: Swift.Equatable {
+    public struct ConnectorMetadata {
         /// The connector metadata specific to Amplitude.
         public var amplitude: AppflowClientTypes.AmplitudeMetadata?
         /// The connector metadata specific to Amazon Connect Customer Profiles.
@@ -2006,7 +2006,7 @@ extension AppflowClientTypes.ConnectorOAuthRequest: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Used by select connectors for which the OAuth workflow is supported, such as Salesforce, Google Analytics, Marketo, Zendesk, and Slack.
-    public struct ConnectorOAuthRequest: Swift.Equatable {
+    public struct ConnectorOAuthRequest {
         /// The code provided by the connector when it has been authenticated via the connected app.
         public var authCode: Swift.String?
         /// The URL to which the authentication server redirects the browser after authorization has been granted.
@@ -2141,7 +2141,7 @@ extension AppflowClientTypes.ConnectorOperator: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The operation to be performed on the provided source fields.
-    public struct ConnectorOperator: Swift.Equatable {
+    public struct ConnectorOperator {
         /// The operation to be performed on the provided Amplitude source fields.
         public var amplitude: AppflowClientTypes.AmplitudeConnectorOperator?
         /// Operators supported by the custom connector.
@@ -2294,7 +2294,7 @@ extension AppflowClientTypes.ConnectorProfile: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Describes an instance of a connector. This includes the provided name, credentials ARN, connection-mode, and so on. To keep the API intuitive and extensible, the fields that are common to all types of connector profiles are explicitly specified at the top level. The rest of the connector-specific properties are available via the connectorProfileProperties field.
-    public struct ConnectorProfile: Swift.Equatable {
+    public struct ConnectorProfile {
         /// Indicates the connection mode and if it is public or private.
         public var connectionMode: AppflowClientTypes.ConnectionMode?
         /// The label for the connector profile being created.
@@ -2371,7 +2371,7 @@ extension AppflowClientTypes.ConnectorProfileConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Defines the connector-specific configuration and credentials for the connector profile.
-    public struct ConnectorProfileConfig: Swift.Equatable {
+    public struct ConnectorProfileConfig {
         /// The connector-specific credentials required by each connector.
         public var connectorProfileCredentials: AppflowClientTypes.ConnectorProfileCredentials?
         /// The connector-specific properties of the profile configuration.
@@ -2519,7 +2519,7 @@ extension AppflowClientTypes.ConnectorProfileCredentials: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific credentials required by a connector.
-    public struct ConnectorProfileCredentials: Swift.Equatable {
+    public struct ConnectorProfileCredentials {
         /// The connector-specific credentials required when using Amplitude.
         public var amplitude: AppflowClientTypes.AmplitudeConnectorProfileCredentials?
         /// The connector-specific profile credentials that are required when using the custom connector.
@@ -2734,7 +2734,7 @@ extension AppflowClientTypes.ConnectorProfileProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required by each connector.
-    public struct ConnectorProfileProperties: Swift.Equatable {
+    public struct ConnectorProfileProperties {
         /// The connector-specific properties required by Amplitude.
         public var amplitude: AppflowClientTypes.AmplitudeConnectorProfileProperties?
         /// The properties required by the custom connector.
@@ -2841,7 +2841,7 @@ extension AppflowClientTypes.ConnectorProvisioningConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Contains information about the configuration of the connector being registered.
-    public struct ConnectorProvisioningConfig: Swift.Equatable {
+    public struct ConnectorProvisioningConfig {
         /// Contains information about the configuration of the lambda which is being registered as the connector.
         public var lambda: AppflowClientTypes.LambdaConnectorProvisioningConfig?
 
@@ -2954,7 +2954,7 @@ extension AppflowClientTypes.ConnectorRuntimeSetting: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Contains information about the connector runtime settings that are required for flow execution.
-    public struct ConnectorRuntimeSetting: Swift.Equatable {
+    public struct ConnectorRuntimeSetting {
         /// Contains default values for the connector runtime setting that are supplied by the connector.
         public var connectorSuppliedValueOptions: [Swift.String]?
         /// Data type of the connector runtime setting.
@@ -3031,7 +3031,7 @@ public struct ConnectorServerException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ConnectorServerExceptionBody: Swift.Equatable {
+struct ConnectorServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -3189,7 +3189,7 @@ extension CreateConnectorProfileInput {
     }
 }
 
-public struct CreateConnectorProfileInput: Swift.Equatable {
+public struct CreateConnectorProfileInput {
     /// The clientToken parameter is an idempotency token. It ensures that your CreateConnectorProfile request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to CreateConnectorProfile. The token is active for 8 hours.
     public var clientToken: Swift.String?
     /// Indicates the connection mode and specifies whether it is public or private. Private flows use Amazon Web Services PrivateLink to route data over Amazon Web Services infrastructure without exposing it to the public internet.
@@ -3229,7 +3229,7 @@ public struct CreateConnectorProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectorProfileInputBody: Swift.Equatable {
+struct CreateConnectorProfileInputBody {
     let connectorProfileName: Swift.String?
     let kmsArn: Swift.String?
     let connectorType: AppflowClientTypes.ConnectorType?
@@ -3281,7 +3281,7 @@ extension CreateConnectorProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectorProfileOutput: Swift.Equatable {
+public struct CreateConnectorProfileOutput {
     /// The Amazon Resource Name (ARN) of the connector profile.
     public var connectorProfileArn: Swift.String?
 
@@ -3293,7 +3293,7 @@ public struct CreateConnectorProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectorProfileOutputBody: Swift.Equatable {
+struct CreateConnectorProfileOutputBody {
     let connectorProfileArn: Swift.String?
 }
 
@@ -3389,7 +3389,7 @@ extension CreateFlowInput {
     }
 }
 
-public struct CreateFlowInput: Swift.Equatable {
+public struct CreateFlowInput {
     /// The clientToken parameter is an idempotency token. It ensures that your CreateFlow request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to CreateFlow. The token is active for 8 hours.
     public var clientToken: Swift.String?
     /// A description of the flow you want to create.
@@ -3442,7 +3442,7 @@ public struct CreateFlowInput: Swift.Equatable {
     }
 }
 
-struct CreateFlowInputBody: Swift.Equatable {
+struct CreateFlowInputBody {
     let flowName: Swift.String?
     let description: Swift.String?
     let kmsArn: Swift.String?
@@ -3535,7 +3535,7 @@ extension CreateFlowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFlowOutput: Swift.Equatable {
+public struct CreateFlowOutput {
     /// The flow's Amazon Resource Name (ARN).
     public var flowArn: Swift.String?
     /// Indicates the current status of the flow.
@@ -3551,7 +3551,7 @@ public struct CreateFlowOutput: Swift.Equatable {
     }
 }
 
-struct CreateFlowOutputBody: Swift.Equatable {
+struct CreateFlowOutputBody {
     let flowArn: Swift.String?
     let flowStatus: AppflowClientTypes.FlowStatus?
 }
@@ -3628,7 +3628,7 @@ extension AppflowClientTypes.CustomAuthConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Configuration information required for custom authentication.
-    public struct CustomAuthConfig: Swift.Equatable {
+    public struct CustomAuthConfig {
         /// Information about authentication parameters required for authentication.
         public var authParameters: [AppflowClientTypes.AuthParameter]?
         /// The authentication type that the custom connector uses.
@@ -3685,7 +3685,7 @@ extension AppflowClientTypes.CustomAuthCredentials: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The custom credentials required for custom authentication.
-    public struct CustomAuthCredentials: Swift.Equatable {
+    public struct CustomAuthCredentials {
         /// A map that holds custom authentication credentials.
         public var credentialsMap: [Swift.String:Swift.String]?
         /// The custom authentication type that the connector uses.
@@ -3773,7 +3773,7 @@ extension AppflowClientTypes.CustomConnectorDestinationProperties: Swift.Codable
 
 extension AppflowClientTypes {
     /// The properties that are applied when the custom connector is being used as a destination.
-    public struct CustomConnectorDestinationProperties: Swift.Equatable {
+    public struct CustomConnectorDestinationProperties {
         /// The custom properties that are specific to the connector when it's used as a destination in the flow.
         public var customProperties: [Swift.String:Swift.String]?
         /// The entity specified in the custom connector as a destination in the flow.
@@ -3849,7 +3849,7 @@ extension AppflowClientTypes.CustomConnectorProfileCredentials: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials that are required when using the custom connector.
-    public struct CustomConnectorProfileCredentials: Swift.Equatable {
+    public struct CustomConnectorProfileCredentials {
         /// The API keys required for the authentication of the user.
         public var apiKey: AppflowClientTypes.ApiKeyCredentials?
         /// The authentication type that the custom connector uses for authenticating while creating a connector profile.
@@ -3919,7 +3919,7 @@ extension AppflowClientTypes.CustomConnectorProfileProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The profile properties required by the custom connector.
-    public struct CustomConnectorProfileProperties: Swift.Equatable {
+    public struct CustomConnectorProfileProperties {
         /// The OAuth 2.0 properties required for OAuth 2.0 authentication.
         public var oAuth2Properties: AppflowClientTypes.OAuth2Properties?
         /// A map of properties that are required to create a profile for the custom connector.
@@ -3982,7 +3982,7 @@ extension AppflowClientTypes.CustomConnectorSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when the custom connector is being used as a source.
-    public struct CustomConnectorSourceProperties: Swift.Equatable {
+    public struct CustomConnectorSourceProperties {
         /// Custom properties that are required to use the custom connector as a source.
         public var customProperties: [Swift.String:Swift.String]?
         /// The API of the connector application that Amazon AppFlow uses to transfer your data.
@@ -4032,7 +4032,7 @@ extension AppflowClientTypes.CustomerProfilesDestinationProperties: Swift.Codabl
 
 extension AppflowClientTypes {
     /// The properties that are applied when Amazon Connect Customer Profiles is used as a destination.
-    public struct CustomerProfilesDestinationProperties: Swift.Equatable {
+    public struct CustomerProfilesDestinationProperties {
         /// The unique name of the Amazon Connect Customer Profiles domain.
         /// This member is required.
         public var domainName: Swift.String?
@@ -4064,7 +4064,7 @@ extension AppflowClientTypes.CustomerProfilesMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Amazon Connect Customer Profiles.
-    public struct CustomerProfilesMetadata: Swift.Equatable {
+    public struct CustomerProfilesMetadata {
 
         public init() { }
     }
@@ -4130,7 +4130,7 @@ extension AppflowClientTypes.DataTransferApi: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The API of the connector application that Amazon AppFlow uses to transfer your data.
-    public struct DataTransferApi: Swift.Equatable {
+    public struct DataTransferApi {
         /// The name of the connector application API.
         public var name: Swift.String?
         /// You can specify one of the following types: AUTOMATIC The default. Optimizes a flow for datasets that fluctuate in size from small to large. For each flow run, Amazon AppFlow chooses to use the SYNC or ASYNC API type based on the amount of data that the run transfers. SYNC A synchronous API. This type of API optimizes a flow for small to medium-sized datasets. ASYNC An asynchronous API. This type of API optimizes a flow for large datasets.
@@ -4286,7 +4286,7 @@ extension AppflowClientTypes.DatadogConnectorProfileCredentials: Swift.CustomDeb
 
 extension AppflowClientTypes {
     /// The connector-specific credentials required by Datadog.
-    public struct DatadogConnectorProfileCredentials: Swift.Equatable {
+    public struct DatadogConnectorProfileCredentials {
         /// A unique alphanumeric identifier used to authenticate a user, developer, or calling program to your API.
         /// This member is required.
         public var apiKey: Swift.String?
@@ -4327,7 +4327,7 @@ extension AppflowClientTypes.DatadogConnectorProfileProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required by Datadog.
-    public struct DatadogConnectorProfileProperties: Swift.Equatable {
+    public struct DatadogConnectorProfileProperties {
         /// The location of the Datadog resource.
         /// This member is required.
         public var instanceUrl: Swift.String?
@@ -4355,7 +4355,7 @@ extension AppflowClientTypes.DatadogMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Datadog.
-    public struct DatadogMetadata: Swift.Equatable {
+    public struct DatadogMetadata {
 
         public init() { }
     }
@@ -4383,7 +4383,7 @@ extension AppflowClientTypes.DatadogSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Datadog is being used as a source.
-    public struct DatadogSourceProperties: Swift.Equatable {
+    public struct DatadogSourceProperties {
         /// The object specified in the Datadog flow source.
         /// This member is required.
         public var object: Swift.String?
@@ -4422,7 +4422,7 @@ extension DeleteConnectorProfileInput {
     }
 }
 
-public struct DeleteConnectorProfileInput: Swift.Equatable {
+public struct DeleteConnectorProfileInput {
     /// The name of the connector profile. The name is unique for each ConnectorProfile in your account.
     /// This member is required.
     public var connectorProfileName: Swift.String?
@@ -4439,7 +4439,7 @@ public struct DeleteConnectorProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectorProfileInputBody: Swift.Equatable {
+struct DeleteConnectorProfileInputBody {
     let connectorProfileName: Swift.String?
     let forceDelete: Swift.Bool?
 }
@@ -4464,7 +4464,7 @@ extension DeleteConnectorProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectorProfileOutput: Swift.Equatable {
+public struct DeleteConnectorProfileOutput {
 
     public init() { }
 }
@@ -4506,7 +4506,7 @@ extension DeleteFlowInput {
     }
 }
 
-public struct DeleteFlowInput: Swift.Equatable {
+public struct DeleteFlowInput {
     /// The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
     /// This member is required.
     public var flowName: Swift.String?
@@ -4523,7 +4523,7 @@ public struct DeleteFlowInput: Swift.Equatable {
     }
 }
 
-struct DeleteFlowInputBody: Swift.Equatable {
+struct DeleteFlowInputBody {
     let flowName: Swift.String?
     let forceDelete: Swift.Bool?
 }
@@ -4548,7 +4548,7 @@ extension DeleteFlowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFlowOutput: Swift.Equatable {
+public struct DeleteFlowOutput {
 
     public init() { }
 }
@@ -4598,7 +4598,7 @@ extension DescribeConnectorEntityInput {
     }
 }
 
-public struct DescribeConnectorEntityInput: Swift.Equatable {
+public struct DescribeConnectorEntityInput {
     /// The version of the API that's used by the connector.
     public var apiVersion: Swift.String?
     /// The entity name for that connector.
@@ -4623,7 +4623,7 @@ public struct DescribeConnectorEntityInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectorEntityInputBody: Swift.Equatable {
+struct DescribeConnectorEntityInputBody {
     let connectorEntityName: Swift.String?
     let connectorType: AppflowClientTypes.ConnectorType?
     let connectorProfileName: Swift.String?
@@ -4663,7 +4663,7 @@ extension DescribeConnectorEntityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConnectorEntityOutput: Swift.Equatable {
+public struct DescribeConnectorEntityOutput {
     /// Describes the fields for that connector entity. For example, for an account entity, the fields would be account name, account ID, and so on.
     /// This member is required.
     public var connectorEntityFields: [AppflowClientTypes.ConnectorEntityField]?
@@ -4676,7 +4676,7 @@ public struct DescribeConnectorEntityOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectorEntityOutputBody: Swift.Equatable {
+struct DescribeConnectorEntityOutputBody {
     let connectorEntityFields: [AppflowClientTypes.ConnectorEntityField]?
 }
 
@@ -4740,7 +4740,7 @@ extension DescribeConnectorInput {
     }
 }
 
-public struct DescribeConnectorInput: Swift.Equatable {
+public struct DescribeConnectorInput {
     /// The label of the connector. The label is unique for each ConnectorRegistration in your Amazon Web Services account. Only needed if calling for CUSTOMCONNECTOR connector type/.
     public var connectorLabel: Swift.String?
     /// The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please choose CUSTOMCONNECTOR for Lambda based custom connectors.
@@ -4757,7 +4757,7 @@ public struct DescribeConnectorInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectorInputBody: Swift.Equatable {
+struct DescribeConnectorInputBody {
     let connectorType: AppflowClientTypes.ConnectorType?
     let connectorLabel: Swift.String?
 }
@@ -4789,7 +4789,7 @@ extension DescribeConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConnectorOutput: Swift.Equatable {
+public struct DescribeConnectorOutput {
     /// Configuration info of all the connectors that the user requested.
     public var connectorConfiguration: AppflowClientTypes.ConnectorConfiguration?
 
@@ -4801,7 +4801,7 @@ public struct DescribeConnectorOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectorOutputBody: Swift.Equatable {
+struct DescribeConnectorOutputBody {
     let connectorConfiguration: AppflowClientTypes.ConnectorConfiguration?
 }
 
@@ -4869,7 +4869,7 @@ extension DescribeConnectorProfilesInput {
     }
 }
 
-public struct DescribeConnectorProfilesInput: Swift.Equatable {
+public struct DescribeConnectorProfilesInput {
     /// The name of the connector. The name is unique for each ConnectorRegistration in your Amazon Web Services account. Only needed if calling for CUSTOMCONNECTOR connector type/.
     public var connectorLabel: Swift.String?
     /// The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account.
@@ -4897,7 +4897,7 @@ public struct DescribeConnectorProfilesInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectorProfilesInputBody: Swift.Equatable {
+struct DescribeConnectorProfilesInputBody {
     let connectorProfileNames: [Swift.String]?
     let connectorType: AppflowClientTypes.ConnectorType?
     let connectorLabel: Swift.String?
@@ -4952,7 +4952,7 @@ extension DescribeConnectorProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConnectorProfilesOutput: Swift.Equatable {
+public struct DescribeConnectorProfilesOutput {
     /// Returns information about the connector profiles associated with the flow.
     public var connectorProfileDetails: [AppflowClientTypes.ConnectorProfile]?
     /// The pagination token for the next page of data. If nextToken=null, this means that all records have been fetched.
@@ -4968,7 +4968,7 @@ public struct DescribeConnectorProfilesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectorProfilesOutputBody: Swift.Equatable {
+struct DescribeConnectorProfilesOutputBody {
     let connectorProfileDetails: [AppflowClientTypes.ConnectorProfile]?
     let nextToken: Swift.String?
 }
@@ -5040,7 +5040,7 @@ extension DescribeConnectorsInput {
     }
 }
 
-public struct DescribeConnectorsInput: Swift.Equatable {
+public struct DescribeConnectorsInput {
     /// The type of connector, such as Salesforce, Amplitude, and so on.
     public var connectorTypes: [AppflowClientTypes.ConnectorType]?
     /// The maximum number of items that should be returned in the result set. The default is 20.
@@ -5060,7 +5060,7 @@ public struct DescribeConnectorsInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectorsInputBody: Swift.Equatable {
+struct DescribeConnectorsInputBody {
     let connectorTypes: [AppflowClientTypes.ConnectorType]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5109,7 +5109,7 @@ extension DescribeConnectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConnectorsOutput: Swift.Equatable {
+public struct DescribeConnectorsOutput {
     /// The configuration that is applied to the connectors used in the flow.
     public var connectorConfigurations: [Swift.String:AppflowClientTypes.ConnectorConfiguration]?
     /// Information about the connectors supported in Amazon AppFlow.
@@ -5129,7 +5129,7 @@ public struct DescribeConnectorsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectorsOutputBody: Swift.Equatable {
+struct DescribeConnectorsOutputBody {
     let connectorConfigurations: [Swift.String:AppflowClientTypes.ConnectorConfiguration]?
     let connectors: [AppflowClientTypes.ConnectorDetail]?
     let nextToken: Swift.String?
@@ -5211,7 +5211,7 @@ extension DescribeFlowExecutionRecordsInput {
     }
 }
 
-public struct DescribeFlowExecutionRecordsInput: Swift.Equatable {
+public struct DescribeFlowExecutionRecordsInput {
     /// The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
     /// This member is required.
     public var flowName: Swift.String?
@@ -5232,7 +5232,7 @@ public struct DescribeFlowExecutionRecordsInput: Swift.Equatable {
     }
 }
 
-struct DescribeFlowExecutionRecordsInputBody: Swift.Equatable {
+struct DescribeFlowExecutionRecordsInputBody {
     let flowName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5270,7 +5270,7 @@ extension DescribeFlowExecutionRecordsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeFlowExecutionRecordsOutput: Swift.Equatable {
+public struct DescribeFlowExecutionRecordsOutput {
     /// Returns a list of all instances when this flow was run.
     public var flowExecutions: [AppflowClientTypes.ExecutionRecord]?
     /// The pagination token for the next page of data.
@@ -5286,7 +5286,7 @@ public struct DescribeFlowExecutionRecordsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFlowExecutionRecordsOutputBody: Swift.Equatable {
+struct DescribeFlowExecutionRecordsOutputBody {
     let flowExecutions: [AppflowClientTypes.ExecutionRecord]?
     let nextToken: Swift.String?
 }
@@ -5348,7 +5348,7 @@ extension DescribeFlowInput {
     }
 }
 
-public struct DescribeFlowInput: Swift.Equatable {
+public struct DescribeFlowInput {
     /// The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
     /// This member is required.
     public var flowName: Swift.String?
@@ -5361,7 +5361,7 @@ public struct DescribeFlowInput: Swift.Equatable {
     }
 }
 
-struct DescribeFlowInputBody: Swift.Equatable {
+struct DescribeFlowInputBody {
     let flowName: Swift.String?
 }
 
@@ -5425,7 +5425,7 @@ extension DescribeFlowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFlowOutput: Swift.Equatable {
+public struct DescribeFlowOutput {
     /// Specifies when the flow was created.
     public var createdAt: ClientRuntime.Date?
     /// The ARN of the user who created the flow.
@@ -5515,7 +5515,7 @@ public struct DescribeFlowOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFlowOutputBody: Swift.Equatable {
+struct DescribeFlowOutputBody {
     let flowArn: Swift.String?
     let description: Swift.String?
     let flowName: Swift.String?
@@ -5744,7 +5744,7 @@ extension AppflowClientTypes.DestinationConnectorProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// This stores the information that is required to query a particular connector.
-    public struct DestinationConnectorProperties: Swift.Equatable {
+    public struct DestinationConnectorProperties {
         /// The properties that are required to query the custom Connector.
         public var customConnector: AppflowClientTypes.CustomConnectorDestinationProperties?
         /// The properties required to query Amazon Connect Customer Profiles.
@@ -5869,7 +5869,7 @@ extension AppflowClientTypes.DestinationFieldProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that can be applied to a field when connector is being used as a destination.
-    public struct DestinationFieldProperties: Swift.Equatable {
+    public struct DestinationFieldProperties {
         /// Specifies if the destination field can be created by the current user.
         public var isCreatable: Swift.Bool
         /// Specifies whether the field can use the default value during a Create operation.
@@ -5942,7 +5942,7 @@ extension AppflowClientTypes.DestinationFlowConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Contains information about the configuration of destination connectors present in the flow.
-    public struct DestinationFlowConfig: Swift.Equatable {
+    public struct DestinationFlowConfig {
         /// The API version that the destination connector uses.
         public var apiVersion: Swift.String?
         /// The name of the connector profile. This name must be unique for each connector profile in the Amazon Web Services account.
@@ -6062,7 +6062,7 @@ extension AppflowClientTypes.DynatraceConnectorProfileCredentials: Swift.Codable
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required by Dynatrace.
-    public struct DynatraceConnectorProfileCredentials: Swift.Equatable {
+    public struct DynatraceConnectorProfileCredentials {
         /// The API tokens used by Dynatrace API to authenticate various API calls.
         /// This member is required.
         public var apiToken: Swift.String?
@@ -6098,7 +6098,7 @@ extension AppflowClientTypes.DynatraceConnectorProfileProperties: Swift.Codable 
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required by Dynatrace.
-    public struct DynatraceConnectorProfileProperties: Swift.Equatable {
+    public struct DynatraceConnectorProfileProperties {
         /// The location of the Dynatrace resource.
         /// This member is required.
         public var instanceUrl: Swift.String?
@@ -6126,7 +6126,7 @@ extension AppflowClientTypes.DynatraceMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Dynatrace.
-    public struct DynatraceMetadata: Swift.Equatable {
+    public struct DynatraceMetadata {
 
         public init() { }
     }
@@ -6154,7 +6154,7 @@ extension AppflowClientTypes.DynatraceSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Dynatrace is being used as a source.
-    public struct DynatraceSourceProperties: Swift.Equatable {
+    public struct DynatraceSourceProperties {
         /// The object specified in the Dynatrace flow source.
         /// This member is required.
         public var object: Swift.String?
@@ -6202,7 +6202,7 @@ extension AppflowClientTypes.ErrorHandlingConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The settings that determine how Amazon AppFlow handles an error when placing data in the destination. For example, this setting would determine if the flow should fail after one insertion error, or continue and attempt to insert every record regardless of the initial failure. ErrorHandlingConfig is a part of the destination connector details.
-    public struct ErrorHandlingConfig: Swift.Equatable {
+    public struct ErrorHandlingConfig {
         /// Specifies the name of the Amazon S3 bucket.
         public var bucketName: Swift.String?
         /// Specifies the Amazon S3 bucket prefix.
@@ -6251,7 +6251,7 @@ extension AppflowClientTypes.ErrorInfo: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Provides details in the event of a failed flow, including the failure count and the related error messages.
-    public struct ErrorInfo: Swift.Equatable {
+    public struct ErrorInfo {
         /// Specifies the error message that appears if a flow fails.
         public var executionMessage: Swift.String?
         /// Specifies the failure count for the attempted flow.
@@ -6296,7 +6296,7 @@ extension AppflowClientTypes.EventBridgeDestinationProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Amazon EventBridge is being used as a destination.
-    public struct EventBridgeDestinationProperties: Swift.Equatable {
+    public struct EventBridgeDestinationProperties {
         /// The settings that determine how Amazon AppFlow handles an error when placing data in the destination. For example, this setting would determine if the flow should fail after one insertion error, or continue and attempt to insert every record regardless of the initial failure. ErrorHandlingConfig is a part of the destination connector details.
         public var errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig?
         /// The object specified in the Amazon EventBridge flow destination.
@@ -6328,7 +6328,7 @@ extension AppflowClientTypes.EventBridgeMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Amazon EventBridge.
-    public struct EventBridgeMetadata: Swift.Equatable {
+    public struct EventBridgeMetadata {
 
         public init() { }
     }
@@ -6368,7 +6368,7 @@ extension AppflowClientTypes.ExecutionDetails: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Describes the details of the flow run, including the timestamp, status, and message.
-    public struct ExecutionDetails: Swift.Equatable {
+    public struct ExecutionDetails {
         /// Describes the details of the most recent flow run.
         public var mostRecentExecutionMessage: Swift.String?
         /// Specifies the status of the most recent flow run.
@@ -6465,7 +6465,7 @@ extension AppflowClientTypes.ExecutionRecord: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Specifies information about the past flow run instances for a given flow.
-    public struct ExecutionRecord: Swift.Equatable {
+    public struct ExecutionRecord {
         /// The timestamp that indicates the last new or updated record to be transferred in the flow run.
         public var dataPullEndTime: ClientRuntime.Date?
         /// The timestamp that determines the first new or updated record to be transferred in the flow run.
@@ -6558,7 +6558,7 @@ extension AppflowClientTypes.ExecutionResult: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Specifies the end result of the flow run.
-    public struct ExecutionResult: Swift.Equatable {
+    public struct ExecutionResult {
         /// The total number of bytes processed by the flow run.
         public var bytesProcessed: Swift.Int?
         /// The total number of bytes written as a result of the flow run.
@@ -6714,7 +6714,7 @@ extension AppflowClientTypes.FieldTypeDetails: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Contains details regarding the supported field type and the operators that can be applied for filtering.
-    public struct FieldTypeDetails: Swift.Equatable {
+    public struct FieldTypeDetails {
         /// This is the allowable length range for this field's value.
         public var fieldLengthRange: AppflowClientTypes.Range?
         /// The type of field, such as string, integer, date, and so on.
@@ -6906,7 +6906,7 @@ extension AppflowClientTypes.FlowDefinition: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties of the flow, such as its source, destination, trigger type, and so on.
-    public struct FlowDefinition: Swift.Equatable {
+    public struct FlowDefinition {
         /// Specifies when the flow was created.
         public var createdAt: ClientRuntime.Date?
         /// The ARN of the user who created the flow.
@@ -7053,7 +7053,7 @@ extension AppflowClientTypes.GlueDataCatalogConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Specifies the configuration that Amazon AppFlow uses when it catalogs your data with the Glue Data Catalog. When Amazon AppFlow catalogs your data, it stores metadata in Data Catalog tables. This metadata represents the data that's transferred by the flow that you configure with these settings. You can configure a flow with these settings only when the flow destination is Amazon S3.
-    public struct GlueDataCatalogConfig: Swift.Equatable {
+    public struct GlueDataCatalogConfig {
         /// The name of the Data Catalog database that stores the metadata tables that Amazon AppFlow creates in your Amazon Web Services account. These tables contain metadata for the data that's transferred by the flow that you configure with this parameter. When you configure a new flow with this parameter, you must specify an existing database.
         /// This member is required.
         public var databaseName: Swift.String?
@@ -7160,7 +7160,7 @@ extension AppflowClientTypes.GoogleAnalyticsConnectorProfileCredentials: Swift.C
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required by Google Analytics.
-    public struct GoogleAnalyticsConnectorProfileCredentials: Swift.Equatable {
+    public struct GoogleAnalyticsConnectorProfileCredentials {
         /// The credentials used to access protected Google Analytics resources.
         public var accessToken: Swift.String?
         /// The identifier for the desired client.
@@ -7205,7 +7205,7 @@ extension AppflowClientTypes.GoogleAnalyticsConnectorProfileProperties: Swift.Co
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required by Google Analytics.
-    public struct GoogleAnalyticsConnectorProfileProperties: Swift.Equatable {
+    public struct GoogleAnalyticsConnectorProfileProperties {
 
         public init() { }
     }
@@ -7245,7 +7245,7 @@ extension AppflowClientTypes.GoogleAnalyticsMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Google Analytics.
-    public struct GoogleAnalyticsMetadata: Swift.Equatable {
+    public struct GoogleAnalyticsMetadata {
         /// The desired authorization scope for the Google Analytics account.
         public var oAuthScopes: [Swift.String]?
 
@@ -7280,7 +7280,7 @@ extension AppflowClientTypes.GoogleAnalyticsSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Google Analytics is being used as a source.
-    public struct GoogleAnalyticsSourceProperties: Swift.Equatable {
+    public struct GoogleAnalyticsSourceProperties {
         /// The object specified in the Google Analytics flow source.
         /// This member is required.
         public var object: Swift.String?
@@ -7333,7 +7333,7 @@ extension AppflowClientTypes.HoneycodeConnectorProfileCredentials: Swift.CustomD
 
 extension AppflowClientTypes {
     /// The connector-specific credentials required when using Amazon Honeycode.
-    public struct HoneycodeConnectorProfileCredentials: Swift.Equatable {
+    public struct HoneycodeConnectorProfileCredentials {
         /// The credentials used to access protected Amazon Honeycode resources.
         public var accessToken: Swift.String?
         /// Used by select connectors for which the OAuth workflow is supported, such as Salesforce, Google Analytics, Marketo, Zendesk, and Slack.
@@ -7368,7 +7368,7 @@ extension AppflowClientTypes.HoneycodeConnectorProfileProperties: Swift.Codable 
 
 extension AppflowClientTypes {
     /// The connector-specific properties required when using Amazon Honeycode.
-    public struct HoneycodeConnectorProfileProperties: Swift.Equatable {
+    public struct HoneycodeConnectorProfileProperties {
 
         public init() { }
     }
@@ -7402,7 +7402,7 @@ extension AppflowClientTypes.HoneycodeDestinationProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Amazon Honeycode is used as a destination.
-    public struct HoneycodeDestinationProperties: Swift.Equatable {
+    public struct HoneycodeDestinationProperties {
         /// The settings that determine how Amazon AppFlow handles an error when placing data in the destination. For example, this setting would determine if the flow should fail after one insertion error, or continue and attempt to insert every record regardless of the initial failure. ErrorHandlingConfig is a part of the destination connector details.
         public var errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig?
         /// The object specified in the Amazon Honeycode flow destination.
@@ -7454,7 +7454,7 @@ extension AppflowClientTypes.HoneycodeMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Amazon Honeycode.
-    public struct HoneycodeMetadata: Swift.Equatable {
+    public struct HoneycodeMetadata {
         /// The desired authorization scope for the Amazon Honeycode account.
         public var oAuthScopes: [Swift.String]?
 
@@ -7489,7 +7489,7 @@ extension AppflowClientTypes.IncrementalPullConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Specifies the configuration used when importing incremental records from the source.
-    public struct IncrementalPullConfig: Swift.Equatable {
+    public struct IncrementalPullConfig {
         /// A field that specifies the date time or timestamp field as the criteria to use when importing incremental records from the source.
         public var datetimeTypeFieldName: Swift.String?
 
@@ -7618,7 +7618,7 @@ extension AppflowClientTypes.InforNexusConnectorProfileCredentials: Swift.Custom
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required by Infor Nexus.
-    public struct InforNexusConnectorProfileCredentials: Swift.Equatable {
+    public struct InforNexusConnectorProfileCredentials {
         /// The Access Key portion of the credentials.
         /// This member is required.
         public var accessKeyId: Swift.String?
@@ -7669,7 +7669,7 @@ extension AppflowClientTypes.InforNexusConnectorProfileProperties: Swift.Codable
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required by Infor Nexus.
-    public struct InforNexusConnectorProfileProperties: Swift.Equatable {
+    public struct InforNexusConnectorProfileProperties {
         /// The location of the Infor Nexus resource.
         /// This member is required.
         public var instanceUrl: Swift.String?
@@ -7697,7 +7697,7 @@ extension AppflowClientTypes.InforNexusMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Infor Nexus.
-    public struct InforNexusMetadata: Swift.Equatable {
+    public struct InforNexusMetadata {
 
         public init() { }
     }
@@ -7725,7 +7725,7 @@ extension AppflowClientTypes.InforNexusSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Infor Nexus is being used as a source.
-    public struct InforNexusSourceProperties: Swift.Equatable {
+    public struct InforNexusSourceProperties {
         /// The object specified in the Infor Nexus flow source.
         /// This member is required.
         public var object: Swift.String?
@@ -7779,7 +7779,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -7816,7 +7816,7 @@ extension AppflowClientTypes.LambdaConnectorProvisioningConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Contains information about the configuration of the lambda which is being registered as the connector.
-    public struct LambdaConnectorProvisioningConfig: Swift.Equatable {
+    public struct LambdaConnectorProvisioningConfig {
         /// Lambda ARN of the connector being registered.
         /// This member is required.
         public var lambdaArn: Swift.String?
@@ -7871,7 +7871,7 @@ extension ListConnectorEntitiesInput {
     }
 }
 
-public struct ListConnectorEntitiesInput: Swift.Equatable {
+public struct ListConnectorEntitiesInput {
     /// The version of the API that's used by the connector.
     public var apiVersion: Swift.String?
     /// The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account, and is used to query the downstream connector.
@@ -7903,7 +7903,7 @@ public struct ListConnectorEntitiesInput: Swift.Equatable {
     }
 }
 
-struct ListConnectorEntitiesInputBody: Swift.Equatable {
+struct ListConnectorEntitiesInputBody {
     let connectorProfileName: Swift.String?
     let connectorType: AppflowClientTypes.ConnectorType?
     let entitiesPath: Swift.String?
@@ -7953,7 +7953,7 @@ extension ListConnectorEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConnectorEntitiesOutput: Swift.Equatable {
+public struct ListConnectorEntitiesOutput {
     /// The response of ListConnectorEntities lists entities grouped by category. This map's key represents the group name, and its value contains the list of entities belonging to that group.
     /// This member is required.
     public var connectorEntityMap: [Swift.String:[AppflowClientTypes.ConnectorEntity]]?
@@ -7970,7 +7970,7 @@ public struct ListConnectorEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct ListConnectorEntitiesOutputBody: Swift.Equatable {
+struct ListConnectorEntitiesOutputBody {
     let connectorEntityMap: [Swift.String:[AppflowClientTypes.ConnectorEntity]]?
     let nextToken: Swift.String?
 }
@@ -8045,7 +8045,7 @@ extension ListConnectorsInput {
     }
 }
 
-public struct ListConnectorsInput: Swift.Equatable {
+public struct ListConnectorsInput {
     /// Specifies the maximum number of items that should be returned in the result set. The default for maxResults is 20 (for all paginated API operations).
     public var maxResults: Swift.Int?
     /// The pagination token for the next page of data.
@@ -8061,7 +8061,7 @@ public struct ListConnectorsInput: Swift.Equatable {
     }
 }
 
-struct ListConnectorsInputBody: Swift.Equatable {
+struct ListConnectorsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8095,7 +8095,7 @@ extension ListConnectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConnectorsOutput: Swift.Equatable {
+public struct ListConnectorsOutput {
     /// Contains information about the connectors supported by Amazon AppFlow.
     public var connectors: [AppflowClientTypes.ConnectorDetail]?
     /// The pagination token for the next page of data. If nextToken=null, this means that all records have been fetched.
@@ -8111,7 +8111,7 @@ public struct ListConnectorsOutput: Swift.Equatable {
     }
 }
 
-struct ListConnectorsOutputBody: Swift.Equatable {
+struct ListConnectorsOutputBody {
     let connectors: [AppflowClientTypes.ConnectorDetail]?
     let nextToken: Swift.String?
 }
@@ -8176,7 +8176,7 @@ extension ListFlowsInput {
     }
 }
 
-public struct ListFlowsInput: Swift.Equatable {
+public struct ListFlowsInput {
     /// Specifies the maximum number of items that should be returned in the result set.
     public var maxResults: Swift.Int?
     /// The pagination token for next page of data.
@@ -8192,7 +8192,7 @@ public struct ListFlowsInput: Swift.Equatable {
     }
 }
 
-struct ListFlowsInputBody: Swift.Equatable {
+struct ListFlowsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8226,7 +8226,7 @@ extension ListFlowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFlowsOutput: Swift.Equatable {
+public struct ListFlowsOutput {
     /// The list of flows associated with your account.
     public var flows: [AppflowClientTypes.FlowDefinition]?
     /// The pagination token for next page of data.
@@ -8242,7 +8242,7 @@ public struct ListFlowsOutput: Swift.Equatable {
     }
 }
 
-struct ListFlowsOutputBody: Swift.Equatable {
+struct ListFlowsOutputBody {
     let flows: [AppflowClientTypes.FlowDefinition]?
     let nextToken: Swift.String?
 }
@@ -8293,7 +8293,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the specified flow.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8306,7 +8306,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -8327,7 +8327,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags used to organize, track, or control access for your flow.
     public var tags: [Swift.String:Swift.String]?
 
@@ -8339,7 +8339,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -8390,7 +8390,7 @@ extension AppflowClientTypes.LookoutMetricsDestinationProperties: Swift.Codable 
 
 extension AppflowClientTypes {
     /// The properties that are applied when Amazon Lookout for Metrics is used as a destination.
-    public struct LookoutMetricsDestinationProperties: Swift.Equatable {
+    public struct LookoutMetricsDestinationProperties {
 
         public init() { }
     }
@@ -8515,7 +8515,7 @@ extension AppflowClientTypes.MarketoConnectorProfileCredentials: Swift.CustomDeb
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required by Marketo.
-    public struct MarketoConnectorProfileCredentials: Swift.Equatable {
+    public struct MarketoConnectorProfileCredentials {
         /// The credentials used to access protected Marketo resources.
         public var accessToken: Swift.String?
         /// The identifier for the desired client.
@@ -8564,7 +8564,7 @@ extension AppflowClientTypes.MarketoConnectorProfileProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Marketo.
-    public struct MarketoConnectorProfileProperties: Swift.Equatable {
+    public struct MarketoConnectorProfileProperties {
         /// The location of the Marketo resource.
         /// This member is required.
         public var instanceUrl: Swift.String?
@@ -8606,7 +8606,7 @@ extension AppflowClientTypes.MarketoDestinationProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that Amazon AppFlow applies when you use Marketo as a flow destination.
-    public struct MarketoDestinationProperties: Swift.Equatable {
+    public struct MarketoDestinationProperties {
         /// The settings that determine how Amazon AppFlow handles an error when placing data in the destination. For example, this setting would determine if the flow should fail after one insertion error, or continue and attempt to insert every record regardless of the initial failure. ErrorHandlingConfig is a part of the destination connector details.
         public var errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig?
         /// The object specified in the Marketo flow destination.
@@ -8638,7 +8638,7 @@ extension AppflowClientTypes.MarketoMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Marketo.
-    public struct MarketoMetadata: Swift.Equatable {
+    public struct MarketoMetadata {
 
         public init() { }
     }
@@ -8666,7 +8666,7 @@ extension AppflowClientTypes.MarketoSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Marketo is being used as a source.
-    public struct MarketoSourceProperties: Swift.Equatable {
+    public struct MarketoSourceProperties {
         /// The object specified in the Marketo flow source.
         /// This member is required.
         public var object: Swift.String?
@@ -8702,7 +8702,7 @@ extension AppflowClientTypes.MetadataCatalogConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Specifies the configuration that Amazon AppFlow uses when it catalogs your data. When Amazon AppFlow catalogs your data, it stores metadata in a data catalog.
-    public struct MetadataCatalogConfig: Swift.Equatable {
+    public struct MetadataCatalogConfig {
         /// Specifies the configuration that Amazon AppFlow uses when it catalogs your data with the Glue Data Catalog.
         public var glueDataCatalog: AppflowClientTypes.GlueDataCatalogConfig?
 
@@ -8755,7 +8755,7 @@ extension AppflowClientTypes.MetadataCatalogDetail: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Describes the metadata catalog, metadata table, and data partitions that Amazon AppFlow used for the associated flow run.
-    public struct MetadataCatalogDetail: Swift.Equatable {
+    public struct MetadataCatalogDetail {
         /// The type of metadata catalog that Amazon AppFlow used for the associated flow run. This parameter returns the following value: GLUE The metadata catalog is provided by the Glue Data Catalog. Glue includes the Glue Data Catalog as a component.
         public var catalogType: AppflowClientTypes.CatalogType?
         /// Describes the status of the attempt from Amazon AppFlow to register the data partitions with the metadata catalog. The data partitions organize the flow output into a hierarchical path, such as a folder path in an S3 bucket. Amazon AppFlow creates the partitions (if they don't already exist) based on your flow configuration.
@@ -8831,7 +8831,7 @@ extension AppflowClientTypes.OAuth2Credentials: Swift.CustomDebugStringConvertib
 
 extension AppflowClientTypes {
     /// The OAuth 2.0 credentials required for OAuth 2.0 authentication.
-    public struct OAuth2Credentials: Swift.Equatable {
+    public struct OAuth2Credentials {
         /// The access token used to access the connector on your behalf.
         public var accessToken: Swift.String?
         /// The identifier for the desired client.
@@ -8930,7 +8930,7 @@ extension AppflowClientTypes.OAuth2CustomParameter: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Custom parameter required for OAuth 2.0 authentication.
-    public struct OAuth2CustomParameter: Swift.Equatable {
+    public struct OAuth2CustomParameter {
         /// Contains default values for this authentication parameter that are supplied by the connector.
         public var connectorSuppliedValues: [Swift.String]?
         /// A description about the custom parameter used for OAuth 2.0 authentication.
@@ -9105,7 +9105,7 @@ extension AppflowClientTypes.OAuth2Defaults: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Contains the default values required for OAuth 2.0 authentication.
-    public struct OAuth2Defaults: Swift.Equatable {
+    public struct OAuth2Defaults {
         /// Auth code URLs that can be used for OAuth 2.0 authentication.
         public var authCodeUrls: [Swift.String]?
         /// List of custom parameters required for OAuth 2.0 authentication.
@@ -9215,7 +9215,7 @@ extension AppflowClientTypes.OAuth2Properties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The OAuth 2.0 properties required for OAuth 2.0 authentication.
-    public struct OAuth2Properties: Swift.Equatable {
+    public struct OAuth2Properties {
         /// The OAuth 2.0 grant type used by connector for OAuth 2.0 authentication.
         /// This member is required.
         public var oAuth2GrantType: AppflowClientTypes.OAuth2GrantType?
@@ -9289,7 +9289,7 @@ extension AppflowClientTypes.OAuthCredentials: Swift.CustomDebugStringConvertibl
 
 extension AppflowClientTypes {
     /// The OAuth credentials required for OAuth type authentication.
-    public struct OAuthCredentials: Swift.Equatable {
+    public struct OAuthCredentials {
         /// The access token used to access protected SAPOData resources.
         public var accessToken: Swift.String?
         /// The identifier for the desired client.
@@ -9366,7 +9366,7 @@ extension AppflowClientTypes.OAuthProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The OAuth properties required for OAuth type authentication.
-    public struct OAuthProperties: Swift.Equatable {
+    public struct OAuthProperties {
         /// The authorization code url required to redirect to SAP Login Page to fetch authorization code for OAuth type authentication.
         /// This member is required.
         public var authCodeUrl: Swift.String?
@@ -9758,7 +9758,7 @@ extension AppflowClientTypes.PardotConnectorProfileCredentials: Swift.CustomDebu
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using Salesforce Pardot.
-    public struct PardotConnectorProfileCredentials: Swift.Equatable {
+    public struct PardotConnectorProfileCredentials {
         /// The credentials used to access protected Salesforce Pardot resources.
         public var accessToken: Swift.String?
         /// The secret manager ARN, which contains the client ID and client secret of the connected app.
@@ -9817,7 +9817,7 @@ extension AppflowClientTypes.PardotConnectorProfileProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Salesforce Pardot.
-    public struct PardotConnectorProfileProperties: Swift.Equatable {
+    public struct PardotConnectorProfileProperties {
         /// The business unit id of Salesforce Pardot instance.
         public var businessUnitId: Swift.String?
         /// The location of the Salesforce Pardot resource.
@@ -9852,7 +9852,7 @@ extension AppflowClientTypes.PardotMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Salesforce Pardot.
-    public struct PardotMetadata: Swift.Equatable {
+    public struct PardotMetadata {
 
         public init() { }
     }
@@ -9880,7 +9880,7 @@ extension AppflowClientTypes.PardotSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Salesforce Pardot is being used as a source.
-    public struct PardotSourceProperties: Swift.Equatable {
+    public struct PardotSourceProperties {
         /// The object specified in the Salesforce Pardot flow source.
         /// This member is required.
         public var object: Swift.String?
@@ -9972,7 +9972,7 @@ extension AppflowClientTypes.PrefixConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Specifies elements that Amazon AppFlow includes in the file and folder names in the flow destination.
-    public struct PrefixConfig: Swift.Equatable {
+    public struct PrefixConfig {
         /// Specifies whether the destination file path includes either or both of the following elements: EXECUTION_ID The ID that Amazon AppFlow assigns to the flow run. SCHEMA_VERSION The version number of your data schema. Amazon AppFlow assigns this version number. The version number increases by one when you change any of the following settings in your flow configuration:
         ///
         /// * Source-to-destination field mappings
@@ -10150,7 +10150,7 @@ extension AppflowClientTypes.PrivateConnectionProvisioningState: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Specifies the private connection provisioning state.
-    public struct PrivateConnectionProvisioningState: Swift.Equatable {
+    public struct PrivateConnectionProvisioningState {
         /// Specifies the private connection provisioning failure cause.
         public var failureCause: AppflowClientTypes.PrivateConnectionProvisioningFailureCause?
         /// Specifies the private connection provisioning failure reason.
@@ -10234,7 +10234,7 @@ extension AppflowClientTypes.Range: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The range of values that the property supports.
-    public struct Range: Swift.Equatable {
+    public struct Range {
         /// Maximum value supported by the field.
         public var maximum: Swift.Double
         /// Minimum value supported by the field.
@@ -10284,7 +10284,7 @@ extension AppflowClientTypes.RedshiftConnectorProfileCredentials: Swift.CustomDe
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using Amazon Redshift.
-    public struct RedshiftConnectorProfileCredentials: Swift.Equatable {
+    public struct RedshiftConnectorProfileCredentials {
         /// The password that corresponds to the user name.
         public var password: Swift.String?
         /// The name of the user.
@@ -10371,7 +10371,7 @@ extension AppflowClientTypes.RedshiftConnectorProfileProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties when using Amazon Redshift.
-    public struct RedshiftConnectorProfileProperties: Swift.Equatable {
+    public struct RedshiftConnectorProfileProperties {
         /// A name for the associated Amazon S3 bucket.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -10458,7 +10458,7 @@ extension AppflowClientTypes.RedshiftDestinationProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Amazon Redshift is being used as a destination.
-    public struct RedshiftDestinationProperties: Swift.Equatable {
+    public struct RedshiftDestinationProperties {
         /// The object key for the bucket in which Amazon AppFlow places the destination files.
         public var bucketPrefix: Swift.String?
         /// The settings that determine how Amazon AppFlow handles an error when placing data in the Amazon Redshift destination. For example, this setting would determine if the flow should fail after one insertion error, or continue and attempt to insert every record regardless of the initial failure. ErrorHandlingConfig is a part of the destination connector details.
@@ -10499,7 +10499,7 @@ extension AppflowClientTypes.RedshiftMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Amazon Redshift.
-    public struct RedshiftMetadata: Swift.Equatable {
+    public struct RedshiftMetadata {
 
         public init() { }
     }
@@ -10542,7 +10542,7 @@ extension RegisterConnectorInput {
     }
 }
 
-public struct RegisterConnectorInput: Swift.Equatable {
+public struct RegisterConnectorInput {
     /// The clientToken parameter is an idempotency token. It ensures that your RegisterConnector request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to RegisterConnector. The token is active for 8 hours.
     public var clientToken: Swift.String?
     /// The name of the connector. The name is unique for each ConnectorRegistration in your Amazon Web Services account.
@@ -10570,7 +10570,7 @@ public struct RegisterConnectorInput: Swift.Equatable {
     }
 }
 
-struct RegisterConnectorInputBody: Swift.Equatable {
+struct RegisterConnectorInputBody {
     let connectorLabel: Swift.String?
     let description: Swift.String?
     let connectorProvisioningType: AppflowClientTypes.ConnectorProvisioningType?
@@ -10614,7 +10614,7 @@ extension RegisterConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterConnectorOutput: Swift.Equatable {
+public struct RegisterConnectorOutput {
     /// The ARN of the connector being registered.
     public var connectorArn: Swift.String?
 
@@ -10626,7 +10626,7 @@ public struct RegisterConnectorOutput: Swift.Equatable {
     }
 }
 
-struct RegisterConnectorOutputBody: Swift.Equatable {
+struct RegisterConnectorOutputBody {
     let connectorArn: Swift.String?
 }
 
@@ -10694,7 +10694,7 @@ extension AppflowClientTypes.RegistrationOutput: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Describes the status of an attempt from Amazon AppFlow to register a resource. When you run a flow that you've configured to use a metadata catalog, Amazon AppFlow registers a metadata table and data partitions with that catalog. This operation provides the status of that registration attempt. The operation also indicates how many related resources Amazon AppFlow created or updated.
-    public struct RegistrationOutput: Swift.Equatable {
+    public struct RegistrationOutput {
         /// Explains the status of the registration attempt from Amazon AppFlow. If the attempt fails, the message explains why.
         public var message: Swift.String?
         /// Indicates the number of resources that Amazon AppFlow created or updated. Possible resources include metadata tables and data partitions.
@@ -10752,7 +10752,7 @@ extension ResetConnectorMetadataCacheInput {
     }
 }
 
-public struct ResetConnectorMetadataCacheInput: Swift.Equatable {
+public struct ResetConnectorMetadataCacheInput {
     /// The API version that you specified in the connector profile that you’re resetting cached metadata for. You must use this parameter only if the connector supports multiple API versions or if the connector type is CustomConnector. To look up how many versions a connector supports, use the DescribeConnectors action. In the response, find the value that Amazon AppFlow returns for the connectorVersion parameter. To look up the connector type, use the DescribeConnectorProfiles action. In the response, find the value that Amazon AppFlow returns for the connectorType parameter. To look up the API version that you specified in a connector profile, use the DescribeConnectorProfiles action.
     public var apiVersion: Swift.String?
     /// Use this parameter if you want to reset cached metadata about the details for an individual entity. If you don't include this parameter in your request, Amazon AppFlow only resets cached metadata about entity names, not entity details.
@@ -10780,7 +10780,7 @@ public struct ResetConnectorMetadataCacheInput: Swift.Equatable {
     }
 }
 
-struct ResetConnectorMetadataCacheInputBody: Swift.Equatable {
+struct ResetConnectorMetadataCacheInputBody {
     let connectorProfileName: Swift.String?
     let connectorType: AppflowClientTypes.ConnectorType?
     let connectorEntityName: Swift.String?
@@ -10817,7 +10817,7 @@ extension ResetConnectorMetadataCacheOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetConnectorMetadataCacheOutput: Swift.Equatable {
+public struct ResetConnectorMetadataCacheOutput {
 
     public init() { }
 }
@@ -10875,7 +10875,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11010,7 +11010,7 @@ extension AppflowClientTypes.S3DestinationProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Amazon S3 is used as a destination.
-    public struct S3DestinationProperties: Swift.Equatable {
+    public struct S3DestinationProperties {
         /// The Amazon S3 bucket name in which Amazon AppFlow places the transferred data.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -11086,7 +11086,7 @@ extension AppflowClientTypes.S3InputFormatConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// When you use Amazon S3 as the source, the configuration format that you provide the flow input data.
-    public struct S3InputFormatConfig: Swift.Equatable {
+    public struct S3InputFormatConfig {
         /// The file type that Amazon AppFlow gets from your Amazon S3 bucket.
         public var s3InputFileType: AppflowClientTypes.S3InputFileType?
 
@@ -11113,7 +11113,7 @@ extension AppflowClientTypes.S3Metadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Amazon S3.
-    public struct S3Metadata: Swift.Equatable {
+    public struct S3Metadata {
 
         public init() { }
     }
@@ -11159,7 +11159,7 @@ extension AppflowClientTypes.S3OutputFormatConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The configuration that determines how Amazon AppFlow should format the flow output data when Amazon S3 is used as the destination.
-    public struct S3OutputFormatConfig: Swift.Equatable {
+    public struct S3OutputFormatConfig {
         /// The aggregation settings that you can use to customize the output format of your flow data.
         public var aggregationConfig: AppflowClientTypes.AggregationConfig?
         /// Indicates the file type that Amazon AppFlow places in the Amazon S3 bucket.
@@ -11222,7 +11222,7 @@ extension AppflowClientTypes.S3SourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Amazon S3 is being used as the flow source.
-    public struct S3SourceProperties: Swift.Equatable {
+    public struct S3SourceProperties {
         /// The Amazon S3 bucket name where the source files are stored.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -11361,7 +11361,7 @@ extension AppflowClientTypes.SAPODataConnectorProfileCredentials: Swift.Codable 
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using SAPOData.
-    public struct SAPODataConnectorProfileCredentials: Swift.Equatable {
+    public struct SAPODataConnectorProfileCredentials {
         /// The SAPOData basic authentication credentials.
         public var basicAuthCredentials: AppflowClientTypes.BasicAuthCredentials?
         /// The SAPOData OAuth type authentication credentials.
@@ -11442,7 +11442,7 @@ extension AppflowClientTypes.SAPODataConnectorProfileProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using SAPOData.
-    public struct SAPODataConnectorProfileProperties: Swift.Equatable {
+    public struct SAPODataConnectorProfileProperties {
         /// The location of the SAPOData resource.
         /// This member is required.
         public var applicationHostUrl: Swift.String?
@@ -11545,7 +11545,7 @@ extension AppflowClientTypes.SAPODataDestinationProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when using SAPOData as a flow destination
-    public struct SAPODataDestinationProperties: Swift.Equatable {
+    public struct SAPODataDestinationProperties {
         /// The settings that determine how Amazon AppFlow handles an error when placing data in the destination. For example, this setting would determine if the flow should fail after one insertion error, or continue and attempt to insert every record regardless of the initial failure. ErrorHandlingConfig is a part of the destination connector details.
         public var errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig?
         /// A list of field names that can be used as an ID field when performing a write operation.
@@ -11589,7 +11589,7 @@ extension AppflowClientTypes.SAPODataMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to SAPOData.
-    public struct SAPODataMetadata: Swift.Equatable {
+    public struct SAPODataMetadata {
 
         public init() { }
     }
@@ -11617,7 +11617,7 @@ extension AppflowClientTypes.SAPODataPaginationConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Sets the page size for each concurrent process that transfers OData records from your SAP instance. A concurrent process is query that retrieves a batch of records as part of a flow run. Amazon AppFlow can run multiple concurrent processes in parallel to transfer data faster.
-    public struct SAPODataPaginationConfig: Swift.Equatable {
+    public struct SAPODataPaginationConfig {
         /// The maximum number of records that Amazon AppFlow receives in each page of the response from your SAP application. For transfers of OData records, the maximum page size is 3,000. For transfers of data that comes from an ODP provider, the maximum page size is 10,000.
         /// This member is required.
         public var maxPageSize: Swift.Int?
@@ -11653,7 +11653,7 @@ extension AppflowClientTypes.SAPODataParallelismConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Sets the number of concurrent processes that transfer OData records from your SAP instance. A concurrent process is query that retrieves a batch of records as part of a flow run. Amazon AppFlow can run multiple concurrent processes in parallel to transfer data faster.
-    public struct SAPODataParallelismConfig: Swift.Equatable {
+    public struct SAPODataParallelismConfig {
         /// The maximum number of processes that Amazon AppFlow runs at the same time when it retrieves your data from your SAP application.
         /// This member is required.
         public var maxParallelism: Swift.Int?
@@ -11701,7 +11701,7 @@ extension AppflowClientTypes.SAPODataSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when using SAPOData as a flow source.
-    public struct SAPODataSourceProperties: Swift.Equatable {
+    public struct SAPODataSourceProperties {
         /// The object path specified in the SAPOData flow source.
         public var objectPath: Swift.String?
         /// Sets the page size for each concurrent process that transfers OData records from your SAP instance.
@@ -11868,7 +11868,7 @@ extension AppflowClientTypes.SalesforceConnectorProfileCredentials: Swift.Custom
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using Salesforce.
-    public struct SalesforceConnectorProfileCredentials: Swift.Equatable {
+    public struct SalesforceConnectorProfileCredentials {
         /// The credentials used to access protected Salesforce resources.
         public var accessToken: Swift.String?
         /// The secret manager ARN, which contains the client ID and client secret of the connected app.
@@ -11935,7 +11935,7 @@ extension AppflowClientTypes.SalesforceConnectorProfileProperties: Swift.Codable
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Salesforce.
-    public struct SalesforceConnectorProfileProperties: Swift.Equatable {
+    public struct SalesforceConnectorProfileProperties {
         /// The location of the Salesforce resource.
         public var instanceUrl: Swift.String?
         /// Indicates whether the connector profile applies to a sandbox or production environment.
@@ -12067,7 +12067,7 @@ extension AppflowClientTypes.SalesforceDestinationProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Salesforce is being used as a destination.
-    public struct SalesforceDestinationProperties: Swift.Equatable {
+    public struct SalesforceDestinationProperties {
         /// Specifies which Salesforce API is used by Amazon AppFlow when your flow transfers data to Salesforce. AUTOMATIC The default. Amazon AppFlow selects which API to use based on the number of records that your flow transfers to Salesforce. If your flow transfers fewer than 1,000 records, Amazon AppFlow uses Salesforce REST API. If your flow transfers 1,000 records or more, Amazon AppFlow uses Salesforce Bulk API 2.0. Each of these Salesforce APIs structures data differently. If Amazon AppFlow selects the API automatically, be aware that, for recurring flows, the data output might vary from one flow run to the next. For example, if a flow runs daily, it might use REST API on one day to transfer 900 records, and it might use Bulk API 2.0 on the next day to transfer 1,100 records. For each of these flow runs, the respective Salesforce API formats the data differently. Some of the differences include how dates are formatted and null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce compound fields. By choosing this option, you optimize flow performance for both small and large data transfers, but the tradeoff is inconsistent formatting in the output. BULKV2 Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous data transfers, and it's optimal for large sets of data. By choosing this option, you ensure that your flow writes consistent output, but you optimize performance only for large data transfers. Note that Bulk API 2.0 does not transfer Salesforce compound fields. REST_SYNC Amazon AppFlow uses only Salesforce REST API. By choosing this option, you ensure that your flow writes consistent output, but you decrease performance for large data transfers that are better suited for Bulk API 2.0. In some cases, if your flow attempts to transfer a vary large set of data, it might fail with a timed out error.
         public var dataTransferApi: AppflowClientTypes.SalesforceDataTransferApi?
         /// The settings that determine how Amazon AppFlow handles an error when placing data in the Salesforce destination. For example, this setting would determine if the flow should fail after one insertion error, or continue and attempt to insert every record regardless of the initial failure. ErrorHandlingConfig is a part of the destination connector details.
@@ -12167,7 +12167,7 @@ extension AppflowClientTypes.SalesforceMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Salesforce.
-    public struct SalesforceMetadata: Swift.Equatable {
+    public struct SalesforceMetadata {
         /// The Salesforce APIs that you can have Amazon AppFlow use when your flows transfers data to or from Salesforce.
         public var dataTransferApis: [AppflowClientTypes.SalesforceDataTransferApi]?
         /// The desired authorization scope for the Salesforce account.
@@ -12228,7 +12228,7 @@ extension AppflowClientTypes.SalesforceSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Salesforce is being used as a source.
-    public struct SalesforceSourceProperties: Swift.Equatable {
+    public struct SalesforceSourceProperties {
         /// Specifies which Salesforce API is used by Amazon AppFlow when your flow transfers data from Salesforce. AUTOMATIC The default. Amazon AppFlow selects which API to use based on the number of records that your flow transfers from Salesforce. If your flow transfers fewer than 1,000,000 records, Amazon AppFlow uses Salesforce REST API. If your flow transfers 1,000,000 records or more, Amazon AppFlow uses Salesforce Bulk API 2.0. Each of these Salesforce APIs structures data differently. If Amazon AppFlow selects the API automatically, be aware that, for recurring flows, the data output might vary from one flow run to the next. For example, if a flow runs daily, it might use REST API on one day to transfer 900,000 records, and it might use Bulk API 2.0 on the next day to transfer 1,100,000 records. For each of these flow runs, the respective Salesforce API formats the data differently. Some of the differences include how dates are formatted and null values are represented. Also, Bulk API 2.0 doesn't transfer Salesforce compound fields. By choosing this option, you optimize flow performance for both small and large data transfers, but the tradeoff is inconsistent formatting in the output. BULKV2 Amazon AppFlow uses only Salesforce Bulk API 2.0. This API runs asynchronous data transfers, and it's optimal for large sets of data. By choosing this option, you ensure that your flow writes consistent output, but you optimize performance only for large data transfers. Note that Bulk API 2.0 does not transfer Salesforce compound fields. REST_SYNC Amazon AppFlow uses only Salesforce REST API. By choosing this option, you ensure that your flow writes consistent output, but you decrease performance for large data transfers that are better suited for Bulk API 2.0. In some cases, if your flow attempts to transfer a vary large set of data, it might fail wituh a timed out error.
         public var dataTransferApi: AppflowClientTypes.SalesforceDataTransferApi?
         /// The flag that enables dynamic fetching of new (recently added) fields in the Salesforce objects while running a flow.
@@ -12362,7 +12362,7 @@ extension AppflowClientTypes.ScheduledTriggerProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Specifies the configuration details of a schedule-triggered flow as defined by the user. Currently, these settings only apply to the Scheduled trigger type.
-    public struct ScheduledTriggerProperties: Swift.Equatable {
+    public struct ScheduledTriggerProperties {
         /// Specifies whether a scheduled flow has an incremental data transfer or a complete data transfer for each flow run.
         public var dataPullMode: AppflowClientTypes.DataPullMode?
         /// Specifies the date range for the records to import from the connector in the first flow run.
@@ -12532,7 +12532,7 @@ extension AppflowClientTypes.ServiceNowConnectorProfileCredentials: Swift.Custom
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using ServiceNow.
-    public struct ServiceNowConnectorProfileCredentials: Swift.Equatable {
+    public struct ServiceNowConnectorProfileCredentials {
         /// The OAuth 2.0 credentials required to authenticate the user.
         public var oAuth2Credentials: AppflowClientTypes.OAuth2Credentials?
         /// The password that corresponds to the user name.
@@ -12575,7 +12575,7 @@ extension AppflowClientTypes.ServiceNowConnectorProfileProperties: Swift.Codable
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using ServiceNow.
-    public struct ServiceNowConnectorProfileProperties: Swift.Equatable {
+    public struct ServiceNowConnectorProfileProperties {
         /// The location of the ServiceNow resource.
         /// This member is required.
         public var instanceUrl: Swift.String?
@@ -12603,7 +12603,7 @@ extension AppflowClientTypes.ServiceNowMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to ServiceNow.
-    public struct ServiceNowMetadata: Swift.Equatable {
+    public struct ServiceNowMetadata {
 
         public init() { }
     }
@@ -12631,7 +12631,7 @@ extension AppflowClientTypes.ServiceNowSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when ServiceNow is being used as a source.
-    public struct ServiceNowSourceProperties: Swift.Equatable {
+    public struct ServiceNowSourceProperties {
         /// The object specified in the ServiceNow flow source.
         /// This member is required.
         public var object: Swift.String?
@@ -12685,7 +12685,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -12795,7 +12795,7 @@ extension AppflowClientTypes.SingularConnectorProfileCredentials: Swift.CustomDe
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using Singular.
-    public struct SingularConnectorProfileCredentials: Swift.Equatable {
+    public struct SingularConnectorProfileCredentials {
         /// A unique alphanumeric identifier used to authenticate a user, developer, or calling program to your API.
         /// This member is required.
         public var apiKey: Swift.String?
@@ -12823,7 +12823,7 @@ extension AppflowClientTypes.SingularConnectorProfileProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Singular.
-    public struct SingularConnectorProfileProperties: Swift.Equatable {
+    public struct SingularConnectorProfileProperties {
 
         public init() { }
     }
@@ -12843,7 +12843,7 @@ extension AppflowClientTypes.SingularMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Singular.
-    public struct SingularMetadata: Swift.Equatable {
+    public struct SingularMetadata {
 
         public init() { }
     }
@@ -12871,7 +12871,7 @@ extension AppflowClientTypes.SingularSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Singular is being used as a source.
-    public struct SingularSourceProperties: Swift.Equatable {
+    public struct SingularSourceProperties {
         /// The object specified in the Singular flow source.
         /// This member is required.
         public var object: Swift.String?
@@ -13013,7 +13013,7 @@ extension AppflowClientTypes.SlackConnectorProfileCredentials: Swift.CustomDebug
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using Slack.
-    public struct SlackConnectorProfileCredentials: Swift.Equatable {
+    public struct SlackConnectorProfileCredentials {
         /// The credentials used to access protected Slack resources.
         public var accessToken: Swift.String?
         /// The identifier for the client.
@@ -13062,7 +13062,7 @@ extension AppflowClientTypes.SlackConnectorProfileProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Slack.
-    public struct SlackConnectorProfileProperties: Swift.Equatable {
+    public struct SlackConnectorProfileProperties {
         /// The location of the Slack resource.
         /// This member is required.
         public var instanceUrl: Swift.String?
@@ -13110,7 +13110,7 @@ extension AppflowClientTypes.SlackMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Slack.
-    public struct SlackMetadata: Swift.Equatable {
+    public struct SlackMetadata {
         /// The desired authorization scope for the Slack account.
         public var oAuthScopes: [Swift.String]?
 
@@ -13145,7 +13145,7 @@ extension AppflowClientTypes.SlackSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Slack is being used as a source.
-    public struct SlackSourceProperties: Swift.Equatable {
+    public struct SlackSourceProperties {
         /// The object specified in the Slack flow source.
         /// This member is required.
         public var object: Swift.String?
@@ -13192,7 +13192,7 @@ extension AppflowClientTypes.SnowflakeConnectorProfileCredentials: Swift.CustomD
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using Snowflake.
-    public struct SnowflakeConnectorProfileCredentials: Swift.Equatable {
+    public struct SnowflakeConnectorProfileCredentials {
         /// The password that corresponds to the user name.
         /// This member is required.
         public var password: Swift.String?
@@ -13269,7 +13269,7 @@ extension AppflowClientTypes.SnowflakeConnectorProfileProperties: Swift.Codable 
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Snowflake.
-    public struct SnowflakeConnectorProfileProperties: Swift.Equatable {
+    public struct SnowflakeConnectorProfileProperties {
         /// The name of the account.
         public var accountName: Swift.String?
         /// The name of the Amazon S3 bucket associated with Snowflake.
@@ -13349,7 +13349,7 @@ extension AppflowClientTypes.SnowflakeDestinationProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Snowflake is being used as a destination.
-    public struct SnowflakeDestinationProperties: Swift.Equatable {
+    public struct SnowflakeDestinationProperties {
         /// The object key for the destination bucket in which Amazon AppFlow places the files.
         public var bucketPrefix: Swift.String?
         /// The settings that determine how Amazon AppFlow handles an error when placing data in the Snowflake destination. For example, this setting would determine if the flow should fail after one insertion error, or continue and attempt to insert every record regardless of the initial failure. ErrorHandlingConfig is a part of the destination connector details.
@@ -13410,7 +13410,7 @@ extension AppflowClientTypes.SnowflakeMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Snowflake.
-    public struct SnowflakeMetadata: Swift.Equatable {
+    public struct SnowflakeMetadata {
         /// Specifies the supported Amazon Web Services Regions when using Snowflake.
         public var supportedRegions: [Swift.String]?
 
@@ -13541,7 +13541,7 @@ extension AppflowClientTypes.SourceConnectorProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Specifies the information that is required to query a particular connector.
-    public struct SourceConnectorProperties: Swift.Equatable {
+    public struct SourceConnectorProperties {
         /// Specifies the information that is required for querying Amplitude.
         public var amplitude: AppflowClientTypes.AmplitudeSourceProperties?
         /// The properties that are applied when the custom connector is being used as a source.
@@ -13652,7 +13652,7 @@ extension AppflowClientTypes.SourceFieldProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that can be applied to a field when the connector is being used as a source.
-    public struct SourceFieldProperties: Swift.Equatable {
+    public struct SourceFieldProperties {
         /// Indicates if the field can be queried.
         public var isQueryable: Swift.Bool
         /// Indicates whether the field can be returned in a search result.
@@ -13719,7 +13719,7 @@ extension AppflowClientTypes.SourceFlowConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Contains information about the configuration of the source connector used in the flow.
-    public struct SourceFlowConfig: Swift.Equatable {
+    public struct SourceFlowConfig {
         /// The API version of the connector when it's used as a source in the flow.
         public var apiVersion: Swift.String?
         /// The name of the connector profile. This name must be unique for each connector profile in the Amazon Web Services account.
@@ -13775,7 +13775,7 @@ extension StartFlowInput {
     }
 }
 
-public struct StartFlowInput: Swift.Equatable {
+public struct StartFlowInput {
     /// The clientToken parameter is an idempotency token. It ensures that your StartFlow request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs for flows that run on a schedule or based on an event. However, the error doesn't occur for flows that run on demand. You set the conditions that initiate your flow for the triggerConfig parameter. If you use a different value for clientToken, Amazon AppFlow considers it a new call to StartFlow. The token is active for 8 hours.
     public var clientToken: Swift.String?
     /// The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
@@ -13792,7 +13792,7 @@ public struct StartFlowInput: Swift.Equatable {
     }
 }
 
-struct StartFlowInputBody: Swift.Equatable {
+struct StartFlowInputBody {
     let flowName: Swift.String?
     let clientToken: Swift.String?
 }
@@ -13828,7 +13828,7 @@ extension StartFlowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartFlowOutput: Swift.Equatable {
+public struct StartFlowOutput {
     /// Returns the internal execution ID of an on-demand flow when the flow is started. For scheduled or event-triggered flows, this value is null.
     public var executionId: Swift.String?
     /// The flow's Amazon Resource Name (ARN).
@@ -13848,7 +13848,7 @@ public struct StartFlowOutput: Swift.Equatable {
     }
 }
 
-struct StartFlowOutputBody: Swift.Equatable {
+struct StartFlowOutputBody {
     let flowArn: Swift.String?
     let flowStatus: AppflowClientTypes.FlowStatus?
     let executionId: Swift.String?
@@ -13906,7 +13906,7 @@ extension StopFlowInput {
     }
 }
 
-public struct StopFlowInput: Swift.Equatable {
+public struct StopFlowInput {
     /// The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
     /// This member is required.
     public var flowName: Swift.String?
@@ -13919,7 +13919,7 @@ public struct StopFlowInput: Swift.Equatable {
     }
 }
 
-struct StopFlowInputBody: Swift.Equatable {
+struct StopFlowInputBody {
     let flowName: Swift.String?
 }
 
@@ -13949,7 +13949,7 @@ extension StopFlowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopFlowOutput: Swift.Equatable {
+public struct StopFlowOutput {
     /// The flow's Amazon Resource Name (ARN).
     public var flowArn: Swift.String?
     /// Indicates the current status of the flow.
@@ -13965,7 +13965,7 @@ public struct StopFlowOutput: Swift.Equatable {
     }
 }
 
-struct StopFlowOutputBody: Swift.Equatable {
+struct StopFlowOutputBody {
     let flowArn: Swift.String?
     let flowStatus: AppflowClientTypes.FlowStatus?
 }
@@ -14026,7 +14026,7 @@ extension AppflowClientTypes.SuccessResponseHandlingConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Determines how Amazon AppFlow handles the success response that it gets from the connector after placing data. For example, this setting would determine where to write the response from the destination connector upon a successful insert operation.
-    public struct SuccessResponseHandlingConfig: Swift.Equatable {
+    public struct SuccessResponseHandlingConfig {
         /// The name of the Amazon S3 bucket.
         public var bucketName: Swift.String?
         /// The Amazon S3 bucket prefix.
@@ -14097,7 +14097,7 @@ extension AppflowClientTypes.SupportedFieldTypeDetails: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Contains details regarding all the supported FieldTypes and their corresponding filterOperators and supportedValues.
-    public struct SupportedFieldTypeDetails: Swift.Equatable {
+    public struct SupportedFieldTypeDetails {
         /// The initial supported version for fieldType. If this is later changed to a different version, v2 will be introduced.
         /// This member is required.
         public var v1: AppflowClientTypes.FieldTypeDetails?
@@ -14138,7 +14138,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the flow that you want to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -14156,7 +14156,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -14186,7 +14186,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -14273,7 +14273,7 @@ extension AppflowClientTypes.Task: Swift.Codable {
 
 extension AppflowClientTypes {
     /// A class for modeling different type of tasks. Task implementation varies based on the TaskType.
-    public struct Task: Swift.Equatable {
+    public struct Task {
         /// The operation to be performed on the provided source fields.
         public var connectorOperator: AppflowClientTypes.ConnectorOperator?
         /// A field in a destination connector, or a field value against which Amazon AppFlow validates a source field.
@@ -14400,7 +14400,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -14510,7 +14510,7 @@ extension AppflowClientTypes.TrendmicroConnectorProfileCredentials: Swift.Custom
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using Trend Micro.
-    public struct TrendmicroConnectorProfileCredentials: Swift.Equatable {
+    public struct TrendmicroConnectorProfileCredentials {
         /// The Secret Access Key portion of the credentials.
         /// This member is required.
         public var apiSecretKey: Swift.String?
@@ -14538,7 +14538,7 @@ extension AppflowClientTypes.TrendmicroConnectorProfileProperties: Swift.Codable
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Trend Micro.
-    public struct TrendmicroConnectorProfileProperties: Swift.Equatable {
+    public struct TrendmicroConnectorProfileProperties {
 
         public init() { }
     }
@@ -14558,7 +14558,7 @@ extension AppflowClientTypes.TrendmicroMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Trend Micro.
-    public struct TrendmicroMetadata: Swift.Equatable {
+    public struct TrendmicroMetadata {
 
         public init() { }
     }
@@ -14586,7 +14586,7 @@ extension AppflowClientTypes.TrendmicroSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when using Trend Micro as a flow source.
-    public struct TrendmicroSourceProperties: Swift.Equatable {
+    public struct TrendmicroSourceProperties {
         /// The object specified in the Trend Micro flow source.
         /// This member is required.
         public var object: Swift.String?
@@ -14628,7 +14628,7 @@ extension AppflowClientTypes.TriggerConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The trigger settings that determine how and when Amazon AppFlow runs the specified flow.
-    public struct TriggerConfig: Swift.Equatable {
+    public struct TriggerConfig {
         /// Specifies the configuration details of a schedule-triggered flow as defined by the user. Currently, these settings only apply to the Scheduled trigger type.
         public var triggerProperties: AppflowClientTypes.TriggerProperties?
         /// Specifies the type of flow trigger. This can be OnDemand, Scheduled, or Event.
@@ -14668,7 +14668,7 @@ extension AppflowClientTypes.TriggerProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// Specifies the configuration details that control the trigger for a flow. Currently, these settings only apply to the Scheduled trigger type.
-    public struct TriggerProperties: Swift.Equatable {
+    public struct TriggerProperties {
         /// Specifies the configuration details of a schedule-triggered flow as defined by the user.
         public var scheduled: AppflowClientTypes.ScheduledTriggerProperties?
 
@@ -14741,7 +14741,7 @@ extension UnregisterConnectorInput {
     }
 }
 
-public struct UnregisterConnectorInput: Swift.Equatable {
+public struct UnregisterConnectorInput {
     /// The label of the connector. The label is unique for each ConnectorRegistration in your Amazon Web Services account.
     /// This member is required.
     public var connectorLabel: Swift.String?
@@ -14758,7 +14758,7 @@ public struct UnregisterConnectorInput: Swift.Equatable {
     }
 }
 
-struct UnregisterConnectorInputBody: Swift.Equatable {
+struct UnregisterConnectorInputBody {
     let connectorLabel: Swift.String?
     let forceDelete: Swift.Bool?
 }
@@ -14783,7 +14783,7 @@ extension UnregisterConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnregisterConnectorOutput: Swift.Equatable {
+public struct UnregisterConnectorOutput {
 
     public init() { }
 }
@@ -14840,7 +14840,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedOperationExceptionBody: Swift.Equatable {
+struct UnsupportedOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -14882,7 +14882,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the flow that you want to untag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -14900,7 +14900,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -14914,7 +14914,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -14964,7 +14964,7 @@ extension UpdateConnectorProfileInput {
     }
 }
 
-public struct UpdateConnectorProfileInput: Swift.Equatable {
+public struct UpdateConnectorProfileInput {
     /// The clientToken parameter is an idempotency token. It ensures that your UpdateConnectorProfile request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to UpdateConnectorProfile. The token is active for 8 hours.
     public var clientToken: Swift.String?
     /// Indicates the connection mode and if it is public or private.
@@ -14991,7 +14991,7 @@ public struct UpdateConnectorProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectorProfileInputBody: Swift.Equatable {
+struct UpdateConnectorProfileInputBody {
     let connectorProfileName: Swift.String?
     let connectionMode: AppflowClientTypes.ConnectionMode?
     let connectorProfileConfig: AppflowClientTypes.ConnectorProfileConfig?
@@ -15031,7 +15031,7 @@ extension UpdateConnectorProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConnectorProfileOutput: Swift.Equatable {
+public struct UpdateConnectorProfileOutput {
     /// The Amazon Resource Name (ARN) of the connector profile.
     public var connectorProfileArn: Swift.String?
 
@@ -15043,7 +15043,7 @@ public struct UpdateConnectorProfileOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectorProfileOutputBody: Swift.Equatable {
+struct UpdateConnectorProfileOutputBody {
     let connectorProfileArn: Swift.String?
 }
 
@@ -15106,7 +15106,7 @@ extension UpdateConnectorRegistrationInput {
     }
 }
 
-public struct UpdateConnectorRegistrationInput: Swift.Equatable {
+public struct UpdateConnectorRegistrationInput {
     /// The clientToken parameter is an idempotency token. It ensures that your UpdateConnectorRegistration request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to UpdateConnectorRegistration. The token is active for 8 hours.
     public var clientToken: Swift.String?
     /// The name of the connector. The name is unique for each connector registration in your AWS account.
@@ -15131,7 +15131,7 @@ public struct UpdateConnectorRegistrationInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectorRegistrationInputBody: Swift.Equatable {
+struct UpdateConnectorRegistrationInputBody {
     let connectorLabel: Swift.String?
     let description: Swift.String?
     let connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig?
@@ -15171,7 +15171,7 @@ extension UpdateConnectorRegistrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConnectorRegistrationOutput: Swift.Equatable {
+public struct UpdateConnectorRegistrationOutput {
     /// The ARN of the connector being updated.
     public var connectorArn: Swift.String?
 
@@ -15183,7 +15183,7 @@ public struct UpdateConnectorRegistrationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectorRegistrationOutputBody: Swift.Equatable {
+struct UpdateConnectorRegistrationOutputBody {
     let connectorArn: Swift.String?
 }
 
@@ -15272,7 +15272,7 @@ extension UpdateFlowInput {
     }
 }
 
-public struct UpdateFlowInput: Swift.Equatable {
+public struct UpdateFlowInput {
     /// The clientToken parameter is an idempotency token. It ensures that your UpdateFlow request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to UpdateFlow. The token is active for 8 hours.
     public var clientToken: Swift.String?
     /// A description of the flow.
@@ -15317,7 +15317,7 @@ public struct UpdateFlowInput: Swift.Equatable {
     }
 }
 
-struct UpdateFlowInputBody: Swift.Equatable {
+struct UpdateFlowInputBody {
     let flowName: Swift.String?
     let description: Swift.String?
     let triggerConfig: AppflowClientTypes.TriggerConfig?
@@ -15391,7 +15391,7 @@ extension UpdateFlowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFlowOutput: Swift.Equatable {
+public struct UpdateFlowOutput {
     /// Indicates the current status of the flow.
     public var flowStatus: AppflowClientTypes.FlowStatus?
 
@@ -15403,7 +15403,7 @@ public struct UpdateFlowOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFlowOutputBody: Swift.Equatable {
+struct UpdateFlowOutputBody {
     let flowStatus: AppflowClientTypes.FlowStatus?
 }
 
@@ -15470,7 +15470,7 @@ extension AppflowClientTypes.UpsolverDestinationProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Upsolver is used as a destination.
-    public struct UpsolverDestinationProperties: Swift.Equatable {
+    public struct UpsolverDestinationProperties {
         /// The Upsolver Amazon S3 bucket name in which Amazon AppFlow places the transferred data.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -15507,7 +15507,7 @@ extension AppflowClientTypes.UpsolverMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Upsolver.
-    public struct UpsolverMetadata: Swift.Equatable {
+    public struct UpsolverMetadata {
 
         public init() { }
     }
@@ -15547,7 +15547,7 @@ extension AppflowClientTypes.UpsolverS3OutputFormatConfig: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The configuration that determines how Amazon AppFlow formats the flow output data when Upsolver is used as the destination.
-    public struct UpsolverS3OutputFormatConfig: Swift.Equatable {
+    public struct UpsolverS3OutputFormatConfig {
         /// The aggregation settings that you can use to customize the output format of your flow data.
         public var aggregationConfig: AppflowClientTypes.AggregationConfig?
         /// Indicates the file type that Amazon AppFlow places in the Upsolver Amazon S3 bucket.
@@ -15609,7 +15609,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -15746,7 +15746,7 @@ extension AppflowClientTypes.VeevaConnectorProfileCredentials: Swift.CustomDebug
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using Veeva.
-    public struct VeevaConnectorProfileCredentials: Swift.Equatable {
+    public struct VeevaConnectorProfileCredentials {
         /// The password that corresponds to the user name.
         /// This member is required.
         public var password: Swift.String?
@@ -15787,7 +15787,7 @@ extension AppflowClientTypes.VeevaConnectorProfileProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Veeva.
-    public struct VeevaConnectorProfileProperties: Swift.Equatable {
+    public struct VeevaConnectorProfileProperties {
         /// The location of the Veeva resource.
         /// This member is required.
         public var instanceUrl: Swift.String?
@@ -15815,7 +15815,7 @@ extension AppflowClientTypes.VeevaMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Veeva.
-    public struct VeevaMetadata: Swift.Equatable {
+    public struct VeevaMetadata {
 
         public init() { }
     }
@@ -15867,7 +15867,7 @@ extension AppflowClientTypes.VeevaSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when using Veeva as a flow source.
-    public struct VeevaSourceProperties: Swift.Equatable {
+    public struct VeevaSourceProperties {
         /// The document type specified in the Veeva document extract flow.
         public var documentType: Swift.String?
         /// Boolean value to include All Versions of files in Veeva document extract flow.
@@ -16049,7 +16049,7 @@ extension AppflowClientTypes.ZendeskConnectorProfileCredentials: Swift.CustomDeb
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using Zendesk.
-    public struct ZendeskConnectorProfileCredentials: Swift.Equatable {
+    public struct ZendeskConnectorProfileCredentials {
         /// The credentials used to access protected Zendesk resources.
         public var accessToken: Swift.String?
         /// The identifier for the desired client.
@@ -16098,7 +16098,7 @@ extension AppflowClientTypes.ZendeskConnectorProfileProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector-specific profile properties required when using Zendesk.
-    public struct ZendeskConnectorProfileProperties: Swift.Equatable {
+    public struct ZendeskConnectorProfileProperties {
         /// The location of the Zendesk resource.
         /// This member is required.
         public var instanceUrl: Swift.String?
@@ -16164,7 +16164,7 @@ extension AppflowClientTypes.ZendeskDestinationProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when Zendesk is used as a destination.
-    public struct ZendeskDestinationProperties: Swift.Equatable {
+    public struct ZendeskDestinationProperties {
         /// The settings that determine how Amazon AppFlow handles an error when placing data in the destination. For example, this setting would determine if the flow should fail after one insertion error, or continue and attempt to insert every record regardless of the initial failure. ErrorHandlingConfig is a part of the destination connector details.
         public var errorHandlingConfig: AppflowClientTypes.ErrorHandlingConfig?
         /// A list of field names that can be used as an ID field when performing a write operation.
@@ -16224,7 +16224,7 @@ extension AppflowClientTypes.ZendeskMetadata: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The connector metadata specific to Zendesk.
-    public struct ZendeskMetadata: Swift.Equatable {
+    public struct ZendeskMetadata {
         /// The desired authorization scope for the Zendesk account.
         public var oAuthScopes: [Swift.String]?
 
@@ -16259,7 +16259,7 @@ extension AppflowClientTypes.ZendeskSourceProperties: Swift.Codable {
 
 extension AppflowClientTypes {
     /// The properties that are applied when using Zendesk as a flow source.
-    public struct ZendeskSourceProperties: Swift.Equatable {
+    public struct ZendeskSourceProperties {
         /// The object specified in the Zendesk flow source.
         /// This member is required.
         public var object: Swift.String?

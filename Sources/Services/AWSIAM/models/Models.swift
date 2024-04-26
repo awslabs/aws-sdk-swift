@@ -85,7 +85,7 @@ extension IAMClientTypes.AccessDetail: Swift.Encodable {
 
 extension IAMClientTypes {
     /// An object that contains details about when a principal in the reported Organizations entity last attempted to access an Amazon Web Services service. A principal can be an IAM user, an IAM role, or the Amazon Web Services account root user within the reported Organizations entity. This data type is a response element in the [GetOrganizationsAccessReport] operation.
-    public struct AccessDetail: Swift.Equatable {
+    public struct AccessDetail {
         /// The path of the Organizations entity (root, organizational unit, or account) from which an authenticated principal last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals (IAM users, IAM roles, or root user) in the reported Organizations entity attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
         public var entityPath: Swift.String?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when an authenticated principal most recently attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals in the reported Organizations entity attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
@@ -170,7 +170,7 @@ extension IAMClientTypes.AccessKey: Swift.CustomDebugStringConvertible {
 
 extension IAMClientTypes {
     /// Contains information about an Amazon Web Services access key. This data type is used as a response element in the [CreateAccessKey] and [ListAccessKeys] operations. The SecretAccessKey value is returned only in response to [CreateAccessKey]. You can get a secret access key only when you first create an access key; you cannot recover the secret access key later. If you lose a secret access key, you must create a new access key.
-    public struct AccessKey: Swift.Equatable {
+    public struct AccessKey {
         /// The ID for this access key.
         /// This member is required.
         public var accessKeyId: Swift.String?
@@ -238,7 +238,7 @@ extension IAMClientTypes.AccessKeyLastUsed: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about the last time an Amazon Web Services access key was used since IAM began tracking this information on April 22, 2015. This data type is used as a response element in the [GetAccessKeyLastUsed] operation.
-    public struct AccessKeyLastUsed: Swift.Equatable {
+    public struct AccessKeyLastUsed {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the access key was most recently used. This field is null in the following situations:
         ///
         /// * The user does not have an access key.
@@ -323,7 +323,7 @@ extension IAMClientTypes.AccessKeyMetadata: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an Amazon Web Services access key, without its secret key. This data type is used as a response element in the [ListAccessKeys] operation.
-    public struct AccessKeyMetadata: Swift.Equatable {
+    public struct AccessKeyMetadata {
         /// The ID for this access key.
         public var accessKeyId: Swift.String?
         /// The date when the access key was created.
@@ -375,7 +375,7 @@ extension AddClientIDToOpenIDConnectProviderInput {
     }
 }
 
-public struct AddClientIDToOpenIDConnectProviderInput: Swift.Equatable {
+public struct AddClientIDToOpenIDConnectProviderInput {
     /// The client ID (also known as audience) to add to the IAM OpenID Connect provider resource.
     /// This member is required.
     public var clientID: Swift.String?
@@ -402,7 +402,7 @@ extension AddClientIDToOpenIDConnectProviderOutput {
     }
 }
 
-public struct AddClientIDToOpenIDConnectProviderOutput: Swift.Equatable {
+public struct AddClientIDToOpenIDConnectProviderOutput {
 
     public init() { }
 }
@@ -453,7 +453,7 @@ extension AddRoleToInstanceProfileInput {
     }
 }
 
-public struct AddRoleToInstanceProfileInput: Swift.Equatable {
+public struct AddRoleToInstanceProfileInput {
     /// The name of the instance profile to update. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var instanceProfileName: Swift.String?
@@ -480,7 +480,7 @@ extension AddRoleToInstanceProfileOutput {
     }
 }
 
-public struct AddRoleToInstanceProfileOutput: Swift.Equatable {
+public struct AddRoleToInstanceProfileOutput {
 
     public init() { }
 }
@@ -532,7 +532,7 @@ extension AddUserToGroupInput {
     }
 }
 
-public struct AddUserToGroupInput: Swift.Equatable {
+public struct AddUserToGroupInput {
     /// The name of the group to update. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var groupName: Swift.String?
@@ -559,7 +559,7 @@ extension AddUserToGroupOutput {
     }
 }
 
-public struct AddUserToGroupOutput: Swift.Equatable {
+public struct AddUserToGroupOutput {
 
     public init() { }
 }
@@ -644,7 +644,7 @@ extension AttachGroupPolicyInput {
     }
 }
 
-public struct AttachGroupPolicyInput: Swift.Equatable {
+public struct AttachGroupPolicyInput {
     /// The name (friendly name, not ARN) of the group to attach the policy to. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var groupName: Swift.String?
@@ -671,7 +671,7 @@ extension AttachGroupPolicyOutput {
     }
 }
 
-public struct AttachGroupPolicyOutput: Swift.Equatable {
+public struct AttachGroupPolicyOutput {
 
     public init() { }
 }
@@ -723,7 +723,7 @@ extension AttachRolePolicyInput {
     }
 }
 
-public struct AttachRolePolicyInput: Swift.Equatable {
+public struct AttachRolePolicyInput {
     /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var policyArn: Swift.String?
@@ -750,7 +750,7 @@ extension AttachRolePolicyOutput {
     }
 }
 
-public struct AttachRolePolicyOutput: Swift.Equatable {
+public struct AttachRolePolicyOutput {
 
     public init() { }
 }
@@ -803,7 +803,7 @@ extension AttachUserPolicyInput {
     }
 }
 
-public struct AttachUserPolicyInput: Swift.Equatable {
+public struct AttachUserPolicyInput {
     /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var policyArn: Swift.String?
@@ -830,7 +830,7 @@ extension AttachUserPolicyOutput {
     }
 }
 
-public struct AttachUserPolicyOutput: Swift.Equatable {
+public struct AttachUserPolicyOutput {
 
     public init() { }
 }
@@ -885,7 +885,7 @@ extension IAMClientTypes.AttachedPermissionsBoundary: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an attached permissions boundary. An attached permissions boundary is a managed policy that has been attached to a user or role to set the permissions boundary. For more information about permissions boundaries, see [Permissions boundaries for IAM identities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide.
-    public struct AttachedPermissionsBoundary: Swift.Equatable {
+    public struct AttachedPermissionsBoundary {
         /// The ARN of the policy used to set the permissions boundary for the user or role.
         public var permissionsBoundaryArn: Swift.String?
         /// The permissions boundary usage type that indicates what type of IAM resource is used as the permissions boundary for an entity. This data type can only have a value of Policy.
@@ -932,7 +932,7 @@ extension IAMClientTypes.AttachedPolicy: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an attached policy. An attached policy is a managed policy that has been attached to a user, group, or role. This data type is used as a response element in the [ListAttachedGroupPolicies], [ListAttachedRolePolicies], [ListAttachedUserPolicies], and [GetAccountAuthorizationDetails] operations. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
-    public struct AttachedPolicy: Swift.Equatable {
+    public struct AttachedPolicy {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var policyArn: Swift.String?
         /// The friendly name of the attached policy.
@@ -981,7 +981,7 @@ extension ChangePasswordInput {
     }
 }
 
-public struct ChangePasswordInput: Swift.Equatable {
+public struct ChangePasswordInput {
     /// The new password. The new password must conform to the Amazon Web Services account's password policy, if one exists. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Any of these characters are valid in a password. However, many tools, such as the Amazon Web Services Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
     /// This member is required.
     public var newPassword: Swift.String?
@@ -1008,7 +1008,7 @@ extension ChangePasswordOutput {
     }
 }
 
-public struct ChangePasswordOutput: Swift.Equatable {
+public struct ChangePasswordOutput {
 
     public init() { }
 }
@@ -1114,7 +1114,7 @@ extension IAMClientTypes.ContextEntry: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about a condition context key. It includes the name of the key and specifies the value (or values, if the context key supports multiple values) to use in the simulation. This information is used when evaluating the Condition elements of the input policies. This data type is used as an input parameter to [SimulateCustomPolicy] and [SimulatePrincipalPolicy].
-    public struct ContextEntry: Swift.Equatable {
+    public struct ContextEntry {
         /// The full name of a condition context key, including the service prefix. For example, aws:SourceIp or s3:VersionId.
         public var contextKeyName: Swift.String?
         /// The data type of the value (or values) specified in the ContextKeyValues parameter.
@@ -1220,7 +1220,7 @@ extension CreateAccessKeyInput {
     }
 }
 
-public struct CreateAccessKeyInput: Swift.Equatable {
+public struct CreateAccessKeyInput {
     /// The name of the IAM user that the new key will belong to. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     public var userName: Swift.String?
 
@@ -1246,7 +1246,7 @@ extension CreateAccessKeyOutput {
 }
 
 /// Contains the response to a successful [CreateAccessKey] request.
-public struct CreateAccessKeyOutput: Swift.Equatable {
+public struct CreateAccessKeyOutput {
     /// A structure with details about the access key.
     /// This member is required.
     public var accessKey: IAMClientTypes.AccessKey?
@@ -1300,7 +1300,7 @@ extension CreateAccountAliasInput {
     }
 }
 
-public struct CreateAccountAliasInput: Swift.Equatable {
+public struct CreateAccountAliasInput {
     /// The account alias to create. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
     /// This member is required.
     public var accountAlias: Swift.String?
@@ -1322,7 +1322,7 @@ extension CreateAccountAliasOutput {
     }
 }
 
-public struct CreateAccountAliasOutput: Swift.Equatable {
+public struct CreateAccountAliasOutput {
 
     public init() { }
 }
@@ -1373,7 +1373,7 @@ extension CreateGroupInput {
     }
 }
 
-public struct CreateGroupInput: Swift.Equatable {
+public struct CreateGroupInput {
     /// The name of the group to create. Do not include the path in this value. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource".
     /// This member is required.
     public var groupName: Swift.String?
@@ -1404,7 +1404,7 @@ extension CreateGroupOutput {
 }
 
 /// Contains the response to a successful [CreateGroup] request.
-public struct CreateGroupOutput: Swift.Equatable {
+public struct CreateGroupOutput {
     /// A structure containing details about the new group.
     /// This member is required.
     public var group: IAMClientTypes.Group?
@@ -1476,7 +1476,7 @@ extension CreateInstanceProfileInput {
     }
 }
 
-public struct CreateInstanceProfileInput: Swift.Equatable {
+public struct CreateInstanceProfileInput {
     /// The name of the instance profile to create. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var instanceProfileName: Swift.String?
@@ -1511,7 +1511,7 @@ extension CreateInstanceProfileOutput {
 }
 
 /// Contains the response to a successful [CreateInstanceProfile] request.
-public struct CreateInstanceProfileOutput: Swift.Equatable {
+public struct CreateInstanceProfileOutput {
     /// A structure containing details about the new instance profile.
     /// This member is required.
     public var instanceProfile: IAMClientTypes.InstanceProfile?
@@ -1580,7 +1580,7 @@ extension CreateLoginProfileInput {
     }
 }
 
-public struct CreateLoginProfileInput: Swift.Equatable {
+public struct CreateLoginProfileInput {
     /// The new password for the user. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Any of these characters are valid in a password. However, many tools, such as the Amazon Web Services Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
     /// This member is required.
     public var password: Swift.String?
@@ -1616,7 +1616,7 @@ extension CreateLoginProfileOutput {
 }
 
 /// Contains the response to a successful [CreateLoginProfile] request.
-public struct CreateLoginProfileOutput: Swift.Equatable {
+public struct CreateLoginProfileOutput {
     /// A structure containing the user name and password create date.
     /// This member is required.
     public var loginProfile: IAMClientTypes.LoginProfile?
@@ -1711,7 +1711,7 @@ extension CreateOpenIDConnectProviderInput {
     }
 }
 
-public struct CreateOpenIDConnectProviderInput: Swift.Equatable {
+public struct CreateOpenIDConnectProviderInput {
     /// Provides a list of client IDs, also known as audiences. When a mobile or web app registers with an OpenID Connect provider, they establish a value that identifies the application. This is the value that's sent as the client_id parameter on OAuth requests. You can register multiple client IDs with the same provider. For example, you might have multiple applications that use the same OIDC provider. You cannot register more than 100 client IDs with a single IAM OIDC provider. There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest operation accepts client IDs up to 255 characters long.
     public var clientIDList: [Swift.String]?
     /// A list of tags that you want to attach to the new IAM OpenID Connect (OIDC) provider. Each tag consists of a key name and an associated value. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide. If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request fails and the resource is not created.
@@ -1751,7 +1751,7 @@ extension CreateOpenIDConnectProviderOutput {
 }
 
 /// Contains the response to a successful [CreateOpenIDConnectProvider] request.
-public struct CreateOpenIDConnectProviderOutput: Swift.Equatable {
+public struct CreateOpenIDConnectProviderOutput {
     /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that is created. For more information, see [OpenIDConnectProviderListEntry].
     public var openIDConnectProviderArn: Swift.String?
     /// A list of tags that are attached to the new IAM OIDC provider. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
@@ -1836,7 +1836,7 @@ extension CreatePolicyInput {
     }
 }
 
-public struct CreatePolicyInput: Swift.Equatable {
+public struct CreatePolicyInput {
     /// A friendly description of the policy. Typically used to store information about the permissions defined in the policy. For example, "Grants access to production DynamoDB tables." The policy description is immutable. After a value is assigned, it cannot be changed.
     public var description: Swift.String?
     /// The path for the policy. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters. You cannot use an asterisk (*) in the path name.
@@ -1886,7 +1886,7 @@ extension CreatePolicyOutput {
 }
 
 /// Contains the response to a successful [CreatePolicy] request.
-public struct CreatePolicyOutput: Swift.Equatable {
+public struct CreatePolicyOutput {
     /// A structure containing details about the new policy.
     public var policy: IAMClientTypes.Policy?
 
@@ -1950,7 +1950,7 @@ extension CreatePolicyVersionInput {
     }
 }
 
-public struct CreatePolicyVersionInput: Swift.Equatable {
+public struct CreatePolicyVersionInput {
     /// The Amazon Resource Name (ARN) of the IAM policy to which you want to add a new version. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var policyArn: Swift.String?
@@ -1992,7 +1992,7 @@ extension CreatePolicyVersionOutput {
 }
 
 /// Contains the response to a successful [CreatePolicyVersion] request.
-public struct CreatePolicyVersionOutput: Swift.Equatable {
+public struct CreatePolicyVersionOutput {
     /// A structure containing details about the new policy version.
     public var policyVersion: IAMClientTypes.PolicyVersion?
 
@@ -2080,7 +2080,7 @@ extension CreateRoleInput {
     }
 }
 
-public struct CreateRoleInput: Swift.Equatable {
+public struct CreateRoleInput {
     /// The trust relationship policy document that grants an entity permission to assume the role. In IAM, you must provide a JSON policy that has been converted to a string. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -2141,7 +2141,7 @@ extension CreateRoleOutput {
 }
 
 /// Contains the response to a successful [CreateRole] request.
-public struct CreateRoleOutput: Swift.Equatable {
+public struct CreateRoleOutput {
     /// A structure containing details about the new role.
     /// This member is required.
     public var role: IAMClientTypes.Role?
@@ -2215,7 +2215,7 @@ extension CreateSAMLProviderInput {
     }
 }
 
-public struct CreateSAMLProviderInput: Swift.Equatable {
+public struct CreateSAMLProviderInput {
     /// The name of the provider to create. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var name: Swift.String?
@@ -2252,7 +2252,7 @@ extension CreateSAMLProviderOutput {
 }
 
 /// Contains the response to a successful [CreateSAMLProvider] request.
-public struct CreateSAMLProviderOutput: Swift.Equatable {
+public struct CreateSAMLProviderOutput {
     /// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
     public var samlProviderArn: Swift.String?
     /// A list of tags that are attached to the new IAM SAML provider. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
@@ -2319,7 +2319,7 @@ extension CreateServiceLinkedRoleInput {
     }
 }
 
-public struct CreateServiceLinkedRoleInput: Swift.Equatable {
+public struct CreateServiceLinkedRoleInput {
     /// The service principal for the Amazon Web Services service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com. Service principals are unique and case-sensitive. To find the exact service principal for your service-linked role, see [Amazon Web Services services that work with IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html) in the IAM User Guide. Look for the services that have Yes in the Service-Linked Role column. Choose the Yes link to view the service-linked role documentation for that service.
     /// This member is required.
     public var awsServiceName: Swift.String?
@@ -2353,7 +2353,7 @@ extension CreateServiceLinkedRoleOutput {
     }
 }
 
-public struct CreateServiceLinkedRoleOutput: Swift.Equatable {
+public struct CreateServiceLinkedRoleOutput {
     /// A [Role] object that contains details about the newly created role.
     public var role: IAMClientTypes.Role?
 
@@ -2411,7 +2411,7 @@ extension CreateServiceSpecificCredentialInput {
     }
 }
 
-public struct CreateServiceSpecificCredentialInput: Swift.Equatable {
+public struct CreateServiceSpecificCredentialInput {
     /// The name of the Amazon Web Services service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
     /// This member is required.
     public var serviceName: Swift.String?
@@ -2442,7 +2442,7 @@ extension CreateServiceSpecificCredentialOutput {
     }
 }
 
-public struct CreateServiceSpecificCredentialOutput: Swift.Equatable {
+public struct CreateServiceSpecificCredentialOutput {
     /// A structure that contains information about the newly created service-specific credential. This is the only time that the password for this credential set is available. It cannot be recovered later. Instead, you must reset the password with [ResetServiceSpecificCredential].
     public var serviceSpecificCredential: IAMClientTypes.ServiceSpecificCredential?
 
@@ -2516,7 +2516,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// The path for the user name. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
     public var path: Swift.String?
     /// The ARN of the managed policy that is used to set the permissions boundary for the user. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide. For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types) in the IAM User Guide.
@@ -2555,7 +2555,7 @@ extension CreateUserOutput {
 }
 
 /// Contains the response to a successful [CreateUser] request.
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
     /// A structure with details about the new IAM user.
     public var user: IAMClientTypes.User?
 
@@ -2628,7 +2628,7 @@ extension CreateVirtualMFADeviceInput {
     }
 }
 
-public struct CreateVirtualMFADeviceInput: Swift.Equatable {
+public struct CreateVirtualMFADeviceInput {
     /// The path for the virtual MFA device. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
     public var path: Swift.String?
     /// A list of tags that you want to attach to the new IAM virtual MFA device. Each tag consists of a key name and an associated value. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide. If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request fails and the resource is not created.
@@ -2663,7 +2663,7 @@ extension CreateVirtualMFADeviceOutput {
 }
 
 /// Contains the response to a successful [CreateVirtualMFADevice] request.
-public struct CreateVirtualMFADeviceOutput: Swift.Equatable {
+public struct CreateVirtualMFADeviceOutput {
     /// A structure containing details about the new virtual MFA device.
     /// This member is required.
     public var virtualMFADevice: IAMClientTypes.VirtualMFADevice?
@@ -2831,7 +2831,7 @@ extension DeactivateMFADeviceInput {
     }
 }
 
-public struct DeactivateMFADeviceInput: Swift.Equatable {
+public struct DeactivateMFADeviceInput {
     /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
     /// This member is required.
     public var serialNumber: Swift.String?
@@ -2858,7 +2858,7 @@ extension DeactivateMFADeviceOutput {
     }
 }
 
-public struct DeactivateMFADeviceOutput: Swift.Equatable {
+public struct DeactivateMFADeviceOutput {
 
     public init() { }
 }
@@ -2910,7 +2910,7 @@ extension DeleteAccessKeyInput {
     }
 }
 
-public struct DeleteAccessKeyInput: Swift.Equatable {
+public struct DeleteAccessKeyInput {
     /// The access key ID for the access key ID and secret access key you want to delete. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that can consist of any upper or lowercased letter or digit.
     /// This member is required.
     public var accessKeyId: Swift.String?
@@ -2936,7 +2936,7 @@ extension DeleteAccessKeyOutput {
     }
 }
 
-public struct DeleteAccessKeyOutput: Swift.Equatable {
+public struct DeleteAccessKeyOutput {
 
     public init() { }
 }
@@ -2982,7 +2982,7 @@ extension DeleteAccountAliasInput {
     }
 }
 
-public struct DeleteAccountAliasInput: Swift.Equatable {
+public struct DeleteAccountAliasInput {
     /// The name of the account alias to delete. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
     /// This member is required.
     public var accountAlias: Swift.String?
@@ -3004,7 +3004,7 @@ extension DeleteAccountAliasOutput {
     }
 }
 
-public struct DeleteAccountAliasOutput: Swift.Equatable {
+public struct DeleteAccountAliasOutput {
 
     public init() { }
 }
@@ -3045,7 +3045,7 @@ extension DeleteAccountPasswordPolicyInput {
     }
 }
 
-public struct DeleteAccountPasswordPolicyInput: Swift.Equatable {
+public struct DeleteAccountPasswordPolicyInput {
 
     public init() { }
 }
@@ -3059,7 +3059,7 @@ extension DeleteAccountPasswordPolicyOutput {
     }
 }
 
-public struct DeleteAccountPasswordPolicyOutput: Swift.Equatable {
+public struct DeleteAccountPasswordPolicyOutput {
 
     public init() { }
 }
@@ -3141,7 +3141,7 @@ extension DeleteGroupInput {
     }
 }
 
-public struct DeleteGroupInput: Swift.Equatable {
+public struct DeleteGroupInput {
     /// The name of the IAM group to delete. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var groupName: Swift.String?
@@ -3163,7 +3163,7 @@ extension DeleteGroupOutput {
     }
 }
 
-public struct DeleteGroupOutput: Swift.Equatable {
+public struct DeleteGroupOutput {
 
     public init() { }
 }
@@ -3214,7 +3214,7 @@ extension DeleteGroupPolicyInput {
     }
 }
 
-public struct DeleteGroupPolicyInput: Swift.Equatable {
+public struct DeleteGroupPolicyInput {
     /// The name (friendly name, not ARN) identifying the group that the policy is embedded in. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var groupName: Swift.String?
@@ -3241,7 +3241,7 @@ extension DeleteGroupPolicyOutput {
     }
 }
 
-public struct DeleteGroupPolicyOutput: Swift.Equatable {
+public struct DeleteGroupPolicyOutput {
 
     public init() { }
 }
@@ -3287,7 +3287,7 @@ extension DeleteInstanceProfileInput {
     }
 }
 
-public struct DeleteInstanceProfileInput: Swift.Equatable {
+public struct DeleteInstanceProfileInput {
     /// The name of the instance profile to delete. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var instanceProfileName: Swift.String?
@@ -3309,7 +3309,7 @@ extension DeleteInstanceProfileOutput {
     }
 }
 
-public struct DeleteInstanceProfileOutput: Swift.Equatable {
+public struct DeleteInstanceProfileOutput {
 
     public init() { }
 }
@@ -3356,7 +3356,7 @@ extension DeleteLoginProfileInput {
     }
 }
 
-public struct DeleteLoginProfileInput: Swift.Equatable {
+public struct DeleteLoginProfileInput {
     /// The name of the user whose password you want to delete. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var userName: Swift.String?
@@ -3378,7 +3378,7 @@ extension DeleteLoginProfileOutput {
     }
 }
 
-public struct DeleteLoginProfileOutput: Swift.Equatable {
+public struct DeleteLoginProfileOutput {
 
     public init() { }
 }
@@ -3425,7 +3425,7 @@ extension DeleteOpenIDConnectProviderInput {
     }
 }
 
-public struct DeleteOpenIDConnectProviderInput: Swift.Equatable {
+public struct DeleteOpenIDConnectProviderInput {
     /// The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the [ListOpenIDConnectProviders] operation.
     /// This member is required.
     public var openIDConnectProviderArn: Swift.String?
@@ -3447,7 +3447,7 @@ extension DeleteOpenIDConnectProviderOutput {
     }
 }
 
-public struct DeleteOpenIDConnectProviderOutput: Swift.Equatable {
+public struct DeleteOpenIDConnectProviderOutput {
 
     public init() { }
 }
@@ -3493,7 +3493,7 @@ extension DeletePolicyInput {
     }
 }
 
-public struct DeletePolicyInput: Swift.Equatable {
+public struct DeletePolicyInput {
     /// The Amazon Resource Name (ARN) of the IAM policy you want to delete. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var policyArn: Swift.String?
@@ -3515,7 +3515,7 @@ extension DeletePolicyOutput {
     }
 }
 
-public struct DeletePolicyOutput: Swift.Equatable {
+public struct DeletePolicyOutput {
 
     public init() { }
 }
@@ -3567,7 +3567,7 @@ extension DeletePolicyVersionInput {
     }
 }
 
-public struct DeletePolicyVersionInput: Swift.Equatable {
+public struct DeletePolicyVersionInput {
     /// The Amazon Resource Name (ARN) of the IAM policy from which you want to delete a version. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var policyArn: Swift.String?
@@ -3594,7 +3594,7 @@ extension DeletePolicyVersionOutput {
     }
 }
 
-public struct DeletePolicyVersionOutput: Swift.Equatable {
+public struct DeletePolicyVersionOutput {
 
     public init() { }
 }
@@ -3642,7 +3642,7 @@ extension DeleteRoleInput {
     }
 }
 
-public struct DeleteRoleInput: Swift.Equatable {
+public struct DeleteRoleInput {
     /// The name of the role to delete. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var roleName: Swift.String?
@@ -3664,7 +3664,7 @@ extension DeleteRoleOutput {
     }
 }
 
-public struct DeleteRoleOutput: Swift.Equatable {
+public struct DeleteRoleOutput {
 
     public init() { }
 }
@@ -3713,7 +3713,7 @@ extension DeleteRolePermissionsBoundaryInput {
     }
 }
 
-public struct DeleteRolePermissionsBoundaryInput: Swift.Equatable {
+public struct DeleteRolePermissionsBoundaryInput {
     /// The name (friendly name, not ARN) of the IAM role from which you want to remove the permissions boundary.
     /// This member is required.
     public var roleName: Swift.String?
@@ -3735,7 +3735,7 @@ extension DeleteRolePermissionsBoundaryOutput {
     }
 }
 
-public struct DeleteRolePermissionsBoundaryOutput: Swift.Equatable {
+public struct DeleteRolePermissionsBoundaryOutput {
 
     public init() { }
 }
@@ -3785,7 +3785,7 @@ extension DeleteRolePolicyInput {
     }
 }
 
-public struct DeleteRolePolicyInput: Swift.Equatable {
+public struct DeleteRolePolicyInput {
     /// The name of the inline policy to delete from the specified IAM role. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var policyName: Swift.String?
@@ -3812,7 +3812,7 @@ extension DeleteRolePolicyOutput {
     }
 }
 
-public struct DeleteRolePolicyOutput: Swift.Equatable {
+public struct DeleteRolePolicyOutput {
 
     public init() { }
 }
@@ -3859,7 +3859,7 @@ extension DeleteSAMLProviderInput {
     }
 }
 
-public struct DeleteSAMLProviderInput: Swift.Equatable {
+public struct DeleteSAMLProviderInput {
     /// The Amazon Resource Name (ARN) of the SAML provider to delete.
     /// This member is required.
     public var samlProviderArn: Swift.String?
@@ -3881,7 +3881,7 @@ extension DeleteSAMLProviderOutput {
     }
 }
 
-public struct DeleteSAMLProviderOutput: Swift.Equatable {
+public struct DeleteSAMLProviderOutput {
 
     public init() { }
 }
@@ -3932,7 +3932,7 @@ extension DeleteSSHPublicKeyInput {
     }
 }
 
-public struct DeleteSSHPublicKeyInput: Swift.Equatable {
+public struct DeleteSSHPublicKeyInput {
     /// The unique identifier for the SSH public key. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that can consist of any upper or lowercased letter or digit.
     /// This member is required.
     public var sshPublicKeyId: Swift.String?
@@ -3959,7 +3959,7 @@ extension DeleteSSHPublicKeyOutput {
     }
 }
 
-public struct DeleteSSHPublicKeyOutput: Swift.Equatable {
+public struct DeleteSSHPublicKeyOutput {
 
     public init() { }
 }
@@ -4003,7 +4003,7 @@ extension DeleteServerCertificateInput {
     }
 }
 
-public struct DeleteServerCertificateInput: Swift.Equatable {
+public struct DeleteServerCertificateInput {
     /// The name of the server certificate you want to delete. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var serverCertificateName: Swift.String?
@@ -4025,7 +4025,7 @@ extension DeleteServerCertificateOutput {
     }
 }
 
-public struct DeleteServerCertificateOutput: Swift.Equatable {
+public struct DeleteServerCertificateOutput {
 
     public init() { }
 }
@@ -4072,7 +4072,7 @@ extension DeleteServiceLinkedRoleInput {
     }
 }
 
-public struct DeleteServiceLinkedRoleInput: Swift.Equatable {
+public struct DeleteServiceLinkedRoleInput {
     /// The name of the service-linked role to be deleted.
     /// This member is required.
     public var roleName: Swift.String?
@@ -4098,7 +4098,7 @@ extension DeleteServiceLinkedRoleOutput {
     }
 }
 
-public struct DeleteServiceLinkedRoleOutput: Swift.Equatable {
+public struct DeleteServiceLinkedRoleOutput {
     /// The deletion task identifier that you can use to check the status of the deletion. This identifier is returned in the format task/aws-service-role///.
     /// This member is required.
     public var deletionTaskId: Swift.String?
@@ -4156,7 +4156,7 @@ extension DeleteServiceSpecificCredentialInput {
     }
 }
 
-public struct DeleteServiceSpecificCredentialInput: Swift.Equatable {
+public struct DeleteServiceSpecificCredentialInput {
     /// The unique identifier of the service-specific credential. You can get this value by calling [ListServiceSpecificCredentials]. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that can consist of any upper or lowercased letter or digit.
     /// This member is required.
     public var serviceSpecificCredentialId: Swift.String?
@@ -4182,7 +4182,7 @@ extension DeleteServiceSpecificCredentialOutput {
     }
 }
 
-public struct DeleteServiceSpecificCredentialOutput: Swift.Equatable {
+public struct DeleteServiceSpecificCredentialOutput {
 
     public init() { }
 }
@@ -4230,7 +4230,7 @@ extension DeleteSigningCertificateInput {
     }
 }
 
-public struct DeleteSigningCertificateInput: Swift.Equatable {
+public struct DeleteSigningCertificateInput {
     /// The ID of the signing certificate to delete. The format of this parameter, as described by its [regex](http://wikipedia.org/wiki/regex) pattern, is a string of characters that can be upper- or lower-cased letters or digits.
     /// This member is required.
     public var certificateId: Swift.String?
@@ -4256,7 +4256,7 @@ extension DeleteSigningCertificateOutput {
     }
 }
 
-public struct DeleteSigningCertificateOutput: Swift.Equatable {
+public struct DeleteSigningCertificateOutput {
 
     public init() { }
 }
@@ -4303,7 +4303,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// The name of the user to delete. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var userName: Swift.String?
@@ -4325,7 +4325,7 @@ extension DeleteUserOutput {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
 
     public init() { }
 }
@@ -4373,7 +4373,7 @@ extension DeleteUserPermissionsBoundaryInput {
     }
 }
 
-public struct DeleteUserPermissionsBoundaryInput: Swift.Equatable {
+public struct DeleteUserPermissionsBoundaryInput {
     /// The name (friendly name, not ARN) of the IAM user from which you want to remove the permissions boundary.
     /// This member is required.
     public var userName: Swift.String?
@@ -4395,7 +4395,7 @@ extension DeleteUserPermissionsBoundaryOutput {
     }
 }
 
-public struct DeleteUserPermissionsBoundaryOutput: Swift.Equatable {
+public struct DeleteUserPermissionsBoundaryOutput {
 
     public init() { }
 }
@@ -4444,7 +4444,7 @@ extension DeleteUserPolicyInput {
     }
 }
 
-public struct DeleteUserPolicyInput: Swift.Equatable {
+public struct DeleteUserPolicyInput {
     /// The name identifying the policy document to delete. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var policyName: Swift.String?
@@ -4471,7 +4471,7 @@ extension DeleteUserPolicyOutput {
     }
 }
 
-public struct DeleteUserPolicyOutput: Swift.Equatable {
+public struct DeleteUserPolicyOutput {
 
     public init() { }
 }
@@ -4517,7 +4517,7 @@ extension DeleteVirtualMFADeviceInput {
     }
 }
 
-public struct DeleteVirtualMFADeviceInput: Swift.Equatable {
+public struct DeleteVirtualMFADeviceInput {
     /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
     /// This member is required.
     public var serialNumber: Swift.String?
@@ -4539,7 +4539,7 @@ extension DeleteVirtualMFADeviceOutput {
     }
 }
 
-public struct DeleteVirtualMFADeviceOutput: Swift.Equatable {
+public struct DeleteVirtualMFADeviceOutput {
 
     public init() { }
 }
@@ -4603,7 +4603,7 @@ extension IAMClientTypes.DeletionTaskFailureReasonType: Swift.Encodable {
 
 extension IAMClientTypes {
     /// The reason that the service-linked role deletion failed. This data type is used as a response element in the [GetServiceLinkedRoleDeletionStatus] operation.
-    public struct DeletionTaskFailureReasonType: Swift.Equatable {
+    public struct DeletionTaskFailureReasonType {
         /// A short description of the reason that the service-linked role deletion failed.
         public var reason: Swift.String?
         /// A list of objects that contains details about the service-linked role deletion failure, if that information is returned by the service. If the service-linked role has active sessions or if any resources that were used by the role have not been deleted from the linked service, the role can't be deleted. This parameter includes a list of the resources that are associated with the role and the Region in which the resources are being used.
@@ -4685,7 +4685,7 @@ extension DetachGroupPolicyInput {
     }
 }
 
-public struct DetachGroupPolicyInput: Swift.Equatable {
+public struct DetachGroupPolicyInput {
     /// The name (friendly name, not ARN) of the IAM group to detach the policy from. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var groupName: Swift.String?
@@ -4712,7 +4712,7 @@ extension DetachGroupPolicyOutput {
     }
 }
 
-public struct DetachGroupPolicyOutput: Swift.Equatable {
+public struct DetachGroupPolicyOutput {
 
     public init() { }
 }
@@ -4763,7 +4763,7 @@ extension DetachRolePolicyInput {
     }
 }
 
-public struct DetachRolePolicyInput: Swift.Equatable {
+public struct DetachRolePolicyInput {
     /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var policyArn: Swift.String?
@@ -4790,7 +4790,7 @@ extension DetachRolePolicyOutput {
     }
 }
 
-public struct DetachRolePolicyOutput: Swift.Equatable {
+public struct DetachRolePolicyOutput {
 
     public init() { }
 }
@@ -4842,7 +4842,7 @@ extension DetachUserPolicyInput {
     }
 }
 
-public struct DetachUserPolicyInput: Swift.Equatable {
+public struct DetachUserPolicyInput {
     /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var policyArn: Swift.String?
@@ -4869,7 +4869,7 @@ extension DetachUserPolicyOutput {
     }
 }
 
-public struct DetachUserPolicyOutput: Swift.Equatable {
+public struct DetachUserPolicyOutput {
 
     public init() { }
 }
@@ -5000,7 +5000,7 @@ extension EnableMFADeviceInput {
     }
 }
 
-public struct EnableMFADeviceInput: Swift.Equatable {
+public struct EnableMFADeviceInput {
     /// An authentication code emitted by the device. The format for this parameter is a string of six digits. Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can [resync the device](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_sync.html).
     /// This member is required.
     public var authenticationCode1: Swift.String?
@@ -5037,7 +5037,7 @@ extension EnableMFADeviceOutput {
     }
 }
 
-public struct EnableMFADeviceOutput: Swift.Equatable {
+public struct EnableMFADeviceOutput {
 
     public init() { }
 }
@@ -5162,7 +5162,7 @@ extension IAMClientTypes.EntityDetails: Swift.Encodable {
 
 extension IAMClientTypes {
     /// An object that contains details about when the IAM entities (users or roles) were last used in an attempt to access the specified Amazon Web Services service. This data type is a response element in the [GetServiceLastAccessedDetailsWithEntities] operation.
-    public struct EntityDetails: Swift.Equatable {
+    public struct EntityDetails {
         /// The EntityInfo object that contains details about the entity (user or role).
         /// This member is required.
         public var entityInfo: IAMClientTypes.EntityInfo?
@@ -5225,7 +5225,7 @@ extension IAMClientTypes.EntityInfo: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains details about the specified entity (user or role). This data type is an element of the [EntityDetails] object.
-    public struct EntityInfo: Swift.Equatable {
+    public struct EntityInfo {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         /// This member is required.
         public var arn: Swift.String?
@@ -5365,7 +5365,7 @@ extension IAMClientTypes.ErrorDetails: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about the reason that the operation failed. This data type is used as a response element in the [GetOrganizationsAccessReport], [GetServiceLastAccessedDetails], and [GetServiceLastAccessedDetailsWithEntities] operations.
-    public struct ErrorDetails: Swift.Equatable {
+    public struct ErrorDetails {
         /// The error code associated with the operation failure.
         /// This member is required.
         public var code: Swift.String?
@@ -5485,7 +5485,7 @@ extension IAMClientTypes.EvaluationResult: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains the results of a simulation. This data type is used by the return parameter of [SimulateCustomPolicy] and [SimulatePrincipalPolicy].
-    public struct EvaluationResult: Swift.Equatable {
+    public struct EvaluationResult {
         /// The name of the API operation tested on the indicated resource.
         /// This member is required.
         public var evalActionName: Swift.String?
@@ -5549,7 +5549,7 @@ extension GenerateCredentialReportInput {
     }
 }
 
-public struct GenerateCredentialReportInput: Swift.Equatable {
+public struct GenerateCredentialReportInput {
 
     public init() { }
 }
@@ -5569,7 +5569,7 @@ extension GenerateCredentialReportOutput {
 }
 
 /// Contains the response to a successful [GenerateCredentialReport] request.
-public struct GenerateCredentialReportOutput: Swift.Equatable {
+public struct GenerateCredentialReportOutput {
     /// Information about the credential report.
     public var description: Swift.String?
     /// Information about the state of the credential report.
@@ -5629,7 +5629,7 @@ extension GenerateOrganizationsAccessReportInput {
     }
 }
 
-public struct GenerateOrganizationsAccessReportInput: Swift.Equatable {
+public struct GenerateOrganizationsAccessReportInput {
     /// The path of the Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde. The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5. Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012.
     /// This member is required.
     public var entityPath: Swift.String?
@@ -5659,7 +5659,7 @@ extension GenerateOrganizationsAccessReportOutput {
     }
 }
 
-public struct GenerateOrganizationsAccessReportOutput: Swift.Equatable {
+public struct GenerateOrganizationsAccessReportOutput {
     /// The job identifier that you can use in the [GetOrganizationsAccessReport] operation.
     public var jobId: Swift.String?
 
@@ -5714,7 +5714,7 @@ extension GenerateServiceLastAccessedDetailsInput {
     }
 }
 
-public struct GenerateServiceLastAccessedDetailsInput: Swift.Equatable {
+public struct GenerateServiceLastAccessedDetailsInput {
     /// The ARN of the IAM resource (user, group, role, or managed policy) used to generate information about when the resource was last used in an attempt to access an Amazon Web Services service.
     /// This member is required.
     public var arn: Swift.String?
@@ -5744,7 +5744,7 @@ extension GenerateServiceLastAccessedDetailsOutput {
     }
 }
 
-public struct GenerateServiceLastAccessedDetailsOutput: Swift.Equatable {
+public struct GenerateServiceLastAccessedDetailsOutput {
     /// The JobId that you can use in the [GetServiceLastAccessedDetails] or [GetServiceLastAccessedDetailsWithEntities] operations. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
     public var jobId: Swift.String?
 
@@ -5796,7 +5796,7 @@ extension GetAccessKeyLastUsedInput {
     }
 }
 
-public struct GetAccessKeyLastUsedInput: Swift.Equatable {
+public struct GetAccessKeyLastUsedInput {
     /// The identifier of an access key. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that can consist of any upper or lowercased letter or digit.
     /// This member is required.
     public var accessKeyId: Swift.String?
@@ -5824,7 +5824,7 @@ extension GetAccessKeyLastUsedOutput {
 }
 
 /// Contains the response to a successful [GetAccessKeyLastUsed] request. It is also returned as a member of the [AccessKeyMetaData] structure returned by the [ListAccessKeys] action.
-public struct GetAccessKeyLastUsedOutput: Swift.Equatable {
+public struct GetAccessKeyLastUsedOutput {
     /// Contains information about the last time the access key was used.
     public var accessKeyLastUsed: IAMClientTypes.AccessKeyLastUsed?
     /// The name of the IAM user that owns this access key.
@@ -5895,7 +5895,7 @@ extension GetAccountAuthorizationDetailsInput {
     }
 }
 
-public struct GetAccountAuthorizationDetailsInput: Swift.Equatable {
+public struct GetAccountAuthorizationDetailsInput {
     /// A list of entity types used to filter the results. Only the entities that match the types you specify are included in the output. Use the value LocalManagedPolicy to include customer managed policies. The format for this parameter is a comma-separated (if more than one) list of strings. Each string value in the list must be one of the valid values listed below.
     public var filter: [IAMClientTypes.EntityType]?
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
@@ -5934,7 +5934,7 @@ extension GetAccountAuthorizationDetailsOutput {
 }
 
 /// Contains the response to a successful [GetAccountAuthorizationDetails] request.
-public struct GetAccountAuthorizationDetailsOutput: Swift.Equatable {
+public struct GetAccountAuthorizationDetailsOutput {
     /// A list containing information about IAM groups.
     public var groupDetailList: [IAMClientTypes.GroupDetail]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -5999,7 +5999,7 @@ extension GetAccountPasswordPolicyInput {
     }
 }
 
-public struct GetAccountPasswordPolicyInput: Swift.Equatable {
+public struct GetAccountPasswordPolicyInput {
 
     public init() { }
 }
@@ -6018,7 +6018,7 @@ extension GetAccountPasswordPolicyOutput {
 }
 
 /// Contains the response to a successful [GetAccountPasswordPolicy] request.
-public struct GetAccountPasswordPolicyOutput: Swift.Equatable {
+public struct GetAccountPasswordPolicyOutput {
     /// A structure that contains details about the account's password policy.
     /// This member is required.
     public var passwordPolicy: IAMClientTypes.PasswordPolicy?
@@ -6065,7 +6065,7 @@ extension GetAccountSummaryInput {
     }
 }
 
-public struct GetAccountSummaryInput: Swift.Equatable {
+public struct GetAccountSummaryInput {
 
     public init() { }
 }
@@ -6084,7 +6084,7 @@ extension GetAccountSummaryOutput {
 }
 
 /// Contains the response to a successful [GetAccountSummary] request.
-public struct GetAccountSummaryOutput: Swift.Equatable {
+public struct GetAccountSummaryOutput {
     /// A set of key–value pairs containing information about IAM entity usage and IAM quotas.
     public var summaryMap: [Swift.String:Swift.Int]?
 
@@ -6144,7 +6144,7 @@ extension GetContextKeysForCustomPolicyInput {
     }
 }
 
-public struct GetContextKeysForCustomPolicyInput: Swift.Equatable {
+public struct GetContextKeysForCustomPolicyInput {
     /// A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -6177,7 +6177,7 @@ extension GetContextKeysForCustomPolicyOutput {
 }
 
 /// Contains the response to a successful [GetContextKeysForPrincipalPolicy] or [GetContextKeysForCustomPolicy] request.
-public struct GetContextKeysForCustomPolicyOutput: Swift.Equatable {
+public struct GetContextKeysForCustomPolicyOutput {
     /// The list of context keys that are referenced in the input policies.
     public var contextKeyNames: [Swift.String]?
 
@@ -6241,7 +6241,7 @@ extension GetContextKeysForPrincipalPolicyInput {
     }
 }
 
-public struct GetContextKeysForPrincipalPolicyInput: Swift.Equatable {
+public struct GetContextKeysForPrincipalPolicyInput {
     /// An optional list of additional policies for which you want the list of context keys that are referenced. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -6278,7 +6278,7 @@ extension GetContextKeysForPrincipalPolicyOutput {
 }
 
 /// Contains the response to a successful [GetContextKeysForPrincipalPolicy] or [GetContextKeysForCustomPolicy] request.
-public struct GetContextKeysForPrincipalPolicyOutput: Swift.Equatable {
+public struct GetContextKeysForPrincipalPolicyOutput {
     /// The list of context keys that are referenced in the input policies.
     public var contextKeyNames: [Swift.String]?
 
@@ -6324,7 +6324,7 @@ extension GetCredentialReportInput {
     }
 }
 
-public struct GetCredentialReportInput: Swift.Equatable {
+public struct GetCredentialReportInput {
 
     public init() { }
 }
@@ -6345,7 +6345,7 @@ extension GetCredentialReportOutput {
 }
 
 /// Contains the response to a successful [GetCredentialReport] request.
-public struct GetCredentialReportOutput: Swift.Equatable {
+public struct GetCredentialReportOutput {
     /// Contains the credential report. The report is Base64-encoded.
     public var content: ClientRuntime.Data?
     /// The date and time when the credential report was created, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601).
@@ -6415,7 +6415,7 @@ extension GetGroupInput {
     }
 }
 
-public struct GetGroupInput: Swift.Equatable {
+public struct GetGroupInput {
     /// The name of the group. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var groupName: Swift.String?
@@ -6453,7 +6453,7 @@ extension GetGroupOutput {
 }
 
 /// Contains the response to a successful [GetGroup] request.
-public struct GetGroupOutput: Swift.Equatable {
+public struct GetGroupOutput {
     /// A structure that contains details about the group.
     /// This member is required.
     public var group: IAMClientTypes.Group?
@@ -6523,7 +6523,7 @@ extension GetGroupPolicyInput {
     }
 }
 
-public struct GetGroupPolicyInput: Swift.Equatable {
+public struct GetGroupPolicyInput {
     /// The name of the group the policy is associated with. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var groupName: Swift.String?
@@ -6557,7 +6557,7 @@ extension GetGroupPolicyOutput {
 }
 
 /// Contains the response to a successful [GetGroupPolicy] request.
-public struct GetGroupPolicyOutput: Swift.Equatable {
+public struct GetGroupPolicyOutput {
     /// The group the policy is associated with.
     /// This member is required.
     public var groupName: Swift.String?
@@ -6620,7 +6620,7 @@ extension GetInstanceProfileInput {
     }
 }
 
-public struct GetInstanceProfileInput: Swift.Equatable {
+public struct GetInstanceProfileInput {
     /// The name of the instance profile to get information about. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var instanceProfileName: Swift.String?
@@ -6647,7 +6647,7 @@ extension GetInstanceProfileOutput {
 }
 
 /// Contains the response to a successful [GetInstanceProfile] request.
-public struct GetInstanceProfileOutput: Swift.Equatable {
+public struct GetInstanceProfileOutput {
     /// A structure containing details about the instance profile.
     /// This member is required.
     public var instanceProfile: IAMClientTypes.InstanceProfile?
@@ -6700,7 +6700,7 @@ extension GetLoginProfileInput {
     }
 }
 
-public struct GetLoginProfileInput: Swift.Equatable {
+public struct GetLoginProfileInput {
     /// The name of the user whose login profile you want to retrieve. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var userName: Swift.String?
@@ -6727,7 +6727,7 @@ extension GetLoginProfileOutput {
 }
 
 /// Contains the response to a successful [GetLoginProfile] request.
-public struct GetLoginProfileOutput: Swift.Equatable {
+public struct GetLoginProfileOutput {
     /// A structure containing the user name and the profile creation date for the user.
     /// This member is required.
     public var loginProfile: IAMClientTypes.LoginProfile?
@@ -6784,7 +6784,7 @@ extension GetMFADeviceInput {
     }
 }
 
-public struct GetMFADeviceInput: Swift.Equatable {
+public struct GetMFADeviceInput {
     /// Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key [ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html).
     /// This member is required.
     public var serialNumber: Swift.String?
@@ -6817,7 +6817,7 @@ extension GetMFADeviceOutput {
     }
 }
 
-public struct GetMFADeviceOutput: Swift.Equatable {
+public struct GetMFADeviceOutput {
     /// The certifications of a specified user's MFA device. We currently provide FIPS-140-2, FIPS-140-3, and FIDO certification levels obtained from [ FIDO Alliance Metadata Service (MDS)](https://fidoalliance.org/metadata/).
     public var certifications: [Swift.String:Swift.String]?
     /// The date that a specified user's MFA device was first enabled.
@@ -6882,7 +6882,7 @@ extension GetOpenIDConnectProviderInput {
     }
 }
 
-public struct GetOpenIDConnectProviderInput: Swift.Equatable {
+public struct GetOpenIDConnectProviderInput {
     /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the [ListOpenIDConnectProviders] operation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var openIDConnectProviderArn: Swift.String?
@@ -6913,7 +6913,7 @@ extension GetOpenIDConnectProviderOutput {
 }
 
 /// Contains the response to a successful [GetOpenIDConnectProvider] request.
-public struct GetOpenIDConnectProviderOutput: Swift.Equatable {
+public struct GetOpenIDConnectProviderOutput {
     /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see [CreateOpenIDConnectProvider].
     public var clientIDList: [Swift.String]?
     /// The date and time when the IAM OIDC provider resource object was created in the Amazon Web Services account.
@@ -6994,7 +6994,7 @@ extension GetOrganizationsAccessReportInput {
     }
 }
 
-public struct GetOrganizationsAccessReportInput: Swift.Equatable {
+public struct GetOrganizationsAccessReportInput {
     /// The identifier of the request generated by the [GenerateOrganizationsAccessReport] operation.
     /// This member is required.
     public var jobId: Swift.String?
@@ -7040,7 +7040,7 @@ extension GetOrganizationsAccessReportOutput {
     }
 }
 
-public struct GetOrganizationsAccessReportOutput: Swift.Equatable {
+public struct GetOrganizationsAccessReportOutput {
     /// An object that contains details about the most recent attempt to access the service.
     public var accessDetails: [IAMClientTypes.AccessDetail]?
     /// Contains information about the reason that the operation failed. This data type is used as a response element in the [GetOrganizationsAccessReport], [GetServiceLastAccessedDetails], and [GetServiceLastAccessedDetailsWithEntities] operations.
@@ -7125,7 +7125,7 @@ extension GetPolicyInput {
     }
 }
 
-public struct GetPolicyInput: Swift.Equatable {
+public struct GetPolicyInput {
     /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var policyArn: Swift.String?
@@ -7152,7 +7152,7 @@ extension GetPolicyOutput {
 }
 
 /// Contains the response to a successful [GetPolicy] request.
-public struct GetPolicyOutput: Swift.Equatable {
+public struct GetPolicyOutput {
     /// A structure containing details about the policy.
     public var policy: IAMClientTypes.Policy?
 
@@ -7209,7 +7209,7 @@ extension GetPolicyVersionInput {
     }
 }
 
-public struct GetPolicyVersionInput: Swift.Equatable {
+public struct GetPolicyVersionInput {
     /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var policyArn: Swift.String?
@@ -7241,7 +7241,7 @@ extension GetPolicyVersionOutput {
 }
 
 /// Contains the response to a successful [GetPolicyVersion] request.
-public struct GetPolicyVersionOutput: Swift.Equatable {
+public struct GetPolicyVersionOutput {
     /// A structure containing details about the policy version.
     public var policyVersion: IAMClientTypes.PolicyVersion?
 
@@ -7294,7 +7294,7 @@ extension GetRoleInput {
     }
 }
 
-public struct GetRoleInput: Swift.Equatable {
+public struct GetRoleInput {
     /// The name of the IAM role to get information about. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var roleName: Swift.String?
@@ -7321,7 +7321,7 @@ extension GetRoleOutput {
 }
 
 /// Contains the response to a successful [GetRole] request.
-public struct GetRoleOutput: Swift.Equatable {
+public struct GetRoleOutput {
     /// A structure containing details about the IAM role.
     /// This member is required.
     public var role: IAMClientTypes.Role?
@@ -7378,7 +7378,7 @@ extension GetRolePolicyInput {
     }
 }
 
-public struct GetRolePolicyInput: Swift.Equatable {
+public struct GetRolePolicyInput {
     /// The name of the policy document to get. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var policyName: Swift.String?
@@ -7412,7 +7412,7 @@ extension GetRolePolicyOutput {
 }
 
 /// Contains the response to a successful [GetRolePolicy] request.
-public struct GetRolePolicyOutput: Swift.Equatable {
+public struct GetRolePolicyOutput {
     /// The policy document. IAM stores policies in JSON format. However, resources that were created using CloudFormation templates can be formatted in YAML. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
     /// This member is required.
     public var policyDocument: Swift.String?
@@ -7475,7 +7475,7 @@ extension GetSAMLProviderInput {
     }
 }
 
-public struct GetSAMLProviderInput: Swift.Equatable {
+public struct GetSAMLProviderInput {
     /// The Amazon Resource Name (ARN) of the SAML provider resource object in IAM to get information about. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var samlProviderArn: Swift.String?
@@ -7505,7 +7505,7 @@ extension GetSAMLProviderOutput {
 }
 
 /// Contains the response to a successful [GetSAMLProvider] request.
-public struct GetSAMLProviderOutput: Swift.Equatable {
+public struct GetSAMLProviderOutput {
     /// The date and time when the SAML provider was created.
     public var createDate: ClientRuntime.Date?
     /// The XML metadata document that includes information about an identity provider.
@@ -7578,7 +7578,7 @@ extension GetSSHPublicKeyInput {
     }
 }
 
-public struct GetSSHPublicKeyInput: Swift.Equatable {
+public struct GetSSHPublicKeyInput {
     /// Specifies the public key encoding format to use in the response. To retrieve the public key in ssh-rsa format, use SSH. To retrieve the public key in PEM format, use PEM.
     /// This member is required.
     public var encoding: IAMClientTypes.EncodingType?
@@ -7615,7 +7615,7 @@ extension GetSSHPublicKeyOutput {
 }
 
 /// Contains the response to a successful [GetSSHPublicKey] request.
-public struct GetSSHPublicKeyOutput: Swift.Equatable {
+public struct GetSSHPublicKeyOutput {
     /// A structure containing details about the SSH public key.
     public var sshPublicKey: IAMClientTypes.SSHPublicKey?
 
@@ -7667,7 +7667,7 @@ extension GetServerCertificateInput {
     }
 }
 
-public struct GetServerCertificateInput: Swift.Equatable {
+public struct GetServerCertificateInput {
     /// The name of the server certificate you want to retrieve information about. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var serverCertificateName: Swift.String?
@@ -7694,7 +7694,7 @@ extension GetServerCertificateOutput {
 }
 
 /// Contains the response to a successful [GetServerCertificate] request.
-public struct GetServerCertificateOutput: Swift.Equatable {
+public struct GetServerCertificateOutput {
     /// A structure containing details about the server certificate.
     /// This member is required.
     public var serverCertificate: IAMClientTypes.ServerCertificate?
@@ -7755,7 +7755,7 @@ extension GetServiceLastAccessedDetailsInput {
     }
 }
 
-public struct GetServiceLastAccessedDetailsInput: Swift.Equatable {
+public struct GetServiceLastAccessedDetailsInput {
     /// The ID of the request generated by the [GenerateServiceLastAccessedDetails] operation. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
     /// This member is required.
     public var jobId: Swift.String?
@@ -7796,7 +7796,7 @@ extension GetServiceLastAccessedDetailsOutput {
     }
 }
 
-public struct GetServiceLastAccessedDetailsOutput: Swift.Equatable {
+public struct GetServiceLastAccessedDetailsOutput {
     /// An object that contains details about the reason the operation failed.
     public var error: IAMClientTypes.ErrorDetails?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -7892,7 +7892,7 @@ extension GetServiceLastAccessedDetailsWithEntitiesInput {
     }
 }
 
-public struct GetServiceLastAccessedDetailsWithEntitiesInput: Swift.Equatable {
+public struct GetServiceLastAccessedDetailsWithEntitiesInput {
     /// The ID of the request generated by the GenerateServiceLastAccessedDetails operation.
     /// This member is required.
     public var jobId: Swift.String?
@@ -7937,7 +7937,7 @@ extension GetServiceLastAccessedDetailsWithEntitiesOutput {
     }
 }
 
-public struct GetServiceLastAccessedDetailsWithEntitiesOutput: Swift.Equatable {
+public struct GetServiceLastAccessedDetailsWithEntitiesOutput {
     /// An EntityDetailsList object that contains details about when an IAM entity (user or role) used group or policy permissions in an attempt to access the specified Amazon Web Services service.
     /// This member is required.
     public var entityDetailsList: [IAMClientTypes.EntityDetails]?
@@ -8017,7 +8017,7 @@ extension GetServiceLinkedRoleDeletionStatusInput {
     }
 }
 
-public struct GetServiceLinkedRoleDeletionStatusInput: Swift.Equatable {
+public struct GetServiceLinkedRoleDeletionStatusInput {
     /// The deletion task identifier. This identifier is returned by the [DeleteServiceLinkedRole] operation in the format task/aws-service-role///.
     /// This member is required.
     public var deletionTaskId: Swift.String?
@@ -8044,7 +8044,7 @@ extension GetServiceLinkedRoleDeletionStatusOutput {
     }
 }
 
-public struct GetServiceLinkedRoleDeletionStatusOutput: Swift.Equatable {
+public struct GetServiceLinkedRoleDeletionStatusOutput {
     /// An object that contains details about the reason the deletion failed.
     public var reason: IAMClientTypes.DeletionTaskFailureReasonType?
     /// The status of the deletion.
@@ -8102,7 +8102,7 @@ extension GetUserInput {
     }
 }
 
-public struct GetUserInput: Swift.Equatable {
+public struct GetUserInput {
     /// The name of the user to get information about. This parameter is optional. If it is not included, it defaults to the user making the request. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     public var userName: Swift.String?
 
@@ -8128,7 +8128,7 @@ extension GetUserOutput {
 }
 
 /// Contains the response to a successful [GetUser] request.
-public struct GetUserOutput: Swift.Equatable {
+public struct GetUserOutput {
     /// A structure containing details about the IAM user. Due to a service issue, password last used data does not include password use from May 3, 2018 22:50 PDT to May 23, 2018 14:08 PDT. This affects [last sign-in](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_finding-unused.html) dates shown in the IAM console and password last used dates in the [IAM credential report](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html), and returned by this operation. If users signed in during the affected time, the password last used date that is returned is the date the user last signed in before May 3, 2018. For users that signed in after May 23, 2018 14:08 PDT, the returned password last used date is accurate. You can use password last used information to identify unused credentials for deletion. For example, you might delete users who did not sign in to Amazon Web Services in the last 90 days. In cases like this, we recommend that you adjust your evaluation window to include dates after May 23, 2018. Alternatively, if your users use access keys to access Amazon Web Services programmatically you can refer to access key last used information because it is accurate for all dates.
     /// This member is required.
     public var user: IAMClientTypes.User?
@@ -8185,7 +8185,7 @@ extension GetUserPolicyInput {
     }
 }
 
-public struct GetUserPolicyInput: Swift.Equatable {
+public struct GetUserPolicyInput {
     /// The name of the policy document to get. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var policyName: Swift.String?
@@ -8219,7 +8219,7 @@ extension GetUserPolicyOutput {
 }
 
 /// Contains the response to a successful [GetUserPolicy] request.
-public struct GetUserPolicyOutput: Swift.Equatable {
+public struct GetUserPolicyOutput {
     /// The policy document. IAM stores policies in JSON format. However, resources that were created using CloudFormation templates can be formatted in YAML. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
     /// This member is required.
     public var policyDocument: Swift.String?
@@ -8342,7 +8342,7 @@ extension IAMClientTypes {
     /// * [GetGroup]
     ///
     /// * [ListGroups]
-    public struct Group: Swift.Equatable {
+    public struct Group {
         /// The Amazon Resource Name (ARN) specifying the group. For more information about ARNs and how to use them in policies, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
         public var arn: Swift.String?
@@ -8449,7 +8449,7 @@ extension IAMClientTypes.GroupDetail: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an IAM group, including all of the group's policies. This data type is used as a response element in the [GetAccountAuthorizationDetails] operation.
-    public struct GroupDetail: Swift.Equatable {
+    public struct GroupDetail {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// A list of the managed policies attached to the group.
@@ -8569,7 +8569,7 @@ extension IAMClientTypes {
     /// * [ListInstanceProfiles]
     ///
     /// * [ListInstanceProfilesForRole]
-    public struct InstanceProfile: Swift.Equatable {
+    public struct InstanceProfile {
         /// The Amazon Resource Name (ARN) specifying the instance profile. For more information about ARNs and how to use them in policies, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
         public var arn: Swift.String?
@@ -8930,7 +8930,7 @@ extension ListAccessKeysInput {
     }
 }
 
-public struct ListAccessKeysInput: Swift.Equatable {
+public struct ListAccessKeysInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -8966,7 +8966,7 @@ extension ListAccessKeysOutput {
 }
 
 /// Contains the response to a successful [ListAccessKeys] request.
-public struct ListAccessKeysOutput: Swift.Equatable {
+public struct ListAccessKeysOutput {
     /// A list of objects containing metadata about the access keys.
     /// This member is required.
     public var accessKeyMetadata: [IAMClientTypes.AccessKeyMetadata]?
@@ -9031,7 +9031,7 @@ extension ListAccountAliasesInput {
     }
 }
 
-public struct ListAccountAliasesInput: Swift.Equatable {
+public struct ListAccountAliasesInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -9063,7 +9063,7 @@ extension ListAccountAliasesOutput {
 }
 
 /// Contains the response to a successful [ListAccountAliases] request.
-public struct ListAccountAliasesOutput: Swift.Equatable {
+public struct ListAccountAliasesOutput {
     /// A list of aliases associated with the account. Amazon Web Services supports only one alias per account.
     /// This member is required.
     public var accountAliases: [Swift.String]?
@@ -9135,7 +9135,7 @@ extension ListAttachedGroupPoliciesInput {
     }
 }
 
-public struct ListAttachedGroupPoliciesInput: Swift.Equatable {
+public struct ListAttachedGroupPoliciesInput {
     /// The name (friendly name, not ARN) of the group to list attached policies for. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var groupName: Swift.String?
@@ -9176,7 +9176,7 @@ extension ListAttachedGroupPoliciesOutput {
 }
 
 /// Contains the response to a successful [ListAttachedGroupPolicies] request.
-public struct ListAttachedGroupPoliciesOutput: Swift.Equatable {
+public struct ListAttachedGroupPoliciesOutput {
     /// A list of the attached policies.
     public var attachedPolicies: [IAMClientTypes.AttachedPolicy]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -9249,7 +9249,7 @@ extension ListAttachedRolePoliciesInput {
     }
 }
 
-public struct ListAttachedRolePoliciesInput: Swift.Equatable {
+public struct ListAttachedRolePoliciesInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -9290,7 +9290,7 @@ extension ListAttachedRolePoliciesOutput {
 }
 
 /// Contains the response to a successful [ListAttachedRolePolicies] request.
-public struct ListAttachedRolePoliciesOutput: Swift.Equatable {
+public struct ListAttachedRolePoliciesOutput {
     /// A list of the attached policies.
     public var attachedPolicies: [IAMClientTypes.AttachedPolicy]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -9363,7 +9363,7 @@ extension ListAttachedUserPoliciesInput {
     }
 }
 
-public struct ListAttachedUserPoliciesInput: Swift.Equatable {
+public struct ListAttachedUserPoliciesInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -9404,7 +9404,7 @@ extension ListAttachedUserPoliciesOutput {
 }
 
 /// Contains the response to a successful [ListAttachedUserPolicies] request.
-public struct ListAttachedUserPoliciesOutput: Swift.Equatable {
+public struct ListAttachedUserPoliciesOutput {
     /// A list of the attached policies.
     public var attachedPolicies: [IAMClientTypes.AttachedPolicy]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -9485,7 +9485,7 @@ extension ListEntitiesForPolicyInput {
     }
 }
 
-public struct ListEntitiesForPolicyInput: Swift.Equatable {
+public struct ListEntitiesForPolicyInput {
     /// The entity type to use for filtering the results. For example, when EntityFilter is Role, only the roles that are attached to the specified policy are returned. This parameter is optional. If it is not included, all attached entities (users, groups, and roles) are returned. The argument for this parameter must be one of the valid values listed below.
     public var entityFilter: IAMClientTypes.EntityType?
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
@@ -9536,7 +9536,7 @@ extension ListEntitiesForPolicyOutput {
 }
 
 /// Contains the response to a successful [ListEntitiesForPolicy] request.
-public struct ListEntitiesForPolicyOutput: Swift.Equatable {
+public struct ListEntitiesForPolicyOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -9613,7 +9613,7 @@ extension ListGroupPoliciesInput {
     }
 }
 
-public struct ListGroupPoliciesInput: Swift.Equatable {
+public struct ListGroupPoliciesInput {
     /// The name of the group to list policies for. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var groupName: Swift.String?
@@ -9650,7 +9650,7 @@ extension ListGroupPoliciesOutput {
 }
 
 /// Contains the response to a successful [ListGroupPolicies] request.
-public struct ListGroupPoliciesOutput: Swift.Equatable {
+public struct ListGroupPoliciesOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -9719,7 +9719,7 @@ extension ListGroupsForUserInput {
     }
 }
 
-public struct ListGroupsForUserInput: Swift.Equatable {
+public struct ListGroupsForUserInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -9756,7 +9756,7 @@ extension ListGroupsForUserOutput {
 }
 
 /// Contains the response to a successful [ListGroupsForUser] request.
-public struct ListGroupsForUserOutput: Swift.Equatable {
+public struct ListGroupsForUserOutput {
     /// A list of groups.
     /// This member is required.
     public var groups: [IAMClientTypes.Group]?
@@ -9825,7 +9825,7 @@ extension ListGroupsInput {
     }
 }
 
-public struct ListGroupsInput: Swift.Equatable {
+public struct ListGroupsInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -9861,7 +9861,7 @@ extension ListGroupsOutput {
 }
 
 /// Contains the response to a successful [ListGroups] request.
-public struct ListGroupsOutput: Swift.Equatable {
+public struct ListGroupsOutput {
     /// A list of groups.
     /// This member is required.
     public var groups: [IAMClientTypes.Group]?
@@ -9929,7 +9929,7 @@ extension ListInstanceProfileTagsInput {
     }
 }
 
-public struct ListInstanceProfileTagsInput: Swift.Equatable {
+public struct ListInstanceProfileTagsInput {
     /// The name of the IAM instance profile whose tags you want to see. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var instanceProfileName: Swift.String?
@@ -9965,7 +9965,7 @@ extension ListInstanceProfileTagsOutput {
     }
 }
 
-public struct ListInstanceProfileTagsOutput: Swift.Equatable {
+public struct ListInstanceProfileTagsOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -10034,7 +10034,7 @@ extension ListInstanceProfilesForRoleInput {
     }
 }
 
-public struct ListInstanceProfilesForRoleInput: Swift.Equatable {
+public struct ListInstanceProfilesForRoleInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -10071,7 +10071,7 @@ extension ListInstanceProfilesForRoleOutput {
 }
 
 /// Contains the response to a successful [ListInstanceProfilesForRole] request.
-public struct ListInstanceProfilesForRoleOutput: Swift.Equatable {
+public struct ListInstanceProfilesForRoleOutput {
     /// A list of instance profiles.
     /// This member is required.
     public var instanceProfiles: [IAMClientTypes.InstanceProfile]?
@@ -10140,7 +10140,7 @@ extension ListInstanceProfilesInput {
     }
 }
 
-public struct ListInstanceProfilesInput: Swift.Equatable {
+public struct ListInstanceProfilesInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -10176,7 +10176,7 @@ extension ListInstanceProfilesOutput {
 }
 
 /// Contains the response to a successful [ListInstanceProfiles] request.
-public struct ListInstanceProfilesOutput: Swift.Equatable {
+public struct ListInstanceProfilesOutput {
     /// A list of instance profiles.
     /// This member is required.
     public var instanceProfiles: [IAMClientTypes.InstanceProfile]?
@@ -10244,7 +10244,7 @@ extension ListMFADeviceTagsInput {
     }
 }
 
-public struct ListMFADeviceTagsInput: Swift.Equatable {
+public struct ListMFADeviceTagsInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -10280,7 +10280,7 @@ extension ListMFADeviceTagsOutput {
     }
 }
 
-public struct ListMFADeviceTagsOutput: Swift.Equatable {
+public struct ListMFADeviceTagsOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -10350,7 +10350,7 @@ extension ListMFADevicesInput {
     }
 }
 
-public struct ListMFADevicesInput: Swift.Equatable {
+public struct ListMFADevicesInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -10386,7 +10386,7 @@ extension ListMFADevicesOutput {
 }
 
 /// Contains the response to a successful [ListMFADevices] request.
-public struct ListMFADevicesOutput: Swift.Equatable {
+public struct ListMFADevicesOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -10455,7 +10455,7 @@ extension ListOpenIDConnectProviderTagsInput {
     }
 }
 
-public struct ListOpenIDConnectProviderTagsInput: Swift.Equatable {
+public struct ListOpenIDConnectProviderTagsInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -10491,7 +10491,7 @@ extension ListOpenIDConnectProviderTagsOutput {
     }
 }
 
-public struct ListOpenIDConnectProviderTagsOutput: Swift.Equatable {
+public struct ListOpenIDConnectProviderTagsOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -10547,7 +10547,7 @@ extension ListOpenIDConnectProvidersInput {
     }
 }
 
-public struct ListOpenIDConnectProvidersInput: Swift.Equatable {
+public struct ListOpenIDConnectProvidersInput {
 
     public init() { }
 }
@@ -10566,7 +10566,7 @@ extension ListOpenIDConnectProvidersOutput {
 }
 
 /// Contains the response to a successful [ListOpenIDConnectProviders] request.
-public struct ListOpenIDConnectProvidersOutput: Swift.Equatable {
+public struct ListOpenIDConnectProvidersOutput {
     /// The list of IAM OIDC provider resource objects defined in the Amazon Web Services account.
     public var openIDConnectProviderList: [IAMClientTypes.OpenIDConnectProviderListEntry]?
 
@@ -10633,7 +10633,7 @@ extension IAMClientTypes.ListPoliciesGrantingServiceAccessEntry: Swift.Encodable
 
 extension IAMClientTypes {
     /// Contains details about the permissions policies that are attached to the specified identity (user, group, or role). This data type is used as a response element in the [ListPoliciesGrantingServiceAccess] operation.
-    public struct ListPoliciesGrantingServiceAccessEntry: Swift.Equatable {
+    public struct ListPoliciesGrantingServiceAccessEntry {
         /// The PoliciesGrantingServiceAccess object that contains details about the policy.
         public var policies: [IAMClientTypes.PolicyGrantingServiceAccess]?
         /// The namespace of the service that was accessed. To learn the service namespace of a service, see [Actions, resources, and condition keys for Amazon Web Services services](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html) in the Service Authorization Reference. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see [Amazon Web Services service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces) in the Amazon Web Services General Reference.
@@ -10690,7 +10690,7 @@ extension ListPoliciesGrantingServiceAccessInput {
     }
 }
 
-public struct ListPoliciesGrantingServiceAccessInput: Swift.Equatable {
+public struct ListPoliciesGrantingServiceAccessInput {
     /// The ARN of the IAM identity (user, group, or role) whose policies you want to list.
     /// This member is required.
     public var arn: Swift.String?
@@ -10727,7 +10727,7 @@ extension ListPoliciesGrantingServiceAccessOutput {
     }
 }
 
-public struct ListPoliciesGrantingServiceAccessOutput: Swift.Equatable {
+public struct ListPoliciesGrantingServiceAccessOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -10808,7 +10808,7 @@ extension ListPoliciesInput {
     }
 }
 
-public struct ListPoliciesInput: Swift.Equatable {
+public struct ListPoliciesInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -10856,7 +10856,7 @@ extension ListPoliciesOutput {
 }
 
 /// Contains the response to a successful [ListPolicies] request.
-public struct ListPoliciesOutput: Swift.Equatable {
+public struct ListPoliciesOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -10923,7 +10923,7 @@ extension ListPolicyTagsInput {
     }
 }
 
-public struct ListPolicyTagsInput: Swift.Equatable {
+public struct ListPolicyTagsInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -10959,7 +10959,7 @@ extension ListPolicyTagsOutput {
     }
 }
 
-public struct ListPolicyTagsOutput: Swift.Equatable {
+public struct ListPolicyTagsOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -11029,7 +11029,7 @@ extension ListPolicyVersionsInput {
     }
 }
 
-public struct ListPolicyVersionsInput: Swift.Equatable {
+public struct ListPolicyVersionsInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -11066,7 +11066,7 @@ extension ListPolicyVersionsOutput {
 }
 
 /// Contains the response to a successful [ListPolicyVersions] request.
-public struct ListPolicyVersionsOutput: Swift.Equatable {
+public struct ListPolicyVersionsOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -11135,7 +11135,7 @@ extension ListRolePoliciesInput {
     }
 }
 
-public struct ListRolePoliciesInput: Swift.Equatable {
+public struct ListRolePoliciesInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -11172,7 +11172,7 @@ extension ListRolePoliciesOutput {
 }
 
 /// Contains the response to a successful [ListRolePolicies] request.
-public struct ListRolePoliciesOutput: Swift.Equatable {
+public struct ListRolePoliciesOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -11241,7 +11241,7 @@ extension ListRoleTagsInput {
     }
 }
 
-public struct ListRoleTagsInput: Swift.Equatable {
+public struct ListRoleTagsInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -11277,7 +11277,7 @@ extension ListRoleTagsOutput {
     }
 }
 
-public struct ListRoleTagsOutput: Swift.Equatable {
+public struct ListRoleTagsOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -11346,7 +11346,7 @@ extension ListRolesInput {
     }
 }
 
-public struct ListRolesInput: Swift.Equatable {
+public struct ListRolesInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -11382,7 +11382,7 @@ extension ListRolesOutput {
 }
 
 /// Contains the response to a successful [ListRoles] request.
-public struct ListRolesOutput: Swift.Equatable {
+public struct ListRolesOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -11450,7 +11450,7 @@ extension ListSAMLProviderTagsInput {
     }
 }
 
-public struct ListSAMLProviderTagsInput: Swift.Equatable {
+public struct ListSAMLProviderTagsInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -11486,7 +11486,7 @@ extension ListSAMLProviderTagsOutput {
     }
 }
 
-public struct ListSAMLProviderTagsOutput: Swift.Equatable {
+public struct ListSAMLProviderTagsOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -11542,7 +11542,7 @@ extension ListSAMLProvidersInput {
     }
 }
 
-public struct ListSAMLProvidersInput: Swift.Equatable {
+public struct ListSAMLProvidersInput {
 
     public init() { }
 }
@@ -11561,7 +11561,7 @@ extension ListSAMLProvidersOutput {
 }
 
 /// Contains the response to a successful [ListSAMLProviders] request.
-public struct ListSAMLProvidersOutput: Swift.Equatable {
+public struct ListSAMLProvidersOutput {
     /// The list of SAML provider resource objects defined in IAM for this Amazon Web Services account.
     public var samlProviderList: [IAMClientTypes.SAMLProviderListEntry]?
 
@@ -11620,7 +11620,7 @@ extension ListSSHPublicKeysInput {
     }
 }
 
-public struct ListSSHPublicKeysInput: Swift.Equatable {
+public struct ListSSHPublicKeysInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -11656,7 +11656,7 @@ extension ListSSHPublicKeysOutput {
 }
 
 /// Contains the response to a successful [ListSSHPublicKeys] request.
-public struct ListSSHPublicKeysOutput: Swift.Equatable {
+public struct ListSSHPublicKeysOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -11723,7 +11723,7 @@ extension ListServerCertificateTagsInput {
     }
 }
 
-public struct ListServerCertificateTagsInput: Swift.Equatable {
+public struct ListServerCertificateTagsInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -11759,7 +11759,7 @@ extension ListServerCertificateTagsOutput {
     }
 }
 
-public struct ListServerCertificateTagsOutput: Swift.Equatable {
+public struct ListServerCertificateTagsOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -11828,7 +11828,7 @@ extension ListServerCertificatesInput {
     }
 }
 
-public struct ListServerCertificatesInput: Swift.Equatable {
+public struct ListServerCertificatesInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -11864,7 +11864,7 @@ extension ListServerCertificatesOutput {
 }
 
 /// Contains the response to a successful [ListServerCertificates] request.
-public struct ListServerCertificatesOutput: Swift.Equatable {
+public struct ListServerCertificatesOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -11928,7 +11928,7 @@ extension ListServiceSpecificCredentialsInput {
     }
 }
 
-public struct ListServiceSpecificCredentialsInput: Swift.Equatable {
+public struct ListServiceSpecificCredentialsInput {
     /// Filters the returned results to only those for the specified Amazon Web Services service. If not specified, then Amazon Web Services returns service-specific credentials for all services.
     public var serviceName: Swift.String?
     /// The name of the user whose service-specific credentials you want information about. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
@@ -11957,7 +11957,7 @@ extension ListServiceSpecificCredentialsOutput {
     }
 }
 
-public struct ListServiceSpecificCredentialsOutput: Swift.Equatable {
+public struct ListServiceSpecificCredentialsOutput {
     /// A list of structures that each contain details about a service-specific credential.
     public var serviceSpecificCredentials: [IAMClientTypes.ServiceSpecificCredentialMetadata]?
 
@@ -12017,7 +12017,7 @@ extension ListSigningCertificatesInput {
     }
 }
 
-public struct ListSigningCertificatesInput: Swift.Equatable {
+public struct ListSigningCertificatesInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -12053,7 +12053,7 @@ extension ListSigningCertificatesOutput {
 }
 
 /// Contains the response to a successful [ListSigningCertificates] request.
-public struct ListSigningCertificatesOutput: Swift.Equatable {
+public struct ListSigningCertificatesOutput {
     /// A list of the user's signing certificate information.
     /// This member is required.
     public var certificates: [IAMClientTypes.SigningCertificate]?
@@ -12122,7 +12122,7 @@ extension ListUserPoliciesInput {
     }
 }
 
-public struct ListUserPoliciesInput: Swift.Equatable {
+public struct ListUserPoliciesInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -12159,7 +12159,7 @@ extension ListUserPoliciesOutput {
 }
 
 /// Contains the response to a successful [ListUserPolicies] request.
-public struct ListUserPoliciesOutput: Swift.Equatable {
+public struct ListUserPoliciesOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -12228,7 +12228,7 @@ extension ListUserTagsInput {
     }
 }
 
-public struct ListUserTagsInput: Swift.Equatable {
+public struct ListUserTagsInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -12264,7 +12264,7 @@ extension ListUserTagsOutput {
     }
 }
 
-public struct ListUserTagsOutput: Swift.Equatable {
+public struct ListUserTagsOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -12333,7 +12333,7 @@ extension ListUsersInput {
     }
 }
 
-public struct ListUsersInput: Swift.Equatable {
+public struct ListUsersInput {
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
@@ -12369,7 +12369,7 @@ extension ListUsersOutput {
 }
 
 /// Contains the response to a successful [ListUsers] request.
-public struct ListUsersOutput: Swift.Equatable {
+public struct ListUsersOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -12437,7 +12437,7 @@ extension ListVirtualMFADevicesInput {
     }
 }
 
-public struct ListVirtualMFADevicesInput: Swift.Equatable {
+public struct ListVirtualMFADevicesInput {
     /// The status (Unassigned or Assigned) of the devices to list. If you do not specify an AssignmentStatus, the operation defaults to Any, which lists both assigned and unassigned virtual MFA devices.,
     public var assignmentStatus: IAMClientTypes.AssignmentStatusType?
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
@@ -12473,7 +12473,7 @@ extension ListVirtualMFADevicesOutput {
 }
 
 /// Contains the response to a successful [ListVirtualMFADevices] request.
-public struct ListVirtualMFADevicesOutput: Swift.Equatable {
+public struct ListVirtualMFADevicesOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
@@ -12544,7 +12544,7 @@ extension IAMClientTypes.LoginProfile: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains the user name and password create date for a user. This data type is used as a response element in the [CreateLoginProfile] and [GetLoginProfile] operations.
-    public struct LoginProfile: Swift.Equatable {
+    public struct LoginProfile {
         /// The date when the password for the user was created.
         /// This member is required.
         public var createDate: ClientRuntime.Date?
@@ -12602,7 +12602,7 @@ extension IAMClientTypes.MFADevice: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an MFA device. This data type is used as a response element in the [ListMFADevices] operation.
-    public struct MFADevice: Swift.Equatable {
+    public struct MFADevice {
         /// The date when the MFA device was enabled for the user.
         /// This member is required.
         public var enableDate: ClientRuntime.Date?
@@ -12787,7 +12787,7 @@ extension IAMClientTypes.ManagedPolicyDetail: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about a managed policy, including the policy's ARN, versions, and the number of principal entities (users, groups, and roles) that the policy is attached to. This data type is used as a response element in the [GetAccountAuthorizationDetails] operation. For more information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
-    public struct ManagedPolicyDetail: Swift.Equatable {
+    public struct ManagedPolicyDetail {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The number of principal entities (users, groups, and roles) that the policy is attached to.
@@ -12905,7 +12905,7 @@ extension IAMClientTypes.OpenIDConnectProviderListEntry: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains the Amazon Resource Name (ARN) for an IAM OpenID Connect provider.
-    public struct OpenIDConnectProviderListEntry: Swift.Equatable {
+    public struct OpenIDConnectProviderListEntry {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
 
@@ -12979,7 +12979,7 @@ extension IAMClientTypes.OrganizationsDecisionDetail: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about the effect that Organizations has on a policy simulation.
-    public struct OrganizationsDecisionDetail: Swift.Equatable {
+    public struct OrganizationsDecisionDetail {
         /// Specifies whether the simulated operation is allowed by the Organizations service control policies that impact the simulated user's account.
         public var allowedByOrganizations: Swift.Bool
 
@@ -13062,7 +13062,7 @@ extension IAMClientTypes.PasswordPolicy: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about the account password policy. This data type is used as a response element in the [GetAccountPasswordPolicy] operation.
-    public struct PasswordPolicy: Swift.Equatable {
+    public struct PasswordPolicy {
         /// Specifies whether IAM users are allowed to change their own password. Gives IAM users permissions to iam:ChangePassword for only their user and to the iam:GetAccountPasswordPolicy action. This option does not attach a permissions policy to each user, rather the permissions are applied at the account-level for all users by IAM.
         public var allowUsersToChangePassword: Swift.Bool
         /// Indicates whether passwords in the account expire. Returns true if MaxPasswordAge contains a value greater than 0. Returns false if MaxPasswordAge is 0 or not present.
@@ -13201,7 +13201,7 @@ extension IAMClientTypes.PermissionsBoundaryDecisionDetail: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about the effect that a permissions boundary has on a policy simulation when the boundary is applied to an IAM entity.
-    public struct PermissionsBoundaryDecisionDetail: Swift.Equatable {
+    public struct PermissionsBoundaryDecisionDetail {
         /// Specifies whether an action is allowed by a permissions boundary that is applied to an IAM entity (user or role). A value of true means that the permissions boundary does not deny the action. This means that the policy includes an Allow statement that matches the request. In this case, if an identity-based policy also allows the action, the request is allowed. A value of false means that either the requested action is not allowed (implicitly denied) or that the action is explicitly denied by the permissions boundary. In both of these cases, the action is not allowed, regardless of the identity-based policy.
         public var allowedByPermissionsBoundary: Swift.Bool
 
@@ -13303,7 +13303,7 @@ extension IAMClientTypes.Policy: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about a managed policy. This data type is used as a response element in the [CreatePolicy], [GetPolicy], and [ListPolicies] operations. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
-    public struct Policy: Swift.Equatable {
+    public struct Policy {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The number of entities (users, groups, and roles) that the policy is attached to.
@@ -13390,7 +13390,7 @@ extension IAMClientTypes.PolicyDetail: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an IAM policy, including the policy document. This data type is used as a response element in the [GetAccountAuthorizationDetails] operation.
-    public struct PolicyDetail: Swift.Equatable {
+    public struct PolicyDetail {
         /// The policy document.
         public var policyDocument: Swift.String?
         /// The name of the policy.
@@ -13523,7 +13523,7 @@ extension IAMClientTypes.PolicyGrantingServiceAccess: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains details about the permissions policies that are attached to the specified identity (user, group, or role). This data type is an element of the [ListPoliciesGrantingServiceAccessEntry] object.
-    public struct PolicyGrantingServiceAccess: Swift.Equatable {
+    public struct PolicyGrantingServiceAccess {
         /// The name of the entity (user or role) to which the inline policy is attached. This field is null for managed policies. For more information about these policy types, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html) in the IAM User Guide.
         public var entityName: Swift.String?
         /// The type of entity (user or role) that used the policy to access the service to which the inline policy is attached. This field is null for managed policies. For more information about these policy types, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html) in the IAM User Guide.
@@ -13584,7 +13584,7 @@ extension IAMClientTypes.PolicyGroup: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about a group that a managed policy is attached to. This data type is used as a response element in the [ListEntitiesForPolicy] operation. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
-    public struct PolicyGroup: Swift.Equatable {
+    public struct PolicyGroup {
         /// The stable and unique string identifying the group. For more information about IDs, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
         public var groupId: Swift.String?
         /// The name (friendly name, not ARN) identifying the group.
@@ -13702,7 +13702,7 @@ extension IAMClientTypes.PolicyRole: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about a role that a managed policy is attached to. This data type is used as a response element in the [ListEntitiesForPolicy] operation. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
-    public struct PolicyRole: Swift.Equatable {
+    public struct PolicyRole {
         /// The stable and unique string identifying the role. For more information about IDs, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
         public var roleId: Swift.String?
         /// The name (friendly name, not ARN) identifying the role.
@@ -13896,7 +13896,7 @@ extension IAMClientTypes.PolicyUser: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about a user that a managed policy is attached to. This data type is used as a response element in the [ListEntitiesForPolicy] operation. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
-    public struct PolicyUser: Swift.Equatable {
+    public struct PolicyUser {
         /// The stable and unique string identifying the user. For more information about IDs, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
         public var userId: Swift.String?
         /// The name (friendly name, not ARN) identifying the user.
@@ -13953,7 +13953,7 @@ extension IAMClientTypes.PolicyVersion: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about a version of a managed policy. This data type is used as a response element in the [CreatePolicyVersion], [GetPolicyVersion], [ListPolicyVersions], and [GetAccountAuthorizationDetails] operations. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
-    public struct PolicyVersion: Swift.Equatable {
+    public struct PolicyVersion {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the policy version was created.
         public var createDate: ClientRuntime.Date?
         /// The policy document. The policy document is returned in the response to the [GetPolicyVersion] and [GetAccountAuthorizationDetails] operations. It is not returned in the response to the [CreatePolicyVersion] or [ListPolicyVersions] operations. The policy document returned in this structure is URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.
@@ -14008,7 +14008,7 @@ extension IAMClientTypes.Position: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains the row and column of a location of a Statement element in a policy document. This data type is used as a member of the [Statement] type.
-    public struct Position: Swift.Equatable {
+    public struct Position {
         /// The column in the line containing the specified position in the document.
         public var column: Swift.Int
         /// The line containing the specified position in the document.
@@ -14056,7 +14056,7 @@ extension PutGroupPolicyInput {
     }
 }
 
-public struct PutGroupPolicyInput: Swift.Equatable {
+public struct PutGroupPolicyInput {
     /// The name of the group to associate the policy with. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-.
     /// This member is required.
     public var groupName: Swift.String?
@@ -14094,7 +14094,7 @@ extension PutGroupPolicyOutput {
     }
 }
 
-public struct PutGroupPolicyOutput: Swift.Equatable {
+public struct PutGroupPolicyOutput {
 
     public init() { }
 }
@@ -14145,7 +14145,7 @@ extension PutRolePermissionsBoundaryInput {
     }
 }
 
-public struct PutRolePermissionsBoundaryInput: Swift.Equatable {
+public struct PutRolePermissionsBoundaryInput {
     /// The ARN of the managed policy that is used to set the permissions boundary for the role. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide. For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types) in the IAM User Guide.
     /// This member is required.
     public var permissionsBoundary: Swift.String?
@@ -14172,7 +14172,7 @@ extension PutRolePermissionsBoundaryOutput {
     }
 }
 
-public struct PutRolePermissionsBoundaryOutput: Swift.Equatable {
+public struct PutRolePermissionsBoundaryOutput {
 
     public init() { }
 }
@@ -14228,7 +14228,7 @@ extension PutRolePolicyInput {
     }
 }
 
-public struct PutRolePolicyInput: Swift.Equatable {
+public struct PutRolePolicyInput {
     /// The policy document. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -14266,7 +14266,7 @@ extension PutRolePolicyOutput {
     }
 }
 
-public struct PutRolePolicyOutput: Swift.Equatable {
+public struct PutRolePolicyOutput {
 
     public init() { }
 }
@@ -14318,7 +14318,7 @@ extension PutUserPermissionsBoundaryInput {
     }
 }
 
-public struct PutUserPermissionsBoundaryInput: Swift.Equatable {
+public struct PutUserPermissionsBoundaryInput {
     /// The ARN of the managed policy that is used to set the permissions boundary for the user. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide. For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types) in the IAM User Guide.
     /// This member is required.
     public var permissionsBoundary: Swift.String?
@@ -14345,7 +14345,7 @@ extension PutUserPermissionsBoundaryOutput {
     }
 }
 
-public struct PutUserPermissionsBoundaryOutput: Swift.Equatable {
+public struct PutUserPermissionsBoundaryOutput {
 
     public init() { }
 }
@@ -14400,7 +14400,7 @@ extension PutUserPolicyInput {
     }
 }
 
-public struct PutUserPolicyInput: Swift.Equatable {
+public struct PutUserPolicyInput {
     /// The policy document. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -14438,7 +14438,7 @@ extension PutUserPolicyOutput {
     }
 }
 
-public struct PutUserPolicyOutput: Swift.Equatable {
+public struct PutUserPolicyOutput {
 
     public init() { }
 }
@@ -14489,7 +14489,7 @@ extension RemoveClientIDFromOpenIDConnectProviderInput {
     }
 }
 
-public struct RemoveClientIDFromOpenIDConnectProviderInput: Swift.Equatable {
+public struct RemoveClientIDFromOpenIDConnectProviderInput {
     /// The client ID (also known as audience) to remove from the IAM OIDC provider resource. For more information about client IDs, see [CreateOpenIDConnectProvider].
     /// This member is required.
     public var clientID: Swift.String?
@@ -14516,7 +14516,7 @@ extension RemoveClientIDFromOpenIDConnectProviderOutput {
     }
 }
 
-public struct RemoveClientIDFromOpenIDConnectProviderOutput: Swift.Equatable {
+public struct RemoveClientIDFromOpenIDConnectProviderOutput {
 
     public init() { }
 }
@@ -14566,7 +14566,7 @@ extension RemoveRoleFromInstanceProfileInput {
     }
 }
 
-public struct RemoveRoleFromInstanceProfileInput: Swift.Equatable {
+public struct RemoveRoleFromInstanceProfileInput {
     /// The name of the instance profile to update. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var instanceProfileName: Swift.String?
@@ -14593,7 +14593,7 @@ extension RemoveRoleFromInstanceProfileOutput {
     }
 }
 
-public struct RemoveRoleFromInstanceProfileOutput: Swift.Equatable {
+public struct RemoveRoleFromInstanceProfileOutput {
 
     public init() { }
 }
@@ -14644,7 +14644,7 @@ extension RemoveUserFromGroupInput {
     }
 }
 
-public struct RemoveUserFromGroupInput: Swift.Equatable {
+public struct RemoveUserFromGroupInput {
     /// The name of the group to update. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var groupName: Swift.String?
@@ -14671,7 +14671,7 @@ extension RemoveUserFromGroupOutput {
     }
 }
 
-public struct RemoveUserFromGroupOutput: Swift.Equatable {
+public struct RemoveUserFromGroupOutput {
 
     public init() { }
 }
@@ -14821,7 +14821,7 @@ extension ResetServiceSpecificCredentialInput {
     }
 }
 
-public struct ResetServiceSpecificCredentialInput: Swift.Equatable {
+public struct ResetServiceSpecificCredentialInput {
     /// The unique identifier of the service-specific credential. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that can consist of any upper or lowercased letter or digit.
     /// This member is required.
     public var serviceSpecificCredentialId: Swift.String?
@@ -14851,7 +14851,7 @@ extension ResetServiceSpecificCredentialOutput {
     }
 }
 
-public struct ResetServiceSpecificCredentialOutput: Swift.Equatable {
+public struct ResetServiceSpecificCredentialOutput {
     /// A structure with details about the updated service-specific credential, including the new password. This is the only time that you can access the password. You cannot recover the password later, but you can reset it again.
     public var serviceSpecificCredential: IAMClientTypes.ServiceSpecificCredential?
 
@@ -14956,7 +14956,7 @@ extension IAMClientTypes.ResourceSpecificResult: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains the result of the simulation of a single API operation call on a single resource. This data type is used by a member of the [EvaluationResult] data type.
-    public struct ResourceSpecificResult: Swift.Equatable {
+    public struct ResourceSpecificResult {
         /// Additional details about the results of the evaluation decision on a single resource. This parameter is returned only for cross-account simulations. This parameter explains how each policy type contributes to the resource-specific evaluation decision.
         public var evalDecisionDetails: [Swift.String:IAMClientTypes.PolicyEvaluationDecisionType]?
         /// The result of the simulation of the simulated API operation on the resource specified in EvalResourceName.
@@ -15026,7 +15026,7 @@ extension ResyncMFADeviceInput {
     }
 }
 
-public struct ResyncMFADeviceInput: Swift.Equatable {
+public struct ResyncMFADeviceInput {
     /// An authentication code emitted by the device. The format for this parameter is a sequence of six digits.
     /// This member is required.
     public var authenticationCode1: Swift.String?
@@ -15063,7 +15063,7 @@ extension ResyncMFADeviceOutput {
     }
 }
 
-public struct ResyncMFADeviceOutput: Swift.Equatable {
+public struct ResyncMFADeviceOutput {
 
     public init() { }
 }
@@ -15172,7 +15172,7 @@ extension IAMClientTypes.Role: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an IAM role. This structure is returned as a response element in several API operations that interact with roles.
-    public struct Role: Swift.Equatable {
+    public struct Role {
         /// The Amazon Resource Name (ARN) specifying the role. For more information about ARNs and how to use them in policies, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide guide.
         /// This member is required.
         public var arn: Swift.String?
@@ -15346,7 +15346,7 @@ extension IAMClientTypes.RoleDetail: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an IAM role, including all of the role's policies. This data type is used as a response element in the [GetAccountAuthorizationDetails] operation.
-    public struct RoleDetail: Swift.Equatable {
+    public struct RoleDetail {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The trust policy that grants permission to assume the role.
@@ -15433,7 +15433,7 @@ extension IAMClientTypes.RoleLastUsed: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about the last time that an IAM role was used. This includes the date and time and the Region in which the role was last used. Activity is only reported for the trailing 400 days. This period can be shorter if your Region began supporting these features within the last year. The role might have been used more than 400 days ago. For more information, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM user Guide. This data type is returned as a response element in the [GetRole] and [GetAccountAuthorizationDetails] operations.
-    public struct RoleLastUsed: Swift.Equatable {
+    public struct RoleLastUsed {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601) that the role was last used. This field is null if the role has not been used within the IAM tracking period. For more information about the tracking period, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM User Guide.
         public var lastUsedDate: ClientRuntime.Date?
         /// The name of the Amazon Web Services Region in which the role was last used.
@@ -15489,7 +15489,7 @@ extension IAMClientTypes.RoleUsageType: Swift.Encodable {
 
 extension IAMClientTypes {
     /// An object that contains details about how a service-linked role is used, if that information is returned by the service. This data type is used as a response element in the [GetServiceLinkedRoleDeletionStatus] operation.
-    public struct RoleUsageType: Swift.Equatable {
+    public struct RoleUsageType {
         /// The name of the Region where the service-linked role is being used.
         public var region: Swift.String?
         /// The name of the resource that is using the service-linked role.
@@ -15541,7 +15541,7 @@ extension IAMClientTypes.SAMLProviderListEntry: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains the list of SAML providers for this account.
-    public struct SAMLProviderListEntry: Swift.Equatable {
+    public struct SAMLProviderListEntry {
         /// The Amazon Resource Name (ARN) of the SAML provider.
         public var arn: Swift.String?
         /// The date and time when the SAML provider was created.
@@ -15612,7 +15612,7 @@ extension IAMClientTypes.SSHPublicKey: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an SSH public key. This data type is used as a response element in the [GetSSHPublicKey] and [UploadSSHPublicKey] operations.
-    public struct SSHPublicKey: Swift.Equatable {
+    public struct SSHPublicKey {
         /// The MD5 message digest of the SSH public key.
         /// This member is required.
         public var fingerprint: Swift.String?
@@ -15690,7 +15690,7 @@ extension IAMClientTypes.SSHPublicKeyMetadata: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an SSH public key, without the key's body or fingerprint. This data type is used as a response element in the [ListSSHPublicKeys] operation.
-    public struct SSHPublicKeyMetadata: Swift.Equatable {
+    public struct SSHPublicKeyMetadata {
         /// The unique identifier for the SSH public key.
         /// This member is required.
         public var sshPublicKeyId: Swift.String?
@@ -15768,7 +15768,7 @@ extension IAMClientTypes.ServerCertificate: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about a server certificate. This data type is used as a response element in the [GetServerCertificate] operation.
-    public struct ServerCertificate: Swift.Equatable {
+    public struct ServerCertificate {
         /// The contents of the public key certificate.
         /// This member is required.
         public var certificateBody: Swift.String?
@@ -15845,7 +15845,7 @@ extension IAMClientTypes.ServerCertificateMetadata: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about a server certificate without its certificate body, certificate chain, and private key. This data type is used as a response element in the [UploadServerCertificate] and [ListServerCertificates] operations.
-    public struct ServerCertificateMetadata: Swift.Equatable {
+    public struct ServerCertificateMetadata {
         /// The Amazon Resource Name (ARN) specifying the server certificate. For more information about ARNs and how to use them in policies, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
         public var arn: Swift.String?
@@ -15982,7 +15982,7 @@ extension IAMClientTypes.ServiceLastAccessed: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains details about the most recent attempt to access the service. This data type is used as a response element in the [GetServiceLastAccessedDetails] operation.
-    public struct ServiceLastAccessed: Swift.Equatable {
+    public struct ServiceLastAccessed {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when an authenticated entity most recently attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
         public var lastAuthenticated: ClientRuntime.Date?
         /// The ARN of the authenticated entity (user or role) that last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
@@ -16117,7 +16117,7 @@ extension IAMClientTypes.ServiceSpecificCredential: Swift.CustomDebugStringConve
 
 extension IAMClientTypes {
     /// Contains the details of a service-specific credential.
-    public struct ServiceSpecificCredential: Swift.Equatable {
+    public struct ServiceSpecificCredential {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the service-specific credential were created.
         /// This member is required.
         public var createDate: ClientRuntime.Date?
@@ -16211,7 +16211,7 @@ extension IAMClientTypes.ServiceSpecificCredentialMetadata: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains additional details about a service-specific credential.
-    public struct ServiceSpecificCredentialMetadata: Swift.Equatable {
+    public struct ServiceSpecificCredentialMetadata {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the service-specific credential were created.
         /// This member is required.
         public var createDate: ClientRuntime.Date?
@@ -16277,7 +16277,7 @@ extension SetDefaultPolicyVersionInput {
     }
 }
 
-public struct SetDefaultPolicyVersionInput: Swift.Equatable {
+public struct SetDefaultPolicyVersionInput {
     /// The Amazon Resource Name (ARN) of the IAM policy whose default version you want to set. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var policyArn: Swift.String?
@@ -16304,7 +16304,7 @@ extension SetDefaultPolicyVersionOutput {
     }
 }
 
-public struct SetDefaultPolicyVersionOutput: Swift.Equatable {
+public struct SetDefaultPolicyVersionOutput {
 
     public init() { }
 }
@@ -16351,7 +16351,7 @@ extension SetSecurityTokenServicePreferencesInput {
     }
 }
 
-public struct SetSecurityTokenServicePreferencesInput: Swift.Equatable {
+public struct SetSecurityTokenServicePreferencesInput {
     /// The version of the global endpoint token. Version 1 tokens are valid only in Amazon Web Services Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see [Activating and deactivating STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
     /// This member is required.
     public var globalEndpointTokenVersion: IAMClientTypes.GlobalEndpointTokenVersion?
@@ -16373,7 +16373,7 @@ extension SetSecurityTokenServicePreferencesOutput {
     }
 }
 
-public struct SetSecurityTokenServicePreferencesOutput: Swift.Equatable {
+public struct SetSecurityTokenServicePreferencesOutput {
 
     public init() { }
 }
@@ -16439,7 +16439,7 @@ extension IAMClientTypes.SigningCertificate: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an X.509 signing certificate. This data type is used as a response element in the [UploadSigningCertificate] and [ListSigningCertificates] operations.
-    public struct SigningCertificate: Swift.Equatable {
+    public struct SigningCertificate {
         /// The contents of the signing certificate.
         /// This member is required.
         public var certificateBody: Swift.String?
@@ -16580,7 +16580,7 @@ extension SimulateCustomPolicyInput {
     }
 }
 
-public struct SimulateCustomPolicyInput: Swift.Equatable {
+public struct SimulateCustomPolicyInput {
     /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated against each resource. Each operation must include the service identifier, such as iam:CreateUser. This operation does not support using wildcards (*) in an action name.
     /// This member is required.
     public var actionNames: [Swift.String]?
@@ -16679,7 +16679,7 @@ extension SimulateCustomPolicyOutput {
 }
 
 /// Contains the response to a successful [SimulatePrincipalPolicy] or [SimulateCustomPolicy] request.
-public struct SimulateCustomPolicyOutput: Swift.Equatable {
+public struct SimulateCustomPolicyOutput {
     /// The results of the simulation.
     public var evaluationResults: [IAMClientTypes.EvaluationResult]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -16828,7 +16828,7 @@ extension SimulatePrincipalPolicyInput {
     }
 }
 
-public struct SimulatePrincipalPolicyInput: Swift.Equatable {
+public struct SimulatePrincipalPolicyInput {
     /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser.
     /// This member is required.
     public var actionNames: [Swift.String]?
@@ -16931,7 +16931,7 @@ extension SimulatePrincipalPolicyOutput {
 }
 
 /// Contains the response to a successful [SimulatePrincipalPolicy] or [SimulateCustomPolicy] request.
-public struct SimulatePrincipalPolicyOutput: Swift.Equatable {
+public struct SimulatePrincipalPolicyOutput {
     /// The results of the simulation.
     public var evaluationResults: [IAMClientTypes.EvaluationResult]?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -17047,7 +17047,7 @@ extension IAMClientTypes.Statement: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains a reference to a Statement element in a policy document that determines the result of the simulation. This data type is used by the MatchedStatements member of the [EvaluationResult] type.
-    public struct Statement: Swift.Equatable {
+    public struct Statement {
         /// The row and column of the end of a Statement in an IAM policy.
         public var endPosition: IAMClientTypes.Position?
         /// The identifier of the policy that was provided as an input.
@@ -17238,7 +17238,7 @@ extension IAMClientTypes.Tag: Swift.Encodable {
 
 extension IAMClientTypes {
     /// A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key name that can be used to look up or retrieve the associated value. For example, Department or Cost Center are common choices.
         /// This member is required.
         public var key: Swift.String?
@@ -17293,7 +17293,7 @@ extension TagInstanceProfileInput {
     }
 }
 
-public struct TagInstanceProfileInput: Swift.Equatable {
+public struct TagInstanceProfileInput {
     /// The name of the IAM instance profile to which you want to add tags. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var instanceProfileName: Swift.String?
@@ -17320,7 +17320,7 @@ extension TagInstanceProfileOutput {
     }
 }
 
-public struct TagInstanceProfileOutput: Swift.Equatable {
+public struct TagInstanceProfileOutput {
 
     public init() { }
 }
@@ -17381,7 +17381,7 @@ extension TagMFADeviceInput {
     }
 }
 
-public struct TagMFADeviceInput: Swift.Equatable {
+public struct TagMFADeviceInput {
     /// The unique identifier for the IAM virtual MFA device to which you want to add tags. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var serialNumber: Swift.String?
@@ -17408,7 +17408,7 @@ extension TagMFADeviceOutput {
     }
 }
 
-public struct TagMFADeviceOutput: Swift.Equatable {
+public struct TagMFADeviceOutput {
 
     public init() { }
 }
@@ -17469,7 +17469,7 @@ extension TagOpenIDConnectProviderInput {
     }
 }
 
-public struct TagOpenIDConnectProviderInput: Swift.Equatable {
+public struct TagOpenIDConnectProviderInput {
     /// The ARN of the OIDC identity provider in IAM to which you want to add tags. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var openIDConnectProviderArn: Swift.String?
@@ -17496,7 +17496,7 @@ extension TagOpenIDConnectProviderOutput {
     }
 }
 
-public struct TagOpenIDConnectProviderOutput: Swift.Equatable {
+public struct TagOpenIDConnectProviderOutput {
 
     public init() { }
 }
@@ -17557,7 +17557,7 @@ extension TagPolicyInput {
     }
 }
 
-public struct TagPolicyInput: Swift.Equatable {
+public struct TagPolicyInput {
     /// The ARN of the IAM customer managed policy to which you want to add tags. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var policyArn: Swift.String?
@@ -17584,7 +17584,7 @@ extension TagPolicyOutput {
     }
 }
 
-public struct TagPolicyOutput: Swift.Equatable {
+public struct TagPolicyOutput {
 
     public init() { }
 }
@@ -17645,7 +17645,7 @@ extension TagRoleInput {
     }
 }
 
-public struct TagRoleInput: Swift.Equatable {
+public struct TagRoleInput {
     /// The name of the IAM role to which you want to add tags. This parameter accepts (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var roleName: Swift.String?
@@ -17672,7 +17672,7 @@ extension TagRoleOutput {
     }
 }
 
-public struct TagRoleOutput: Swift.Equatable {
+public struct TagRoleOutput {
 
     public init() { }
 }
@@ -17733,7 +17733,7 @@ extension TagSAMLProviderInput {
     }
 }
 
-public struct TagSAMLProviderInput: Swift.Equatable {
+public struct TagSAMLProviderInput {
     /// The ARN of the SAML identity provider in IAM to which you want to add tags. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var samlProviderArn: Swift.String?
@@ -17760,7 +17760,7 @@ extension TagSAMLProviderOutput {
     }
 }
 
-public struct TagSAMLProviderOutput: Swift.Equatable {
+public struct TagSAMLProviderOutput {
 
     public init() { }
 }
@@ -17821,7 +17821,7 @@ extension TagServerCertificateInput {
     }
 }
 
-public struct TagServerCertificateInput: Swift.Equatable {
+public struct TagServerCertificateInput {
     /// The name of the IAM server certificate to which you want to add tags. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var serverCertificateName: Swift.String?
@@ -17848,7 +17848,7 @@ extension TagServerCertificateOutput {
     }
 }
 
-public struct TagServerCertificateOutput: Swift.Equatable {
+public struct TagServerCertificateOutput {
 
     public init() { }
 }
@@ -17909,7 +17909,7 @@ extension TagUserInput {
     }
 }
 
-public struct TagUserInput: Swift.Equatable {
+public struct TagUserInput {
     /// The list of tags that you want to attach to the IAM user. Each tag consists of a key name and an associated value.
     /// This member is required.
     public var tags: [IAMClientTypes.Tag]?
@@ -17936,7 +17936,7 @@ extension TagUserOutput {
     }
 }
 
-public struct TagUserOutput: Swift.Equatable {
+public struct TagUserOutput {
 
     public init() { }
 }
@@ -18001,7 +18001,7 @@ extension IAMClientTypes.TrackedActionLastAccessed: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains details about the most recent attempt to access an action within the service. This data type is used as a response element in the [GetServiceLastAccessedDetails] operation.
-    public struct TrackedActionLastAccessed: Swift.Equatable {
+    public struct TrackedActionLastAccessed {
         /// The name of the tracked action to which access was attempted. Tracked actions are actions that report activity to IAM.
         public var actionName: Swift.String?
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
@@ -18134,7 +18134,7 @@ extension UntagInstanceProfileInput {
     }
 }
 
-public struct UntagInstanceProfileInput: Swift.Equatable {
+public struct UntagInstanceProfileInput {
     /// The name of the IAM instance profile from which you want to remove tags. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var instanceProfileName: Swift.String?
@@ -18161,7 +18161,7 @@ extension UntagInstanceProfileOutput {
     }
 }
 
-public struct UntagInstanceProfileOutput: Swift.Equatable {
+public struct UntagInstanceProfileOutput {
 
     public init() { }
 }
@@ -18221,7 +18221,7 @@ extension UntagMFADeviceInput {
     }
 }
 
-public struct UntagMFADeviceInput: Swift.Equatable {
+public struct UntagMFADeviceInput {
     /// The unique identifier for the IAM virtual MFA device from which you want to remove tags. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var serialNumber: Swift.String?
@@ -18248,7 +18248,7 @@ extension UntagMFADeviceOutput {
     }
 }
 
-public struct UntagMFADeviceOutput: Swift.Equatable {
+public struct UntagMFADeviceOutput {
 
     public init() { }
 }
@@ -18308,7 +18308,7 @@ extension UntagOpenIDConnectProviderInput {
     }
 }
 
-public struct UntagOpenIDConnectProviderInput: Swift.Equatable {
+public struct UntagOpenIDConnectProviderInput {
     /// The ARN of the OIDC provider in IAM from which you want to remove tags. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var openIDConnectProviderArn: Swift.String?
@@ -18335,7 +18335,7 @@ extension UntagOpenIDConnectProviderOutput {
     }
 }
 
-public struct UntagOpenIDConnectProviderOutput: Swift.Equatable {
+public struct UntagOpenIDConnectProviderOutput {
 
     public init() { }
 }
@@ -18395,7 +18395,7 @@ extension UntagPolicyInput {
     }
 }
 
-public struct UntagPolicyInput: Swift.Equatable {
+public struct UntagPolicyInput {
     /// The ARN of the IAM customer managed policy from which you want to remove tags. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var policyArn: Swift.String?
@@ -18422,7 +18422,7 @@ extension UntagPolicyOutput {
     }
 }
 
-public struct UntagPolicyOutput: Swift.Equatable {
+public struct UntagPolicyOutput {
 
     public init() { }
 }
@@ -18482,7 +18482,7 @@ extension UntagRoleInput {
     }
 }
 
-public struct UntagRoleInput: Swift.Equatable {
+public struct UntagRoleInput {
     /// The name of the IAM role from which you want to remove tags. This parameter accepts (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var roleName: Swift.String?
@@ -18509,7 +18509,7 @@ extension UntagRoleOutput {
     }
 }
 
-public struct UntagRoleOutput: Swift.Equatable {
+public struct UntagRoleOutput {
 
     public init() { }
 }
@@ -18568,7 +18568,7 @@ extension UntagSAMLProviderInput {
     }
 }
 
-public struct UntagSAMLProviderInput: Swift.Equatable {
+public struct UntagSAMLProviderInput {
     /// The ARN of the SAML identity provider in IAM from which you want to remove tags. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var samlProviderArn: Swift.String?
@@ -18595,7 +18595,7 @@ extension UntagSAMLProviderOutput {
     }
 }
 
-public struct UntagSAMLProviderOutput: Swift.Equatable {
+public struct UntagSAMLProviderOutput {
 
     public init() { }
 }
@@ -18655,7 +18655,7 @@ extension UntagServerCertificateInput {
     }
 }
 
-public struct UntagServerCertificateInput: Swift.Equatable {
+public struct UntagServerCertificateInput {
     /// The name of the IAM server certificate from which you want to remove tags. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var serverCertificateName: Swift.String?
@@ -18682,7 +18682,7 @@ extension UntagServerCertificateOutput {
     }
 }
 
-public struct UntagServerCertificateOutput: Swift.Equatable {
+public struct UntagServerCertificateOutput {
 
     public init() { }
 }
@@ -18742,7 +18742,7 @@ extension UntagUserInput {
     }
 }
 
-public struct UntagUserInput: Swift.Equatable {
+public struct UntagUserInput {
     /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified user.
     /// This member is required.
     public var tagKeys: [Swift.String]?
@@ -18769,7 +18769,7 @@ extension UntagUserOutput {
     }
 }
 
-public struct UntagUserOutput: Swift.Equatable {
+public struct UntagUserOutput {
 
     public init() { }
 }
@@ -18823,7 +18823,7 @@ extension UpdateAccessKeyInput {
     }
 }
 
-public struct UpdateAccessKeyInput: Swift.Equatable {
+public struct UpdateAccessKeyInput {
     /// The access key ID of the secret access key you want to update. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that can consist of any upper or lowercased letter or digit.
     /// This member is required.
     public var accessKeyId: Swift.String?
@@ -18854,7 +18854,7 @@ extension UpdateAccessKeyOutput {
     }
 }
 
-public struct UpdateAccessKeyOutput: Swift.Equatable {
+public struct UpdateAccessKeyOutput {
 
     public init() { }
 }
@@ -18932,7 +18932,7 @@ extension UpdateAccountPasswordPolicyInput {
     }
 }
 
-public struct UpdateAccountPasswordPolicyInput: Swift.Equatable {
+public struct UpdateAccountPasswordPolicyInput {
     /// Allows all IAM users in your account to use the Amazon Web Services Management Console to change their own passwords. For more information, see [Permitting IAM users to change their own passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_enable-user-change.html) in the IAM User Guide. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users in the account do not automatically have permissions to change their own password.
     public var allowUsersToChangePassword: Swift.Bool?
     /// Prevents IAM users who are accessing the account via the Amazon Web Services Management Console from setting a new console password after their password has expired. The IAM user cannot access the console until an administrator resets the password. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users can change their passwords after they expire and continue to sign in as the user. In the Amazon Web Services Management Console, the custom password policy option Allow users to change their own password gives IAM users permissions to iam:ChangePassword for only their user and to the iam:GetAccountPasswordPolicy action. This option does not attach a permissions policy to each user, rather the permissions are applied at the account-level for all users by IAM. IAM users with iam:ChangePassword permission and active access keys can reset their own expired console password using the CLI or API.
@@ -18985,7 +18985,7 @@ extension UpdateAccountPasswordPolicyOutput {
     }
 }
 
-public struct UpdateAccountPasswordPolicyOutput: Swift.Equatable {
+public struct UpdateAccountPasswordPolicyOutput {
 
     public init() { }
 }
@@ -19036,7 +19036,7 @@ extension UpdateAssumeRolePolicyInput {
     }
 }
 
-public struct UpdateAssumeRolePolicyInput: Swift.Equatable {
+public struct UpdateAssumeRolePolicyInput {
     /// The policy that grants an entity permission to assume the role. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -19069,7 +19069,7 @@ extension UpdateAssumeRolePolicyOutput {
     }
 }
 
-public struct UpdateAssumeRolePolicyOutput: Swift.Equatable {
+public struct UpdateAssumeRolePolicyOutput {
 
     public init() { }
 }
@@ -19125,7 +19125,7 @@ extension UpdateGroupInput {
     }
 }
 
-public struct UpdateGroupInput: Swift.Equatable {
+public struct UpdateGroupInput {
     /// Name of the IAM group to update. If you're changing the name of the group, this is the original name. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var groupName: Swift.String?
@@ -19155,7 +19155,7 @@ extension UpdateGroupOutput {
     }
 }
 
-public struct UpdateGroupOutput: Swift.Equatable {
+public struct UpdateGroupOutput {
 
     public init() { }
 }
@@ -19215,7 +19215,7 @@ extension UpdateLoginProfileInput {
     }
 }
 
-public struct UpdateLoginProfileInput: Swift.Equatable {
+public struct UpdateLoginProfileInput {
     /// The new password for the specified IAM user. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -19254,7 +19254,7 @@ extension UpdateLoginProfileOutput {
     }
 }
 
-public struct UpdateLoginProfileOutput: Swift.Equatable {
+public struct UpdateLoginProfileOutput {
 
     public init() { }
 }
@@ -19315,7 +19315,7 @@ extension UpdateOpenIDConnectProviderThumbprintInput {
     }
 }
 
-public struct UpdateOpenIDConnectProviderThumbprintInput: Swift.Equatable {
+public struct UpdateOpenIDConnectProviderThumbprintInput {
     /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the [ListOpenIDConnectProviders] operation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var openIDConnectProviderArn: Swift.String?
@@ -19342,7 +19342,7 @@ extension UpdateOpenIDConnectProviderThumbprintOutput {
     }
 }
 
-public struct UpdateOpenIDConnectProviderThumbprintOutput: Swift.Equatable {
+public struct UpdateOpenIDConnectProviderThumbprintOutput {
 
     public init() { }
 }
@@ -19392,7 +19392,7 @@ extension UpdateRoleDescriptionInput {
     }
 }
 
-public struct UpdateRoleDescriptionInput: Swift.Equatable {
+public struct UpdateRoleDescriptionInput {
     /// The new description that you want to apply to the specified role.
     /// This member is required.
     public var description: Swift.String?
@@ -19423,7 +19423,7 @@ extension UpdateRoleDescriptionOutput {
     }
 }
 
-public struct UpdateRoleDescriptionOutput: Swift.Equatable {
+public struct UpdateRoleDescriptionOutput {
     /// A structure that contains details about the modified role.
     public var role: IAMClientTypes.Role?
 
@@ -19484,7 +19484,7 @@ extension UpdateRoleInput {
     }
 }
 
-public struct UpdateRoleInput: Swift.Equatable {
+public struct UpdateRoleInput {
     /// The new description that you want to apply to the specified role.
     public var description: Swift.String?
     /// The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default value of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see [Using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) in the IAM User Guide. IAM role credentials provided by Amazon EC2 instances assigned to the role are not subject to the specified maximum session duration.
@@ -19514,7 +19514,7 @@ extension UpdateRoleOutput {
     }
 }
 
-public struct UpdateRoleOutput: Swift.Equatable {
+public struct UpdateRoleOutput {
 
     public init() { }
 }
@@ -19564,7 +19564,7 @@ extension UpdateSAMLProviderInput {
     }
 }
 
-public struct UpdateSAMLProviderInput: Swift.Equatable {
+public struct UpdateSAMLProviderInput {
     /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP.
     /// This member is required.
     public var samlMetadataDocument: Swift.String?
@@ -19596,7 +19596,7 @@ extension UpdateSAMLProviderOutput {
 }
 
 /// Contains the response to a successful [UpdateSAMLProvider] request.
-public struct UpdateSAMLProviderOutput: Swift.Equatable {
+public struct UpdateSAMLProviderOutput {
     /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
     public var samlProviderArn: Swift.String?
 
@@ -19658,7 +19658,7 @@ extension UpdateSSHPublicKeyInput {
     }
 }
 
-public struct UpdateSSHPublicKeyInput: Swift.Equatable {
+public struct UpdateSSHPublicKeyInput {
     /// The unique identifier for the SSH public key. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that can consist of any upper or lowercased letter or digit.
     /// This member is required.
     public var sshPublicKeyId: Swift.String?
@@ -19690,7 +19690,7 @@ extension UpdateSSHPublicKeyOutput {
     }
 }
 
-public struct UpdateSSHPublicKeyOutput: Swift.Equatable {
+public struct UpdateSSHPublicKeyOutput {
 
     public init() { }
 }
@@ -19742,7 +19742,7 @@ extension UpdateServerCertificateInput {
     }
 }
 
-public struct UpdateServerCertificateInput: Swift.Equatable {
+public struct UpdateServerCertificateInput {
     /// The new path for the server certificate. Include this only if you are updating the server certificate's path. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
     public var newPath: Swift.String?
     /// The new name for the server certificate. Include this only if you are updating the server certificate's name. The name of the certificate cannot contain any spaces. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
@@ -19772,7 +19772,7 @@ extension UpdateServerCertificateOutput {
     }
 }
 
-public struct UpdateServerCertificateOutput: Swift.Equatable {
+public struct UpdateServerCertificateOutput {
 
     public init() { }
 }
@@ -19827,7 +19827,7 @@ extension UpdateServiceSpecificCredentialInput {
     }
 }
 
-public struct UpdateServiceSpecificCredentialInput: Swift.Equatable {
+public struct UpdateServiceSpecificCredentialInput {
     /// The unique identifier of the service-specific credential. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that can consist of any upper or lowercased letter or digit.
     /// This member is required.
     public var serviceSpecificCredentialId: Swift.String?
@@ -19858,7 +19858,7 @@ extension UpdateServiceSpecificCredentialOutput {
     }
 }
 
-public struct UpdateServiceSpecificCredentialOutput: Swift.Equatable {
+public struct UpdateServiceSpecificCredentialOutput {
 
     public init() { }
 }
@@ -19910,7 +19910,7 @@ extension UpdateSigningCertificateInput {
     }
 }
 
-public struct UpdateSigningCertificateInput: Swift.Equatable {
+public struct UpdateSigningCertificateInput {
     /// The ID of the signing certificate you want to update. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that can consist of any upper or lowercased letter or digit.
     /// This member is required.
     public var certificateId: Swift.String?
@@ -19941,7 +19941,7 @@ extension UpdateSigningCertificateOutput {
     }
 }
 
-public struct UpdateSigningCertificateOutput: Swift.Equatable {
+public struct UpdateSigningCertificateOutput {
 
     public init() { }
 }
@@ -19995,7 +19995,7 @@ extension UpdateUserInput {
     }
 }
 
-public struct UpdateUserInput: Swift.Equatable {
+public struct UpdateUserInput {
     /// New path for the IAM user. Include this parameter only if you're changing the user's path. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
     public var newPath: Swift.String?
     /// New name for the user. Include this parameter only if you're changing the user's name. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource".
@@ -20025,7 +20025,7 @@ extension UpdateUserOutput {
     }
 }
 
-public struct UpdateUserOutput: Swift.Equatable {
+public struct UpdateUserOutput {
 
     public init() { }
 }
@@ -20078,7 +20078,7 @@ extension UploadSSHPublicKeyInput {
     }
 }
 
-public struct UploadSSHPublicKeyInput: Swift.Equatable {
+public struct UploadSSHPublicKeyInput {
     /// The SSH public key. The public key must be encoded in ssh-rsa format or PEM format. The minimum bit-length of the public key is 2048 bits. For example, you can generate a 2048-bit key, and the resulting PEM file is 1679 bytes long. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -20116,7 +20116,7 @@ extension UploadSSHPublicKeyOutput {
 }
 
 /// Contains the response to a successful [UploadSSHPublicKey] request.
-public struct UploadSSHPublicKeyOutput: Swift.Equatable {
+public struct UploadSSHPublicKeyOutput {
     /// Contains information about the SSH public key.
     public var sshPublicKey: IAMClientTypes.SSHPublicKey?
 
@@ -20205,7 +20205,7 @@ extension UploadServerCertificateInput {
     }
 }
 
-public struct UploadServerCertificateInput: Swift.Equatable {
+public struct UploadServerCertificateInput {
     /// The contents of the public key certificate in PEM-encoded format. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -20273,7 +20273,7 @@ extension UploadServerCertificateOutput {
 }
 
 /// Contains the response to a successful [UploadServerCertificate] request.
-public struct UploadServerCertificateOutput: Swift.Equatable {
+public struct UploadServerCertificateOutput {
     /// The meta information of the uploaded server certificate without its certificate body, certificate chain, and private key.
     public var serverCertificateMetadata: IAMClientTypes.ServerCertificateMetadata?
     /// A list of tags that are attached to the new IAM server certificate. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
@@ -20338,7 +20338,7 @@ extension UploadSigningCertificateInput {
     }
 }
 
-public struct UploadSigningCertificateInput: Swift.Equatable {
+public struct UploadSigningCertificateInput {
     /// The contents of the signing certificate. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -20375,7 +20375,7 @@ extension UploadSigningCertificateOutput {
 }
 
 /// Contains the response to a successful [UploadSigningCertificate] request.
-public struct UploadSigningCertificateOutput: Swift.Equatable {
+public struct UploadSigningCertificateOutput {
     /// Information about the certificate.
     /// This member is required.
     public var certificate: IAMClientTypes.SigningCertificate?
@@ -20486,7 +20486,7 @@ extension IAMClientTypes {
     /// * [GetUser]
     ///
     /// * [ListUsers]
-    public struct User: Swift.Equatable {
+    public struct User {
         /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
         public var arn: Swift.String?
@@ -20645,7 +20645,7 @@ extension IAMClientTypes.UserDetail: Swift.Encodable {
 
 extension IAMClientTypes {
     /// Contains information about an IAM user, including all the user's policies and all the IAM groups the user is in. This data type is used as a response element in the [GetAccountAuthorizationDetails] operation.
-    public struct UserDetail: Swift.Equatable {
+    public struct UserDetail {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// A list of the managed policies attached to the user.
@@ -20758,7 +20758,7 @@ extension IAMClientTypes.VirtualMFADevice: Swift.CustomDebugStringConvertible {
 
 extension IAMClientTypes {
     /// Contains information about a virtual MFA device.
-    public struct VirtualMFADevice: Swift.Equatable {
+    public struct VirtualMFADevice {
         /// The base32 seed defined as specified in [RFC3548](https://tools.ietf.org/html/rfc3548.txt). The Base32StringSeed is base32-encoded.
         public var base32StringSeed: ClientRuntime.Data?
         /// The date and time on which the virtual MFA device was enabled.
