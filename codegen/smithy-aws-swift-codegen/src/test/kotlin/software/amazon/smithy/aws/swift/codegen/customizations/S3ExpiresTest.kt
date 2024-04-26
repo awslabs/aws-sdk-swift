@@ -17,7 +17,7 @@ class S3ExpiresTest {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public struct FooOutput: Swift.Equatable {
+            public struct FooOutput {
                 public var expires: Swift.String?
                 public var payload1: Swift.String?
             
@@ -41,7 +41,7 @@ class S3ExpiresTest {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public struct FooInput: Swift.Equatable {
+            public struct FooInput {
                 public var expires: ClientRuntime.Date?
                 public var payload1: Swift.String?
             
@@ -65,7 +65,7 @@ class S3ExpiresTest {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public struct FooOutput: Swift.Equatable {
+            public struct FooOutput {
                 public var expires: ClientRuntime.Date?
                 public var payload1: Swift.String?
             
